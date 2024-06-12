@@ -3,35 +3,37 @@
 public class projectFileManager
 {
     // ----- Attributs privés -----
-    private string knxprojSourcePath; // Adresse du fichier du projet
-    private string knxprojExportPath; // Adresse du dossier projet exporté
-    private string zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
+    private string knxprojSourceFilePath; // Adresse du fichier du projet
+    private string knxprojExportFolderPath; // Adresse du dossier projet exporté
     
     // ----- Attributs publics -----
     
     // ----- Méthodes privées -----
     
     // ----- Méthodes publiques -----
+    
+    
+    // Constructeur par défaut
     public projectFileManager()
     {
-        knxprojSourcePath = "";
-        knxprojExportPath = "";
-        zipArchivePath = "";
+        knxprojSourceFilePath = "";
+        knxprojExportFolderPath = "";
     }
 
     
-    
-    public projectFileManager(string source, string export)
+    // Constructeur avec path de source et path de destination
+    public projectFileManager(string sourceFile, string exportFolder)
     {
-        knxprojSourcePath = source;
-        knxprojExportPath = export;
-        zipArchivePath = "";
+        knxprojSourceFilePath = sourceFile;
+        knxprojExportFolderPath = exportFolder;
     }
 
     
-    
+    // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
     public void extractProjectFiles()
     {
+        string zipArchivePath = ""; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
+        
         /* ------------------------------------------------------------------------------------------------
         ---------------------------------------- GESTION DES PATH -----------------------------------------
         ------------------------------------------------------------------------------------------------ */
@@ -43,20 +45,22 @@ public class projectFileManager
         Console.WriteLine("Veuillez entrer l'adresse du fichier du projet dans l'arborescence des fichiers:");
         knxprojSourcePath = Console.ReadLine(); // Lecture du path entré par l'utilisateur dans la console */
 
-        knxprojSourcePath = Path.GetFullPath(knxprojSourcePath); // Normalisation de l'adresse du fichier du projet
-        knxprojExportPath = Path.GetFullPath(knxprojExportPath); // Normalisation de l'adresse du dossier projet exporté
+        knxprojSourceFilePath = Path.GetFullPath(knxprojSourceFilePath); // Normalisation de l'adresse du fichier du projet
+        knxprojExportFolderPath = Path.GetFullPath(knxprojExportFolderPath); // Normalisation de l'adresse du dossier projet exporté
 
 
         /* ------------------------------------------------------------------------------------------------
         ---------------------------------- EXTRACTION DU FICHIER KNXPROJ ----------------------------------
         ------------------------------------------------------------------------------------------------ */
-
+        
+        Console.WriteLine($"Starting to extract {Path.GetFileName(knxprojSourceFilePath)}...");
+        
         // Transformation du knxproj en zip
-        if (knxprojSourcePath.EndsWith(".knxproj"))
+        if (knxprojSourceFilePath.EndsWith(".knxproj"))
         {
             // Si le fichier entré est un .knxproj
             zipArchivePath =
-                knxprojSourcePath.Substring(0, knxprojSourcePath.Length - ".knxproj".Length) +
+                knxprojSourceFilePath.Substring(0, knxprojSourceFilePath.Length - ".knxproj".Length) +
                 ".zip"; // On enlève .knxproj et on ajoute .zip
         }
         else
@@ -67,14 +71,13 @@ public class projectFileManager
                               + "rendez-vous dans votre tableau de bord ETS et cliquez sur \"Exporter le projet\"");
             Environment.Exit(1); // Arrêt du programme avec un code erreur
         }
-
+        
         try
         {
             // On essaie de transformer le fichier .knxproj en archive .zip
-            System.IO.File.Move(knxprojSourcePath, zipArchivePath);
-
+            System.IO.File.Move(knxprojSourceFilePath, zipArchivePath);
         }
-        catch (System.IO.FileNotFoundException)
+        catch (FileNotFoundException)
         {
             // Si le fichier n'existe pas ou que le path est incorrect
             Console.WriteLine("Fichier introuvable. Veuillez vérifier le path que vous avez entré et réessayer.");
@@ -85,14 +88,28 @@ public class projectFileManager
         catch (UnauthorizedAccessException)
         {
             // Si le fichier n'est pas accessible en écriture
-            Console.WriteLine($"Impossible d'accéder en écriture au fichier {knxprojSourcePath}. "
+            Console.WriteLine($"Impossible d'accéder en écriture au fichier {knxprojSourceFilePath}. "
                               + "Veuillez vérifier que le programme a bien accès au fichier ou tentez de l'exécuter "
                               + "en tant qu'administrateur.");
             Environment.Exit(3);
         }
+        catch (DirectoryNotFoundException)
+        {
+            Environment.Exit(4);
+        }
+        catch (NotSupportedException)
+        {
+            Environment.Exit(5);
+        }
+        catch (PathTooLongException)
+        {
+            Environment.Exit(6);
+        }
 
         // Si le fichier a bien été transformé en zip
-        System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportPath); // On extrait le zip
+        System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportFolderPath); // On extrait le zip
         System.IO.File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
+        
+        Console.WriteLine($"Done ! New folder created: {knxprojExportFolderPath}");
     }
 }

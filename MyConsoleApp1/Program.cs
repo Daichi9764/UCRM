@@ -30,13 +30,13 @@ using System.IO.Compression;
 using MyConsoleApp1;
 
 //using System.Linq;
-//using System.Xml.Linq;
+using System.Xml.Linq;
 
 class Program
 {
     static void Main()
     {
-        projectFileManager fm = new projectFileManager("T:\\test.knxproj", @"T:\knxproj_exported\");
+        projectFileManager fm = new projectFileManager(@"T:\test 2.knxproj", @"T:\knxproj_exported\");
         fm.extractProjectFiles();
     }
 }
