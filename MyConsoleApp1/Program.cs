@@ -27,8 +27,8 @@
 
 using System;
 using System.IO.Compression;
-using System.Linq;
-using System.Xml.Linq;
+//using System.Linq;
+//using System.Xml.Linq;
 
 class Program
 {
@@ -59,27 +59,31 @@ class Program
         ------------------------------------------------------------------------------------------------ */
 
         // Transformation du knxproj en zip
-        if (knxprojSourcePath.EndsWith(".knxproj")){
-            zipArchivePath = knxprojSourcePath.Substring(0, knxprojSourcePath.Length - ".knxproj".Length) + ".zip";
-        } else {
+        if (knxprojSourcePath.EndsWith(".knxproj")){ // Si le fichier entré est un .knxproj
+            zipArchivePath = knxprojSourcePath.Substring(0, knxprojSourcePath.Length - ".knxproj".Length) + ".zip"; // On enlève .knxproj et on ajoute .zip
+        } else { // Sinon, ce n'est pas le type de fichier que l'on veut
             Console.WriteLine("Erreur: le fichier entré n'est pas au format .knxproj. " 
             + "Veuillez réessayer. Pour obtenir un fichier dont l'extension est .knxproj,"
             +" rendez-vous dans votre tableau de bord ETS et cliquez sur \"Exporter le projet\"");
-            Environment.Exit(1);
+            Environment.Exit(1); // Arrêt du programme avec un code erreur
         }
 
-        // AJOUTER UN TEST ICI POUR SAVOIR SI LE FICHIER EXISTE, ET SI ON A ACCES EN ECRITURE SINON ON VA AVOIR UNE EXCEPTION
-
-        try {
+        try { // On essaie de transformer le fichier .knxproj en archive .zip
             System.IO.File.Move(knxprojSourcePath, zipArchivePath);
-        } catch (System.IO.FileNotFoundException){
+
+        } catch (System.IO.FileNotFoundException){ // Si le fichier n'existe pas ou que le path est incorrect
             Console.WriteLine("Fichier introuvable. Veuillez vérifier le path que vous avez entré et réessayer.");
-            Environment.Exit(2);
+            Environment.Exit(2); // On arrête ici l'application avec un code erreur, mais on pourraît éventuellement redemander un nouveau path
+
+        } catch (UnauthorizedAccessException){ // Si le fichier n'est pas accessible en écriture
+            Console.WriteLine($"Impossible d'accéder en écriture au fichier {knxprojSourcePath}." 
+            + "Veuillez vérifier que le programme a bien accès au fichier ou tentez de l'exécuter"
+            + " en tant qu'administrateur.");
+            Environment.Exit(3);
         }
 
-        System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportPath);
-
-        System.IO.File.Delete(zipArchivePath);
-
+        // Si le fichier a bien été transformé en zip
+        System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportPath); // On extrait le zip
+        System.IO.File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
     }
 }
