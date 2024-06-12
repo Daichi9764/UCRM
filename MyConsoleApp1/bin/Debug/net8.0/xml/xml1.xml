@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<GroupAddress-Export xmlns="http://knx.org/xml/ga-export/01">
+  <GroupRange Name="Eclairage" RangeStart="1" RangeEnd="2047">
+    <GroupRange Name="On/Off" RangeStart="1" RangeEnd="255">
+      <GroupAddress Name="H1H2" Address="0/0/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="H3H4" Address="0/0/2" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="Ventilation" RangeStart="2048" RangeEnd="4095">
+    <GroupRange Name="On/Off" RangeStart="2048" RangeEnd="2303" />
+  </GroupRange>
+  <GroupRange Name="Sonette" RangeStart="4096" RangeEnd="6143">
+    <GroupRange Name="On/Off" RangeStart="4096" RangeEnd="4351" />
+  </GroupRange>
+</GroupAddress-Export>

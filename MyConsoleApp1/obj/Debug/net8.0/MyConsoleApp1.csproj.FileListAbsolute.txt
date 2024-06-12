@@ -1,0 +1,14 @@
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\bin\Debug\net8.0\MyConsoleApp1.exe
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\bin\Debug\net8.0\MyConsoleApp1.deps.json
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\bin\Debug\net8.0\MyConsoleApp1.runtimeconfig.json
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\bin\Debug\net8.0\MyConsoleApp1.dll
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\bin\Debug\net8.0\MyConsoleApp1.pdb
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.AssemblyInfo.cs
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.dll
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\refint\MyConsoleApp1.dll
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.pdb
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\MyConsoleApp1.genruntimeconfig.cache
+C:\Users\Daichi\Documents\ucrm\code\MyConsoleApp1\obj\Debug\net8.0\ref\MyConsoleApp1.dll
