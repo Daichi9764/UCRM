@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daichi\\Documents\\ucrm\\code\\MyConsoleApp1\\MyConsoleApp1.csproj": {}
+    "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\MyConsoleApp1\\MyConsoleApp1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daichi\\Documents\\ucrm\\code\\MyConsoleApp1\\MyConsoleApp1.csproj": {
+    "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\MyConsoleApp1\\MyConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daichi\\Documents\\ucrm\\code\\MyConsoleApp1\\MyConsoleApp1.csproj",
+        "projectUniqueName": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\MyConsoleApp1\\MyConsoleApp1.csproj",
         "projectName": "MyConsoleApp1",
-        "projectPath": "C:\\Users\\Daichi\\Documents\\ucrm\\code\\MyConsoleApp1\\MyConsoleApp1.csproj",
-        "packagesPath": "C:\\Users\\Daichi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daichi\\Documents\\ucrm\\code\\MyConsoleApp1\\obj\\",
+        "projectPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\MyConsoleApp1\\MyConsoleApp1.csproj",
+        "packagesPath": "C:\\Users\\maxim\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\MyConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daichi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\maxim\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
