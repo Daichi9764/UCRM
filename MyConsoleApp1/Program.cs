@@ -36,8 +36,8 @@ class Program
 {
     static void Main()
     {
-        projectFileManager fm = new projectFileManager(@"T:\Test.knxproj", @"T:\Test_exported\");
-        fm.extractProjectFiles();
-        fm.findZeroXml();
+        ProjectFileManager fm = new ProjectFileManager(@"T:\Test.knxproj", @"T:\Test_exported\");
+        fm.ExtractProjectFiles();
+        fm.FindZeroXml();
     }
 }
