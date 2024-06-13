@@ -36,7 +36,7 @@ class Program
 {
     static void Main()
     {
-        projectFileManager fm = new projectFileManager(@"T:\test 2.knxproj", @"T:\knxproj_exported\");
+        projectFileManager fm = new projectFileManager(@"T:\M. Durant.knxproj", @"T:\M. Durant\");
         fm.extractProjectFiles();
     }
 }
