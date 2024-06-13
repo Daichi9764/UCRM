@@ -5,6 +5,7 @@ public class projectFileManager
     // ----- Attributs privés -----
     private string knxprojSourceFilePath; // Adresse du fichier du projet
     private string knxprojExportFolderPath; // Adresse du dossier projet exporté
+    private string zeroXmlPath;
     
     // ----- Attributs publics -----
     
@@ -13,21 +14,26 @@ public class projectFileManager
     // ----- Méthodes publiques -----
     
     
+    
     // Constructeur par défaut
     public projectFileManager()
     {
         knxprojSourceFilePath = "";
         knxprojExportFolderPath = "";
+        zeroXmlPath = "";
     }
 
+    
     
     // Constructeur avec path de source et path de destination
     public projectFileManager(string sourceFile, string exportFolder)
     {
         knxprojSourceFilePath = sourceFile;
         knxprojExportFolderPath = exportFolder;
+        zeroXmlPath = "";
     }
 
+    
     
     // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
     public void extractProjectFiles()
@@ -120,6 +126,7 @@ public class projectFileManager
             }
             System.IO.File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
             Console.WriteLine($"Done ! New folder created: {knxprojExportFolderPath}");
+            managedToExtractProject = true;
         }
         
         
@@ -133,6 +140,8 @@ public class projectFileManager
         
     }
     
+    
+    
     // Fonction permettant de demander à l'utilisateur d'entrer un path
     public string askForPath()
     {
@@ -141,5 +150,78 @@ public class projectFileManager
         Console.WriteLine("Veuillez entrer l'adresse du fichier du projet (terminant par .knxproj) dans l'arborescence des fichiers: "
             + $"{Environment.NewLine}Note: Pour annuler, veuillez entrer \"NULL\".");
         return (Console.ReadLine()); // Lecture du path entré par l'utilisateur dans la console
+    }
+    
+    
+    
+    // Fonction permettant de trouver un fichier dans un dossier donné
+    public static string FindFile(string rootPath, string fileNameToSearch)
+    {
+        if (!Directory.Exists(rootPath))
+        {
+            Console.WriteLine($"The directory {rootPath} does not exist.");
+            return null;
+        }
+
+        Queue<string> directoriesQueue = new Queue<string>();
+        directoriesQueue.Enqueue(rootPath);
+
+        while (directoriesQueue.Count > 0)
+        {
+            string currentDirectory = directoriesQueue.Dequeue();
+            try
+            {
+                // Check files in the current directory
+                string[] files = Directory.GetFiles(currentDirectory);
+                foreach (string file in files)
+                {
+                    if (Path.GetFileName(file).Equals(fileNameToSearch, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return file;
+                    }
+                }
+
+                // Enqueue subdirectories
+                string[] subDirectories = Directory.GetDirectories(currentDirectory);
+                foreach (string subDirectory in subDirectories)
+                {
+                    directoriesQueue.Enqueue(subDirectory);
+                }
+            }
+            catch (UnauthorizedAccessException unAuthEx)
+            {
+                Console.WriteLine($"Access denied to {currentDirectory}: {unAuthEx.Message}");
+            }
+            catch (DirectoryNotFoundException dirNotFoundEx)
+            {
+                Console.WriteLine($"Directory not found: {currentDirectory}: {dirNotFoundEx.Message}");
+            }
+            catch (IOException ioEx)
+            {
+                Console.WriteLine($"I/O Error while accessing {currentDirectory}: {ioEx.Message}");
+            }
+        }
+
+        return null; // File not found
+    }
+    
+    
+    
+    // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
+    // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
+    public void findZeroXml()
+    {
+        string foundPath = FindFile(knxprojExportFolderPath, "0.xml");
+        if (string.IsNullOrEmpty(foundPath))
+        {
+            Console.WriteLine("Impossible de trouver le fichier '0.xml' dans les dossiers du projet. "
+                +"Veuillez vérifier que l'archive extraite soit bien un projet ETS KNX.");
+        }
+        else
+        {
+            zeroXmlPath = foundPath;
+            Console.WriteLine($"Found '0.xml' file at {zeroXmlPath}.");
+        }
+        
     }
 }
