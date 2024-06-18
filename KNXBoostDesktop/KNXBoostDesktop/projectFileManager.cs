@@ -5,9 +5,7 @@ namespace KNXBoostDesktop
     public class ProjectFileManager
     {
         // ----- Attributs privés -----
-
-        //private static readonly string logFilePath = $"./logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
-
+        
         // ----- Attributs publics -----
         
         public string KnxprojSourceFilePath { get; set; }
