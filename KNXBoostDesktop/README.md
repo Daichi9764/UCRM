@@ -14,8 +14,8 @@ Ce projet vise à corriger les erreurs de construction dans les projets ETS en r
 
 ## Installation
 Pour installer le projet, suivez ces étapes : 
-1. Clonez le dépôt : `git clone https://github.com/Daichi9764/UCRM` 
-2. Naviguez vers le répertoire : `cd KNXBoostDesktop/KNXBoostDesktop` 
+1. Clonez le dépôt : `git clone https://github.com/Daichi9764/UCRM/KNXBoostDesktop` 
+2. Naviguez vers le répertoire : `cd KNXBoostDesktop` 
 3. Installez les packages : ‘dotnet restore`
 
 ## Utilisation 
