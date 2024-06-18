@@ -67,15 +67,15 @@
       <FileName>Formatter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KNXBoostDesktop.FormatterNormalize" Collapsed="true">
-    <Position X="10" Y="5.5" Width="1.5" />
+  <Class Name="KNXBoostDesktop.FormatterNormalize">
+    <Position X="9.75" Y="5.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FormatterNormalize.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KNXBoostDesktop.FormatterTranslate" Collapsed="true">
-    <Position X="11.75" Y="5.5" Width="1.5" />
+  <Class Name="KNXBoostDesktop.FormatterTranslate">
+    <Position X="11.75" Y="5.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAABAAAAAAAAAAAAAgAAAAAAAAAAACAAAA=</HashCode>
       <FileName>FormatterTranslate.cs</FileName>
