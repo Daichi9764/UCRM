@@ -1,0 +1,8 @@
+[18/06/2024 - 11:14:57] STARTING KNX BOOST DESKTOP APP...
+[18/06/2024 - 11:14:57] Opening main window
+[18/06/2024 - 11:14:58] Opening console window
+[18/06/2024 - 11:14:58] Opening project file manager
+[18/06/2024 - 11:14:58] KNX BOOST DESKTOP APP STARTED !
+[18/06/2024 - 11:15:12] Done ! New folder created: T:\Exported_dir\
+[18/06/2024 - 11:15:48] CLOSING KNX BOOST DESKTOP APP...
+[18/06/2024 - 11:15:48] KNX BOOST DESKTOP APP CLOSED !

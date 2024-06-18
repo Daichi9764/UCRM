@@ -1,0 +1,15 @@
+﻿<Window x:Class="KNXBoostDesktop.ConsoleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Console">
+    <Grid>
+        <TextBox Name="ConsoleTextBox"
+                 IsReadOnly="True" 
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 Background="Black"
+                 Foreground="White"
+                 FontSize="15"
+                 FontFamily="Consolas" />
+    </Grid>
+</Window>

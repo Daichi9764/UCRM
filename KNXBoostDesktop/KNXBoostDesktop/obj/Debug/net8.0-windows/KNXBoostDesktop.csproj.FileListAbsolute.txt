@@ -1,0 +1,59 @@
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.exe
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.deps.json
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.runtimeconfig.json
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.pdb
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop_MarkupCompile.cache
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop_MarkupCompile.lref
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.g.resources
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.AssemblyInfoInputs.cache
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.AssemblyInfo.cs
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.csproj.CoreCompileInputs.cache
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\refint\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.pdb
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.genruntimeconfig.cache
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ref\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\customMessageBox.baml
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\customMessageBox.g.cs
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.exe
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.deps.json
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.runtimeconfig.json
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\KNXBoostDesktop.pdb
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\customMessageBox.baml
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\customMessageBox.g.cs
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop_MarkupCompile.cache
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop_MarkupCompile.lref
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.g.resources
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.AssemblyInfoInputs.cache
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.AssemblyInfo.cs
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.csproj.CoreCompileInputs.cache
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\refint\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.pdb
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.genruntimeconfig.cache
+C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ref\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ConsoleWindow.baml
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ConsoleWindow.g.cs
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.csproj.AssemblyReference.cache
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\DeepL.net.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Http.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Http.Polly.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Polly.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Polly.Extensions.Http.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoost.00DE879A.Up2Date

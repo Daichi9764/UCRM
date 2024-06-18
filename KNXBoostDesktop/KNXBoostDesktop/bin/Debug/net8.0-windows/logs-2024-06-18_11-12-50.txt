@@ -1,0 +1,5 @@
+[18/06/2024 - 11:12:50] STARTING KNX BOOST DESKTOP APP...
+[18/06/2024 - 11:12:50] Opening main window
+[18/06/2024 - 11:12:50] Opening console window
+[18/06/2024 - 11:12:50] Opening project file manager
+[18/06/2024 - 11:12:50] KNX BOOST DESKTOP APP STARTED !
