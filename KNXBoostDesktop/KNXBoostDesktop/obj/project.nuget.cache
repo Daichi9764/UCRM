@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ePkI9bXvlk8=",
+  "dgSpecHash": "P/vo7bX2qzw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+  "projectFilePath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maxim\\.nuget\\packages\\deepl.net\\1.9.0\\deepl.net.1.9.0.nupkg.sha512",
     "C:\\Users\\maxim\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
