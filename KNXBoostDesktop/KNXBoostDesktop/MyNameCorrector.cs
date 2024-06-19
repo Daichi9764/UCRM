@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+namespace KNXBoostDesktop;
 
 class MyNameCorrector
 {
@@ -11,7 +13,7 @@ class MyNameCorrector
         XNamespace knxNs = "http://knx.org/xml/project/23";
 
         // Load the XML file
-        XDocument knxDoc = XDocument.Load(@"C:\Users\coust\Stage UCRM\Projets knx\Petit projet\P-0951\0.xml");
+        XDocument knxDoc = XDocument.Load(App.Fm.ZeroXmlPath);
 
         Formatter formatter = new FormatterNormalize();
 
@@ -146,13 +148,13 @@ class MyNameCorrector
         }
 
         // Save the updated XML file
-        knxDoc.Save(@"C:\Users\coust\Stage UCRM\Projets knx\Petit projet\P-0951\0_updated.xml");
+        knxDoc.Save(@"OutputFiles/0_updated.xml");
         Console.WriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
     }
 
      private static string ProcessHardwareFile(string hardwareFileName, string mxxxxPart, string comObjectInstanceRefId)
     {
-        string projectFilesDirectory = @"C:\Users\coust\Stage UCRM\Projets knx\Petit projet"; // Chemin vers le répertoire des fichiers
+        string projectFilesDirectory = App.Fm.KnxprojExportFolderPath; // Chemin vers le répertoire des fichiers
 
         XNamespace knxNs = "http://knx.org/xml/project/23";
 
