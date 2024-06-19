@@ -1,0 +1,12 @@
+[19/06/2024 - 08:35:17] STARTING KNX BOOST DESKTOP APP...
+[19/06/2024 - 08:35:17] Opening main window
+[19/06/2024 - 08:35:17] Opening console window
+[19/06/2024 - 08:35:17] Opening project file manager
+[19/06/2024 - 08:35:17] Trying to archive log files
+[19/06/2024 - 08:35:17] Not enough log files to archive.
+[19/06/2024 - 08:35:17] KNX BOOST DESKTOP APP STARTED !
+[19/06/2024 - 08:35:17] -----------------------------------------------------------
+[19/06/2024 - 08:35:30] Waiting for user to select KNX project file.
+[19/06/2024 - 08:35:33] File selected: T:\test.knxproj
+[19/06/2024 - 08:35:33] Starting to extract test.knxproj...
+[19/06/2024 - 08:35:33] Le dossier ./test_exported/ existe déjà, suppression...

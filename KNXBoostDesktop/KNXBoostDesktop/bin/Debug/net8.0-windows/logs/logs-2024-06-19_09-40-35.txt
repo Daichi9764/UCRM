@@ -1,0 +1,7 @@
+[19/06/2024 - 09:40:35] STARTING KNX BOOST DESKTOP APP...
+[19/06/2024 - 09:40:35] Opening main window
+[19/06/2024 - 09:40:35] Opening project file manager
+[19/06/2024 - 09:40:35] Trying to archive log files
+[19/06/2024 - 09:40:35] Not enough log files to archive.
+[19/06/2024 - 09:40:35] KNX BOOST DESKTOP APP STARTED !
+[19/06/2024 - 09:40:35] -----------------------------------------------------------
