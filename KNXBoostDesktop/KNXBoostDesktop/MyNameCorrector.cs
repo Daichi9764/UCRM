@@ -13,7 +13,7 @@ class MyNameCorrector
         XNamespace knxNs = "http://knx.org/xml/project/23";
 
         // Load the XML file
-        XDocument knxDoc = XDocument.Load(App.Fm.ZeroXmlPath);
+        XDocument knxDoc = XDocument.Load(App.Fm?.ZeroXmlPath ?? string.Empty);
 
         Formatter formatter = new FormatterNormalize();
 
@@ -154,7 +154,7 @@ class MyNameCorrector
 
      private static string ProcessHardwareFile(string hardwareFileName, string mxxxxPart, string comObjectInstanceRefId)
     {
-        string projectFilesDirectory = App.Fm.ExportedProjectPath; // Chemin vers le répertoire des fichiers
+        string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty; // Chemin vers le répertoire des fichiers
 
         XNamespace knxNs = "http://knx.org/xml/project/23";
 
