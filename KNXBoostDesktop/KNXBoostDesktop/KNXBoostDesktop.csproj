@@ -15,11 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DeepL.net" Version="1.9.0" />
+        <Resource Include="checkMarkIcon.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="checkMarkIcon.png" />
+      <PackageReference Include="DeepL.net" Version="1.9.0" />
     </ItemGroup>
 
 </Project>
