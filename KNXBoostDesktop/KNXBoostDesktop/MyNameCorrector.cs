@@ -68,8 +68,9 @@ class MyNameCorrector
                 g.GroupAddressRef,
                 g.DeviceInstanceId,
                 g.ComObjectInstanceRefId,             
-                ComObjectType = ProcessHardwareFile(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).ModifiedHardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxPart, g.ComObjectInstanceRefId)
-
+                ComObjectType = di.Hardware2ProgramRefId != null && g.ComObjectInstanceRefId != null ?
+                    ProcessHardwareFile(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).ModifiedHardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxPart, g.ComObjectInstanceRefId) : 
+                    null
             }))
             .ToList();
 
@@ -91,20 +92,20 @@ class MyNameCorrector
             {
                 Console.WriteLine($"Matching Device Instance ID: {deviceRef.DeviceInstanceId}");
                 var groupAddressElement = knxDoc.Descendants(knxNs + "GroupAddress")
-                    .FirstOrDefault(ga => ga.Attribute("Id").Value.EndsWith(deviceRef.GroupAddressRef));
+                    .FirstOrDefault(ga => ga.Attribute("Id")?.Value?.EndsWith(deviceRef.GroupAddressRef ?? string.Empty) == true);
 
                 if (groupAddressElement != null)
                 {
                     Console.WriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
                     var nameAttr = groupAddressElement.Attribute("Name");
-                    if (nameAttr != null)
+                    if (nameAttr != null )
                     {
                         // Append room name to group address name only if it hasn't been appended before
-                        if (!appendedRoomName.ContainsKey(deviceRef.GroupAddressRef))
+                        if (!appendedRoomName.ContainsKey(deviceRef.GroupAddressRef ?? string.Empty))
                         {
                             string newName = $"{nameAttr.Value}";
 
-                            newName += $"_{formatter.Format(deviceRef.ComObjectType)}";
+                            newName += $"_{formatter.Format(deviceRef.ComObjectType ?? string.Empty)}";
 
                             // Traverse up the hierarchy to find GroupRange and append its name
                             var groupRangeElement = groupAddressElement.Ancestors(knxNs + "GroupRange").FirstOrDefault();
@@ -114,22 +115,19 @@ class MyNameCorrector
                                 var ancestorGroupRange = groupRangeElement.Ancestors(knxNs + "GroupRange").FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
-                                    newName += $"_{formatter.Format(ancestorGroupRange.Attribute("Name").Value)}";
+                                    newName += $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                 }
 
-                                newName += $"_{formatter.Format(groupRangeElement.Attribute("Name").Value)}";
+                                newName += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
                             }
 
                             // Append building-related information
-                            newName += $"_{formatter.Format(location.BuildingName)}_{formatter.Format(location.BuildingPartName)}_{formatter.Format(location.FloorName)}_{formatter.Format(location.RoomName)}";
+                            newName += $"_{formatter.Format(location.BuildingName ?? string.Empty)}_{formatter.Format(location.BuildingPartName ?? string.Empty)}_{formatter.Format(location.FloorName ?? string.Empty)}_{formatter.Format(location.RoomName ?? string.Empty)}";
 
                             Console.WriteLine($"Original Name: {nameAttr.Value}");
                             Console.WriteLine($"New Name: {newName}");
                             nameAttr.Value = newName;
-                            appendedRoomName[deviceRef.GroupAddressRef] = true;
-
-                            //return Cmd or Ie
-                            string cm = ProcessHardwareFile(deviceRef.HardwareFileName,deviceRef.MxxxxPart,deviceRef.ComObjectInstanceRefId);
+                            appendedRoomName[deviceRef.GroupAddressRef ?? string.Empty] = true;
                         }
 
 
@@ -165,7 +163,7 @@ class MyNameCorrector
         if (!Directory.Exists(mxxxxDirectory))
         {
             Console.WriteLine($"Directory not found: {mxxxxDirectory}");
-            return null;
+            return string.Empty;
         }
 
         // Construire le chemin complet du fichier à traiter
@@ -175,7 +173,7 @@ class MyNameCorrector
         if (!File.Exists(filePath))
         {
             Console.WriteLine($"File not found: {filePath}");
-            return null;
+            return string.Empty;
         }
         else
         {
@@ -186,12 +184,12 @@ class MyNameCorrector
 
             // Find the ComObject element with the matching Id
             var comObjectElement = hardwareDoc.Descendants(knxNs + "ComObject")
-                .FirstOrDefault(co => co.Attribute("Id").Value.EndsWith(comObjectInstanceRefId));
+        .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
 
             if (comObjectElement == null)
             {  
                 Console.WriteLine($"ComObject with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
-                return null ;
+                return string.Empty ;
             }
             else
             {
@@ -211,10 +209,9 @@ class MyNameCorrector
                     return "Cmd";
                 }
                 else{
-                    return null;
+                    return string.Empty;
                 }
             }
-            Console.WriteLine($"File processing completed for: {filePath}");
         }
     }
 
@@ -224,7 +221,7 @@ class MyNameCorrector
     {
         // Extract the part before "HP" and the part after "HP"
         var parts = hardware2ProgramRefId.Split(new[] { "HP" }, StringSplitOptions.None);
-        if (parts.Length < 2) return (null,null); // If "HP" is not found, return null null
+        if (parts.Length < 2) return (string.Empty,string.Empty); // If "HP" is not found, return null null
 
         var beforeHP = parts[0].TrimEnd('-');
         var afterHP = parts[1].TrimStart('-'); // Remove any leading hyphen after "HP"
@@ -232,7 +229,7 @@ class MyNameCorrector
         // Extract "M-XXXX" from the part before "HP"
         var mxxxxPart = beforeHP.Split('_').FirstOrDefault(part => part.StartsWith("M-"));
 
-        if (string.IsNullOrEmpty(mxxxxPart)) return (null,null); // If "M-XXXX" is not found, return null null
+        if (string.IsNullOrEmpty(mxxxxPart)) return (string.Empty,string.Empty); // If "M-XXXX" is not found, return null null
         
         var modifiedHardwareFileName = $"{mxxxxPart}_A-{afterHP}.xml";
         return (modifiedHardwareFileName, mxxxxPart);
