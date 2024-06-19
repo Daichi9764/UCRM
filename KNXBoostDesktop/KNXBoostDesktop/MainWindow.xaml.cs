@@ -18,7 +18,7 @@ public partial class MainWindow
 
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file.");
+        App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
         OpenFileDialog openFileDialog = new OpenFileDialog
@@ -37,11 +37,15 @@ public partial class MainWindow
         {
             // Récupérer le chemin du fichier sélectionné
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
-            string selectedFilePath = openFileDialog.FileName;
-            App.Fm.KnxprojSourceFilePath = selectedFilePath;
+
+            App.Fm.KnxprojSourceFilePath = openFileDialog.FileName;
             App.Fm.ExtractProjectFiles();
 
-            findZeroXmlButton.Visibility = Visibility.Visible;
+            //findZeroXmlButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
     }
     
@@ -54,8 +58,14 @@ public partial class MainWindow
     {
         App.Fm.FindZeroXml();
         
-        checkMarkImage.Visibility = Visibility.Visible;
+        //checkMarkImage.Visibility = Visibility.Visible;
         
         //findZeroXmlButton.Visibility = Visibility.Collapsed;
+    }
+
+    private void OpenConsoleButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        App.ConsoleAndLogWriteLine("Opening console window");
+        App.DisplayElements.ShowConsoleWindow();
     }
 }

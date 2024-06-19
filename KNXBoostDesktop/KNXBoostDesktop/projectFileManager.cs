@@ -153,13 +153,15 @@ namespace KNXBoostDesktop
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
-
+                
+                
                 // Si le dossier d'exportation existe déjà, on le supprime pour laisser place au nouveau
                 if (Path.Exists(knxprojExportFolderPath))
                 {   
                     App.ConsoleAndLogWriteLine($"Le dossier {knxprojExportFolderPath} existe déjà, suppression...");
-                    Directory.Delete(knxprojExportFolderPath);
+                    Directory.Delete(knxprojExportFolderPath, true);
                 }
+                
                 
                 // Si le fichier a bien été transformé en zip, tentative d'extraction
                 try

@@ -40,7 +40,7 @@ namespace KNXBoostDesktop
         
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
         
-        public DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenêtres, boutons, ...)
+        public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenêtres, boutons, ...)
 
         public Formatter? Formatter; // Formatteur d'adresses de groupe
 
@@ -57,10 +57,6 @@ namespace KNXBoostDesktop
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
             DisplayElements.ShowMainWindow();
-            
-            
-            ConsoleAndLogWriteLine("Opening console window");
-            DisplayElements.ShowConsoleWindow();
             
             
             ConsoleAndLogWriteLine("Opening project file manager");
