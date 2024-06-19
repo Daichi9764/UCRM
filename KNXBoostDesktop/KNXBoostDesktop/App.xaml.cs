@@ -58,7 +58,6 @@ namespace KNXBoostDesktop
             DisplayElements = new DisplayElements();
             DisplayElements.ShowMainWindow();
             
-            
             ConsoleAndLogWriteLine("Opening project file manager");
             Fm = new ProjectFileManager();
 

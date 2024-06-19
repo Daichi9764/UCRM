@@ -92,9 +92,11 @@
             </Grid.ColumnDefinitions>
             
             <!-- Left panel -->
-            <Grid Grid.Row="0" Grid.Column="0" Background="#FFFFFFFF" Margin="10"/>
+            <Grid Grid.Row="0" Grid.Column="0" Background="#FFFFFFFF" Margin="10">
+                
+            </Grid>
             
-            <!-- Right panel -->
+                <!-- Right panel -->
             <Grid Grid.Row="0" Grid.Column="2" Background="#FFFFFFFF" Margin="10"/>
             
             <!-- Arrow between the two panels -->
