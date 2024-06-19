@@ -31,13 +31,13 @@ class MyNameCorrector
             })
             .ToList();
 
-        Console.WriteLine("Extracted Location Information:");
+        App.ConsoleAndLogWriteLine("Extracted Location Information:");
         foreach (var loc in locationInfo)
         {
-            Console.WriteLine($"Room ID: {loc.RoomId}, Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}");
+            App.ConsoleAndLogWriteLine($"Room ID: {loc.RoomId}, Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}");
             foreach (var deviceRef in loc.DeviceRefs)
             {
-                Console.WriteLine($"  DeviceRef: {deviceRef}");
+                App.ConsoleAndLogWriteLine($"  DeviceRef: {deviceRef}");
             }
         }
 
@@ -76,10 +76,10 @@ class MyNameCorrector
             }))
             .ToList();
 
-        Console.WriteLine("Extracted Device Instance References:");
+        App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
         foreach (var dr in deviceRefs)
         {
-            Console.WriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ComObjectType: {dr.ComObjectType}");
+            App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ComObjectType: {dr.ComObjectType}");
         }
 
 
@@ -92,13 +92,13 @@ class MyNameCorrector
             var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRef.DeviceInstanceId));
             if (location != null)
             {
-                Console.WriteLine($"Matching Device Instance ID: {deviceRef.DeviceInstanceId}");
+                App.ConsoleAndLogWriteLine($"Matching Device Instance ID: {deviceRef.DeviceInstanceId}");
                 var groupAddressElement = knxDoc.Descendants(knxNs + "GroupAddress")
                     .FirstOrDefault(ga => ga.Attribute("Id")?.Value?.EndsWith(deviceRef.GroupAddressRef ?? string.Empty) == true);
 
                 if (groupAddressElement != null)
                 {
-                    Console.WriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                    App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
                     var nameAttr = groupAddressElement.Attribute("Name");
                     if (nameAttr != null )
                     {
@@ -126,8 +126,8 @@ class MyNameCorrector
                             // Append building-related information
                             newName += $"_{formatter.Format(location.BuildingName ?? string.Empty)}_{formatter.Format(location.BuildingPartName ?? string.Empty)}_{formatter.Format(location.FloorName ?? string.Empty)}_{formatter.Format(location.RoomName ?? string.Empty)}";
 
-                            Console.WriteLine($"Original Name: {nameAttr.Value}");
-                            Console.WriteLine($"New Name: {newName}");
+                            App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
+                            App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName;
                             appendedRoomName[deviceRef.GroupAddressRef ?? string.Empty] = true;
                         }
@@ -138,23 +138,23 @@ class MyNameCorrector
                 }
                 else
                 {
-                    Console.WriteLine($"No GroupAddress element found for GroupAddressRef: {deviceRef.GroupAddressRef}");
+                    App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceRef.GroupAddressRef}");
                 }
             }
             else
             {
-                Console.WriteLine($"No location found for DeviceInstanceId: {deviceRef.DeviceInstanceId}");
+                App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceRef.DeviceInstanceId}");
             }
         }
 
         // Save the updated XML file
         knxDoc.Save(@"OutputFiles/0_updated.xml");
-        Console.WriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
+        App.ConsoleAndLogWriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
     }
 
      private static string ProcessHardwareFile(string hardwareFileName, string mxxxxPart, string comObjectInstanceRefId)
     {
-        string projectFilesDirectory = App.Fm.KnxprojExportFolderPath; // Chemin vers le répertoire des fichiers
+        string projectFilesDirectory = App.Fm.ExportedProjectPath; // Chemin vers le répertoire des fichiers
 
         XNamespace knxNs = "http://knx.org/xml/project/23";
 
@@ -164,7 +164,7 @@ class MyNameCorrector
         // Vérifier si le dossier Mxxxx existe
         if (!Directory.Exists(mxxxxDirectory))
         {
-            Console.WriteLine($"Directory not found: {mxxxxDirectory}");
+            App.ConsoleAndLogWriteLine($"Directory not found: {mxxxxDirectory}");
             return string.Empty;
         }
 
@@ -174,12 +174,12 @@ class MyNameCorrector
         // Vérifier si le fichier existe
         if (!File.Exists(filePath))
         {
-            Console.WriteLine($"File not found: {filePath}");
+            App.ConsoleAndLogWriteLine($"File not found: {filePath}");
             return string.Empty;
         }
         else
         {
-            Console.WriteLine($"Opening file: {filePath}");
+            App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
 
             // Load the XML file
             XDocument hardwareDoc = XDocument.Load(filePath);
@@ -190,16 +190,16 @@ class MyNameCorrector
 
             if (comObjectElement == null)
             {  
-                Console.WriteLine($"ComObject with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
                 return string.Empty ;
             }
             else
             {
-                Console.WriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefId}");
+                App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefId}");
                 var readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
                 var writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
 
-                Console.WriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
+                App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
 
                 // Return the appropriate string based on the flags
                 if (readFlag == "Enabled" && writeFlag == "Disabled")
