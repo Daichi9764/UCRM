@@ -68,15 +68,6 @@ public partial class MainWindow
         Application.Current.Shutdown();
     }
 
-    private void FindZeroXmlButtonClick(object sender, RoutedEventArgs e)
-    {
-        App.Fm.FindZeroXml();
-        
-        //checkMarkImage.Visibility = Visibility.Visible;
-        
-        //findZeroXmlButton.Visibility = Visibility.Collapsed;
-    }
-
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
         if (App.DisplayElements == null) return;
