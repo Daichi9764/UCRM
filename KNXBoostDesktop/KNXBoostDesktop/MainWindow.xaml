@@ -93,29 +93,21 @@
             </Grid.ColumnDefinitions>
 
             <!-- Left panel -->
-            <TreeView Grid.Row="0" Grid.Column="0"  Name="AdressesDeGroupesOriginales" ItemsSource="{Binding Nodes}"  Background="#FFFFFFFF" Margin="10">
-                <TreeView.ItemTemplate >
-                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                            <TextBlock Text="{Binding Name}" />
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
+            <TreeView Grid.Row="0" Grid.Column="0" Name="AdressesDeGroupesOriginales" ItemsSource="{Binding OriginalNodes}" Background="#FFFFFFFF" Margin="10" SelectedItemChanged="AdressesDeGroupesOriginales_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
             </TreeView>
 
             <!-- Right panel -->
-            <TreeView Grid.Row="0" Grid.Column="2" Name="AdressesDeGroupesModifiées" Background="#FFFFFFFF" Margin="10">
-                <!-- Root Item -->
-                <TreeViewItem Header="Root Item">
-                    <!-- First Level -->
-                    <TreeViewItem Header="Level 1 - Item 1">
-                        <!-- Second Level -->
-                        <TreeViewItem Header="Level 2 - Item 1"/>
-                        <TreeViewItem Header="Level 2 - Item 2"/>
-                    </TreeViewItem>
-                    <TreeViewItem Header="Level 1 - Item 2">
-                        <TreeViewItem Header="Level 2 - Item 3"/>
-                        <TreeViewItem Header="Level 2 - Item 4"/>
-                    </TreeViewItem>
-                </TreeViewItem>
+            <TreeView Grid.Row="0" Grid.Column="2" Name="AdressesDeGroupesModifiées" ItemsSource="{Binding ModifiedNodes}" Background="#FFFFFFFF" Margin="10" SelectedItemChanged="AdressesDeGroupesModifiées_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
             </TreeView>
 
 
