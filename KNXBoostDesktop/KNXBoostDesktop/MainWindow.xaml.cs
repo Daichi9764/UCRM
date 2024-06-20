@@ -10,8 +10,18 @@ namespace KNXBoostDesktop;
 public partial class MainWindow
 
 {
+    /* ------------------------------------------------------------------------------------------------
+    ------------------------------------------- ATTRIBUTS  --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
     public ObservableCollection<TreeNode> OriginalNodes { get; set; }
     public ObservableCollection<TreeNode> ModifiedNodes { get; set; }
+    
+    
+    
+    
+    /* ------------------------------------------------------------------------------------------------
+    --------------------------------------------- METHODES --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
     public MainWindow()
     {
         InitializeComponent();
@@ -30,6 +40,7 @@ public partial class MainWindow
         LoadXmlData(@".\\Adresses_de_groupes_villa.xml", ModifiedNodes);
     }
 
+    
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
@@ -63,10 +74,13 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
     }
+    
+    
     private void CloseProgramButtonClick(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
     }
+    
 
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
@@ -81,11 +95,13 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
+    
 
     private void ClosingMainWindow(object sender, CancelEventArgs e)
     {
         Application.Current.Shutdown();
     }
+    
 
     private void LoadXmlData(string filePath, ObservableCollection<TreeNode> nodesCollection)
     {
@@ -110,6 +126,7 @@ public partial class MainWindow
         }
     }
 
+    
     private TreeNode ParseXmlNode(XElement element)
     {
         var treeNode = new TreeNode(element.Attribute("Name")?.Value ?? "Unnamed");
@@ -124,7 +141,8 @@ public partial class MainWindow
 
         return treeNode;
     }
-
+    
+    
     // Pour la future synchronisation des arbres
     private void AdressesDeGroupesOriginales_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
