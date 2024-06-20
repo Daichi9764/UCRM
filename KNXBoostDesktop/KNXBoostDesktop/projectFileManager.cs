@@ -60,7 +60,7 @@ namespace KNXBoostDesktop
                     if (KnxprojSourceFilePath.ToLower() == "null")
                     {
                         cancelOperation = true;
-                        App.ConsoleAndLogWriteLine("Annulation de l'exportation du projet.");
+                        App.ConsoleAndLogWriteLine("User cancelled the project extraction process.");
                         continue;
                     }
 
@@ -72,13 +72,14 @@ namespace KNXBoostDesktop
                     }
                     catch (ArgumentException)
                     {
-                        App.ConsoleAndLogWriteLine("Erreur: le chemin de source du fichier .knxproj est vide. Veuillez réessayer.");
+                        App.ConsoleAndLogWriteLine("Error: the .knxproj source file path is empty. Please try selecting the file again.");
                         KnxprojSourceFilePath = AskForPath();
                         continue;
                     }
                     catch (PathTooLongException)
                     {
-                        App.ConsoleAndLogWriteLine($"Erreur: le chemin {KnxprojSourceFilePath} est trop long (plus de 255 caractères). Veuillez réessayer.");
+                        App.ConsoleAndLogWriteLine($"Error: the path {KnxprojSourceFilePath} is too long (more than 255 characters). " +
+                                                   $"Please try selecting another path.");
                         KnxprojSourceFilePath = AskForPath();
                         continue;
                     }
@@ -107,9 +108,9 @@ namespace KNXBoostDesktop
                 else
                 {
                     // Sinon, ce n'est pas le type de fichier que l'on veut
-                    msg = "Erreur: le fichier entré n'est pas au format .knxproj. "
-                          + "Veuillez réessayer. Pour obtenir un fichier dont l'extension est .knxproj, "
-                          + "rendez-vous dans votre tableau de bord ETS et cliquez sur \"Exporter le projet\"\n";
+                    msg = "Error: the selected file is not a .knxproj file. "
+                          + "Please try again. To obtain a .knxproj file, "
+                          + "please head into the ETS app and click the \"Export Project\" button.";
                     App.ConsoleAndLogWriteLine(msg);
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
@@ -119,21 +120,21 @@ namespace KNXBoostDesktop
                 try
                 {
                     // On essaie de transformer le fichier .knxproj en archive .zip
-                    File.Move(KnxprojSourceFilePath, zipArchivePath);
+                    File.Copy(KnxprojSourceFilePath, zipArchivePath);
                 }
                 catch (FileNotFoundException)
                 {
                     // Si le fichier n'existe pas ou que le path est incorrect
-                    App.ConsoleAndLogWriteLine($"Fichier {KnxprojSourceFilePath} introuvable. Veuillez vérifier le path que vous avez entré et réessayer.");
+                    App.ConsoleAndLogWriteLine($"Error: the file {KnxprojSourceFilePath} was not found. Please check the selected file path and try again.");
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
                 catch (UnauthorizedAccessException)
                 {
                     // Si le fichier n'est pas accessible en écriture
-                    msg = $"Impossible d'accéder en écriture au fichier {KnxprojSourceFilePath}. "
-                          + "Veuillez vérifier que le programme a bien accès au fichier ou tentez de l'exécuter "
-                          + "en tant qu'administrateur.";
+                    msg = $"Unable to write to the file {KnxprojSourceFilePath}. "
+                          + "Please check that the program has access to the file or try running it "
+                          + "as an administrator.";
                     App.ConsoleAndLogWriteLine(msg);
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
@@ -141,15 +142,15 @@ namespace KNXBoostDesktop
                 catch (DirectoryNotFoundException)
                 {
                     // Si le dossier destination n'a pas été trouvé
-                    msg = $"Le dossier {Path.GetDirectoryName(KnxprojSourceFilePath)} est introuvable. "
-                          + "Veuillez vérifier le chemin entré et réessayer.";
+                    msg = $"The folder {Path.GetDirectoryName(KnxprojSourceFilePath)} cannot be found. "
+                          + "Please check the entered path and try again.";
                     App.ConsoleAndLogWriteLine(msg);
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
                 catch (PathTooLongException)
                 {
-                    App.ConsoleAndLogWriteLine($"Erreur: le chemin {KnxprojSourceFilePath} est trop long (plus de 255 caractères). Veuillez réessayer.");
+                    App.ConsoleAndLogWriteLine($"Error: the path {KnxprojSourceFilePath} is too long (more than 255 characters). Please try again.");
                     KnxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
@@ -158,7 +159,7 @@ namespace KNXBoostDesktop
                 // Si le dossier d'exportation existe déjà, on le supprime pour laisser place au nouveau
                 if (Path.Exists(knxprojExportFolderPath))
                 {   
-                    App.ConsoleAndLogWriteLine($"Le dossier {knxprojExportFolderPath} existe déjà, suppression...");
+                    App.ConsoleAndLogWriteLine($"The folder {knxprojExportFolderPath} already exists, deleting...");
                     Directory.Delete(knxprojExportFolderPath, true);
                 }
                 
@@ -168,18 +169,18 @@ namespace KNXBoostDesktop
                 {
                     System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportFolderPath); // On extrait le zip
                 }
-                catch (NotSupportedException) // TODO SI BESOIN REVOIR LA NORMALISATION
+                catch (NotSupportedException)
                 {
-                    msg = $"Erreur: Le type d'archive du fichier {Path.GetFileName(KnxprojSourceFilePath)} n'est pas supporté. "
-                          + "Veuillez vérifier que le fichier n'est pas corrompu. \nLe cas échéant, veuillez exporter à nouveau votre "
-                          + "projet ETS et réessayer de l'extraire.";
+                    msg = $"Error: The archive type of the file {Path.GetFileName(KnxprojSourceFilePath)} is not supported. "
+                          + "Please check that the file is not corrupted. \nIf necessary, please export your "
+                          + "ETS project again and try to extract it.";
                     App.ConsoleAndLogWriteLine(msg);
                     KnxprojSourceFilePath = AskForPath();
                     continue;
                 }
                     
                 File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
-                App.ConsoleAndLogWriteLine($"Terminé ! Nouveau dossier créé: {Path.GetFullPath(knxprojExportFolderPath)}");
+                App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
                 ExportedProjectPath = knxprojExportFolderPath;
                 managedToExtractProject = true;
             }
@@ -270,8 +271,8 @@ namespace KNXBoostDesktop
             string foundPath = FindFile(ExportedProjectPath, "0.xml");
             if (string.IsNullOrEmpty(foundPath))
             {
-                App.ConsoleAndLogWriteLine("Impossible de trouver le fichier '0.xml' dans les dossiers du projet. "
-                    + "Veuillez vérifier que l'archive extraite soit bien un projet ETS KNX.");
+                App.ConsoleAndLogWriteLine("Unable to find the file '0.xml' in the project folders. "
+                                           + "Please ensure that the extracted archive is indeed a KNX ETS project.");
                 Application.Current.Shutdown();
             }
             else

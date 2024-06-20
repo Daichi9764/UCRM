@@ -35,7 +35,11 @@ namespace KNXBoostDesktop
     {
         
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
+        public static readonly string AppVersion = "1.0"; // Version de l'application
+        
+        
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
+        
         private static readonly StreamWriter Writer = new StreamWriter(LogPath); // Permet l'écriture du fichier de logging
         
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
@@ -50,19 +54,24 @@ namespace KNXBoostDesktop
         // Fonction s'exécutant à l'ouverture de l'application
         protected override void OnStartup(StartupEventArgs e)
         {
-            ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
             base.OnStartup(e);
+            
+            Writer.AutoFlush = true;
+            
+            
+            ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
 
             
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
             DisplayElements.ShowMainWindow();
             
+            
             ConsoleAndLogWriteLine("Opening project file manager");
             Fm = new ProjectFileManager();
 
             
-            //ConsoleAndLogWriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] Opening string formatters");
+            //ConsoleAndLogWriteLine($"Opening string formatters");
             //formatter = new FormatterNormalize();
             
             
@@ -95,6 +104,7 @@ namespace KNXBoostDesktop
         public static void ConsoleAndLogWrite(string msg)
         {
             Console.Write(msg);
+            DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
             Writer.Write(msg);
             Writer.Flush(); // On vide le buffer du streamwriter au cas ou il resterait des caractères
         }
@@ -105,9 +115,15 @@ namespace KNXBoostDesktop
         // logs. Ajoute la date et l'heure avant affichage. Saut d'une ligne en fin de message.
         public static void ConsoleAndLogWriteLine(string msg)
         {
-            Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg);
-            Writer.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg);
-            Writer.Flush(); // On vide le buffer du streamwriter au cas ou il resterait des caractères
+            Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
+            
+            // Si la console est ouverte, on scrolle après l'envoi du message pour être sur d'afficher les derniers évènements
+            if ((DisplayElements != null) && (DisplayElements.ConsoleWindow.IsVisible))
+            {
+                DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+            }
+            
+            Writer.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans le fichier logs
         }
 
         

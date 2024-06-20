@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
@@ -14,6 +15,11 @@ public partial class MainWindow
 
         Uri iconUri = new Uri("./icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
+    }
+    
+    private void ClosingMainWindow(object sender, CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
     }
 
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
@@ -63,7 +69,7 @@ public partial class MainWindow
         //findZeroXmlButton.Visibility = Visibility.Collapsed;
     }
 
-    private void OpenConsoleButton_OnClick(object sender, RoutedEventArgs e)
+    private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Opening console window");
         App.DisplayElements.ShowConsoleWindow();

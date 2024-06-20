@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:KNXBoostDesktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        Background="#F5F5F5">
+        Background="#F5F5F5"
+        Closing="ClosingMainWindow">
     
     <Window.Resources>
         <!-- Style pour le bouton Import KNX Project -->
@@ -104,7 +105,7 @@
             <!-- Buttons -->
             <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
                 <Button Name = "ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="200"/>
-                <Button Name = "OpenConsoleButton" Click="OpenConsoleButton_OnClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
+                <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
                 <Button Name = "OpenGroupAddressFileButton" Click="CloseProgramButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="200"/>

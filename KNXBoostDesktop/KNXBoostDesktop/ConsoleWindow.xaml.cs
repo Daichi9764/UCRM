@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,23 +22,25 @@ namespace KNXBoostDesktop
             Console.SetOut(new TextBoxWriter(ConsoleTextBox));
         }
 
-        public class TextBoxWriter : TextWriter
+        
+        // Fonction modifiant le comportement de la fenêtre console
+        private void ClosingConsoleWindow(object sender, CancelEventArgs e)
         {
-            private readonly TextBox _textBox;
+            e.Cancel = true; // On annule la fermeture de la fenêtre
+            this.Hide(); // On la cache à la place
+            App.ConsoleAndLogWriteLine("Hiding console");
+        }
 
-            public TextBoxWriter(TextBox textBox)
-            {
-                _textBox = textBox;
-            }
-
+        public class TextBoxWriter(TextBox textBox) : TextWriter
+        {
             public override void Write(char value)
             {
-                _textBox.Dispatcher.Invoke(() => _textBox.AppendText(value.ToString()));
+                textBox.Dispatcher.Invoke(() => textBox.AppendText(value.ToString()));
             }
 
-            public override void Write(string value)
+            public override void Write(string? value)
             {
-                _textBox.Dispatcher.Invoke(() => _textBox.AppendText(value));
+                textBox.Dispatcher.Invoke(() => textBox.AppendText(value));
             }
 
             public override Encoding Encoding => Encoding.UTF8;

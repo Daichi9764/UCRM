@@ -1,0 +1,19 @@
+[20/06/2024 - 08:40:38] STARTING KNX BOOST DESKTOP APP...
+[20/06/2024 - 08:40:38] Opening main window
+[20/06/2024 - 08:40:39] Opening project file manager
+[20/06/2024 - 08:40:39] Trying to archive log files
+[20/06/2024 - 08:40:39] Not enough log files to archive.
+[20/06/2024 - 08:40:39] KNX BOOST DESKTOP APP STARTED !
+[20/06/2024 - 08:40:39] -----------------------------------------------------------
+[20/06/2024 - 08:40:40] Opening console window
+[20/06/2024 - 08:40:42] Hiding console
+[20/06/2024 - 08:40:43] Opening console window
+[20/06/2024 - 08:40:46] Waiting for user to select KNX project file
+[20/06/2024 - 08:40:48] File selected: T:\test.knxproj
+[20/06/2024 - 08:40:48] Starting to extract test.knxproj...
+[20/06/2024 - 08:40:48] The folder ./test_exported/ already exists, deleting...
+[20/06/2024 - 08:40:48] Done! New folder created: C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\test_exported\
+[20/06/2024 - 08:41:13] Hiding console
+[20/06/2024 - 08:41:13] -----------------------------------------------------------
+[20/06/2024 - 08:41:13] CLOSING KNX BOOST DESKTOP APP...
+[20/06/2024 - 08:41:13] KNX BOOST DESKTOP APP CLOSED !
