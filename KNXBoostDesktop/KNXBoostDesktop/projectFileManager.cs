@@ -6,24 +6,44 @@ namespace KNXBoostDesktop
 {
     public class ProjectFileManager
     {
-        /* ------------------------------------------------------------------------------------------------
-        ------------------------------------------- ATTRIBUTS  --------------------------------------------
-        ------------------------------------------------------------------------------------------------ */
-        public string ExportedProjectPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
+        // ----- Attributs privés -----
+        
+        // ----- Attributs publics -----
+        
+        public string KnxprojSourceFilePath { get; set; }
+        
+        public string ExportedProjectPath { get; private set; }
+        
+        public string ZeroXmlPath { get; private set; }
 
-        public string ZeroXmlPath { get; private set; } = ""; // Chemin d'accès au fichier 0.xml du projet
+        // ----- Méthodes privées -----
+
+        // ----- Méthodes publiques -----
+
+        // Constructeur par défaut
+        public ProjectFileManager()
+        {
+            KnxprojSourceFilePath = "";
+            ExportedProjectPath = "";
+            ZeroXmlPath = "";
+        }
+
+        // Constructeur avec path de source et path de destination
+        public ProjectFileManager(string sourceFile)
+        {
+            KnxprojSourceFilePath = sourceFile;
+            ExportedProjectPath = "";
+            ZeroXmlPath = "";
+        }
 
 
-        /* ------------------------------------------------------------------------------------------------
-        --------------------------------------------- METHODES --------------------------------------------
-        ------------------------------------------------------------------------------------------------ */
         // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
         public void ExtractProjectFiles(string knxprojSourceFilePath)
         {
             bool managedToExtractProject = false;
             bool managedToNormalizePaths = false;
             bool cancelOperation = false;
-            
+
             // Tant que l'on n'a pas réussi à extraire le projet ou que l'on n'a pas demandé l'annulation de l'extraction
             while ((!managedToExtractProject) && (!cancelOperation))
             {
@@ -34,7 +54,7 @@ namespace KNXBoostDesktop
                 // Répéter tant que l'on n'a pas réussi à normaliser les chemins d'accès ou que l'on n'a pas demandé
                 // à annuler l'extraction
                 string msg;
-                    
+
                 while ((!managedToNormalizePaths) && (!cancelOperation))
                 {
                     if (knxprojSourceFilePath.ToLower() == "null")
@@ -71,7 +91,7 @@ namespace KNXBoostDesktop
                 /* ------------------------------------------------------------------------------------------------
                 ---------------------------------- EXTRACTION DU FICHIER KNXPROJ ----------------------------------
                 ------------------------------------------------------------------------------------------------ */
-                
+
                 App.ConsoleAndLogWriteLine($"Starting to extract {Path.GetFileName(knxprojSourceFilePath)}...");
 
                 string zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
@@ -94,7 +114,7 @@ namespace KNXBoostDesktop
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
 
-                
+
                 try
                 {
                     // On essaie de transformer le fichier .knxproj en archive .zip
@@ -133,16 +153,16 @@ namespace KNXBoostDesktop
                     knxprojSourceFilePath = AskForPath();
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
-                
-                
+
+
                 // Si le dossier d'exportation existe déjà, on le supprime pour laisser place au nouveau
                 if (Path.Exists(knxprojExportFolderPath))
-                {   
+                {
                     App.ConsoleAndLogWriteLine($"The folder {knxprojExportFolderPath} already exists, deleting...");
                     Directory.Delete(knxprojExportFolderPath, true);
                 }
-                
-                
+
+
                 // Si le fichier a bien été transformé en zip, tentative d'extraction
                 try
                 {
@@ -158,11 +178,11 @@ namespace KNXBoostDesktop
                     knxprojSourceFilePath = AskForPath();
                     continue;
                 }
-                
+
                 /* ------------------------------------------------------------------------------------------------
                 ------------------------------- SUPPRESSION DES FICHIERS RESIDUELS --------------------------------
                 ------------------------------------------------------------------------------------------------ */
-                    
+
                 // Suppression du fichier zip temporaire
                 File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
@@ -171,10 +191,8 @@ namespace KNXBoostDesktop
             }
         }
 
-
-        
         // Fonction permettant de demander à l'utilisateur d'entrer un path
-        private static string AskForPath()
+        private string AskForPath()
         {
             // Créer une nouvelle instance de OpenFileDialog
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -200,18 +218,15 @@ namespace KNXBoostDesktop
             }
         }
 
-        
-        
         // Fonction permettant de trouver un fichier dans un dossier donné
         private static string FindFile(string rootPath, string fileNameToSearch)
         {
             if (!Directory.Exists(rootPath))
             {
-                App.ConsoleAndLogWriteLine($"Directory {rootPath} does not exist.");
-                return "";
+                App.ConsoleAndLogWriteLine($"The directory {rootPath} does not exist.");
+                return null;
             }
 
-            // Création d'une file d'attente pour les répertoires à explorer
             Queue<string> directoriesQueue = new Queue<string>();
             directoriesQueue.Enqueue(rootPath);
 
@@ -220,17 +235,17 @@ namespace KNXBoostDesktop
                 string currentDirectory = directoriesQueue.Dequeue();
                 try
                 {
-                    // Vérifier les fichiers dans le répertoire actuel
+                    // Check files in the current directory
                     string[] files = Directory.GetFiles(currentDirectory);
                     foreach (string file in files)
                     {
                         if (Path.GetFileName(file).Equals(fileNameToSearch, StringComparison.OrdinalIgnoreCase))
                         {
-                            return file; // Fichier trouvé, on retourne son chemin
+                            return file;
                         }
                     }
 
-                    // Ajouter les sous-répertoires à la file d'attente
+                    // Enqueue subdirectories
                     string[] subDirectories = Directory.GetDirectories(currentDirectory);
                     foreach (string subDirectory in subDirectories)
                     {
@@ -239,40 +254,33 @@ namespace KNXBoostDesktop
                 }
                 catch (UnauthorizedAccessException unAuthEx)
                 {
-                    // Si l'accès au répertoire est refusé
-                    App.ConsoleAndLogWriteLine($"Access refused to {currentDirectory} : {unAuthEx.Message}");
+                    App.ConsoleAndLogWriteLine($"Access denied to {currentDirectory}: {unAuthEx.Message}");
                 }
                 catch (DirectoryNotFoundException dirNotFoundEx)
                 {
-                    // Si le répertoire est introuvable
-                    App.ConsoleAndLogWriteLine($"Directory not found : {currentDirectory} : {dirNotFoundEx.Message}");
+                    App.ConsoleAndLogWriteLine($"Directory not found: {currentDirectory}: {dirNotFoundEx.Message}");
                 }
                 catch (IOException ioEx)
                 {
-                    // Si une erreur d'entrée/sortie survient
-                    App.ConsoleAndLogWriteLine($"I/O Error while accessing {currentDirectory} : {ioEx.Message}");
+                    App.ConsoleAndLogWriteLine($"I/O Error while accessing {currentDirectory}: {ioEx.Message}");
                 }
             }
 
-            return ""; // Fichier non trouvé
+            return null; // File not found
         }
 
-        
-        
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         public void FindZeroXml()
         {
             string foundPath = FindFile(ExportedProjectPath, "0.xml");
-            
-            // Si le fichier n'a pas été trouvé
             if (string.IsNullOrEmpty(foundPath))
             {
-                App.ConsoleAndLogWriteLine("Unable to find the file '0.xml' in the project folders. "
-                                           + "Please ensure that the extracted archive is indeed a KNX ETS project.");
+                App.ConsoleAndLogWriteLine("Impossible de trouver le fichier '0.xml' dans les dossiers du projet. "
+                    + "Veuillez vérifier que l'archive extraite soit bien un projet ETS KNX.");
                 Application.Current.Shutdown();
             }
-            else // Sinon
+            else
             {
                 ZeroXmlPath = foundPath;
                 App.ConsoleAndLogWriteLine($"Found '0.xml' file at {Path.GetFullPath(ZeroXmlPath)}.");
