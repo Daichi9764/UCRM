@@ -104,7 +104,12 @@ namespace KNXBoostDesktop
         public static void ConsoleAndLogWrite(string msg)
         {
             Console.Write(msg);
-            DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+            
+            if (DisplayElements is { ConsoleWindow.IsVisible: true })
+            {
+                DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+            }
+            
             Writer.Write(msg);
             Writer.Flush(); // On vide le buffer du streamwriter au cas ou il resterait des caractères
         }
@@ -118,7 +123,7 @@ namespace KNXBoostDesktop
             Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
             
             // Si la console est ouverte, on scrolle après l'envoi du message pour être sur d'afficher les derniers évènements
-            if ((DisplayElements != null) && (DisplayElements.ConsoleWindow.IsVisible))
+            if (DisplayElements is { ConsoleWindow.IsVisible: true })
             {
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
             }
