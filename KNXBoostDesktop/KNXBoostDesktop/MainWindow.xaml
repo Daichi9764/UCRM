@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:KNXBoostDesktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        Background="#F5F5F5">
-    
+        Background="#F5F5F5"
+        Closing="ClosingMainWindow">
+
     <Window.Resources>
         <!-- Style pour le bouton Import KNX Project -->
         <Style x:Key="ImportButtonStyle" TargetType="Button">
@@ -77,7 +78,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
+
     <Border BorderBrush="#369226" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
@@ -90,21 +91,41 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <!-- Left panel -->
-            <Grid Grid.Row="0" Grid.Column="0" Background="#FFFFFFFF" Margin="10">
-                
-            </Grid>
-            
-                <!-- Right panel -->
-            <Grid Grid.Row="0" Grid.Column="2" Background="#FFFFFFFF" Margin="10"/>
-            
+            <TreeView Grid.Row="0" Grid.Column="0"  Name="AdressesDeGroupesOriginales" ItemsSource="{Binding Nodes}"  Background="#FFFFFFFF" Margin="10">
+                <TreeView.ItemTemplate >
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Name}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+            </TreeView>
+
+            <!-- Right panel -->
+            <TreeView Grid.Row="0" Grid.Column="2" Name="AdressesDeGroupesModifiées" Background="#FFFFFFFF" Margin="10">
+                <!-- Root Item -->
+                <TreeViewItem Header="Root Item">
+                    <!-- First Level -->
+                    <TreeViewItem Header="Level 1 - Item 1">
+                        <!-- Second Level -->
+                        <TreeViewItem Header="Level 2 - Item 1"/>
+                        <TreeViewItem Header="Level 2 - Item 2"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Level 1 - Item 2">
+                        <TreeViewItem Header="Level 2 - Item 3"/>
+                        <TreeViewItem Header="Level 2 - Item 4"/>
+                    </TreeViewItem>
+                </TreeViewItem>
+            </TreeView>
+
+
+
             <!-- Arrow between the two panels -->
-            
+
             <!-- Buttons -->
             <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
                 <Button Name = "ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="200"/>
-                <Button Name = "OpenConsoleButton" Click="OpenConsoleButton_OnClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
+                <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
                 <Button Name = "OpenGroupAddressFileButton" Click="CloseProgramButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
