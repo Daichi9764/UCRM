@@ -9,11 +9,11 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        public string KnxprojSourceFilePath { get; set; } = "";
+        public string KnxprojSourceFilePath { get; set; } = ""; // Chemin d'accès au fichier .knxproj
 
-        public string ExportedProjectPath { get; private set; } = "";
+        public string ExportedProjectPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
 
-        public string ZeroXmlPath { get; private set; } = "";
+        public string ZeroXmlPath { get; private set; } = ""; // Chemin d'accès au fichier 0.xml du projet
 
 
         /* ------------------------------------------------------------------------------------------------

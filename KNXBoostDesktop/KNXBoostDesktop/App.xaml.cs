@@ -196,6 +196,5 @@ namespace KNXBoostDesktop
                 ConsoleAndLogWriteLine($"An error occured while creating the archive : {ex.Message}");
             }
         }
-
     }
 }
