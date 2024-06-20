@@ -46,8 +46,7 @@ public partial class MainWindow
 
             if (App.Fm == null) return;
             
-            App.Fm.KnxprojSourceFilePath = openFileDialog.FileName;
-            App.Fm.ExtractProjectFiles();
+            App.Fm.ExtractProjectFiles(openFileDialog.FileName);
 
             //findZeroXmlButton.Visibility = Visibility.Visible;
         }
