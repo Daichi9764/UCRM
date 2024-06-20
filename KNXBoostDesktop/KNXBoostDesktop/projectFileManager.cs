@@ -219,7 +219,7 @@ namespace KNXBoostDesktop
             if (!Directory.Exists(rootPath))
             {
                 App.ConsoleAndLogWriteLine($"The directory {rootPath} does not exist.");
-                return null;
+                return "";
             }
 
             Queue<string> directoriesQueue = new Queue<string>();
@@ -261,7 +261,7 @@ namespace KNXBoostDesktop
                 }
             }
 
-            return null; // File not found
+            return ""; // File not found
         }
 
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
