@@ -13,8 +13,8 @@ public partial class MainWindow
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    public ObservableCollection<TreeNode> OriginalNodes { get; set; }
-    public ObservableCollection<TreeNode> ModifiedNodes { get; set; }
+    private ObservableCollection<TreeNode> OriginalNodes { get; }
+    private ObservableCollection<TreeNode> ModifiedNodes { get; }
     
     
     
