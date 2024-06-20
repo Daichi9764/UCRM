@@ -44,6 +44,8 @@ public partial class MainWindow
             // Récupérer le chemin du fichier sélectionné
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
 
+            if (App.Fm == null) return;
+            
             App.Fm.KnxprojSourceFilePath = openFileDialog.FileName;
             App.Fm.ExtractProjectFiles();
 
@@ -59,19 +61,18 @@ public partial class MainWindow
     {
         Application.Current.Shutdown();
     }
-
-    private void FindZeroXmlButtonClick(object sender, RoutedEventArgs e)
-    {
-        App.Fm.FindZeroXml();
-        
-        //checkMarkImage.Visibility = Visibility.Visible;
-        
-        //findZeroXmlButton.Visibility = Visibility.Collapsed;
-    }
-
+    
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
+        if (App.DisplayElements == null) return;
+        
         App.ConsoleAndLogWriteLine("Opening console window");
         App.DisplayElements.ShowConsoleWindow();
+            
+        // Pour éviter qu'à la réouverture de la console on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
+        if (App.DisplayElements.ConsoleWindow.IsVisible)
+        {
+            App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+        }
     }
 }
