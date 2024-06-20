@@ -26,20 +26,20 @@ public partial class MainWindow
         OriginalNodes = new ObservableCollection<TreeNode>();
         ModifiedNodes = new ObservableCollection<TreeNode>();
 
-        LoadXmlData(@".\adresses_exported\Adresses_de_groupes_villa.xml", OriginalNodes);
-        LoadXmlData(@".\adresses_exported\Adresses_de_groupes_villa.xml", ModifiedNodes);
+        LoadXmlData(@".\Adresses_de_groupes_villa.xml", OriginalNodes);
+        LoadXmlData(@".\\Adresses_de_groupes_villa.xml", ModifiedNodes);
     }
 
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
-
+        
         // Créer une nouvelle instance de OpenFileDialog
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
             // Définir des propriétés optionnelles
             Title = "Sélectionnez un projet KNX à importer",
-            Filter = "ETS KNX Project File (.knxproj)|.knxproj|other file|.",
+            Filter = "ETS KNX Project File (*.knxproj)|*.knxproj|other file|*.*",
             FilterIndex = 1,
             Multiselect = false
         };
@@ -53,7 +53,7 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
 
             if (App.Fm == null) return;
-
+            
             App.Fm.ExtractProjectFiles(openFileDialog.FileName);
 
             //findZeroXmlButton.Visibility = Visibility.Visible;
