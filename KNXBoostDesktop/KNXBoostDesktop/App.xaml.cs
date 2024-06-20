@@ -4,24 +4,14 @@
  * Auteurs       : MICHEL Hugo, COUSTON Emma, MALBRANCHE Daichi,
  *                 BRUGIERE Nathan, OLIVEIRA LOPES Maxime
  * Date          : 12/06/2024
- * Version       : 1.0.0
+ * Version       : 1.0
  *
  * Description :
- * Ce fichier contient [Description du fichier et son rôle dans le projet].
- * [Donnez des détails supplémentaires sur le contenu et la fonctionnalité
- * du fichier, les classes principales, les méthodes ou toute autre
- * information pertinente].
- *
- * Historique des Modifications :
- * -------------------------------------------------------------------------
- * Date        | Auteur       | Version  | Description
- * -------------------------------------------------------------------------
- * 12/06/2024  | Votre Nom    | 1.0.0    | Création initiale du fichier.
- * [Date]      | [Nom]        | [Ver.]   | [Description de la modification]
+ * Fichier principal contenant la structure de l'application et toutes les
+ * fonctions nécessaires à son utilisation.
  *
  * Remarques :
- * [Ajoutez ici toute information supplémentaire, des notes spéciales, des
- * avertissements ou des recommandations concernant ce fichier].
+ * Repo GitHub --> https://github.com/Daichi9764/UCRM
  *
  * **************************************************************************/
 
@@ -33,56 +23,65 @@ namespace KNXBoostDesktop
 {
     public partial class App
     {
-        
+        /* ------------------------------------------------------------------------------------------------
+        ------------------------------------------- ATTRIBUTS  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
         public static readonly string AppVersion = "1.0"; // Version de l'application
         
-        
+        // Gestion des logs
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
-        
         private static readonly StreamWriter Writer = new StreamWriter(LogPath); // Permet l'écriture du fichier de logging
         
+        // Composants de l'application
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
-        
         public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenêtres, boutons, ...)
-
         public Formatter? Formatter; // Formatteur d'adresses de groupe
 
         
         
         
+        /* ------------------------------------------------------------------------------------------------
+        -------------------------------------------- METHODES  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
         // Fonction s'exécutant à l'ouverture de l'application
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
+
+            // Activation de l'auto-vidage du buffer du stream d'écriture
             Writer.AutoFlush = true;
-            
-            
+
+
             ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
 
             
+            // Ouverture la fenêtre principale
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
             DisplayElements.ShowMainWindow();
-            
-            
-            ConsoleAndLogWriteLine("Opening project file manager");
-            Fm = new ProjectFileManager();
 
             
+            // Ouverture du gestionnaire de fichiers de projet
+            ConsoleAndLogWriteLine("Opening project file manager");
+            Fm = new ProjectFileManager();
+            
+            
+            // Initialisation des formateurs de chaînes (commentée car peut-être non nécessaire pour le moment)
             //ConsoleAndLogWriteLine($"Opening string formatters");
             //formatter = new FormatterNormalize();
+
             
-            
+            // Tentative d'archivage des fichiers de log
             ConsoleAndLogWriteLine("Trying to archive log files");
             ArchiveLogs();
-            
+
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
         }
-        
+
         
         
         // Fonction s'exécutant lorsque l'on ferme l'application
@@ -94,7 +93,7 @@ namespace KNXBoostDesktop
             
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
-            Writer.Close();
+            Writer.Close(); // Fermeture du stream d'écriture des logs
         }
 
         
@@ -103,15 +102,15 @@ namespace KNXBoostDesktop
         // logs sans sauter de ligne après le message.
         public static void ConsoleAndLogWrite(string msg)
         {
-            Console.Write(msg);
+            Console.Write(msg); // Ecriture du message dans la console
             
+            // Si la fenêtre de la console est ouverte, on scrolle tout en bas
             if (DisplayElements is { ConsoleWindow.IsVisible: true })
             {
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
             }
             
-            Writer.Write(msg);
-            Writer.Flush(); // On vide le buffer du streamwriter au cas ou il resterait des caractères
+            Writer.Write(msg); // Ecriture du message dans le fichier logs
         }
 
         
@@ -122,7 +121,7 @@ namespace KNXBoostDesktop
         {
             Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
             
-            // Si la console est ouverte, on scrolle après l'envoi du message pour être sur d'afficher les derniers évènements
+            // Si la console est ouverte, on scrolle après l'envoi du message pour être sûr d'afficher les derniers évènements
             if (DisplayElements is { ConsoleWindow.IsVisible: true })
             {
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
@@ -137,9 +136,10 @@ namespace KNXBoostDesktop
         // Fonctionnement: S'il y a plus de 50 fichiers logs.txt, ces fichiers sont rassemblés et compressés dans une archive zip
         // S'il y a plus de 10 archives, ces dernières sont supprimées avant la création de la nouvelle archive
         // Conséquence: on ne stocke les logs que des 50 derniers lancements de l'application
-        private void ArchiveLogs()
+        private static void ArchiveLogs()
         {
-            string logDirectory = @"./logs/";
+            string logDirectory = @"./logs/"; // Chemin du dossier de logs
+            
             try
             {
                 // Vérifier si le répertoire existe

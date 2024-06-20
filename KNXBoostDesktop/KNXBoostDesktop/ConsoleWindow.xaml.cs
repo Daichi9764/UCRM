@@ -9,6 +9,32 @@ namespace KNXBoostDesktop
 {
     public partial class ConsoleWindow
     {
+        /* ------------------------------------------------------------------------------------------------
+        ------------------------------------------- ATTRIBUTS  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        // Boite de texte contenant les messages console affichés dans la fenêtre
+        public class TextBoxWriter(TextBox textBox) : TextWriter
+        {
+            public override void Write(char value)
+            {
+                textBox.Dispatcher.Invoke(() => textBox.AppendText(value.ToString()));
+            }
+
+            public override void Write(string? value)
+            {
+                textBox.Dispatcher.Invoke(() => textBox.AppendText(value));
+            }
+
+            public override Encoding Encoding => Encoding.UTF8;
+        }
+        
+        
+        
+        
+        /* ------------------------------------------------------------------------------------------------
+        -------------------------------------------- METHODES  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        // Constructeur
         public ConsoleWindow()
         {
             InitializeComponent();
@@ -23,27 +49,12 @@ namespace KNXBoostDesktop
         }
 
         
-        // Fonction modifiant le comportement de la fenêtre console
+        // Fonction modifiant le comportement de la fenêtre console lorsque l'on clique sur la croix de fermeture
         private void ClosingConsoleWindow(object sender, CancelEventArgs e)
         {
             e.Cancel = true; // On annule la fermeture de la fenêtre
             this.Hide(); // On la cache à la place
             App.ConsoleAndLogWriteLine("Hiding console");
-        }
-
-        public class TextBoxWriter(TextBox textBox) : TextWriter
-        {
-            public override void Write(char value)
-            {
-                textBox.Dispatcher.Invoke(() => textBox.AppendText(value.ToString()));
-            }
-
-            public override void Write(string? value)
-            {
-                textBox.Dispatcher.Invoke(() => textBox.AppendText(value));
-            }
-
-            public override Encoding Encoding => Encoding.UTF8;
         }
     }
 }

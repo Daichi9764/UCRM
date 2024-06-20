@@ -2,20 +2,24 @@
 {
     public class DisplayElements
     {
-        public MainWindow MainWindow { get; private set; }
-        public ConsoleWindow ConsoleWindow { get; private set; }
+        /* ------------------------------------------------------------------------------------------------
+        ------------------------------------------- ATTRIBUTS  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        private MainWindow MainWindow { get; } = new();
+        public ConsoleWindow ConsoleWindow { get; } = new();
 
-        public DisplayElements()
-        {
-            MainWindow = new MainWindow();
-            ConsoleWindow = new ConsoleWindow();
-        }
 
+        /* ------------------------------------------------------------------------------------------------
+        -------------------------------------------- METHODES  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        // Fonction pour ouvrir la fenêtre principale
         public void ShowMainWindow()
         {
             MainWindow.Show();
         }
 
+        
+        // Fonction pour ouvrir la fenêtre de la console
         public void ShowConsoleWindow()
         {
             ConsoleWindow.Show();
