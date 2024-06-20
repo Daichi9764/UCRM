@@ -15,7 +15,7 @@ namespace KNXBoostDesktop
 
 
         /* ------------------------------------------------------------------------------------------------
-        -------------------------------------------- METHODES  --------------------------------------------
+        --------------------------------------------- METHODES --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
         public void ExtractProjectFiles(string knxprojSourceFilePath)
