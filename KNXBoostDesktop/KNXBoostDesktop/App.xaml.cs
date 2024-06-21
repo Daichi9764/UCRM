@@ -32,13 +32,12 @@ namespace KNXBoostDesktop
         
         // Gestion des logs
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
-        private static readonly StreamWriter Writer = new StreamWriter(LogPath); // Permet l'écriture du fichier de logging
+        private static readonly StreamWriter Writer = new(LogPath); // Permet l'écriture du fichier de logging
         
         // Composants de l'application
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
         public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenêtres, boutons, ...)
-        public Formatter? Formatter; // Formatteur d'adresses de groupe
-
+        
         
         
         
