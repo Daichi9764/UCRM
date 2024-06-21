@@ -179,7 +179,7 @@ public class MyNameCorrector
             // Save the updated XML file
             try
             {
-                knxDoc.Save(@"C:\Users\coust\Stage UCRM\Projets knx\0_updated.xml"); // Change the path as needed
+                knxDoc.Save($@"{App.Fm?.ExportedProjectPath}/0_updated.xml"); // Change the path as needed
                 App.ConsoleAndLogWriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
             }
             catch (UnauthorizedAccessException ex)

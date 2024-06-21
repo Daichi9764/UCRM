@@ -13,8 +13,8 @@ public partial class MainWindow
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    private ObservableCollection<TreeNode> OriginalNodes { get; }
-    private ObservableCollection<TreeNode> ModifiedNodes { get; }
+    public ObservableCollection<TreeNode> OriginalNodes { get; }
+    public ObservableCollection<TreeNode> ModifiedNodes { get; }
     
     
     
@@ -26,7 +26,7 @@ public partial class MainWindow
     {
         InitializeComponent();
 
-        Title = App.AppName;
+        Title = $"{App.AppName} v{App.AppVersion}";
 
         Uri iconUri = new Uri("./icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
@@ -37,7 +37,7 @@ public partial class MainWindow
         ModifiedNodes = new ObservableCollection<TreeNode>();
 
         LoadXmlData(@".\Adresses_de_groupes_villa.xml", OriginalNodes);
-        LoadXmlData(@".\\Adresses_de_groupes_villa.xml", ModifiedNodes);
+        LoadXmlData(@".\Adresses_de_groupes_villa.xml", ModifiedNodes);
     }
 
     
@@ -66,8 +66,8 @@ public partial class MainWindow
             if (App.Fm == null) return;
             
             App.Fm.ExtractProjectFiles(openFileDialog.FileName);
-
-            //findZeroXmlButton.Visibility = Visibility.Visible;
+            App.Fm.FindZeroXml();
+            MyNameCorrector.CorrectName();
         }
         else
         {

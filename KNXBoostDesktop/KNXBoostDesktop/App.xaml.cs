@@ -4,7 +4,7 @@
  * Auteurs       : MICHEL Hugo, COUSTON Emma, MALBRANCHE Daichi,
  *                 BRUGIERE Nathan, OLIVEIRA LOPES Maxime
  * Date          : 12/06/2024
- * Version       : 1.0
+ * Version       : 1.1
  *
  * Description :
  * Fichier principal contenant la structure de l'application et toutes les
@@ -28,7 +28,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.0"; // Version de l'application
+        public static readonly string AppVersion = "1.1"; // Version de l'application
         
         // Gestion des logs
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
@@ -209,31 +209,33 @@ namespace KNXBoostDesktop
         // Fonction pour supprimer tous les dossiers sauf le dossier 'logs'
         private static void DeleteAllExceptLogs()
         {
-            try
-            {
-                // Liste tous les sous-répertoires dans le répertoire de base
-                string[] directories = Directory.GetDirectories("./");
+            // Liste tous les sous-répertoires dans le répertoire de base
+            string[] directories = Directory.GetDirectories("./");
 
-                foreach (string directory in directories)
+            foreach (string directory in directories)
+            {
+                // Exclure le dossier 'logs'
+                if (Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Exclure le dossier 'logs'
-                    if (Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-
-                    // Supprimer le dossier et son contenu
-                    Directory.Delete(directory, true);
-                    App.ConsoleAndLogWriteLine($"Deleted directory: {directory}");
+                    continue;
                 }
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Console.WriteLine($"Access denied: {ex.Message}");
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine($"I/O error: {ex.Message}");
+
+                // Supprimer le dossier et son contenu
+                try
+                {
+                    Directory.Delete(directory, true);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    Console.WriteLine($"Access denied: {ex.Message}");
+                    continue;
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"I/O error: {ex.Message}");
+                    continue;
+                }
+                App.ConsoleAndLogWriteLine($"Deleted directory: {directory}");
             }
         }
     }
