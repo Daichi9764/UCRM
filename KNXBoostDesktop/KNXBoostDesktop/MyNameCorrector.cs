@@ -72,7 +72,7 @@ public class MyNameCorrector
                 }
             }
 
-            // Extract device instance references from the KNX file their group object instance references from the KNX file
+            // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefs = knxDoc.Descendants(knxNs + "DeviceInstance")
                 .Select(di => new
                 {

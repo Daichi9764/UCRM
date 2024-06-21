@@ -66,8 +66,9 @@ public partial class MainWindow
             if (App.Fm == null) return;
             
             App.Fm.ExtractProjectFiles(openFileDialog.FileName);
-
-            //findZeroXmlButton.Visibility = Visibility.Visible;
+            
+            App.Fm.FindZeroXml();
+            MyNameCorrector.CorrectName();
         }
         else
         {
