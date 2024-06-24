@@ -10,47 +10,33 @@ namespace KNXBoostDesktop;
 public partial class MainWindow
 
 {
-    /* ------------------------------------------------------------------------------------------------
-    ------------------------------------------- ATTRIBUTS  --------------------------------------------
-    ------------------------------------------------------------------------------------------------ */
-    public ObservableCollection<TreeNode> OriginalNodes { get; }
-    public ObservableCollection<TreeNode> ModifiedNodes { get; }
+    public ObservableCollection<TreeNode> Nodes { get; set; }
 
-
-
-
-    /* ------------------------------------------------------------------------------------------------
-    --------------------------------------------- METHODES --------------------------------------------
-    ------------------------------------------------------------------------------------------------ */
     public MainWindow()
     {
         InitializeComponent();
 
-        Title = $"{App.AppName} v{App.AppVersion}";
+        Title = App.AppName;
 
         Uri iconUri = new Uri("./icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
+        Nodes = new ObservableCollection<TreeNode>();
         DataContext = this;
 
-        OriginalNodes = new ObservableCollection<TreeNode>();
-        ModifiedNodes = new ObservableCollection<TreeNode>();
-
-        LoadXmlData(@".\Adresses_de_groupes_villa.xml", OriginalNodes);
-        LoadXmlData(@".\Adresses_de_groupes_villa.xml", ModifiedNodes);
+        LoadXmlData(@"D:\OneDrive - INSA Toulouse\Documents\Cours\INSA\Stage4A\Projet\UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\Adresses_de_groupes_villa.xml"); // Chemin du fichier original d'adresses de groupe
     }
 
-    
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
-        
+
         // Créer une nouvelle instance de OpenFileDialog
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
             // Définir des propriétés optionnelles
             Title = "Sélectionnez un projet KNX à importer",
-            Filter = "ETS KNX Project File (*.knxproj)|*.knxproj|other file|*.*",
+            Filter = "ETS KNX Project File (.knxproj)|.knxproj|other file|.",
             FilterIndex = 1,
             Multiselect = false
         };
@@ -64,23 +50,31 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
 
             if (App.Fm == null) return;
-            
-            App.Fm.ExtractProjectFiles(openFileDialog.FileName);
-            App.Fm.FindZeroXml();
-            MyNameCorrector.CorrectName();
+
+            App.Fm.KnxprojSourceFilePath = openFileDialog.FileName;
+            App.Fm.ExtractProjectFiles();
+
+            //findZeroXmlButton.Visibility = Visibility.Visible;
         }
         else
         {
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
     }
-    
-    
+
     private void CloseProgramButtonClick(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
     }
-    
+
+    private void FindZeroXmlButtonClick(object sender, RoutedEventArgs e)
+    {
+        App.Fm.FindZeroXml();
+        
+        //checkMarkImage.Visibility = Visibility.Visible;
+        
+        //findZeroXmlButton.Visibility = Visibility.Collapsed;
+    }
 
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
@@ -95,15 +89,13 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
-    
 
     private void ClosingMainWindow(object sender, CancelEventArgs e)
     {
         Application.Current.Shutdown();
     }
-    
 
-    private void LoadXmlData(string filePath, ObservableCollection<TreeNode> nodesCollection)
+    private void LoadXmlData(string filePath)
     {
         try
         {
@@ -112,21 +104,20 @@ public partial class MainWindow
             XElement rootElement = doc.Root;
             if (rootElement != null)
             {
-                nodesCollection.Clear();
+                Nodes.Clear();
                 foreach (var childElement in rootElement.Elements())
                 {
                     TreeNode rootNode = ParseXmlNode(childElement);
-                    nodesCollection.Add(rootNode);
+                    Nodes.Add(rootNode);
                 }
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error loading XML file {filePath}: {ex.Message}");
+            MessageBox.Show($"Error loading XML file: {ex.Message}");
         }
     }
 
-    
     private TreeNode ParseXmlNode(XElement element)
     {
         var treeNode = new TreeNode(element.Attribute("Name")?.Value ?? "Unnamed");
@@ -140,15 +131,6 @@ public partial class MainWindow
         }
 
         return treeNode;
-    }
-    
-    
-    // Pour la future synchronisation des arbres
-    private void AdressesDeGroupesOriginales_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-    }
-    private void AdressesDeGroupesModifiées_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
     }
 
 }
