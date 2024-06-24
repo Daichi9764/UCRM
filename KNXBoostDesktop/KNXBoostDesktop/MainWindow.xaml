@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800"
         Background="#F5F5F5"
         Closing="ClosingMainWindow">
+        
 
     <Window.Resources>
         <!-- Style pour le bouton Import KNX Project -->
@@ -27,7 +28,8 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="15">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -61,7 +63,8 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="15">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -77,6 +80,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
     </Window.Resources>
 
     <Border BorderBrush="#369226" BorderThickness="1">
@@ -84,44 +88,52 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Left panel -->
-            <TreeView Grid.Row="0" Grid.Column="0" Name="AdressesDeGroupesOriginales" ItemsSource="{Binding OriginalNodes}" Background="#FFFFFFFF" Margin="10" SelectedItemChanged="AdressesDeGroupesOriginales_SelectedItemChanged">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}" />
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+            <StackPanel Grid.Row="0" Grid.Column="0" Background="#FFFFFFFF" Margin="10">
+                <TextBlock Text="Adresses de groupes originales" FontSize="14" FontWeight="Bold"  Margin="10,10,0,0"/>
+                <TreeView ItemsSource="{Binding OriginalNodes}" SelectedItemChanged="AdressesDeGroupesOriginales_SelectedItemChanged" BorderThickness="0">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Name}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
 
             <!-- Right panel -->
-            <TreeView Grid.Row="0" Grid.Column="2" Name="AdressesDeGroupesModifiées" ItemsSource="{Binding ModifiedNodes}" Background="#FFFFFFFF" Margin="10" SelectedItemChanged="AdressesDeGroupesModifiées_SelectedItemChanged">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}" />
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+            <StackPanel Grid.Row="0" Grid.Column="2" Background="#FFFFFFFF" Margin="10" >
+                    <TextBlock Text="Adresses de groupes modifiées" FontSize="14" FontWeight="Bold"  Margin="10,10,0,0"/>
+                    <TreeView ItemsSource="{Binding ModifiedNodes}" SelectedItemChanged="AdressesDeGroupesModifiées_SelectedItemChanged" BorderThickness="0">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                <TextBlock Text="{Binding Name}" />
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+            </StackPanel>
 
 
 
             <!-- Arrow between the two panels -->
+            <Viewbox Grid.Row="0" Grid.Column="1"  Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path Data="M-10,4 L0,4 L0,10 L10,0 L0,-10 L0,-4 L-10,-4 Z" Fill="#369226" Stretch="Uniform"/>
+            </Viewbox>
 
             <!-- Buttons -->
             <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
-                <Button Name = "ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="200"/>
-                <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
+                <Button Name = "ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="250"/>
+                <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
-                <Button Name = "OpenGroupAddressFileButton" Click="CloseProgramButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
-                <Button Name = "ExportModifiedProjectButton" Click="CloseProgramButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="200"/>
+                <Button Name = "OpenGroupAddressFileButton" Click="CloseProgramButtonClick" Content="Ouvrir GroupAddresses.xml"  Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                <Button Name = "ExportModifiedProjectButton" Click="CloseProgramButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
             </StackPanel>
         </Grid>
     </Border>

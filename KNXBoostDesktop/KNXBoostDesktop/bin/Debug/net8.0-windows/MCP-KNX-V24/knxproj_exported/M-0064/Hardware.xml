@@ -1,0 +1,833 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.1.5686.0" xmlns="http://knx.org/xml/project/22">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <Hardware>
+        <Hardware Id="M-0064_H-4812-1" Name="KNX Taster 2fach" SerialNumber="4812" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0064_H-4812-1_P-MGU5.2E531.2Exx" Text="KNX Push-button, 2-gang" OrderNumber="MGU5.531.xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="hJRfP68B+g1eJl26+MFoK18qAqA=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="vyz516b7U0WPcGccrGXDhyVuZBCCp6rJg/HkemigRM8HxPRXqAe3d2YzRZwP3JN8pn0CnkWA3SVmkNopZ/Ll/9SjImA0U/E3Gr5dMVE7cqqdZlIoBZD6usOIIkG4ePsasfWugfVUBsV58U0QYNI9tia7Rj0stXMiEBT4p7XewGQ=" />
+            </Product>
+            <Product Id="M-0064_H-4812-1_P-MGU3.2E531.2Exx" Text="KNX Push-button, 2-gang" OrderNumber="MGU3.531.xx" IsRailMounted="false" WidthInMillimeter="-1" DefaultLanguage="en-US" Hash="c6uTvq2WijQS8egIbr+08qki9OU=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="KcZvGamPWWLZDVwNNMABlO/nBjneZRSaA/Uy+LJ2slR1mQjDZEqydIur502gwmtWmnfbNzqd26O09QEXO3xWYrZ52Lzl7X78JhHRZZ8NzzYO5DFESmULHGvdo8wRaqAzs2m+H3xmrBquPJ8AGaGGpQw9mbof2Wr215qZz3xjfJE=" />
+            </Product>
+            <Product Id="M-0064_H-4812-1_P-NU5531xx" Text="KNX Push-button, 2-gang" OrderNumber="NU5531xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="/jOlpSGPVCx91l1XY4snn4ottqc=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="M40U1g6NOIqZTeaDAy0+AgQdoMIJ9fNlqVF88kA0rn5jU3to/1OM/26MkbYHZwTBnhFSO2su8Y8pVc1PwLK1wZqcfNWhsXsUQ3sdJyImPrKiTMzmq1DxeS9D3wtaiXBn8MgipW183N2Rkqhk1f2XBqoArr/U470aj/jBR9e4UvU=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-4812-1_HP-1825-10-AA71" MediumTypes="MT-0" Hash="bKIrkETStQW1UdJUeWzQgNitJgo=">
+              <ApplicationProgramRef RefId="M-0064_A-1825-10-AA71" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2009/8788" RegistrationSignature="Jd87s4SrFExN7uiIPEHd0zOS/3mvwlTAAB+7PTq4j/g3CMz6f3/KN8hRv2Y/YJuFt+sDCM9/zfqBOqnoGyfAng11n8FLa+M6/wwiLvvwLkSCHqZR8LG10JCapPBs3yXrdP+tE3zDA715xl8CQRnxgRv52Xwl/qU1Z0Hgu9Bq5uI=" />
+            </Hardware2Program>
+            <Hardware2Program Id="M-0064_H-4812-1_HP-1825-10-645B" MediumTypes="MT-0" Hash="Qf/WgM8u321pICgxgVRGjRcnTsQ=">
+              <ApplicationProgramRef RefId="M-0064_A-1825-10-645B" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2009/8788" RegistrationSignature="s9DoYx8BlIPzT7fYncvoA+o+RuNzzkMBvDg+LaF4UaPqAEmAs3FGFCWtdKJaQqP+0pP00g5bJW+2MYjLnZ1S9DbsppNWbaYFL/8zOx0XPLtdlPuGE7vyLsoLJYE+ZX8/SuUIolZIkGuciHaH5wwjR42PsW+C3SW5Y+0Go3Li+0o=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MGU3.2E530.2Exx-1" Name="KNX Taster 1fach" SerialNumber="MGU3.530.xx" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx" Text="KNX Push-button, 1-gang" OrderNumber="MGU5.530.xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="rnYyOkpHTQsaXp1jrFEYzPp1xng=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="tHAkuuT54K3OISRY00UFwR+W37Dv5z7pYR8Ui6TF9q3mLt4QpdoB0JTEzgH+MWX5xGSXOKmBwqtzOOt61cU46FTZvZ9M3VX243ttwBdPcdru42jpIBPPfOhVRJA1gY5Sn0N7FVm1FWLNh2gjrKdm2qVxCxMxMuAkNGhz/TsSoM8=" />
+            </Product>
+            <Product Id="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx" Text="KNX Push-button, 1-gang" OrderNumber="MGU3.530.xx" IsRailMounted="false" WidthInMillimeter="-1" DefaultLanguage="en-US" Hash="2HLInXrCuClb9kmpXTmvQOV5pas=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="PiXSRklb3jW5HjDvq+a3IvVanWFDBHsiM2MgNlEqHB5nlOrHx7D8RAe9cj8p6ZyxRtqvlUWM8BF7olc6LuFD8GTr0ev/968l4jWd0zr1/XkhaOwcEcJflV8B4ElBsZczy5N1RRjm2+3h8qjaIKl02CGvLXVkFSDj0O9rWPmiKro=" />
+            </Product>
+            <Product Id="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx" Text="KNX Push-button, 1-gang" OrderNumber="NU5530xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="H2BiNtXlToaIB89a/P+aEB0PMLU=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="cKtVzzd+Yw6HbAa1mgyV7PtKwadp8ZcfZVzjsNYFLGctQgYcOGSO4t8KtBSBwtjimqjK5nkE0iv4CQuIHUtJZByZS7phqIE/I72WmEJPSehm4y7pUOI2aWhnc5tc7EJw2F3VWP358mA27TdaPnQ7Ul7TSTy+FyPnWgA4bboxhhs=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-1962" MediumTypes="MT-0" Hash="OesSsDLlTkTacScNlhjpCEkauc8=">
+              <ApplicationProgramRef RefId="M-0064_A-1824-10-1962" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2009/8787" RegistrationSignature="yi9Psmq0rOFACuv9HwHnAsGWqPNKsv3rTRvnQFvRz+KsiY6p3usCZXOYNiuN1Bk18VdHMZ8/3e2yK0Bpo9tbg5oV/ImvezrOpKmRGeWhZjhnRkXRFJUJIGlmOHZApkJ+Kkh0jHDgHtQ3O7rUvomviW4CA1vo4YYqO3pnuB7+2sU=" />
+            </Hardware2Program>
+            <Hardware2Program Id="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-8792" MediumTypes="MT-0" Hash="GHXMtc12j0BApU8Q4RQtzhLPj7A=">
+              <ApplicationProgramRef RefId="M-0064_A-1824-10-8792" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2009/8787" RegistrationSignature="Q1D7+Tbs+urqcgqbc7N4Ghtz6qgm/CiIa6FbyP0Jp/BS/OCN3sLcozDc/Gh0xM0fclsFoMXrPZ0ic4KSiWXYSjwkwfQ7svXN7Yv+AKDWyK4CSXOxU6kO0p11HaqLMV4YiN+o0BsuQl4ksVDqvCA+iIH9Jeq9mpC+zuI4xvPkRME=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MGU3.2E534.2Exx-1-O000C" Name="Room temperature control unit with display" SerialNumber="MGU3.534.xx" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx" Text="Room temperature control unit with display" OrderNumber="MGU5.534.xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="Vi++DixBQKYpf3b+pOFAlhIFSQM=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="BM5JmhmMa2TOcfs2NlDNjYRBvRBwIopGqJ3ZYDm7EurgeirzOR0iYruxEdchBkSP0lgdJxAfBcHPMvRtI2V+USbF6i9uOT8pFUTpK/srTiDRGyIZeJZ0mytsYCDzOg7CftWgGMlyOSdwacRKE3nXZWhlKwzhujU7XE7aLITzq6g=" />
+            </Product>
+            <Product Id="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx" Text="Room temperature control unit with display" OrderNumber="MGU3.534.xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="57jx5TZb2QlksgitwU/FTqLduWA=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="l0jHdanXQQksk4HKjT54lQYSjiXsoJS2vt/u/g53uglBv4NjwIsLIABb/wF5WoHToUWItwZIUQP4wQPVPxmM/WEhILMSTN8BoX5a3KmgUF61Jtck4Gu17ygjISODYkxps/jjoO5TOu3uhe0llqQWckvNs+ec7EaVJNBFeJBeli8=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MGU3.2E534.2Exx-1-O000C_HP-1820-10-1C21" MediumTypes="MT-0" Hash="C92WOb1M+6LB/IeVhgYazD2WJvc=">
+              <ApplicationProgramRef RefId="M-0064_A-1820-10-1C21" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2009/8809" RegistrationSignature="ibmFI2q8+jjKosQZTAtAkw+dLsj9WqatGHZodhPA/xuUJZ+8zgBga2CjcrOkCI9XseRnSmiCDKjwqWgQAqiBAls6piM9UJdVGBzfnI3Pck8Pc/cgPY4S7/2HUpvsOTU02NUBLzqrwIj+l5FHNIYzigP7HCFAlMA0BjNkfld4Nno=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN6600.2D0603-1-O000C" Name="Energy meter REG-K/3x230/16" SerialNumber="MTN6600-0603" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603" Text="Energy meter REG-K/3x230/16" OrderNumber="MTN6600-0603" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="en-US" Hash="I6VnFAmacMDdXeQPhlNBuMKK+mw=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="q+blgCbZjq3xSb4kBYpKBa+hrm0havYjiPXuAkrz3OOXi83EBlTpaQcafoRRhOTO4xeEUXfjQ99fQ9U68/mRxgLCzgCYxtxgdb0nWeZtVCFSj8mWr1FN/ESW/YRClXdPSxasOxqSgdN/I+Qw5HQ1jYyb1cLDVAR6zPRVzhZQe9Q=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN6600.2D0603-1-O000C_HP-7601-10-9D61-O000C" MediumTypes="MT-0" Hash="DQEkz/L/6WBeSsIWztNfjrdiCwA=">
+              <ApplicationProgramRef RefId="M-0064_A-7601-10-9D61-O000C" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2012/10288" RegistrationSignature="Xqjk1Ao35hWQE4ROFtnTVPN1IHOLSWCBL7QNtxlbKPOOoBUcSaJTnDS2UozzVVZaOvCbpDyJK6JaqxZenDVrzawH7WXJbISmzdt1RNSOfws4x1X+sRoPsdGNsvzMAE37jvqOl0gyfBmydmmuC69T89F0B+hCIfNCCCXgoszFwkQ=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN6500.2D0113-1-O00C5" Name="KNX InSideControl IP-Gateway" SerialNumber="MTN6500-0113" VersionNumber="1" BusCurrent="12" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-00C5">
+          <Products>
+            <Product Id="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113" Text="KNX InSideControl IP-Gateway" OrderNumber="MTN6500-0113" IsRailMounted="true" WidthInMillimeter="36" DefaultLanguage="en-US" Hash="/9KROIGvpNpbU51vlxUkfKIxO94=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="cfC3BlKd7gnKwpf+QgxEBWmAjbsDtC9qVBH95ycFvy9F4YPkYnXPxntBlvKiVtHYq95PDQvgdvQFVS01asU7he4gLqDcp97T22KDAoKaLNAFvfHjEflo4zCJA5kquqDqizfSbY0FBZeO0r/LwwEOSfmvMYhLXAuFswnUjwwh8zE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN6500.2D0113-1-O00C5_HP-1BD6-10-3F27-O00C5" MediumTypes="MT-0" Hash="q+1JYq9bNDsGBV+LmNCcypt/xxU=">
+              <ApplicationProgramRef RefId="M-0064_A-1BD6-10-3F27-O00C5" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2013/10580" RegistrationSignature="qxKVu6HLXy71sHFUfrxCA6Ab/Ly92kF2iTpnLKJj/h6cwvEf5KXyVTh86vFUZAtdF8aK76utM/0fNF2/LXNvru5Rz1dUUd1PCAkGJvhCJM4j6wv4oVbXGX1tztfiZq0GVeO6s0GB77n8Z4dWg9a1lCVwixVeEVA0TpRHn/j74t4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN649804-1-O000C" Name="Jalousieaktor REG-K/4x/10 m. HB" SerialNumber="MTN649804" VersionNumber="1" BusCurrent="12" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C" NoDownloadWithoutPlugin="true">
+          <Products>
+            <Product Id="M-0064_H-MTN649804-1-O000C_P-MTN649802" Text="Blind actuator REG-K/2x/10 with manual mode" OrderNumber="MTN649802" IsRailMounted="true" DefaultLanguage="en-US" Hash="JdMazGf0xZXaWhaQ8BbJaV5zRYw=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="VgMXYdcvF7edPuxNYcfjm454YpAarSXVm8Su0fE74dknIK4QLbEqfijR8NiEhu6QQ7L3bbMbBQd0qGR8cZQ2VG55oDCELtwKx2MN+/gFO8QdJo3Xx07CMdn1PqPb1sQBOaQSz90XrWipbyzuYwqQ3ADVhXS2It+CFym+1b17DbE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN649804-1-O000C_HP-5700-11-B731-O000C" MediumTypes="MT-0" Hash="CfZd7IeItbtETiD1Wn4w7+6r0b8=">
+              <ApplicationProgramRef RefId="M-0064_A-5700-11-B731-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7815" OriginalRegistrationNumber="2006/7372" RegistrationSignature="kOsOGXWeW6oXixqTpyr5kzf4LD9Ky+mYRty8HkOVP/BA1FXfi6t1RiRDxSTBjbrScxJ5QMrqGvdCktu1VRa3sr2IvJ8milaUzY1vJBEGNiqFvCA8pRXkXXRFGA4v33Pxi3fKbKKdYGkrx2PgXTM4AAfsUeQItaTZRghgabXi24s=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN649204-1-O000C" Name="Schaltaktor REG-K/12x230/10 m. HB" SerialNumber="MTN649204" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C" NoDownloadWithoutPlugin="true">
+          <Products>
+            <Product Id="M-0064_H-MTN649204-1-O000C_P-MTN649202" Text="Switch actuator  REG-K/2x230/10 with manual mode" OrderNumber="MTN649202" IsRailMounted="true" DefaultLanguage="en-US" Hash="06Apt/9LpjhhYrdjYFZH+0sdCTI=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="kN3Jpcp12LA5aABbfndRiUwViPDElMJabAGkJELyDOJvSaQsbkXLFrDj4LKXx/Ax1cLZp9SOLlRA74APGE6M5iAvB9JLnGoQJKh72QdBu+vJGHKOXo8vHSUxJDNMaka6L7QUz5zOYFAhbxjtZJpoKXQZJplEWoO1E1mfs+iP8fs=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C" MediumTypes="MT-0" Hash="GvISmg6dOcCnLk/Z6diix93CkJI=">
+              <ApplicationProgramRef RefId="M-0064_A-4820-11-FAFB-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7819" OriginalRegistrationNumber="2006/7661" RegistrationSignature="BvAHd+EDMtr8SpVoAruN4SpiL06CNKUD5eTQrHWad1tt97ZmOJS69ZFxck+1OnV4MSRQfbjpn3HBRKxLVuiEZrO7Hb/9kg9Gs3Qd2JW/eMesAycMBscJZrCetyM0GKCH+Mo4ji4cZa3+4Jn8R/GNRfPu0pS1T17Di/8AY3ZSZ/c=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN647393-1-O000C" Name="Schaltaktor REG-K/2x230/16 HB" SerialNumber="MTN647393" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN647393-1-O000C_P-MTN647393" Text="Switch actuator REG-K/2x230/16 with manual mode" OrderNumber="MTN647393" IsRailMounted="true" DefaultLanguage="en-US" Hash="GGs7WtnY41JC9n5tk9BR/tFw6FU=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="wiupWP5zQJ2F42i8PzTimy4uN8D1/usKVZxvz27V9DBXJjsp/sVd9xxiwpNIy+XCSuSJ6BjDSFPY2ToaI1K6z1XGGqbUPoFq2J6DECetNmjrPvUFjqhuYQQ61DNff/9sbWwZLMegVnCSSxmEdNagzMu172h2Fk5UJqhuEl8dAXQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN647393-1-O000C_HP-4810-11-2F00-O000C" MediumTypes="MT-0" Hash="7+FwSOrXaEEY4iEfkmmWOvIWlnY=">
+              <ApplicationProgramRef RefId="M-0064_A-4810-11-2F00-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7800" OriginalRegistrationNumber="2006/7429" RegistrationSignature="YbPGwkIUzPJYvzWGqAnZKHdGQ4OCehWd+WLHe9YKYrzLeg2ZBwsBQVSDKChZlFYcTgku1QMs8CBqxK2kVDmXZeNURfgdK0rAOUHVzNiSfO+36/Hf3KsmiKJQ0Nuc2qTYE7maeLX2h+IJzvTnl1pUloDJxBruA2pMJKlGlzAnxT4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN6710.2D000x-1-O000C" Name="Universial dimming actuator LL REG-K" SerialNumber="MTN6710-000x" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002" Text="KNX uni.dim.actuat. LL REG-K/2x230/300 W" OrderNumber="MTN6710-0002" IsRailMounted="true" WidthInMillimeter="0" DefaultLanguage="en-US" Hash="T+Njo37GLhuM68qsimmluUFJAWE=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationDate="2015-04-22" RegistrationSignature="kT9tKIIFISLK+MuNbqDnsLRqtXZFkZDbNTFqx/juPOAMaKBUMoPDhoqMnqt7kaSF1idaGmM0SWt5SxVZ1np/+0i4/+LiBDkscPolfLmIRJ4Vh2sBS+qdQGoniScRTC9Dto0RgTLmi1bKH50/4iAsQAOj5h3m9j94JqwNLT95JoQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN6710.2D000x-1-O000C_HP-3245-11-B3C1-O000C" MediumTypes="MT-0" Hash="Frr5vx8kI8lnkSAJzjE1jKwUr14=">
+              <ApplicationProgramRef RefId="M-0064_A-3245-11-B3C1-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2016/13492" RegistrationDate="2016-11-10" RegistrationSignature="Fv+zlZgi0HzDA+bQ6gloIxtxgpLPuVU/9OAvmm/kTZfsGdvKCjZ16VhyyvU7l5cPZJlxl2xfn2EBdPOBWxi/MdOHv+JWlVVLeTbKKacjkkgacgEogulAzDOLqj5tGb64kMzNJj80a2Pj3xFSUMUPyitRt3f3jMdpZ5ABLKpKdOc=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN6309xx-1-O000C" Name="KNX ARGUS Präsenz mit Lichtregelung + IR" SerialNumber="MTN6309xx" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C" NoDownloadWithoutPlugin="true">
+          <Products>
+            <Product Id="M-0064_H-MTN6309xx-1-O000C_P-MTN6309xx" Text="KNX ARGUS Presence with light control + IR" OrderNumber="MTN6309xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="HHUZ4R14m0jhWCWIy36nHcLB+pc=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="XnMeBKqAV4XkwVlq9ZvrMAi2Q0EYPcfuOJiki/GLTRGVidqMUqLNUkj8f73FxDKOmzbR6ZpM90+4aLfN71GBR7mMuSbxADIaY3nMmYz0Yms3YiRKqEXIpuLQ5/P1amLnhL7/LB0Ir2o0QzzaPxurmTeOaaU8JeeUZ5rXBd115Nw=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN6309xx-1-O000C_HP-1335-10-E986-O000C" MediumTypes="MT-0" Hash="2yJ82HkGUkozpwHqrXQCTAJ6a2M=">
+              <ApplicationProgramRef RefId="M-0064_A-1335-10-E986-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2008/8225" OriginalRegistrationNumber="2007/8023" RegistrationSignature="iPaAEtYm++QX7z9DBr+z9NbsjFFlcrL1WesxviZ4U65Ui1a59ZTzPROpJod728CT8EigHYoIjXaDvBtq5lk80NDRtQextNFctmCYFH/imk2XpBqkTMRLU9cyTkGBjNjmNu1glMru71MhQwSXDv7tRvSts5A22uTvG3chqvmWsHI=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN670804-1-O000C" Name="Tasterschnittstelle 4fach plus" SerialNumber="MTN670804" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN670804-1-O000C_P-MTN670802" Text="Push-button interface, 2-gang plus" OrderNumber="MTN670802" IsRailMounted="false" DefaultLanguage="en-US" Hash="n0Z810BDuQ4PAGFXxWouGJ7GraA=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="F9IPjQvDwKsiLwRsi9/Qc+IOUzh8tCY/nf/ZQJo7DhdAV5bnjpYcLHGPuBM7iGT5eMLaDnBmoaZb142APADRih2+IgkE/0hG4mVNZCJnvWDfGRfmMhJTVc3YgL3W2gJi8YAUVHAek/mcRJOee5h9uL2Iw7E/9BdthWFHhHhUY/g=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN670804-1-O000C_HP-122A-12-50A7-O000C" MediumTypes="MT-0" Hash="AP5Onbu9IlWCX+DbVbkK2NW5zWs=">
+              <ApplicationProgramRef RefId="M-0064_A-122A-12-50A7-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7805" OriginalRegistrationNumber="2006/7759" RegistrationSignature="Rx5IpmL791OCpvOsaSdLOtkaiWpiL9uSb26ff2BEJ91BqKZfZkKbYeNfXVPDLEw3pYSxMy71n/vphGaS4aHcEPgfoos0RGdKD/pK1ySRNjQKlLTTvhXXBPQYE93o2fIdZyNoQF5Fzarih+jqFfKx0pH0pOPL46RryPdy1r1L1J8=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN683832-1-O000C" Name="KNX Spannungsversorgung REG-K/320 mA, Notstromeing" SerialNumber="MTN683832" VersionNumber="1" HasIndividualAddress="false" HasApplicationProgram="false" IsPowerSupply="true" IsChoke="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN683832-1-O000C_P-MTN683832" Text="KNX power supply REG-K/320 mA with emergency input" OrderNumber="MTN683832" IsRailMounted="true" DefaultLanguage="en-US" Hash="47bhclQ5YwTOzH9p/hHMEDYZv7Y=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="TdcAdgsIIS6HwJ/kafE7Fxp30zQWI31fIG+joKiCOoJTDX9NlYru0KmcXO2UBGx1sefmqIDMQ/YnMPVtht/oQ4yK6pKeEunVpVkZAMQuGw7vK5Ybqx9eAnMD2YYVHappQDo18kJhe5bLBFpzM1zr6FVZeBXHgnLlBUOtcCvxOHE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN683832-1-O000C_HP" MediumTypes="MT-0" Hash="XIcTQKphuqWRttUowEB/8m06ZB8=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2008/8518" OriginalRegistrationNumber="2008/8511" RegistrationSignature="Tay+PiCgXDQhDz1+gaGAm6h252duVWIyIHiV3zERrc/2TtP9U5wg9nGGX2RVVy0rtSmMx/bfnbWCky2Qg7ZEubb2gj15TSUxJ1UCq1EeoKophZRs+v+wShf21W2igDEyD9ykaP8nX3zyFWwEMotQS91TITdZ3GAt2rvgGGurgrg=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-SpaceLogic.20KNX.20USB.20Interface.20DIN.20Rail-256-O00C5" Name="SpaceLogic KNX USB Interface DIN Rail" SerialNumber="SpaceLogic KNX USB Interface DIN Rail" VersionNumber="256" BusCurrent="3" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-00C5">
+          <Products>
+            <Product Id="M-0064_H-SpaceLogic.20KNX.20USB.20Interface.20DIN.20Rail-256-O00C5_P-MTN6502.2D0101" Text="SpaceLogic KNX USB Interface DIN Rail" OrderNumber="MTN6502-0101" IsRailMounted="true" WidthInMillimeter="18" DefaultLanguage="en-US" Hash="NLU2+OKBPvZr9uNTEFGHNX3ybv4=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2019-10-16" RegistrationSignature="OCCdE0PTqKEXlps4vsV9FWjvBN9/3qP/+tb3e7NaufWiwqtRQF9LSBDC4iZ90UqwFUaHWd0Xi9JQ0DWhaJd9OibxwN+DokEtkKhJpGo5TZljttcBm+GWjt9n785RA6T9tMofLq4kHer/GpOP+4ZeZi8S7b21C0Yeaob2ChM+DF4=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-SpaceLogic.20KNX.20USB.20Interface.20DIN.20Rail-256-O00C5_HP-7132-10-B28E-O00C5" MediumTypes="MT-0" Hash="5kXwbiU8EqyYSk0TFHxqJUfK/F4=">
+              <ApplicationProgramRef RefId="M-0064_A-7132-10-B28E-O00C5" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2019/16085" RegistrationDate="2019-10-16" RegistrationSignature="aDXYVk2p37NI47QLMIu/MIo3eXKVt4mG2WHbqwRTlzXeR+hF8Lixau1Mj+T2EwZl82xwgnzEKMEl99tqFj/3sE0GWn4aiDyNC7DMQ/7U30rFs47Rb85R30vIo3YYuWLcw5vep3BEBajM80c/vbtDG24NS9saHO4m5kvygQA1h2M=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-SpaceLogic.20KNX.20Switch-1" Name="SpaceLogic KNX Switch/Blind Master" SerialNumber="SpaceLogic KNX Switch" VersionNumber="1" BusCurrent="12.5" HasIndividualAddress="true" HasApplicationProgram="true" InternalDescription="Internal Description (HW)">
+          <Products>
+            <Product Id="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008" Text="SpaceLogic KNX Switch/Blind Master" OrderNumber="MTN6705-0008" IsRailMounted="true" WidthInMillimeter="72" VisibleDescription="MTN6705-0008" DefaultLanguage="en-US" Hash="0CcFUQDJG90V6oH9/JeulkqqhVU=" InternalDescription="Internal Description (HW-Products)">
+              <Attributes>
+                <Attribute Id="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008_AT-CatalogName" Name="CatalogName" Value="Switch Blind Roller shutter actuator" />
+                <Attribute Id="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008_AT-Series" Name="Series" Value="" />
+                <Attribute Id="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008_AT-Colour" Name="Colour" Value="white" />
+              </Attributes>
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2020-05-06" RegistrationSignature="mp+FdQxM7SzCqhMjpmeHAqmy4UoIHFYa2j5uogjCL2VvatRkOEed4vLAJtGyxgn0sW+c/6z2M6qXEeVGfuCH651tJxiTbx1NiQ88OYIzHoFpvJbBwbogc7KDKJuPKylrW46DrfAoMO6b5xs2ogl5rfvuTBWhR5NvL1r4aRt1X3k=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-SpaceLogic.20KNX.20Switch-1_HP-5800-10-B6D0" MediumTypes="MT-0" Hash="QUg36fFHMzBx4VHJoAC5NPsBjDM=">
+              <ApplicationProgramRef RefId="M-0064_A-5800-10-B6D0" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2020/16591" RegistrationDate="2020-05-06" RegistrationSignature="pe3+2li1Cctaaf5VqLzqt+TSSR9oudwHVLYyAgtQSr7D4pOqgxSJzaxN0IHxc7kmKretHT0H8eYr/CDVLGrsYqvXkaa6GGhENfZCsbcEV3qnMLNpixWM/AbGCU+jMBES/zINrdiJWHAdBKMTwHCxtmLyX7zxRXgZIeFmM5ZDuu4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="en-US">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 2-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 1-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Room temperature control unit with display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Energy meter REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="KNX InSideControl IP-Gateway" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Blind actuator REG-K/2x/10 with manual mode" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Switch actuator  REG-K/2x230/10 with manual mode" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Switch actuator REG-K/2x230/16 with manual mode" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX uni.dim.actuat. LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 2-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 1-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Room temperature control unit with display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 1-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX Push-button, 2-gang" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN683832-1-O000C_P-MTN683832">
+            <TranslationElement RefId="M-0064_H-MTN683832-1-O000C_P-MTN683832">
+              <Translation AttributeName="Text" Text="KNX power supply REG-K/320 mA with emergency input" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="de-DE">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Taster 2fach" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Taster 1fach" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Raumtemperaturregler mit Display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Energiezähler REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="KNX InSideControl IP-Gateway" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Jalousieaktor REG-K/2x/10 m. HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Schaltaktor REG-K/2x230/10 m. HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Schaltaktor REG-K/2x230/16 HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX Uni-Dimmaktor LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Taster 2fach" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Taster 1fach" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Raumtemperaturregler mit Display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX Taster 1fach" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX Taster 2fach" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="da-DK">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 2 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 1 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Rum temperatur kontroller med display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Energimåler REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="KNX InSideControl IP-gateway" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Persienne/markise udg.DIN 2x/10 m manuel betj." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Relæ udgang DIN 2x230/10 med manuel betj." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Relæ udgang DIN 2x230/16 med manuel betj." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX uni-lysdæmper LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 2 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 1 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Rum temperatur kontroller med display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 1 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX-afbryder 2 tangent" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="es-ES">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 2 elementos" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 1 elemento" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Termostato con display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Medidor de energía REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="Gateway IP InSideControl KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Actuador de persiana REG-K/2x/10 con Acc.Manual" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Actuador binario REG-K/2x230/10 c/Acc.Manual" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Actuador binario REG-K/2x230/16 c/Acc.Manual" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX actuador.reg.uni. LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 2 elementos" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 1 elemento" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Termostato con display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 1 elemento" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX Pulsador de 2 elementos" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="Poussoir double KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="Poussoir simple KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Thermostat d'ambiance avec écran" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Compteur d'énergie REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="Passerelle IP InSideControl KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Actionneur stores REG-K/2x/10 a. CM" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Actionneur REG-K/2x230/10 à cde manuelle" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Act de commutation REG-K/2x230/16 à CM" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="Act. var. uni. KNX LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="Poussoir double KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="Poussoir simple KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Thermostat d'ambiance avec écran" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="Poussoir simple KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="Poussoir double KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6309xx-1-O000C_P-MTN6309xx">
+            <TranslationElement RefId="M-0064_H-MTN6309xx-1-O000C_P-MTN6309xx">
+              <Translation AttributeName="Text" Text="ARGUS Présence KNX avec régulation de luminosité+I" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN670804-1-O000C_P-MTN670802">
+            <TranslationElement RefId="M-0064_H-MTN670804-1-O000C_P-MTN670802">
+              <Translation AttributeName="Text" Text="Interface poussoir double plus" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN683832-1-O000C_P-MTN683832">
+            <TranslationElement RefId="M-0064_H-MTN683832-1-O000C_P-MTN683832">
+              <Translation AttributeName="Text" Text="Alimentation KNX REG-K/320 mA avec entrée secours " />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-SpaceLogic.20KNX.20USB.20Interface.20DIN.20Rail-256-O00C5_P-MTN6502.2D0101">
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20USB.20Interface.20DIN.20Rail-256-O00C5_P-MTN6502.2D0101">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Interface USB du rail DIN" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008">
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Commutation/Volet maître" />
+              <Translation AttributeName="VisibleDescription" Text="MTN6705-0008" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008_AT-CatalogName">
+              <Translation AttributeName="Value" Text="Commutation actionneur stores volets roulants" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Switch-1_P-MTN6705.2D0008_AT-Colour">
+              <Translation AttributeName="Value" Text="blanc" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="it-IT">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX pulsante 2-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX pulsante 1-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Regolatore temperatura con display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Misuratore energia REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="Gateway IP InSideControl KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Attuatore veneziane REG-K/2x/10 con modo manuale" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Att. commutazione REG-K/2x230/10 con modo manuale" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Att. commutazione REG-K/2x230/16 con modo manuale" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="Attuat.dim.uni KNX LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX pulsante 2-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX pulsante 1-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Regolatore temperatura con display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX pulsante 1-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX pulsante 2-funz." />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="nl-NL">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX impulsdrukker 2-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Impulsdrukker 1-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Ruimte-temperatuurregelaar met display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Energiemeter REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="KNX InSideControl IP-gateway" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Jaloezie-actor REG-K/2x/10 m. HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Schakelactor REG-K/2x230/10 m. HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Schakelactor REG-K/2x230/16 m. HB" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX uni.dim.actor. LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="KNX impulsdrukker 2-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="KNX Impulsdrukker 1-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Ruimte-temperatuurregelaar met display" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="KNX Impulsdrukker 1-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="KNX impulsdrukker 2-voudig" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="sv-SE">
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx">
+              <Translation AttributeName="Text" Text="Tryckknapp 4-knapp (2 vippor), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx">
+              <Translation AttributeName="Text" Text="Tryckknapp 2-knapp (1 vippa), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU5.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Rumsregulator med display, Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+            <TranslationElement RefId="M-0064_H-MTN6600.2D0603-1-O000C_P-MTN6600.2D0603">
+              <Translation AttributeName="Text" Text="Energimätare REG-K/3x230/16" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+            <TranslationElement RefId="M-0064_H-MTN6500.2D0113-1-O00C5_P-MTN6500.2D0113">
+              <Translation AttributeName="Text" Text="KNX InSideControl IP-gateway" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+            <TranslationElement RefId="M-0064_H-MTN649804-1-O000C_P-MTN649802">
+              <Translation AttributeName="Text" Text="Jalusiaktor REG-K/2x/10 med handmanöver" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649202">
+              <Translation AttributeName="Text" Text="Brytaktor REG-K/2x230/10 med handmanöver" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Brytaktor REG-K/2x230/16 med handmanöver" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+            <TranslationElement RefId="M-0064_H-MTN6710.2D000x-1-O000C_P-MTN6710.2D0002">
+              <Translation AttributeName="Text" Text="KNX uni.dim.akt. LL REG-K/2x230/300 W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-MGU3.2E531.2Exx">
+              <Translation AttributeName="Text" Text="Tryckknapp 4-knapp (2 vippor), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU3.2E530.2Exx">
+              <Translation AttributeName="Text" Text="Tryckknapp 2-knapp (1 vippa), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E534.2Exx-1-O000C_P-MGU3.2E534.2Exx">
+              <Translation AttributeName="Text" Text="Rumsregulator med display, Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_P-NU5530xx">
+              <Translation AttributeName="Text" Text="Tryckknapp 2-knapp (1 vippa), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_P-NU5531xx">
+            <TranslationElement RefId="M-0064_H-4812-1_P-NU5531xx">
+              <Translation AttributeName="Text" Text="Tryckknapp 4-knapp (2 vippor), Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

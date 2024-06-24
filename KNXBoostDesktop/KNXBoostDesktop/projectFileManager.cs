@@ -9,7 +9,7 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        public string ExportedProjectPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
+        public string ProjectFolderPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
 
         public string ZeroXmlPath { get; private set; } = ""; // Chemin d'accès au fichier 0.xml du projet
 
@@ -18,7 +18,7 @@ namespace KNXBoostDesktop
         --------------------------------------------- METHODES --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
-        public void ExtractProjectFiles(string knxprojSourceFilePath)
+        public bool ExtractProjectFiles(string knxprojSourceFilePath)
         {
             bool managedToExtractProject = false;
             bool managedToNormalizePaths = false;
@@ -75,7 +75,7 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"Starting to extract {Path.GetFileName(knxprojSourceFilePath)}...");
 
                 string zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
-                string knxprojExportFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}_exported/";
+                string knxprojExportFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/knxproj_exported/";
 
                 // Transformation du knxproj en zip
                 if (knxprojSourceFilePath.EndsWith(".knxproj"))
@@ -147,6 +147,7 @@ namespace KNXBoostDesktop
                 try
                 {
                     System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath, knxprojExportFolderPath); // On extrait le zip
+                    File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
                 }
                 catch (NotSupportedException)
                 {
@@ -159,16 +160,32 @@ namespace KNXBoostDesktop
                     continue;
                 }
                 
+                
+                /* ------------------------------------------------------------------------------------------------
+                -------------------------------- GESTION DES PROJETS KNX PROTEGES ---------------------------------
+                ------------------------------------------------------------------------------------------------ */
+                
+                // S'il existe un fichier P-XXXX.zip, alors le projet est protégé par un mot de passe
+                if (Directory.GetFiles(knxprojExportFolderPath, "P-*.zip", SearchOption.TopDirectoryOnly).Length > 0)
+                {
+                    App.ConsoleAndLogWriteLine($"Encountered an error while extracting {knxprojSourceFilePath} : the project is locked with a password in ETS6");
+                    MessageBox.Show("Erreur: le projet que vous avez sélectionné comporte un mot de passe et ne peut donc pas être exploité. Veuillez le déverrouiller dans ETS et réessayer.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    cancelOperation = true;
+                    continue;
+                }
+                
+                
                 /* ------------------------------------------------------------------------------------------------
                 ------------------------------- SUPPRESSION DES FICHIERS RESIDUELS --------------------------------
                 ------------------------------------------------------------------------------------------------ */
-                    
+            
                 // Suppression du fichier zip temporaire
-                File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
-                ExportedProjectPath = knxprojExportFolderPath;
+                ProjectFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/";
                 managedToExtractProject = true;
             }
+            
+            return (!cancelOperation) && (managedToExtractProject);
         }
 
 
@@ -263,7 +280,7 @@ namespace KNXBoostDesktop
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         public void FindZeroXml()
         {
-            string foundPath = FindFile(ExportedProjectPath, "0.xml");
+            string foundPath = FindFile(ProjectFolderPath, "0.xml");
             
             // Si le fichier n'a pas été trouvé
             if (string.IsNullOrEmpty(foundPath))

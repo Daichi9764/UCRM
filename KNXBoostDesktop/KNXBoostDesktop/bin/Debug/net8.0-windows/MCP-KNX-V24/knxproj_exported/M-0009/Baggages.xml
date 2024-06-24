@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.1.5686.0" xmlns="http://knx.org/xml/project/22">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0009">
+      <Baggages>
+        <Baggage TargetPath="Images" Name="Shutter.png" Id="M-0009_BG-Images-Shutter.2Epng" FileIntegrity="00000000">
+          <FileInfo TimeInfo="2014-05-27T07:35:05.7602831Z" />
+        </Baggage>
+        <Baggage TargetPath="Images" Name="ShutterBlind.jpg" Id="M-0009_BG-Images-ShutterBlind.2Ejpg" FileIntegrity="00000000">
+          <FileInfo TimeInfo="2014-05-27T07:22:41.1851388Z" />
+        </Baggage>
+        <Baggage Id="M-0009_BG-Images-Systo.2DFrance.2D1gang.5FPB.2Dmarking.2Epng" Name="Systo-France-1gang_PB-marking.png" TargetPath="Images" FileIntegrity="00000000">
+          <FileInfo TimeInfo="2015-06-10T09:27:16.927" />
+        </Baggage>
+        <Baggage Id="M-0009_BG-Images-Systo.2DFrance.2D2gang.5FPB.2Dmarking.2Epng" Name="Systo-France-2gang_PB-marking.png" TargetPath="Images" FileIntegrity="00000000">
+          <FileInfo TimeInfo="2015-06-10T09:27:25.367" />
+        </Baggage>
+        <Baggage TargetPath="Images" Name="Systo-France-3gang_PB-marking.png" Id="M-0009_BG-Images-Systo.2DFrance.2D3gang.5FPB.2Dmarking.2Epng" FileIntegrity="00000000">
+          <FileInfo TimeInfo="2015-06-10T09:27:36.7378874Z" />
+        </Baggage>
+      </Baggages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

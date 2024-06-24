@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -63,9 +65,9 @@ public partial class MainWindow
             // Récupérer le chemin du fichier sélectionné
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
 
-            if (App.Fm == null) return;
+            // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
+            if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
-            App.Fm.ExtractProjectFiles(openFileDialog.FileName);
             App.Fm.FindZeroXml();
             MyNameCorrector.CorrectName();
         }
@@ -73,12 +75,6 @@ public partial class MainWindow
         {
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
-    }
-    
-    
-    private void CloseProgramButtonClick(object sender, RoutedEventArgs e)
-    {
-        Application.Current.Shutdown();
     }
     
 
@@ -93,6 +89,81 @@ public partial class MainWindow
         if (App.DisplayElements.ConsoleWindow.IsVisible)
         {
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+        }
+    }
+
+
+    private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
+    {
+        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}0_updated.xml externally");
+
+        // Résoudre le chemin absolu
+        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}0_updated.xml");
+
+        // Vérifier si le fichier existe
+        if (File.Exists(absoluteFilePath))
+        {
+            try
+            {
+                // Ouvrir le fichier avec l'application par défaut
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = absoluteFilePath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                App.ConsoleAndLogWriteLine($"Failed to open file: {ex.Message}");
+            }
+        }
+        else
+        {
+            App.ConsoleAndLogWriteLine($"The file {absoluteFilePath} does not exist.");
+        }
+    }
+    
+    
+    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
+    {
+        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}0_updated.xml";
+        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
+        
+        // Vérifier si le fichier source existe
+        if (!File.Exists(sourceFilePath))
+        {
+            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
+            return;
+        }
+
+        // Initialiser et configurer le SaveFileDialog
+        SaveFileDialog saveFileDialog = new SaveFileDialog
+        {
+            FileName = "0_updated.xml", // Nom de fichier par défaut
+            DefaultExt = ".xml", // Extension par défaut
+            Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
+        };
+
+        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
+        bool? result = saveFileDialog.ShowDialog();
+
+        if (result == true)
+        {
+            // Chemin du fichier sélectionné par l'utilisateur
+            string destinationFilePath = saveFileDialog.FileName;
+            App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
+
+            try
+            {
+                // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+                File.Copy(sourceFilePath, destinationFilePath, true);
+                App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer les exceptions et afficher un message d'erreur
+                App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
+            }
         }
     }
     

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS5" ToolVersion="5.7.1428.39779" xmlns="http://knx.org/xml/project/20">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0009">
+      <Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20TX211-1" Name="TX211 3 sorties variation Easy" SerialNumber="9 // TX211" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20TX211-1_P-TX211" Text="Dimmer 3x 1/10V" OrderNumber="TX211" IsRailMounted="true" DefaultLanguage="en-US" Hash="4IDUZifyyT9ikX26pc+i/07XH5U=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="V9pchW7lR5DyS8iYVKqA5lBbG9BQSxIpOafZ+xaBqbuqa+ZbocOOK1AKtkjbyPb+n50FIPD8aRq4eE0qFSV4fxoBT5EPvT8i6gWFuSnwKLebSTT/nmv1LO6NclIgXO1I3bz7A9LT6OV+5vPTtNpPyeRFyDOtYcHCMvLqRqHl/0o=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20TX211-1_HP-2012-20-DD55" MediumTypes="MT-0" Hash="T6Cc9fflj3C1aOG5lj67ufgtWHg=">
+              <ApplicationProgramRef RefId="M-0009_A-2012-20-DD55" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2004/6453" RegistrationSignature="hbMwv4gB5cD9EyoWBrSI/uiEzULnLlTSI4xBNCJyEJR4/H5fUzjRiawlOycvM7xYUuOS4o9px8J5vNuaFysCwsPeBK5S/RZrD/9es6c66RE262zStSbFSm3GJbZXwGKZ/U+woAddUu4TcAD7XrskSsQhhE3YpQRk8n+utq4VRZ4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20TX211-1_P-TX211">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20TX211-1_P-TX211">
+              <Translation AttributeName="Text" Text="3 sorties variation 1/10V" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

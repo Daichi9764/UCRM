@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.1.5686.0" xmlns="http://knx.org/xml/project/22">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0009">
+      <Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20TXA604D-1" Name="TXA604D" SerialNumber="9 // TXA604D" VersionNumber="1" BusCurrent="3" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20TXA604D-1_P-TXA604D" Text="4-fold switch actuator 16A C-load 230V AC" OrderNumber="TXA604D" IsRailMounted="true" DefaultLanguage="en-US" Hash="KYmPo69PscPfNCIzY8f/hf0RCCw=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2014-10-15" RegistrationSignature="C2udnYB6onABAEqbwWEcMJOILygraW4mOZOiamv66QBchsxv3lTu4UmzB/ipYf6R6XUXGBWL7tV3vtLoTkiLQ3z/RMxIhBrjV+OX0PeRiLS0oXJq6kbQCet0FcdmCp0p78Q46Ltbb7Fe1fwb2H7irSHC48qYiN3Q54f/l1Z7un0=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20TXA604D-1_HP-20AA-10-6877" MediumTypes="MT-0" Hash="bAa/5z68GZHrAOOJjqRRxi4oTic=" CheckSums="AQABAAMAAAABAAAABQAAAAAANQAAAAAABAAAAB6PPDU=" LoadedImage="zZHJTgJBGISrB2ZajCYS75xRcAdUVJDFfTvqo3CUoy/APAAP5CPp1z1NIiFmDh7wT9dU1Z/q6c3IaEPiG2ooTZ2vWtlqKrv1KbsN11Jj6+id1Npd/B7Yxx/Ah+AI3YCb5FroY3In+FPQxp/B5+AC3YG75C7RPXJ9/AAM8VfwNbhB38J35O7RD+Qe8U/gGf+SKmafJTX8tqPsDK5VVNO3yq71OjvXVyiXSMKkVZcYjzTSWzTRWuz/kTc5yk0UQuJjLrHsij1+3Nb6StbKP07L92ousVlWRdl4DywTZyOZjVB+oYUFi4utwu/vkfxh8eTfvoOZv4Nv">
+              <ApplicationProgramRef RefId="M-0009_A-20AA-10-6877" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2014/11776" RegistrationDate="2014-10-15" RegistrationSignature="T0UPsYc/caZ6fkq+bJ6/9L2gp5J7wypMQCm/LAtRjElkM4SrlNmzLyTXgmS+c1VCyt2pYYTnm+oCKQj4V4ZlmoLC7vIWl+2qaBZbup6xllYLaMBrMqmA4lkHs+2ViIfyQFVLhcW/xIxV9ewq37ehbTRSQKkokKw+4WgGJWwV1Ao=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20TXA661A-1" Name="TXA661A" SerialNumber="9 // TXA661A" VersionNumber="1" BusCurrent="4" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20TXA661A-1_P-TXA661A" Text="1-fold dimming actuator 300W, universal" OrderNumber="TXA661A" IsRailMounted="true" DefaultLanguage="en-US" Hash="0piXPGZ/9ObsCQZIIrbPf2KykLg=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationDate="2014-10-20" RegistrationSignature="mabAFigiHwR5tWqId9qCPhwOk23l0V4iC+4RzrrgrszUTUmOV3Ow70VKLqGWhCulUtMeHpcDvfkcJryAARMkYZg9kr+YmJGSrO/+HyVk7OhBxtKB+2eQ32n+ghWGbIeaUlkj2/kFJ25ZRAG4v226s/kWbxrTkmnbuhU+Fu5h3n8=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20TXA661A-1_HP-20B6-11-FF22" MediumTypes="MT-0" Hash="TlXtLDny3zqWAKMMvJ5FIX4t7Ac=" CheckSums="AQABAAMAAAABAAAABQAAAAAANQAAAAAABAAAAOzrWVY=" LoadedImage="Y2RgZGBhYACSUODCwGAN4vOxM7DzTWdg55/OzC4wnZ1dEMgWAmJhIFsESIueZ2AXA2Lx8+zsEkC+JFBcajoju/R5BlaweWZg4xpB7HAGCsF/CgHERSZgs9hA7P9AMxmgDjUFCzOD2LwcDAA=">
+              <ApplicationProgramRef RefId="M-0009_A-20B6-11-FF22" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2019/15586" RegistrationDate="2019-04-04" RegistrationSignature="IiWz+XUaW/oQMNjIRQbHlyjGbW2ajGi6sMy4lxTlulwdwAL4E08xE1FO2pm2wDH7CMtTgcglZ/DaiVBipfjo6EjbLZynszU25w85ZdJvNEBwIIC+7/REiaoJjRM8Bc0sI8UPGXZjcoXvEDudKkbWCWRvC+HpNfI88XHd8WluWMU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20WXT3xx-0" Name="WXT3xx" SerialNumber="9 // WXT3xx" VersionNumber="0" BusCurrent="20" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx" Text="2-6 fold multifunction push-button" OrderNumber="WXT3xx" IsRailMounted="false" DefaultLanguage="en-US" Hash="J3+JtfgDSSU613mA9VfgMCcwYPc=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2018-09-18" RegistrationSignature="w6LA9jyexnomXCSnebkLGeFkaO3x9W7tM2YE+60K0KVONGABUiVJKKJ/PV+GXG1GmBcy3kKZuU2hvRHrm4fStakRCz+t1f1DFLVUXlnFGcyiHbPmN6bipSLpBiqrihfc1pWfnWzSr9PracFUGPwkO1iVcQdG6cxxs0FukDNd31M=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20WXT3xx-0_HP-E0E5-12-C2A6" MediumTypes="MT-0" Hash="Q8tjajG9m4hUmKIj6rMvlZ5qhH0=">
+              <ApplicationProgramRef RefId="M-0009_A-E0E5-12-C2A6" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2020/16615" RegistrationDate="2020-05-07" RegistrationSignature="VlNrms77+JWfeC8lVFdHm26wDcnsODvBULYk0Ui5y9mRkOqoZy1IfHBfTX/SDqzHw1a9Swu2KTcP7DHOaCLemJH38/QcRYYiegWq51aIlXxsNuMTxz+T52xW/JfBE3r0LfepNP3+Sg+i+VBKetN8el6jtWMi3JKhiS9Ddx5bNb4=" />
+            </Hardware2Program>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20WXT3xx-0_HP-E0E5-11-3972" MediumTypes="MT-0" Hash="H+2i0BYaj4gVGcX//8LPk/WRCdU=">
+              <ApplicationProgramRef RefId="M-0009_A-E0E5-11-3972" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2018/15218" RegistrationDate="2018-09-18" RegistrationSignature="JiKMuC7OajSv4Ea3yON4ngucplOEYOeAxgN/xHgifnWnp2L1pnjvGnU4HJJNM9UD/nS/IaPf4igh5FpePE8ISCQElj1foEesALfyAwb034fjs+vvhYyTZDkboaQTxrOO29iJwcmm6v9stixWlwL/RymX97Ddi4PB1ALQU7Y3XAA=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20TXA604D-1_P-TXA604D">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20TXA604D-1_P-TXA604D">
+              <Translation AttributeName="Text" Text="4 sorties ON/OFF 16A charges capacitives 230V AC" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20TXA661A-1_P-TXA661A">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20TXA661A-1_P-TXA661A">
+              <Translation AttributeName="Text" Text="1 sortie variateur universel 300W" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 boutons poussoirs multifonctions" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="en-US">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 fold multifunction push-button" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="de-DE">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="Multifunktions-Tastsensor 1-3 fach" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="es-ES">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 pulsadores multifunción" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="it-IT">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 pulsanti multifunzione" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="nb-NO">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="1-3 kanaler mulitifunksjonsbryter" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="nl-NL">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 voudige multifunctionele drukknop" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="pt-PT">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 botões de pressão multifunções" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="sv-SE">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WXT3xx-0_P-WXT3xx">
+              <Translation AttributeName="Text" Text="2-6 knappars multifunktions tryckknapp" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
