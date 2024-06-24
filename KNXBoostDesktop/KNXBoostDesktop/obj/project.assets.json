@@ -426,24 +426,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\maxim\\.nuget\\packages\\": {}
+    "C:\\Users\\MINIPC\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+      "projectUniqueName": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
       "projectName": "KNXBoostDesktop",
-      "projectPath": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
-      "packagesPath": "C:\\Users\\maxim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
+      "projectPath": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+      "packagesPath": "C:\\Users\\MINIPC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\maxim\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\MINIPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -486,7 +488,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\maxim\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
