@@ -28,7 +28,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.1"; // Version de l'application
+        public static readonly string AppVersion = "1.2"; // Version de l'application
         
         // Gestion des logs
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
@@ -180,10 +180,10 @@ namespace KNXBoostDesktop
                     {
                         foreach (var logFile in logFiles)
                         {
-                            if (logFile != LogPath)
+                            if (logFile != LogPath) // Si le fichier logs n'est pas celui que l'on vient de créer pour le lancement actuel
                             {
-                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile));
-                                File.Delete(logFile);
+                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute à l'archive
+                                File.Delete(logFile); // Puis on le supprime
                             }
                         }
                     }

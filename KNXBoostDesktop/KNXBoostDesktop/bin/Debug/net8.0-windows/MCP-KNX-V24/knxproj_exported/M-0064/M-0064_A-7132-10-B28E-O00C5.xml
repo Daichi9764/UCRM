@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.1.5686.0" xmlns="http://knx.org/xml/project/22">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-0064_A-7132-10-B28E-O00C5" ApplicationNumber="28978" ApplicationVersion="16" ProgramType="ApplicationProgram" MaskVersion="MV-0001" Name="KNX USB Interface 7132/1.0" LoadProcedureStyle="DefaultProcedure" PeiType="0" DefaultLanguage="en-US" DynamicTableManagement="false" Linkable="false" MinEtsVersion="4.0" OriginalManufacturer="M-00C5" Hash="suaRXSuIwUc8VhdfyYtzjg==">
+          <Static>
+            <ParameterTypes>
+              <ParameterType Id="M-0064_A-7132-10-B28E-O00C5_PT-TYPE.5FWZ.5FLOGO" Name="TYPE_WZ_LOGO">
+                <TypePicture RefId="M-0064_BG--logo.2Epng" HorizontalAlignment="Right" />
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7132-10-B28E-O00C5_PT-TYPE.5FWZ.5FWIRING" Name="TYPE_WZ_WIRING">
+                <TypePicture RefId="M-0064_BG--0312.5FWiringPlan.5F2017.2D07.2D10.5F001.2Epng" />
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+              <Parameter Id="M-0064_A-7132-10-B28E-O00C5_P-1" Name="WZ_LOGO_PARAM" ParameterType="M-0064_A-7132-10-B28E-O00C5_PT-TYPE.5FWZ.5FLOGO" Text="SpaceLogic KNX USB Interface DIN Rail&#xD;&#xA;MTN6502-0101" Value="" />
+              <Parameter Id="M-0064_A-7132-10-B28E-O00C5_P-2" Name="WZ_WIRING_PARAM" ParameterType="M-0064_A-7132-10-B28E-O00C5_PT-TYPE.5FWZ.5FWIRING" Text="Device:" Value="" />
+            </Parameters>
+            <ParameterRefs>
+              <ParameterRef Id="M-0064_A-7132-10-B28E-O00C5_P-1_R-1" RefId="M-0064_A-7132-10-B28E-O00C5_P-1" />
+              <ParameterRef Id="M-0064_A-7132-10-B28E-O00C5_P-2_R-2" RefId="M-0064_A-7132-10-B28E-O00C5_P-2" />
+            </ParameterRefs>
+            <ComObjectTable />
+            <Extension>
+              <Baggage RefId="M-0064_BG--0312.5FWiringPlan.5F2017.2D07.2D10.5F001.2Epng" />
+              <Baggage RefId="M-0064_BG--logo.2Epng" />
+            </Extension>
+            <Options Comparable="true" Reconstructable="true" DownloadInvisibleParameters="Background" />
+          </Static>
+          <Dynamic>
+            <ChannelIndependentBlock>
+              <ParameterBlock Id="M-0064_A-7132-10-B28E-O00C5_PB-1" Name="DEVICE_DESCRIPTION" Text="Device description">
+                <ParameterRefRef RefId="M-0064_A-7132-10-B28E-O00C5_P-1_R-1" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-1" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-5" Text="KNX USB Interface contains a TP-256 bus coupling unit and is powered from the KNX bus (3mA) and the USB Interface (15mA)." />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-4" Text="The SpaceLogic KNX USB Interface saves space (only 18mm width) and does not need an additional external power supply." />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-14" Text="The SpaceLogic KNX USB Interface can be used as a programming interface for ETS Software running on a PC or Laptop and a KNX TP line." />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-2" Text="The device enables KNX Data Secure by supporting long frame telegrams, for this no special setting is needed." />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-3" Text="The USB connector is galvanic isolated from the KNX bus." />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-6" Text="LED USB&#xD;&#xA;- Permanent green: USB active&#xD;&#xA;- Blinking green:  Telegrams on USB&#xD;&#xA;- Flashes shortly red: Communication error on USB" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-7" Text="LED KNX&#xD;&#xA;- Permanent green: KNX bus is powered&#xD;&#xA;- Blinking green:  Telegrams on KNX" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-13" Text="- Flashes shortly red: Communication error on KNX&#xD;&#xA;- Permanent orange: Interface is set to monitor mode&#xD;&#xA;- Blinking orange:  Telegrams on KNX in monitor mode" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-8" Text="The device works also without an ETS application loaded but the physical address must be set correctly. This means Area, Line and Participant must be correct and unique!" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-9" Text="" UIHint="HorizontalRuler" />
+                <ParameterRefRef RefId="M-0064_A-7132-10-B28E-O00C5_P-2_R-2" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-10" Text="Please consult the product information. For further information: &#xD;&#xA;https://go2se.com/ref=MTN6502-0101" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-11" Text="" UIHint="HorizontalRuler" />
+                <ParameterSeparator Id="M-0064_A-7132-10-B28E-O00C5_PS-12" Text="Contact:&#xD;&#xA;Schneider Electric&#xD;&#xA;If you have technical questions, please contact the Customer Care Centre in your country.&#xD;&#xA;schneider-electric.com/contact" />
+              </ParameterBlock>
+            </ChannelIndependentBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0064_A-7132-10-B28E-O00C5">
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5">
+              <Translation AttributeName="Name" Text="KNX Interface USB 7132/1.0" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_P-1">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Interface USB du rail DIN&#xD;&#xA;MTN6502-0101" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_P-2">
+              <Translation AttributeName="Text" Text="Appareil :" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PB-1">
+              <Translation AttributeName="Text" Text="Description de l’appareil" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-5">
+              <Translation AttributeName="Text" Text="KNX Interface USB contient une unité de couplage au bus TP-256 et est alimentée à partir du bus KNX (3 mA) et de l’interface USB (15 mA)." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-4">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Interface USB permet de gagner de la place (seulement 18 mm de large) et ne nécessite aucune alimentation électrique externe supplémentaire." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-14">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Interface USB peut être utilisée comme interface de programmation pour un logiciel ETS installé sur un PC ou un ordinateur portable et une ligne TP KNX." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-2">
+              <Translation AttributeName="Text" Text="L’appareil active KNX Data Secure en prenant en charge les télégrammes à cadre long, ce qui ne requiert aucun réglage spécial." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-3">
+              <Translation AttributeName="Text" Text="Le connecteur USB est galvaniquement isolé du bus KNX." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-6">
+              <Translation AttributeName="Text" Text="LED USB&#xD;&#xA;- Vert permanent :  USB actif&#xD;&#xA;- Vert clignotant :  Télégrammes sur USB&#xD;&#xA;- Clignote brièvement en rouge :  Erreur de communication sur USB" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-7">
+              <Translation AttributeName="Text" Text="LED KNX&#xD;&#xA;- Vert permanent :  Le bus KNX est alimenté&#xD;&#xA;- Vert clignotant :  Télégrammes sur KNX" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-13">
+              <Translation AttributeName="Text" Text="- Clignote brièvement en rouge :  Erreur de communication sur KNX&#xD;&#xA;- Orange permanent :  L’interface est réglée en mode surveillance&#xD;&#xA;- Orange clignotant :  Télégrammes sur KNX en mode surveillance" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-8">
+              <Translation AttributeName="Text" Text="L’appareil fonctionne également sans application ETS chargée, mais le réglage de l’adresse physique doit être correct. Cela signifie que la zone, la ligne et le participant doivent être corrects et uniques !" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-10">
+              <Translation AttributeName="Text" Text="Veuillez consulter les informations sur le produit. Pour de plus amples informations : &#xD;&#xA;https://go2se.com/ref=MTN6502-0101" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7132-10-B28E-O00C5_PS-12">
+              <Translation AttributeName="Text" Text="Contact:&#xD;&#xA;Schneider Electric&#xD;&#xA;Si vous avez des questions d’ordre technique, veuillez contacter le service client de votre pays.&#xD;&#xA;schneider-electric.com/contact" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

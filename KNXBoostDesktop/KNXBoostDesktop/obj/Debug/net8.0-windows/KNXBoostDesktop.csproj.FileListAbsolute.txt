@@ -171,3 +171,6 @@ C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBo
 C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.pdb
 C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.genruntimeconfig.cache
 C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ref\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ZipPasswordInputWindow.baml
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ZipPasswordInputWindow.g.cs
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\bin\Debug\net8.0-windows\ICSharpCode.SharpZipLib.dll

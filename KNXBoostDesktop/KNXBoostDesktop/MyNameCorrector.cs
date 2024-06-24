@@ -179,7 +179,7 @@ public class MyNameCorrector
             // Save the updated XML file
             try
             {
-                knxDoc.Save($@"{App.Fm?.ExportedProjectPath}/0_updated.xml"); // Change the path as needed
+                knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); // Change the path as needed
                 App.ConsoleAndLogWriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
             }
             catch (UnauthorizedAccessException ex)
@@ -199,7 +199,7 @@ public class MyNameCorrector
 
      private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
-        string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty; // Path to the project files directory
+        string projectFilesDirectory = App.Fm?.ProjectFolderPath ?? string.Empty; // Path to the project files directory
 
         XNamespace knxNs = "http://knx.org/xml/project/23";
 

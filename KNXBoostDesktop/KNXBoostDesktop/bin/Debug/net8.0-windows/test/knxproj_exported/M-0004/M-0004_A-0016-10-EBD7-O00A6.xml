@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS5" ToolVersion="5.7.1428.39779" xmlns="http://knx.org/xml/project/20">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-0004_A-0016-10-EBD7-O00A6" ApplicationNumber="22" ApplicationVersion="16" ProgramType="ApplicationProgram" MaskVersion="MV-0021" Name="KNX IP interface (V1.1)" LoadProcedureStyle="ProductProcedure" PeiType="0" DefaultLanguage="en-US" DynamicTableManagement="false" Linkable="false" IsSecureEnabled="true" MinEtsVersion="5.0" OriginalManufacturer="M-00A6" AdditionalAddressesCount="8" MaxUserEntries="15" MaxTunnelingUserEntries="64" MaxSecurityIndividualAddressEntries="8" MaxSecurityP2PKeyTableEntries="16" Hash="6zlc0OFWOccRE4HREj9h1w==">
+          <Static>
+            <Code>
+              <AbsoluteSegment Id="M-0004_A-0016-10-EBD7-O00A6_AS-0100" Name="Dummy" Size="256" Address="256" />
+            </Code>
+            <ParameterTypes>
+              <ParameterType Id="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Name="PDT_UNSIGNED_LONG">
+                <TypeIPAddress AddressType="HostAddress" />
+              </ParameterType>
+              <ParameterType Id="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Name="Bool_t">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="off" Value="0" Id="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft_EN-0" />
+                  <Enumeration Text="on" Value="1" Id="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-0016-10-EBD7-O00A6_PT-UDPTimeoutUINT.5Ft" Name="UDPTimeoutUINT_t">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="10" maxInclusive="50" />
+              </ParameterType>
+              <ParameterType Id="M-0004_A-0016-10-EBD7-O00A6_PT-UDPTimeout.5Ft" Name="UDPTimeout_t">
+                <TypeFloat Encoding="IEEE-754 Double" minInclusive="1" maxInclusive="8" />
+              </ParameterType>
+              <ParameterType Id="M-0004_A-0016-10-EBD7-O00A6_PT-TelegrammrateLimit.5Ft" Name="TelegrammrateLimit_t">
+                <TypeNumber SizeInBit="8" Type="unsignedInt" minInclusive="5" maxInclusive="50" />
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-10" Name="PID_ENX_TUNNELLING_REQUEST_TIMEOUT (204)" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-UDPTimeoutUINT.5Ft" Text="PID_ENX_TUNNELLING_REQUEST_TIMEOUT (204)" Value="10">
+                <Property ObjectType="11" PropertyId="204" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-11" Name="bSlowConnection" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Ist die Verbindung Langsam, kann der UDP Timeout erhöht werden" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-12" Name="fUDPTimeout" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-UDPTimeout.5Ft" Text="fUDPTimeout" Value="1.000000000000000E+000" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-92" Name="Standard Tunnel 1 IP Select" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-93" Name="Standard Tunnel 2 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-94" Name="Standard Tunnel 3 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-95" Name="Standard Tunnel 4 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-96" Name="Standard Tunnel 5 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-97" Name="Standard Tunnel 6 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-98" Name="Standard Tunnel 7 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-99" Name="Standard Tunnel 8 IP Select " ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Select standard tunnel IP" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-100" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 1" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 1" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-101" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 2" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 2" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="4" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-102" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 3" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 3" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="8" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-103" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 4" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 4" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="12" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-104" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 5" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 5" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="16" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-105" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 6" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 7" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="20" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-106" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 7" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 8" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="24" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-107" Name="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 8" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-PDT.5FUNSIGNED.5FLONG" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 8" Value="192.168.255.255">
+                <Property ObjectType="11" PropertyId="205" Offset="28" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-113" Name="Special Functions" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft" Text="Advanced settings" Value="0" />
+              <Parameter Id="M-0004_A-0016-10-EBD7-O00A6_P-1" Name="PID_ENX_PID_ENX_TELEGRAMMRATE_LIMIT (211)" ParameterType="M-0004_A-0016-10-EBD7-O00A6_PT-TelegrammrateLimit.5Ft" Text="PID_ENX_PID_ENX_TELEGRAMMRATE_LIMIT (211)" Value="50">
+                <Property ObjectType="50001" PropertyId="211" Offset="0" BitOffset="0" />
+              </Parameter>
+            </Parameters>
+            <ParameterRefs>
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-10_R-10" RefId="M-0004_A-0016-10-EBD7-O00A6_P-10" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-11_R-11" RefId="M-0004_A-0016-10-EBD7-O00A6_P-11" Text="Slow connection (UDP connections only)" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-12_R-12" RefId="M-0004_A-0016-10-EBD7-O00A6_P-12" Text="UDP connection timeout" SuffixText="sec" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-92_R-92" RefId="M-0004_A-0016-10-EBD7-O00A6_P-92" Text="Preferred IP for tunnel 1" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-93_R-93" RefId="M-0004_A-0016-10-EBD7-O00A6_P-93" Text="Preferred IP for tunnel 2" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-94_R-94" RefId="M-0004_A-0016-10-EBD7-O00A6_P-94" Text="Preferred IP for tunnel 3" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-95_R-95" RefId="M-0004_A-0016-10-EBD7-O00A6_P-95" Text="Preferred IP for tunnel 4" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-96_R-96" RefId="M-0004_A-0016-10-EBD7-O00A6_P-96" Text="Preferred IP for tunnel 5" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-97_R-97" RefId="M-0004_A-0016-10-EBD7-O00A6_P-97" Text="Preferred IP for tunnel 6" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-98_R-98" RefId="M-0004_A-0016-10-EBD7-O00A6_P-98" Text="Preferred IP for tunnel 7" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-99_R-99" RefId="M-0004_A-0016-10-EBD7-O00A6_P-99" Text="Preferred IP for tunnel 8" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-100_R-100" RefId="M-0004_A-0016-10-EBD7-O00A6_P-100" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-101_R-101" RefId="M-0004_A-0016-10-EBD7-O00A6_P-101" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-102_R-102" RefId="M-0004_A-0016-10-EBD7-O00A6_P-102" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-103_R-103" RefId="M-0004_A-0016-10-EBD7-O00A6_P-103" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-104_R-104" RefId="M-0004_A-0016-10-EBD7-O00A6_P-104" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-105_R-105" RefId="M-0004_A-0016-10-EBD7-O00A6_P-105" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-106_R-106" RefId="M-0004_A-0016-10-EBD7-O00A6_P-106" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-107_R-107" RefId="M-0004_A-0016-10-EBD7-O00A6_P-107" Text="End device IP" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-113_R-113" RefId="M-0004_A-0016-10-EBD7-O00A6_P-113" Text="Enable advanced settings" />
+              <ParameterRef Id="M-0004_A-0016-10-EBD7-O00A6_P-1_R-1" RefId="M-0004_A-0016-10-EBD7-O00A6_P-1" Text="Max. telegram rate (only KNX TP)" SuffixText="t/s" Value="50" InitialValue="50" />
+            </ParameterRefs>
+            <ParameterCalculations>
+              <ParameterCalculation Id="M-0004_A-0016-10-EBD7-O00A6_PC-2" Language="JavaScript" Name="SekundenIn100ms" RLTransformationFunc="vfnFloatToIntSkale" RLTransformationParameters="{ fScale: 0.100 }" LRTransformationFunc="vfnFloatToIntSkale" LRTransformationParameters="{ fScale: 10 }">
+                <LParameters>
+                  <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-12_R-12" AliasName="fValue" />
+                </LParameters>
+                <RParameters>
+                  <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-10_R-10" AliasName="fValue" />
+                </RParameters>
+              </ParameterCalculation>
+            </ParameterCalculations>
+            <AddressTable CodeSegment="M-0004_A-0016-10-EBD7-O00A6_AS-0100" Offset="22" MaxEntries="0" />
+            <AssociationTable CodeSegment="M-0004_A-0016-10-EBD7-O00A6_AS-0100" Offset="20" MaxEntries="0" />
+            <LoadProcedures>
+              <LoadProcedure>
+                <LdCtrlCompareProp InlineData="0004" ObjType="0" PropId="12">
+                  <OnError Cause="ResourceNotFound" MessageRef="M-0004_A-0016-10-EBD7-O00A6_M-1" />
+                  <OnError Cause="CompareMismatch" MessageRef="M-0004_A-0016-10-EBD7-O00A6_M-1" />
+                </LdCtrlCompareProp>
+                <LdCtrlCompareProp InlineData="000000160000" Mask="FFFFFFFF0000" ObjIdx="0" PropId="78">
+                  <OnError Cause="ResourceNotFound" MessageRef="M-0004_A-0016-10-EBD7-O00A6_M-1" />
+                  <OnError Cause="CompareMismatch" MessageRef="M-0004_A-0016-10-EBD7-O00A6_M-1" />
+                </LdCtrlCompareProp>
+                <LdCtrlWriteProp InternalDescription="PID_ENX_TUNNELLING_REQUEST_TIMEOUT (204) " ObjType="11" PropId="204" Verify="true" />
+                <LdCtrlWriteProp InternalDescription="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP (205)" ObjType="11" PropId="205" Count="8" Verify="true" />
+                <LdCtrlWriteProp InternalDescription="PID_ENX_TELEGRAMMM-0004_A-0016-10-0000-O00A6_LIMIT (211)" ObjType="50001" PropId="211" Verify="false" />
+              </LoadProcedure>
+            </LoadProcedures>
+            <Messages>
+              <Message Id="M-0004_A-0016-10-EBD7-O00A6_M-1" Name="zWrongHardwareType" Text="This hardware is not a KNX interface" />
+              <Message Id="M-0004_A-0016-10-EBD7-O00A6_M-2" Name="zWrongType" Text="This hardware is not a KNX IP interface of Albrecht JUNG GmbH" />
+            </Messages>
+            <Script>function vfnSetBroadcastAddress(input, output, context) 
+{
+    if (context.zDir==="Output")
+	    return;    
+    // Checke, ob die High Byte Adresse im Bereich [224..239] liegt
+    var High= input.zBroadcastIP.split(".")[0];	
+	if ( ( High &lt; 224 ) ||  (High &gt; 239))
+	{	    
+	    if (High&lt;224)
+	       High=224
+	    else 
+		   High=239;		
+	}   	
+	output.PID_SYSTEM_SETUP_MULTICAST_ADDRESS = High+"."+input.zBroadcastIP.split(".")[1]+"."+input.zBroadcastIP.split(".")[2]+"."+input.zBroadcastIP.split(".")[3];
+	output.PID_ROUTUNG_MULTICAST_ADDRESS =output.PID_SYSTEM_SETUP_MULTICAST_ADDRESS;
+}
+function vfnFloatToIntSkale(input, output, context) 
+{
+    output.fValue = input.fValue* context.fScale;
+}
+
+function vfnValidationBroadcastAddress(input, changed, prevValue, context) 
+{
+    // Checke, ob die High Byte Adresse im Bereich [224..239] liegt
+    var High= input.uIP.split(".")[0];	
+	if ( ( High &lt; 224 ) ||  (High &gt; 239))
+	{	    	 
+		return ApplicationProgram.getMessage("zMsgBroadcastAddress");
+	}   	
+}
+
+            </Script>
+            <BusInterfaces>
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-1" AddressIndex="1" AccessType="Tunneling" Text="Tunnel 1" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-2" AddressIndex="2" AccessType="Tunneling" Text="Tunnel 2" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-3" AddressIndex="3" AccessType="Tunneling" Text="Tunnel 3" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-4" AddressIndex="4" AccessType="Tunneling" Text="Tunnel 4" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-5" AddressIndex="5" AccessType="Tunneling" Text="Tunnel 5" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-6" AddressIndex="6" AccessType="Tunneling" Text="Tunnel 6" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-7" AddressIndex="7" AccessType="Tunneling" Text="Tunnel 7" />
+              <BusInterface Id="M-0004_A-0016-10-EBD7-O00A6_BI-8" AddressIndex="8" AccessType="Tunneling" Text="Tunnel 8" />
+            </BusInterfaces>
+            <Options TextParameterZeroTerminate="true" PartialDownloadOnlyVisibleParameters="true" LegacyNoPartialDownload="true" LineCoupler0912NewProgrammingStyle="true" SupportsExtendedMemoryServices="true" SupportsExtendedPropertyServices="true" SupportsIpSystemBroadcast="true" />
+          </Static>
+          <Dynamic>
+            <ChannelIndependentBlock>
+              <ParameterBlock Id="M-0004_A-0016-10-EBD7-O00A6_PB-1" Name="Allgemein" Text="IP settings">
+                <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-36" Text="Default parameters, such as IP address, gateway address, network mask can be found in the &quot;Properties&quot; window of the device, tab &quot;IP&quot;." />
+                <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-38" Text="DHCP or fixed IP settings can be found in the &quot;Properties&quot; window of the device, tab &quot;IP&quot;." />
+                <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-113_R-113" />
+              </ParameterBlock>
+              <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-113_R-113">
+                <when test="1">
+                  <ParameterBlock Id="M-0004_A-0016-10-EBD7-O00A6_PB-14" Name="Telegrammrate" Text="Advanced settings">
+                    <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-41" Text="Max. quota of send telegrams on KNX line. 50 telegrams / second = 100% bus load." UIHint="Information" />
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-1_R-1" />
+                  </ParameterBlock>
+                  <ParameterBlock Id="M-0004_A-0016-10-EBD7-O00A6_PB-2" Name="Standard tunnelling" Text="Standard tunnelling">
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-11_R-11" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-11_R-11">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-12_R-12" IndentLevel="3" />
+                        <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-5" Text="       The standard timeout (1 second) may be too low for a connection, e.g. via the Internet." />
+                        <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-1" Text="        Parameter range is [1.0 ... 8.0] seconds" />
+                      </when>
+                    </choose>
+                    <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-16" Text="" UIHint="HorizontalRuler" InternalDescription="Trenner" />
+                    <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-17" Text="A standard tunnelling connection (so called BasicCRI, devices up to ETS4) does not differentiate which tunnel is used for a connection. This setting assigns the tunnel of the BasicCRI connection to an IP address." UIHint="Information" />
+                    <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-18" Text="Note: ETS connections or extented CRI connections will override this assignment." UIHint="Information" />
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-92_R-92" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-92_R-92">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-100_R-100" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-93_R-93" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-93_R-93">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-101_R-101" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-94_R-94" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-94_R-94">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-102_R-102" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-95_R-95" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-95_R-95">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-103_R-103" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-96_R-96" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-96_R-96">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-104_R-104" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-97_R-97" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-97_R-97">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-105_R-105" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-98_R-98" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-98_R-98">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-106_R-106" />
+                      </when>
+                    </choose>
+                    <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-99_R-99" />
+                    <choose ParamRefId="M-0004_A-0016-10-EBD7-O00A6_P-99_R-99">
+                      <when test="1">
+                        <ParameterRefRef RefId="M-0004_A-0016-10-EBD7-O00A6_P-107_R-107" />
+                      </when>
+                    </choose>
+                  </ParameterBlock>
+                </when>
+              </choose>
+              <ParameterBlock Id="M-0004_A-0016-10-EBD7-O00A6_PB-15" Name="Tunnelling" Text="Tunnelling">
+                <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-31" Text="The ETS allows different passwords for each tunnel. This can be set in the &quot;Settings&quot; window of the respective communication object.In secure communication only the user knowing the correct password has access to the connection." />
+                <ParameterSeparator Id="M-0004_A-0016-10-EBD7-O00A6_PS-33" Text="Note: If security is disabled for KNXnet/IP, any unauthorized device has access to all tunnels." />
+              </ParameterBlock>
+            </ChannelIndependentBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0004_A-0016-10-EBD7-O00A6">
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6">
+              <Translation AttributeName="Name" Text="Interface IP KNX" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft_EN-0">
+              <Translation AttributeName="Text" Text="désactivé" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PT-Bool.5Ft_EN-1">
+              <Translation AttributeName="Text" Text="activé" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-10">
+              <Translation AttributeName="Text" Text="PID_ENX_TUNNELLING_REQUEST_TIMEOUT (204)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-12">
+              <Translation AttributeName="Text" Text="fUDPTimeout" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-92">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-93">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-94">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-95">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-96">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-97">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-98">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-99">
+              <Translation AttributeName="Text" Text="Sélectionner le tunnel IP standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-100">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-101">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 2" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-102">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 3" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-103">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 4" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-104">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 5" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-105">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 7" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-106">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 8" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-107">
+              <Translation AttributeName="Text" Text="PID_ENX_BASICCRI_TUNNELLING_Preferred_IP 8" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-113">
+              <Translation AttributeName="Text" Text="Réglages avancés" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-11_R-11">
+              <Translation AttributeName="Text" Text="Connexion lente (uniquement connexions UDP)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-12_R-12">
+              <Translation AttributeName="Text" Text="Dépassement du temps de connexion UDP" />
+              <Translation AttributeName="SuffixText" Text="s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-92_R-92">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-93_R-93">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 2" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-94_R-94">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 3" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-95_R-95">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 4" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-96_R-96">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 5" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-97_R-97">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 6" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-98_R-98">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 7" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-99_R-99">
+              <Translation AttributeName="Text" Text="IP de connexion favorisée pour le tunnel 8" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-100_R-100">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-101_R-101">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-102_R-102">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-103_R-103">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-104_R-104">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-105_R-105">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-106_R-106">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-107_R-107">
+              <Translation AttributeName="Text" Text="Adresse IP du terminal" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-113_R-113">
+              <Translation AttributeName="Text" Text="Partager les paramètres avancés" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_P-1_R-1">
+              <Translation AttributeName="Text" Text="Taux de télégramme max. (uniquement KNX TP)" />
+              <Translation AttributeName="SuffixText" Text="T/s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_M-1">
+              <Translation AttributeName="Text" Text="Le présent matériel n'est pas une interface KNX" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_M-2">
+              <Translation AttributeName="Text" Text="Le présent matériel n'est pas une interface IP KNX de l'entreprise Albrecht JUNG GmbH" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-1">
+              <Translation AttributeName="Text" Text="Tunnel 1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-2">
+              <Translation AttributeName="Text" Text="Tunnel 2" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-3">
+              <Translation AttributeName="Text" Text="Tunnel 3" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-4">
+              <Translation AttributeName="Text" Text="Tunnel 4" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-5">
+              <Translation AttributeName="Text" Text="Tunnel 5" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-6">
+              <Translation AttributeName="Text" Text="Tunnel 6" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-7">
+              <Translation AttributeName="Text" Text="Tunnel 7" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_BI-8">
+              <Translation AttributeName="Text" Text="Tunnel 8" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PB-1">
+              <Translation AttributeName="Text" Text="Réglages IP" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-36">
+              <Translation AttributeName="Text" Text="Les préréglages, comme l'adresse IP de l'appareil, l'adresse de la passerelle ou le masque réseau se trouve dans la fenêtre « Propriétés » de l'appareil, onglet IP." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-38">
+              <Translation AttributeName="Text" Text="DHCP ou les adresses d'appareils fixes pour IP se trouvent également dans la fenêtre « Propriétés » de l'appareil, onglet IP." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PB-14">
+              <Translation AttributeName="Text" Text="Réglages avancés" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-41">
+              <Translation AttributeName="Text" Text="Nombre maximal de télégrammes envoyés sur la ligne KNX. 50 télégrammes/seconde = charge de bus à 100 % &#xA;" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PB-2">
+              <Translation AttributeName="Text" Text="Tunnel standard" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-5">
+              <Translation AttributeName="Text" Text="       Pour une connexion par ex. via internet, un timeout standard (1 s) peut être trop faible." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-1">
+              <Translation AttributeName="Text" Text="       Plage de réglage [1,0 ... 8,0] secondes" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-17">
+              <Translation AttributeName="Text" Text="Une connexion tunnel standard (BasicCRI, appareil de génération jusqu'à ETS4) ne change pas en fonction du tunnel utilisé pour la connexion. Avec ce réglage, une adresse IP est attribuée au tunnel de la connexion BasicCRI." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-18">
+              <Translation AttributeName="Text" Text="Remarque : les connexions ETS ou les connexions CRI avancées écrasent cette affectation." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PB-15">
+              <Translation AttributeName="Text" Text="Tunnel" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-31">
+              <Translation AttributeName="Text" Text="L'ETS permet de saisir un mot de passe par tunnel. Il peut être paramétré dans la fenêtre « Réglages » de l'objet de communication.&#xA;En cas de communication sécurisée, seul l'utilisateur disposant du bon mot de passe peut accéder à la connexion." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-0016-10-EBD7-O00A6_PS-33">
+              <Translation AttributeName="Text" Text="Remarque ; si la sécurité est désactivée pour KNXnet/IP, un appareil non autorisé peut, en théorie, accéder à chaque tunnel." />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

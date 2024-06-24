@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS5" ToolVersion="5.7.1428.39779" xmlns="http://knx.org/xml/project/20">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.204093KRMTSD-1" Name="Régulateur module compact" SerialNumber="4 // 4093KRMTSD" VersionNumber="1" BusCurrent="25" HasIndividualAddress="true" HasApplicationProgram="true" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.204093KRMTSD-1_P-4093KRMTSD" Text="Régulateur module compact" OrderNumber="4093KRMTSD" IsRailMounted="false" DefaultLanguage="fr-FR" Hash="LzG8WSMx6SHbZ3bmdm2XmtCQ0tI=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="wUYm3jdveef6KLgQAc9bu3dwDXL+5PEo8Ix7lGLBe6FisLSnDs9kgwdKs2qjvsC/W7ulWq+ws2XqI5ZIcZc7hsAx3ra/3tN7Bd2uGUoFcBpSRpjxOk6NMrEHD5CDxuztModFf5apEpDOxu7noP1RdcQA0HOxY4lBv85n0hUipwA=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.204093KRMTSD-1_HP-1471-12-DD5B-O00F4" MediumTypes="MT-0" Hash="9kFYdqDkigbwL5LeS7sO4xClo/I=">
+              <ApplicationProgramRef RefId="M-0004_A-1471-12-DD5B-O00F4" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2016/13213" RegistrationDate="2016-06-27" RegistrationSignature="xEBkGGomCz+yF6+CyBWwLMqfpJzZW4vIhR6zYxXzW8kMM/pKhTSDZW3JWkInW8KkeuTSX8QYocxe/fs9c1YUhqAN0Q4SxMB2SG/7+x5tSVggpu/bPhe30sVK0JzaQRFwTZc1vHayVIkjQbrgBsG22RrcfHklftowQZECg6VwDy4=" />
+            </Hardware2Program>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.204093KRMTSD-1_HP-146A-12-9461-O00F4" MediumTypes="MT-0" Hash="/rGzRYskI4ZppxC43RBzZOW1mE8=">
+              <ApplicationProgramRef RefId="M-0004_A-146A-12-9461-O00F4" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2010/9284" OriginalRegistrationNumber="2009/8759" RegistrationSignature="ubt6wNQJZE9uSqGhZsQpE36N9h1izYMEaV7bqeVFZnNdSaNs88H9N4UMDOouKCWHkYmPiHSSDgHaU2Y+3lw/vmIA8pa5tlKspvTQzbdPyWcsjLrbubzPc3rK3MkgoboMogjB950HvRFytTQEl19i0NlGcs74smglG5t+zS7Vu6c=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202304.2E16REGHE-1-O000A" Name="REG 2010 Schalt- / Jalousieaktor 4/2fach" SerialNumber="4 // 2304.16REGHE" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202304.2E16REGHE-1-O000A_P-2304.2E16REGHE" Text="Action. TOR 4 voies/action. volet-roulant 2 voies" OrderNumber="2304.16REGHE" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="fr-FR" Hash="ZmkLIiAr4rHgPl20BuIkqfeWSI0=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="IYRQl/f3GWnWUJZiki0XoDWL8NyWFrycnV1sEid5st7x4ZimdkFVqJUXuH4zpDjDoaEy2+F4xP/htZw5zfCjCiNFV+CCCqkSA+Y9Wu/6UB4qXzwta25eHimrMRnDh/gFz8t3OKrPCDiq5Nth20z+7Ey96rfTDauw8f+LA5gkQiE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202304.2E16REGHE-1-O000A_HP-20CA-11-358F-O000A" MediumTypes="MT-0" Hash="rhMypolH2+XGgrex4D3HkITNdvc=">
+              <ApplicationProgramRef RefId="M-0004_A-20CA-11-358F-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2010/9002" OriginalRegistrationNumber="2010/9001" RegistrationSignature="AoW6uYkhCoEXF+FXgDe86NoyVHSJ1h24BrZAK21y8LIgkVeQfzemw153ipfH0iTJhzNfDunq97ARgS4c/fZik9U7g1I3n7+QHRyE5Uirn3sE8ZgB8nIsUQDZVeXQWrioS2Fn5vQ3mWMY6HEgYOAVm7MbY6MDezzGrud5RTQsrqY=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202136REGHZ-1-O000A" Name="Heizungsaktor 6fach REG" SerialNumber="4 // 2136REGHZ" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202136REGHZ-1-O000A_P-2136REGHZ" Text="Heating actuator 6gang REG" OrderNumber="2136REGHZ" IsRailMounted="true" WidthInMillimeter="70" DefaultLanguage="en-US" Hash="eo6DmA3fN/uF6lp9AXE3hGEOMks=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="DQLJ5KDcWQSMUqibk/F+UPC85+CNKTFhZ9a8SuYmFy++1wY2qdnLATJQosHV1/pqtgrEduTyg7s1QUaDjPVRgMtJSZf/EX9jQxZqt72apU7TNfF027I9dgtsjhzd9v6OFls9jyS7Qcm6+gtaNhnOlzncTufNcJEXs8eItRaVPWs=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202136REGHZ-1-O000A_HP-2067-01-2F2C-O000A" MediumTypes="MT-0" Hash="oQYHpoPm8XNv8emVmPARKtEvzZg=">
+              <ApplicationProgramRef RefId="M-0004_A-2067-01-2F2C-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2003/6061" OriginalRegistrationNumber="2003/6058" RegistrationSignature="iwQhEKKLhXckJKFjp44hhcF9V61JcfXVsndM6NJl8tH00H+2Cp2HU3tzyB4uPUnnHSEdhbIyhrhKXMaIYQN0EH3jMdMw9ECnMP3TU5LTtoGbyaQCE9ToBVTPESZWVOZE0pHYZLBvxaPjPLnE+iY5viFY/tpp5zwlictQMjBbcbk=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202114REG-2" Name="Universal Binäreingang 4fach REG" SerialNumber="4 // 2114REG" VersionNumber="2" BusCurrent="6.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202114REG-2_P-2114REG.2E" Text="Binäreingang 4fach REG" OrderNumber="2114REG." IsRailMounted="1" WidthInMillimeter="3.5000000e+001" DefaultLanguage="de-DE" Hash="0MFrjWIvlNp0/NSNdPLJLaj18eI=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="fEGR7QBkoJt8Vpyx6vODMLPOM1INVbGYC1fJayKkRk5a0Tt9OxaDzBZxJvXmws6utiixOqeWWYCv6VG7PxDd132jqkapTXNLM+K7DugGSNojXxNixfGeqOAajcAgvVBqCkJJGyTLyGQgS7p+Ow6cCvzTkRpPGXinfmdHmhK7e4w=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202114REG-2_HP-7055-02-5C97-O000A" MediumTypes="MT-0" Hash="39tOeqlTuFJJRcNM2E7gU4Y4lVI=">
+              <ApplicationProgramRef RefId="M-0004_A-7055-02-5C97-O000A" />
+              <RegistrationInfo RegistrationSignature="Q6kXDsrmF+5SQkigDQx+jb7tpLAiMnUR8ymD8pEODuh8rWPD0fDNOomBrmvkTYeD+8NPb7qWB8SGKcrfcDo83WX8CjGOTlxUCte8Phg9/pGKUi0I+cHjxmcU/SZYJkvOGm4kF7odk8CjlAO3otV73rXuBnWnJ1BstoMUpirnZ5U=" OriginalRegistrationNumber="2002/5438" RegistrationNumber="2002/5447" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A" Name="REG 2006 Schalt- / Jalousieaktor 8/4fach" SerialNumber="4 // 2308.16REGHE" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE" Text="Action. TOR 8 voies/action. volet-roulant 4 voies" OrderNumber="2308.16REGHE" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="fr-FR" Hash="hYtiqfbo9QsGn4XwIW4CKkofPgk=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="v8T1QGSysW+l8UzQ0cXHQ3DtalnaYb4QIqrDFO5ndQl5zUp8Bnou7kD8HhL17ECRMntpKaXS6R+IRN0dUxfyxdzdHbRbWq4d0NbcwwWFenN7aK5jpP/I7B8XXWQ6iAfqimj6lV5FH3IBKhGzeDHLCMJk6wLCc2fgSVuAWXaqXKI=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8B43-O000A" MediumTypes="MT-0" Hash="zv2ehv61aJDZuIidyYm7raEA1Eo=">
+              <ApplicationProgramRef RefId="M-0004_A-2080-12-8B43-O000A" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2008/8496" OriginalRegistrationNumber="2008/8487" RegistrationSignature="b4136XjRH71ijWWUgymhB7OUcJcbAyI2caU5CF6WJmfW8KxGhQSHxYRnzEnkSIvuCihUAMxTN4cd7Vh+I/cS36oU2qoGgWviwfzaeonBIW7maA5VEfsATUk0Fjuy5utqBk32CbLRFmH+PdZwGO7943+5fDorFiftg0hb5Sb5UrE=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202134.2E16REG-1-O000A" Name="Schaltaktor 4fach 16A REG" SerialNumber="4 // 2134.16REG" VersionNumber="1" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202134.2E16REG-1-O000A_P-2134.2E16REG" Text="Schaltaktor 4fach 16A REG" OrderNumber="2134.16REG" IsRailMounted="1" WidthInMillimeter="7.0000000e+001" DefaultLanguage="de-DE" Hash="sXsPMNXRe1KHw12qdW+cl9YSZVI=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="ksGj0/kv6BMgDplAtQBa0iYXQlI6N/JvNMBTlmDkcTXwkhioqWdWlTOzx0n/cM3o1B9FvvV1PQakfTBBBeCYpCE0MPRXlKTRZ8B+vkAbSmyFqbwk8z3aWahxOMaG9IIifvudSY4ziqaT0Nv9qTEjB4DRB7OgYqNtUs3+Iaat7lg=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202134.2E16REG-1-O000A_HP-2062-01-8AE2-O000A" MediumTypes="MT-0" Hash="YMXJZB3eW9oYu2cOb8w08zviHh0=">
+              <ApplicationProgramRef RefId="M-0004_A-2062-01-8AE2-O000A" />
+              <RegistrationInfo RegistrationSignature="yFA9vBXYugNeZ9fUFeGoNFWvVoLWxnwsOozU7Bsrb5qgKrKWjJRjrq4KfS6XyNBY1OZucUUeMIpRamcWqbtrJeNQKdALxvl9wzF2QOwcwmlms/8cvVRqcR+C3yQJfeG32PXa5kKJNfTS9mZxLSjEdoAfgBteaEkeR0kRQaRy/AE=" OriginalRegistrationNumber="2000/4530" RegistrationNumber="2000/4562" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-244.20.2F.2F.20135.2015.20600-1-O00F4" Name="Analogausgang 4 fach" SerialNumber="244 // 135 15 600" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-00F4" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-244.20.2F.2F.20135.2015.20600-1-O00F4_P-2204.2E01.20REG.20A" Text="4-channel analog output" OrderNumber="2204.01 REG A" IsRailMounted="true" WidthInMillimeter="70" DefaultLanguage="en-US" Hash="Cy4zf/Isi/VfccFG9FoZ/Z7+jv4=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="RqjqRK5mhBao8BoGMWn01mxf0NfkJFaPXznOV3tyHpl0UQV/Cw/4UFp9BBjcqc3AnSK0IVwFkTvfsOcvw4ASeDjEH0hqtc7M2BDJG+UbIoAnxrzITNyrOr3q/gUpKNtkKa7Y8gRjctcFZPqSeB20/Gp1+7Cya+NL702eiKyioYk=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-244.20.2F.2F.20135.2015.20600-1-O00F4_HP-B008-11-AE97-O00F4" MediumTypes="MT-0" Hash="73SG5ocL9eR+xJFxhfeUoLRtxEM=">
+              <ApplicationProgramRef RefId="M-0004_A-B008-11-AE97-O00F4" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2005/7248" OriginalRegistrationNumber="2005/7245" RegistrationSignature="M+NZuEvhLUvgkaytECaBmDdxViQLhKAxqDjWUyurAf0sy6HQZhQWXASP0L8uI6oe50EMaytV2yi/1oxaIUi1u9mZoQRvYNsMbeMLG5ieBBWdvOMKHprRAo7pBbBNgK0goL5E4LKKjl8MBKr1ZZndKxdwL/EPn14HDySU4he/ihI=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.205192KRMTSD-1-O00F4" Name="KRMTSD F50 2f" SerialNumber="4 // 5192KRMTSD" VersionNumber="1" BusCurrent="20" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-00F4" NonRegRelevantDataVersion="1" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.205192KRMTSD-1-O00F4_P-5192KRMTSD" Text="Kompakt-Raumcontroller-Modul 2fach" OrderNumber="5192KRMTSD" IsRailMounted="false" DefaultLanguage="de-DE" Hash="1wNXFfTapun7IgTnj7/pnz3lzCQ=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2016-03-10" RegistrationSignature="nsDQd8XEo+qXFPghr8PcOTWOCLDzGRNqyU+h3eCc27hgddFMrnm8/CBGnwMh0CBkK1Hc3om/GFExNX8Jn76FAj6vAhNh8AWHIWJZIi53ygfvnOiRtlHXcA5nsM95abDY+eZeIndErt0B92/7xdBPTskONNAZPcnMkq+0FCa43SI=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.205192KRMTSD-1-O00F4_HP-146D-A0-FA5A-O00F4" MediumTypes="MT-0" Hash="zSSmTXaYy/BX1842clovDFc4a8U=">
+              <ApplicationProgramRef RefId="M-0004_A-146D-A0-FA5A-O00F4" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2016/13515" RegistrationDate="2016-11-25" RegistrationSignature="kf5PZWseCVs5Lnk8n1JztDnbtCFqa4SVvrj38uhykQtMrxPwOqQ42sm/v/BVVReziMdYQsYG5ufHfYNJRj17hOj8E1KrK4iqW0eqr5S00WkVOaEY+NpGitAa4hI5OX/maFR06QD1N9xywebLylHk3dE6Hb3+2gMWJJ43d7jb3k4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202071.2E02LED-1-O0001" Name="Taster BA - Mittenstellung, 1-fach" SerialNumber="4 // 2071.02LED" VersionNumber="1" BusCurrent="5.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-0001" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202071.2E02LED-1-O0001_P-2071.2E02LED" Text="Taster BA - Mittenstellung, 1-fach" OrderNumber="2071.02LED" IsRailMounted="0" DefaultLanguage="de-DE" Hash="wg5lyprA5CTMv7653bWMaK4eiwU=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="H9ySvWbE9ODUSlHonSJC4okxta5FNGSSvtsqPU/Ltyz7DxLi7kVBziA8juJWR23M6/F1UQcZH5x/R8gqMwPpaJZfV2PoJEbKoA9Na3gsBss+2NQjxczmfK7kcDLZr9BiyZBCPrnTELNAeH5d4VRD4nkbFWVnbvKkBOHR3euWNtg=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202071.2E02LED-1-O0001_HP-1056-01-DDFA-O0001" MediumTypes="MT-0" Hash="WJIytJHaLuFsmza1wb+Zf+djySI=">
+              <ApplicationProgramRef RefId="M-0004_A-1056-01-DDFA-O0001" />
+              <RegistrationInfo RegistrationSignature="g277CcOPFhuBbFDTAbqfScl3CXo8HXIZFoQxJ4kAMnxWIKZeTT7lC56kyy39wfyXBUUNT0kILYYuuPUfmFsZo8gCccvPFN9UISzNDMOxRVNMo20m/i+/sLpQqupcmlGNL1h2kfMETJYz6LB4aGZxF33Sae9QwmM/dxIDCMHnks8=" OriginalRegistrationNumber="1997/2412" RegistrationNumber="1998/2772" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202072.2E02LED-1-O0001" Name="Taster BA - Mittenstellung, 2-fach" SerialNumber="4 // 2072.02LED" VersionNumber="1" BusCurrent="5.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-0001" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202072.2E02LED-1-O0001_P-2072.2E02LED" Text="Taster BA - Mittenstellung, 2-fach" OrderNumber="2072.02LED" IsRailMounted="0" DefaultLanguage="de-DE" Hash="P8yI7h5qq+SrYpBVnN+lkx9h1b4=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="DnCGU/x+tW4UoK7/r31kFno+jvFxUDw36vVYrygd60zLaCysa4jLH+itQrCe1RL0iK3ItrR9C9bjzmdaJtkFBUG35jmRoRkxJ4FInLmGmgdkQhXKNScnkiV5bQEatwI7ns1Os0EU/WfbyGJCrnYS7z/D4F+NdUE7AA6hleW0HVs=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202072.2E02LED-1-O0001_HP-1058-01-00A2-O0001" MediumTypes="MT-0" Hash="TbwufRKsn9E6SVgxm5oUv4at1F0=">
+              <ApplicationProgramRef RefId="M-0004_A-1058-01-00A2-O0001" />
+              <RegistrationInfo RegistrationSignature="tmPgHptaJ8HvozLGoAs5P9Vujg0/jsQOC5OOOh/wqFvk+xOhFTasrKjE+Dj7OdLmVy0VDrp0OJjepI4Mblb284SgLCU2LPjcywGdh31y+bRpHS19DjPMU0krf2ui8iaoyyq7vt42QdMTx05N6fjhk/mk+3jJwGNFncXq5sfSyBM=" OriginalRegistrationNumber="1997/2414" RegistrationNumber="1998/2774" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202204REGH-1-O000A" Name="Jalousieaktor 4fach 230V Hand REG" SerialNumber="4 // 2204REGH" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202204REGH-1-O000A_P-2204REGH" Text="shutter/blind actuator 4-gang 230V hand REG" OrderNumber="2204REGH" IsRailMounted="true" WidthInMillimeter="70" DefaultLanguage="en-US" Hash="5JtcAOC/UTc4mAqVEQlLa0znM24=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="OzCtsGQdXXiUUlicTk+L/2Nt6oQygczCBgVZZw65Nh6UlheCqiKuBfxndNcidce/EQTKIz4+dSK4v/FR6PsD8EkbqpjJX77zOK+zF1mJyYSDQzaRsPzF0LdeOma+Mz2H2aK81Q0noilIk4jw8buM3MYnlqk2AeapLnnABoTg66U=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202204REGH-1-O000A_HP-2069-01-C8FE-O000A" MediumTypes="MT-0" Hash="WXuzrRgrfJygo4e8HQMTgIJrWkk=">
+              <ApplicationProgramRef RefId="M-0004_A-2069-01-C8FE-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2003/6346" OriginalRegistrationNumber="2003/6344" RegistrationSignature="MN+5s3+sYipP8/gRiCB7YddPEoBWVz57u+F8KCq/D+dYyoHe8z66fnlL5KInnp12O4lfRefnEl0u/snSqgS/jbrzsx9Rsxgu3Eta5n/H30JYtQs9ZIzTHdZd4V9kdlVWOj3JSm9asf319DSsUrjC4Bvh3dJQU7jS56KdEQBaelU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202141REG-1-O0001" Name="Bereichs-/Linienkoppler REG" SerialNumber="4 // 2141REG" VersionNumber="1" BusCurrent="0" HasIndividualAddress="true" HasApplicationProgram="true" IsCoupler="true" OriginalManufacturer="M-0001" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202141REG-1-O0001_P-2141REG" Text="Backbone/line coupler SE" OrderNumber="2141REG" IsRailMounted="true" WidthInMillimeter="35" DefaultLanguage="en-GB" Hash="dHlJNZFy1DZ7oXLHiXvuAsT6dDE=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="te9kDyzwHO0baTlJJEhlplTObu0b4NLXT2J0psppiflZEspW0AL0nYLyYzSQOMVfWYo1LEhaQXspjGVf1alhIIkXJ1EdwYHu9+4z+5Xx28R/AwXu4lkL7iNdzBwtoSPPbgoVGWUvCbv56mHNz7Rd11gQGm3OmFR1zJV8BtsYlsE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202141REG-1-O0001_HP-900A-01-3F54-O0001" MediumTypes="MT-0" Hash="BPgy7ZvUIc8HWm2HO/ehaP9eBr0=">
+              <ApplicationProgramRef RefId="M-0004_A-900A-01-3F54-O0001" />
+              <RegistrationInfo RegistrationSignature="mFOG6IlypmxAYvOvO8bTesyOYFQC2pfZuX2nNY4Tma4eW9oZT7++Ae+wr7Nno+ixP3/foOqZRwIL48PaOA/fxWdyrctwJUw1W4gqpks9/SSJKZwk7vkL6IB7636dRDKAd4Tq31VVeV2zEpjP2F82VR5gVHeHYkrsQEUQx5JDHDY=" OriginalRegistrationNumber="2003/6283" RegistrationNumber="2004/6406" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-14h-1-O00A6" Name="IPS300" SerialNumber="14h" VersionNumber="1" BusCurrent="20" HasIndividualAddress="true" HasApplicationProgram="true" IsIPEnabled="true" OriginalManufacturer="M-00A6" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-14h-1-O00A6_P-IPS300SREG" Text="KNX IP Interface" OrderNumber="IPS300SREG" IsRailMounted="true" WidthInMillimeter="36" VisibleDescription="KNX IP Interface" DefaultLanguage="en-US" Hash="aZL/h1p4tDKKrZDYIqZlleIm4uI=" />
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-14h-1-O00A6_HP-0016-10-EBD7-O00A6" MediumTypes="MT-0" Hash="4+y49rstGViQrG/9Gui3JUTswgk=">
+              <ApplicationProgramRef RefId="M-0004_A-0016-10-EBD7-O00A6" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2019/15835" RegistrationDate="2019-08-05" RegistrationSignature="YzEXEtrAghZWkVU/f7hJPDTS3+YJIolK9JlMFAzDZIlGtIzqjSIXcmhnB3ElsI3mFvrC9Gj3WOmXrAhGm+Mht99Lxh8mjsvbdxWQCDEUW8y9O5xrwPwmR2ZV2BccZVCnhov/J6MJNmY3rMqC2UNQUE7d4SUz9FtF0GwxxbNBrpY=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203602REG-1-O000A" Name="Universal Dimmaktor 2fach kompakt REG" SerialNumber="4 // 3602REG" VersionNumber="1" BusCurrent="6.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203602REG-1-O000A_P-3602REG" Text="Télévariateur Universel, 2 sorties, Modulaire" OrderNumber="3602REG" IsRailMounted="1" WidthInMillimeter="7.0000000e+001" DefaultLanguage="fr-FR" Hash="puIR+rK8hIxMrI66kzCNlExy49A=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="B7/JxfKr0yUeRtc4bL3weiFPO8klBihq8RNfQS/ieHupSghD9Xix8G81eP7kHA/xGQLoRw/M3VkkV34xcqjTOC+meFYCinVQm6g60GTfonPgv8/kpm3zr/oIWlS+ndkILvolJh4MC4iB2jNjLKUc7Vt4YWSEhVrErxik2ZUgrtM=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203602REG-1-O000A_HP-3015-01-21AD-O000A" MediumTypes="MT-0" Hash="N58eRFCW1BA5inw6q9ZSnW+GQuU=">
+              <ApplicationProgramRef RefId="M-0004_A-3015-01-21AD-O000A" />
+              <RegistrationInfo RegistrationSignature="XLKeo7eHGseAfizlk/k3WYvFmtHsdeLfvakP0QGy/KN8rz6X2YmosRa/nFMBRnWl+5DCvGH0tRY34n1KoK05giP+g419S2ObX+A2jDt09drSThWaSXmQEPUqWDGTMeCmi3hnKi1bm5z8psNx2jo9AHc5ddw28+6q5Y44x/udXKk=" OriginalRegistrationNumber="2001/5060" RegistrationNumber="2001/5063" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202138.2E16CREG-1-O000A" Name="Schaltaktor 8fach 16A C-Last REG" SerialNumber="4 // 2138.16CREG" VersionNumber="1" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202138.2E16CREG-1-O000A_P-2138.2E16CREG" Text="Schaltaktor 8fach 16A C-Last REG" OrderNumber="2138.16CREG" IsRailMounted="1" WidthInMillimeter="1.4000000e+002" DefaultLanguage="de-DE" Hash="gFVOcq+NPB1Owtu9tdBDqw2NCrs=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="eOQ9vvksF4rnAL4BkBE5e9U14EqbA6OZmnCzJ6g9epNdQMUoWf62wWVm72eSfoPxHcaKpaF7sVMOBBeS0ATTbH5qXPJQ+fvz7FguzbDQjagZhCREjrpAAuURAjgGtvG3PLCS6Q6QgEvJJMDzr87xpfWvfIwGAhQpM9NEpLHosrE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202138.2E16CREG-1-O000A_HP-2060-01-732A-O000A" MediumTypes="MT-0" Hash="rTTzqRdGO5kwOvh0k84pFOzqySI=">
+              <ApplicationProgramRef RefId="M-0004_A-2060-01-732A-O000A" />
+              <RegistrationInfo RegistrationSignature="SlrCBpO/bnot0iUEBpKav0zjZpxlwkNLrmfl5speNrC5rFBGVVILGbNRtSFsFnlluLtaXsIzrinO3z8YYxQ7uHNZLe4vEoj080R64fNM/qpOsPitI4yb8OV+vwN9fq1vivhx9O9nu1VLpOyJhCV8lClKm/9T0r/1y9DID8vjjDk=" OriginalRegistrationNumber="2003/6184" RegistrationNumber="2003/6187" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202194REGHM-0-O000A" Name="Steuereinheit 4fach REG" SerialNumber="4 // 2194REGHM" VersionNumber="0" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202194REGHM-0-O000A_P-2194REGHM" Text="Steuereinheit 1 - 10 V REG" OrderNumber="2194REGHM" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="de-DE" Hash="m/W7QkU8tSCxvgbpc5UsxxZmzdY=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2016-06-30" RegistrationSignature="EokO+pEDjSe03Y+23+M8GW5PFItJPHB6dAO2nGk7F5q5BCrrkvKz6RL3/qaN9skoK26Sd0ukxQWqEt3rFBFO44oB973Zu/rWz3qYLhWpu+4reQN/JbRcc5hBWMG02g+61ZopDvTK7UbzmNiLM6Jf/SjXMWtmKhTRLlXDyN7+tuU=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202194REGHM-0-O000A_HP-3029-11-78C1-O000A" MediumTypes="MT-0" Hash="PC/UUVM8yt0WeKO6ixWP6AVgcaM=">
+              <ApplicationProgramRef RefId="M-0004_A-3029-11-78C1-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2016/13217" RegistrationDate="2016-06-30" RegistrationSignature="q8GSI8oRxIA8U7wV5kU/fdBcYg2SegXbBwW3PKzL5rrgMG1KW0eo4wDZJrsHRTuCs9K9Rv8OiUc3H+X1MWUYq9z/c5GeWxoxNRItSsbHL+H+1YJQiUc1fjt6KBV7Pq16h/51GeltQnNmxQkf32Vsn3RoPzRqzzZp0MfRrjvn4bY=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203360.2D1-1-O000A" Name="Präsenzmelder Komfort" SerialNumber="4 // 3360-1" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203360.2D1-1-O000A_P-3360.2D1" Text="Presence detector G491'Komfort'" OrderNumber="3360-1" IsRailMounted="false" DefaultLanguage="en-US" Hash="hkGSJjNJtuSbJd6LDV+KdFmzEVA=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="lBYfEqNxJT1LC2tiwVjnHhDpewIFPucnZJXLcM6xZUaC3tN3eFUHre3bar/caHKnbaM4jZvlmEZWusruPGcoD6vXeTXl3hV4QiECcZ5RtbdJTRlhxyAqwtGVLJSsGfeBPLsIVfZ8Cz0fHNsefNTbMCTkniIog9+nD517tBP5ReI=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203360.2D1-1-O000A_HP-A00F-01-4C98-O000A" MediumTypes="MT-0" Hash="aLImxF1qqKZB1VBKVYACEa0GLp8=">
+              <ApplicationProgramRef RefId="M-0004_A-A00F-01-4C98-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2003/5991" OriginalRegistrationNumber="2003/5988" RegistrationSignature="CQoaKTwTz/EtJHdwVbGRSrv6iiV2SApPgyfc0/6Vk8IuuYJjgbcFA3+TrLezWHLtBqSNknVQnTFF4EUjJghGKrdS8vA2aXlqHA8CaP9wPQ02/t30rw0o3a6QeKdmEenlnZkROmoVRPO3SvdpDkJjpw1y/Dd+Pfyj6O1Y2gLZVaM=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203280.2D1A-1-O000A" Name="Automatik-Schalter 180° Universal 2,20 m" SerialNumber="4 // 3280-1A" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203280.2D1A-1-O000A_P-3280.2D1A" Text="Automatic switch 180° universal 2,20 m" OrderNumber="3280-1A" IsRailMounted="false" DefaultLanguage="en-US" Hash="OYI7lBapVpA4rigv5kZv3NT3ocg=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="FIvKdyiWxCurCoFcx/yE4aWQ6O/n9PxfQuLTqVDlpS2L2AGlVL2WpOC5Bhv71JJ2VoCluItmFccizNL7tYvAzATPY91hZcnLVOn2mOVT5YAJbQe64sYT6TsFj30zef4meqjFKmuqRQZMHR8J/FfcDTUaG7nfcZwLFX0FunGzk80=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203280.2D1A-1-O000A_HP-A008-02-0650-O000A" MediumTypes="MT-0" Hash="cPN/240qfgcJ7LbvET/6HuqXbe4=">
+              <ApplicationProgramRef RefId="M-0004_A-A008-02-0650-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2003/5999" OriginalRegistrationNumber="2003/5993" RegistrationSignature="GhaEvCedywB2oiHuaSK+QXlqksKwIkdZzDoStMvhKcYfJ7x4Q1vxCcO9bxJ55FBP149uV+osfIcqdfxvNW4XqTOVOs2/pvqO/FbTLOcJ94xaGyWWd/TnzLFLMRPCQpkwet+IQYpxQbmGZUiGF+dqSKPvliKwDIgebDbYn2m541k=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202118REG-1-O000A" Name="Universal Binäreingang 8fach REG" SerialNumber="4 // 2118REG" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202118REG-1-O000A_P-2118REG" Text="Binary input, 8-gang REG" OrderNumber="2118REG" IsRailMounted="true" WidthInMillimeter="70" DefaultLanguage="en-US" Hash="0+i/bAUmgP/GzdHZ/GKuSMEangY=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="AbAdhYm8714aPwPvuQWFqpszfjUMd4ESnGswom3sQ5VqrakwWuPYBITaCodcira/8+RHGp2GN9XK/4JqW+yDwSPhCM2lpL2gT1EF+3mAz/tTzVghgjWMwU+4XtJ0a9OgP0JKoltNhaKNmdn2yd8IHGNqnDdx5G8gR0PBuq+3M8g=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202118REG-1-O000A_HP-7054-02-4115-O000A" MediumTypes="MT-0" Hash="WrzQxsVs6zuLYss+l1ejYc1kO7k=">
+              <ApplicationProgramRef RefId="M-0004_A-7054-02-4115-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2002/5445" OriginalRegistrationNumber="2002/5438" RegistrationSignature="Eoy5o1rwczDzDF6Tmazwu38FSFGrAzhBu8SHv9yoBG+icaWDkru+Oy1RQLJ5P/o71ya+b6+4aTroq9JcnkJWkMEoifXAoNv87954fzdC8lvCFNw6pZMjD868XqxL32l12fVDwzSPGVK1gbCHSUBHvx4CxhR/sGmqqz3zAvo/ka0=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202142REG-1-O000A" Name="Bereichs-/Linienkoppler REG" SerialNumber="4 // 2142REG" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" IsCoupler="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202142REG-1-O000A_P-2142REG" Text="Coupleur de lignes / réseaux" OrderNumber="2142REG" IsRailMounted="true" WidthInMillimeter="35" DefaultLanguage="fr-FR" Hash="bb4gtIG4jK+4hgBGxeecHcOXT6A=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="xgWKq8yv4FlRtNeedaOJEXT+CplC7Z/7u5w/Q68LCMJQz4Pm0M2oKdRHoA5XDcnio6gkFDbdXxiZN4Vo0LiubbUsbQhSPXWXga4Wnp3u1bTe0aybR90CrmVfKNNj24apCGkncT5HBDkUKjLQg/y6lCxenCALY7zLOMLUeVSgXNg=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202142REG-1-O000A_HP-9010-11-ECA3-O000A" MediumTypes="MT-0" Hash="t9qHJZAKnPxePKs+cKIzWbjZ1Nw=">
+              <ApplicationProgramRef RefId="M-0004_A-9010-11-ECA3-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2012/10282" RegistrationSignature="RTrFmSYjgJF0NOVbi0374mGUmleyPgYjHcrDHkDUW4/F6dGuWpP0U2EnvChp+PqsgH1Ekr7USAaXgIdm2LPYClJZzQ3jQjY22g+zzLaqOq8tGJlOeLrGhfqURySkAEQskHvbBtZYMaO7A2tkNl4lqLh/MUrs3IVJq4W16scZ7Qs=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202302.2E16REGHM-1-O000A" Name="REG 2007 Schaltaktor 2fach" SerialNumber="4 // 2302.16REGHM" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202302.2E16REGHM-1-O000A_P-2302.2E16REGHM" Text="2-gang switch actuator 16A SE" OrderNumber="2302.16REGHM" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="en-US" Hash="l3l4PXwjskuQjCvbdinKke898UM=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="f6rpCNMTqtY+cE3tisTMdhJuVt0ak+HaKJp6MP8q9AwVQbVqciU6xLGQCFL+SC7irm7+SWpglto5skd6u08xlFSn1lzFGghZj4rgJimeNLH+GY9yx3KKOVWtxzQdPjOmS+5SgYcjSP263yCEt9DdqZfQcVCqU0iBzsN6Ihv8aeY=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202302.2E16REGHM-1-O000A_HP-2090-16-AEEB-O000A" MediumTypes="MT-0" Hash="AP3bEXi3ykzTthoSWPdr9udOV54=">
+              <ApplicationProgramRef RefId="M-0004_A-2090-16-AEEB-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2007/8064" OriginalRegistrationNumber="2007/8061" RegistrationSignature="P5nT7Os4KKYyCvlYQoqgjviuheDW412DoczdHMPRHpKMocBfT0Rvk/BmY+ysfg2YSEfomOsHl9YV3Dyyek+mGlq+8DtuN0uyF8bOXjzOdfFUu1sW7hO3sGNsq76wY59+s9eckZ3QTpSgFYbNFwRzwwu3/CYwRyc+Tuz/aCVkyFU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203361.2D1MWW-1-O000A" Name="Präsenzmelder Komfort Mini" SerialNumber="4 // 3361-1MWW" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203361.2D1MWW-1-O000A_P-3361.2D1MWW" Text="Präsenzmelder Mini Universal" OrderNumber="3361-1MWW" IsRailMounted="false" DefaultLanguage="de-DE" Hash="h0/DjFRzhfxyDkcS3Ab0+DaYIlg=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2015-07-13" RegistrationSignature="Jkkz6gcw/bbNoDVjwhmIRBHiJpuZwSI3mSTTht/UqNSC4wzsgV6T9n1xCEezeRqfxNbL8t7MLcqpEyocauE/inErHBU5t7q+FRLIuPpuidA+fHPnj5lvJEfpfxVxdMK/X3w3rofABu908t/LveMqZUfe9nv66EivNW8/NU2YgBw=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203361.2D1MWW-1-O000A_HP-A011-13-400D-O000A" MediumTypes="MT-0" Hash="CrB+8WqBdgwjuGEHYCpm3eMonmM=">
+              <ApplicationProgramRef RefId="M-0004_A-A011-13-400D-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2020/16507" RegistrationDate="2020-03-23" RegistrationSignature="T25m843w4kCc+Yta/3sBj0/vfESrQuRsrlZ7c8xhj7wOvs4aegXGWAVrj1kQoZCcNr29eG+zDoo7bdhAQS6dHoqgkSkGOo4hi6d+jufKxzx9qLRZ5klMyowPBlg6d/URmdmsd4PO3JYieYdIvOK1qGBJtPjJlcv7fE1wCN2hc94=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202224REGH-1-O000A" Name="Jalousieaktor 4fach 24VDC Hand REG" SerialNumber="4 // 2224REGH" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202224REGH-1-O000A_P-2224REGH" Text="shutter/blind actuator 4-gang 24VDC hand REG" OrderNumber="2224REGH" IsRailMounted="true" WidthInMillimeter="70" DefaultLanguage="en-US" Hash="GMMrVOUWrHmx3Y/z1oup4pjrwgY=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="NQwwhALC45zm6vwifbVF4CWSX99OevIdvlKt0oPaLnBeCbUlaFIxzzSQ1snkX4o6nx4maKVzD10jOuwONFwu28+K9gtLSpIrbqYMI3JvpNmlwDBm1g39/n8iam79TMa75K4O7IS086ZmutdyI/COYmXccx8UOCZp6dmtknAHnfQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202224REGH-1-O000A_HP-2069-01-C8FE-O000A" MediumTypes="MT-0" Hash="DwsPOtGL0H8XDjN31nmoRkJZwu4=">
+              <ApplicationProgramRef RefId="M-0004_A-2069-01-C8FE-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2003/6347" OriginalRegistrationNumber="2003/6345" RegistrationSignature="VRR5s07/yhx6l6FuDAL25Ui6MNhx6oUc7VjXEGa4q6NKmOwam9LCDebUI1MYEVfkNL354bEPMP+nVvjNGo60r7+C1FXGvLjhNAOda/Wce9EXr0xoH2ebVCuFqGoPAG4cKRdx3j5DkygOpOpAUd5OD2jQOSDAPBgLaKu14H7DJmo=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A" Name="REG 2006 Jalousieaktor 4fach 230V / 2fach 24VDC" SerialNumber="4 // 2504REGHE" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_P-2504REGHE" Text="Shutter/blind act. 4gang AC230V/2gang DC12-48V SE" OrderNumber="2504REGHE" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="en-US" Hash="9bYrfa7VUDLwdwfNixtr66j07MI=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="nNlmOzlPMG5oNSTdnzYmPo5rxOg+ktQfncU5461+ZXOQ0D1ea6wAwCFvTiQWFzKY85XlM10K4tMVbLd8dIy192wAjQKFpuKft2Ra0syRMPKIp3gsEqh6CCf4QRJX3HyS4by4QWQXWLMSoSL6jo2PpTbcpvbZU207RFJ6qBn1dZ8=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_HP-20A8-12-EFDA-O000A" MediumTypes="MT-0" Hash="GaPifrOTwq60W+qA7aT6L0IG2mk=">
+              <ApplicationProgramRef RefId="M-0004_A-20A8-12-EFDA-O000A" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2008/8497" OriginalRegistrationNumber="2008/8488" RegistrationSignature="xrQwUzUq1kuebxxdh25Q2qMAvuQDnfGsSnDdEMCisfdiLh5PW4UfB5ehvjB3SRUtwLXvnU4jrTfj4rjStXrCfoLTomYL77nuMlWWFlfjJDC2sVbVMvaxwWd+MXIgaoDLFOv2GuC6CLmbBwwPD3Uzy78o+NvVqrdShaUl+rlgvxU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203901REGHE-1-O000A" Name="REG 2010 Universal-Dimmaktor 1fach" SerialNumber="4 // 3901REGHE" VersionNumber="1" BusCurrent="1.5000000e+001" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203901REGHE-1-O000A_P-3901REGHE" Text="Universal-Dimmaktor / Drehzahlsteller 1fach" OrderNumber="3901REGHE" IsRailMounted="1" WidthInMillimeter="7.2000000e+001" DefaultLanguage="de-DE" Hash="FaJMpD+Lp/7g1l9YZvZEohyq5QU=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="dnwPV9HGglv95J3idl13LDCCp+CS+gYTs/AiwL3mQRBOjGZggvvgGCo4Ikjz8lSBnmd5pjsijvwujAlZuRaYLPLvopWw1twJ4rV7Hcwve3XDqPVSUnAo+P8Yt8m3tN1zobJEHgfIAzNimj3wS3XVbpdNgXLS6rmRb90FV7WtCeQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203901REGHE-1-O000A_HP-3026-13-052D-O000A" MediumTypes="MT-0" Hash="DESKbcbikhLq4uDLiA3ZN5AXYRY=">
+              <ApplicationProgramRef RefId="M-0004_A-3026-13-052D-O000A" />
+              <RegistrationInfo RegistrationSignature="H2k5t8krY3h8DBb/Cck5ygrFS/Sakne0p8E2LJvB1JgZSLmCUFBi6R9610nhp8z8yBPEgjXy1UE0GmsoYWt2E+OguMcYFUEBAPtI+4nmKaf1zgI8EgWtQHYAjDEtu5ahnrbPDmyFTDIMqxLKsnPg3R+gvbayS7kGO013TD6dIvI=" RegistrationDate="2016-02-16" RegistrationNumber="2016/12857" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203904REGHE-1-O000A" Name="REG 2010 Universal-Dimmaktor 4fach" SerialNumber="4 // 3904REGHE" VersionNumber="1" BusCurrent="15" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203904REGHE-1-O000A_P-3904REGHE" Text="Actionneur télévariateur universel 4 voies" OrderNumber="3904REGHE" IsRailMounted="true" WidthInMillimeter="144" DefaultLanguage="fr-FR" Hash="Fuc5LuazwXa/YCOlWu6DjQIwgFM=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="kcdXUu9/MSAYy+V5PxdX5btrJIRfqNkW+yjTOSTupouH8eA90f07vV1ZvetnEH6380sqdx1efu6p9HM8YbiYCWwM5k2pvSTW2gg5r3RKYdn0wA24O7bsrs2U5Q3m8vtxRUSxnvsQ5tTuLjo6jSBZynVfD+PNhzHH1pU1Qa9FjBE=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203904REGHE-1-O000A_HP-3020-13-131D-O000A" MediumTypes="MT-0" Hash="qU3EFGHIZqIVS5Y1zP1elL9fed8=">
+              <ApplicationProgramRef RefId="M-0004_A-3020-13-131D-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2016/12855" RegistrationDate="2016-02-16" RegistrationSignature="FboVTsiHdpJJc14j+qQfUvkvnnZtkaqWCVjDDXEs6ujBe8+tIC2gawxK8u6lARuQJLQV5mC9r4kunJdEoa3y9FyQqVA0LLqr1qvgVeGNyEDMAP/W+a3A5B2/sgyape9MEYKVCqqKbrgvMx+PW+XM9drzaWrUuasSm5XT0OpmJt8=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.20xx72.2E02LED-2-O000A" Name="Taster-BA R2 2fach gerade" SerialNumber="4 // xx72.02LED" VersionNumber="2" BusCurrent="6.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.20xx72.2E02LED-2-O000A_P-4072.2E02LED" Text="Taster BA 2-fach, Mittenstellung" OrderNumber="4072.02LED" IsRailMounted="0" DefaultLanguage="de-DE" Hash="yk1aYXeJywBWt5pGshglw/YE3zE=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="Qtl5FAcm3+NQXfSrb6rj2ftG13r1+3TOwWRVuIqy7EUKXqsuhmCdyBBo6E30dJ0kE676bTc2+7qZCTsVY5gK4YNAAhagKIjNkGLgOouw8nsDiRXRmxeH12F/ozDa+5NLZ6AIwG9DC7VqL7X6ThrBBNdykdhSEZCx4DCGsjHpnMs=" RegistrationDate="2012-05-07" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.20xx72.2E02LED-2-O000A_HP-10FD-12-84A8-O000A" MediumTypes="MT-0" Hash="FoaMk4odeozCK579UeuUlD+WY+M=">
+              <ApplicationProgramRef RefId="M-0004_A-10FD-12-84A8-O000A" />
+              <RegistrationInfo RegistrationSignature="Y7d4trlyQnY7hoI//pciH7EzclyQhfRME28k4Wr6J9eGxzcSVhvKKaC4DavXcS9HToFdqSgSsWMcvFuoUK1ERn9sYSSTrGbcu77LIv0BUu5Bu3vcnDnBdzjYP+sEFmkQ2KplV/VSfXoSltkfceO3BQ1RAIAm3JKEOESDeAvPmP4=" RegistrationNumber="2012/10460" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202304.2E16REGHM-1-O000A" Name="REG 2006 Schaltaktor 4fach" SerialNumber="4 // 2304.16REGHM" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202304.2E16REGHM-1-O000A_P-2304.2E16REGHM" Text="Actionneur 4 sorties 16A modulaire' " OrderNumber="2304.16REGHM" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="fr-FR" Hash="bt00JDco7L4Qjty+JRX6DNqXF3Q=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="Z4rrFyPWNEb25k5FMLBIhEs07riEO2HQV7TDo7I/VOcFMYuRBOgyxl8ACnZDBbWjHyFP1wFNXkO5oFmyp7NcuZNgxTWgzkKAceRXRvuhp81S9KECXaRma8zncCMRCOKWm72L6ON8VPz9ZcUnz2vIDtZeH8pRp6Cm1/f8d4Pzvjs=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202304.2E16REGHM-1-O000A_HP-2090-01-79C0-O000A" MediumTypes="MT-0" Hash="9FwGqoTgkKco23Mlf0cLJ12tYVQ=">
+              <ApplicationProgramRef RefId="M-0004_A-2090-01-79C0-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2006/7580" OriginalRegistrationNumber="2006/7566" RegistrationSignature="C7HwCbE+nNBGv7vmv7uu2XPaRYalMjjZqtHczRD8XMUXmAkH1elPLlG9Gyh6VPfjb3mBG9rQuF4w9R4HGoWzdGbShDgo9cHQuksm8vh11nAGJW8CEFcTjBNABrIu9GtkZe58p3OTueuJ6LBQ5xFjpRI/SUN1ZIY6jNUiUeIekas=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202336REGHZHE-0-O000A" Name="Heizungsaktor 6fach" SerialNumber="4 // 2336REGHZHE" VersionNumber="0" BusCurrent="1.0000000e+001" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202336REGHZHE-0-O000A_P-2336REGHZHE" Text="Heizungsaktor 6fach" OrderNumber="2336REGHZHE" IsRailMounted="1" WidthInMillimeter="7.2000000e+001" DefaultLanguage="de-DE" Hash="Mwaw4v38uekC4GSqP33bDuiZLtc=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="Y7XuriPo/5ikTaVlJWZtffFtGpxJYc4TPas/WfZtmROjCIf7pH856R3nxhSgVY2YDuYO7rb3d0grjl9B8U3G4GgcbdI3AfroEnRhlE23PVt+cufyLPJIrMPEQBHzyagnXMTPsSoI4C3OGZUN88BRb90duO5pgk6zLFhb4yKYYzI=" RegistrationDate="2015-01-05" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202336REGHZHE-0-O000A_HP-20D0-11-3729-O000A" MediumTypes="MT-0" Hash="8pRcZba9FSP7tIKKg07ad7W+q3g=">
+              <ApplicationProgramRef RefId="M-0004_A-20D0-11-3729-O000A" />
+              <RegistrationInfo RegistrationSignature="gOgwhzAZZcmc/BpP3IsSn8cAGAYXX4v+zBUvwPSr28u6XtSZvvBO7ZOkdJmA5DDdDY8BCxKrvkbJI3xBzG7cCK/GwGptq57faKZl/HecI8hdrup94bX0oXuwQPLrDE0QDWv++Vu3CP1RzGydcGM0jFqYDAt1XxcaxtpzLDk1svU=" RegistrationDate="2015-01-05" RegistrationNumber="2015/11953" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.204194TSM-1" Name="Tastsensor 4fach Universal TSM V3" SerialNumber="4 // 4194TSM" VersionNumber="1" BusCurrent="6.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.204194TSM-1_P-4194TSM" Text="Tastsensor 4fach Universal TSM" OrderNumber="4194TSM" IsRailMounted="0" DefaultLanguage="de-DE" Hash="ctqANyhlkE9E4u2IeoQnaOYtdUE=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="U9eRE+zklxthRHvrbxzJwqD39Pum0S9N2nZPjXWI1U5Ze5l1BiVFHrWg32+dlCWHDGDpM1Yc/ztNrbzll1TvBPrqpw+89XFN08ll28XWwkO7kJ+10pPcMX87jHWwxGx+GYFDgBQFcDmkxY+aiWdU0V9/bIZHb4E26E5jjdJvmrs=" RegistrationDate="2016-05-09" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.204194TSM-1_HP-10B4-13-AF5F-O000A" MediumTypes="MT-0" Hash="vR/IF+3EIMjAbIBtzzI+njhMd9w=">
+              <ApplicationProgramRef RefId="M-0004_A-10B4-13-AF5F-O000A" />
+              <RegistrationInfo RegistrationSignature="A+a4Rs274xiZQFG9oS6Bfl9nsVB0KoXgDG5QazaG9oAf9DJq5J+Csp+D6eueAwY08NZ6Qh0kb3d7ydhw03ZaUVNda4EbBbH2FFGf5zaamWrhHhX926H7YCsu51qialGHV+PQbbAMWcEXGaIg7qRFDUPAqeV3V0AgwwFiA5hkkjA=" RegistrationDate="2016-05-09" RegistrationNumber="2016/13044" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A" Name="Präsenzmelder Komfort" SerialNumber="4 // 3361-1" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_P-3361.2D1" Text="Optique détecteur 360° plafonnier Universel" OrderNumber="3361-1" IsRailMounted="false" DefaultLanguage="fr-FR" Hash="jAOkgVwDYtJyAYj/ClclYPbZQYE=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2012-09-25" RegistrationSignature="APgFE5Gd19OQ2XCPBBWsSy6g4cMngnVZTy9SpBGxr+76EjEOdu3WmesLRZ1s2hxAM5LJM/aEpXbA3IxNihX8TJYSoYgGn7dGGGhgAc0SBenbxBBLQCE2ULLo7Eh+KPyhtygTJ1rzADUVfuX4/ivXJQUirmhONmHax4xek5f1X2g=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_HP-A011-12-2EF9-O000A" MediumTypes="MT-0" Hash="qcPuRSF7Jpa2DvSVfnaCf1WlVcM=">
+              <ApplicationProgramRef RefId="M-0004_A-A011-12-2EF9-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2014/11380" RegistrationDate="2014-03-20" RegistrationSignature="geG2Kc4OmD7btJ233QLvZm++f7ZO+pRdqMlBihOfafiw0Ui6lGCsB43sBKBpjpXiEWGXrHyUDwvEPIdviGDZ37pJwxVYP+XcXEH8ESckc6Psay4k3bY3u/nNh12ACP02wFjw67uy73NxZGuirhxIEEJKTo8O4RVxEwUulIK4FGU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.203902REGHE-1-O000A" Name="REG 2010 Universal-Dimmaktor 2fach" SerialNumber="4 // 3902REGHE" VersionNumber="1" BusCurrent="1.5000000e+001" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.203902REGHE-1-O000A_P-3902REGHE" Text="Universal-Dimmaktor 2fach" OrderNumber="3902REGHE" IsRailMounted="1" WidthInMillimeter="7.2000000e+001" DefaultLanguage="de-DE" Hash="7pYcXQdW4RYsIA8KlbQYgX+U+MU=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="bHjL+XA4jcRL2FMMMbEvgrtRVwBWZbfQmR1Zc2briVrMDf5E8oIHnCjQjbZ7CU4aZ1Z2qd+d+o1ZZyLrsw/yIWunH/RQoI3Y2KpHLhFmlDQUL4hXnkwfVNun0bK7WUrCRlffZ98cHEYuFiTWno7XfuCzVaX/p9WzYe6E68gPyVQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.203902REGHE-1-O000A_HP-3023-13-91D0-O000A" MediumTypes="MT-0" Hash="G9dlsnjwiSxpQX+Xauwi59C0Bi4=">
+              <ApplicationProgramRef RefId="M-0004_A-3023-13-91D0-O000A" />
+              <RegistrationInfo RegistrationSignature="ryQ9J7BqhoT4Af80slCtNZ2s27plLeBzPZos6lF0OWJEz3ddQHl0uK/o+ucllwYhuh/CEuZvVCMeKXxokaHbazJlc6BP1ZU8pQ6L/Wxlp4nA6NpvGgLUhJFkcc/aEVG/Qc3S9NIOvK1CAmzWXPqqApFEjmpdW29HrvsEYeqq1K0=" RegistrationDate="2016-02-16" RegistrationNumber="2016/12856" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-2224.20WH-4-O00F4" Name="Wetterstation Home" SerialNumber="2224 WH" VersionNumber="4" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-00F4" NonRegRelevantDataVersion="0" IsIPEnabled="0" RFRxCapabilities="Ready" RFTxCapabilities="Ready">
+          <Products>
+            <Product Id="M-0004_H-2224.20WH-4-O00F4_P-2224.20WH" Text="Weather station home" OrderNumber="2224 WH" IsRailMounted="0" DefaultLanguage="en-US" Hash="1dEPoTwUDjt/kPtJgQHxKlm4sgk=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="wlFghs0x/bVHjf5cvIrIXmiE98bq3LOpmvq1ZkUaaHbdbOyTUcfS/MUdi7L0hxFd2OLlfBahFlTYnoYk5ShI9nPjn+osxKbDxFT7p11mveF8gAkM+ndGNmO8ST5Jqa1zuXcfU+ppUq7fSuZRa2Ttt4A1TJU5B4+Jk2wJM1b13VU=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-2224.20WH-4-O00F4_HP-B009-11-C094-O00F4" MediumTypes="MT-0" Hash="+TlEXJP7nNmBQirxqfgVgVdYaPw=">
+              <ApplicationProgramRef RefId="M-0004_A-B009-11-C094-O00F4" />
+              <RegistrationInfo RegistrationSignature="fooYSLMZCwWQ2fLDWXl5ALvGakzSkyXWVimnij2S1S/ywWNpRO4hWJT5619Ig69D2Fze0EGLQoDRw9k2ZhJQ42HBOcGekV28gZrc2aAsBhvf5paCPZ5dD0dCCGUDy8D8VIZJaOC3/tYKZ4nmT74j5NQI+vMWOvD7+ZLLK82TgPI=" OriginalRegistrationNumber="2007/8140" RegistrationNumber="2007/8142" RegistrationStatus="Registered" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.204093KRMTSD-1_P-4093KRMTSD">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.204093KRMTSD-1_P-4093KRMTSD">
+              <Translation AttributeName="Text" Text="Régulateur module compact" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202304.2E16REGHE-1-O000A_P-2304.2E16REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202304.2E16REGHE-1-O000A_P-2304.2E16REGHE">
+              <Translation AttributeName="Text" Text="Action. TOR 4 voies/action. volet-roulant 2 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202136REGHZ-1-O000A_P-2136REGHZ">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202136REGHZ-1-O000A_P-2136REGHZ">
+              <Translation AttributeName="Text" Text="Actionneur Chauffage, 6 Sorties, Modulaire" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202114REG-2_P-2114REG.2E">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202114REG-2_P-2114REG.2E">
+              <Translation AttributeName="Text" Text="Entrée binaire, 4 voies, Modulaire" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE">
+              <Translation AttributeName="Text" Text="Action. TOR 8 voies/action. volet-roulant 4 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202134.2E16REG-1-O000A_P-2134.2E16REG">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202134.2E16REG-1-O000A_P-2134.2E16REG">
+              <Translation AttributeName="Text" Text="Actionneur 4 voies 16A Mod." />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.205192KRMTSD-1-O00F4_P-5192KRMTSD">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.205192KRMTSD-1-O00F4_P-5192KRMTSD">
+              <Translation AttributeName="Text" Text="Régulateur RCD module compact 2 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202071.2E02LED-1-O0001_P-2071.2E02LED">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202071.2E02LED-1-O0001_P-2071.2E02LED">
+              <Translation AttributeName="Text" Text="BP - BCU position milieu, 1 voie" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202072.2E02LED-1-O0001_P-2072.2E02LED">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202072.2E02LED-1-O0001_P-2072.2E02LED">
+              <Translation AttributeName="Text" Text="BP BCU, position milieu, 2 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202204REGH-1-O000A_P-2204REGH">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202204REGH-1-O000A_P-2204REGH">
+              <Translation AttributeName="Text" Text="Actionneur VR-Store 4sorties 230V Cde. Manuelle, Modulaire" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-14h-1-O00A6_P-IPS300SREG">
+            <TranslationElement RefId="M-0004_H-14h-1-O00A6_P-IPS300SREG">
+              <Translation AttributeName="Text" Text="Interface IP KNX" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203602REG-1-O000A_P-3602REG">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203602REG-1-O000A_P-3602REG">
+              <Translation AttributeName="Text" Text="Télévariateur Universel, 2 sorties, Modulaire" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202194REGHM-0-O000A_P-2194REGHM">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202194REGHM-0-O000A_P-2194REGHM">
+              <Translation AttributeName="Text" Text="Actionneur télévariateur 1-10 V" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202142REG-1-O000A_P-2142REG">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202142REG-1-O000A_P-2142REG">
+              <Translation AttributeName="Text" Text="Coupleur de lignes / réseaux" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203361.2D1MWW-1-O000A_P-3361.2D1MWW">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203361.2D1MWW-1-O000A_P-3361.2D1MWW">
+              <Translation AttributeName="Text" Text="Optique détecteur 360° plafonnier Universel" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_P-2504REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_P-2504REGHE">
+              <Translation AttributeName="Text" Text="Actionneur VR-Store 4 voies AC 230V / 2 voies DC 12-48V REG" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203901REGHE-1-O000A_P-3901REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203901REGHE-1-O000A_P-3901REGHE">
+              <Translation AttributeName="Text" Text="Actionneur télévariateur universel 1 voie" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203904REGHE-1-O000A_P-3904REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203904REGHE-1-O000A_P-3904REGHE">
+              <Translation AttributeName="Text" Text="Actionneur télévariateur universel 4 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.20xx72.2E02LED-2-O000A_P-4072.2E02LED">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.20xx72.2E02LED-2-O000A_P-4072.2E02LED">
+              <Translation AttributeName="Text" Text="Bouton poussoir BCU, 2 voies, position milieu" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202304.2E16REGHM-1-O000A_P-2304.2E16REGHM">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202304.2E16REGHM-1-O000A_P-2304.2E16REGHM">
+              <Translation AttributeName="Text" Text="Actionneur 4 sorties 16A modulaire' " />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202336REGHZHE-0-O000A_P-2336REGHZHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202336REGHZHE-0-O000A_P-2336REGHZHE">
+              <Translation AttributeName="Text" Text="Actionneur chauffage 6 sorties" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.204194TSM-1_P-4194TSM">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.204194TSM-1_P-4194TSM">
+              <Translation AttributeName="Text" Text="Platine de cde Multifonction, 4voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_P-3361.2D1">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_P-3361.2D1">
+              <Translation AttributeName="Text" Text="Optique détecteur 360° plafonnier Universel" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203902REGHE-1-O000A_P-3902REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203902REGHE-1-O000A_P-3902REGHE">
+              <Translation AttributeName="Text" Text="Actionneur télévariateur universel 2 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="en-GB">
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203360.2D1-1-O000A_P-3360.2D1">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203360.2D1-1-O000A_P-3360.2D1">
+              <Translation AttributeName="Text" Text="Presence detector G491'Komfort'" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="en-US">
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203280.2D1A-1-O000A_P-3280.2D1A">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203280.2D1A-1-O000A_P-3280.2D1A">
+              <Translation AttributeName="Text" Text="Automatic switch 180° universal 2,20 m" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202302.2E16REGHM-1-O000A_P-2302.2E16REGHM">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202302.2E16REGHM-1-O000A_P-2302.2E16REGHM">
+              <Translation AttributeName="Text" Text="2-gang switch actuator 16A SE" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_P-2504REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202504REGHE-1-O000A_P-2504REGHE">
+              <Translation AttributeName="Text" Text="Shutter/blind act. 4gang AC230V/2gang DC12-48V SE" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-2224.20WH-4-O00F4_P-2224.20WH">
+            <TranslationElement RefId="M-0004_H-2224.20WH-4-O00F4_P-2224.20WH">
+              <Translation AttributeName="Text" Text="Weather station home" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="de">
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_P-3361.2D1">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.203361.2D1-1-O000A_P-3361.2D1">
+              <Translation AttributeName="Text" Text="Präsenzmelder / Deckenwächter Universal" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="de-DE">
+          <TranslationUnit RefId="M-0004_H-2224.20WH-4-O00F4_P-2224.20WH">
+            <TranslationElement RefId="M-0004_H-2224.20WH-4-O00F4_P-2224.20WH">
+              <Translation AttributeName="Text" Text="Wetterstation Home" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
