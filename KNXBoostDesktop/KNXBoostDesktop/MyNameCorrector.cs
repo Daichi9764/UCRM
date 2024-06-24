@@ -5,13 +5,15 @@ namespace KNXBoostDesktop;
 
 public class MyNameCorrector
 {
+    public static XNamespace GlobalKnxNamespace = string.Empty;
+    
     public static void CorrectName()
     {
         try
         {
             // Define the XML namespace used in the KNX project file
-            XNamespace knxNs = $"http://knx.org/xml/project/23";
-
+            SetNamespaceFromXml(App.Fm?.ZeroXmlPath ?? string.Empty);
+            
             // Load the XML file from the specified path
             XDocument knxDoc;
             try
@@ -48,16 +50,16 @@ public class MyNameCorrector
             Formatter formatter = new FormatterNormalize();
 
             // Extract location information from the KNX file
-            var locationInfo = knxDoc.Descendants(knxNs + "Space")
+            var locationInfo = knxDoc.Descendants(GlobalKnxNamespace + "Space")
                 .Where(s => s.Attribute("Type")?.Value == "Room")
                 .Select(room => new
                 {
                     RoomId = room.Attribute("Id")?.Value,
                     RoomName = room.Attribute("Name")?.Value,
-                    FloorName = room.Ancestors(knxNs + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Floor")?.Attribute("Name")?.Value,
-                    BuildingPartName = room.Ancestors(knxNs + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "BuildingPart")?.Attribute("Name")?.Value,
-                    BuildingName = room.Ancestors(knxNs + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Building")?.Attribute("Name")?.Value,
-                    DeviceRefs = room.Descendants(knxNs + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
+                    FloorName = room.Ancestors(GlobalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Floor")?.Attribute("Name")?.Value,
+                    BuildingPartName = room.Ancestors(GlobalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "BuildingPart")?.Attribute("Name")?.Value,
+                    BuildingName = room.Ancestors(GlobalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Building")?.Attribute("Name")?.Value,
+                    DeviceRefs = room.Descendants(GlobalKnxNamespace + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
                 })
                 .ToList();
 
@@ -73,33 +75,37 @@ public class MyNameCorrector
             }
 
             // Extract device instance references and  their group object instance references from the KNX file
-            var deviceRefs = knxDoc.Descendants(knxNs + "DeviceInstance")
+            var deviceRefs = knxDoc.Descendants(GlobalKnxNamespace + "DeviceInstance")
                 .Select(di => new
                 {
                     Id = di.Attribute("Id")?.Value,
                     Hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value,
                     ProductRefId = di.Attribute("ProductRefId")?.Value,
-                    GroupObjectInstanceRefs = di.Descendants(knxNs + "ComObjectInstanceRef")
+                    GroupObjectInstanceRefs = di.Descendants(GlobalKnxNamespace + "ComObjectInstanceRef")
                         .Where(cir => cir.Attribute("Links") != null)
-                        .Select(cir => new
-                        {
-                            GroupAddressRef = cir.Attribute("Links")?.Value,
-                            DeviceInstanceId = di.Attribute("Id")?.Value,
-                            ComObjectInstanceRefId = cir.Attribute("RefId")?.Value.IndexOf('_') >= 0 ?
-                                cir.Attribute("RefId")?.Value.Substring(0, cir.Attribute("RefId")?.Value.IndexOf('_') ?? 0) :
-                                cir.Attribute("RefId")?.Value
-                        })
+                        .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? Array.Empty<string>())
+                            .Select(link => new
+                            {
+                                GroupAddressRef = link,
+                                DeviceInstanceId = di.Attribute("Id")?.Value,
+                                ComObjectInstanceRefId = cir.Attribute("RefId")?.Value.IndexOf('_') >= 0 ?
+                                    cir.Attribute("RefId")?.Value.Substring(0, cir.Attribute("RefId")?.Value.IndexOf('_') ?? 0) :
+                                    cir.Attribute("RefId")?.Value
+                            }))
                 })
                 .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
                 {
                     di.Id,
                     di.ProductRefId,
                     HardwareFileName = di.Hardware2ProgramRefId != null ? 
-                       FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
-                       null,
+                        FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
+                        null,
                     MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
                         FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
                         null,
+                    IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null ?
+                        GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory) :
+                        false,
                     g.GroupAddressRef,
                     g.DeviceInstanceId,
                     g.ComObjectInstanceRefId,             
@@ -109,11 +115,12 @@ public class MyNameCorrector
                 }))
                 .ToList();
 
+
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
             foreach (var dr in deviceRefs)
             {
-                App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
+                App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
             }
 
             // Dictionary to store whether room name has been appended to each group address
@@ -126,8 +133,8 @@ public class MyNameCorrector
                 if (location != null)
                 {
                     App.ConsoleAndLogWriteLine($"Matching Device Instance ID: {deviceRef.DeviceInstanceId}");
-                    var groupAddressElement = knxDoc.Descendants(knxNs + "GroupAddress")
-                        .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceRef.GroupAddressRef ?? string.Empty) == true);
+                    var groupAddressElement = knxDoc.Descendants(GlobalKnxNamespace + "GroupAddress")
+                        .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceRef.GroupAddressRef) == true);
 
                     if (groupAddressElement != null)
                     {
@@ -136,7 +143,7 @@ public class MyNameCorrector
                         if (nameAttr != null)
                         {
                             // Append room name to group address name only if it hasn't been appended before
-                            if (!appendedRoomName.ContainsKey(deviceRef.GroupAddressRef ?? string.Empty))
+                            if (!appendedRoomName.ContainsKey(deviceRef.GroupAddressRef))
                             {
                                 string newName = $"{nameAttr.Value}";
 
@@ -144,11 +151,11 @@ public class MyNameCorrector
                                 newName += $"_{formatter.Format(deviceRef.ObjectType ?? string.Empty)}";
 
                                 // Traverse up the hierarchy to find GroupRange and append its name
-                                var groupRangeElement = groupAddressElement.Ancestors(knxNs + "GroupRange").FirstOrDefault();
+                                var groupRangeElement = groupAddressElement.Ancestors(GlobalKnxNamespace + "GroupRange").FirstOrDefault();
                                 if (groupRangeElement != null)
                                 {
                                     // Check if there is a GroupRange ancestor of the GroupRange
-                                    var ancestorGroupRange = groupRangeElement.Ancestors(knxNs + "GroupRange").FirstOrDefault();
+                                    var ancestorGroupRange = groupRangeElement.Ancestors(GlobalKnxNamespace + "GroupRange").FirstOrDefault();
                                     if (ancestorGroupRange != null)
                                     {
                                         newName += $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
@@ -163,7 +170,7 @@ public class MyNameCorrector
                                 App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                                 App.ConsoleAndLogWriteLine($"New Name: {newName}");
                                 nameAttr.Value = newName;
-                                appendedRoomName[deviceRef.GroupAddressRef ?? string.Empty] = true;
+                                appendedRoomName[deviceRef.GroupAddressRef] = true;
                             }
                         }
                     }
@@ -203,8 +210,6 @@ public class MyNameCorrector
     {
         string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty; // Path to the project files directory
 
-        XNamespace knxNs = "http://knx.org/xml/project/23";
-
         // Construct the full path to the Mxxxx directory
         string mxxxxDirectoryPath = Path.Combine(projectFilesDirectory, mxxxxDirectory);
 
@@ -234,7 +239,7 @@ public class MyNameCorrector
                 XDocument hardwareDoc = XDocument.Load(filePath);
 
                 // Find the ComObject element with the matching Id
-                var comObjectElement = hardwareDoc.Descendants(knxNs + "ComObject")
+                var comObjectElement = hardwareDoc.Descendants(GlobalKnxNamespace + "ComObject")
                     .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
 
                 if (comObjectElement == null)
@@ -326,7 +331,7 @@ public class MyNameCorrector
     }
     
 
-    private static bool IsDeviceRailMounted(string productRefId, string mxxxDirectory)
+    private static bool GetIsDeviceRailMounted(string productRefId, string mxxxDirectory)
     {
         // Path to the project files directory
         string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty;
@@ -348,10 +353,9 @@ public class MyNameCorrector
         {
             // Load the Hardware.xml file
             XDocument hardwareDoc = XDocument.Load(hardwareFilePath);
-            XNamespace knxNs = "http://knx.org/xml/project/23"; // Adjust the namespace if needed
             
             // Find the Product element with the matching Id
-            var productElement = hardwareDoc.Descendants(knxNs + "Product")
+            var productElement = hardwareDoc.Descendants(GlobalKnxNamespace + "Product")
                 .FirstOrDefault(pe => pe.Attribute("Id")?.Value == productRefId);
             
             if (productElement == null)
@@ -391,6 +395,26 @@ public class MyNameCorrector
         {
             App.ConsoleAndLogWriteLine($"Error reading Hardware.xml: {ex.Message}");
             return false; // Default to false in case of an error
+        }
+    }
+
+    public static void SetNamespaceFromXml(string zeroXmlFilePath)
+    {
+        XmlDocument doc = new XmlDocument();
+        
+        // Charger le fichier XML
+        doc.Load(zeroXmlFilePath);
+        
+        // Vérifier l'existence du namespace dans l'élément racine
+        XmlElement? root = doc.DocumentElement;
+        if (root != null)
+        {
+            // Récupérer le namespace
+            XNamespace xmlns = root.GetAttribute("xmlns");
+            if (xmlns!=string.Empty)
+            {
+                GlobalKnxNamespace = xmlns;
+            }
         }
     }
 
