@@ -5,7 +5,7 @@ namespace KNXBoostDesktop;
 
 public class MyNameCorrector
 {
-    public static XNamespace GlobalKnxNamespace = string.Empty;
+    private static XNamespace GlobalKnxNamespace = string.Empty;
     
     public static void CorrectName()
     {
@@ -103,9 +103,7 @@ public class MyNameCorrector
                     MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
                         FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
                         null,
-                    IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null ?
-                        GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory) :
-                        false,
+                    IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null && GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory),
                     g.GroupAddressRef,
                     g.DeviceInstanceId,
                     g.ComObjectInstanceRefId,             
@@ -398,18 +396,18 @@ public class MyNameCorrector
         }
     }
 
-    public static void SetNamespaceFromXml(string zeroXmlFilePath)
+    private static void SetNamespaceFromXml(string zeroXmlFilePath)
     {
         XmlDocument doc = new XmlDocument();
         
-        // Charger le fichier XML
+        // Load XML file
         doc.Load(zeroXmlFilePath);
         
-        // Vérifier l'existence du namespace dans l'élément racine
+        // Check the existence of the namespace in the root element
         XmlElement? root = doc.DocumentElement;
         if (root != null)
         {
-            // Récupérer le namespace
+            // Get the namespace
             XNamespace xmlns = root.GetAttribute("xmlns");
             if (xmlns!=string.Empty)
             {
