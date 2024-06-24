@@ -132,8 +132,8 @@
                 <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
-                <Button Name = "OpenGroupAddressFileButton" Click="CloseProgramButtonClick" Content="Ouvrir GroupAddresses.xml"  Style="{StaticResource AnotherButtonStyle}" Width="250"/>
-                <Button Name = "ExportModifiedProjectButton" Click="CloseProgramButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                <Button Name = "OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml"  Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                <Button Name = "ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
             </StackPanel>
         </Grid>
     </Border>

@@ -1418,19 +1418,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MINIPC\\.nuget\\packages\\": {}
+    "C:\\Users\\maxim\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
       "projectName": "KNXBoostDesktop.Tests",
-      "projectPath": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
-      "packagesPath": "C:\\Users\\MINIPC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\obj\\",
+      "projectPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
+      "packagesPath": "C:\\Users\\maxim\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\MINIPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\maxim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1444,8 +1449,8 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
-              "projectPath": "C:\\Users\\MINIPC\\Desktop\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj"
+            "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
+              "projectPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj"
             }
           }
         }
@@ -1497,7 +1502,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
