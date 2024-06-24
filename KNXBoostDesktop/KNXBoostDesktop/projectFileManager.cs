@@ -9,7 +9,7 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        public string ExportedProjectPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
+        public string ProjectFolderPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
 
         public string ZeroXmlPath { get; private set; } = ""; // Chemin d'accès au fichier 0.xml du projet
 
@@ -75,7 +75,7 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"Starting to extract {Path.GetFileName(knxprojSourceFilePath)}...");
 
                 string zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
-                string knxprojExportFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}_exported/";
+                string knxprojExportFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/knxproj_exported/";
 
                 // Transformation du knxproj en zip
                 if (knxprojSourceFilePath.EndsWith(".knxproj"))
@@ -166,7 +166,7 @@ namespace KNXBoostDesktop
                 // Suppression du fichier zip temporaire
                 File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
-                ExportedProjectPath = knxprojExportFolderPath;
+                ProjectFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/";
                 managedToExtractProject = true;
             }
         }
@@ -263,7 +263,7 @@ namespace KNXBoostDesktop
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         public void FindZeroXml()
         {
-            string foundPath = FindFile(ExportedProjectPath, "0.xml");
+            string foundPath = FindFile(ProjectFolderPath, "0.xml");
             
             // Si le fichier n'a pas été trouvé
             if (string.IsNullOrEmpty(foundPath))

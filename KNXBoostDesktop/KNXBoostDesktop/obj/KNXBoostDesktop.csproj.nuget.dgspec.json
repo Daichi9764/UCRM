@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {}
+    "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
+    "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+        "projectUniqueName": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
         "projectName": "KNXBoostDesktop",
-        "projectPath": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+        "projectPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
         "packagesPath": "C:\\Users\\maxim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maxim\\OneDrive - INSA Toulouse\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
+        "outputPath": "C:\\Users\\maxim\\OneDrive - insa-toulouse.fr\\INSA\\Cours\\Externes\\.NET UCRM\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\maxim\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\maxim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,7 +68,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\maxim\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <Project Id="P-0309">
+    <Installations>
+      <Installation Name="" BCUKey="4294967295" DefaultLine="P-0309-0_L-3" IPRoutingLatencyTolerance="2000">
+        <Topology>
+          <Area Id="P-0309-0_A-1" Address="0" Puid="1">
+            <Line Id="P-0309-0_L-1" Address="0" Puid="2">
+              <Segment Id="P-0309-0_S-1" Number="0" MediumTypeRefId="MT-0" Puid="3" />
+            </Line>
+          </Area>
+          <Area Id="P-0309-0_A-2" Address="1" Puid="4">
+            <Line Id="P-0309-0_L-2" Address="0" Puid="5">
+              <Segment Id="P-0309-0_S-2" Number="0" MediumTypeRefId="MT-0" Puid="6" />
+            </Line>
+            <Line Id="P-0309-0_L-3" Address="1" Puid="7">
+              <Segment Id="P-0309-0_S-3" Number="0" MediumTypeRefId="MT-0" Puid="8">
+                <DeviceInstance Id="P-0309-0_DI-2" Address="1" Name="Bouton poussoir double - Cuisine ..." ProductRefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx" Hardware2ProgramRefId="M-0064_H-4812-1_HP-1825-10-AA71" Comment="{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1036\fs16\f2\cf0 \cf0\ql{\f2 {\ul\ltrch touche 1 :}{\ltrch  fonction t\'e9l\'e9rupteur sur l'\'e9clairage cuisine plan de travail}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch touche 2 :}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch touche 3 :}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch touche 4 :}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;}&#xD;&#xA;}" Description="" InstallationHints="{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1036\fs16\f2\cf0 \cf0\ql{\f2 {\ltrch A installer en entrant \'e0 droite \'e0 }{\b\ltrch 90 cm du sol}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;}&#xD;&#xA;}" IsActivityCalculated="true" LastModified="2024-06-11T09:53:49.3228033Z" Puid="20">
+                  <ParameterInstanceRefs>
+                    <ParameterInstanceRef RefId="M-0064_A-1825-10-AA71_UP-707_R-707" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-1825-10-AA71_UP-707_R-737" Value="4" />
+                  </ParameterInstanceRefs>
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-79" Links="GA-1 GA-2" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-79 O-3_R-180 O-6_R-281 O-9_R-382" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0309-0_DI-3" Address="2" Name="Actionneur à commutation - TGBT ..." ProductRefId="M-0064_H-MTN649204-1-O000C_P-MTN649204" Hardware2ProgramRefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C" Comment="{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1036\fs16\f2\cf0 \cf0\ql{\f2 {\ul\ltrch Canal 1:}{\ltrch  commutation \'e9clairage du plan de travail de la cuisine}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch Canal 2:}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch Canal 3:}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;{\f2 {\ul\ltrch Canal 4:}{\ltrch  libre}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;}&#xD;&#xA;}" Description="" InstallationHints="{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1036\fs16\f2\cf0 \cf0\ql{\f2 {\ltrch A installer dans le TGBT}\li0\ri0\sa0\sb0\fi0\ql\par}&#xD;&#xA;}&#xD;&#xA;}" IsActivityCalculated="true" LastModified="2024-06-11T12:43:55.5804967Z" Puid="21">
+                  <ParameterInstanceRefs>
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-495_R-495" Value="1" />
+                  </ParameterInstanceRefs>
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-34" Links="GA-1" />
+                    <ComObjectInstanceRef RefId="O-3_R-41" Links="GA-2" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-3_R-41 O-0_R-34 O-4_R-43" />
+                  <Security />
+                </DeviceInstance>
+              </Segment>
+            </Line>
+          </Area>
+        </Topology>
+        <Locations>
+          <Space Type="Building" Id="P-0309-0_BP-1" Name="Maison M. Durant" Puid="9">
+            <Space Type="Floor" Id="P-0309-0_BP-2" Name="RDC" Puid="10">
+              <Space Type="Room" Usage="SU-1" Id="P-0309-0_BP-3" Name="Cuisine" Puid="11">
+                <DeviceInstanceRef RefId="P-0309-0_DI-2" />
+              </Space>
+              <Space Type="Room" Usage="SU-21" Id="P-0309-0_BP-4" Name="Local technique" Puid="12">
+                <Space Type="DistributionBoard" Id="P-0309-0_BP-5" Name="TGBT" Puid="13">
+                  <DeviceInstanceRef RefId="P-0309-0_DI-3" />
+                </Space>
+              </Space>
+            </Space>
+          </Space>
+        </Locations>
+        <GroupAddresses>
+          <GroupRanges>
+            <GroupRange Id="P-0309-0_GR-1" RangeStart="2048" RangeEnd="4095" Name="Eclairage" Puid="14">
+              <GroupRange Id="P-0309-0_GR-2" RangeStart="2304" RangeEnd="2559" Name="- Marche/Arrêt" Puid="15">
+                <GroupAddress Id="P-0309-0_GA-1" Address="2305" Name="Cmd_PlanDeTravail_Cuisine" Puid="16" />
+              </GroupRange>
+              <GroupRange Id="P-0309-0_GR-3" RangeStart="2560" RangeEnd="2815" Name="- Indication d'état" Puid="17">
+                <GroupAddress Id="P-0309-0_GA-2" Address="2561" Name="Ie_PlanDeTravail_Cuisine" Puid="18" />
+              </GroupRange>
+            </GroupRange>
+          </GroupRanges>
+        </GroupAddresses>
+      </Installation>
+    </Installations>
+  </Project>
+</KNX>

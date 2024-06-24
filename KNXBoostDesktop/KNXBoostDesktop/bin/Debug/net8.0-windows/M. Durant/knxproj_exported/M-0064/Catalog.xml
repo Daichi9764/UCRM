@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <Catalog>
+        <CatalogSection Id="M-0064_CS-2.2E1" Name="2.1 Push Button, 1-gang" Number="2.1" VisibleDescription="" DefaultLanguage="en-US">
+          <CatalogSection Id="M-0064_CS-2.2E1-2.2E1.2E5" Name="2.1.5 Unica" Number="2.1.5" VisibleDescription="" DefaultLanguage="en-US">
+            <CatalogItem Id="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-1962_CI-MGU5.2E530.2Exx-0" Name="KNX Push-button, 1-gang" Number="0" VisibleDescription="MGU5.530.xx" ProductRefId="M-0064_H-MGU3.2E530.2Exx-1_P-MGU5.2E530.2Exx" Hardware2ProgramRefId="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-1962" DefaultLanguage="en-US" />
+          </CatalogSection>
+        </CatalogSection>
+        <CatalogSection Id="M-0064_CS-2.2E2" Name="2.2 Push Button, 2-gang" Number="2.2" VisibleDescription="" DefaultLanguage="en-US">
+          <CatalogSection Id="M-0064_CS-2.2E2-2.2E2.2E5.20" Name="2.2.5 Unica" Number="2.2.5 " VisibleDescription="" DefaultLanguage="en-US">
+            <CatalogItem Id="M-0064_H-4812-1_HP-1825-10-AA71_CI-MGU5.2E531.2Exx-0" Name="KNX Push-button, 2-gang" Number="0" VisibleDescription="MGU5.531.xx" ProductRefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx" Hardware2ProgramRefId="M-0064_H-4812-1_HP-1825-10-AA71" DefaultLanguage="en-US" />
+          </CatalogSection>
+        </CatalogSection>
+        <CatalogSection Id="M-0064_CS-4.2E4" Name="4.4.0 Switch Actuator, 4-gang" Number="4.4" VisibleDescription="" DefaultLanguage="en-US">
+          <CatalogSection Id="M-0064_CS-4.2E4-4.2E4.2E01" Name="4.4.0.1 DIN rail mounted REG-K" Number="4.4.01" VisibleDescription="" DefaultLanguage="en-US">
+            <CatalogItem Id="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C_CI-MTN649204-1" Name="Switch actuator REG-K/4x230/10 with manual mode" Number="1" VisibleDescription="MTN649204" ProductRefId="M-0064_H-MTN649204-1-O000C_P-MTN649204" Hardware2ProgramRefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C" DefaultLanguage="en-US" />
+          </CatalogSection>
+        </CatalogSection>
+      </Catalog>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0064_CS-2.2E1">
+            <TranslationElement RefId="M-0064_CS-2.2E1">
+              <Translation AttributeName="Name" Text="2.1 Poussoir simple" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_CS-2.2E1-2.2E1.2E5">
+            <TranslationElement RefId="M-0064_CS-2.2E1-2.2E1.2E5">
+              <Translation AttributeName="Name" Text="2.1.5 Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-1962_CI-MGU5.2E530.2Exx-0">
+            <TranslationElement RefId="M-0064_H-MGU3.2E530.2Exx-1_HP-1824-10-1962_CI-MGU5.2E530.2Exx-0">
+              <Translation AttributeName="Name" Text="Poussoir simple KNX" />
+              <Translation AttributeName="VisibleDescription" Text="MGU5.530.xx" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_CS-2.2E2">
+            <TranslationElement RefId="M-0064_CS-2.2E2">
+              <Translation AttributeName="Name" Text="2.2 Poussoir double" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_CS-2.2E2-2.2E2.2E5.20">
+            <TranslationElement RefId="M-0064_CS-2.2E2-2.2E2.2E5.20">
+              <Translation AttributeName="Name" Text="2.2.5 Unica" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-4812-1_HP-1825-10-AA71_CI-MGU5.2E531.2Exx-0">
+            <TranslationElement RefId="M-0064_H-4812-1_HP-1825-10-AA71_CI-MGU5.2E531.2Exx-0">
+              <Translation AttributeName="Name" Text="Poussoir double KNX" />
+              <Translation AttributeName="VisibleDescription" Text="MGU5.531.xx" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_CS-4.2E4">
+            <TranslationElement RefId="M-0064_CS-4.2E4">
+              <Translation AttributeName="Name" Text="4.4.0 Actionneur de commutation quadruple" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_CS-4.2E4-4.2E4.2E01">
+            <TranslationElement RefId="M-0064_CS-4.2E4-4.2E4.2E01">
+              <Translation AttributeName="Name" Text="4.4.01 monté sur rail DIN REG-K" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C_CI-MTN649204-1">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C_CI-MTN649204-1">
+              <Translation AttributeName="Name" Text="Actionneur REG-K/4x230/10 à cde manuelle" />
+              <Translation AttributeName="VisibleDescription" Text="MTN649204" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
