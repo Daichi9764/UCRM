@@ -65,9 +65,9 @@ public partial class MainWindow
             // Récupérer le chemin du fichier sélectionné
             App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
 
-            if (App.Fm == null) return;
+            // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
+            if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
-            App.Fm.ExtractProjectFiles(openFileDialog.FileName);
             App.Fm.FindZeroXml();
             MyNameCorrector.CorrectName();
         }
@@ -75,12 +75,6 @@ public partial class MainWindow
         {
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
-    }
-    
-    
-    private void CloseProgramButtonClick(object sender, RoutedEventArgs e)
-    {
-        Application.Current.Shutdown();
     }
     
 

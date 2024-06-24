@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.1.5686.0" xmlns="http://knx.org/xml/project/22">
+  <ManufacturerData>
+    <Manufacturer RefId="M-000B">
+      <Hardware>
+        <Hardware Id="M-000B_H-B001663AA-1" Name="Command without label holder" SerialNumber="B001663AA" VersionNumber="1" BusCurrent="3" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-000B_H-B001663AA-1_P-067571" Text="command 4 push Arteor/Celiane" OrderNumber="067571" IsRailMounted="false" VisibleDescription="4 push mechanism" DefaultLanguage="en-US" Hash="Z20HbJoJCK5G+b2ZdzvirraT73o=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="HGkE3eCo8fWJ2S1f3ySaVcDuCp2jDKtnNTw1XjVMw3qeB/iilm4XZ4Q6fn9UxnWjd9/YTboRgZH7Uzgv2JaOg5+aLFnrZ7vUaLfNmMlNBfSgwA9JDIBs/Li6ljhQ0QQTBYTBYw86lQVKon+lit4YCC4fhe9YnqDqDo9hLNphPvA=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-000B_H-B001663AA-1_HP-02F0-04-EF42" MediumTypes="MT-0" Hash="3peL80FFeZSGiJcNgVTlvHEKjok=">
+              <ApplicationProgramRef RefId="M-000B_A-02F0-04-EF42" />
+              <RegistrationInfo RegistrationSignature="Mw5U0RK9O4y7EhF7bIREFYHnWNg2mK5XU6mR133og8OmM3dI3pvHVAiZT6350pFt+Oef/ZfscQqlkGT+lCB0TwOM24x0Ames0/nQUwqoNyRMzMaxrmpCq20jpvdjkiEQxDPbwX9WwnFeTlt5of2HpalHrQEKOI+jJL5Pg7x5JKo=" RegistrationNumber="2013/11032" RegistrationStatus="Certified" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

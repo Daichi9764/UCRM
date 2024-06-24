@@ -180,10 +180,10 @@ namespace KNXBoostDesktop
                     {
                         foreach (var logFile in logFiles)
                         {
-                            if (logFile != LogPath)
+                            if (logFile != LogPath) // Si le fichier logs n'est pas celui que l'on vient de créer pour le lancement actuel
                             {
-                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile));
-                                File.Delete(logFile);
+                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute à l'archive
+                                File.Delete(logFile); // Puis on le supprime
                             }
                         }
                     }
