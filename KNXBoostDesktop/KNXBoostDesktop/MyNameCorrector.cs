@@ -78,6 +78,7 @@ public class MyNameCorrector
                 {
                     Id = di.Attribute("Id")?.Value,
                     Hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value,
+                    ProductRefId = di.Attribute("ProductRefId")?.Value,
                     GroupObjectInstanceRefs = di.Descendants(knxNs + "ComObjectInstanceRef")
                         .Where(cir => cir.Attribute("Links") != null)
                         .Select(cir => new
@@ -92,8 +93,9 @@ public class MyNameCorrector
                 .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
                 {
                     di.Id,
+                    di.ProductRefId,
                     HardwareFileName = di.Hardware2ProgramRefId != null ? 
-                       FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).ModifiedHardwareFileName : 
+                       FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
                        null,
                     MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
                         FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
@@ -102,7 +104,7 @@ public class MyNameCorrector
                     g.DeviceInstanceId,
                     g.ComObjectInstanceRefId,             
                     ObjectType = di.Hardware2ProgramRefId != null && g.ComObjectInstanceRefId != null ?
-                        GetObjectType(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).ModifiedHardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory, g.ComObjectInstanceRefId) : 
+                        GetObjectType(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory, g.ComObjectInstanceRefId) : 
                         null
                 }))
                 .ToList();
@@ -111,7 +113,7 @@ public class MyNameCorrector
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
             foreach (var dr in deviceRefs)
             {
-                App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
+                App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
             }
 
             // Dictionary to store whether room name has been appended to each group address
@@ -197,7 +199,7 @@ public class MyNameCorrector
         }
     }
 
-     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
+    private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
         string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty; // Path to the project files directory
 
@@ -291,10 +293,8 @@ public class MyNameCorrector
         }
     }
 
-
-  
-
-    private static (string ModifiedHardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
+     
+    private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         try
         {
@@ -310,8 +310,8 @@ public class MyNameCorrector
 
             if (string.IsNullOrEmpty(mxxxxDirectory)) return (string.Empty, string.Empty); // If "M-XXXX" is not found, return two empty strings
 
-            var modifiedHardwareFileName = $"{mxxxxDirectory}_A-{afterHp}.xml";
-            return (modifiedHardwareFileName, mxxxxDirectory);
+            var hardwareFileName = $"{mxxxxDirectory}_A-{afterHp}.xml";
+            return (hardwareFileName, mxxxxDirectory);
         }
         catch (ArgumentNullException ex)
         {
@@ -322,6 +322,75 @@ public class MyNameCorrector
         {
             App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
             return (string.Empty, string.Empty);
+        }
+    }
+    
+
+    private static bool IsDeviceRailMounted(string productRefId, string mxxxDirectory)
+    {
+        // Path to the project files directory
+        string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty;
+        
+        // Construct the full path to the Mxxxx directory
+        string mxxxxDirectoryPath = Path.Combine(projectFilesDirectory, mxxxDirectory);
+        
+        // Construct the full path to the Hardware.xml file
+        string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
+        
+        // Check if the Hardware.xml file exists
+        if (!File.Exists(hardwareFilePath))
+        {
+            App.ConsoleAndLogWriteLine($"Hardware.xml not found in directory: {mxxxxDirectoryPath}");
+            return false; // Default to false if the file does not exist
+        }
+        
+        try
+        {
+            // Load the Hardware.xml file
+            XDocument hardwareDoc = XDocument.Load(hardwareFilePath);
+            XNamespace knxNs = "http://knx.org/xml/project/23"; // Adjust the namespace if needed
+            
+            // Find the Product element with the matching Id
+            var productElement = hardwareDoc.Descendants(knxNs + "Product")
+                .FirstOrDefault(pe => pe.Attribute("Id")?.Value == productRefId);
+            
+            if (productElement == null)
+            {
+                App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
+                return false; // Default to false if the product is not found
+            }
+            else
+            {
+                // Get the IsRailMounted attribute value
+                var isRailMountedAttr = productElement.Attribute("IsRailMounted");
+                if (isRailMountedAttr == null)
+                {
+                    App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
+                    return false; // Default to false if the attribute is not found
+                }
+            
+                // Convert the attribute value to boolean
+                string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+                if (isRailMountedValue == "true" || isRailMountedValue == "1")
+                {
+                    return true;
+                }
+                else if (isRailMountedValue == "false" || isRailMountedValue == "0")
+                {
+                    return false;
+                }
+                else
+                {
+                    App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
+                    return false; // Default to false for unexpected attribute values
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml: {ex.Message}");
+            return false; // Default to false in case of an error
         }
     }
 
