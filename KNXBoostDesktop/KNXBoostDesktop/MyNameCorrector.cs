@@ -6,6 +6,7 @@ namespace KNXBoostDesktop;
 public class MyNameCorrector
 {
     private static XNamespace _globalKnxNamespace = string.Empty;
+    private static string _projectFilesDirectory = Path.Combine(App.Fm?.ProjectFolderPath ?? string.Empty, @"knxproj_exported");
     
     public static void CorrectName()
     {
@@ -317,10 +318,9 @@ public class MyNameCorrector
 
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
-        string projectFilesDirectory = App.Fm?.ProjectFolderPath ?? string.Empty; // Path to the project files directory
 
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(projectFilesDirectory, mxxxxDirectory);
+        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
 
         try
         {
@@ -404,35 +404,7 @@ public class MyNameCorrector
                         return string.Empty;
                     }
                 }
-
-
-                /*if (comObjectElement == null)
-                {
-                    App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
-                    return string.Empty;
-                }
-                else
-                {
-                    App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefId}");
-                    var readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
-                    var writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
-
-                    App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
-
-                    // Return the appropriate string based on the flags
-                    if (readFlag == "Enabled" && writeFlag == "Disabled")
-                    {
-                        return "Ie";
-                    }
-                    else if (writeFlag == "Enabled" && readFlag == "Disabled")
-                    {
-                        return "Cmd";
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }*/
+               
             }
         }
         catch (FileNotFoundException ex)
@@ -495,19 +467,20 @@ public class MyNameCorrector
     
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxDirectory)
     {
-        // Path to the project files directory
-        string projectFilesDirectory = App.Fm?.ExportedProjectPath ?? string.Empty;
-        
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(projectFilesDirectory, mxxxDirectory);
+        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxDirectory);
         
         // Construct the full path to the Hardware.xml file
         string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
+        if (!Directory.Exists(mxxxxDirectoryPath))
+        { 
+            App.ConsoleAndLogWriteLine($"{mxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
+        } 
         
         // Check if the Hardware.xml file exists
-        if (!File.Exists(hardwareFilePath))
-        {
-            App.ConsoleAndLogWriteLine($"Hardware.xml not found in directory: {mxxxxDirectoryPath}");
+        if (!File.Exists(hardwareFilePath)) 
+        { 
+            App.ConsoleAndLogWriteLine($"Hardware.xml not found in directory: {mxxxxDirectoryPath}"); 
             return false; // Default to false if the file does not exist
         }
         
@@ -515,38 +488,38 @@ public class MyNameCorrector
         {
             // Load the Hardware.xml file
             XDocument hardwareDoc = XDocument.Load(hardwareFilePath);
-            
+
             // Find the Product element with the matching Id
             var productElement = hardwareDoc.Descendants(_globalKnxNamespace + "Product")
                 .FirstOrDefault(pe => pe.Attribute("Id")?.Value == productRefId);
-            
+
             if (productElement == null)
-            {
+            { 
                 App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
                 return false; // Default to false if the product is not found
             }
             else
-            {
+            { 
                 // Get the IsRailMounted attribute value
                 var isRailMountedAttr = productElement.Attribute("IsRailMounted");
-                if (isRailMountedAttr == null)
-                {
+                if (isRailMountedAttr == null) 
+                { 
                     App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
                     return false; // Default to false if the attribute is not found
                 }
-            
+
                 // Convert the attribute value to boolean
                 string isRailMountedValue = isRailMountedAttr.Value.ToLower();
                 if (isRailMountedValue == "true" || isRailMountedValue == "1")
-                {
+                { 
                     return true;
                 }
-                else if (isRailMountedValue == "false" || isRailMountedValue == "0")
-                {
+                else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
+                { 
                     return false;
                 }
-                else
-                {
+                else 
+                { 
                     App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
                     return false; // Default to false for unexpected attribute values
                 }
@@ -554,7 +527,7 @@ public class MyNameCorrector
             }
         }
         catch (Exception ex)
-        {
+        { 
             App.ConsoleAndLogWriteLine($"Error reading Hardware.xml: {ex.Message}");
             return false; // Default to false in case of an error
         }
