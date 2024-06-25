@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0009">
+      <Catalog>
+        <CatalogSection Id="M-0009_CS-IL" Name="Lighting" Number="IL" VisibleDescription="" DefaultLanguage="en-US">
+          <CatalogSection Id="M-0009_CS-IL-DM" Name="Dimmer" Number="DM" VisibleDescription="" DefaultLanguage="en-US">
+            <CatalogItem Id="M-0009_H-9.20.2F.2F.20TX211-1_HP-2012-20-DD55_CI-TX211-1" Name="Dimmer 3x 1/10V" Number="1" VisibleDescription="TX211" ProductRefId="M-0009_H-9.20.2F.2F.20TX211-1_P-TX211" Hardware2ProgramRefId="M-0009_H-9.20.2F.2F.20TX211-1_HP-2012-20-DD55" DefaultLanguage="en-US" />
+          </CatalogSection>
+        </CatalogSection>
+      </Catalog>
+      <Languages>
+        <Language Identifier="en-US">
+          <TranslationUnit RefId="M-0009_CS-IL">
+            <TranslationElement RefId="M-0009_CS-IL">
+              <Translation AttributeName="Name" Text="Lighting" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_CS-IL-DM">
+            <TranslationElement RefId="M-0009_CS-IL-DM">
+              <Translation AttributeName="Name" Text="Dimmer" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0009_CS-IL">
+            <TranslationElement RefId="M-0009_CS-IL">
+              <Translation AttributeName="Name" Text="Eclairage" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_CS-IL-DM">
+            <TranslationElement RefId="M-0009_CS-IL-DM">
+              <Translation AttributeName="Name" Text="Variateurs" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20TX211-1_HP-2012-20-DD55_CI-TX211-1">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20TX211-1_HP-2012-20-DD55_CI-TX211-1">
+              <Translation AttributeName="Name" Text="3 sorties variation 1/10V" />
+              <Translation AttributeName="VisibleDescription" Text="TX211" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

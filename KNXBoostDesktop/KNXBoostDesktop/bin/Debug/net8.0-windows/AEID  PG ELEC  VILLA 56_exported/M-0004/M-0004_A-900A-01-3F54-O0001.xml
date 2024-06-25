@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-0004_A-900A-01-3F54-O0001" ApplicationNumber="36874" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-0912" Name="Coupler 900A01" LoadProcedureStyle="DefaultProcedure" PeiType="0" DefaultLanguage="en-GB" DynamicTableManagement="false" Linkable="true" OriginalManufacturer="M-0001" PreEts4Style="true" ConvertedFromPreEts4Data="true" Hash="P6A5TksEI8XftmC/4sMKVA==">
+          <Static>
+            <Code>
+              <AbsoluteSegment Id="M-0004_A-900A-01-3F54-O0001_AS-0100" Address="256" Size="256" />
+            </Code>
+            <ParameterTypes>
+              <ParameterType Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKmxRstCnt" Name="t_LKmxRstCnt" InternalDescription="Wiederholungen bei Übertragungsfehler">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Text="No" Value="0" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKmxRstCnt_EN-0" DisplayOrder="1" />
+                  <Enumeration Text="Yes" Value="25443" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKmxRstCnt_EN-25443" DisplayOrder="4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-900A-01-3F54-O0001_PT-t.5Fenable" Name="t_enable">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="disabled" Value="0" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5Fenable_EN-0" DisplayOrder="1" />
+                  <Enumeration Text="enabled" Value="1" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5Fenable_EN-1" DisplayOrder="2" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKackEn" Name="t_LKackEn">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="always" Value="0" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKackEn_EN-0" DisplayOrder="1" />
+                  <Enumeration Text="only if let through" Value="1" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKackEn_EN-1" DisplayOrder="2" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef" Name="t_LKgrpDef">
+                <TypeRestriction Base="Value" SizeInBit="2">
+                  <Enumeration Text="let through" Value="1" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef_EN-1" DisplayOrder="1" />
+                  <Enumeration Text="block" Value="2" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef_EN-2" DisplayOrder="2" />
+                  <Enumeration Text="filter" Value="3" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef_EN-3" DisplayOrder="3" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKhiGrpDef" Name="t_LKhiGrpDef">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="block" Value="0" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKhiGrpDef_EN-0" DisplayOrder="1" />
+                  <Enumeration Text="let through" Value="1" Id="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKhiGrpDef_EN-1" DisplayOrder="2" />
+                </TypeRestriction>
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-1" Name="Konfiguration" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef" Text="Configuration" Access="Read" Value="1" />
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-9" Name="LKMRepeat" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKmxRstCnt" Text="Repetitions if errors&#xD;&#xA;on main line" Value="25443">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="18" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-10" Name="LKSRepeat" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKmxRstCnt" Text="Repetitions if errors&#xD;&#xA;on line" Value="25443">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="20" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-5" Name="LKdef.mainPhysAddr" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5Fenable" Text="Phys. address filtering on main line" Access="None" Value="1">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="27" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-6" Name="LKdef.subPhysAddr" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5Fenable" Text="Phys. address filtering on line" Access="None" Value="1">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="27" BitOffset="1" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-7" Name="LKdef.hiGrpDef" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKhiGrpDef" Text="Main group 14/15" Value="1">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="27" BitOffset="3" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-11" Name="LKdef.mainLnAck" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKackEn" Text="Telegram confirmation on main line" Value="1">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="27" BitOffset="4" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-12" Name="LKdef.subLnAck" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKackEn" Text="Telegram confirmation on line" Value="1">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="27" BitOffset="5" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-3" Name="LKgrpConf.SMgrpDef" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef" Text="Group telegrams line-&gt;main line" Value="3">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="28" BitOffset="2" />
+              </Parameter>
+              <Parameter Id="M-0004_A-900A-01-3F54-O0001_P-2" Name="LKgrpConf.MSgrpDef" ParameterType="M-0004_A-900A-01-3F54-O0001_PT-t.5FLKgrpDef" Text="Group telegrams main line-&gt;line" Value="3">
+                <Memory CodeSegment="M-0004_A-900A-01-3F54-O0001_AS-0100" Offset="28" BitOffset="6" />
+              </Parameter>
+            </Parameters>
+            <ParameterRefs>
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-1_R-1" RefId="M-0004_A-900A-01-3F54-O0001_P-1" Tag="1" DisplayOrder="100" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-2_R-2" RefId="M-0004_A-900A-01-3F54-O0001_P-2" Tag="2" DisplayOrder="200" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-3_R-3" RefId="M-0004_A-900A-01-3F54-O0001_P-3" Tag="3" DisplayOrder="300" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-5_R-5" RefId="M-0004_A-900A-01-3F54-O0001_P-5" Tag="5" DisplayOrder="500" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-6_R-6" RefId="M-0004_A-900A-01-3F54-O0001_P-6" Tag="6" DisplayOrder="600" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-7_R-7" RefId="M-0004_A-900A-01-3F54-O0001_P-7" Tag="7" DisplayOrder="700" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-9_R-9" RefId="M-0004_A-900A-01-3F54-O0001_P-9" Tag="9" DisplayOrder="900" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-10_R-10" RefId="M-0004_A-900A-01-3F54-O0001_P-10" Tag="10" DisplayOrder="1000" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-11_R-11" RefId="M-0004_A-900A-01-3F54-O0001_P-11" Tag="11" DisplayOrder="1100" />
+              <ParameterRef Id="M-0004_A-900A-01-3F54-O0001_P-12_R-12" RefId="M-0004_A-900A-01-3F54-O0001_P-12" Tag="12" DisplayOrder="1200" />
+            </ParameterRefs>
+            <Options />
+          </Static>
+          <Dynamic>
+            <Channel Name="Generic" Text="" Number="0" Id="M-0004_A-900A-01-3F54-O0001_CH-0">
+              <ParameterBlock Id="M-0004_A-900A-01-3F54-O0001_PB-1" Name="Konfiguration" Access="Read" ParamRefId="M-0004_A-900A-01-3F54-O0001_P-1_R-1">
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-2_R-2" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-3_R-3" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-5_R-5" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-6_R-6" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-7_R-7" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-9_R-9" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-10_R-10" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-11_R-11" />
+                <ParameterRefRef RefId="M-0004_A-900A-01-3F54-O0001_P-12_R-12" />
+              </ParameterBlock>
+            </Channel>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
