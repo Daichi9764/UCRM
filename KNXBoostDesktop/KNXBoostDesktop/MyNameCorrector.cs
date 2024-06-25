@@ -76,42 +76,42 @@ public class MyNameCorrector
 
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefs = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
-                .Select(di => new
-                {
-                    Id = di.Attribute("Id")?.Value,
-                    Hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value,
-                    ProductRefId = di.Attribute("ProductRefId")?.Value,
-                    GroupObjectInstanceRefs = di.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
-                        .Where(cir => cir.Attribute("Links") != null)
-                        .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? Array.Empty<string>())
-                            .Select(link => new
-                            {
-                                GroupAddressRef = link,
-                                DeviceInstanceId = di.Attribute("Id")?.Value,
-                                ComObjectInstanceRefId = cir.Attribute("RefId")?.Value.IndexOf('_') >= 0 ?
-                                    cir.Attribute("RefId")?.Value.Substring(0, cir.Attribute("RefId")?.Value.IndexOf('_') ?? 0) :
-                                    cir.Attribute("RefId")?.Value
-                            }))
-                })
-                .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
-                {
-                    di.Id,
-                    di.ProductRefId,
-                    HardwareFileName = di.Hardware2ProgramRefId != null ? 
-                        FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
-                        null,
-                    MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
-                        FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
-                        null,
-                    IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null && GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory),
-                    g.GroupAddressRef,
-                    g.DeviceInstanceId,
-                    g.ComObjectInstanceRefId,             
-                    ObjectType = di.Hardware2ProgramRefId != null && g.ComObjectInstanceRefId != null ?
-                        GetObjectType(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory, g.ComObjectInstanceRefId) : 
-                        null
-                }))
-                .ToList();
+            .Select(di => new
+            {
+                Id = di.Attribute("Id")?.Value,
+                Hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value,
+                ProductRefId = di.Attribute("ProductRefId")?.Value,
+                GroupObjectInstanceRefs = di.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
+                    .Where(cir => cir.Attribute("Links") != null)
+                    .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? Array.Empty<string>())
+                        .Select((link, index) => new
+                        {
+                            GroupAddressRef = link,
+                            DeviceInstanceId = di.Attribute("Id")?.Value,
+                            ComObjectInstanceRefId = cir.Attribute("RefId")?.Value,
+                            IsFirstLink = index == 0  // Mark if it's the first link
+                        }))
+            })
+            .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
+            {
+                di.Id,
+                di.ProductRefId,
+                HardwareFileName = di.Hardware2ProgramRefId != null ? 
+                    FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
+                    null,
+                MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
+                    FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
+                    null,
+                IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null && GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory),
+                g.GroupAddressRef,
+                g.DeviceInstanceId,
+                g.ComObjectInstanceRefId,
+                ObjectType = di.Hardware2ProgramRefId != null && g.ComObjectInstanceRefId != null && g.IsFirstLink ?
+                    GetObjectType(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory, g.ComObjectInstanceRefId) : 
+                    null
+            }))
+            .ToList();
+
 
 
             // Display extracted device instance references
@@ -153,10 +153,10 @@ public class MyNameCorrector
                 // Get the first rail-mounted device reference, if any
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
-                var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => dr.ObjectType != string.Empty);
+                var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
 
                 // Determine the nameObjectType based on the available device references
-                if (deviceRailMounted != null && deviceRailMounted.ObjectType != String.Empty)
+                if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted.ObjectType))
                 {
                     // Format the ObjectType of the rail-mounted device
                     nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
@@ -346,12 +346,67 @@ public class MyNameCorrector
 
                 // Load the XML file
                 XDocument hardwareDoc = XDocument.Load(filePath);
-
+                
                 // Find the ComObject element with the matching Id
-                var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
                     .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
+                
+                if (comObjectRefElement == null)
+                {
+                    App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                    return string.Empty;
+                }
+                else
+                {
+                    App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
+                    var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
+                    var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
 
-                if (comObjectElement == null)
+                   // Return the appropriate string based on the flags
+                    if (readFlag == null || writeFlag == null)
+                    {
+                        var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
+                                comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
+                        
+                        var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                            .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
+                        if (comObjectElement == null)
+                        {
+                            App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
+                            return string.Empty;
+                        }
+                        else
+                        {
+                            App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
+                            
+                            // ??= is used to assert the expression if the variable is null
+                            readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
+                            writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
+                        }
+                    }
+                    
+                    App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
+                    
+                    if (readFlag == "Enabled" && writeFlag == "Disabled")
+                    {
+                        return "Ie";
+                    }
+                    else if (writeFlag == "Enabled" && readFlag == "Disabled")
+                    {
+                        return "Cmd";
+                    }
+                    else if (writeFlag == "Enabled" && readFlag == "Enabled")
+                    {
+                        return "Cmd";
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+
+
+                /*if (comObjectElement == null)
                 {
                     App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
                     return string.Empty;
@@ -377,7 +432,7 @@ public class MyNameCorrector
                     {
                         return string.Empty;
                     }
-                }
+                }*/
             }
         }
         catch (FileNotFoundException ex)
@@ -406,8 +461,7 @@ public class MyNameCorrector
             return string.Empty;
         }
     }
-
-     
+    
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         try
@@ -439,7 +493,6 @@ public class MyNameCorrector
         }
     }
     
-
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxDirectory)
     {
         // Path to the project files directory
