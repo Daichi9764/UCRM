@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <Project Id="P-0585">
+    <Installations>
+      <Installation Name="" BCUKey="4294967295" DefaultLine="" IPRoutingLatencyTolerance="2000">
+        <Topology>
+          <Area Id="P-0585-0_A-1" Address="0" Puid="1">
+            <Line Id="P-0585-0_L-1" Address="0" Puid="2">
+              <Segment Id="P-0585-0_S-1" Number="0" MediumTypeRefId="MT-0" Puid="3" />
+            </Line>
+          </Area>
+          <Area Id="P-0585-0_A-2" Address="1" Puid="4">
+            <Line Id="P-0585-0_L-2" Address="0" Puid="5">
+              <Segment Id="P-0585-0_S-2" Number="0" MediumTypeRefId="MT-0" Puid="6" />
+            </Line>
+            <Line Id="P-0585-0_L-3" Address="1" Puid="7">
+              <Segment Id="P-0585-0_S-3" Number="0" MediumTypeRefId="MT-0" Puid="8">
+                <DeviceInstance Id="P-0585-0_DI-1" Address="2" Name="" ProductRefId="M-01C8_H-TQDS01-1_P-LYOSTQ0416" Hardware2ProgramRefId="M-01C8_H-TQDS01-1_HP-0005-20-AA60" Comment="" Description="SWITCH" IsActivityCalculated="true" LastModified="2024-06-11T08:26:15.7600824Z" Puid="19">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-5" Links="GA-1" />
+                    <ComObjectInstanceRef RefId="O-4_R-8" Links="GA-2" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-5 O-4_R-8 O-18_R-55 O-32_R-85 O-46_R-115" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0585-0_DI-7" Address="4" Name="" ProductRefId="M-0064_H-4812-1_P-MGU5.2E531.2Exx" Hardware2ProgramRefId="M-0064_H-4812-1_HP-1825-10-AA71" Comment="" Description="BOUTON" IsActivityCalculated="true" LastModified="2024-06-11T09:43:07.0245313Z" Puid="36">
+                  <ParameterInstanceRefs>
+                    <ParameterInstanceRef RefId="M-0064_A-1825-10-AA71_P-678_R-678" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-1825-10-AA71_UP-707_R-737" Value="1" />
+                  </ParameterInstanceRefs>
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-89" Links="GA-1" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-89 O-3_R-180 O-6_R-281 O-9_R-382" />
+                  <Security />
+                </DeviceInstance>
+              </Segment>
+            </Line>
+          </Area>
+        </Topology>
+        <Locations>
+          <Space Type="Building" Id="P-0585-0_BP-1" Name="batiment1" Puid="9">
+            <Space Type="BuildingPart" Id="P-0585-0_BP-2" Name="batpart1" Puid="10">
+              <Space Type="Floor" Id="P-0585-0_BP-3" Name="rdc" Puid="11">
+                <Space Type="Room" Usage="SU-21" Id="P-0585-0_BP-5" Name="local technique" Puid="22">
+                  <Space Type="DistributionBoard" Id="P-0585-0_BP-6" Name="TGBC" Puid="23">
+                    <DeviceInstanceRef RefId="P-0585-0_DI-1" />
+                    <DeviceInstanceRef RefId="P-0585-0_DI-7" />
+                  </Space>
+                </Space>
+              </Space>
+            </Space>
+          </Space>
+        </Locations>
+        <GroupAddresses>
+          <GroupRanges>
+            <GroupRange Id="P-0585-0_GR-1" RangeStart="2048" RangeEnd="4095" Name="éclairage" Puid="13">
+              <GroupRange Id="P-0585-0_GR-2" RangeStart="2304" RangeEnd="2559" Name="Marche/arrrêt" Puid="25">
+                <GroupAddress Id="P-0585-0_GA-1" Address="2305" Name="Eclairage_Marchearrret_Batiment1_Batpart1_Rdc_LocalTechnique_&quot;MA lampe cuisine&quot;" DatapointType="DPST-1-1" Puid="26" />
+              </GroupRange>
+              <GroupRange Id="P-0585-0_GR-3" RangeStart="2560" RangeEnd="2815" Name="indication etat" Puid="32">
+                <GroupAddress Id="P-0585-0_GA-2" Address="2560" Name="Eclairage_IndicationEtat_Batiment1_Batpart1_Rdc_LocalTechnique_&quot;Lampe cuisine état éclairage&quot;" DatapointType="DPST-1-1" Puid="33" />
+              </GroupRange>
+            </GroupRange>
+          </GroupRanges>
+        </GroupAddresses>
+      </Installation>
+    </Installations>
+  </Project>
+</KNX>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0009">
+      <Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20WH310-1" Name="WHT300/310 Bouton poussoir 2,4,6 boutons" SerialNumber="9 // WH310" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20WH310-1_P-WHT300.2F310" Text="Bouton poussoir 2,4,6 boutons" OrderNumber="WHT300/310" IsRailMounted="false" DefaultLanguage="fr-FR" Hash="AzBxMfA22/FrTjWoM3sywqjcrr4=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="qyAQPLNKHkEv7Y14BfMw4n4RdKm7RFdtQbgdaWuiHTKIokyOSrqWVRsq70XKZxTOuSSfrOxX6oyGnf8FGDD9lLusL0i151zLaolDo0zMVsr4YjgikKswq8L5ggOBRuRYkW8D4HhCNcCraYIveMgI80DEZs/YdaPiycsiW95sIb4=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20WH310-1_HP-2064-11-DB78" MediumTypes="MT-0" Hash="5mMmM58hCk6NRGvBVyRA0rVYxBc=">
+              <ApplicationProgramRef RefId="M-0009_A-2064-11-DB78" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2007/8177" RegistrationSignature="puciM+QGb3d5KwB35+7CBybMd+JqwEhBBMtDsg0RSPKul0K7+wjDHZLo4AwmsMbpMG3edqNYn1Eo/ig+7pClfKebpFX81pWdq7BjRyC5lxhIsvmo4+sm+TLJ8r5mI/UQTyYlu1lQOpUZslhmeFonkrkSDhoQKZ0tywQhI9Vg7wk=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0009_H-9.20.2F.2F.20TXA664D-1" Name="TXA664D" SerialNumber="9 // TXA664D" VersionNumber="1" BusCurrent="3" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0009_H-9.20.2F.2F.20TXA664D-1_P-TXA664D" Text="4 outputs DALI broadcast" OrderNumber="TXA664D" IsRailMounted="true" DefaultLanguage="en-US" Hash="/9ntO8EeIILssMivIE7Hb36TvV0=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2019-02-28" RegistrationSignature="eE5t+jB07h9/nmDdqQ2jrqrcB2hj20tQqgv9ddefOTD0ys+rJ2uD4zoS39f3+2AMm1yStIQzexeXr+DRW6PWTAnDYlcLOb/ce9GQHZcbnITI3Y4mDMMZxqjSmnyU9Q4UMaHO+z+X8uUjUHrOaRrWM+2u98KK261+OI+xUGwIoYI=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0009_H-9.20.2F.2F.20TXA664D-1_HP-E0ED-10-9BB4" MediumTypes="MT-0" Hash="s8eB97tRGG4Whh1C2athyb94Dxk=" LoadedImage="7ZZ/ZJVRGMfPe9977/l1lyQrmWSSVJJsK0mSSSVJUkmSSpJkkiRJklSSdJJJkkwyySSTTJJkdTKTSSZJMskkk0yy9Xnvvf2RzvtXTeva4bvPc573eV7Pnu9rFolIzBaCn+XTKMSODPdmKWSzE/Kqi2WLk7KVuA22ww4v5CPU6aXs4t5DvtdF8i25Pur70QAaREMuVlknlHFSjYfVXqgaVOulmgnnwjq4CC6Fy+FquA5u8lZt9VrtpG+Ps6oJHSR3hPtx3nuKd54jvggvw2v03UC36L3D/R75By5Sj8k9o74bvUSv0Tv0gZpP1HyB37zQAuW91AU4AU6GU+F0OAvOgw1wsbd6mdd6hRN6jbN6PdpMbhv3XS7We53U+4kPwaPwBH1n0Hl6L3G/Qv66i/RNcrepv4vuo4foCXpOzQtqXsE31LxHH+n9DL/C716YjJdGwXFwIpwCp3lrZnht5jhh5jtrFqIl5Bq5r3KxWeuk2UC8BW6Hu+nbhw7Qe5j7MfInXWTOkrtAfTPCf9OCWlEbNe3UdED8N52oi94e2Avx3/TBfjgAB+GQlzbrrTVeW/y31c7aGlTrba743dUVPzudxMNCDCeISk/qi0/iJK5SopRrKOZWJvHGn5/s8B+e5M2Z1DkygTkyIzZHnDpHHJgjHrE5sqlzZANzZEdsjlzqHLnyHNnkSbdsmlRKNvw2XE4sKOae/tXh/vVJfrN86nLyoeXkA8vJV+xyZOpyZGg5MrAcWbHLUanLUaHlqMByVMUuR6cuRwf+9unybk5HlbSH//0kzphUH03ARzPm4yg8iTM21Ucb8NGO+TgKT+JMIdXHQsDHwpiPo/AkzlSVfSz+i5AEpWT9r8kf">
+              <ApplicationProgramRef RefId="M-0009_A-E0ED-10-9BB4" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2019/15508" RegistrationDate="2019-02-28" RegistrationSignature="sasAhCTCHS0vYd975YvIUTKgUm+QHUifJCCFGW4OkWOXRdTM20v7nXDpd14HqDMvhz11ID9VW5e1DDXF8Np+WqORT66aNS2mCwgovOLVfPmJ4f0oHk68Krc+KKP7x17kjSDqR7VHsb+GJqkTTOpSDLKXeVwkUWDdapybU4Qc5G4=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20WH310-1_P-WHT300.2F310">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20WH310-1_P-WHT300.2F310">
+              <Translation AttributeName="Text" Text="Bouton poussoir 2,4,6 boutons" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0009_H-9.20.2F.2F.20TXA664D-1_P-TXA664D">
+            <TranslationElement RefId="M-0009_H-9.20.2F.2F.20TXA664D-1_P-TXA664D">
+              <Translation AttributeName="Text" Text="4 sorties DALI broadcast" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
