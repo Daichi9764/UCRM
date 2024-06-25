@@ -1,5 +1,17 @@
 
 *.vsidx
 *.vsidx
-KNXBoostDesktop/KNXBoostDesktop/obj/rider.project.model.nuget.info
-/KNXBoostDesktop/KNXBoostDesktop/obj/Debug
+KNXBoostDesktop/KNXBoostDesktop/obj
+/KNXBoostDesktop/KNXBoostDesktop/obj
+KNXBoostDesktop/KNXBoostDesktop/obj/
+/KNXBoostDesktop/KNXBoostDesktop/obj/
+/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/logs
+/KNXBoostDesktop/.vs/KNXBoostDesktop/v17
+/KNXBoostDesktop/.vs
+/KNXBoostDesktop/.vs/
+/KNXBoostDesktop/.idea/
+/KNXBoostDesktop/.idea
+
+
+KNXBoostDesktop/KNXBoostDesktop/bin/
+KNXBoostDesktop/KNXBoostDesktop/obj/

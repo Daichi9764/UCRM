@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "eD9h3tXf6qU=",
+=======
+  "dgSpecHash": "Zg7yS0LqQTHfNVM1jaDpT244wdOKgE6MynMMn+u0C99wAthUcGYm70kjYWTLo+lFpsvAC+AcOzX/sVc0OaiIZA==",
+>>>>>>> 7db86691e552f7cf1c685e71286782fe13468698
   "success": true,
   "projectFilePath": "C:\\Users\\Daichi\\Documents\\ucrm\\CODE\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
   "expectedPackageFiles": [

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<GroupAddress-Export  Name="Maison Durant" xmlns="http://knx.org/xml/ga-export/01">
+  <GroupRange Name="éclairage" RangeStart="2048" RangeEnd="4095">
+    <GroupRange Name="Marche/arrrêt" RangeStart="2304" RangeEnd="2559">
+      <GroupAddress Name="Eclairage_Marchearrret_Batiment1_Batpart1_Rdc_LocalTechnique_&quot;MA lampe cuisine&quot;" Address="1/1/1" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="indication etat" RangeStart="2560" RangeEnd="2815">
+      <GroupAddress Name="Eclairage_IndicationEtat_Batiment1_Batpart1_Rdc_LocalTechnique_&quot;Lampe cuisine état éclairage&quot;" Address="1/2/0" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+</GroupAddress-Export>
