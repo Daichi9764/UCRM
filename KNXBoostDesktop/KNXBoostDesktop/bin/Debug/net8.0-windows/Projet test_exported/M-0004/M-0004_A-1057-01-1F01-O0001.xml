@@ -1,0 +1,821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-0004_A-1057-01-1F01-O0001" Name="Schalten, Dimmen, Jalousie 105701" ApplicationNumber="4183" ApplicationVersion="1" ProgramType="ApplicationProgram" MaskVersion="MV-0012" VisibleDescription="DELTA Busankoppler 2-fach Tasterstellung&#xD;&#xA;Taste 2-fach und 2 Anzeige-LED's" LoadProcedureStyle="DefaultProcedure" PeiType="4" HelpTopic="1189" DefaultLanguage="de-DE" DynamicTableManagement="1" Linkable="1" OriginalManufacturer="M-0001" PreEts4Style="1" NonRegRelevantDataVersion="0" Hash="H8t+mN4azrnZJ+yvbtmpAQ==" ConvertedFromPreEts4Data="1" Broken="0" IPConfig="Tool" AdditionalAddressesCount="0" DownloadInfoIncomplete="0" CreatedFromLegacySchemaVersion="0">
+          <Static>
+            <Code>
+              <AbsoluteSegment Id="M-0004_A-1057-01-1F01-O0001_AS-0100" Address="256" Size="256" UserMemory="0">
+                <Data>/wAAAAEiDwH/BAAAAADgY2gvTv5o/gH//xAAEAEQBBAF//////////////////8FAQACAQQCAwMFAAYABwAIAAkACgALAAwADQAOAA8ABNDS1wDTxwPU1wDV1wAFBCAhCQEJAdsAAGQ82hXavtrWAVzq1rdWVObQpCImMKoASKoAqDPNDc8bAqYFrWS3VaYDrV5InbpVzQxvvtrkIA5WDSdcHlamBOfbtlbn1oEnNAhWBp/NDWwmRg1WAwdWQL7aHFamBK3gCFYJ1gFgVJlZC1YLtlakAQNWBObSqAHn0p/MDblv1ghWFlRYDVblBFbcrgHNDVRPDlMBTAxTAUyBAA==</Data>
+                <Mask>/wAAAP////////////////////////8AAP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////w==</Mask>
+              </AbsoluteSegment>
+            </Code>
+            <ParameterTypes>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer" Name="t_Betätigungsdauer" Plugin="" InternalDescription="maximale Zeitdauer für einen kurzen Tastendruck">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-2" DisplayOrder="0" Text="300 ms" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-3" DisplayOrder="1" Text="400 ms" Value="3" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-4" DisplayOrder="2" Text="500 ms" Value="4" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-5" DisplayOrder="3" Text="600 ms" Value="5" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-6" DisplayOrder="4" Text="800 ms" Value="6" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-8" DisplayOrder="5" Text="1,0 s" Value="8" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-9" DisplayOrder="6" Text="1,2 s" Value="9" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-12" DisplayOrder="7" Text="1,5 s" Value="12" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-15" DisplayOrder="8" Text="2,0 s" Value="15" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-19" DisplayOrder="9" Text="2,5 s" Value="19" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-23" DisplayOrder="10" Text="3,0 s" Value="23" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-31" DisplayOrder="11" Text="4,0 s" Value="31" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-38" DisplayOrder="12" Text="5,0 s" Value="38" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-46" DisplayOrder="13" Text="6,0 s" Value="46" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-54" DisplayOrder="14" Text="7,0 s" Value="54" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop" Name="t_DimVal Stop" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop_EN-2305" DisplayOrder="1" Text="100 %" Value="2305" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop.20.28inv.29" Name="t_DimVal Stop (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop.20.28inv.29_EN-265" DisplayOrder="1" Text="100 %" Value="265" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl" Name="t_DimVal zykl" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2305" DisplayOrder="1" Text="100 %" Value="2305" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2562" DisplayOrder="2" Text="50 %" Value="2562" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2819" DisplayOrder="3" Text="25 %" Value="2819" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3076" DisplayOrder="4" Text="12,5 %" Value="3076" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3333" DisplayOrder="5" Text="6 %" Value="3333" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3590" DisplayOrder="6" Text="3 %" Value="3590" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3847" DisplayOrder="7" Text="1,5 %" Value="3847" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29" Name="t_DimVal zykl (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-265" DisplayOrder="1" Text="100 %" Value="265" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-522" DisplayOrder="2" Text="50 %" Value="522" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-779" DisplayOrder="3" Text="25 %" Value="779" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1036" DisplayOrder="4" Text="12,5 %" Value="1036" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1293" DisplayOrder="5" Text="6 %" Value="1293" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1550" DisplayOrder="6" Text="3 %" Value="1550" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1807" DisplayOrder="7" Text="1,5 %" Value="1807" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage" Name="t_Einbaulage" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage_EN-0" DisplayOrder="0" Text="normal   (LEDs oben)" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage_EN-1" DisplayOrder="1" Text="invers   (LEDs unten)" Value="1" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop" Name="t_Funktion Dimmen stop" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop_EN-1798" DisplayOrder="0" Text="links = heller (UM), rechts = dunkler (UM)" Value="1798" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop_EN-1284" DisplayOrder="1" Text="links = heller (EIN), rechts = dunkler (AUS)" Value="1284" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop.20.28inv.29" Name="t_Funktion Dimmen stop (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop.20.28inv.29_EN-1543" DisplayOrder="0" Text="UM / UM" Value="1543" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop.20.28inv.29_EN-1029" DisplayOrder="1" Text="EIN / AUS" Value="1029" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl" Name="t_Funktion Dimmen zykl" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl_EN-2826" DisplayOrder="0" Text="links = heller (UM), rechts = dunkler (UM)" Value="2826" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl_EN-2312" DisplayOrder="1" Text="links = heller (EIN), rechts = dunkler (AUS)" Value="2312" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl.20.28inv.29" Name="t_Funktion Dimmen zykl (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl.20.28inv.29_EN-2571" DisplayOrder="0" Text="UM / UM" Value="2571" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl.20.28inv.29_EN-2057" DisplayOrder="1" Text="EIN / AUS" Value="2057" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie" Name="t_Funktion Jalousie" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie_EN-8480" DisplayOrder="0" Text="links = AB, rechts = AUF" Value="8480" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie_EN-8225" DisplayOrder="1" Text="links = AUF, rechts = AB" Value="8225" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie.20.28inv.29" Name="t_Funktion Jalousie (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie.20.28inv.29_EN-8225" DisplayOrder="0" Text="Jalousie, AB / AUF" Value="8225" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie.20.28inv.29_EN-8480" DisplayOrder="1" Text="Jalousie, AUF / AB" Value="8480" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten" Name="t_Funktion Schalten" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-17" DisplayOrder="0" Text="EIN" Value="17" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-16" DisplayOrder="1" Text="AUS" Value="16" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-18" DisplayOrder="2" Text="UM" Value="18" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion" Name="t_Grundfunktion" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="2">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-0" DisplayOrder="0" Text="Schalten" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-1" DisplayOrder="1" Text="Jalousie" Value="1" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-2" DisplayOrder="2" Text="Dimmen mit Stoptelegramm" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-3" DisplayOrder="3" Text="Dimmen mit Telegrammwiederholung" Value="3" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung" Name="t_LED Darstellung" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-51" DisplayOrder="0" Text="links normal, rechts normal" Value="51" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-48" DisplayOrder="1" Text="links invertiert, rechts invertiert" Value="48" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-49" DisplayOrder="2" Text="links normal, rechts invertiert" Value="49" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-50" DisplayOrder="3" Text="links invertiert, rechts normal" Value="50" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29" Name="t_LED Darstellung (inv)" Plugin="">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-51" DisplayOrder="0" Text="links normal, rechts normal" Value="51" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-48" DisplayOrder="1" Text="links invers, rechts invers" Value="48" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-50" DisplayOrder="2" Text="links normal, rechts invers" Value="50" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-49" DisplayOrder="3" Text="links invers, rechts normal" Value="49" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen" Name="t_LED links Dimmen" Plugin="">
+                <TypeRestriction Base="BinaryValue" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-0" BinaryValue="qgA=" DisplayOrder="0" Text="immer AUS" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-1" BinaryValue="qgE=" DisplayOrder="1" Text="immer EIN" Value="1" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-2" BinaryValue="utI=" DisplayOrder="2" Text="für Objekt 0" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-4" BinaryValue="utQ=" DisplayOrder="4" Text="für Objekt 2" Value="4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo" Name="t_LED links Schalt/Jalo" Plugin="">
+                <TypeRestriction Base="BinaryValue" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-0" BinaryValue="qgA=" DisplayOrder="0" Text="immer AUS" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-1" BinaryValue="qgE=" DisplayOrder="1" Text="immer EIN" Value="1" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-2" BinaryValue="utI=" DisplayOrder="2" Text="für Objekt 0" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-3" BinaryValue="utM=" DisplayOrder="3" Text="für Objekt 1" Value="3" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-4" BinaryValue="utQ=" DisplayOrder="4" Text="für Objekt 2" Value="4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen" Name="t_LED rechts Dimmen" Plugin="">
+                <TypeRestriction Base="BinaryValue" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-0" BinaryValue="qgA=" DisplayOrder="0" Text="immer AUS" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-1" BinaryValue="qgE=" DisplayOrder="1" Text="immer EIN" Value="1" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-2" BinaryValue="utI=" DisplayOrder="2" Text="für Objekt 0" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-4" BinaryValue="utU=" DisplayOrder="4" Text="für Objekt 3" Value="4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo" Name="t_LED rechts Schalt/Jalo" Plugin="">
+                <TypeRestriction Base="BinaryValue" SizeInBit="16">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-0" BinaryValue="qgA=" DisplayOrder="0" Text="immer AUS" Value="0" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-1" BinaryValue="qgE=" DisplayOrder="1" Text="immer EIN" Value="1" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-2" BinaryValue="utI=" DisplayOrder="2" Text="für Objekt 0" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-3" BinaryValue="utM=" DisplayOrder="3" Text="für Objekt 1" Value="3" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-4" BinaryValue="utU=" DisplayOrder="4" Text="für Objekt 3" Value="4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend" Name="t_Zykl_Send" Plugin="" InternalDescription="maximale Zeitdauer für einen kurzen Tastendruck">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-2" DisplayOrder="0" Text="300 ms" Value="2" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-3" DisplayOrder="1" Text="400 ms" Value="3" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-4" DisplayOrder="2" Text="500 ms" Value="4" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-5" DisplayOrder="3" Text="600 ms" Value="5" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-6" DisplayOrder="4" Text="800 ms" Value="6" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-8" DisplayOrder="5" Text="1,0 s" Value="8" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-9" DisplayOrder="6" Text="1,2 s" Value="9" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-12" DisplayOrder="7" Text="1,5 s" Value="12" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-15" DisplayOrder="8" Text="2,0 s" Value="15" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-19" DisplayOrder="9" Text="2,5 s" Value="19" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-23" DisplayOrder="10" Text="3,0 s" Value="23" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-31" DisplayOrder="11" Text="4,0 s" Value="31" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-38" DisplayOrder="12" Text="5,0 s" Value="38" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-46" DisplayOrder="13" Text="6,0 s" Value="46" />
+                  <Enumeration Id="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-54" DisplayOrder="14" Text="7,0 s" Value="54" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0004_A-1057-01-1F01-O0001_PT-Seitenparmeter" Name="Seitenparmeter" Plugin="">
+                <TypeNone />
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-107" Name="LED-Darstellung" Text="Status-LED-Darstellung" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung" Access="ReadWrite" Value="51">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="130" />
+              </Parameter>
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-140" Name="Kurzer Wippendruck" Text="Zeit zwischen Kurz- und Langzeitbetrieb" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer" Access="ReadWrite" Value="4">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="165" />
+              </Parameter>
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-141" Name="Zykl. Senden" Text="Zeit zwischen zwei Telegrammen" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend" Access="ReadWrite" Value="4">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="195" />
+              </Parameter>
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-113" Name="Wippe " Text="Wippen" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-Seitenparmeter" Access="Read" Value="" />
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-183" Name="Einbaulage" Text="Einbaulage (zuerst festlegen !)" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-Seitenparmeter" Access="None" Value="" />
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-108" Name="Grund-Funktion der Tasten" Text="Funktion der Wippen" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion" Access="ReadWrite" Value="0" />
+              <Parameter Id="M-0004_A-1057-01-1F01-O0001_P-184" Name="Einbaulage" Text="Einbaulage des Tasters" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage" Access="None" Value="0" />
+              <Union SizeInBit="16">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="92" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-36" Name="Schalten Wippe links" Access="ReadWrite" DefaultUnionParameter="1" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten" Value="17" Text="Befehl bei Wippenbetätigung links" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-110" Name="Jalousie Wippe " Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie" Value="8225" Text="Befehl bei Wippenbetätigung" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-128" Name="Dimmen Wippe stop" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop" Value="1284" Text="Befehl bei Wippenbetätigung" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-131" Name="Dimmen Wippe  zyklisch" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl" Value="2312" Text="Befehl bei Wippenbetätigung" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-112" Name="Schalten Wippe rechts" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten" Value="16" Text="Befehl bei Wippenbetätigung rechts" Offset="1" BitOffset="0" />
+              </Union>
+              <Union SizeInBit="16">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="96" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-129" Name="DimVal Stop" Access="None" DefaultUnionParameter="1" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop" Value="2305" Text="heller / dunkler dimmen um" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-132" Name="DimVal zykl" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl" Value="3076" Text="heller / dunkler dimmen um" Offset="0" BitOffset="0" />
+              </Union>
+              <Union SizeInBit="16">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="124" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-208" Name="LED rechts Dimmen stop" Access="ReadWrite" DefaultUnionParameter="1" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen" Value="0" Text="Funktion der rechten Status-LED" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-210" Name="LED rechts Schalten" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo" Value="0" Text="Funktion der rechten Status-LED" Offset="0" BitOffset="0" />
+              </Union>
+              <Union SizeInBit="16">
+                <Memory CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" BitOffset="0" Offset="127" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-105" Name="LED links Schalten" Access="ReadWrite" DefaultUnionParameter="1" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo" Value="0" Text="Funktion der linken Status-LED" Offset="0" BitOffset="0" />
+                <Parameter Id="M-0004_A-1057-01-1F01-O0001_UP-143" Name="LED links Dimmen stop" Access="ReadWrite" DefaultUnionParameter="0" ParameterType="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen" Value="0" Text="Funktion der linken Status-LED" Offset="0" BitOffset="0" />
+              </Union>
+            </Parameters>
+            <ParameterRefs>
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-183_R-183" DisplayOrder="1" RefId="M-0004_A-1057-01-1F01-O0001_P-183" Tag="183" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-184_R-184" DisplayOrder="2" RefId="M-0004_A-1057-01-1F01-O0001_P-184" Tag="184" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-113_R-113" DisplayOrder="20" RefId="M-0004_A-1057-01-1F01-O0001_P-113" Tag="113" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-108_R-108" DisplayOrder="21" RefId="M-0004_A-1057-01-1F01-O0001_P-108" Tag="108" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-36_R-36" DisplayOrder="22" RefId="M-0004_A-1057-01-1F01-O0001_UP-36" Tag="36" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-112_R-112" DisplayOrder="24" RefId="M-0004_A-1057-01-1F01-O0001_UP-112" Tag="112" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-110_R-110" DisplayOrder="26" RefId="M-0004_A-1057-01-1F01-O0001_UP-110" Tag="110" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-128_R-128" DisplayOrder="28" RefId="M-0004_A-1057-01-1F01-O0001_UP-128" Tag="128" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-131_R-131" DisplayOrder="28" RefId="M-0004_A-1057-01-1F01-O0001_UP-131" Tag="131" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-129_R-129" DisplayOrder="29" RefId="M-0004_A-1057-01-1F01-O0001_UP-129" Tag="129" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-129_R-130" DisplayOrder="29" RefId="M-0004_A-1057-01-1F01-O0001_UP-129" Tag="130" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-132_R-132" DisplayOrder="29" RefId="M-0004_A-1057-01-1F01-O0001_UP-132" Tag="132" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-132_R-133" DisplayOrder="29" RefId="M-0004_A-1057-01-1F01-O0001_UP-132" Tag="133" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-140_R-140" DisplayOrder="32" RefId="M-0004_A-1057-01-1F01-O0001_P-140" Tag="140" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-140_R-148" DisplayOrder="32" RefId="M-0004_A-1057-01-1F01-O0001_P-140" Text="Zeit zwischen Schalten und Dimmen" Tag="148" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-140_R-149" DisplayOrder="32" RefId="M-0004_A-1057-01-1F01-O0001_P-140" Text="Zeit zwischen Schalten und Dimmen" Tag="149" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-141_R-141" DisplayOrder="33" RefId="M-0004_A-1057-01-1F01-O0001_P-141" Tag="141" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-105_R-105" DisplayOrder="34" RefId="M-0004_A-1057-01-1F01-O0001_UP-105" Tag="105" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-105_R-142" DisplayOrder="34" Name="LED links Jalousie" RefId="M-0004_A-1057-01-1F01-O0001_UP-105" Tag="142" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-143_R-143" DisplayOrder="34" RefId="M-0004_A-1057-01-1F01-O0001_UP-143" Tag="143" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-143_R-144" DisplayOrder="34" Name="LED links Dimmen zykl" RefId="M-0004_A-1057-01-1F01-O0001_UP-143" Tag="144" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-208_R-208" DisplayOrder="35" RefId="M-0004_A-1057-01-1F01-O0001_UP-208" Tag="208" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-208_R-209" DisplayOrder="35" Name="LED rechts Dimmen zykl" RefId="M-0004_A-1057-01-1F01-O0001_UP-208" Tag="209" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-210_R-210" DisplayOrder="35" RefId="M-0004_A-1057-01-1F01-O0001_UP-210" Tag="210" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_UP-210_R-211" DisplayOrder="35" Name="LED rechts Jalousie" RefId="M-0004_A-1057-01-1F01-O0001_UP-210" Tag="211" />
+              <ParameterRef Id="M-0004_A-1057-01-1F01-O0001_P-107_R-107" DisplayOrder="36" RefId="M-0004_A-1057-01-1F01-O0001_P-107" Tag="107" />
+            </ParameterRefs>
+            <ComObjectTable CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" Offset="78">
+              <ComObject Id="M-0004_A-1057-01-1F01-O0001_O-0" FunctionText="Schalten" Name="Wippe links" Number="0" ObjectSize="1 Bit" Priority="Low" CommunicationFlag="Enabled" ReadFlag="Disabled" ReadOnInitFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" WriteFlag="Enabled" Text="Wippe links" />
+              <ComObject Id="M-0004_A-1057-01-1F01-O0001_O-1" FunctionText="Schalten" Name="Wippe rechts" Number="1" ObjectSize="4 Bit" Priority="Low" CommunicationFlag="Enabled" ReadFlag="Disabled" ReadOnInitFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" WriteFlag="Enabled" Text="Wippe rechts" />
+              <ComObject Id="M-0004_A-1057-01-1F01-O0001_O-2" FunctionText="LED-Ansteuerung" Name="Status-LED links" Number="2" ObjectSize="1 Bit" Priority="Low" CommunicationFlag="Enabled" ReadFlag="Disabled" ReadOnInitFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" WriteFlag="Enabled" Text="Status-LED links" />
+              <ComObject Id="M-0004_A-1057-01-1F01-O0001_O-3" FunctionText="LED-Ansteuerung" Name="Status-LED rechts" Number="3" ObjectSize="1 Bit" Priority="Low" CommunicationFlag="Enabled" ReadFlag="Disabled" ReadOnInitFlag="Disabled" TransmitFlag="Enabled" UpdateFlag="Disabled" WriteFlag="Enabled" Text="Status-LED rechts" />
+            </ComObjectTable>
+            <ComObjectRefs>
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-0_R-1" RefId="M-0004_A-1057-01-1F01-O0001_O-0" Tag="1" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-0_R-29" RefId="M-0004_A-1057-01-1F01-O0001_O-0" FunctionText="Kurzzeitbetrieb" Text="Wippe " Tag="29" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-0_R-38" RefId="M-0004_A-1057-01-1F01-O0001_O-0" Text="Wippe " Tag="38" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-0_R-42" RefId="M-0004_A-1057-01-1F01-O0001_O-0" Text="Wippe " Tag="42" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-1_R-11" RefId="M-0004_A-1057-01-1F01-O0001_O-1" ObjectSize="1 Bit" Tag="11" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-1_R-15" RefId="M-0004_A-1057-01-1F01-O0001_O-1" FunctionText="Langzeitbetrieb" ObjectSize="1 Bit" Text="Wippe " Tag="15" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-1_R-39" RefId="M-0004_A-1057-01-1F01-O0001_O-1" FunctionText="Dimmen" Text="Wippe " Tag="39" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-1_R-44" RefId="M-0004_A-1057-01-1F01-O0001_O-1" FunctionText="Dimmen" Text="Wippe " Tag="44" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-2_R-31" RefId="M-0004_A-1057-01-1F01-O0001_O-2" Tag="31" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-2_R-46" RefId="M-0004_A-1057-01-1F01-O0001_O-2" Tag="46" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-2_R-47" RefId="M-0004_A-1057-01-1F01-O0001_O-2" Tag="47" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-2_R-48" RefId="M-0004_A-1057-01-1F01-O0001_O-2" Tag="48" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-3_R-71" RefId="M-0004_A-1057-01-1F01-O0001_O-3" Tag="71" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-3_R-72" RefId="M-0004_A-1057-01-1F01-O0001_O-3" Tag="72" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-3_R-73" RefId="M-0004_A-1057-01-1F01-O0001_O-3" Tag="73" />
+              <ComObjectRef Id="M-0004_A-1057-01-1F01-O0001_O-3_R-74" RefId="M-0004_A-1057-01-1F01-O0001_O-3" Tag="74" />
+            </ComObjectRefs>
+            <AddressTable CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" Offset="22" MaxEntries="4" />
+            <AssociationTable CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100" Offset="47" MaxEntries="5" />
+            <FixupList>
+              <Fixup FunctionRef="MV-0012_ME-U.5Fdeb30" CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100">
+                <Offset>151</Offset>
+              </Fixup>
+              <Fixup FunctionRef="MV-0012_ME-U.5FGetTMx" CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100">
+                <Offset>180</Offset>
+              </Fixup>
+              <Fixup FunctionRef="MV-0012_ME-U.5FioAST" CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100">
+                <Offset>132</Offset>
+              </Fixup>
+              <Fixup FunctionRef="MV-0012_ME-U.5FreadAD" CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100">
+                <Offset>243</Offset>
+              </Fixup>
+              <Fixup FunctionRef="MV-0012_ME-U.5FtransRequest" CodeSegment="M-0004_A-1057-01-1F01-O0001_AS-0100">
+                <Offset>225</Offset>
+              </Fixup>
+            </FixupList>
+            <Extension RequiresExternalSoftware="0" />
+            <Options PreferPartialDownloadIfApplicationLoaded="0" EasyCtrlModeModeStyleEmptyGroupComTables="0" SetObjectTableLengthAlwaysToOne="0" TextParameterZeroTerminate="0" ParameterByteOrder="BigEndian" LegacyNoPartialDownload="0" LegacyNoMemoryVerifyMode="0" LegacyNoOptimisticWrite="0" LegacyDoNotReportPropertyWriteErrors="0" LegacyNoBackgroundDownload="0" LegacyDoNotCheckManufacturerId="0" LegacyAlwaysReloadAppIfCoVisibilityChanged="0" LegacyNeverReloadAppIfCoVisibilityChanged="0" LegacyDoNotSupportUndoDelete="0" LegacyAllowPartialDownloadIfAp2Mismatch="0" LegacyKeepObjectTableGaps="0" PartialDownloadOnlyVisibleParameters="0" LegacyProxyCommunicationObjects="0" DeviceInfoIgnoreRunState="0" DeviceInfoIgnoreLoadedState="0" DeviceCompareAllowCompatibleManufacturerId="0" LineCoupler0912NewProgrammingStyle="0" TextParameterEncodingSelector="UseTextParameterEncodingCodePage" DownloadInvisibleParameters="Background" />
+          </Static>
+          <Dynamic>
+            <Channel Name="Generic" Text="" Number="0" Id="M-0004_A-1057-01-1F01-O0001_CH-0">
+              <ParameterBlock Id="M-0004_A-1057-01-1F01-O0001_PB-183" Name="Einbaulage" Access="None" ParamRefId="M-0004_A-1057-01-1F01-O0001_P-183_R-183">
+                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-183_R-183">
+                  <when default="true">
+                    <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-184_R-184" />
+                  </when>
+                </choose>
+              </ParameterBlock>
+              <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-183_R-183">
+                <when default="true">
+                  <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-184_R-184">
+                    <when test="0">
+                      <ParameterBlock Id="M-0004_A-1057-01-1F01-O0001_PB-113" Name="Wippe " Access="Read" ParamRefId="M-0004_A-1057-01-1F01-O0001_P-113_R-113">
+                        <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-113_R-113">
+                          <when default="true">
+                            <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-108_R-108" />
+                            <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-108_R-108">
+                              <when test="0">
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-1" />
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-11" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-36_R-36" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-112_R-112" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-105_R-105" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-105_R-105">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-2_R-31" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-210_R-210" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-210_R-210">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-3_R-73" />
+                                  </when>
+                                </choose>
+                              </when>
+                              <when test="1">
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-29" />
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-15" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-110_R-110" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-140_R-140" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-105_R-142" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-105_R-142">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-2_R-46" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-210_R-211" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-210_R-211">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-3_R-74" />
+                                  </when>
+                                </choose>
+                              </when>
+                              <when test="2">
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-38" />
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-39" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-128_R-128" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-128_R-128">
+                                  <when test="1798">
+                                    <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-129_R-129" />
+                                  </when>
+                                  <when test="1284">
+                                    <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-129_R-130" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-140_R-148" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-143_R-143" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-143_R-143">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-2_R-47" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-208_R-208" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-208_R-208">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-3_R-71" />
+                                  </when>
+                                </choose>
+                              </when>
+                              <when test="3">
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-42" />
+                                <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-44" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-131_R-131" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-131_R-131">
+                                  <when test="2826">
+                                    <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-132_R-132" />
+                                  </when>
+                                  <when test="2312">
+                                    <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-132_R-133" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-140_R-149" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-141_R-141" />
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-143_R-144" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-143_R-144">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-2_R-48" />
+                                  </when>
+                                </choose>
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_UP-208_R-209" />
+                                <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_UP-208_R-209">
+                                  <when test="4">
+                                    <ComObjectRefRef RefId="M-0004_A-1057-01-1F01-O0001_O-3_R-72" />
+                                  </when>
+                                </choose>
+                              </when>
+                            </choose>
+                            <choose ParamRefId="M-0004_A-1057-01-1F01-O0001_P-108_R-108">
+                              <when default="true">
+                                <ParameterRefRef RefId="M-0004_A-1057-01-1F01-O0001_P-107_R-107" />
+                              </when>
+                            </choose>
+                          </when>
+                        </choose>
+                      </ParameterBlock>
+                    </when>
+                  </choose>
+                </when>
+              </choose>
+            </Channel>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0004_A-1057-01-1F01-O0001">
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001">
+              <Translation AttributeName="Name" Text="Cde. ON/OFF, Varier, VR+Store 105701" />
+              <Translation AttributeName="VisibleDescription" Text="Coupleur bus DELTA inter à basculle, 2 voies&#xD;&#xA;Double poussoir avec 2 Leds de signalisation" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-0">
+              <Translation AttributeName="Text" Text="Touche gauche" />
+              <Translation AttributeName="FunctionText" Text="Cde. ON/OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-1">
+              <Translation AttributeName="Text" Text="Touche droite" />
+              <Translation AttributeName="FunctionText" Text="Cde. ON/OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-2">
+              <Translation AttributeName="Text" Text="Led gauche signal d'état" />
+              <Translation AttributeName="FunctionText" Text="Cde. de la Led" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-3">
+              <Translation AttributeName="Text" Text="Led droite signal d'état" />
+              <Translation AttributeName="FunctionText" Text="Cde. de la Led" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-29">
+              <Translation AttributeName="Text" Text="Touche " />
+              <Translation AttributeName="FunctionText" Text="Commande par impulsion" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-38">
+              <Translation AttributeName="Text" Text="Touche " />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-0_R-42">
+              <Translation AttributeName="Text" Text="Touche " />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-15">
+              <Translation AttributeName="Text" Text="Touche " />
+              <Translation AttributeName="FunctionText" Text="Montée/descente totale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-39">
+              <Translation AttributeName="Text" Text="Touche " />
+              <Translation AttributeName="FunctionText" Text="Varier" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_O-1_R-44">
+              <Translation AttributeName="Text" Text="Touche " />
+              <Translation AttributeName="FunctionText" Text="Varier" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-140_R-148">
+              <Translation AttributeName="Text" Text="Temps entre Cde. ON/OFF et variation" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-140_R-149">
+              <Translation AttributeName="Text" Text="Temps entre Cde. ON/OFF et variation" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-36">
+              <Translation AttributeName="Text" Text="Ordre à l'appui sur les touches gauches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-110">
+              <Translation AttributeName="Text" Text="Ordre à l'appui sur les touches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-112">
+              <Translation AttributeName="Text" Text="Ordre à l'appui sur les touches droites" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-128">
+              <Translation AttributeName="Text" Text="Ordre à l'appui sur les touches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-129">
+              <Translation AttributeName="Text" Text=" Varier luminosité +/- de ..." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-131">
+              <Translation AttributeName="Text" Text="Ordre à l'appui sur les touches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-108">
+              <Translation AttributeName="Text" Text="fonctions des touches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-113">
+              <Translation AttributeName="Text" Text="Touches" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-183">
+              <Translation AttributeName="Text" Text="Montage (à définir en priorité!)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-105">
+              <Translation AttributeName="Text" Text="Fonction de la Led signal d'état gauche" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-132">
+              <Translation AttributeName="Text" Text=" Varier luminosité +/- de ..." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-143">
+              <Translation AttributeName="Text" Text="Fonction de la Led signal d'état gauche" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-208">
+              <Translation AttributeName="Text" Text="Fonction de la Led droite signal d'état" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_UP-210">
+              <Translation AttributeName="Text" Text="Fonction de la Led droite signal d'état" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-107">
+              <Translation AttributeName="Text" Text="Led signal d'état-description" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-140">
+              <Translation AttributeName="Text" Text="Temps entre impulsion de cde. et appui long" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-141">
+              <Translation AttributeName="Text" Text="Temps entre 2 télégrammes" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_P-184">
+              <Translation AttributeName="Text" Text="Montage du bouton poussoir" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-2">
+              <Translation AttributeName="Text" Text="300 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-3">
+              <Translation AttributeName="Text" Text="400 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-4">
+              <Translation AttributeName="Text" Text="500 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-5">
+              <Translation AttributeName="Text" Text="600 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-6">
+              <Translation AttributeName="Text" Text="800 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-8">
+              <Translation AttributeName="Text" Text="1,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-9">
+              <Translation AttributeName="Text" Text="1,2 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-12">
+              <Translation AttributeName="Text" Text="1,5 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-15">
+              <Translation AttributeName="Text" Text="2,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-19">
+              <Translation AttributeName="Text" Text="2,5 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-23">
+              <Translation AttributeName="Text" Text="3,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-31">
+              <Translation AttributeName="Text" Text="4,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-38">
+              <Translation AttributeName="Text" Text="5,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-46">
+              <Translation AttributeName="Text" Text="6,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FBetätigungsdauer_EN-54">
+              <Translation AttributeName="Text" Text="7,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop_EN-2305">
+              <Translation AttributeName="Text" Text="100 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20Stop.20.28inv.29_EN-265">
+              <Translation AttributeName="Text" Text="100 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2305">
+              <Translation AttributeName="Text" Text="100 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2562">
+              <Translation AttributeName="Text" Text="50 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1036">
+              <Translation AttributeName="Text" Text="12,5 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1293">
+              <Translation AttributeName="Text" Text="6 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1550">
+              <Translation AttributeName="Text" Text="3 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-1807">
+              <Translation AttributeName="Text" Text="1,5 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-265">
+              <Translation AttributeName="Text" Text="100 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-522">
+              <Translation AttributeName="Text" Text="50 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl.20.28inv.29_EN-779">
+              <Translation AttributeName="Text" Text="25 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-2819">
+              <Translation AttributeName="Text" Text="25 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3076">
+              <Translation AttributeName="Text" Text="12,5 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3333">
+              <Translation AttributeName="Text" Text="6 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3590">
+              <Translation AttributeName="Text" Text="3 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FDimVal.20zykl_EN-3847">
+              <Translation AttributeName="Text" Text="1,5 %" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage_EN-0">
+              <Translation AttributeName="Text" Text="normale (Leds en haut)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FEinbaulage_EN-1">
+              <Translation AttributeName="Text" Text="inverser (Leds en bas)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop.20.28inv.29_EN-1029">
+              <Translation AttributeName="Text" Text="ON / OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop.20.28inv.29_EN-1543">
+              <Translation AttributeName="Text" Text="INV/ INVERSER" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop_EN-1284">
+              <Translation AttributeName="Text" Text="gauche = luminosité.+ (ON), droite = luminosité.- (OFF)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20stop_EN-1798">
+              <Translation AttributeName="Text" Text="gauche = luminosité.+ (INV), droite = luminosité.- (INV)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl.20.28inv.29_EN-2057">
+              <Translation AttributeName="Text" Text="ON / OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl.20.28inv.29_EN-2571">
+              <Translation AttributeName="Text" Text="INV/ INVERSER" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl_EN-2312">
+              <Translation AttributeName="Text" Text="gauche = luminosité.+ (ON), droite = luminosité.- (OFF)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Dimmen.20zykl_EN-2826">
+              <Translation AttributeName="Text" Text="gauche = luminosité.+ (INV), droite = luminosité.- (INV)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie.20.28inv.29_EN-8225">
+              <Translation AttributeName="Text" Text="VR+Store, descente / Montée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie.20.28inv.29_EN-8480">
+              <Translation AttributeName="Text" Text="VR+Store, Montée / descente" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie_EN-8225">
+              <Translation AttributeName="Text" Text="gauche = montée, droite = descente" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Jalousie_EN-8480">
+              <Translation AttributeName="Text" Text="gauche = descente, droite = montée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-16">
+              <Translation AttributeName="Text" Text="OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-17">
+              <Translation AttributeName="Text" Text="ON" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FFunktion.20Schalten_EN-18">
+              <Translation AttributeName="Text" Text="INVERSER" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-0">
+              <Translation AttributeName="Text" Text="Cde. ON/OFF" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-1">
+              <Translation AttributeName="Text" Text="VR+Store" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-2">
+              <Translation AttributeName="Text" Text="Varier avec télégramme STOP" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FGrundfunktion_EN-3">
+              <Translation AttributeName="Text" Text="Varier avec réitérer télégramme" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-51">
+              <Translation AttributeName="Text" Text="gauche normale, droite normale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-48">
+              <Translation AttributeName="Text" Text="gauche inverser, droite inverser" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-49">
+              <Translation AttributeName="Text" Text="gauche normale, droite inverserer" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-50">
+              <Translation AttributeName="Text" Text="gauche inverser, droite normale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung_EN-51">
+              <Translation AttributeName="Text" Text="gauche normale, droite normale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-48">
+              <Translation AttributeName="Text" Text="gauche inverser, droite inverser" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-49">
+              <Translation AttributeName="Text" Text="gauche inverser, droite normale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20Darstellung.20.28inv.29_EN-50">
+              <Translation AttributeName="Text" Text="gauche normale, droite inverser" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-0">
+              <Translation AttributeName="Text" Text="toujours éteinte" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-1">
+              <Translation AttributeName="Text" Text="toujours allumée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-2">
+              <Translation AttributeName="Text" Text="pour Objet n° 0" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Dimmen_EN-4">
+              <Translation AttributeName="Text" Text="pour Objet n° 2" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-0">
+              <Translation AttributeName="Text" Text="toujours éteinte" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-1">
+              <Translation AttributeName="Text" Text="toujours allumée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-2">
+              <Translation AttributeName="Text" Text="pour Objet n° 0" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-3">
+              <Translation AttributeName="Text" Text="pour Objet n° 1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20links.20Schalt.2FJalo_EN-4">
+              <Translation AttributeName="Text" Text="pour Objet n° 2" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-0">
+              <Translation AttributeName="Text" Text="toujours éteinte" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-1">
+              <Translation AttributeName="Text" Text="toujours allumée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-2">
+              <Translation AttributeName="Text" Text="pour Objet n° 0" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Dimmen_EN-4">
+              <Translation AttributeName="Text" Text="pour Objet n° 3" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-0">
+              <Translation AttributeName="Text" Text="toujours éteinte" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-1">
+              <Translation AttributeName="Text" Text="toujours allumée" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-2">
+              <Translation AttributeName="Text" Text="pour Objet n° 0" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-3">
+              <Translation AttributeName="Text" Text="pour Objet n° 1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FLED.20rechts.20Schalt.2FJalo_EN-4">
+              <Translation AttributeName="Text" Text="pour Objet n° 3" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-12">
+              <Translation AttributeName="Text" Text="1,5 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-15">
+              <Translation AttributeName="Text" Text="2,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-19">
+              <Translation AttributeName="Text" Text="2,5 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-2">
+              <Translation AttributeName="Text" Text="300 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-23">
+              <Translation AttributeName="Text" Text="3,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-3">
+              <Translation AttributeName="Text" Text="400 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-31">
+              <Translation AttributeName="Text" Text="4,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-38">
+              <Translation AttributeName="Text" Text="5,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-4">
+              <Translation AttributeName="Text" Text="500 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-46">
+              <Translation AttributeName="Text" Text="6,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-5">
+              <Translation AttributeName="Text" Text="600 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-54">
+              <Translation AttributeName="Text" Text="7,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-6">
+              <Translation AttributeName="Text" Text="800 ms" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-8">
+              <Translation AttributeName="Text" Text="1,0 s" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0004_A-1057-01-1F01-O0001_PT-t.5FZykl.5FSend_EN-9">
+              <Translation AttributeName="Text" Text="1,2 s" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

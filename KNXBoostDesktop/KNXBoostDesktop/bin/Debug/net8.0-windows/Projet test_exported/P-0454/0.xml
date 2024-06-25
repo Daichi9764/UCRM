@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <Project Id="P-0454">
+    <Installations>
+      <Installation Name="" BCUKey="4294967295" DefaultLine="P-0454-0_L-3" IPRoutingLatencyTolerance="2000">
+        <Topology>
+          <Area Id="P-0454-0_A-1" Address="0" Puid="1">
+            <Line Id="P-0454-0_L-1" Address="0" Puid="2">
+              <Segment Id="P-0454-0_S-1" Number="0" MediumTypeRefId="MT-0" Puid="3" />
+            </Line>
+          </Area>
+          <Area Id="P-0454-0_A-2" Address="1" Puid="4">
+            <Line Id="P-0454-0_L-2" Address="0" Puid="5">
+              <Segment Id="P-0454-0_S-2" Number="0" MediumTypeRefId="MT-0" Puid="6" />
+            </Line>
+            <Line Id="P-0454-0_L-3" Address="1" Name="RDC" Puid="7">
+              <Segment Id="P-0454-0_S-3" Number="0" MediumTypeRefId="MT-0" Puid="8">
+                <DeviceInstance Id="P-0454-0_DI-2" Address="1" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T06:52:28.2952496Z" LoadedImage="" Puid="39">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-4 GA-7" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-4 GA-7" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+              </Segment>
+            </Line>
+            <Line Id="P-0454-0_L-4" Address="2" Name="Niveau 1" Puid="36">
+              <Segment Id="P-0454-0_S-4" Number="0" MediumTypeRefId="MT-0" Puid="37">
+                <DeviceInstance Id="P-0454-0_DI-1" Address="1" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T06:46:45.7606111Z" Puid="38">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-1 GA-5" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-1 GA-5" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-3" Address="3" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T06:52:37.8631125Z" LoadedImage="" Puid="40">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-3 GA-8" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-3 GA-8" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-5" Address="2" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T06:55:21.4395281Z" LoadedImage="" Puid="42">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-2 GA-6" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-2 GA-6" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-6" Address="4" Name="" ProductRefId="M-0064_H-MTN649204-1-O000C_P-MTN649204" Hardware2ProgramRefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T07:00:08.3953747Z" Puid="43">
+                  <ParameterInstanceRefs>
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-495_R-495" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-623_R-623" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-625_R-625" Value="3" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-1059_R-1059" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-1187_R-1187" Value="1" />
+                  </ParameterInstanceRefs>
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-34" Links="GA-1" />
+                    <ComObjectInstanceRef RefId="O-4_R-43" Links="GA-2" />
+                    <ComObjectInstanceRef RefId="O-3_R-41" Links="GA-5" />
+                    <ComObjectInstanceRef RefId="O-7_R-50" Links="GA-6" />
+                    <ComObjectInstanceRef RefId="O-8_R-69" Links="GA-3" />
+                    <ComObjectInstanceRef RefId="O-12_R-78" Links="GA-4" />
+                    <ComObjectInstanceRef RefId="O-11_R-76" Links="GA-8" />
+                    <ComObjectInstanceRef RefId="O-15_R-85" Links="GA-7" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-3_R-41 O-0_R-34 O-7_R-50 O-4_R-43 O-11_R-76 O-8_R-69 O-15_R-85 O-12_R-78" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-7" Address="5" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T07:02:55.6486369Z" Puid="44">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-9 GA-11" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-9 GA-11" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-8" Address="6" Name="" ProductRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_P-2072.2E01LED" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202072.2E01LED-1-O0001_HP-1057-01-1F01-O0001" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T07:03:14.1171623Z" LoadedImage="" Puid="45">
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-1" Links="GA-10 GA-12" />
+                    <ComObjectInstanceRef RefId="O-1_R-11" Links="GA-10 GA-12" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-0_R-1 O-1_R-11" />
+                  <Security />
+                </DeviceInstance>
+                <DeviceInstance Id="P-0454-0_DI-9" Address="7" Name="" ProductRefId="M-0064_H-MTN649204-1-O000C_P-MTN649204" Hardware2ProgramRefId="M-0064_H-MTN649204-1-O000C_HP-4820-11-FAFB-O000C" Comment="" Description="" IsActivityCalculated="true" LastModified="2024-06-20T07:05:05.1995492Z" LoadedImage="" Puid="46">
+                  <ParameterInstanceRefs>
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-495_R-495" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-623_R-623" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-1059_R-1059" Value="1" />
+                    <ParameterInstanceRef RefId="M-0064_A-4820-11-FAFB-O000C_P-1187_R-1187" Value="1" />
+                  </ParameterInstanceRefs>
+                  <ComObjectInstanceRefs>
+                    <ComObjectInstanceRef RefId="O-0_R-34" Links="GA-9" />
+                    <ComObjectInstanceRef RefId="O-4_R-43" Links="GA-10" />
+                    <ComObjectInstanceRef RefId="O-3_R-41" Links="GA-11" />
+                    <ComObjectInstanceRef RefId="O-7_R-50" Links="GA-12" />
+                  </ComObjectInstanceRefs>
+                  <GroupObjectTree GroupObjectInstances="O-3_R-41 O-0_R-34 O-7_R-50 O-4_R-43" />
+                  <Security />
+                </DeviceInstance>
+              </Segment>
+            </Line>
+          </Area>
+        </Topology>
+        <Locations>
+          <Space Type="Building" Id="P-0454-0_BP-1" Name="Projet test" Puid="9">
+            <Space Type="BuildingPart" Id="P-0454-0_BP-2" Name="Facade Nord" Puid="10">
+              <Space Type="Floor" Id="P-0454-0_BP-5" Name="Niveau 1" Puid="13">
+                <Space Type="Room" Usage="SU-13" Id="P-0454-0_BP-6" Name="Garage" Puid="14">
+                  <DeviceInstanceRef RefId="P-0454-0_DI-3" />
+                  <DeviceInstanceRef RefId="P-0454-0_DI-6" />
+                  <DeviceInstanceRef RefId="P-0454-0_DI-9" />
+                </Space>
+                <Space Type="Room" Usage="SU-6" Id="P-0454-0_BP-7" Name="Chambre enfant 1" Puid="15">
+                  <DeviceInstanceRef RefId="P-0454-0_DI-1" />
+                  <DeviceInstanceRef RefId="P-0454-0_DI-7" />
+                </Space>
+                <Space Type="Room" Usage="SU-6" Id="P-0454-0_BP-8" Name="Chambre enfant 2" Puid="16">
+                  <DeviceInstanceRef RefId="P-0454-0_DI-5" />
+                  <DeviceInstanceRef RefId="P-0454-0_DI-8" />
+                </Space>
+              </Space>
+            </Space>
+            <Space Type="Floor" Id="P-0454-0_BP-3" Name="RDC" Puid="11">
+              <Space Type="Room" Usage="SU-23" Id="P-0454-0_BP-4" Name="Salle de gym" Puid="12">
+                <DeviceInstanceRef RefId="P-0454-0_DI-2" />
+              </Space>
+            </Space>
+          </Space>
+        </Locations>
+        <GroupAddresses>
+          <GroupRanges>
+            <GroupRange Id="P-0454-0_GR-1" RangeStart="2048" RangeEnd="4095" Name="Eclairage" Puid="17">
+              <GroupRange Id="P-0454-0_GR-6" RangeStart="2304" RangeEnd="2559" Name="Marche / Arrêt" Puid="22">
+                <GroupAddress Id="P-0454-0_GA-1" Address="2305" Name="Commande lumière enfant 1" Puid="24" />
+                <GroupAddress Id="P-0454-0_GA-2" Address="2306" Name="Commande lumière enfant 2" Puid="25" />
+                <GroupAddress Id="P-0454-0_GA-3" Address="2307" Name="Commande lumière garrage" Puid="26" />
+                <GroupAddress Id="P-0454-0_GA-4" Address="2308" Name="Commande gym" Puid="27" />
+              </GroupRange>
+              <GroupRange Id="P-0454-0_GR-7" RangeStart="2560" RangeEnd="2815" Name="Indication d'Etat" Puid="23">
+                <GroupAddress Id="P-0454-0_GA-5" Address="2561" Name="Ie lumière enfant 1" Puid="28" />
+                <GroupAddress Id="P-0454-0_GA-6" Address="2562" Name="Ie lumière enfant 2" Puid="29" />
+                <GroupAddress Id="P-0454-0_GA-7" Address="2563" Name="Ie lumière gym" Puid="30" />
+                <GroupAddress Id="P-0454-0_GA-8" Address="2564" Name="Ie lumière garage" Puid="31" />
+              </GroupRange>
+            </GroupRange>
+            <GroupRange Id="P-0454-0_GR-2" RangeStart="4096" RangeEnd="6143" Name="Volets et stores" Puid="18">
+              <GroupRange Id="P-0454-0_GR-3" RangeStart="4352" RangeEnd="4607" Name="Montée / Descente" Puid="19">
+                <GroupAddress Id="P-0454-0_GA-9" Address="4353" Name="Volets enfant 1" Puid="32" />
+                <GroupAddress Id="P-0454-0_GA-10" Address="4354" Name="Volets enfant 2" Puid="33" />
+              </GroupRange>
+              <GroupRange Id="P-0454-0_GR-4" RangeStart="4608" RangeEnd="4863" Name="Inclinaison / Stop" Puid="20" />
+              <GroupRange Id="P-0454-0_GR-5" RangeStart="4864" RangeEnd="5119" Name="Indication d'Etat" Puid="21">
+                <GroupAddress Id="P-0454-0_GA-11" Address="4865" Name="Ie Volets enfant 1" Puid="34" />
+                <GroupAddress Id="P-0454-0_GA-12" Address="4866" Name="Ie Volets enfant 2" Puid="35" />
+              </GroupRange>
+            </GroupRange>
+          </GroupRanges>
+        </GroupAddresses>
+      </Installation>
+    </Installations>
+  </Project>
+</KNX>
