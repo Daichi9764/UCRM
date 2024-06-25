@@ -70,6 +70,7 @@ public partial class MainWindow
             
             App.Fm.FindZeroXml();
             MyNameCorrector.CorrectName();
+            ExportUpdatedNameAddresses.Export();
         }
         else
         {

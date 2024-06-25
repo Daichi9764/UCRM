@@ -6,12 +6,15 @@ namespace KNXBoostDesktop;
 public class MyNameCorrector
 {
     private static XNamespace _globalKnxNamespace = string.Empty;
-    private static string _projectFilesDirectory = Path.Combine(App.Fm?.ProjectFolderPath ?? string.Empty, @"knxproj_exported");
+    private static string _projectFilesDirectory = string.Empty;
     
     public static void CorrectName()
     {
         try
         {
+            //Define the project path
+            _projectFilesDirectory = Path.Combine(App.Fm?.ProjectFolderPath ?? string.Empty, @"knxproj_exported");
+            
             // Define the XML namespace used in the KNX project file
             SetNamespaceFromXml(App.Fm?.ZeroXmlPath ?? string.Empty);
             
@@ -184,8 +187,14 @@ public class MyNameCorrector
                     string nameLocation;
                     if (location != null)
                     {
+                        string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
+                        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
+                        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
+                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+                        
                         // Format the location details
-                        nameLocation = $"_{formatter.Format(location.BuildingName ?? string.Empty)}_{formatter.Format(location.BuildingPartName ?? string.Empty)}_{formatter.Format(location.FloorName ?? string.Empty)}_{formatter.Format(location.RoomName ?? string.Empty)}";
+                        nameLocation =
+                            $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
                     }
                     else
                     {
@@ -243,13 +252,19 @@ public class MyNameCorrector
                     string nameLocation;
                     if (location != null)
                     {
+                        string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
+                        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
+                        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
+                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+                        
                         // Format the location details
-                        nameLocation = $"_{formatter.Format(location.BuildingName ?? string.Empty)}_{formatter.Format(location.BuildingPartName ?? string.Empty)}_{formatter.Format(location.FloorName ?? string.Empty)}_{formatter.Format(location.RoomName ?? string.Empty)}";
+                        nameLocation =
+                            $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
                     }
                     else
                     {
                         // Default location details if no location information is found
-                        nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
+                        nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXx")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
                         App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceRailMounted.DeviceInstanceId}");
                     }
 
@@ -299,7 +314,7 @@ public class MyNameCorrector
             try
             {
                 knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); // Change the path as needed
-                App.ConsoleAndLogWriteLine("Updated XML file saved as 'OutputFiles/0_updated.xml'");
+                App.ConsoleAndLogWriteLine("Updated XML file saved as '0_updated.xml'");
             }
             catch (UnauthorizedAccessException ex)
             {
