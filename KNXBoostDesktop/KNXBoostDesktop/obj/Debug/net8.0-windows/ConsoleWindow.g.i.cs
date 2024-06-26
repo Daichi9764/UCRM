@@ -60,7 +60,7 @@ namespace KNXBoostDesktop {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/KNXBoostDesktop;V1.0.0.0;component/consolewindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/KNXBoostDesktop;component/consolewindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\ConsoleWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

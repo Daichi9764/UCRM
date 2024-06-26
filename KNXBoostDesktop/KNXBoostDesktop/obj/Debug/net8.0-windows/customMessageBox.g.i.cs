@@ -76,7 +76,7 @@ namespace KNXBoostDesktop {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/KNXBoostDesktop;V1.0.0.0;component/custommessagebox.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/KNXBoostDesktop;component/custommessagebox.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\customMessageBox.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

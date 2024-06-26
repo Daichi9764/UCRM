@@ -426,24 +426,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\coust\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\hugo7\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+      "projectUniqueName": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
       "projectName": "KNXBoostDesktop",
-      "projectPath": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
-      "packagesPath": "C:\\Users\\coust\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
+      "projectPath": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj",
+      "packagesPath": "C:\\Users\\hugo7\\.nuget\\packages\\",
+      "outputPath": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\coust\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\hugo7\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -451,7 +446,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -464,6 +458,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -494,7 +493,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
