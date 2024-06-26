@@ -209,3 +209,5 @@ C:\Users\MINIPC\Desktop\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-wi
 C:\Users\MINIPC\Desktop\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.pdb
 C:\Users\MINIPC\Desktop\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\KNXBoostDesktop.genruntimeconfig.cache
 C:\Users\MINIPC\Desktop\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\ref\KNXBoostDesktop.dll
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\SettingsWindow.baml
+C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\obj\Debug\net8.0-windows\SettingsWindow.g.cs
