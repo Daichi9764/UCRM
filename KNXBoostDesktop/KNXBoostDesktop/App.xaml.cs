@@ -84,8 +84,6 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
-            
-            DisplayElements.ShowSettingsWindow();
         }
 
         
