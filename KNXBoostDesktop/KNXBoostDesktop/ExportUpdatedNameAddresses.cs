@@ -69,15 +69,26 @@ class ExportUpdatedNameAddresses
                 }
 
                 // Add GroupAddress under the last GroupRange
-                if (ga.Name != null && ga.Address != null && ga.DPTs != null)
+                if (ga.Name != null && ga.Address != null)
                 {
                     string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
+                    if (ga.DPTs != null)
+                    {
                     XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
                         new XAttribute("Name", ga.Name),
                         new XAttribute("Address", knxAddress),
                         new XAttribute("DPTs", ga.DPTs));
 
-                    currentParent.Add(groupAddress);
+                        currentParent.Add(groupAddress);
+                    }
+                    else{
+                         XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                        new XAttribute("Name", ga.Name),
+                        new XAttribute("Address", knxAddress));
+
+                        currentParent.Add(groupAddress);
+                    }
+                    
                 }
             }
 
