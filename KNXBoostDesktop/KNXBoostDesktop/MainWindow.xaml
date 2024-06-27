@@ -130,7 +130,7 @@
 				<TextBox x:Name="txtSearch2" Width="110" Visibility="Collapsed" TextChanged="TxtSearch2_TextChanged"/>
 			</StackPanel>
 			<ScrollViewer Grid.Row="1" Grid.Column="2" Name="scrollViewer2" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Auto">
-				<TreeView x:Name="treeView2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
+				<TreeView x:Name="treeView2" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
 			</ScrollViewer>
 
 			

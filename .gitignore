@@ -15,3 +15,10 @@ KNXBoostDesktop/KNXBoostDesktop/bin/
 /KNXBoostDesktop/.vs/
 /KNXBoostDesktop/.idea/
 /KNXBoostDesktop/.idea
+/KNXBoostDesktop/KNXBoostDesktop/.vs
+
+# Except for specific files
+!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
+!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/
+!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
+!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/

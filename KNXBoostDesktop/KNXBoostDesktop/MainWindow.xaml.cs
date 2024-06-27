@@ -20,8 +20,8 @@ public partial class MainWindow : Window
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    private readonly string xmlFilePath1 = @"./UpdatedGroupAddresses.xml"; //App.Fm?.ZeroXmlPath
-    private readonly string xmlFilePath2 = @"./UpdatedGroupAddresses.xml"; //App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml"
+    private readonly string xmlFilePath1 = @"./resources/OriginalDummy.xml"; //App.Fm?.ZeroXmlPath
+    private readonly string xmlFilePath2 = @"./resources/UpdatedDummy.xml"; //App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml"
 
 
 
@@ -37,7 +37,7 @@ public partial class MainWindow : Window
 
         Title = $"{App.AppName} v{App.AppVersion}";
 
-        Uri iconUri = new ("./icon.ico", UriKind.RelativeOrAbsolute);
+        Uri iconUri = new ("./resources/icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
         DataContext = this;
