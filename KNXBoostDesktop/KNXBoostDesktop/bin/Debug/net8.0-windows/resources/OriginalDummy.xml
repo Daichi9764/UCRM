@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<GroupAddress-Export xmlns="http://knx.org/xml/ga-export/01">
+  <GroupRange Name="éclairage" RangeStart="2048" RangeEnd="4095">
+    <GroupRange Name="Marche/arrêt" RangeStart="2304" RangeEnd="2559">
+      <GroupAddress Name="EclMarArrBat1_Bat1Rdc_LocTech_MALmpCusn" Address="1/1/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Eclair MarchArret Bat1 Bat1 Etg1 Coul.MA LampCoul" Address="1/1/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_MarArr Bat2-Bat2 Rd SalleReun_MA_LmpSl" Address="1/1/3" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="Indication état" RangeStart="2560" RangeEnd="2815">
+      <GroupAddress Name="Ecl_IndEtat Bat1_Bat1 Rd_LocTech LmpCusEtat" Address="1/2/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="Eclair IndEtat Bat1 Bat1-Etg1_Coul LmpCoulEtat" Address="1/2/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_IndEtat-Bat2_Bat2 Rd-SalleReun_LmpSlEtat" Address="1/2/2" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="chauffage" RangeStart="4096" RangeEnd="6143">
+    <GroupRange Name="Contrôle" RangeStart="4352" RangeEnd="4607">
+      <GroupAddress Name="Chauf_Contr_Bat1_Bat1 Rd-Salon_CtrTemp" Address="2/1/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Chauf_Cntrl Bat1_Bat1_Etg1_Chmbre1_CntrlTemp" Address="2/1/2" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="Indication température" RangeStart="4608" RangeEnd="4863">
+      <GroupAddress Name="Chauf_IndTemp Bat1_Bat1 Rd Salon_TmpSalon" Address="2/2/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="Chauf_IndTemp_Bat1_Bat1 Etg1_Chmbr1 TmpChmbr1" Address="2/2/1" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="sécurité" RangeStart="6144" RangeEnd="8191">
+    <GroupRange Name="Alarmes" RangeStart="6400" RangeEnd="6655">
+      <GroupAddress Name="Secu_Alarme Bat1_Bat1_RdEnt_AlrmeIntr" Address="3/1/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Sec_Alrm_Bat1_Bat1 Etg1_Chmbre1_AlrmIncend" Address="3/1/2" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="Contrôle accès" RangeStart="6656" RangeEnd="6911">
+      <GroupAddress Name="Sec_CntrlAccs_Bat1_Bat1 Rd_Entr CntrlAccs" Address="3/2/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="Sec_CtrAcces_Bat1 Bat1 Etg1_Chmbre1_CtrAccs" Address="3/2/1" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="ventilation" RangeStart="8192" RangeEnd="10239">
+    <GroupRange Name="Contrôle" RangeStart="8448" RangeEnd="8703">
+      <GroupAddress Name="Ventil_Contr_Bat1_Bat1 Rd.Cuis_CtrlVent" Address="4/1/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Vent_Cntrl_Bat1_Bat1_Etg1_Bur_CtrlVent" Address="4/1/2" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="Indication état" RangeStart="8704" RangeEnd="8959">
+      <GroupAddress Name="Vent_IndEtat_Bat1_Bat1 Rd_Cuis_VentCuisEtat" Address="4/2/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="Vent_IndEtat_Bat1 Bat1_Etg1 Bur_VentBurEtat" Address="4/2/1" DPTs="DPST-1-1" />
+    </GroupRange>
+  </GroupRange>
+</GroupAddress-Export>

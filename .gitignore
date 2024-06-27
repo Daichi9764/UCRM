@@ -5,13 +5,20 @@ KNXBoostDesktop/KNXBoostDesktop/obj
 /KNXBoostDesktop/KNXBoostDesktop/obj
 KNXBoostDesktop/KNXBoostDesktop/obj/
 /KNXBoostDesktop/KNXBoostDesktop/obj/
+KNXBoostDesktop/KNXBoostDesktop/bin
+/KNXBoostDesktop/KNXBoostDesktop/bin
+KNXBoostDesktop/KNXBoostDesktop/bin/
+/KNXBoostDesktop/KNXBoostDesktop/bin/
 /KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/logs
 /KNXBoostDesktop/.vs/KNXBoostDesktop/v17
 /KNXBoostDesktop/.vs
 /KNXBoostDesktop/.vs/
 /KNXBoostDesktop/.idea/
 /KNXBoostDesktop/.idea
+/KNXBoostDesktop/KNXBoostDesktop/.vs
 
-
-KNXBoostDesktop/KNXBoostDesktop/bin/
-KNXBoostDesktop/KNXBoostDesktop/obj/
+# Except for specific files
+!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
+!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/
+!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
+!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/
