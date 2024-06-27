@@ -79,7 +79,7 @@ namespace KNXBoostDesktop
             
             // Nettoyage des dossiers restants de la dernière session
             ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
-            DeleteAllExceptLogs();
+            DeleteAllExceptLogsAndResources();
 
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
@@ -208,15 +208,15 @@ namespace KNXBoostDesktop
         // Fonction permettant de supprimer tous les dossiers présents dans le dossier courant
         // Sauf le fichier logs. Cela permet de supprimer tous les projets exportés à la session précédente.
         // Fonction pour supprimer tous les dossiers sauf le dossier 'logs'
-        private static void DeleteAllExceptLogs()
+        private static void DeleteAllExceptLogsAndResources()
         {
             // Liste tous les sous-répertoires dans le répertoire de base
             string[] directories = Directory.GetDirectories("./");
 
             foreach (string directory in directories)
             {
-                // Exclure le dossier 'logs'
-                if (Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))
+                // Exclure le dossier 'logs' et 'resources'
+                if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;
                 }

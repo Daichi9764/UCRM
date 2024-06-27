@@ -2,11 +2,11 @@
 |                                KNXBOOSTDESKTOP SETTINGS                               |
 -----------------------------------------------------------------------------------------
 enable deepL translation : True
-deepL Key [ENCRYPTED] : YuzRhdqDs6X6wo4XlSompA==
-translation lang : FR
-remove unused group addresses : False
-theme : light
-application language : FR
+deepL Key [ENCRYPTED] : bD6463AiS9vY4qiQKe50Tg==
+translation lang : KO
+remove unused group addresses : True
+theme : dark
+application language : JA
 -----------------------------------------------------------------------------------------
 Available languages: AR, BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH
 
