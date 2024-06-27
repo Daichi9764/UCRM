@@ -20,8 +20,8 @@ public partial class MainWindow : Window
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    private readonly string xmlFilePath1 = @"D:/OneDrive - INSA Toulouse/Téléchargements/UpdatedForTest.xml"; // Remplacez par le chemin de votre premier fichier XML
-    private readonly string xmlFilePath2 = @"D:/OneDrive - INSA Toulouse/Téléchargements/UpdatedForTest2.xml"; // Remplacez par le chemin de votre deuxième fichier XML
+    private readonly string xmlFilePath1 = @"./UpdatedGroupAddresses.xml"; //App.Fm?.ZeroXmlPath
+    private readonly string xmlFilePath2 = @"./UpdatedGroupAddresses.xml"; //App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml"
 
 
 
@@ -37,7 +37,7 @@ public partial class MainWindow : Window
 
         Title = $"{App.AppName} v{App.AppVersion}";
 
-        Uri iconUri = new Uri("./icon.ico", UriKind.RelativeOrAbsolute);
+        Uri iconUri = new ("./icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
         DataContext = this;
@@ -49,7 +49,7 @@ public partial class MainWindow : Window
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
-        OpenFileDialog openFileDialog = new OpenFileDialog
+        OpenFileDialog openFileDialog = new()
         {
             // Définir des propriétés optionnelles
             Title = "Sélectionnez un projet KNX à importer",
@@ -139,7 +139,7 @@ public partial class MainWindow : Window
         }
 
         // Initialiser et configurer le SaveFileDialog
-        SaveFileDialog saveFileDialog = new SaveFileDialog
+        SaveFileDialog saveFileDialog = new()
         {
             FileName = "0_updated.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut

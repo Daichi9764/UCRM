@@ -3,9 +3,6 @@
   "WorkspaceRootPath": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CF3549B3-772C-42B0-9881-758D4D811A80}|KNXBoostDesktop.csproj|d:\\onedrive - insa toulouse\\documents\\cours\\insa\\stage4a\\projet\\ucrm\\knxboostdesktop\\knxboostdesktop\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF3549B3-772C-42B0-9881-758D4D811A80}|KNXBoostDesktop.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,38 +23,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AQIAAJ4VAAAAAAAAAAAYwKsVAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2024-06-26T09:51:19.928Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AQIAAKsAAAAAAAAAAIA7wLcAAAAjAAAA",
+              "ToolTip": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\MainWindow.xaml.cs*",
+              "RelativeToolTip": "MainWindow.xaml.cs*",
+              "ViewState": "AQIAACYAAAAAAAAAAAAQwDAAAABSAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-26T09:50:40.499Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
               "ToolTip": "D:\\OneDrive - INSA Toulouse\\Documents\\Cours\\INSA\\Stage4A\\Projet\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-26T09:50:30.729Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-26T09:50:30.729Z"
             }
           ]
         }
