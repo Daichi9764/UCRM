@@ -81,7 +81,7 @@ namespace KNXBoostDesktop
                 if (knxprojSourceFilePath.EndsWith(".knxproj"))
                 {
                     // Si le fichier entré est un .knxproj
-                    zipArchivePath = knxprojSourceFilePath.Substring(0, knxprojSourceFilePath.Length - ".knxproj".Length) + ".zip"; // On enlève .knxproj et on ajoute .zip
+                    zipArchivePath = $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}.zip"; // On enlève .knxproj et on ajoute .zip
                 }
                 else
                 {
@@ -94,6 +94,11 @@ namespace KNXBoostDesktop
                     continue; // Retour au début de la boucle pour retenter l'extraction avec le nouveau path
                 }
 
+                if (File.Exists(zipArchivePath))
+                {
+                    App.ConsoleAndLogWriteLine($"{zipArchivePath} already exists. Removing the file before creating the new archive.");
+                    File.Delete(zipArchivePath);
+                }
                 
                 try
                 {
