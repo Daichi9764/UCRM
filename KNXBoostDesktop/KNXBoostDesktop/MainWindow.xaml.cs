@@ -182,9 +182,15 @@ public partial class MainWindow : Window
         Application.Current.Shutdown();
     }
 
+    private void OpenParameters(object sender, RoutedEventArgs e)
+    {
+        DisplayElements displayElement = new();
+        displayElement.ShowSettingsWindow();
+    }
+
 
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
-   
+
     private void LoadXmlFiles()
     {
         LoadXmlFile(xmlFilePath1, treeView1);

@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 // ReSharper disable ConvertToUsingDeclaration
+
 
 namespace KNXBoostDesktop
 {
@@ -14,10 +18,6 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        private static readonly string SettingsPath = $"./appSettings"; // Chemin du fichier paramètres
-        
-        public new bool DialogResult { get; private set; } // Permet de savoir si l'utilisateur a entré l'information voulue ou s'il a fermé la fenêtre/annulé
-
         private readonly bool _emkFileExists;
         
         public bool EnableDeeplTranslation { get; private set; } // Activation ou non de la traduction deepL
@@ -33,6 +33,9 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
+        // Constructeur par défaut. Charge les paramètres contenus dans le fichier appSettings et les affiche également
+        // dans la fenêtre de paramétrage de l'application. Si la valeur est incorrecte ou vide, une valeur par défaut
+        // est affectée.
         public SettingsWindow()
         {
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
@@ -44,31 +47,86 @@ namespace KNXBoostDesktop
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
 
+            const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
             
+            // Vérification que le fichier contenant la main key existe
             _emkFileExists = File.Exists("./emk");
             
+            // Si le fichier contenant la main key n'existe pas
             if (!_emkFileExists)
             {
                 App.ConsoleAndLogWriteLine(
                     "Main key file not found. Generating a new one and resetting the settings file...");
 
-                // Génération aléatoire d'une main key
+                // Génération aléatoire d'une main key de taille 32 octets
                 EncryptAndStoreMainKey(Convert.FromBase64String(GenerateRandomKey(32)));
-                
-                if (File.Exists("./appSettings")) File.Delete("./appSettings");
-                if (File.Exists("./ei")) File.Delete("./ei");
-                if (File.Exists("./ek")) File.Delete("./ek");
+
+                try
+                {
+                    if (File.Exists(settingsPath)) File.Delete(settingsPath); // Réinitialisation du fichier paramètres
+                    if (File.Exists("./ei")) File.Delete("./ei"); // Suppression du vecteur d'initialisation du cryptage (non récupérable via la main key)
+                    if (File.Exists("./ek")) File.Delete("./ek"); // Suppression de la clé de cryptage (non récupérable via la main key)
+                }
+                // Si l'un des fichiers n'est pas accessible
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Show("Erreur : impossible d'accéder au fichier 'ei', 'ek' ou 'appSettings'. Veuillez vérifier qu'ils " +
+                                    "ne sont pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1", "Erreur", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown(1);
+                }
             }
-            
-            // Si le fichier de paramétrage n'existe pas, on le crée
-            // Note: comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement.
-            if (!File.Exists(SettingsPath)) File.Create(SettingsPath).Close();
-            
-            StreamReader reader = new(SettingsPath);
+
+            try
+            {
+                // Si le fichier de paramétrage n'existe pas, on le crée
+                // Note : comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement avec Close().
+                if (!File.Exists(settingsPath)) File.Create(settingsPath).Close();
+            }
+            // Si le programme n'a pas accès en écriture pour créer le fichier
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Erreur: impossible d'accéder au fichier de paramétrage de l'application. Veuillez vérifier qu'il " +
+                                "n'est pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1", "Erreur", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown(1);
+            }
+            // Si la longueur du path est incorrecte ou que des caractères non supportés sont présents
+            catch (ArgumentException)
+            {
+                MessageBox.Show($"Erreur: des caractères non supportés sont présents dans le chemin d'accès du fichier de paramétrage" +
+                                $"({settingsPath}. Impossible d'accéder au fichier.\nCode erreur: 2", "Erreur", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown(2);
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3", "Erreur", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown(3);
+            }
+
+            // Déclaration du stream pour la lecture du fichier appSettings, initialement null
+            StreamReader? reader = null;
             
             try
             {
-                while (reader.ReadLine() is { } line)
+                // Création du stream
+                reader = new StreamReader(settingsPath);
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3", "Erreur", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown(3);
+            }
+
+            try
+            {
+                // On parcourt toutes les lignes tant qu'elle n'est pas 'null'
+                while (reader!.ReadLine() is { } line)
                 {
                     // Créer un HashSet avec tous les codes de langue valides
                     HashSet<string> validLanguageCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -78,48 +136,66 @@ namespace KNXBoostDesktop
                         "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
                     };
                     
-                    string[] parts = line.Split(':');
-                    
-                    // S'il n'y a pas de : ou qu'il n'y a rien après les deux points, on skip car la ligne nous intéresse pas
+                    // On coupe la ligne en deux morceaux : la partie avant le ' : ' qui contient le type de paramètre contenu dans la ligne,
+                    // la partie après qui contient la valeur du paramètre
+                    var parts = line.Split(':');
+
+                    // S'il n'y a pas de ' : ' ou qu'il n'y a rien après les deux points, on skip car la ligne nous intéresse pas
                     if (parts.Length < 2) continue;
 
-                    string key = parts[0].Trim().ToLower();
-                    string value = parts[1].Trim();
-                    
-                    switch (key)
+                    var parameter = parts[0].Trim().ToLower();
+                    var value = parts[1].Trim();
+
+                    switch (parameter)
                     {
                         case "enable deepl translation":
                             try
                             {
+                                // On essaie de cast la valeur en booléen
                                 EnableDeeplTranslation = bool.Parse(value);
                             }
                             // Si l'utilisateur n'a pas écrit dans le fichier paramètres un string s'apparentant à true ou false
                             catch (FormatException)
                             {
-                                App.ConsoleAndLogWriteLine("Could not parse boolean value of the activation of the deepL translation, restoring default value");
+                                App.ConsoleAndLogWriteLine(
+                                    "Error: Could not parse boolean value of the activation of the deepL translation, restoring default value");
                             }
+
                             break;
 
                         case "deepl key [encrypted]":
                             // On récupère la clé DeepL encryptée
-                            DeeplKey = Convert.FromBase64String(value);
+                            try
+                            {
+                                // On tente de la convertir en byte[] à partir d'un string en base 64
+                                DeeplKey = Convert.FromBase64String(value);
+                            }
+                            // Si le format de la clé n'est pas correct
+                            catch (FormatException)
+                            {
+                                App.ConsoleAndLogWriteLine($"Error: The format of {value} is incorrect and cannot be decrypted into a DeepL API Key. " +
+                                                           $"Restoring default value.");
+                            }
                             break;
 
                         case "translation lang":
-                            // Vérifier si value est un code de langue valide, si elle est valide on assigne la valeur, sinon on met la langue par défaut
+                            // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             TranslationLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
 
                         case "remove unused group addresses":
                             try
                             {
+                                // On tente de caster le string en booléen
                                 RemoveUnusedGroupAddresses = bool.Parse(value);
                             }
                             // Si l'utilisateur n'a pas écrit dans le fichier paramètres un string s'apparentant à true ou false
                             catch (FormatException)
                             {
-                                App.ConsoleAndLogWriteLine("Could not parse boolean value of the activation of the function to remove unused group addresses, restoring default value");
+                                App.ConsoleAndLogWriteLine(
+                                    "Error: Could not parse boolean value of the activation of the function to remove unused group addresses, restoring default value");
                             }
+
                             break;
 
                         case "theme":
@@ -128,77 +204,115 @@ namespace KNXBoostDesktop
                             break;
 
                         case "application language":
-                            // Vérifier si value est un code de langue valide, si elle est valide on assigne la valeur, sinon on met la langue par défaut
+                            // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             AppLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
                     }
                 }
-                
+
+            }
+            // Si l'application a manqué de mémoire pendant la récupération des lignes
+            catch (OutOfMemoryException)
+            {
+                App.ConsoleAndLogWriteLine("Error: The program does not have sufficient memory to run. Please try closing a few applications before trying again.");
+                return;
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                App.ConsoleAndLogWriteLine("Error: An I/O error occured while reading the settings file.");
+                return;
             }
             finally
             {
-                reader.Close();
-                SaveSettings();
+                reader!.Close(); // Fermeture du stream de lecture
+                SaveSettings(); // Mise à jour du fichier appSettings
             }
             
-            InitializeComponent();
+            InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
-            UpdateWindowContents();
-
+            UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
         }
         
         
+        // Fonction s'exécutant à la fermeture de la fenêtre de paramètres
         private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
         {
-            e.Cancel = true;
-            DialogResult = false;
-            UpdateWindowContents();
-            Hide();
+            e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
+            UpdateWindowContents(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
+            Hide(); // On masque la fenêtre à la place
         }
 
 
+        // Fonction permettant de sauvegarder les paramètres dans le fichier appSettings
         private void SaveSettings()
         {
-            StreamWriter writer = new StreamWriter(SettingsPath);
+            // Création du stream d'écriture du fichier appSettings
+            var writer = new StreamWriter("./appSettings");
             
+            // Ecriture de toutes les lignes du fichier
             try
             {
-                writer.WriteLine("-----------------------------------------------------------------------------------------");
-                writer.WriteLine("|                                KNXBOOSTDESKTOP SETTINGS                               |");
-                writer.WriteLine("-----------------------------------------------------------------------------------------");
-                
+                writer.WriteLine(
+                    "-----------------------------------------------------------------------------------------");
+                writer.WriteLine(
+                    "|                                KNXBOOSTDESKTOP SETTINGS                               |");
+                writer.WriteLine(
+                    "-----------------------------------------------------------------------------------------");
+
                 writer.Write("enable deepL translation : ");
                 writer.WriteLine(EnableDeeplTranslation);
-                
+
                 writer.Write("deepL Key [ENCRYPTED] : ");
                 writer.WriteLine(Convert.ToBase64String(DeeplKey));
-                
+
                 writer.Write("translation lang : ");
                 writer.WriteLine(TranslationLang);
-                
+
                 writer.Write("remove unused group addresses : ");
                 writer.WriteLine(RemoveUnusedGroupAddresses);
-                
+
                 writer.Write("theme : ");
                 writer.WriteLine(EnableLightTheme ? "light" : "dark");
-                
+
                 writer.Write("application language : ");
                 writer.WriteLine(AppLang);
-                
-                writer.WriteLine("-----------------------------------------------------------------------------------------");
-                writer.WriteLine("Available languages: AR, BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH\n");
-                writer.Write("/!\\ WARNING:\nAny value that you modify in this file and that is not correct will be replaced by a default value.");
+
+                writer.WriteLine(
+                    "-----------------------------------------------------------------------------------------");
+                writer.WriteLine(
+                    "Available languages: AR, BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH\n");
+                writer.Write(
+                    "/!\\ WARNING:\nAny value that you modify in this file and that is not correct will be replaced by a default value.");
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                App.ConsoleAndLogWriteLine("Error: an I/O error occured while writing appSettings.");
+            }
+            // Si le buffer d'écriture est plein
+            catch (NotSupportedException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the streamwriter buffer for appSettings is full. Flushing it.");
+                writer.Flush(); // Vidage du buffer
+            }
+            // Si le stream a été fermé pendant l'écriture
+            catch (ObjectDisposedException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the streamwriter for appSettings was closed before finishing the writing operation.");
             }
             finally
             {
+                // Fermeture du stream d'écriture
                 writer.Close();
             }
         }
 
         
+        // Fonction permettant de mettre à jour les champs dans la fenêtre de paramétrage
         private void UpdateWindowContents()
         {
-            EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation;
+            EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
             
             if (_emkFileExists) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey);
 
@@ -206,125 +320,171 @@ namespace KNXBoostDesktop
             // pour sélectionner la langue voulue
             if ((TranslationLang != "FR")||(AppLang != "FR"))
             {
-                FrTranslationComboBoxItem.IsSelected = (TranslationLang == "FR");
-                FrAppLanguageComboBoxItem.IsSelected = (AppLang == "FR");
+                FrTranslationComboBoxItem.IsSelected = (TranslationLang == "FR"); // Sélection/Désélection
+                FrAppLanguageComboBoxItem.IsSelected = (AppLang == "FR"); // Sélection/Désélection
     
                 // Sélection du langage de traduction
-                foreach (ComboBoxItem item in TranslationLanguageComboBox.Items)
+                foreach (ComboBoxItem item in TranslationLanguageComboBox.Items) // Parcours de toutes les possibilités de langue
                 {
-                    if (item.Content.ToString()!.StartsWith(TranslationLang))
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
+                    if (!item.Content.ToString()!.StartsWith(TranslationLang)) continue; // Si la langue n'est pas celle que l'on veut, on skip
+                    item.IsSelected = true; // Sélection de la langue
+                    break; // Si on a trouvé la langue, on peut quitter la boucle
                 }
                 
-                // Sélection du langage de l'application
+                // Sélection du langage de l'application (même fonctionnement que le code ci-dessus)
                 foreach (ComboBoxItem item in AppLanguageComboBox.Items)
                 {
-                    if (item.Content.ToString()!.StartsWith(AppLang))
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
+                    if (!item.Content.ToString()!.StartsWith(AppLang)) continue;
+                    item.IsSelected = true;
+                    break;
                 }
             }
 
-            RemoveUnusedAddressesCheckBox.IsChecked = RemoveUnusedGroupAddresses;
+            RemoveUnusedAddressesCheckBox.IsChecked = RemoveUnusedGroupAddresses; // Cochage/décochage
 
+            // Sélection du thème clair ou sombre
             lightThemeComboBoxItem.IsSelected = EnableLightTheme;
             darkThemeComboBoxItem.IsSelected = !EnableLightTheme;
         }
 
         
         // ----- GESTION DES BOUTONS -----
+        // Fonction s'exécutant lors du clic sur le bouton sauvegarder
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationLang = TranslationLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-
             RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
-
             EnableLightTheme = lightThemeComboBoxItem.IsSelected;
-            
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             
-            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath(SettingsPath)}");
+            // Sauvegarde des paramètres dans le fichier appSettings
+            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
             SaveSettings();
             App.ConsoleAndLogWriteLine("Settings saved successfully");
-            DialogResult = true;
             
+            // Masquage de la fenêtre de paramètres
             Hide();
         }
 
         
+        // Fonction s'exécutant lors du clic sur le bouton annuler
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            UpdateWindowContents();
-            Hide();
+            UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+            Hide(); // Masquage de la fenêtre de paramétrage
         }
 
         
         // ----- GESTION DE DES CASES A COCHER -----
+        // Fonction s'activant quand on coche l'activation de la traduction DeepL
         private void EnableTranslation(object sender, RoutedEventArgs e)
         {
-            DeeplApiKeyText.Visibility = Visibility.Visible;
+            // On affiche la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
+            TextDeeplApiStackPanel.Visibility = Visibility.Visible;
             DeeplApiKeyTextBox.Visibility = Visibility.Visible;
 
+            // On affiche le menu déroulant de sélection de la langue de traduction
             TranslationLanguageComboBoxText.Visibility = Visibility.Visible;
             TranslationLanguageComboBox.Visibility = Visibility.Visible;
 
-            Height += 110;
+            // Ajustement de la taille de la fenêtre pour que les nouveaux éléments affichés aient de la place
+            Height += 95;
         }
 
         
+        // Fonction s'activant quand on décoche l'activation de la traduction DeepL
         private void DisableTranslation(object sender, RoutedEventArgs e)
         {
-            DeeplApiKeyText.Visibility = Visibility.Collapsed;
+            // On masque la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
+            TextDeeplApiStackPanel.Visibility = Visibility.Collapsed;
             DeeplApiKeyTextBox.Visibility = Visibility.Collapsed;
 
+            // On masque le menu déroulant de sélection de la langue de traduction
             TranslationLanguageComboBoxText.Visibility = Visibility.Collapsed;
             TranslationLanguageComboBox.Visibility = Visibility.Collapsed;
 
-            Height -= 110;
+            // Ajustement de la taille de la fenêtre
+            Height -= 95;
         }
         
         
         // ----- GESTION DE L'ENCRYPTION -----
         // Fonction permettant d'encrypter un string donné avec une clé et un iv créés dynamiquement
-        // Attention: cette fonction permet de stocker UN SEUL string (ici la clé deepL) à la fois. Si vous encryptez un autre string,
+        // Attention : cette fonction permet de stocker UN SEUL string (ici la clé deepL) à la fois. Si vous encryptez un autre string,
         // le combo clé/iv pour le premier string sera perdu.
-        private Byte[] EncryptStringToBytes(string plainText)
+        private static byte[] EncryptStringToBytes(string plainText)
         {
-            // Générer une nouvelle clé et IV
+            // Générer une nouvelle clé et IV pour l'encryption
             using (Aes aesAlg = Aes.Create())
             {
-                string newKey = Convert.ToBase64String(aesAlg.Key);
-                string newIv = Convert.ToBase64String(aesAlg.IV);
+                try
+                {
+                    // Chiffrer les nouvelles clés et IV avec la clé principale
+                    var encryptedNewKey = EncryptKeyOrIv(Convert.ToBase64String(aesAlg.Key));
+                    var encryptedNewIv = EncryptKeyOrIv(Convert.ToBase64String(aesAlg.IV));
 
-                // Chiffrer les nouvelles clés et IV avec la clé principale
-                string encryptedKey = EncryptKeyOrIv(newKey);
-                string encryptedIv = EncryptKeyOrIv(newIv);
-
-                // Stocker les clés chiffrées (par exemple dans un fichier ou une base de données)
-                File.WriteAllText("./ek", encryptedKey);
-                File.WriteAllText("./ei", encryptedIv);
+                    // Stocker les clés chiffrées (par exemple dans un fichier ou une base de données)
+                    // Note : si les fichiers n'existent pas, ils sont automatiquement créés par la fonction WriteAllText
+                    File.WriteAllText("./ek", encryptedNewKey);
+                    File.WriteAllText("./ei", encryptedNewIv);
+                }
+                // Aucune idée de la raison
+                catch (IOException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: I/O exception occured while writing 'ek' or 'ei' files, encrypted data will be lost");
+                }
+                // Si les fichiers 'ek' et 'ei' ne sont pas accessibles en écriture
+                catch (UnauthorizedAccessException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: cannot get writing access to 'ek' and 'ei' files, encrypted data will be lost");
+                }
 
                 // Chiffrer les données avec les nouvelles clés et IV
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+                var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
-                using (MemoryStream msEncrypt = new MemoryStream())
+                try
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    // Création du stream de cryptage
+                    using (var msEncrypt = new MemoryStream())
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                         {
-                            swEncrypt.Write(plainText);
+                            using (var swEncrypt = new StreamWriter(csEncrypt))
+                            {
+                                // Cryptage de la donnée depuis le stream
+                                swEncrypt.Write(plainText);
+                            }
+                            
+                            // Renvoi de la donnée encryptée sous forme d'un tableau d'octets
+                            return msEncrypt.ToArray();
                         }
-                        return msEncrypt.ToArray();
                     }
+                }
+                // Si le stream est invalide
+                catch (ArgumentException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: MemoryStream for encryption is invalid. Could not encrypt the data.");
+                    return Convert.FromBase64String(""); // On retourne un tableau d'octets vide
+                }
+                // Aucune idée de la raison
+                catch (IOException)
+                {
+                    return Convert.FromBase64String(""); // On retourne un tableau d'octets vide
+                } 
+                // Si le writer est fermé, ou son buffer est plein
+                catch (ObjectDisposedException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: Encryption writer was closed before encrypting the data, or its buffer is full. Could not encrypt the data.");
+                    return Convert.FromBase64String(""); // On retourne un tableau d'octets vide
+                }
+                // Pas sûr d'avoir saisi la différence avec l'exception précédente
+                catch (NotSupportedException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: Encryption writer was closed before encrypting the data, or its buffer is full. Could not encrypt the data.");
+                    return Convert.FromBase64String(""); // On retourne un tableau d'octets vide
                 }
             }
         }
@@ -333,34 +493,101 @@ namespace KNXBoostDesktop
         // Fonction permettant de décrypter un string donné à partir de la clé et de l'iv chiffrés
         private string DecryptStringFromBytes(Byte[] encryptedString)
         {
-            if (!File.Exists("./ek") || !File.Exists("./ei")) return "";
+            // Si les fichiers des clés n'existent pas, on retourne un string vide
+            if (!File.Exists("./ek") || !File.Exists("./ei"))
+            {
+                App.ConsoleAndLogWriteLine("Error: encryption keys could not be retrieved to decrypt the DeepL API Key. Restoring default value.");
+                return "";
+            }
+
+            string encryptedKey = "";
+            string encryptedIv = "";
+
+            try
+            {
+                // Lire les clés chiffrées
+                encryptedKey = File.ReadAllText("./ek");
+                encryptedIv = File.ReadAllText("./ei");
+            }
+            // Si la longueur du path est invalide ou contient des caractères non supportés
+            catch (ArgumentException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: the paths {Path.GetFullPath("./ek")} and/or {Path.GetFullPath("./ei")} contains unsupported characters. " +
+                                           $"Encryption keys could not be retrieved.");
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: I/O exception occured while reading 'ei' and 'ek' files. " +
+                                           $"Encryption keys could not be retrieved.");
+            }
+            // Si les fichiers ne sont pas accessibles en lecture
+            catch (UnauthorizedAccessException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: no authorization to read 'ei' and 'ek' files. " +
+                                           $"Encryption keys could not be retrieved. Please try again or try running the program in administrator mode.");
+            }
             
-            // Lire les clés chiffrées
-            string encryptedKey = File.ReadAllText("./ek");
-            string encryptedIv = File.ReadAllText("./ei");
 
             // Déchiffrer les clés et IV avec la clé principale
-            string decryptedKey = DecryptKeyOrIv(encryptedKey);
-            string decryptedIv = DecryptKeyOrIv(encryptedIv);
+            var decryptedKey = DecryptKeyOrIv(encryptedKey);
+            var decryptedIv = DecryptKeyOrIv(encryptedIv);
 
-            // Déchiffrer les données avec les clés et IV déchiffrés
-            using (Aes aesAlg = Aes.Create())
+            try
             {
-                aesAlg.Key = Convert.FromBase64String(decryptedKey);
-                aesAlg.IV = Convert.FromBase64String(decryptedIv);
-
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msDecrypt = new MemoryStream(encryptedString))
+                // Déchiffrer les données avec les clés et IV déchiffrés
+                using (var aesAlg = Aes.Create())
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    // Assignation des clés
+                    aesAlg.Key = Convert.FromBase64String(decryptedKey);
+                    aesAlg.IV = Convert.FromBase64String(decryptedIv);
+
+                    // Création du décrypteur
+                    var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                    // Création du stream de décryptage
+                    using (var msDecrypt = new MemoryStream(encryptedString))
                     {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-                            return srDecrypt.ReadToEnd();
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                return srDecrypt.ReadToEnd();
+                            }
                         }
                     }
                 }
+            }
+            // Si le stream est 'null'
+            catch (ArgumentNullException)
+            {
+                App.ConsoleAndLogWriteLine("Error: decryption stream is null or the keys are null. Data could not be decrypted.");
+                return "";
+            }
+            // Si le format des clés est invalide
+            catch (FormatException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the encryption keys are not in the right format. Data could not be decrypted.");
+                return "";
+            }
+            // Si le stream ne permet pas la lecture
+            catch (ArgumentException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the stream does not allow reading. Data could not be decrypted.");
+                return "";
+            }
+            // Si le programme n'a pas accès à assez de mémoire RAM
+            catch (OutOfMemoryException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the program does not have access to enough RAM. " +
+                                           "Data could not be decrypted. Please try closing a few applications before trying again.");
+                return "";
+            }
+            // Aucune idée de la raison
+            catch (IOException)
+            {
+                App.ConsoleAndLogWriteLine("Error: I/O error occured while attempting to decrypt the data. Data could not be decrypted.");
+                return "";
             }
         }
         
@@ -368,11 +595,55 @@ namespace KNXBoostDesktop
         // Fonction permettant d'encrypter et de stocker dans un fichier la clé principale de chiffrement
         private static void EncryptAndStoreMainKey(byte[] mainkey)
         {
-            // Use DPAPI to encrypt the key
-            byte[] encryptedMainKeyBytes = ProtectedData.Protect(mainkey, null, DataProtectionScope.CurrentUser);
-            
-            // Store the encrypted key in a file
-            File.WriteAllBytes("./emk", encryptedMainKeyBytes);
+            var encryptedMainKeyBytes = Convert.FromBase64String("");
+
+            try
+            {
+                // Use DPAPI to encrypt the key
+                encryptedMainKeyBytes = ProtectedData.Protect(mainkey, null, DataProtectionScope.CurrentUser);
+            }
+            catch (ArgumentNullException)
+            {
+                
+            }
+            catch (CryptographicException)
+            {
+                
+            }
+            catch (NotSupportedException)
+            {
+                
+            }
+            catch (OutOfMemoryException)
+            {
+                
+            }
+
+            try
+            {
+                // Store the encrypted key in a file
+                File.WriteAllBytes("./emk", encryptedMainKeyBytes);
+            }
+            catch (ArgumentException)
+            {
+
+            }
+            catch (IOException)
+            {
+                
+            }
+            catch (UnauthorizedAccessException)
+            {
+                
+            }
+            catch (NotSupportedException)
+            {
+                
+            }
+            catch (SecurityException)
+            {
+                
+            }
         }
 
         
@@ -453,6 +724,18 @@ namespace KNXBoostDesktop
             }
 
             return result.ToString();
+        }
+        
+        
+        // ----- GESTION DES LIENS HYPERTEXTE -----
+        // Fonction gérant le clic sur un lien hypertexte
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
+            {
+                UseShellExecute = true
+            });
+            e.Handled = true;
         }
     }
 }

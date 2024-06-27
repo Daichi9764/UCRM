@@ -8,7 +8,14 @@
         <StackPanel Margin="10">
             <CheckBox x:Name="EnableTranslationCheckBox" Content="Activer la traduction" Margin="0,0,0,10" Checked="EnableTranslation" Unchecked="DisableTranslation"></CheckBox>
             
-            <TextBlock x:Name="DeeplApiKeyText" Text="Clé API DeepL :" Margin="0,0,0,2" Visibility="Collapsed"/>
+                <StackPanel x:Name="TextDeeplApiStackPanel" Visibility="Collapsed" Orientation="Horizontal">
+                    <TextBlock x:Name="DeeplApiKeyText" Text="Clé API DeepL :" Margin="0,0,0,2"/>
+                    <TextBlock Margin="5,0,0,0">
+                        <Hyperlink NavigateUri="https://www.deepl.com/fr/pro-api" RequestNavigate="Hyperlink_RequestNavigate">
+                            (Cliquez ici pour en obtenir une gratuitement)
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
             <TextBox x:Name="DeeplApiKeyTextBox" Margin="0,0,0,10" Visibility="Collapsed"/>
 
             <TextBlock x:Name="TranslationLanguageComboBoxText" Text="Langue de traduction:" Margin="0,0,0,2" Visibility="Collapsed"/>
@@ -89,8 +96,8 @@
 
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Save" Width="75" Click="SaveButtonClick"/>
-                <Button Content="Cancel" Width="75" Margin="10,0,0,0" Click="CancelButtonClick"/>
+                <Button Content="Sauvegarder" Width="80" Click="SaveButtonClick"/>
+                <Button Content="Annuler" Width="75" Margin="10,0,0,0" Click="CancelButtonClick"/>
             </StackPanel>
         </StackPanel>
     </Grid>
