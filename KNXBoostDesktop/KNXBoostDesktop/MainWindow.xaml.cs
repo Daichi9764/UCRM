@@ -40,6 +40,8 @@ public partial class MainWindow : Window
         Uri iconUri = new ("./resources/icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
+        parametersImage.Source = new BitmapImage(new Uri(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
+
         DataContext = this;
     }
     //--------------------- Gestion des boutons -----------------------------------------------------//
