@@ -20,8 +20,10 @@ public partial class MainWindow : Window
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    private readonly string xmlFilePath1 = @"./resources/OriginalDummy.xml"; //App.Fm?.ZeroXmlPath
-    private readonly string xmlFilePath2 = @"./resources/UpdatedDummy.xml"; //App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml"
+    //private readonly string xmlFilePath1 = App.Fm?.ProjectFolderPath + "GroupAddresses.xml"; 
+    private string xmlFilePath1;
+    
+    private string xmlFilePath2;
 
 
 
@@ -30,9 +32,9 @@ public partial class MainWindow : Window
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     public MainWindow()
-    {
+    {   
         InitializeComponent();
-        LoadXmlFiles();
+        //LoadXmlFiles();
 
 
         Title = $"{App.AppName} v{App.AppVersion}";
@@ -71,7 +73,12 @@ public partial class MainWindow : Window
             
             App.Fm.FindZeroXml();
             MyNameCorrector.CorrectName();
-            ExportUpdatedNameAddresses.Export();
+            xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
+            xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+            //Define the project path
+            ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml");
+            ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
+            LoadXmlFiles();
         }
         else
         {

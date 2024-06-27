@@ -4,12 +4,12 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
-    public static void Export()
+    public static void Export(String sourcePath, String destPath)
     {
         try
         {
             // Load the updated XML document
-            XDocument knxDoc = XDocument.Load(App.Fm?.ProjectFolderPath + "/0_updated.xml");
+            XDocument knxDoc = XDocument.Load(sourcePath);
 
             // Namespace for GroupAddress-Export
             XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
@@ -98,7 +98,7 @@ class ExportUpdatedNameAddresses
                 root
             );
 
-            updatedExportDoc.Save(App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
+            updatedExportDoc.Save(destPath);
 
             App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
         }
