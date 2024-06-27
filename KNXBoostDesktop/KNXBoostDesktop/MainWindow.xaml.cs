@@ -177,8 +177,7 @@ public partial class MainWindow : Window
 
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-        DisplayElements displayElement = new();
-        displayElement.ShowSettingsWindow();
+        App.DisplayElements!.ShowSettingsWindow();
     }
 
 

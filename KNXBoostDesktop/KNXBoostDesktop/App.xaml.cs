@@ -31,8 +31,8 @@ namespace KNXBoostDesktop
         public static readonly string AppVersion = "1.4"; // Version de l'application
         
         // Gestion des logs
-        private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
-        private static readonly StreamWriter Writer = new(LogPath); // Permet l'écriture du fichier de logging
+        private static string LogPath; // Chemin du fichier logs
+        private static StreamWriter Writer; // Permet l'écriture du fichier de logging
         
         // Composants de l'application
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
@@ -47,6 +47,14 @@ namespace KNXBoostDesktop
         // Fonction s'exécutant à l'ouverture de l'application
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (!Directory.Exists("./logs"))
+            {
+                Directory.CreateDirectory("./logs");
+            }
+            
+            LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+            Writer = new(LogPath);
+            
             base.OnStartup(e);
 
             // Activation de l'auto-vidage du buffer du stream d'écriture
@@ -93,8 +101,11 @@ namespace KNXBoostDesktop
         {
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
             ConsoleAndLogWriteLine($"CLOSING {AppName.ToUpper()} APP...");
-            base.OnExit(e);
             
+            DisplayElements.CloseSettingsWindow();
+            GC.Collect();
+            
+            base.OnExit(e);
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
             Writer.Close(); // Fermeture du stream d'écriture des logs
