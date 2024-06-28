@@ -9,7 +9,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         public MainWindow MainWindow { get; } = new();
         public ConsoleWindow ConsoleWindow { get; } = new();
-        public SettingsWindow SettingsWindow { get; } = new();
+        public SettingsWindow SettingsWindow { get; private set; } = new();
 
 
         /* ------------------------------------------------------------------------------------------------
@@ -34,6 +34,11 @@ namespace KNXBoostDesktop
         {
             SettingsWindow settingsWindow = new();
             settingsWindow.Show();
+        }
+
+        public void CloseSettingsWindow()
+        {
+            SettingsWindow = null;
         }
     }
 }

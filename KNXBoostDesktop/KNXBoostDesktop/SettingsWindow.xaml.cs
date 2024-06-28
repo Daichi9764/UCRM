@@ -239,7 +239,7 @@ namespace KNXBoostDesktop
         private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
         {
             e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
-            UpdateWindowContents(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
+            UpdateWindowContents(true); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
             Hide(); // On masque la fenêtre à la place
         }
 
@@ -310,11 +310,11 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de mettre à jour les champs dans la fenêtre de paramétrage
-        private void UpdateWindowContents()
+        public void UpdateWindowContents(bool isClosing = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
             
-            if (_emkFileExists) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey);
+            if ((_emkFileExists)&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey);
 
             // Si la langue de traduction ou de l'application n'est pas le français, on désélectionne le français dans le combobox
             // pour sélectionner la langue voulue

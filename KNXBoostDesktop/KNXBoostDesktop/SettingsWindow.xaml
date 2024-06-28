@@ -30,7 +30,7 @@
                 <ComboBoxItem x:Name="EsTranslationComboBoxItem" Content="ES - Español"/>
                 <ComboBoxItem x:Name="EtTranslationComboBoxItem" Content="ET - Eesti"/>
                 <ComboBoxItem x:Name="FiTranslationComboBoxItem" Content="FI - Suomi"/>
-                <ComboBoxItem x:Name="FrTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True"/>
+                <ComboBoxItem x:Name="FrTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold"/>
                 <ComboBoxItem x:Name="HuTranslationComboBoxItem" Content="HU - Magyar"/>
                 <ComboBoxItem x:Name="IdTranslationComboBoxItem" Content="ID - Bahasa Indonesia"/>
                 <ComboBoxItem x:Name="ItTranslationComboBoxItem" Content="IT - Italiano"/>
@@ -72,7 +72,7 @@
                 <ComboBoxItem x:Name="EsAppLanguageComboBoxItem" Content="ES - Español"/>
                 <ComboBoxItem x:Name="EtAppLanguageComboBoxItem" Content="ET - Eesti"/>
                 <ComboBoxItem x:Name="FiAppLanguageComboBoxItem" Content="FI - Suomi"/>
-                <ComboBoxItem x:Name="FrAppLanguageComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True"/>
+                <ComboBoxItem x:Name="FrAppLanguageComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold"/>
                 <ComboBoxItem x:Name="HuAppLanguageComboBoxItem" Content="HU - Magyar"/>
                 <ComboBoxItem x:Name="IdAppLanguageComboBoxItem" Content="ID - Bahasa Indonesia"/>
                 <ComboBoxItem x:Name="ItAppLanguageComboBoxItem" Content="IT - Italiano"/>
