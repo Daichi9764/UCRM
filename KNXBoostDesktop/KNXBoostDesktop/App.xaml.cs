@@ -28,7 +28,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.2"; // Version de l'application
+        public static readonly string AppVersion = "1.3"; // Version de l'application
         
         // Gestion des logs
         private static readonly string LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt"; // Chemin du fichier logs
@@ -84,6 +84,8 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
+            
+            DisplayElements.ShowSettingsWindow();
         }
 
         

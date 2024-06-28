@@ -1,15 +1,15 @@
-using System;
-using System.Linq;
 using System.Xml.Linq;
+namespace KNXBoostDesktop;
+
 
 class ExportUpdatedNameAddresses
 {
-    public static void Export()
+    public static void Export(String sourcePath, String destPath)
     {
         try
         {
             // Load the updated XML document
-            XDocument knxDoc = XDocument.Load("OutputFiles/0_updated.xml");
+            XDocument knxDoc = XDocument.Load(sourcePath);
 
             // Namespace for GroupAddress-Export
             XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
@@ -69,15 +69,26 @@ class ExportUpdatedNameAddresses
                 }
 
                 // Add GroupAddress under the last GroupRange
-                if (ga.Name != null && ga.Address != null && ga.DPTs != null)
+                if (ga.Name != null && ga.Address != null)
                 {
                     string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
+                    if (ga.DPTs != null)
+                    {
                     XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
                         new XAttribute("Name", ga.Name),
                         new XAttribute("Address", knxAddress),
                         new XAttribute("DPTs", ga.DPTs));
 
-                    currentParent.Add(groupAddress);
+                        currentParent.Add(groupAddress);
+                    }
+                    else{
+                         XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                        new XAttribute("Name", ga.Name),
+                        new XAttribute("Address", knxAddress));
+
+                        currentParent.Add(groupAddress);
+                    }
+                    
                 }
             }
 
@@ -87,18 +98,18 @@ class ExportUpdatedNameAddresses
                 root
             );
 
-            updatedExportDoc.Save("OutputFiles/UpdatedGroupAddresses.xml");
+            updatedExportDoc.Save(destPath);
 
-            Console.WriteLine("UpdatedGroupAddresses.xml generated successfully.");
+            App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
         }
     }
 
     // Converter from decimal to KNX 3-level address
-    public static string DecimalToKnx3Level(int decimalAddress)
+    private static string DecimalToKnx3Level(int decimalAddress)
     {
         int mainGroup = decimalAddress / 2048;
         int middleGroup = (decimalAddress % 2048) / 256;
