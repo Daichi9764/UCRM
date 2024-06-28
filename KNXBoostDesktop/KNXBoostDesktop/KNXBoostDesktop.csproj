@@ -16,10 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DeepL.net" Version="1.9.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Page Update="ZipPasswordInputWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
@@ -30,6 +26,10 @@
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DeepL.net" Version="1.9.0" />
     </ItemGroup>
 
 </Project>

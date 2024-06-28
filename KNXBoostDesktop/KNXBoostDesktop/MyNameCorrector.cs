@@ -51,7 +51,18 @@ public class MyNameCorrector
             }
 
             // Create a formatter object for normalizing names
-            Formatter formatter = new FormatterNormalize();
+            Formatter formatter;
+            
+            //string a = formatter.Format("Coucou");
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+            {
+                formatter= new FormatterTranslate();
+                //string a = formatter.Format("Coucou");
+            }
+            else
+            { 
+                formatter = new FormatterNormalize();
+            }
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
@@ -498,16 +509,16 @@ public class MyNameCorrector
         }
     }
     
-    private static bool GetIsDeviceRailMounted(string productRefId, string mxxxDirectory)
+    private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxDirectory);
+        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
         
         // Construct the full path to the Hardware.xml file
         string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
         if (!Directory.Exists(mxxxxDirectoryPath))
         { 
-            App.ConsoleAndLogWriteLine($"{mxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
+            App.ConsoleAndLogWriteLine($"{mxxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
         } 
         
         // Check if the Hardware.xml file exists
