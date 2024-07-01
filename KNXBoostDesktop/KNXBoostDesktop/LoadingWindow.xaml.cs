@@ -56,14 +56,14 @@ namespace KNXBoostDesktop
                 await CloseAfterDelay(2000).ConfigureAwait(false);
         }
 
-        private async Task CloseAfterDelay(int delay)
+        public async Task CloseAfterDelay(int delay)
         {
             await Task.Delay(delay).ConfigureAwait(false);
             Dispatcher.Invoke(Close);
             _closeCompletionSource.SetResult(true);
         }
 
-        private void UpdateTaskName(string taskName)
+        public void UpdateTaskName(string taskName)
         {
             Dispatcher.Invoke(() => { taskNameText.Text = taskName; });
         }
@@ -77,7 +77,7 @@ namespace KNXBoostDesktop
             });
         }
 
-        private void CompleteActivity()
+        public void CompleteActivity()
         {
             Dispatcher.Invoke(() =>
             {

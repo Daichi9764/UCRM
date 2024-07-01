@@ -70,29 +70,65 @@ public partial class MainWindow
 
                 // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
                 if ((App.Fm == null) || (!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
-
+                
+                
                 // Créer et configurer la LoadingWindow
                 loadingWindow = new LoadingWindow()
                 {
                     Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
                 };
-
+                
                 ShowOverlay();
-                loadingWindow.Show();
-                TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
-
-                await loadingWindow.StartLongRunningTask();
-
-                TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
+                
+                await ExecuteLongRunningTask();
+                
                 HideOverlay();
-                // Pas besoin de fermer explicitement loadingWindow ici, car elle se fermera automatiquement dans CloseAfterDelay
             }
             else
             {
                 App.ConsoleAndLogWriteLine("User aborted the file selection operation");
             }
-        
     }
+    
+    private async Task ExecuteLongRunningTask()
+    {
+        loadingWindow.Show();
+        TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+
+        try
+        {
+            // Exécuter les tâches
+            await Task.Run(async () =>
+            {
+                loadingWindow.UpdateTaskName("Tâche 1/3");
+                await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
+                loadingWindow.UpdateTaskName("Tâche 2/3");
+                await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
+                loadingWindow.UpdateTaskName("Tâche 3/3");
+
+                await ExportUpdatedNameAddresses.Export(loadingWindow).ConfigureAwait(false);
+
+                // Mettre à jour l'interface utilisateur depuis le thread principal
+                Dispatcher.Invoke(() =>
+                {
+                    loadingWindow.UpdateTaskName("Chargement terminé !");
+                    loadingWindow.MarkActivityComplete();
+                    loadingWindow.CompleteActivity();
+                });
+            });
+        }
+        finally
+        {
+            // Mettre à jour l'état de la barre des tâches et masquer l'overlay
+            Dispatcher.Invoke(() =>
+            {
+                TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
+                loadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
+            });
+        }
+    }
+
+
     
     private void ShowOverlay()
     {
