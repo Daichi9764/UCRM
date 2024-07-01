@@ -4,10 +4,18 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
-    public static void Export()
+    public static async Task Export(LoadingWindow loadingWindow)
+{
+    await Task.Run(() =>
     {
         try
         {
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Exporting the new addresses...");
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Building the XML structure...");
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity("Saving the updated file...");
             // Load the updated XML document
             XDocument knxDoc = XDocument.Load(App.Fm?.ProjectFolderPath + "/0_updated.xml");
 
@@ -37,8 +45,9 @@ class ExportUpdatedNameAddresses
                         .Reverse() // Reverse to maintain the hierarchical order
                         .ToList()
                 });
-
+            
             // Group by ancestor GroupRange names and build the XML structure
+
             foreach (var ga in groupAddresses)
             {
                 XElement currentParent = root;
@@ -80,6 +89,7 @@ class ExportUpdatedNameAddresses
                     currentParent.Add(groupAddress);
                 }
             }
+            
 
             // Save to UpdatedGroupAddresses.xml
             XDocument updatedExportDoc = new XDocument(
@@ -95,7 +105,9 @@ class ExportUpdatedNameAddresses
         {
             App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
         }
-    }
+    });
+}
+
 
     // Converter from decimal to KNX 3-level address
     private static string DecimalToKnx3Level(int decimalAddress)

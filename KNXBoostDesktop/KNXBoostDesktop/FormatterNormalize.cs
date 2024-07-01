@@ -17,7 +17,7 @@ public class FormatterNormalize : Formatter
                 input = Regex.Replace(input, @"[\p{P}\p{S}]", " ");
 
                 input = input.Replace('_', ' ');
-                //input = input.Replace('$',' ');
+                // input = input.Replace('$',' ');
 
                 // Mettre en minuscules
                 input = input.ToLower();

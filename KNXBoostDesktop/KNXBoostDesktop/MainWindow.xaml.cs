@@ -1,86 +1,110 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.ComponentModel;
-using System.Text;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Xml;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
 using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace KNXBoostDesktop;
 
-public partial class MainWindow : Window
+public partial class MainWindow
 
 {
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    private readonly string xmlFilePath1 = @"./resources/OriginalDummy.xml"; //App.Fm?.ZeroXmlPath
-    private readonly string xmlFilePath2 = @"./resources/UpdatedDummy.xml"; //App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml"
+    public ObservableCollection<TreeNode> OriginalNodes { get; }
+    public ObservableCollection<TreeNode> ModifiedNodes { get; }
 
-
-
-
+    private LoadingWindow loadingWindow;
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     public MainWindow()
     {
         InitializeComponent();
-        LoadXmlFiles();
-
-
         Title = $"{App.AppName} v{App.AppVersion}";
 
-        Uri iconUri = new ("./resources/icon.ico", UriKind.RelativeOrAbsolute);
+        Uri iconUri = new Uri("./icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
-        parametersImage.Source = new BitmapImage(new Uri(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
+        OriginalNodes = new ObservableCollection<TreeNode>();
+        ModifiedNodes = new ObservableCollection<TreeNode>();
 
-        DataContext = this;
+        LoadXmlData(@".\Adresses_de_groupes_villa.xml", OriginalNodes);
+        LoadXmlData(@".\Adresses_de_groupes_villa.xml", ModifiedNodes);
+
+        LocationChanged += MainWindow_LocationChanged;
     }
-    //--------------------- Gestion des boutons -----------------------------------------------------//
 
-    private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
+    private void MainWindow_LocationChanged(object sender, EventArgs e)
+    {
+        // Mettez à jour la position de la LoadingWindow lorsque MainWindow est déplacée
+        if (loadingWindow != null && loadingWindow.IsVisible)
+        {
+            loadingWindow.UpdatePosition(Left, Top);
+        }
+    }
+    
+    private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
-        
-        // Créer une nouvelle instance de OpenFileDialog
-        OpenFileDialog openFileDialog = new()
+
+        OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            // Définir des propriétés optionnelles
             Title = "Sélectionnez un projet KNX à importer",
             Filter = "ETS KNX Project File (*.knxproj)|*.knxproj|other file|*.*",
             FilterIndex = 1,
             Multiselect = false
         };
+        
+            bool? result = openFileDialog.ShowDialog();
 
-        // Afficher la boîte de dialogue et vérifier si l'utilisateur a sélectionné un fichier
-        bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                App.ConsoleAndLogWriteLine($"File selected: {filePath}");
 
-        if (result == true)
-        {
-            // Récupérer le chemin du fichier sélectionné
-            App.ConsoleAndLogWriteLine($"File selected: {openFileDialog.FileName}");
+                // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
+                if ((App.Fm == null) || (!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
 
-            // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
-            if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
-            
-            App.Fm.FindZeroXml();
-            MyNameCorrector.CorrectName();
-            ExportUpdatedNameAddresses.Export();
-        }
-        else
-        {
-            App.ConsoleAndLogWriteLine("User aborted the file selection operation");
-        }
+                // Créer et configurer la LoadingWindow
+                loadingWindow = new LoadingWindow()
+                {
+                    Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+                };
+
+                ShowOverlay();
+                loadingWindow.Show();
+                TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+
+                await loadingWindow.StartLongRunningTask();
+
+                TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
+                HideOverlay();
+                // Pas besoin de fermer explicitement loadingWindow ici, car elle se fermera automatiquement dans CloseAfterDelay
+            }
+            else
+            {
+                App.ConsoleAndLogWriteLine("User aborted the file selection operation");
+            }
+        
     }
     
+    private void ShowOverlay()
+    {
+        Overlay.Visibility = Visibility.Visible;
+        MainContent.IsEnabled = false;
+    }
+    
+    private void HideOverlay()
+    {
+        Overlay.Visibility = Visibility.Collapsed;
+        MainContent.IsEnabled = true;
+    }
 
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
@@ -141,7 +165,7 @@ public partial class MainWindow : Window
         }
 
         // Initialiser et configurer le SaveFileDialog
-        SaveFileDialog saveFileDialog = new()
+        SaveFileDialog saveFileDialog = new SaveFileDialog
         {
             FileName = "0_updated.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
@@ -176,361 +200,66 @@ public partial class MainWindow : Window
     {
         Application.Current.Shutdown();
     }
+    
 
-    private void OpenParameters(object sender, RoutedEventArgs e)
-    {
-        App.DisplayElements!.ShowSettingsWindow();
-    }
-
-
-    //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
-
-    private void LoadXmlFiles()
-    {
-        LoadXmlFile(xmlFilePath1, treeView1);
-        LoadXmlFile(xmlFilePath2, treeView2);
-    }
-
-    private static void LoadXmlFile(string filePath, TreeView treeView)
+    private void LoadXmlData(string filePath, ObservableCollection<TreeNode> nodesCollection)
     {
         try
         {
-            XmlDocument xmlDoc = new();
-            xmlDoc.Load(filePath);
-
-            treeView.Items.Clear();
-
-            // Ajouter tous les nœuds récursivement
-            if (xmlDoc.DocumentElement != null)
+            string fullPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+            XDocument doc = XDocument.Load(fullPath);
+            XElement rootElement = doc.Root;
+            if (rootElement != null)
             {
-                foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
+                nodesCollection.Clear();
+                foreach (var childElement in rootElement.Elements())
                 {
-                    AddNodeRecursively(node, treeView.Items);
+                    TreeNode rootNode = ParseXmlNode(childElement);
+                    nodesCollection.Add(rootNode);
                 }
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error loading XML file {filePath}: {ex.Message}");
         }
     }
 
-    private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems)
+    
+    private TreeNode ParseXmlNode(XElement element)
     {
-        if (xmlNode.NodeType == XmlNodeType.Element)
+        var treeNode = new TreeNode(element.Attribute("Name")?.Value ?? "Unnamed");
+
+        foreach (var childElement in element.Elements())
         {
-            TreeViewItem treeNode = CreateTreeViewItemFromXmlNode(xmlNode);
-
-            parentItems.Add(treeNode);
-
-            // Parcourir récursivement les enfants
-            foreach (XmlNode childNode in xmlNode.ChildNodes)
+            if (childElement.Name.LocalName == "GroupRange" || childElement.Name.LocalName == "GroupAddress")
             {
-                AddNodeRecursively(childNode, treeNode.Items);
+                treeNode.Children.Add(ParseXmlNode(childElement));
             }
         }
-    }
 
-    private static TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode)
-    {
-        TreeViewItem treeNode = new() { Header = ((XmlElement)xmlNode).GetAttribute("Name") };
         return treeNode;
     }
-
-    //-------------------- Gestion du scroll verticale synchronisé ------------------------------------//
-
-    private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    
+    
+    // Pour la future synchronisation des arbres
+    private void AdressesDeGroupesOriginales_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        if (sender is ScrollViewer changedScrollViewer)
-        {
-            if (changedScrollViewer == scrollViewer1 && e.VerticalChange != 0)
-            {
-                scrollViewer2.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
-            }
-            else if (changedScrollViewer == scrollViewer2 && e.VerticalChange != 0)
-            {
-                scrollViewer1.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
-            }
-        }
     }
-
-    private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    private void AdressesDeGroupesModifiées_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        if (sender is ScrollViewer scrollViewer)
-        {
-            if (scrollViewer == scrollViewer1)
-            {
-                scrollViewer2.ScrollToVerticalOffset(scrollViewer1.VerticalOffset - e.Delta);
-            }
-            else if (scrollViewer == scrollViewer2)
-            {
-                scrollViewer1.ScrollToVerticalOffset(scrollViewer2.VerticalOffset - e.Delta);
-            }
-            e.Handled = true; // Indiquer que l'événement a été géré
-        }
-    }
-
-    //-------------------- Gestion de la recherche ---------------------------------------------------//
-
-    private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        HandleSearchTextChanged(treeView1, txtSearch1.Text);
-    }
-
-    private void TxtSearch2_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        HandleSearchTextChanged(treeView2, txtSearch2.Text);
-    }
-
-    private static void HandleSearchTextChanged(TreeView treeView, string searchText)
-    {
-        // Assurez-vous que vous traitez le TreeView et la TextBox appropriés
-        string normalizedSearchText = NormalizeString(searchText);
-
-        // Si le champ de recherche est vide, réinitialiser la TreeView avec tous les éléments visibles
-        if (string.IsNullOrWhiteSpace(normalizedSearchText))
-        {
-            ResetTreeViewItemsVisibility(treeView.Items);
-        }
-        else
-        {
-            // Filtrer et masquer les éléments de la TreeView basé sur le texte de recherche
-            foreach (object obj in treeView.Items)
-            {
-                if (obj is TreeViewItem item)
-                {
-                    // Réinitialiser la visibilité avant de filtrer
-                    item.Visibility = Visibility.Visible;
-                    FilterTreeViewItems(item, normalizedSearchText);
-                }
-            }
-        }
-    }
-
-    private static void ResetTreeViewItemsVisibility(ItemCollection items)
-    {
-        // Réinitialiser la visibilité de tous les éléments de la TreeView
-        foreach (object obj in items)
-        {
-            if (obj is TreeViewItem item)
-            {
-                item.Visibility = Visibility.Visible; // Rendre visible l'élément
-                item.IsExpanded = false; // Réduire tous les éléments pour commencer
-                ResetTreeViewItemsVisibility(item.Items); // Appeler récursivement pour les enfants
-            }
-        }
-    }
-
-    private static bool FilterTreeViewItems(TreeViewItem item, string searchText)
-    {
-        bool itemVisible = false; // Indicateur pour déterminer si l'élément est visible
-
-        string? header = item.Header?.ToString();
-        if (header == null)
-        {
-            return false; // Si l'entête est null, l'élément n'est pas visible
-        }
-
-        string normalizedHeader = NormalizeString(header);
-
-        // Vérifier si l'élément correspond au texte de recherche
-        if (normalizedHeader.Contains(searchText))
-        {
-            item.Visibility = Visibility.Visible; // Rendre visible l'élément
-            item.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
-            itemVisible = true; // Indiquer que l'élément est visible
-        }
-        else
-        {
-            item.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
-        }
-
-        // Filtrer récursivement les enfants
-        bool hasVisibleChild = false;
-        foreach (object obj in item.Items)
-        {
-            if (obj is TreeViewItem childItem)
-            {
-                // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
-                bool childVisible = FilterTreeViewItems(childItem, searchText);
-                if (childVisible)
-                {
-                    hasVisibleChild = true;
-                    item.IsExpanded = true; // Développer l'élément si un enfant est visible
-                }
-            }
-        }
-
-        // Si un enfant est visible, rendre visible cet élément
-        if (hasVisibleChild)
-        {
-            item.Visibility = Visibility.Visible;
-            itemVisible = true;
-        }
-
-        return itemVisible; // Retourner l'état de visibilité de l'élément
-    }
-
-    private static string NormalizeString(string input)
-    {
-        if (input == null) return string.Empty;
-
-        // Remove diacritics (accents)
-        string normalizedString = input.Normalize(NormalizationForm.FormD);
-        StringBuilder stringBuilder = new();
-
-        foreach (char c in normalizedString)
-        {
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-            {
-                stringBuilder.Append(c);
-            }
-        }
-
-        // Remove spaces, underscores, and hyphens
-        return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
-    }
-
-    private void ToggleSearchVisibility1(object sender, RoutedEventArgs e)
-    {
-        if (txtSearch1.Visibility == Visibility.Visible)
-        {
-            txtSearch1.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            txtSearch1.Visibility = Visibility.Visible;
-        }
-    }
-
-    private void ToggleSearchVisibility2(object sender, RoutedEventArgs e)
-    {
-        if (txtSearch2.Visibility == Visibility.Visible)
-        {
-            txtSearch2.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            txtSearch2.Visibility = Visibility.Visible;
-        }
-    }
-
-
-
-    //--------------------- Gestion développement synchronisé ----------------------------------------------//
-
-    private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
-    {
-        var item = e.OriginalSource as TreeViewItem;
-        if (item is not null)
-        {
-            SynchronizeTreeViewItemExpansion(treeView1, item);
-            SynchronizeTreeViewItemExpansion(treeView2, item);
-        }
-    }
-
-    private void TreeViewItem_Collapsed(object sender, RoutedEventArgs e)
-    {
-        var item = e.OriginalSource as TreeViewItem;
-        if (item is not null)
-        {
-            SynchronizeTreeViewItemExpansion(treeView1, item);
-            SynchronizeTreeViewItemExpansion(treeView2, item);
-        }
-    }
-
-    private static void SynchronizeTreeViewItemExpansion(TreeView targetTreeView, TreeViewItem sourceItem)
-    {
-        string? itemPath = GetItemPath(sourceItem);
-        if (itemPath == null)
-        {
-            // Gérer le cas où itemPath est null
-            return;
-        }
-
-        TreeViewItem? targetItem = FindTreeViewItemByPath(targetTreeView, itemPath);
-        if (targetItem != null)
-        {
-            targetItem.IsExpanded = sourceItem.IsExpanded;
-            for (int i = 0; i < sourceItem.Items.Count; i++)
-            {
-                TreeViewItem? sourceChildItem = sourceItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
-                TreeViewItem? targetChildItem = targetItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
-
-                if (sourceChildItem is not null && targetChildItem is not null)
-                {
-                    SynchronizeTreeViewItemExpansion(targetTreeView, sourceChildItem);
-                }
-            }
-        }
-    }
-
-    private static string? GetItemPath(TreeViewItem item)
-    {
-        if (item.Header == null)
-        {
-            return null;
-        }
-
-        string? path = item.Header?.ToString();
-        var parent = item.Parent as TreeViewItem;
-
-        while (parent != null)
-        {
-            if (parent.Header == null)
-            {
-                return null;
-            }
-
-            path = parent.Header.ToString() + "\\&" + path;
-            parent = parent.Parent as TreeViewItem;
-        }
-        return path;
-    }
-
-    private static TreeViewItem? FindTreeViewItemByPath(TreeView treeView, string path)
-    {
-        _ = path ?? throw new ArgumentNullException(nameof(path));
-
-
-        string[] parts = path.Split("\\&");
-        ItemCollection items = treeView.Items;
-        TreeViewItem? currentItem = null;
-
-        foreach (string part in parts)
-        {
-            currentItem = null;
-            foreach (object item in items)
-            {
-                TreeViewItem? treeViewItem = item as TreeViewItem;
-                if (treeViewItem is not null && treeViewItem.Header?.ToString() == part)
-                {
-                    currentItem = treeViewItem;
-                    items = treeViewItem.Items;
-                    break;
-                }
-            }
-            if (currentItem == null) return null;
-        }
-        return currentItem;
     }
 
 }
 
+public class TreeNode
+{
+    public string Name { get; set; }
+    public ObservableCollection<TreeNode> Children { get; set; }
 
-    public class TreeItem
+    public TreeNode(string name)
     {
-        public string Name { get; set; }
-        public ObservableCollection<TreeItem> Children { get; set; }
-
-        public TreeItem(string name) : this(name, new ObservableCollection<TreeItem>())
-        {
-        }
-
-        private TreeItem(string name, ObservableCollection<TreeItem> children)
-        {
-            Name = name;
-            Children = children;
-        }
+        Name = name;
+        Children = new ObservableCollection<TreeNode>();
     }
-
+}

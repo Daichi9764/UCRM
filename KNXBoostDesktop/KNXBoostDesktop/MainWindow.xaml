@@ -9,7 +9,10 @@
         Background="#F5F5F5"
         Closing="ClosingMainWindow">
         
-
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="TaskbarInfo"/>
+    </Window.TaskbarItemInfo>
+    
     <Window.Resources>
         <!-- Style pour le bouton Import KNX Project -->
         <Style x:Key="ImportButtonStyle" TargetType="Button">
@@ -80,75 +83,66 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-		
-		<!-- Style la synchronisation des arbres -->
-		<Style x:Key="TreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
-			<EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
-			<EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
-		</Style>
 
     </Window.Resources>
 
-    <Border BorderBrush="#369226" BorderThickness="1" Padding="10">
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<!-- Titre et champ de recherche pour le premier tableau -->
-				<RowDefinition Height="*"/>
-				<!-- Premier tableau avec ScrollViewer -->
-				<RowDefinition Height="Auto"/>
-				<!-- Deuxième tableau avec ScrollViewer -->
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<!-- Première colonne pour le premier tableau -->
-				<ColumnDefinition Width="0.15*"/>
-				<!-- Colonne pour la flèche (10% de la largeur) -->
-				<ColumnDefinition Width="*"/>
-				<!-- Deuxième colonne pour le deuxième tableau -->
-			</Grid.ColumnDefinitions>
+    <Border BorderBrush="#369226" BorderThickness="1">
+        <Grid>
+            <Grid x:Name="MainContent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-			<!-- Left panel -->
-			<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
-				<TextBlock Text="Adresses de groupes originales" FontSize="14" FontWeight="Bold" Margin="0,0,10,0"/>
-				<Button Width="20" Height="20" Content="🔍" Click="ToggleSearchVisibility1"/>
-				<TextBox x:Name="txtSearch1" Width="110" Visibility="Collapsed" TextChanged="TxtSearch1_TextChanged"/>
-			</StackPanel>
-			<ScrollViewer Grid.Row="1" Grid.Column="0" Name="scrollViewer1" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Hidden">
-				<TreeView x:Name="treeView1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
-			</ScrollViewer>
+                <!-- Left panel -->
+                <StackPanel Grid.Row="0" Grid.Column="0" Background="#FFFFFFFF" Margin="10">
+                    <TextBlock Text="Adresses de groupes originales" FontSize="14" FontWeight="Bold"  Margin="10,10,0,0"/>
+                    <TreeView ItemsSource="{Binding OriginalNodes}" SelectedItemChanged="AdressesDeGroupesOriginales_SelectedItemChanged" BorderThickness="0">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                <TextBlock Text="{Binding Name}" />
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </StackPanel>
 
-            <!-- Parameters Button -->
-            <Button Grid.Row="3" Grid.Column="1" Width="30" Height="30" Click="OpenParameters" Margin="10"  >
-                <Image x:Name="parametersImage" Width="20" Height="20"/>
-            </Button>
- 
-            <!-- Arrow between the two panels -->
-			<Viewbox Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-				<Path Data="M-10,4 L0,4 L0,10 L10,0 L0,-10 L0,-4 L-10,-4 Z" Fill="#369226" Stretch="Uniform"/>
-			</Viewbox>
+                <!-- Right panel -->
+                <StackPanel Grid.Row="0" Grid.Column="2" Background="#FFFFFFFF" Margin="10" >
+                        <TextBlock Text="Adresses de groupes modifiées" FontSize="14" FontWeight="Bold"  Margin="10,10,0,0"/>
+                        <TreeView ItemsSource="{Binding ModifiedNodes}" SelectedItemChanged="AdressesDeGroupesModifiées_SelectedItemChanged" BorderThickness="0">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Name}" />
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                </StackPanel>
 
-			<!-- Right panel -->
-			<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
-				<TextBlock Text="Adresses de groupes modifiées" FontSize="14" FontWeight="Bold" Margin="0,0,10,0"/>
-				<Button Width="20" Height="20" Content="🔍" Click="ToggleSearchVisibility2"	/>
-				<TextBox x:Name="txtSearch2" Width="110" Visibility="Collapsed" TextChanged="TxtSearch2_TextChanged"/>
-			</StackPanel>
-			<ScrollViewer Grid.Row="1" Grid.Column="2" Name="scrollViewer2" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Auto">
-				<TreeView x:Name="treeView2" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
-			</ScrollViewer>
+                <!-- Arrow between the two panels -->
+                <Viewbox Grid.Row="0" Grid.Column="1"  Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Path Data="M-10,4 L0,4 L0,10 L10,0 L0,-10 L0,-4 L-10,-4 Z" Fill="#369226" Stretch="Uniform"/>
+                </Viewbox>
 
-			
-			<!-- Buttons -->
-			<StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
-				<Button Name="ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="250" Margin="5"/>
-				<Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-			</StackPanel>
-			<StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
-				<Button Name="OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-				<Button Name="ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-			</StackPanel>
-		</Grid>
-	</Border>
-
+                <!-- Buttons -->
+                <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
+                    <Button Name = "ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="250"/>
+                    <Button Name = "OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
+                    <Button Name = "OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml"  Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                    <Button Name = "ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250"/>
+                </StackPanel>
+            </Grid>
+            
+            <!-- Couche de désactivation -->
+            <Grid x:Name="Overlay" Background="White" Opacity="0.5" Visibility="Collapsed">
+                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
