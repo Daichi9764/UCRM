@@ -51,7 +51,7 @@ namespace KNXBoostDesktop
             }
             
             LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
-            Writer = new(LogPath);
+            Writer = new StreamWriter(LogPath);
             
             base.OnStartup(e);
 
@@ -90,6 +90,9 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
+            
+            // Appel au garbage collector pour nettoyer les variables issues 
+            GC.Collect();
         }
 
         
@@ -99,9 +102,6 @@ namespace KNXBoostDesktop
         {
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
             ConsoleAndLogWriteLine($"CLOSING {AppName.ToUpper()} APP...");
-            
-            DisplayElements.CloseSettingsWindow();
-            GC.Collect();
             
             base.OnExit(e);
             
