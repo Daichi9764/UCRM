@@ -4,12 +4,12 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
-    public static void Export()
+    public static void Export(String sourcePath, String destPath)
     {
         try
         {
             // Load the updated XML document
-            XDocument knxDoc = XDocument.Load(App.Fm?.ProjectFolderPath + "/0_updated.xml");
+            XDocument knxDoc = XDocument.Load(sourcePath);
 
             // Namespace for GroupAddress-Export
             XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
@@ -69,15 +69,26 @@ class ExportUpdatedNameAddresses
                 }
 
                 // Add GroupAddress under the last GroupRange
-                if (ga.Name != null && ga.Address != null && ga.DPTs != null)
+                if (ga.Name != null && ga.Address != null)
                 {
                     string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
+                    if (ga.DPTs != null)
+                    {
                     XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
                         new XAttribute("Name", ga.Name),
                         new XAttribute("Address", knxAddress),
                         new XAttribute("DPTs", ga.DPTs));
 
-                    currentParent.Add(groupAddress);
+                        currentParent.Add(groupAddress);
+                    }
+                    else{
+                         XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                        new XAttribute("Name", ga.Name),
+                        new XAttribute("Address", knxAddress));
+
+                        currentParent.Add(groupAddress);
+                    }
+                    
                 }
             }
 
@@ -87,7 +98,7 @@ class ExportUpdatedNameAddresses
                 root
             );
 
-            updatedExportDoc.Save(App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
+            updatedExportDoc.Save(destPath);
 
             App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
         }

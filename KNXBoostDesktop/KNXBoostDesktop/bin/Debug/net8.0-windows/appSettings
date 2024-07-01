@@ -1,0 +1,14 @@
+-----------------------------------------------------------------------------------------
+|                                KNXBOOSTDESKTOP SETTINGS                               |
+-----------------------------------------------------------------------------------------
+enable deepL translation : True
+deepL Key [ENCRYPTED] : FiCYTNrVAq9kpFHLsIoPJg==
+translation lang : FR
+remove unused group addresses : False
+theme : light
+application language : FR
+-----------------------------------------------------------------------------------------
+Available languages: AR, BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH
+
+/!\ WARNING:
+Any value that you modify in this file and that is not correct will be replaced by a default value.
