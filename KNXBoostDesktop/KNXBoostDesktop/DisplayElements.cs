@@ -32,8 +32,7 @@ namespace KNXBoostDesktop
         // Fonction pour ouvrir la fenêtre des paramètres
         public void ShowSettingsWindow()
         {
-            SettingsWindow settingsWindow = new();
-            settingsWindow.Show();
+            SettingsWindow.Show();
         }
 
         public void CloseSettingsWindow()
