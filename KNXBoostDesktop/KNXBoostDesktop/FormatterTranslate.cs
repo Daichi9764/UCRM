@@ -31,7 +31,7 @@ public class FormatterTranslate : Formatter
     
     
 
-        public static async Task<string> GetTranslatedStringAsync(string input)
+    public static async Task<string> GetTranslatedStringAsync(string input)
     {
         var authKey = "b2945c4a-90c9-40d6-ad6a-fa88854b7e42:fx";
         var translator = new Translator(authKey);

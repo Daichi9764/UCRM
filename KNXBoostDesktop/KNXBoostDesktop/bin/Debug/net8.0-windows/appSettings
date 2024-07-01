@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 |                                KNXBOOSTDESKTOP SETTINGS                               |
 -----------------------------------------------------------------------------------------
-enable deepL translation : False
-deepL Key [ENCRYPTED] : ZQwOv5P14VDVKSNthHKvoA==
-translation lang : PT
+enable deepL translation : True
+deepL Key [ENCRYPTED] : FiCYTNrVAq9kpFHLsIoPJg==
+translation lang : FR
 remove unused group addresses : False
 theme : light
 application language : FR
