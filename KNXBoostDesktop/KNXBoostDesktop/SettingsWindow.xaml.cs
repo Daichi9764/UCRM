@@ -225,7 +225,7 @@ namespace KNXBoostDesktop
             }
             finally
             {
-                reader!.Close(); // Fermeture du stream de lecture
+                reader?.Close(); // Fermeture du stream de lecture
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
             
@@ -310,7 +310,7 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de mettre à jour les champs dans la fenêtre de paramétrage
-        public void UpdateWindowContents(bool isClosing = false)
+        private void UpdateWindowContents(bool isClosing = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
             
@@ -491,7 +491,7 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de décrypter un string donné à partir de la clé et de l'iv chiffrés
-        private string DecryptStringFromBytes(Byte[] encryptedString)
+        public string DecryptStringFromBytes(byte[] encryptedString)
         {
             // Si les fichiers des clés n'existent pas, on retourne un string vide
             if (!File.Exists("./ek") || !File.Exists("./ei"))
@@ -595,54 +595,68 @@ namespace KNXBoostDesktop
         // Fonction permettant d'encrypter et de stocker dans un fichier la clé principale de chiffrement
         private static void EncryptAndStoreMainKey(byte[] mainkey)
         {
-            var encryptedMainKeyBytes = Convert.FromBase64String("");
-
+            byte[] encryptedMainKeyBytes;
+            
             try
             {
-                // Use DPAPI to encrypt the key
+                // Utilisation de la DPAPI pour encrypter la clé en fonction de l'ordinateur et de la session Windows
                 encryptedMainKeyBytes = ProtectedData.Protect(mainkey, null, DataProtectionScope.CurrentUser);
             }
+            // Si par hasard la main key est "null"
             catch (ArgumentNullException)
             {
-                
+                App.ConsoleAndLogWriteLine("Error: The main key is null. Aborting storing operation.");
+                return;
             }
+            // Si l'encryption échoue
             catch (CryptographicException)
             {
-                
+                App.ConsoleAndLogWriteLine("Error: Could not encrypt main key.");
+                return;
             }
+            // Si l'OS ne supporte pas cet algorithme d'encryption
             catch (NotSupportedException)
             {
-                
+                App.ConsoleAndLogWriteLine($"Error: The system does not support the methods used to encrypt the main key.");
+                return;
             }
+            // Si le process n'a plus assez de RAM disponible pour l'encryption
             catch (OutOfMemoryException)
             {
-                
+                App.ConsoleAndLogWriteLine("Error: The application ran out of memory during the encryption of the main key.");
+                return;
             }
 
             try
             {
-                // Store the encrypted key in a file
+                // Stockage de la clé encryptée dans un fichier
                 File.WriteAllBytes("./emk", encryptedMainKeyBytes);
             }
+            // Si le path est incorrect
             catch (ArgumentException)
             {
-
+                App.ConsoleAndLogWriteLine($"Error: The path size for {Path.GetFullPath("./emk")} is invalid, or it contains characters that are not supported. " +
+                                           $"Cancelling the current storage operation. Please try again.");
             }
+            // Aucune idée de la raison de cette exception
             catch (IOException)
             {
-                
+                App.ConsoleAndLogWriteLine($"Error: an I/O exception occured while writing {Path.GetFullPath("./emk")}.");
             }
+            // Si le fichier ne peut pas être accédé en écriture
             catch (UnauthorizedAccessException)
             {
-                
+                App.ConsoleAndLogWriteLine($"Error: Cannot write into {Path.GetFullPath("./emk")}. Cancelling the current storage operation.");
             }
+            // Si le format du path n'est pas correct
             catch (NotSupportedException)
             {
-                
+                App.ConsoleAndLogWriteLine($"Error: The path format of {Path.GetFullPath("./emk")} is incorrect. Cancelling the current storage operation.");
             }
+            // Si l'application n'a pas les autorisations nécessaires pour écrire
             catch (SecurityException)
             {
-                
+                App.ConsoleAndLogWriteLine($"Error: No permission to access and/or write to {Path.GetFullPath("./emk")}. Cancelling the current storage operation.");
             }
         }
 
@@ -650,13 +664,76 @@ namespace KNXBoostDesktop
         // Fonction permettant de récupérer la clé principale chiffrée et de la déchiffrer
         private static string RetrieveAndDecryptMainKey()
         {
-            // Read the encrypted key from the file
-            byte[] encryptedMainKeyBytes = File.ReadAllBytes("./emk");
+            byte[] encryptedMainKeyBytes;
+            try
+            {
+                // Lecture de la clé encryptée dans le fichier emk
+                encryptedMainKeyBytes = File.ReadAllBytes("./emk");
+            }
+            // Si le path est incorrect
+            catch (ArgumentException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: The path size for {Path.GetFullPath("./emk")} is invalid, or it contains characters that are not supported. " +
+                                           $"Cancelling the current reading operation. Please try again.");
+                return "";
+            }
+            // Aucune idée de la raison de cette exception
+            catch (IOException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: an I/O exception occured while reading {Path.GetFullPath("./emk")}.");
+                return "";
+            }
+            // Si le fichier ne peut pas être accédé en écriture
+            catch (UnauthorizedAccessException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Cannot read into {Path.GetFullPath("./emk")}. Cancelling the current reading operation.");
+                return "";
+            }
+            // Si le format du path n'est pas correct
+            catch (NotSupportedException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: The path format of {Path.GetFullPath("./emk")} is incorrect. Cancelling the current reading operation.");
+                return "";
+            }
+            // Si l'application n'a pas les autorisations nécessaires pour écrire
+            catch (SecurityException)
+            {
+                App.ConsoleAndLogWriteLine($"Error: No permission to access and/or read into {Path.GetFullPath("./emk")}. Cancelling the current reading operation.");
+                return "";
+            }
 
-            // Use DPAPI to decrypt the key
-            byte[] mainKeyBytes = ProtectedData.Unprotect(encryptedMainKeyBytes, null, DataProtectionScope.CurrentUser);
-
-            // Convert the byte array back to a string
+            byte[] mainKeyBytes;
+            
+            try
+            {
+                // Utilisation de DPAPI pour décrypter la clé
+                mainKeyBytes = ProtectedData.Unprotect(encryptedMainKeyBytes, null, DataProtectionScope.CurrentUser);
+            }
+            // Si la donnée encryptée est null
+            catch (ArgumentException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the encrypted main key is null, cannot decrypt it.");
+                return "";
+            }
+            // Si le décryptage échoue
+            catch (CryptographicException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the decryption of the main key failed.");
+                return "";
+            }
+            // Si l'algorithme de décryptage n'est pas supporté
+            catch (NotSupportedException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the decryption algorithm is not supported by the current operating system. Could not decrypt the main key.");
+                return "";
+            }
+            catch (OutOfMemoryException)
+            {
+                App.ConsoleAndLogWriteLine("Error: the program ran out of RAM while decrypting the main key. Could not decrypt it.");
+                return "";
+            }
+            
+            // Conversion en un string
             return Convert.ToBase64String(mainKeyBytes);
         }
         
@@ -664,23 +741,49 @@ namespace KNXBoostDesktop
         // Fonction permettant d'encrypter la clé ou l'iv à partir de la clé principale de chiffrement
         private static string EncryptKeyOrIv(string keyOrIv)
         {
-            using (Aes aesAlg = Aes.Create())
+            using (var aesAlg = Aes.Create())
             {
                 aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
                 aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
 
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msEncrypt = new MemoryStream())
+                var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+                
+                try
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    using (var msEncrypt = new MemoryStream())
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                         {
-                            swEncrypt.Write(keyOrIv);
+                            using (var swEncrypt = new StreamWriter(csEncrypt))
+                            {
+                                swEncrypt.Write(keyOrIv);
+                            }
+                            return Convert.ToBase64String(msEncrypt.ToArray());
                         }
-                        return Convert.ToBase64String(msEncrypt.ToArray());
                     }
+                }
+                // Si le stream est invalide
+                catch (ArgumentException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: MemoryStream for encryption is invalid. Could not encrypt the data.");
+                    return ""; // On retourne un string vide
+                }
+                // Aucune idée de la raison
+                catch (IOException)
+                {
+                    return ""; // On retourne un string vide
+                } 
+                // Si le writer est fermé, ou son buffer est plein
+                catch (ObjectDisposedException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: Encryption writer was closed before encrypting the data, or its buffer is full. Could not encrypt the data.");
+                    return ""; // On retourne un string vide
+                }
+                // Pas sûr d'avoir saisi la différence avec l'exception précédente
+                catch (NotSupportedException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: Encryption writer was closed before encrypting the data, or its buffer is full. Could not encrypt the data.");
+                    return ""; // On retourne un string vide
                 }
             }
         }
@@ -689,22 +792,56 @@ namespace KNXBoostDesktop
         // Fonction permettant de décrypter la clé ou l'iv à partir de la clé principale de chiffrement
         private static string DecryptKeyOrIv(string cipherText)
         {
-            using (Aes aesAlg = Aes.Create())
+            using (var aesAlg = Aes.Create())
             {
                 aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
                 aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
 
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-                using (MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(cipherText)))
+                try
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    using (var msDecrypt = new MemoryStream(Convert.FromBase64String(cipherText)))
                     {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
-                            return srDecrypt.ReadToEnd();
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                return srDecrypt.ReadToEnd();
+                            }
                         }
                     }
+                }
+                // Si le stream est 'null'
+                catch (ArgumentNullException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: decryption stream is null or the keys are null. Data could not be decrypted.");
+                    return "";
+                }
+                // Si le format des clés est invalide
+                catch (FormatException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: the encryption keys are not in the right format. Data could not be decrypted.");
+                    return "";
+                }
+                // Si le stream ne permet pas la lecture
+                catch (ArgumentException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: the stream does not allow reading. Data could not be decrypted.");
+                    return "";
+                }
+                // Si le programme n'a pas accès à assez de mémoire RAM
+                catch (OutOfMemoryException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: the program does not have access to enough RAM. " +
+                                               "Data could not be decrypted. Please try closing a few applications before trying again.");
+                    return "";
+                }
+                // Aucune idée de la raison
+                catch (IOException)
+                {
+                    App.ConsoleAndLogWriteLine("Error: I/O error occured while attempting to decrypt the data. Data could not be decrypted.");
+                    return "";
                 }
             }
         }
@@ -713,16 +850,23 @@ namespace KNXBoostDesktop
         // Fonction permettant de générer des clés aléatoires
         private static string GenerateRandomKey(int length)
         {
-            char[] chars ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
-            
-            StringBuilder result = new StringBuilder(length);
-            Random random = new Random();
+            // Tableau contenant tous les caractères admissibles dans une clé d'encryption
+            var chars ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
-            for (int i = 0; i < length; i++)
+            // Si la longueur est de 0 ou moins, on retourne un string vide
+            if (length <= 0) return "";
+            
+            var result = new StringBuilder(length);
+            var random = new Random();
+
+            // Tant que la taille de la clé voulue n'est pas atteinte
+            for (var i = 0; i < length; i++)
             {
+                // On rajoute au string un caractère aléatoire depuis la table des caractères admissibles
                 result.Append(chars[random.Next(chars.Length)]);
             }
 
+            // Renvoi de la clé générée sous forme de string
             return result.ToString();
         }
         
@@ -731,10 +875,26 @@ namespace KNXBoostDesktop
         // Fonction gérant le clic sur un lien hypertexte
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
+            try
             {
-                UseShellExecute = true
-            });
+                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
+                {
+                    UseShellExecute = true
+                });
+            }
+            catch (InvalidOperationException)
+            {
+                App.ConsoleAndLogWriteLine("Error: cannot redirect to the clicked link.");
+            }
+            catch (ArgumentException)
+            {
+                App.ConsoleAndLogWriteLine("Error: cannot redirect to the clicked link.");
+            }
+            catch (PlatformNotSupportedException)
+            {
+                App.ConsoleAndLogWriteLine("Error: cannot redirect to the clicked link.");
+            }
+            
             e.Handled = true;
         }
     }
