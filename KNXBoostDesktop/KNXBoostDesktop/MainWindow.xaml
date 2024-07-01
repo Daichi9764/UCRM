@@ -9,7 +9,10 @@
         Background="#F5F5F5"
         Closing="ClosingMainWindow">
         
-
+	<WindowChrome.WindowChrome>
+		<WindowChrome CaptionHeight="30" CornerRadius="0" GlassFrameThickness="0"/>
+	</WindowChrome.WindowChrome>
+	
     <Window.Resources>
         <!-- Style pour le bouton Import KNX Project -->
         <Style x:Key="ImportButtonStyle" TargetType="Button">
@@ -148,6 +151,14 @@
 				<Button Name="OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
 				<Button Name="ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
 			</StackPanel>
+			<DockPanel Background="Green" Grid.Row="0" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+				<TextBlock Text="My Custom Window" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
+				<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+					<Button Content="—" Width="30" Click="MinimizeButton_Click"/>
+					<Button Content="□" Width="30" Click="MaximizeButton_Click"/>
+					<Button Content="X" Width="30" Click="CloseButton_Click"/>
+				</StackPanel>
+			</DockPanel>
 		</Grid>
 	</Border>
 
