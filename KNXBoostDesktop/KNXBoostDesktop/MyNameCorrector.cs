@@ -52,10 +52,12 @@ public class MyNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
+            
+            //string a = formatter.Format("Coucou");
             if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
-                formatter = new FormatterTranslate();
-                string a = formatter.Format("Coucou");
+                formatter= new FormatterTranslate();
+                //string a = formatter.Format("Coucou");
             }
             else
             { 
@@ -64,14 +66,15 @@ public class MyNameCorrector
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
-                .Where(s => s.Attribute("Type")?.Value == "Room")
+                .Where(s => s.Attribute("Type")?.Value == "Room" || s.Attribute("Type")?.Value == "Corridor")
                 .Select(room => new
                 {
-                    RoomId = room.Attribute("Id")?.Value,
+                    RoomId = room.Attribute("Id")?.Value, //peut être inutile
                     RoomName = room.Attribute("Name")?.Value,
                     FloorName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Floor")?.Attribute("Name")?.Value,
                     BuildingPartName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "BuildingPart")?.Attribute("Name")?.Value,
                     BuildingName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Building")?.Attribute("Name")?.Value,
+                    DistributionBoardName = room.Descendants(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "DistributionBoard")?.Attribute("Name")?.Value,
                     DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
                 })
                 .ToList();
@@ -80,7 +83,14 @@ public class MyNameCorrector
             // Display extracted location information
             foreach (var loc in locationInfo)
             {
-                App.ConsoleAndLogWriteLine($"Room ID: {loc.RoomId}, Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}");
+                string message = string.Empty;
+                if (loc.DistributionBoardName != null)
+                {
+                    message = $"Distribution Board Name : {loc.DistributionBoardName} ";
+                }
+
+                message += $"Room ID: {loc.RoomId}, Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}";
+                App.ConsoleAndLogWriteLine(message);
                 foreach (var deviceRef in loc.DeviceRefs)
                 {
                     App.ConsoleAndLogWriteLine($"  DeviceRef: {deviceRef}");
@@ -199,11 +209,16 @@ public class MyNameCorrector
                         string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
                         string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
                         string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
-                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece"; 
+                        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
                         
                         // Format the location details
                         nameLocation =
                             $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+                        if (distributionBoardName != string.Empty)
+                        {
+                            nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
+                        }
                     }
                     else
                     {
@@ -265,10 +280,15 @@ public class MyNameCorrector
                         string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
                         string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
                         string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+                        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
                         
                         // Format the location details
                         nameLocation =
                             $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+                        if (distributionBoardName != string.Empty)
+                        {
+                            nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
+                        }
                     }
                     else
                     {
@@ -489,16 +509,16 @@ public class MyNameCorrector
         }
     }
     
-    private static bool GetIsDeviceRailMounted(string productRefId, string mxxxDirectory)
+    private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxDirectory);
+        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
         
         // Construct the full path to the Hardware.xml file
         string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
         if (!Directory.Exists(mxxxxDirectoryPath))
         { 
-            App.ConsoleAndLogWriteLine($"{mxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
+            App.ConsoleAndLogWriteLine($"{mxxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
         } 
         
         // Check if the Hardware.xml file exists

@@ -11,7 +11,7 @@ public class FormatterTranslate : Formatter
 
 
 
-    public override string Format(string input)
+    /*public override string Format(string input)
     {
 
 
@@ -22,7 +22,14 @@ public class FormatterTranslate : Formatter
         string result = task.Result;
 
         return result;
+    }*/
+    
+    public override string Format(string input)
+    {
+        return Task.Run(() => GetTranslatedStringAsync(input)).Result;
     }
+    
+    
 
         public static async Task<string> GetTranslatedStringAsync(string input)
     {
