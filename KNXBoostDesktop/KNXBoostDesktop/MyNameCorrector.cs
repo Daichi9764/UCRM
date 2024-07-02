@@ -56,12 +56,9 @@ public class MyNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
-            
-            //string a = formatter.Format("Coucou");
             if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
                 formatter= new FormatterTranslate();
-                //string a = formatter.Format("Coucou");
             }
             else
             { 
@@ -89,8 +86,8 @@ public class MyNameCorrector
             loadingWindow.MarkActivityComplete();
             loadingWindow.LogActivity($"Infos extracted.");
 
-            App.ConsoleAndLogWriteLine("Extracted Location Information:");
             // Display extracted location information
+            App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
             {
                 string message = string.Empty;
@@ -162,8 +159,6 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
             }
 
-            
-            
             // Group deviceRefs by GroupAddressRef
             var groupedDeviceRefs = deviceRefs.GroupBy(dr => dr.GroupAddressRef)
                 .Select(g => new
@@ -380,10 +375,11 @@ public class MyNameCorrector
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during CorrectName(): {ex.Message}");
         }
     }
 
+    // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
 
@@ -408,71 +404,65 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"File not found: {filePath}");
                 return string.Empty;
             }
-            else
-            {
-                App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
 
-                // Load the XML file
-                XDocument hardwareDoc = XDocument.Load(filePath);
+            App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
+
+            // Load the XML file
+            XDocument hardwareDoc = XDocument.Load(filePath);
                 
-                // Find the ComObject element with the matching Id
-                var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
-                    .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
+            // Find the ComObject element with the matching Id
+            var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
+                .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
                 
-                if (comObjectRefElement == null)
+            if (comObjectRefElement == null)
+            {
+                App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                return string.Empty;
+            }
+
+            App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
+            var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
+            var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
+
+            // If ReadFlag or WriteFlag are not found in ComObjectRef, check in ComObject
+            if (readFlag == null || writeFlag == null)
+            {
+                var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
+                    comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
+                        
+                var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                    .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
+                if (comObjectElement == null)
                 {
-                    App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                    App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
                     return string.Empty;
                 }
-                else
-                {
-                    App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
-                    var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
-                    var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
 
-                   // Return the appropriate string based on the flags
-                    if (readFlag == null || writeFlag == null)
-                    {
-                        var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
-                                comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
-                        
-                        var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
-                            .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
-                        if (comObjectElement == null)
-                        {
-                            App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
-                            return string.Empty;
-                        }
-                        else
-                        {
-                            App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
+                App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
                             
-                            // ??= is used to assert the expression if the variable is null
-                            readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
-                            writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
-                        }
-                    }
+                // ??= is used to assert the expression if the variable is null
+                readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
+                writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
+            }
                     
-                    App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
-                    
-                    if (readFlag == "Enabled" && writeFlag == "Disabled")
-                    {
-                        return "Ie";
-                    }
-                    else if (writeFlag == "Enabled" && readFlag == "Disabled")
-                    {
-                        return "Cmd";
-                    }
-                    else if (writeFlag == "Enabled" && readFlag == "Enabled")
-                    {
-                        return "Cmd";
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }
+            App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
                
+            // Determine the ObjectType based on the ReadFlag and WriteFlag values
+            if (readFlag == "Enabled" && writeFlag == "Disabled")
+            {
+                return "Ie";
+            }
+            else if (writeFlag == "Enabled" && readFlag == "Disabled")
+            {
+                return "Cmd";
+            }
+            else if (writeFlag == "Enabled" && readFlag == "Enabled")
+            {
+                return "Cmd";
+            }
+            else
+            {
+                return string.Empty;
             }
         }
         catch (FileNotFoundException ex)
@@ -497,11 +487,12 @@ public class MyNameCorrector
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred in GetObjectType(): {ex.Message}");
             return string.Empty;
         }
     }
     
+    // Method that reconstructs the name of the hardware file and its directory from the hardware2ProgramRefId of a device
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         try
@@ -528,11 +519,12 @@ public class MyNameCorrector
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during FormatHardware2ProgramRefId(): {ex.Message}");
             return (string.Empty, string.Empty);
         }
     }
     
+    // Method that retrieves and returns the value of IsRailMounted from the Hardware.xml file in the mxxxxDirectory of the device based on productRefId
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct the full path to the Mxxxx directory
@@ -540,9 +532,12 @@ public class MyNameCorrector
         
         // Construct the full path to the Hardware.xml file
         string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
+        
+        //Check if the Directory exists
         if (!Directory.Exists(mxxxxDirectoryPath))
         { 
             App.ConsoleAndLogWriteLine($"{mxxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
+            return false; // Default to false if the directory does not exist
         } 
         
         // Check if the Hardware.xml file exists
@@ -566,59 +561,74 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
                 return false; // Default to false if the product is not found
             }
-            else
+
+            // Get the IsRailMounted attribute value
+            var isRailMountedAttr = productElement.Attribute("IsRailMounted");
+            if (isRailMountedAttr == null) 
             { 
-                // Get the IsRailMounted attribute value
-                var isRailMountedAttr = productElement.Attribute("IsRailMounted");
-                if (isRailMountedAttr == null) 
-                { 
-                    App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
-                    return false; // Default to false if the attribute is not found
-                }
-
-                // Convert the attribute value to boolean
-                string isRailMountedValue = isRailMountedAttr.Value.ToLower();
-                if (isRailMountedValue == "true" || isRailMountedValue == "1")
-                { 
-                    return true;
-                }
-                else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
-                { 
-                    return false;
-                }
-                else 
-                { 
-                    App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
-                    return false; // Default to false for unexpected attribute values
-                }
-
+                App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
+                return false; // Default to false if the attribute is not found
             }
+
+            // Convert the attribute value to boolean
+            string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+            if (isRailMountedValue == "true" || isRailMountedValue == "1")
+            { 
+                return true;
+            }
+            else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
+            { 
+                return false;
+            }
+            else 
+            { 
+                App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
+                return false; // Default to false for unexpected attribute values
+            }
+        }
+        catch (XmlException ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml (XML exception): {ex.Message}");
+            return false; // Default to false in case of an XML error
         }
         catch (Exception ex)
         { 
-            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during GetIsDeviceRailMounted(): {ex.Message}");
             return false; // Default to false in case of an error
         }
     }
 
+    // Method that retrieves the namespace to use for searching in .xml files from the zeroFilePath (since the namespace varies depending on the ETS version)
     private static void SetNamespaceFromXml(string zeroXmlFilePath)
     {
-        XmlDocument doc = new XmlDocument();
-        
-        // Load XML file
-        doc.Load(zeroXmlFilePath);
-        
-        // Check the existence of the namespace in the root element
-        XmlElement? root = doc.DocumentElement;
-        if (root != null)
+        try
         {
-            // Get the namespace
-            XNamespace xmlns = root.GetAttribute("xmlns");
-            if (xmlns!=string.Empty)
+            XmlDocument doc = new XmlDocument();
+
+            // Load XML file
+            doc.Load(zeroXmlFilePath);
+
+            // Check the existence of the namespace in the root element
+            XmlElement? root = doc.DocumentElement;
+            if (root != null)
             {
-                _globalKnxNamespace = xmlns;
+                // Get the namespace
+                string xmlns = root.GetAttribute("xmlns");
+                if (!string.IsNullOrEmpty(xmlns))
+                {
+                    _globalKnxNamespace = XNamespace.Get(xmlns);
+                }
             }
+        }
+        catch (XmlException ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error loading XML file (XML exception): {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during SetNamespaceFromXml(): {ex.Message}");
         }
     }
 
 }
+
