@@ -307,11 +307,11 @@ public partial class MainWindow : Window
         loadingWindow.MarkActivityComplete();
         loadingWindow.LogActivity($"Dans loadXMLFiles");
 
-        await LoadXmlFile(xmlFilePath1, treeView1, this.loadingWindow);
-        await LoadXmlFile(xmlFilePath2, treeView2, this.loadingWindow);
+        await LoadXmlFile(xmlFilePath1, treeView1);
+        await LoadXmlFile(xmlFilePath2, treeView2);
     }
 
-    private static async Task LoadXmlFile(string filePath, TreeView treeView, LoadingWindow loadingWindow)
+    private static async Task LoadXmlFile(string filePath, TreeView treeView)
     {
         try
         {

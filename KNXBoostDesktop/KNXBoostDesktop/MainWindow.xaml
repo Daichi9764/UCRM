@@ -153,7 +153,7 @@
 					<Button Name="ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
 				</StackPanel>
 				
-				<Button Width="200" Height="50" Background="#ff6699cc" Foreground="White">
+				<Button Width="200" Height="50" Background="#4071B4" Foreground="White">
 					<StackPanel Orientation="Horizontal">
 						<!-- Image Icon -->
 						<Image Source="download_icon.png" Width="24" Height="24" Margin="0,0,10,0"/>
