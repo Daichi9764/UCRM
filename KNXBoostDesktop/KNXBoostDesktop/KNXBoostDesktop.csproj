@@ -32,4 +32,9 @@
       <PackageReference Include="DeepL.net" Version="1.9.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="resources\settingsIcon.png" />
+      <Resource Include="resources\settingsIcon.png" />
+    </ItemGroup>
+
 </Project>

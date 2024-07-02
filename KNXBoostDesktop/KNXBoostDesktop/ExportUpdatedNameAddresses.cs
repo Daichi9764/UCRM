@@ -4,108 +4,119 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
-    public static void Export(String sourcePath, String destPath)
+    public static async Task Export(String sourcePath, String destPath, LoadingWindow loadingWindow)
     {
-        try
+        await Task.Run(() =>
         {
-            // Load the updated XML document
-            XDocument knxDoc = XDocument.Load(sourcePath);
-
-            // Namespace for GroupAddress-Export
-            XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
-
-            // Root element for UpdatedGroupAddresses.xml
-            XElement root = new XElement(knxExportNs + "GroupAddress-Export",
-                new XAttribute("xmlns", knxExportNs.NamespaceName));
-
-            // Extract GroupAddress information
-            var groupAddresses = knxDoc.Descendants()
-                .Where(e => e.Name.LocalName == "GroupAddress")
-                .Select(ga => new
-                {
-                    Name = ga.Attribute("Name")?.Value,
-                    Address = ga.Attribute("Address")?.Value,
-                    DPTs = ga.Attribute("DatapointType")?.Value,
-                    AncestorGroupRangeNames = ga.Ancestors()
-                        .Where(a => a.Name.LocalName == "GroupRange")
-                        .Select(a => new
-                        {
-                            Name = a.Attribute("Name")?.Value,
-                            RangeStart = a.Attribute("RangeStart")?.Value,
-                            RangeEnd = a.Attribute("RangeEnd")?.Value
-                        })
-                        .Reverse() // Reverse to maintain the hierarchical order
-                        .ToList()
-                });
-
-            // Group by ancestor GroupRange names and build the XML structure
-            foreach (var ga in groupAddresses)
+            try
             {
-                XElement currentParent = root;
+                loadingWindow.MarkActivityComplete();
+                loadingWindow.LogActivity($"Exporting the new addresses...");
+                loadingWindow.MarkActivityComplete();
+                loadingWindow.LogActivity($"Building the XML structure...");
+                loadingWindow.MarkActivityComplete();
+                loadingWindow.LogActivity("Saving the updated file...");
 
-                // Add ancestor GroupRanges
-                foreach (var ancestor in ga.AncestorGroupRangeNames)
-                {
-                    if (ancestor.Name == null) continue; // Skip if ancestor name is null
+                // Load the updated XML document
+                XDocument knxDoc = XDocument.Load(sourcePath);
 
-                    XElement groupRange = currentParent.Elements(knxExportNs + "GroupRange")
-                        .FirstOrDefault(gr => gr.Attribute("Name")?.Value == ancestor.Name);
+                // Namespace for GroupAddress-Export
+                XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
 
-                    if (groupRange == null)
+                // Root element for UpdatedGroupAddresses.xml
+                XElement root = new XElement(knxExportNs + "GroupAddress-Export",
+                    new XAttribute("xmlns", knxExportNs.NamespaceName));
+
+                // Extract GroupAddress information
+                var groupAddresses = knxDoc.Descendants()
+                    .Where(e => e.Name.LocalName == "GroupAddress")
+                    .Select(ga => new
                     {
-                        groupRange = new XElement(knxExportNs + "GroupRange",
-                            new XAttribute("Name", ancestor.Name));
+                        Name = ga.Attribute("Name")?.Value,
+                        Address = ga.Attribute("Address")?.Value,
+                        DPTs = ga.Attribute("DatapointType")?.Value,
+                        AncestorGroupRangeNames = ga.Ancestors()
+                            .Where(a => a.Name.LocalName == "GroupRange")
+                            .Select(a => new
+                            {
+                                Name = a.Attribute("Name")?.Value,
+                                RangeStart = a.Attribute("RangeStart")?.Value,
+                                RangeEnd = a.Attribute("RangeEnd")?.Value
+                            })
+                            .Reverse() // Reverse to maintain the hierarchical order
+                            .ToList()
+                    });
 
-                        if (ancestor.RangeStart != null)
-                            groupRange.Add(new XAttribute("RangeStart", ancestor.RangeStart));
+                // Group by ancestor GroupRange names and build the XML structure
+                foreach (var ga in groupAddresses)
+                {
+                    XElement currentParent = root;
+
+                    // Add ancestor GroupRanges
+                    foreach (var ancestor in ga.AncestorGroupRangeNames)
+                    {
+                        if (ancestor.Name == null) continue; // Skip if ancestor name is null
+
+                        XElement groupRange = currentParent.Elements(knxExportNs + "GroupRange")
+                            .FirstOrDefault(gr => gr.Attribute("Name")?.Value == ancestor.Name);
+
+                        if (groupRange == null)
+                        {
+                            groupRange = new XElement(knxExportNs + "GroupRange",
+                                new XAttribute("Name", ancestor.Name));
+
+                            if (ancestor.RangeStart != null)
+                                groupRange.Add(new XAttribute("RangeStart", ancestor.RangeStart));
+                            
+                            if (ancestor.RangeEnd != null)
+                                groupRange.Add(new XAttribute("RangeEnd", ancestor.RangeEnd));
+
+                            currentParent.Add(groupRange);
+                        }
+
+                        currentParent = groupRange;
+                    }
+
+                    // Add GroupAddress under the last GroupRange
+                    if (ga.Name != null && ga.Address != null)
+                    {
+                        string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
+                        if (ga.DPTs != null)
+                        {
+                        XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                            new XAttribute("Name", ga.Name),
+                            new XAttribute("Address", knxAddress),
+                            new XAttribute("DPTs", ga.DPTs));
+
+                            currentParent.Add(groupAddress);
+                        }
+                        else{
+                             XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                            new XAttribute("Name", ga.Name),
+                            new XAttribute("Address", knxAddress));
+
+                            currentParent.Add(groupAddress);
+                        }
                         
-                        if (ancestor.RangeEnd != null)
-                            groupRange.Add(new XAttribute("RangeEnd", ancestor.RangeEnd));
-
-                        currentParent.Add(groupRange);
                     }
-
-                    currentParent = groupRange;
                 }
 
-                // Add GroupAddress under the last GroupRange
-                if (ga.Name != null && ga.Address != null)
-                {
-                    string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
-                    if (ga.DPTs != null)
-                    {
-                    XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
-                        new XAttribute("Name", ga.Name),
-                        new XAttribute("Address", knxAddress),
-                        new XAttribute("DPTs", ga.DPTs));
+                // Save to UpdatedGroupAddresses.xml
+                XDocument updatedExportDoc = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    root
+                );
 
-                        currentParent.Add(groupAddress);
-                    }
-                    else{
-                         XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
-                        new XAttribute("Name", ga.Name),
-                        new XAttribute("Address", knxAddress));
+                updatedExportDoc.Save(destPath);
 
-                        currentParent.Add(groupAddress);
-                    }
-                    
-                }
+                App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
             }
-
-            // Save to UpdatedGroupAddresses.xml
-            XDocument updatedExportDoc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                root
-            );
-
-            updatedExportDoc.Save(destPath);
-
-            App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
-        }
-        catch (Exception ex)
-        {
-            App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
-        }
+            catch (Exception ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
+            }
+        });
+        
     }
 
     // Converter from decimal to KNX 3-level address
