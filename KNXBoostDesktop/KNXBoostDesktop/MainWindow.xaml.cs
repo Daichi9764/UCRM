@@ -122,16 +122,11 @@ public partial class MainWindow : Window
                 xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
                 xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
-                LoadXmlFiles();
-                
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
 
-                xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
-                xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
-                //Define the project path
                 LoadXmlFiles();
 
                 // Mettre à jour l'interface utilisateur depuis le thread principal
