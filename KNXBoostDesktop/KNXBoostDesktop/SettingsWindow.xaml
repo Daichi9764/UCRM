@@ -73,8 +73,8 @@
         <Viewbox Grid.Row="0" HorizontalAlignment="Left">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Image x:Name="SettingsImage" Source="pack://application:,,,/resources/settingsIcon.png" Height="30" Margin="14,10,5,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Paramètres" FontFamily="Aptos" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="0, 2, 0, 0"/>
+                    <Image x:Name="SettingsImage" Source="pack://application:,,,/resources/settingsIcon.png" Height="30" Margin="14,10,5,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Paramètres" FontFamily="Aptos" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="0, 12, 0, 0"/>
                 </StackPanel>
                 
                 <Path Stroke="#D7D7D7" StrokeThickness="2">
@@ -93,7 +93,8 @@
                 <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
             
-            <StackPanel Grid.Column="1" Margin="10" Background="White">
+            <Border Grid.Column="1" Margin="10" Background="White" BorderBrush="#D7D7D7" BorderThickness="1">
+                <StackPanel Background="White">
                 
                 <TextBlock x:Name="TranslationTitle" Text="Traduction" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" Margin="10,10,0,0" />
                 
@@ -194,6 +195,8 @@
                     <Button x:Name="CancelButton" Width="75" Margin="10,0,0,0" Click="CancelButtonClick"/>
                 </StackPanel>
             </StackPanel>
+            </Border>
+            
         </Grid>
         
     </Grid>
