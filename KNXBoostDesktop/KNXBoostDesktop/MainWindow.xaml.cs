@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Microsoft.Win32;
+using System.Windows.Media;
 
 namespace KNXBoostDesktop;
 
@@ -250,6 +251,17 @@ public partial class MainWindow : Window
     {
         if (sender is ScrollViewer changedScrollViewer)
         {
+            // Défilement horizontal
+            if (changedScrollViewer == scrollViewer1 && e.HorizontalChange != 0)
+            {
+                scrollViewer2.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
+            }
+            else if (changedScrollViewer == scrollViewer2 && e.HorizontalChange != 0)
+            {
+                scrollViewer1.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
+            }
+
+            // Défilement vertical
             if (changedScrollViewer == scrollViewer1 && e.VerticalChange != 0)
             {
                 scrollViewer2.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
@@ -265,29 +277,50 @@ public partial class MainWindow : Window
     {
         if (sender is ScrollViewer scrollViewer)
         {
-            if (scrollViewer == scrollViewer1)
+            // Vérifier si Ctrl est enfoncé
+            bool isShiftPressed = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+
+            // Défilement horizontal
+            if (isShiftPressed)
             {
-                scrollViewer2.ScrollToVerticalOffset(scrollViewer1.VerticalOffset - e.Delta);
+                if (scrollViewer == scrollViewer1)
+                {
+                    scrollViewer1.ScrollToHorizontalOffset(scrollViewer1.HorizontalOffset - e.Delta);
+                }
+                else if (scrollViewer == scrollViewer2)
+                {
+                    scrollViewer2.ScrollToHorizontalOffset(scrollViewer2.HorizontalOffset - e.Delta);
+                }
             }
-            else if (scrollViewer == scrollViewer2)
+
+            // Défilement vertical avec Ctrl enfoncé
+            if (!isShiftPressed)
             {
-                scrollViewer1.ScrollToVerticalOffset(scrollViewer2.VerticalOffset - e.Delta);
+                if (scrollViewer == scrollViewer1)
+                {
+                    scrollViewer1.ScrollToVerticalOffset(scrollViewer1.VerticalOffset - e.Delta);
+                }
+                else if (scrollViewer == scrollViewer2)
+                {
+                    scrollViewer2.ScrollToVerticalOffset(scrollViewer2.VerticalOffset - e.Delta);
+                }
+
+                e.Handled = true; // Indiquer que l'événement a été géré
             }
-            e.Handled = true; // Indiquer que l'événement a été géré
         }
     }
 
     //-------------------- Gestion de la recherche ---------------------------------------------------//
 
-    /* private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
+    private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
         {
             HandleSearchTextChanged(treeView1, txtSearch1.Text);
         }
 
-        private void TxtSearch2_TextChanged(object sender, TextChangedEventArgs e)
+       /* private void TxtSearch2_TextChanged(object sender, TextChangedEventArgs e)
         {
             HandleSearchTextChanged(treeView2, txtSearch2.Text);
-        }
+        }*/
 
         private static void HandleSearchTextChanged(TreeView treeView, string searchText)
         {
@@ -410,7 +443,7 @@ public partial class MainWindow : Window
             }
         }
 
-         private void ToggleSearchVisibility2(object sender, RoutedEventArgs e)
+         /* private void ToggleSearchVisibility2(object sender, RoutedEventArgs e)
         {
             if (txtSearch2.Visibility == Visibility.Visible)
             {
@@ -420,10 +453,10 @@ public partial class MainWindow : Window
             {
                 txtSearch2.Visibility = Visibility.Visible;
             }
-        }
-        */
+        }*/
+        
 
-    private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
+    /*private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
     {
         HandleSearchTextChangedForBothTrees(txtSearch1.Text);
     }
@@ -463,7 +496,7 @@ public partial class MainWindow : Window
 
     private static void ResetTreeViewItemsVisibility(ItemCollection items, Dictionary<string, bool> visibilityDictionary)
     {
-        foreach (object obj in items)
+        foreach (object obj in items) 
         {
             if (obj is TreeViewItem item)
             {
@@ -579,7 +612,7 @@ public partial class MainWindow : Window
         }
     }
 
-
+    */
 
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
 
@@ -679,10 +712,75 @@ public partial class MainWindow : Window
         return currentItem;
     }
 
+    //--------------------- Gestion rétractation synchronisé ----------------------------------------------//
+
+    private bool isTreeViewExpanded = false;
+    private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
+    {
+        btnCollapseAll_Click(sender, e);
+
+        //Fonction pour tourner le bouton non fonctionnel
+        //btnToggleArrow_Click(sender, e);
+    }
+
+    private void btnCollapseAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (isTreeViewExpanded)
+        {
+            CollapseAllTreeViewItems(treeView1.Items);
+            CollapseAllTreeViewItems(treeView2.Items);
+        }
+        else
+        {
+            ExpandAllTreeViewItems(treeView1.Items);
+            ExpandAllTreeViewItems(treeView2.Items);
+        }
+
+        isTreeViewExpanded = !isTreeViewExpanded; // Inverser l'état
+    }
+
+    private void btnToggleArrow_Click(object sender, RoutedEventArgs e)
+    {
+        isTreeViewExpanded = !isTreeViewExpanded; // Inverser l'état
+
+        if (isTreeViewExpanded)
+        {
+            rotateTransform.Angle = -90; // Rotation vers la droite
+        }
+        else
+        {
+            rotateTransform.Angle = 0; // Rotation vers le bas
+        }
+    }
+
+    private void CollapseAllTreeViewItems(ItemCollection items)
+    {
+        foreach (object obj in items)
+        {
+            if (obj is TreeViewItem item)
+            {
+                item.IsExpanded = false;
+                CollapseAllTreeViewItems(item.Items);
+            }
+        }
+    }
+
+    private void ExpandAllTreeViewItems(ItemCollection items)
+    {
+        foreach (object obj in items)
+        {
+            if (obj is TreeViewItem item)
+            {
+                item.IsExpanded = true;
+                ExpandAllTreeViewItems(item.Items);
+            }
+        }
+    }
+
 }
 
 
-    public class TreeItem
+public class TreeItem
     {
         public string Name { get; set; }
         public ObservableCollection<TreeItem> Children { get; set; }
