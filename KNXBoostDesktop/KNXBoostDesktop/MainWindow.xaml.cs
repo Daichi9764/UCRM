@@ -224,10 +224,10 @@ public partial class MainWindow : Window
     
     private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
     {
-        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}0_updated.xml externally");
+        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml externally");
 
         // Résoudre le chemin absolu
-        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}0_updated.xml");
+        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml");
 
         // Vérifier si le fichier existe
         if (File.Exists(absoluteFilePath))
@@ -255,7 +255,7 @@ public partial class MainWindow : Window
     
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}0_updated.xml";
+        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
         // Vérifier si le fichier source existe
@@ -268,7 +268,7 @@ public partial class MainWindow : Window
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            FileName = "0_updated.xml", // Nom de fichier par défaut
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
             Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
         };
