@@ -13,6 +13,14 @@ namespace KNXBoostDesktop
         {
             try
             {
+                switch (input)
+                {
+                    case "Cmd" : input = "Commande";
+                        break;
+                    case "Ie" : input = "Indication d'état";
+                        break;
+                }
+                
                 // Translate the input string
                 var translated = Task.Run(() => GetTranslatedStringAsync(input)).Result;
 
@@ -68,7 +76,7 @@ namespace KNXBoostDesktop
                 var translator = new Translator(authKey);
 
                 // Translate the text
-                var translatedText = await translator.TranslateTextAsync(input, "fr", _destLanguage);
+                var translatedText = await translator.TranslateTextAsync(input,null,_destLanguage);
                 return translatedText.Text;
             }
             catch (ArgumentNullException ex)
