@@ -127,7 +127,7 @@ public partial class MainWindow : Window
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
 
-                LoadXmlFiles();
+                await LoadXmlFiles(loadingWindow).ConfigureAwait(false);
 
                 // Mettre à jour l'interface utilisateur depuis le thread principal
                 Dispatcher.Invoke(() =>
@@ -302,34 +302,49 @@ public partial class MainWindow : Window
 
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
 
-    private void LoadXmlFiles()
-    {
-        LoadXmlFile(xmlFilePath1, treeView1);
-        LoadXmlFile(xmlFilePath2, treeView2);
+    private async Task LoadXmlFiles(LoadingWindow loadingWindow)
+    {            
+        loadingWindow.MarkActivityComplete();
+        loadingWindow.LogActivity($"Dans loadXMLFiles");
+
+        await LoadXmlFile(xmlFilePath1, treeView1, this.loadingWindow);
+        await LoadXmlFile(xmlFilePath2, treeView2, this.loadingWindow);
     }
 
-    private static void LoadXmlFile(string filePath, TreeView treeView)
+    private static async Task LoadXmlFile(string filePath, TreeView treeView, LoadingWindow loadingWindow)
     {
         try
         {
-            XmlDocument xmlDoc = new();
-            xmlDoc.Load(filePath);
-
-            treeView.Items.Clear();
-
-            // Ajouter tous les nœuds récursivement
-            if (xmlDoc.DocumentElement != null)
+            XmlDocument xmlDoc = await Task.Run(() =>
             {
-                foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
+                XmlDocument doc = new();
+                doc.Load(filePath);
+                return doc;
+            });
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                treeView.Items.Clear();
+
+                // Ajouter tous les nœuds récursivement
+                if (xmlDoc.DocumentElement != null)
                 {
-                    AddNodeRecursively(node, treeView.Items);
+                    foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
+                    {
+                        AddNodeRecursively(node, treeView.Items);
+                    }
                 }
-            }
+            });
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            // Afficher le message d'erreur sur le thread principal
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            });
         }
+
     }
 
     private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems)
