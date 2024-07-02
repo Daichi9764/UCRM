@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:local="clr-namespace:KNXBoostDesktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
@@ -86,7 +87,46 @@
             <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
             <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
         </Style>
-       
+        
+        <Style x:Key="Hover" TargetType="Button">
+            <Setter Property="Background" Value="#4071B4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="0,0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Background" Value="#4071B4"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#355e97"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#355e97"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
 
     <Border BorderBrush="#369226" BorderThickness="1" Padding="10">
@@ -105,16 +145,71 @@
 
 
             <!-- Recherge et Boutons -->
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10">
-                <Button Width="20" Height="20" Content="🔍" Click="ToggleSearchVisibility1"/>
-                <TextBox x:Name="txtSearch1" Width="110" Visibility="Collapsed" TextChanged="TxtSearch1_TextChanged"/>
-                <!-- Parameters Button -->
-                <Button Grid.Row="3" Grid.Column="1" Width="30" Height="30" Click="OpenParameters" Margin="10"  >
-                    <Image x:Name="parametersImage" Width="20" Height="20"/>
-                </Button>
-                <Button Name="ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="50" Margin="5"/>
-                <Button Name="OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="50" Margin="5"/>
-            </StackPanel>
+    <Grid Margin="10" d:DataContext="{d:DesignInstance }">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Search Button on the left -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Background="White" Margin="0">
+                        <DockPanel Width="150" Height="20">
+                            <!-- Image de loupe -->
+                            <Image Source="pack://application:,,,/resources/loupe.png" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+
+                            <!-- TextBox avec texte temporaire -->
+                            <TextBox x:Name="txtSearch1" VerticalContentAlignment="Center" Margin="0,0,0,0" BorderThickness="0" Background="Transparent"
+                                     Foreground="Gray" Text="Chercher..."
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <!-- Other Buttons on the right -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <!-- Import Button -->
+            <Button Name="chargerProjet" 
+                    Style="{StaticResource Hover}" 
+                    Click="ImportProjectButtonClick" 
+                    Width="200" Height="20" 
+                    Margin="0,0,10,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" 
+                           Source="pack://application:,,,/resources/download.png" 
+                           Width="15" Height="15" 
+                           Margin="-15,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Charger un nouveau projet" Margin="5,0,-5,0"/>
+                </Grid>
+            </Button>
+            
+            <!-- Parameters Button -->
+            <Button Width="20" Height="20" Click="OpenParameters" Margin="0,0,10,0" Background="White" BorderThickness="1" BorderBrush="DarkGray">
+                <Image x:Name="parametersImage" Width="15" Height="15" Source="pack://application:,,,/resources/settingsIcon.png"/>
+            </Button>
+            
+            <!-- Export Button -->
+            <Button Width="200" Height="20" Style="{StaticResource Hover}" IsEnabled="{Binding IsProjectImported}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="pack://application:,,,/resources/upload.png" Width="15" Height="15" Margin="-15,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="exportProjet" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Exporter le projet modifié" Margin="5,0,-5,0"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+    </Grid>
+
 
             <!-- Arbres  -->
             <Grid Grid.Row="1">

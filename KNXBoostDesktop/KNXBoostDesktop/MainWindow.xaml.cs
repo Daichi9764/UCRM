@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Microsoft.Win32;
@@ -26,7 +27,7 @@ public partial class MainWindow : Window
     
     private string xmlFilePath2;
 
-
+    public MainViewModel ViewModel { get; set; }
 
 
     /* ------------------------------------------------------------------------------------------------
@@ -36,16 +37,19 @@ public partial class MainWindow : Window
     {   
         InitializeComponent();
         //LoadXmlFiles();
-
+        
+        ViewModel = new MainViewModel();
+        DataContext = ViewModel;
+        //ViewModel.IsProjectImported = false;
 
         Title = $"{App.AppName} v{App.AppVersion}";
 
         Uri iconUri = new ("./resources/icon.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
+        
+        
 
-        parametersImage.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
-
-        DataContext = this;
+        //DataContext = this;
     }
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
@@ -82,6 +86,8 @@ public partial class MainWindow : Window
             ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml");
             ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
             LoadXmlFiles();
+
+            ViewModel.IsProjectImported = true;
         }
         else
         {
@@ -308,6 +314,35 @@ public partial class MainWindow : Window
                 e.Handled = true; // Indiquer que l'événement a été géré
             }
         }
+    }
+    
+    
+    
+    
+    
+    // CHANGMENTS NATHAN
+    
+    private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        TextBox tb = sender as TextBox;
+        if (tb.Text == "Chercher...")
+        {
+            tb.Text = "";
+            tb.Foreground = new SolidColorBrush(Colors.Black);
+        }
+    }
+
+    private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        TextBox tb = sender as TextBox;
+        // Utiliser un Dispatcher pour s'assurer que le TextBox a réellement perdu le focus
+        tb.Dispatcher.BeginInvoke(new Action(() => {
+            if (string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = "Chercher...";
+                tb.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+        }), System.Windows.Threading.DispatcherPriority.Background);
     }
 
     //-------------------- Gestion de la recherche ---------------------------------------------------//
