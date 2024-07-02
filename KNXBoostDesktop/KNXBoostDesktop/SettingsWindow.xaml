@@ -61,9 +61,30 @@
                 </Setter>
             </Style>
             
+            
+            <Style x:Key="HoverButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#C75150"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="pack://application:,,,/resources/whitecross.png" Width="20" Height="20" Margin="15,0,5,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#B73B3B"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -71,16 +92,20 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         
-        <Viewbox Grid.Row="0" HorizontalAlignment="Left">
-            <StackPanel Orientation="Vertical">
+        <Viewbox Grid.Row="0" HorizontalAlignment="Left" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+            <StackPanel Orientation="Vertical" Background="Transparent" Width="500">
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="SettingsImage" Source="pack://application:,,,/resources/settingsIcon.png" Height="30" Margin="14,10,5,0" VerticalAlignment="Center"/>
                     <TextBlock x:Name="SettingsWindowTopTitle" FontFamily="Aptos" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="0, 12, 0, 0"/>
                 </StackPanel>
                 
+                <Canvas>
+                    <Button x:Name="CloseButton" Style="{StaticResource HoverButtonStyle}" Height="30" Width="50" FontFamily="Aptos" BorderThickness="0" Click="CancelButtonClick" Canvas.Top="-45" Canvas.Left="450" />
+                </Canvas>
+                
                 <Path Stroke="#D7D7D7" StrokeThickness="2">
                     <Path.Data>
-                        <LineGeometry StartPoint="15,10" EndPoint="395,10" />
+                        <LineGeometry StartPoint="15,10" EndPoint="485,10" />
                     </Path.Data>
                 </Path>
                 
@@ -104,7 +129,7 @@
                     <StackPanel x:Name="TextDeeplApiStackPanel" Visibility="Collapsed" Orientation="Horizontal">
                         <TextBlock x:Name="DeeplApiKeyText" Margin="10,0,0,2"/>
                         <TextBlock Margin="5,0,0,0">
-                            <Hyperlink x:Name="Hyperlink" NavigateUri="https://www.deepl.com/fr/pro-api" RequestNavigate="Hyperlink_RequestNavigate" />
+                            <Hyperlink x:Name="Hyperlink" NavigateUri="https://www.deepl.com/en/pro-api" RequestNavigate="Hyperlink_RequestNavigate" />
                         </TextBlock>
                     </StackPanel>
                     

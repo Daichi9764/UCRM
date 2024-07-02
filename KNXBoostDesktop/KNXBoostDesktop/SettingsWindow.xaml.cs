@@ -29,6 +29,9 @@ namespace KNXBoostDesktop
         public bool EnableLightTheme { get; private set; } // Thème de l'application (sombre/clair)
         public string AppLang { get; private set; } // Langue de l'application (français par défaut)
         
+        private bool isDragging = false;
+        private Point clickPosition;
+        
         
         
         
@@ -363,6 +366,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(اضغط هنا للحصول على مفتاح مجاناً)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ar/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "لغة الترجمة:";
 
@@ -415,6 +419,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikněte sem a získejte klíč zdarma)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/cs/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Jazyk překladu:";
 
@@ -467,6 +472,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klicken Sie hier, um einen Schlüssel kostenlos zu erhalten)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/de/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Übersetzungssprache:";
 
@@ -519,6 +525,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Click here to get a free key)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Translation Language:";
 
@@ -545,6 +552,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratuita)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/es/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Idioma de traducción:";
 
@@ -649,6 +657,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik di sini untuk mendapatkan kunci gratis)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/id/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Bahasa Terjemahan:";
 
@@ -675,6 +684,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Clicca qui per ottenere una chiave gratuita)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/it/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Lingua di traduzione:";
 
@@ -701,6 +711,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(無料のキーを取得するにはここをクリック)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ja/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "翻訳言語:";
 
@@ -727,6 +738,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(무료 키를 얻으려면 여기를 클릭하세요)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ko/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "번역 언어:";
 
@@ -831,6 +843,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik hier om een gratis sleutel te krijgen)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/nl/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Vertaaltaal:";
 
@@ -857,6 +870,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknij tutaj, aby otrzymać darmowy klucz)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pl/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Język tłumaczenia:";
 
@@ -883,6 +897,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Clique aqui para obter uma chave gratuita)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pt-PT/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Idioma da tradução:";
 
@@ -935,6 +950,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ru/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Язык перевода:";
 
@@ -1013,6 +1029,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klicka här för att få en gratis nyckel)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/sv/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Översättningsspråk:";
 
@@ -1039,6 +1056,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Ücretsiz anahtar almak için buraya tıklayın)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/tr/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Çeviri Dili:";
 
@@ -1065,6 +1083,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Натисніть тут, щоб отримати безкоштовний ключ)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/uk/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Мова перекладу:";
 
@@ -1091,6 +1110,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(点击这里获取免费的密钥)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/zh/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "翻译语言:";
 
@@ -1117,6 +1137,7 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Cliquez ici pour obtenir une clé gratuitement)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/fr/pro-api");
 
                     TranslationLanguageComboBoxText.Text = "Langue de traduction:";
 
@@ -1726,5 +1747,14 @@ namespace KNXBoostDesktop
                     break;
             }
         }
+        
+        private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+        
     }
 }

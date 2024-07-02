@@ -39,6 +39,8 @@
       <Resource Include="resources\checkmark.png" />
       <None Remove="resources\cross.png" />
       <Resource Include="resources\cross.png" />
+      <None Remove="resources\whitecross.png" />
+      <Resource Include="resources\whitecross.png" />
     </ItemGroup>
 
 </Project>
