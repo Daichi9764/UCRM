@@ -8,7 +8,7 @@ public class MyNameCorrector
     private static XNamespace _globalKnxNamespace = string.Empty;
     private static string _projectFilesDirectory = string.Empty;
     
-    public static void CorrectName()
+    public static async Task CorrectName(LoadingWindow loadingWindow)
     {
         try
         {
@@ -20,6 +20,10 @@ public class MyNameCorrector
             
             // Load the XML file from the specified path
             XDocument knxDoc;
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Load XML file...");
+
             try
             {
                 knxDoc = XDocument.Load(App.Fm?.ZeroXmlPath ?? string.Empty);
@@ -63,6 +67,9 @@ public class MyNameCorrector
             { 
                 formatter = new FormatterNormalize();
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting infos...");
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
@@ -78,6 +85,9 @@ public class MyNameCorrector
                     DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
                 })
                 .ToList();
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Infos extracted.");
 
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
             // Display extracted location information
@@ -96,9 +106,12 @@ public class MyNameCorrector
                     App.ConsoleAndLogWriteLine($"  DeviceRef: {deviceRef}");
                 }
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting device references...");
 
             // Extract device instance references and  their group object instance references from the KNX file
-            var deviceRefs = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
+            var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
             .Select(di => new
             {
                 Id = di.Attribute("Id")?.Value,
@@ -114,8 +127,12 @@ public class MyNameCorrector
                             ComObjectInstanceRefId = cir.Attribute("RefId")?.Value,
                             IsFirstLink = index == 0  // Mark if it's the first link
                         }))
-            })
-            .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
+            });
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting device information... (This step can take some time)");
+
+            var deviceRefs = deviceRefsTemp1.SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
             {
                 di.Id,
                 di.ProductRefId,
@@ -135,7 +152,8 @@ public class MyNameCorrector
             }))
             .ToList();
 
-
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Device references and information extracted.");
 
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
@@ -166,6 +184,9 @@ public class MyNameCorrector
                         $"  Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
                 }
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Constructing the new group addresses...");
 
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
@@ -340,6 +361,9 @@ public class MyNameCorrector
 
             
             // Save the updated XML file
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Saving the updated XML file...");
+
             try
             {
                 knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); // Change the path as needed

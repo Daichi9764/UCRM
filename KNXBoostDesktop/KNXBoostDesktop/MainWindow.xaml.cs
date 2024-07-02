@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Xml;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
+using System.Windows.Threading;
 using System.Xml.Linq;
 using Microsoft.Win32;
 
@@ -25,9 +27,8 @@ public partial class MainWindow : Window
     
     private string xmlFilePath2;
 
-
-
-
+    private LoadingWindow loadingWindow;
+    
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
@@ -45,10 +46,22 @@ public partial class MainWindow : Window
         parametersImage.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
 
         DataContext = this;
+        
+        LocationChanged += MainWindow_LocationChanged;
     }
+    
+    private void MainWindow_LocationChanged(object sender, EventArgs e)
+    {
+        // Mettez à jour la position de la LoadingWindow lorsque MainWindow est déplacée
+        if (loadingWindow != null && loadingWindow.IsVisible)
+        {
+            loadingWindow.UpdatePosition(Left, Top);
+        }
+    }
+    
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
-    private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
+    private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
@@ -73,14 +86,17 @@ public partial class MainWindow : Window
             // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
-            App.Fm.FindZeroXml();
-            MyNameCorrector.CorrectName();
-            xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
-            xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
-            //Define the project path
-            ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml");
-            ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
-            LoadXmlFiles();
+            // Créer et configurer la LoadingWindow
+            loadingWindow = new LoadingWindow()
+            {
+                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+            };
+            
+            ShowOverlay();
+            
+            await ExecuteLongRunningTask();
+            
+            HideOverlay();
         }
         else
         {
@@ -88,6 +104,67 @@ public partial class MainWindow : Window
         }
     }
     
+    private async Task ExecuteLongRunningTask()
+    {
+        loadingWindow.Show();
+        TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+
+        try
+        {
+            // Exécuter les tâches
+            await Task.Run(async () =>
+            {
+                loadingWindow.UpdateTaskName("Tâche 1/4");
+                await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
+                loadingWindow.UpdateTaskName("Tâche 2/4");
+                await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
+                
+                xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
+                xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+                //Define the project path
+                LoadXmlFiles();
+                
+                loadingWindow.UpdateTaskName("Tâche 3/4");
+                await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                loadingWindow.UpdateTaskName("Tâche 3/4");
+                await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+
+                xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
+                xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+                //Define the project path
+                LoadXmlFiles();
+
+                // Mettre à jour l'interface utilisateur depuis le thread principal
+                Dispatcher.Invoke(() =>
+                {
+                    loadingWindow.UpdateTaskName("Chargement terminé !");
+                    loadingWindow.MarkActivityComplete();
+                    loadingWindow.CompleteActivity();
+                });
+            });
+        }
+        finally
+        {
+            // Mettre à jour l'état de la barre des tâches et masquer l'overlay
+            Dispatcher.Invoke(() =>
+            {
+                TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
+                loadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
+            });
+        }
+    }
+    
+    private void ShowOverlay()
+    {
+        Overlay.Visibility = Visibility.Visible;
+        MainContent.IsEnabled = false;
+    }
+    
+    private void HideOverlay()
+    {
+        Overlay.Visibility = Visibility.Collapsed;
+        MainContent.IsEnabled = true;
+    }
 
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
