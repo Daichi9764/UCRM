@@ -182,6 +182,9 @@ public class MyNameCorrector
             
             loadingWindow.MarkActivityComplete();
             loadingWindow.LogActivity($"Constructing the new group addresses...");
+            
+            // Collection to track the IDs of renamed GroupAddresses
+            HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
@@ -274,6 +277,12 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName;  // Update the GroupAddress element's name
+
+                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            {
+                                // Mark the address as renamed
+                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                            }
                         }
                     }
                     else
@@ -349,19 +358,80 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName; // Update the GroupAddress element's name
+
+                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            {
+                                // Mark the address as renamed
+                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                            }
                         }
                     }
                 }
             }
-
             
-            // Save the updated XML file
+            // Load the original XML file without any additional modifications
+            XDocument originalKnxDoc;
+            try
+            {
+                originalKnxDoc = XDocument.Load(App.Fm?.ZeroXmlPath ?? string.Empty);
+            }
+            catch (FileNotFoundException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: File not found. {ex.Message}");
+                return;
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Directory not found. {ex.Message}");
+                return;
+            }
+            catch (IOException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: IO exception occurred. {ex.Message}");
+                return;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Access denied. {ex.Message}");
+                return;
+            }
+            catch (XmlException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Invalid XML. {ex.Message}");
+                return;
+            }
+            
+            // Deletes unused (not renamed) GroupAddresses if requested
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            {
+                var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
+                foreach (var groupAddress in allGroupAddresses)
+                {
+                    var groupId = groupAddress.Attribute("Id")?.Value;
+                    if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
+                    {
+                        // Supprimer dans originalKnxDoc
+                        groupAddress.Remove();
+
+                        // Supprimer dans knxDoc
+                        var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
+                            .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
+
+                        if (correspondingGroupAddressInKnxDoc != null)
+                            correspondingGroupAddressInKnxDoc.Remove();
+
+                        App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
+                    }
+                }
+            }
+
+            // Save the updated XML files
             loadingWindow.MarkActivityComplete();
             loadingWindow.LogActivity($"Saving the updated XML file...");
 
             try
             {
-                knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); // Change the path as needed
+                knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); 
                 App.ConsoleAndLogWriteLine("Updated XML file saved as '0_updated.xml'");
             }
             catch (UnauthorizedAccessException ex)
@@ -371,6 +441,23 @@ public class MyNameCorrector
             catch (IOException ex)
             {
                 App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
+            }
+
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            {
+                try
+                {
+                    originalKnxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_original.xml");
+                    App.ConsoleAndLogWriteLine("Updated XML file saved as '0_updated.xml'");
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    App.ConsoleAndLogWriteLine($"Error: Access denied when saving the file. {ex.Message}");
+                }
+                catch (IOException ex)
+                {
+                    App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
+                }
             }
         }
         catch (Exception ex)
@@ -629,6 +716,5 @@ public class MyNameCorrector
             App.ConsoleAndLogWriteLine($"An unexpected error occurred during SetNamespaceFromXml(): {ex.Message}");
         }
     }
-
 }
 

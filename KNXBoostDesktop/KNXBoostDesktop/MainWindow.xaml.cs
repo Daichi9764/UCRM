@@ -123,7 +123,15 @@ public partial class MainWindow : Window
                 xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
                 loadingWindow.UpdateTaskName("Tâche 3/4");
-                await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                {
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+
+                }
+                else
+                {
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                }
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
 
@@ -216,10 +224,10 @@ public partial class MainWindow : Window
     
     private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
     {
-        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}0_updated.xml externally");
+        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml externally");
 
         // Résoudre le chemin absolu
-        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}0_updated.xml");
+        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml");
 
         // Vérifier si le fichier existe
         if (File.Exists(absoluteFilePath))
@@ -247,7 +255,7 @@ public partial class MainWindow : Window
     
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}0_updated.xml";
+        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
         // Vérifier si le fichier source existe
@@ -260,7 +268,7 @@ public partial class MainWindow : Window
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            FileName = "0_updated.xml", // Nom de fichier par défaut
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
             Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
         };
