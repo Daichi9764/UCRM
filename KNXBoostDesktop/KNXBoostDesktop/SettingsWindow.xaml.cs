@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
@@ -347,731 +348,792 @@ namespace KNXBoostDesktop
             RemoveUnusedAddressesCheckBox.IsChecked = RemoveUnusedGroupAddresses; // Cochage/décochage
 
             // Sélection du thème clair ou sombre
-            lightThemeComboBoxItem.IsSelected = EnableLightTheme;
-            darkThemeComboBoxItem.IsSelected = !EnableLightTheme;
+            LightThemeComboBoxItem.IsSelected = EnableLightTheme;
+            DarkThemeComboBoxItem.IsSelected = !EnableLightTheme;
             
             // Traduction du menu settings
             switch (AppLang)
             {
                 // Arabe
                 case "AR":
-                    Title = "الإعدادات";
-
-                    EnableTranslationCheckBox.Content = "تفعيل الترجمة";
-                    DeeplApiKeyText.Text = "مفتاح API لـ DeepL :";
+                    SettingsWindowTopTitle.Text = "الإعدادات";
+                    TranslationTitle.Text = "ترجمة";
+                    EnableTranslationCheckBox.Content = "تمكين الترجمة";
+                    DeeplApiKeyText.Text = "مفتاح API لـ DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(انقر هنا للحصول عليها مجانًا)");
+                    Hyperlink.Inlines.Add("(اضغط هنا للحصول على مفتاح مجاناً)");
 
                     TranslationLanguageComboBoxText.Text = "لغة الترجمة:";
 
+                    GroupAddressManagementTitle.Text = "إدارة عناوين المجموعة";
                     RemoveUnusedAddressesCheckBox.Content = "إزالة العناوين غير المستخدمة";
 
-                    ThemeTextBox.Text = "السمة:";
-                    lightThemeComboBoxItem.Content = "فاتح (افتراضي)";
-                    darkThemeComboBoxItem.Content = "داكن";
+                    AppSettingsTitle.Text = "إعدادات التطبيق";
+                    ThemeTextBox.Text = "سمة:";
+                    LightThemeComboBoxItem.Content = "فاتح (افتراضي)";
+                    DarkThemeComboBoxItem.Content = "داكن";
 
                     AppLanguageTextBlock.Text = "لغة التطبيق:";
 
-                    SaveButton.Content = "حفظ";
-                    CancelButton.Content = "إلغاء";
+                    SaveButtonText.Text = "حفظ";
+                    CancelButtonText.Text = "إلغاء";
                     break;
 
                 // Bulgare
                 case "BG":
-                    Title = "Настройки";
-
-                    EnableTranslationCheckBox.Content = "Активиране на превод";
-                    DeeplApiKeyText.Text = "API ключ за DeepL :";
+                    SettingsWindowTopTitle.Text = "Настройки";
+                    TranslationTitle.Text = "Превод";
+                    EnableTranslationCheckBox.Content = "Разреши превод";
+                    DeeplApiKeyText.Text = "API ключ за DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Кликнете тук, за да го получите безплатно)");
+                    Hyperlink.Inlines.Add("(Кликнете тук, за да получите ключ безплатно)");
 
-                    TranslationLanguageComboBoxText.Text = "Език за превод:";
+                    TranslationLanguageComboBoxText.Text = "Език на превод:";
 
+                    GroupAddressManagementTitle.Text = "Управление на групови адреси";
                     RemoveUnusedAddressesCheckBox.Content = "Премахване на неизползвани адреси";
 
+                    AppSettingsTitle.Text = "Настройки на приложението";
                     ThemeTextBox.Text = "Тема:";
-                    lightThemeComboBoxItem.Content = "Светла (по подразбиране)";
-                    darkThemeComboBoxItem.Content = "Тъмна";
+                    LightThemeComboBoxItem.Content = "Светла (по подразбиране)";
+                    DarkThemeComboBoxItem.Content = "Тъмна";
 
                     AppLanguageTextBlock.Text = "Език на приложението:";
 
-                    SaveButton.Content = "Запазване";
-                    CancelButton.Content = "Отказ";
+                    SaveButtonText.Text = "Запази";
+                    CancelButtonText.Text = "Отказ";
                     break;
 
                 // Tchèque
                 case "CS":
-                    Title = "Nastavení";
-
+                    SettingsWindowTopTitle.Text = "Nastavení";
+                    TranslationTitle.Text = "Překlad";
                     EnableTranslationCheckBox.Content = "Povolit překlad";
-                    DeeplApiKeyText.Text = "API klíč pro DeepL :";
+                    DeeplApiKeyText.Text = "API klíč pro DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikněte zde pro získání zdarma)");
+                    Hyperlink.Inlines.Add("(Klikněte sem a získejte klíč zdarma)");
 
                     TranslationLanguageComboBoxText.Text = "Jazyk překladu:";
 
+                    GroupAddressManagementTitle.Text = "Správa skupinových adres";
                     RemoveUnusedAddressesCheckBox.Content = "Odstranit nepoužívané adresy";
 
+                    AppSettingsTitle.Text = "Nastavení aplikace";
                     ThemeTextBox.Text = "Téma:";
-                    lightThemeComboBoxItem.Content = "Světlé (výchozí)";
-                    darkThemeComboBoxItem.Content = "Tmavé";
+                    LightThemeComboBoxItem.Content = "Světlé (výchozí)";
+                    DarkThemeComboBoxItem.Content = "Tmavé";
 
                     AppLanguageTextBlock.Text = "Jazyk aplikace:";
 
-                    SaveButton.Content = "Uložit";
-                    CancelButton.Content = "Zrušit";
+                    SaveButtonText.Text = "Uložit";
+                    CancelButtonText.Text = "Zrušit";
                     break;
 
                 // Danois
                 case "DA":
-                    Title = "Indstillinger";
-
+                    SettingsWindowTopTitle.Text = "Indstillinger";
+                    TranslationTitle.Text = "Oversættelse";
                     EnableTranslationCheckBox.Content = "Aktiver oversættelse";
-                    DeeplApiKeyText.Text = "DeepL API nøgle :";
+                    DeeplApiKeyText.Text = "DeepL API-nøgle:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klik her for at få det gratis)");
+                    Hyperlink.Inlines.Add("(Klik her for at få en gratis nøgle)");
 
                     TranslationLanguageComboBoxText.Text = "Oversættelsessprog:";
 
+                    GroupAddressManagementTitle.Text = "Administration af gruppeadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrugte adresser";
 
+                    AppSettingsTitle.Text = "Applikationsindstillinger";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Lys (standard)";
-                    darkThemeComboBoxItem.Content = "Mørk";
+                    LightThemeComboBoxItem.Content = "Lys (standard)";
+                    DarkThemeComboBoxItem.Content = "Mørk";
 
-                    AppLanguageTextBlock.Text = "App sprog:";
+                    AppLanguageTextBlock.Text = "Applikationssprog:";
 
-                    SaveButton.Content = "Gemme";
-                    CancelButton.Content = "Annuller";
+                    SaveButtonText.Text = "Gem";
+                    CancelButtonText.Text = "Annuller";
                     break;
 
                 // Allemand
                 case "DE":
-                    Title = "Einstellungen";
-
+                    SettingsWindowTopTitle.Text = "Einstellungen";
+                    TranslationTitle.Text = "Übersetzung";
                     EnableTranslationCheckBox.Content = "Übersetzung aktivieren";
-                    DeeplApiKeyText.Text = "DeepL API-Schlüssel :";
+                    DeeplApiKeyText.Text = "DeepL API-Schlüssel:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klicken Sie hier, um es kostenlos zu erhalten)");
+                    Hyperlink.Inlines.Add("(Klicken Sie hier, um einen Schlüssel kostenlos zu erhalten)");
 
                     TranslationLanguageComboBoxText.Text = "Übersetzungssprache:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Unbenutzte Adressen entfernen";
+                    GroupAddressManagementTitle.Text = "Gruppenadressenverwaltung";
+                    RemoveUnusedAddressesCheckBox.Content = "Nicht verwendete Adressen entfernen";
 
+                    AppSettingsTitle.Text = "App-Einstellungen";
                     ThemeTextBox.Text = "Thema:";
-                    lightThemeComboBoxItem.Content = "Hell (Standard)";
-                    darkThemeComboBoxItem.Content = "Dunkel";
+                    LightThemeComboBoxItem.Content = "Hell (Standard)";
+                    DarkThemeComboBoxItem.Content = "Dunkel";
 
                     AppLanguageTextBlock.Text = "App-Sprache:";
 
-                    SaveButton.Content = "Speichern";
-                    CancelButton.Content = "Abbrechen";
+                    SaveButtonText.Text = "Speichern";
+                    CancelButtonText.Text = "Abbrechen";
                     break;
 
                 // Grec
                 case "EL":
-                    Title = "Ρυθμίσεις";
-
+                    SettingsWindowTopTitle.Text = "Ρυθμίσεις";
+                    TranslationTitle.Text = "Μετάφραση";
                     EnableTranslationCheckBox.Content = "Ενεργοποίηση μετάφρασης";
-                    DeeplApiKeyText.Text = "Κλειδί API για DeepL :";
+                    DeeplApiKeyText.Text = "API κλειδί για DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να το αποκτήσετε δωρεάν)");
+                    Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να λάβετε ένα κλειδί δωρεάν)");
 
                     TranslationLanguageComboBoxText.Text = "Γλώσσα μετάφρασης:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Κατάργηση αχρησιμοποίητων διευθύνσεων";
+                    GroupAddressManagementTitle.Text = "Διαχείριση ομαδικών διευθύνσεων";
+                    RemoveUnusedAddressesCheckBox.Content = "Αφαίρεση αχρησιμοποίητων διευθύνσεων";
 
+                    AppSettingsTitle.Text = "Ρυθμίσεις εφαρμογής";
                     ThemeTextBox.Text = "Θέμα:";
-                    lightThemeComboBoxItem.Content = "Φωτεινό (προεπιλογή)";
-                    darkThemeComboBoxItem.Content = "Σκούρο";
+                    LightThemeComboBoxItem.Content = "Φωτεινό (προεπιλεγμένο)";
+                    DarkThemeComboBoxItem.Content = "Σκοτεινό";
 
                     AppLanguageTextBlock.Text = "Γλώσσα εφαρμογής:";
 
-                    SaveButton.Content = "Αποθήκευση";
-                    CancelButton.Content = "Ακύρωση";
+                    SaveButtonText.Text = "Αποθήκευση";
+                    CancelButtonText.Text = "Άκυρο";
                     break;
 
                 // Anglais
                 case "EN":
-                    Title = "Settings";
-
-                    EnableTranslationCheckBox.Content = "Enable Translation";
-                    DeeplApiKeyText.Text = "DeepL API Key :";
+                    SettingsWindowTopTitle.Text = "Settings";
+                    TranslationTitle.Text = "Translation";
+                    EnableTranslationCheckBox.Content = "Enable translation";
+                    DeeplApiKeyText.Text = "DeepL API Key:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Click here to get one for free)");
+                    Hyperlink.Inlines.Add("(Click here to get a free key)");
 
                     TranslationLanguageComboBoxText.Text = "Translation Language:";
 
+                    GroupAddressManagementTitle.Text = "Group Address Management";
                     RemoveUnusedAddressesCheckBox.Content = "Remove Unused Addresses";
 
+                    AppSettingsTitle.Text = "Application Settings";
                     ThemeTextBox.Text = "Theme:";
-                    lightThemeComboBoxItem.Content = "Light (default)";
-                    darkThemeComboBoxItem.Content = "Dark";
+                    LightThemeComboBoxItem.Content = "Light (default)";
+                    DarkThemeComboBoxItem.Content = "Dark";
 
                     AppLanguageTextBlock.Text = "Application Language:";
 
-                    SaveButton.Content = "Save";
-                    CancelButton.Content = "Cancel";
+                    SaveButtonText.Text = "Save";
+                    CancelButtonText.Text = "Cancel";
                     break;
 
                 // Espagnol
                 case "ES":
-                    Title = "Configuración";
-
+                    SettingsWindowTopTitle.Text = "Configuraciones";
+                    TranslationTitle.Text = "Traducción";
                     EnableTranslationCheckBox.Content = "Habilitar traducción";
-                    DeeplApiKeyText.Text = "Clave API de DeepL :";
+                    DeeplApiKeyText.Text = "Clave API de DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una gratis)");
+                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratuita)");
 
                     TranslationLanguageComboBoxText.Text = "Idioma de traducción:";
 
+                    GroupAddressManagementTitle.Text = "Gestión de direcciones de grupo";
                     RemoveUnusedAddressesCheckBox.Content = "Eliminar direcciones no utilizadas";
 
+                    AppSettingsTitle.Text = "Configuraciones de la aplicación";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Claro (predeterminado)";
-                    darkThemeComboBoxItem.Content = "Oscuro";
+                    LightThemeComboBoxItem.Content = "Claro (predeterminado)";
+                    DarkThemeComboBoxItem.Content = "Oscuro";
 
                     AppLanguageTextBlock.Text = "Idioma de la aplicación:";
 
-                    SaveButton.Content = "Guardar";
-                    CancelButton.Content = "Cancelar";
+                    SaveButtonText.Text = "Guardar";
+                    CancelButtonText.Text = "Cancelar";
                     break;
 
                 // Estonien
                 case "ET":
-                    Title = "Seaded";
-
+                    SettingsWindowTopTitle.Text = "Seaded";
+                    TranslationTitle.Text = "Tõlge";
                     EnableTranslationCheckBox.Content = "Luba tõlge";
-                    DeeplApiKeyText.Text = "DeepL API võti :";
+                    DeeplApiKeyText.Text = "DeepL API võti:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klõpsake siin, et saada see tasuta)");
+                    Hyperlink.Inlines.Add("(Klõpsake siin, et saada tasuta võti)");
 
                     TranslationLanguageComboBoxText.Text = "Tõlke keel:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Eemaldage kasutamata aadressid";
+                    GroupAddressManagementTitle.Text = "Rühma aadresside haldamine";
+                    RemoveUnusedAddressesCheckBox.Content = "Eemalda kasutamata aadressid";
 
+                    AppSettingsTitle.Text = "Rakenduse seaded";
                     ThemeTextBox.Text = "Teema:";
-                    lightThemeComboBoxItem.Content = "Hele (vaikimisi)";
-                    darkThemeComboBoxItem.Content = "Tume";
+                    LightThemeComboBoxItem.Content = "Hele (vaikimisi)";
+                    DarkThemeComboBoxItem.Content = "Tume";
 
                     AppLanguageTextBlock.Text = "Rakenduse keel:";
 
-                    SaveButton.Content = "Salvesta";
-                    CancelButton.Content = "Tühista";
+                    SaveButtonText.Text = "Salvesta";
+                    CancelButtonText.Text = "Tühista";
                     break;
 
                 // Finnois
                 case "FI":
-                    Title = "Asetukset";
-
+                    SettingsWindowTopTitle.Text = "Asetukset";
+                    TranslationTitle.Text = "Käännös";
                     EnableTranslationCheckBox.Content = "Ota käännös käyttöön";
-                    DeeplApiKeyText.Text = "DeepL API-avain :";
+                    DeeplApiKeyText.Text = "DeepL API-avain:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Napsauta tästä saadaksesi sen ilmaiseksi)");
+                    Hyperlink.Inlines.Add("(Napsauta tästä saadaksesi ilmaisen avaimen)");
 
                     TranslationLanguageComboBoxText.Text = "Käännöskieli:";
 
+                    GroupAddressManagementTitle.Text = "Ryhmän osoitteiden hallinta";
                     RemoveUnusedAddressesCheckBox.Content = "Poista käyttämättömät osoitteet";
 
+                    AppSettingsTitle.Text = "Sovelluksen asetukset";
                     ThemeTextBox.Text = "Teema:";
-                    lightThemeComboBoxItem.Content = "Vaalea (oletus)";
-                    darkThemeComboBoxItem.Content = "Tumma";
+                    LightThemeComboBoxItem.Content = "Vaalea (oletus)";
+                    DarkThemeComboBoxItem.Content = "Tumma";
 
                     AppLanguageTextBlock.Text = "Sovelluksen kieli:";
 
-                    SaveButton.Content = "Tallenna";
-                    CancelButton.Content = "Peruuta";
+                    SaveButtonText.Text = "Tallenna";
+                    CancelButtonText.Text = "Peruuta";
                     break;
 
                 // Hongrois
                 case "HU":
-                    Title = "Beállítások";
-
+                    SettingsWindowTopTitle.Text = "Beállítások";
+                    TranslationTitle.Text = "Fordítás";
                     EnableTranslationCheckBox.Content = "Fordítás engedélyezése";
-                    DeeplApiKeyText.Text = "DeepL API kulcs :";
+                    DeeplApiKeyText.Text = "DeepL API kulcs:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kattintson ide az ingyenes eléréshez)");
+                    Hyperlink.Inlines.Add("(Kattintson ide, hogy ingyenes kulcsot kapjon)");
 
                     TranslationLanguageComboBoxText.Text = "Fordítási nyelv:";
 
+                    GroupAddressManagementTitle.Text = "Csoportos címkezelés";
                     RemoveUnusedAddressesCheckBox.Content = "Nem használt címek eltávolítása";
 
+                    AppSettingsTitle.Text = "Alkalmazás beállításai";
                     ThemeTextBox.Text = "Téma:";
-                    lightThemeComboBoxItem.Content = "Világos (alapértelmezett)";
-                    darkThemeComboBoxItem.Content = "Sötét";
+                    LightThemeComboBoxItem.Content = "Világos (alapértelmezett)";
+                    DarkThemeComboBoxItem.Content = "Sötét";
 
                     AppLanguageTextBlock.Text = "Alkalmazás nyelve:";
 
-                    SaveButton.Content = "Mentés";
-                    CancelButton.Content = "Mégse";
+                    SaveButtonText.Text = "Mentés";
+                    CancelButtonText.Text = "Mégse";
                     break;
 
                 // Indonésien
                 case "ID":
-                    Title = "Pengaturan";
-
-                    EnableTranslationCheckBox.Content = "Aktifkan Terjemahan";
-                    DeeplApiKeyText.Text = "Kunci API DeepL :";
+                    SettingsWindowTopTitle.Text = "Pengaturan";
+                    TranslationTitle.Text = "Terjemahan";
+                    EnableTranslationCheckBox.Content = "Aktifkan terjemahan";
+                    DeeplApiKeyText.Text = "Kunci API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klik di sini untuk mendapatkannya secara gratis)");
+                    Hyperlink.Inlines.Add("(Klik di sini untuk mendapatkan kunci gratis)");
 
-                    TranslationLanguageComboBoxText.Text = "Bahasa terjemahan:";
+                    TranslationLanguageComboBoxText.Text = "Bahasa Terjemahan:";
 
+                    GroupAddressManagementTitle.Text = "Pengelolaan Alamat Grup";
                     RemoveUnusedAddressesCheckBox.Content = "Hapus Alamat yang Tidak Digunakan";
 
+                    AppSettingsTitle.Text = "Pengaturan Aplikasi";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Terang (default)";
-                    darkThemeComboBoxItem.Content = "Gelap";
+                    LightThemeComboBoxItem.Content = "Terang (default)";
+                    DarkThemeComboBoxItem.Content = "Gelap";
 
                     AppLanguageTextBlock.Text = "Bahasa Aplikasi:";
 
-                    SaveButton.Content = "Simpan";
-                    CancelButton.Content = "Batal";
+                    SaveButtonText.Text = "Simpan";
+                    CancelButtonText.Text = "Batal";
                     break;
 
                 // Italien
                 case "IT":
-                    Title = "Impostazioni";
-
-                    EnableTranslationCheckBox.Content = "Abilita Traduzione";
-                    DeeplApiKeyText.Text = "Chiave API di DeepL :";
+                    SettingsWindowTopTitle.Text = "Impostazioni";
+                    TranslationTitle.Text = "Traduzione";
+                    EnableTranslationCheckBox.Content = "Abilita traduzione";
+                    DeeplApiKeyText.Text = "Chiave API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Clicca qui per ottenerlo gratuitamente)");
+                    Hyperlink.Inlines.Add("(Clicca qui per ottenere una chiave gratuita)");
 
                     TranslationLanguageComboBoxText.Text = "Lingua di traduzione:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Rimuovi indirizzi inutilizzati";
+                    GroupAddressManagementTitle.Text = "Gestione degli indirizzi di gruppo";
+                    RemoveUnusedAddressesCheckBox.Content = "Rimuovi indirizzi non utilizzati";
 
+                    AppSettingsTitle.Text = "Impostazioni dell'applicazione";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Chiaro (predefinito)";
-                    darkThemeComboBoxItem.Content = "Scuro";
+                    LightThemeComboBoxItem.Content = "Chiaro (predefinito)";
+                    DarkThemeComboBoxItem.Content = "Scuro";
 
                     AppLanguageTextBlock.Text = "Lingua dell'applicazione:";
 
-                    SaveButton.Content = "Salva";
-                    CancelButton.Content = "Annulla";
+                    SaveButtonText.Text = "Salva";
+                    CancelButtonText.Text = "Annulla";
                     break;
 
                 // Japonais
                 case "JA":
-                    Title = "設定";
-
+                    SettingsWindowTopTitle.Text = "設定";
+                    TranslationTitle.Text = "翻訳";
                     EnableTranslationCheckBox.Content = "翻訳を有効にする";
-                    DeeplApiKeyText.Text = "DeepL APIキー :";
+                    DeeplApiKeyText.Text = "DeepL APIキー:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(無料で取得するにはここをクリック)");
+                    Hyperlink.Inlines.Add("(無料のキーを取得するにはここをクリック)");
 
                     TranslationLanguageComboBoxText.Text = "翻訳言語:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "未使用のアドレスを削除";
+                    GroupAddressManagementTitle.Text = "グループアドレス管理";
+                    RemoveUnusedAddressesCheckBox.Content = "使用されていないアドレスを削除";
 
+                    AppSettingsTitle.Text = "アプリケーション設定";
                     ThemeTextBox.Text = "テーマ:";
-                    lightThemeComboBoxItem.Content = "ライト (デフォルト)";
-                    darkThemeComboBoxItem.Content = "ダーク";
+                    LightThemeComboBoxItem.Content = "ライト (デフォルト)";
+                    DarkThemeComboBoxItem.Content = "ダーク";
 
                     AppLanguageTextBlock.Text = "アプリケーションの言語:";
 
-                    SaveButton.Content = "保存";
-                    CancelButton.Content = "キャンセル";
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "キャンセル";
                     break;
 
                 // Coréen
                 case "KO":
-                    Title = "설정";
-
+                    SettingsWindowTopTitle.Text = "설정";
+                    TranslationTitle.Text = "번역";
                     EnableTranslationCheckBox.Content = "번역 활성화";
-                    DeeplApiKeyText.Text = "DeepL API 키 :";
+                    DeeplApiKeyText.Text = "DeepL API 키:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(무료로 받으려면 여기를 클릭하세요)");
+                    Hyperlink.Inlines.Add("(무료 키를 얻으려면 여기를 클릭하세요)");
 
                     TranslationLanguageComboBoxText.Text = "번역 언어:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "사용되지 않는 주소 제거";
+                    GroupAddressManagementTitle.Text = "그룹 주소 관리";
+                    RemoveUnusedAddressesCheckBox.Content = "사용하지 않는 주소 제거";
 
+                    AppSettingsTitle.Text = "애플리케이션 설정";
                     ThemeTextBox.Text = "테마:";
-                    lightThemeComboBoxItem.Content = "라이트 (기본값)";
-                    darkThemeComboBoxItem.Content = "다크";
+                    LightThemeComboBoxItem.Content = "밝게 (기본)";
+                    DarkThemeComboBoxItem.Content = "어둡게";
 
-                    AppLanguageTextBlock.Text = "응용 프로그램 언어:";
+                    AppLanguageTextBlock.Text = "애플리케이션 언어:";
 
-                    SaveButton.Content = "저장";
-                    CancelButton.Content = "취소";
-                    break;
-
-                // Lituanien
-                case "LT":
-                    Title = "Nustatymai";
-
-                    EnableTranslationCheckBox.Content = "Įjungti vertimą";
-                    DeeplApiKeyText.Text = "DeepL API raktas :";
-
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Spustelėkite čia, kad gautumėte nemokamai)");
-
-                    TranslationLanguageComboBoxText.Text = "Vertimo kalba:";
-
-                    RemoveUnusedAddressesCheckBox.Content = "Pašalinti nenaudojamus adresus";
-
-                    ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Šviesus (numatytasis)";
-                    darkThemeComboBoxItem.Content = "Tamsus";
-
-                    AppLanguageTextBlock.Text = "Programos kalba:";
-
-                    SaveButton.Content = "Išsaugoti";
-                    CancelButton.Content = "Atšaukti";
+                    SaveButtonText.Text = "저장";
+                    CancelButtonText.Text = "취소";
                     break;
 
                 // Letton
                 case "LV":
-                    Title = "Iestatījumi";
-
-                    EnableTranslationCheckBox.Content = "Iespējot tulkošanu";
-                    DeeplApiKeyText.Text = "DeepL API atslēga :";
+                    SettingsWindowTopTitle.Text = "Iestatījumi";
+                    TranslationTitle.Text = "Tulkot";
+                    EnableTranslationCheckBox.Content = "Iespējot tulkojumu";
+                    DeeplApiKeyText.Text = "DeepL API atslēga:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikšķiniet šeit, lai to iegūtu bez maksas)");
+                    Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai iegūtu bezmaksas atslēgu)");
 
-                    TranslationLanguageComboBoxText.Text = "Tulkošanas valoda:";
+                    TranslationLanguageComboBoxText.Text = "Tulkot valodu:";
 
+                    GroupAddressManagementTitle.Text = "Grupas adrešu pārvaldība";
                     RemoveUnusedAddressesCheckBox.Content = "Noņemt neizmantotās adreses";
 
+                    AppSettingsTitle.Text = "Lietotnes iestatījumi";
                     ThemeTextBox.Text = "Tēma:";
-                    lightThemeComboBoxItem.Content = "Gaišs (noklusējuma)";
-                    darkThemeComboBoxItem.Content = "Tumšs";
+                    LightThemeComboBoxItem.Content = "Gaišs (noklusējums)";
+                    DarkThemeComboBoxItem.Content = "Tumšs";
 
                     AppLanguageTextBlock.Text = "Lietotnes valoda:";
 
-                    SaveButton.Content = "Saglabāt";
-                    CancelButton.Content = "Atcelt";
+                    SaveButtonText.Text = "Saglabāt";
+                    CancelButtonText.Text = "Atcelt";
                     break;
 
-                // Bokmål norvégien
-                case "NB":
-                    Title = "Innstillinger";
-
-                    EnableTranslationCheckBox.Content = "Aktiver oversettelse";
-                    DeeplApiKeyText.Text = "DeepL API-nøkkel :";
+                // Lituanien
+                case "LT":
+                    SettingsWindowTopTitle.Text = "Nustatymai";
+                    TranslationTitle.Text = "Vertimas";
+                    EnableTranslationCheckBox.Content = "Įjungti vertimą";
+                    DeeplApiKeyText.Text = "DeepL API raktas:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikk her for å få en gratis)");
+                    Hyperlink.Inlines.Add("(Spustelėkite čia, kad gautumėte nemokamą raktą)");
+
+                    TranslationLanguageComboBoxText.Text = "Vertimo kalba:";
+
+                    GroupAddressManagementTitle.Text = "Grupės adresų tvarkymas";
+                    RemoveUnusedAddressesCheckBox.Content = "Pašalinti nenaudojamus adresus";
+
+                    AppSettingsTitle.Text = "Programos nustatymai";
+                    ThemeTextBox.Text = "Tema:";
+                    LightThemeComboBoxItem.Content = "Šviesus (numatytasis)";
+                    DarkThemeComboBoxItem.Content = "Tamsus";
+
+                    AppLanguageTextBlock.Text = "Programos kalba:";
+
+                    SaveButtonText.Text = "Išsaugoti";
+                    CancelButtonText.Text = "Atšaukti";
+                    break;
+
+                // Norvégien
+                case "NB":
+                    SettingsWindowTopTitle.Text = "Innstillinger";
+                    TranslationTitle.Text = "Oversettelse";
+                    EnableTranslationCheckBox.Content = "Aktiver oversettelse";
+                    DeeplApiKeyText.Text = "DeepL API-nøkkel:";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
 
                     TranslationLanguageComboBoxText.Text = "Oversettelsesspråk:";
 
+                    GroupAddressManagementTitle.Text = "Administrasjon av gruppeadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrukte adresser";
 
+                    AppSettingsTitle.Text = "App-innstillinger";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Lys (standard)";
-                    darkThemeComboBoxItem.Content = "Mørk";
+                    LightThemeComboBoxItem.Content = "Lys (standard)";
+                    DarkThemeComboBoxItem.Content = "Mørk";
 
-                    AppLanguageTextBlock.Text = "App-språk:";
+                    AppLanguageTextBlock.Text = "Applikasjonsspråk:";
 
-                    SaveButton.Content = "Lagre";
-                    CancelButton.Content = "Avbryt";
+                    SaveButtonText.Text = "Lagre";
+                    CancelButtonText.Text = "Avbryt";
                     break;
 
                 // Néerlandais
                 case "NL":
-                    Title = "Instellingen";
-
+                    SettingsWindowTopTitle.Text = "Instellingen";
+                    TranslationTitle.Text = "Vertaling";
                     EnableTranslationCheckBox.Content = "Vertaling inschakelen";
-                    DeeplApiKeyText.Text = "DeepL API-sleutel :";
+                    DeeplApiKeyText.Text = "DeepL API-sleutel:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klik hier om er gratis een te krijgen)");
+                    Hyperlink.Inlines.Add("(Klik hier om een gratis sleutel te krijgen)");
 
-                    TranslationLanguageComboBoxText.Text = "Vertaling Taal:";
+                    TranslationLanguageComboBoxText.Text = "Vertaaltaal:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Ongebruikte adressen verwijderen";
+                    GroupAddressManagementTitle.Text = "Beheer van groepsadressen";
+                    RemoveUnusedAddressesCheckBox.Content = "Verwijder ongebruikte adressen";
 
+                    AppSettingsTitle.Text = "App-instellingen";
                     ThemeTextBox.Text = "Thema:";
-                    lightThemeComboBoxItem.Content = "Licht (standaard)";
-                    darkThemeComboBoxItem.Content = "Donker";
+                    LightThemeComboBoxItem.Content = "Licht (standaard)";
+                    DarkThemeComboBoxItem.Content = "Donker";
 
                     AppLanguageTextBlock.Text = "App-taal:";
 
-                    SaveButton.Content = "Opslaan";
-                    CancelButton.Content = "Annuleren";
+                    SaveButtonText.Text = "Opslaan";
+                    CancelButtonText.Text = "Annuleren";
                     break;
 
                 // Polonais
                 case "PL":
-                    Title = "Ustawienia";
-
+                    SettingsWindowTopTitle.Text = "Ustawienia";
+                    TranslationTitle.Text = "Tłumaczenie";
                     EnableTranslationCheckBox.Content = "Włącz tłumaczenie";
-                    DeeplApiKeyText.Text = "Klucz API DeepL :";
+                    DeeplApiKeyText.Text = "Klucz API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknij tutaj, aby otrzymać za darmo)");
+                    Hyperlink.Inlines.Add("(Kliknij tutaj, aby otrzymać darmowy klucz)");
 
                     TranslationLanguageComboBoxText.Text = "Język tłumaczenia:";
 
+                    GroupAddressManagementTitle.Text = "Zarządzanie adresami grup";
                     RemoveUnusedAddressesCheckBox.Content = "Usuń nieużywane adresy";
 
-                    ThemeTextBox.Text = "Temat:";
-                    lightThemeComboBoxItem.Content = "Jasny (domyślny)";
-                    darkThemeComboBoxItem.Content = "Ciemny";
+                    AppSettingsTitle.Text = "Ustawienia aplikacji";
+                    ThemeTextBox.Text = "Motyw:";
+                    LightThemeComboBoxItem.Content = "Jasny (domyślny)";
+                    DarkThemeComboBoxItem.Content = "Ciemny";
 
                     AppLanguageTextBlock.Text = "Język aplikacji:";
 
-                    SaveButton.Content = "Zapisz";
-                    CancelButton.Content = "Anuluj";
+                    SaveButtonText.Text = "Zapisz";
+                    CancelButtonText.Text = "Anuluj";
                     break;
 
                 // Portugais
                 case "PT":
-                    Title = "Configurações";
-
-                    EnableTranslationCheckBox.Content = "Ativar Tradução";
-                    DeeplApiKeyText.Text = "Chave API do DeepL :";
+                    SettingsWindowTopTitle.Text = "Configurações";
+                    TranslationTitle.Text = "Tradução";
+                    EnableTranslationCheckBox.Content = "Ativar tradução";
+                    DeeplApiKeyText.Text = "Chave API do DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Clique aqui para obter gratuitamente)");
+                    Hyperlink.Inlines.Add("(Clique aqui para obter uma chave gratuita)");
 
-                    TranslationLanguageComboBoxText.Text = "Idioma de Tradução:";
+                    TranslationLanguageComboBoxText.Text = "Idioma da tradução:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Remover Endereços Não Utilizados";
+                    GroupAddressManagementTitle.Text = "Gerenciamento de endereços de grupo";
+                    RemoveUnusedAddressesCheckBox.Content = "Remover endereços não utilizados";
 
+                    AppSettingsTitle.Text = "Configurações do aplicativo";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Claro (padrão)";
-                    darkThemeComboBoxItem.Content = "Escuro";
+                    LightThemeComboBoxItem.Content = "Claro (padrão)";
+                    DarkThemeComboBoxItem.Content = "Escuro";
 
-                    AppLanguageTextBlock.Text = "Idioma do Aplicativo:";
+                    AppLanguageTextBlock.Text = "Idioma do aplicativo:";
 
-                    SaveButton.Content = "Salvar";
-                    CancelButton.Content = "Cancelar";
+                    SaveButtonText.Text = "Salvar";
+                    CancelButtonText.Text = "Cancelar";
                     break;
 
                 // Roumain
                 case "RO":
-                    Title = "Setări";
-
-                    EnableTranslationCheckBox.Content = "Activați traducerea";
-                    DeeplApiKeyText.Text = "Cheie API DeepL :";
+                    SettingsWindowTopTitle.Text = "Setări";
+                    TranslationTitle.Text = "Traducere";
+                    EnableTranslationCheckBox.Content = "Activare traducere";
+                    DeeplApiKeyText.Text = "Cheie API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține gratuit)");
+                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuit)");
 
-                    TranslationLanguageComboBoxText.Text = "Limba traducerii:";
+                    TranslationLanguageComboBoxText.Text = "Limba de traducere:";
 
+                    GroupAddressManagementTitle.Text = "Gestionarea adreselor de grup";
                     RemoveUnusedAddressesCheckBox.Content = "Eliminați adresele neutilizate";
 
+                    AppSettingsTitle.Text = "Setările aplicației";
                     ThemeTextBox.Text = "Temă:";
-                    lightThemeComboBoxItem.Content = "Luminos (implicit)";
-                    darkThemeComboBoxItem.Content = "Întunecat";
+                    LightThemeComboBoxItem.Content = "Luminoasă (implicit)";
+                    DarkThemeComboBoxItem.Content = "Întunecată";
 
                     AppLanguageTextBlock.Text = "Limba aplicației:";
 
-                    SaveButton.Content = "Salvați";
-                    CancelButton.Content = "Anulați";
+                    SaveButtonText.Text = "Salvați";
+                    CancelButtonText.Text = "Anulați";
                     break;
 
                 // Russe
                 case "RU":
-                    Title = "Настройки";
-
+                    SettingsWindowTopTitle.Text = "Настройки";
+                    TranslationTitle.Text = "Перевод";
                     EnableTranslationCheckBox.Content = "Включить перевод";
-                    DeeplApiKeyText.Text = "API-ключ DeepL :";
+                    DeeplApiKeyText.Text = "Ключ API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатно)");
+                    Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
 
                     TranslationLanguageComboBoxText.Text = "Язык перевода:";
 
+                    GroupAddressManagementTitle.Text = "Управление групповыми адресами";
                     RemoveUnusedAddressesCheckBox.Content = "Удалить неиспользуемые адреса";
 
+                    AppSettingsTitle.Text = "Настройки приложения";
                     ThemeTextBox.Text = "Тема:";
-                    lightThemeComboBoxItem.Content = "Светлый (по умолчанию)";
-                    darkThemeComboBoxItem.Content = "Темный";
+                    LightThemeComboBoxItem.Content = "Светлая (по умолчанию)";
+                    DarkThemeComboBoxItem.Content = "Тёмная";
 
                     AppLanguageTextBlock.Text = "Язык приложения:";
 
-                    SaveButton.Content = "Сохранить";
-                    CancelButton.Content = "Отмена";
+                    SaveButtonText.Text = "Сохранить";
+                    CancelButtonText.Text = "Отменить";
                     break;
 
                 // Slovaque
                 case "SK":
-                    Title = "Nastavenia";
-
+                    SettingsWindowTopTitle.Text = "Nastavenia";
+                    TranslationTitle.Text = "Preklad";
                     EnableTranslationCheckBox.Content = "Povoliť preklad";
-                    DeeplApiKeyText.Text = "DeepL API kľúč :";
+                    DeeplApiKeyText.Text = "API kľúč pre DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknite sem a získajte zadarmo)");
+                    Hyperlink.Inlines.Add("(Kliknite sem a získajte kľúč zadarmo)");
 
-                    TranslationLanguageComboBoxText.Text = "Prekladací jazyk:";
+                    TranslationLanguageComboBoxText.Text = "Jazyk prekladu:";
 
+                    GroupAddressManagementTitle.Text = "Správa skupinových adries";
                     RemoveUnusedAddressesCheckBox.Content = "Odstrániť nepoužívané adresy";
 
+                    AppSettingsTitle.Text = "Nastavenia aplikácie";
                     ThemeTextBox.Text = "Téma:";
-                    lightThemeComboBoxItem.Content = "Svetlá (predvolená)";
-                    darkThemeComboBoxItem.Content = "Tmavá";
+                    LightThemeComboBoxItem.Content = "Svetlá (predvolená)";
+                    DarkThemeComboBoxItem.Content = "Tmavá";
 
                     AppLanguageTextBlock.Text = "Jazyk aplikácie:";
 
-                    SaveButton.Content = "Uložiť";
-                    CancelButton.Content = "Zrušiť";
+                    SaveButtonText.Text = "Uložiť";
+                    CancelButtonText.Text = "Zrušiť";
                     break;
 
                 // Slovène
                 case "SL":
-                    Title = "Nastavitve";
-
-                    EnableTranslationCheckBox.Content = "Omogoči prevod";
-                    DeeplApiKeyText.Text = "DeepL API ključ :";
+                    SettingsWindowTopTitle.Text = "Nastavitve";
+                    TranslationTitle.Text = "Prevajanje";
+                    EnableTranslationCheckBox.Content = "Omogoči prevajanje";
+                    DeeplApiKeyText.Text = "API ključ za DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačno pridobitev)");
+                    Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačen ključ)");
 
                     TranslationLanguageComboBoxText.Text = "Jezik prevajanja:";
 
+                    GroupAddressManagementTitle.Text = "Upravljanje skupinskih naslovov";
                     RemoveUnusedAddressesCheckBox.Content = "Odstrani neuporabljene naslove";
 
+                    AppSettingsTitle.Text = "Nastavitve aplikacije";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Svetla (privzeta)";
-                    darkThemeComboBoxItem.Content = "Temna";
+                    LightThemeComboBoxItem.Content = "Svetlo (privzeto)";
+                    DarkThemeComboBoxItem.Content = "Temno";
 
                     AppLanguageTextBlock.Text = "Jezik aplikacije:";
 
-                    SaveButton.Content = "Shrani";
-                    CancelButton.Content = "Prekliči";
+                    SaveButtonText.Text = "Shrani";
+                    CancelButtonText.Text = "Prekliči";
                     break;
 
                 // Suédois
                 case "SV":
-                    Title = "Inställningar";
-
+                    SettingsWindowTopTitle.Text = "Inställningar";
+                    TranslationTitle.Text = "Översättning";
                     EnableTranslationCheckBox.Content = "Aktivera översättning";
-                    DeeplApiKeyText.Text = "DeepL API-nyckel :";
+                    DeeplApiKeyText.Text = "DeepL API-nyckel:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klicka här för att få det gratis)");
+                    Hyperlink.Inlines.Add("(Klicka här för att få en gratis nyckel)");
 
                     TranslationLanguageComboBoxText.Text = "Översättningsspråk:";
 
+                    GroupAddressManagementTitle.Text = "Hantera gruppadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Ta bort oanvända adresser";
 
+                    AppSettingsTitle.Text = "Applikationsinställningar";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Ljus (standard)";
-                    darkThemeComboBoxItem.Content = "Mörk";
+                    LightThemeComboBoxItem.Content = "Ljus (standard)";
+                    DarkThemeComboBoxItem.Content = "Mörk";
 
-                    AppLanguageTextBlock.Text = "App-språk:";
+                    AppLanguageTextBlock.Text = "Applikationsspråk:";
 
-                    SaveButton.Content = "Spara";
-                    CancelButton.Content = "Avbryt";
+                    SaveButtonText.Text = "Spara";
+                    CancelButtonText.Text = "Avbryt";
                     break;
 
                 // Turc
                 case "TR":
-                    Title = "Ayarlar";
-
-                    EnableTranslationCheckBox.Content = "Çeviriyi Etkinleştir";
-                    DeeplApiKeyText.Text = "DeepL API Anahtarı :";
+                    SettingsWindowTopTitle.Text = "Ayarlar";
+                    TranslationTitle.Text = "Çeviri";
+                    EnableTranslationCheckBox.Content = "Çeviriyi etkinleştir";
+                    DeeplApiKeyText.Text = "DeepL API Anahtarı:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Ücretsiz almak için buraya tıklayın)");
+                    Hyperlink.Inlines.Add("(Ücretsiz anahtar almak için buraya tıklayın)");
 
                     TranslationLanguageComboBoxText.Text = "Çeviri Dili:";
 
+                    GroupAddressManagementTitle.Text = "Grup Adres Yönetimi";
                     RemoveUnusedAddressesCheckBox.Content = "Kullanılmayan Adresleri Kaldır";
 
+                    AppSettingsTitle.Text = "Uygulama Ayarları";
                     ThemeTextBox.Text = "Tema:";
-                    lightThemeComboBoxItem.Content = "Açık (varsayılan)";
-                    darkThemeComboBoxItem.Content = "Koyu";
+                    LightThemeComboBoxItem.Content = "Açık (varsayılan)";
+                    DarkThemeComboBoxItem.Content = "Koyu";
 
                     AppLanguageTextBlock.Text = "Uygulama Dili:";
 
-                    SaveButton.Content = "Kaydet";
-                    CancelButton.Content = "İptal";
+                    SaveButtonText.Text = "Kaydet";
+                    CancelButtonText.Text = "İptal";
                     break;
 
                 // Ukrainien
                 case "UK":
-                    Title = "Налаштування";
-
+                    SettingsWindowTopTitle.Text = "Налаштування";
+                    TranslationTitle.Text = "Переклад";
                     EnableTranslationCheckBox.Content = "Увімкнути переклад";
-                    DeeplApiKeyText.Text = "Ключ API DeepL :";
+                    DeeplApiKeyText.Text = "Ключ API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Натисніть тут, щоб отримати безкоштовно)");
+                    Hyperlink.Inlines.Add("(Натисніть тут, щоб отримати безкоштовний ключ)");
 
                     TranslationLanguageComboBoxText.Text = "Мова перекладу:";
 
+                    GroupAddressManagementTitle.Text = "Управління груповими адресами";
                     RemoveUnusedAddressesCheckBox.Content = "Видалити невикористані адреси";
 
+                    AppSettingsTitle.Text = "Налаштування додатка";
                     ThemeTextBox.Text = "Тема:";
-                    lightThemeComboBoxItem.Content = "Світла (за замовчуванням)";
-                    darkThemeComboBoxItem.Content = "Темна";
+                    LightThemeComboBoxItem.Content = "Світла (за замовчуванням)";
+                    DarkThemeComboBoxItem.Content = "Темна";
 
-                    AppLanguageTextBlock.Text = "Мова програми:";
+                    AppLanguageTextBlock.Text = "Мова додатка:";
 
-                    SaveButton.Content = "Зберегти";
-                    CancelButton.Content = "Скасувати";
+                    SaveButtonText.Text = "Зберегти";
+                    CancelButtonText.Text = "Скасувати";
                     break;
 
-                // Chinois
+                // Chinois simplifié
                 case "ZH":
-                    Title = "设置";
-
+                    SettingsWindowTopTitle.Text = "设置";
+                    TranslationTitle.Text = "翻译";
                     EnableTranslationCheckBox.Content = "启用翻译";
-                    DeeplApiKeyText.Text = "DeepL API密钥 :";
+                    DeeplApiKeyText.Text = "DeepL API密钥:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(点击这里免费获取)");
+                    Hyperlink.Inlines.Add("(点击这里获取免费的密钥)");
 
                     TranslationLanguageComboBoxText.Text = "翻译语言:";
 
+                    GroupAddressManagementTitle.Text = "组地址管理";
                     RemoveUnusedAddressesCheckBox.Content = "删除未使用的地址";
 
+                    AppSettingsTitle.Text = "应用程序设置";
                     ThemeTextBox.Text = "主题:";
-                    lightThemeComboBoxItem.Content = "浅色 (默认)";
-                    darkThemeComboBoxItem.Content = "深色";
+                    LightThemeComboBoxItem.Content = "浅色 (默认)";
+                    DarkThemeComboBoxItem.Content = "深色";
 
-                    AppLanguageTextBlock.Text = "应用语言:";
+                    AppLanguageTextBlock.Text = "应用程序语言:";
 
-                    SaveButton.Content = "保存";
-                    CancelButton.Content = "取消";
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "取消";
                     break;
 
-                // Langue par défaut: le français
+	            // Langue par défaut (français)
                 default:
-                    Title = "Paramètres";
-
+		            SettingsWindowTopTitle.Text = "Paramètres";
+                    TranslationTitle.Text = "Traduction";
                     EnableTranslationCheckBox.Content = "Activer la traduction";
                     DeeplApiKeyText.Text = "Clé API DeepL :";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Cliquez ici pour en obtenir une gratuitement)");
+                    Hyperlink.Inlines.Add("(Cliquez ici pour obtenir une clé gratuitement)");
 
                     TranslationLanguageComboBoxText.Text = "Langue de traduction:";
 
-                    RemoveUnusedAddressesCheckBox.Content = "Supprimer les adresses de groupe non associées";
+                    GroupAddressManagementTitle.Text = "Gestion des adresses de groupe";
+                    RemoveUnusedAddressesCheckBox.Content = "Supprimer les adresses inutilisées";
 
+                    AppSettingsTitle.Text = "Paramètres de l'application";
                     ThemeTextBox.Text = "Thème:";
-                    lightThemeComboBoxItem.Content = "Clair (par défaut)";
-                    darkThemeComboBoxItem.Content = "Sombre";
+                    LightThemeComboBoxItem.Content = "Clair (par défaut)";
+                    DarkThemeComboBoxItem.Content = "Sombre";
 
                     AppLanguageTextBlock.Text = "Langue de l'application:";
 
-                    SaveButton.Content = "Sauvegarder";
-                    CancelButton.Content = "Annuler";
+                    SaveButtonText.Text = "Enregistrer";
+                    CancelButtonText.Text = "Annuler";
                     break;
+
             }
         }
 
@@ -1085,7 +1147,7 @@ namespace KNXBoostDesktop
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationLang = TranslationLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
-            EnableLightTheme = lightThemeComboBoxItem.IsSelected;
+            EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             
             // Sauvegarde des paramètres dans le fichier appSettings
@@ -1627,6 +1689,42 @@ namespace KNXBoostDesktop
             }
             
             e.Handled = true;
+        }
+
+        
+        // Fonction permettant d'effectuer des actions quand une touche spécifique du clavier est appuyée
+        private void SettingsWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                // Si on appuie sur échap, on ferme la fenêtre et on annule les modifications
+                case Key.Escape:
+                    UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+                    Hide(); // Masquage de la fenêtre de paramétrage
+                    break;
+                
+                // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
+                case Key.Enter:
+                    // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
+                    EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
+                    DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
+                    TranslationLang = TranslationLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+                    RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
+                    EnableLightTheme = LightThemeComboBoxItem.IsSelected;
+                    AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            
+                    // Sauvegarde des paramètres dans le fichier appSettings
+                    App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
+                    SaveSettings();
+                    App.ConsoleAndLogWriteLine("Settings saved successfully");
+            
+                    // Mise à jour éventuellement du contenu pour update la langue du menu
+                    UpdateWindowContents();
+            
+                    // Masquage de la fenêtre de paramètres
+                    Hide();
+                    break;
+            }
         }
     }
 }

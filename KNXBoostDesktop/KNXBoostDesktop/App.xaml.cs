@@ -71,11 +71,6 @@ namespace KNXBoostDesktop
             // Ouverture du gestionnaire de fichiers de projet
             ConsoleAndLogWriteLine("Opening project file manager");
             Fm = new ProjectFileManager();
-            
-            
-            // Initialisation des formateurs de chaînes (commentée car peut-être non nécessaire pour le moment)
-            //ConsoleAndLogWriteLine($"Opening string formatters");
-            //formatter = new FormatterNormalize();
 
             
             // Tentative d'archivage des fichiers de log

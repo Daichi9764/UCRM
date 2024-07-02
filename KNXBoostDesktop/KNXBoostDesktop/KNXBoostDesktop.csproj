@@ -35,6 +35,10 @@
     <ItemGroup>
       <None Remove="resources\settingsIcon.png" />
       <Resource Include="resources\settingsIcon.png" />
+      <None Remove="resources\checkmark.png" />
+      <Resource Include="resources\checkmark.png" />
+      <None Remove="resources\cross.png" />
+      <Resource Include="resources\cross.png" />
     </ItemGroup>
 
 </Project>
