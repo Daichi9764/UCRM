@@ -12,14 +12,15 @@
         PreviewKeyDown="SettingsWindow_PreviewKeyDown">
     
         <Window.Resources>
-            
+            <!-- Brush pour le style des checkbox -->
             <SolidColorBrush x:Key="CheckBoxBorderBrush" Color="Gray"/>
             <SolidColorBrush x:Key="CheckBoxCheckedBackgroundBrush" Color="#DBEAFF"/>
             <SolidColorBrush x:Key="CheckBoxUncheckedBackgroundBrush" Color="White"/>
             <SolidColorBrush x:Key="CheckBoxHoverBackgroundBrush" Color="#D3D3D3"/>
             <SolidColorBrush x:Key="CheckMarkBrush" Color="#4071B4"/>
-
-            <!-- Define the CheckBox style -->
+            
+            
+            <!-- Style pour les checkbox (cases à cocher) -->
             <Style x:Key="CustomCheckBoxStyle" TargetType="CheckBox">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -62,6 +63,7 @@
             </Style>
             
             
+            <!-- Style pour le bouton de fermeture de la fenêtre -->
             <Style x:Key="HoverButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="#C75150"/>
                 <Setter Property="Template">
@@ -87,41 +89,48 @@
     <Grid x:Name="MainGrid">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/> <!-- En-tête (header) -->
+            <RowDefinition Height="*"/> <!-- Contenu de la fenêtre (corps) -->
+            <RowDefinition Height="40"/> <!-- Footer avec les boutons save/cancel -->
         </Grid.RowDefinitions>
         
+        <!-- En-tête de la fenêtre -->
         <Viewbox Grid.Row="0" HorizontalAlignment="Left" MouseLeftButtonDown="Header_MouseLeftButtonDown">
             <StackPanel Orientation="Vertical" Background="Transparent" Width="500">
+                <!-- Icone + titre paramètres -->
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="SettingsImage" Source="pack://application:,,,/resources/settingsIcon.png" Height="30" Margin="14,10,5,0" VerticalAlignment="Center"/>
                     <TextBlock x:Name="SettingsWindowTopTitle" FontFamily="Aptos" FontWeight="Bold" FontSize="22" VerticalAlignment="Center" Margin="0, 12, 0, 0"/>
                 </StackPanel>
                 
+                <!-- Bouton de fermeture de la fenêtre -->
                 <Canvas>
                     <Button x:Name="CloseButton" Style="{StaticResource HoverButtonStyle}" Height="30" Width="50" FontFamily="Aptos" BorderThickness="0" Click="CancelButtonClick" Canvas.Top="-45" Canvas.Left="450" />
                 </Canvas>
                 
+                <!-- Trait de séparation -->
                 <Path Stroke="#D7D7D7" StrokeThickness="2">
                     <Path.Data>
                         <LineGeometry StartPoint="15,10" EndPoint="485,10" />
                     </Path.Data>
                 </Path>
-                
             </StackPanel>
         </Viewbox>
         
+        
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="10"/> <!-- Espacement à gauche -->
+                <ColumnDefinition Width="*"/> <!-- Corps de la fenêtre -->
+                <ColumnDefinition Width="10"/> <!-- Espacement à droite -->
             </Grid.ColumnDefinitions>
             
+            <!-- Conteneur principal (corps de la fenêtre) -->
             <Border Grid.Column="1" Margin="10" Background="White" BorderBrush="#D7D7D7" BorderThickness="1">
                 <StackPanel Background="White">
                 
+                    <!-- Gestion de la traduction des adresses de groupe -->
                     <TextBlock x:Name="TranslationTitle" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" Margin="10,10,0,0" />
                     
                     <CheckBox x:Name="EnableTranslationCheckBox" Style="{StaticResource CustomCheckBoxStyle}" Margin="10,5,0,10" Checked="EnableTranslation" Unchecked="DisableTranslation"></CheckBox>
@@ -132,47 +141,86 @@
                             <Hyperlink x:Name="Hyperlink" NavigateUri="https://www.deepl.com/en/pro-api" RequestNavigate="Hyperlink_RequestNavigate" />
                         </TextBlock>
                     </StackPanel>
-                    
                     <TextBox x:Name="DeeplApiKeyTextBox" Margin="10,0,10,10" Visibility="Collapsed"/>
 
-                    <TextBlock x:Name="TranslationLanguageComboBoxText" Margin="10,0,10,2" Visibility="Collapsed"/>
-                    <ComboBox x:Name="TranslationLanguageComboBox" Margin="10,0,10,10" Visibility="Collapsed">
-                        <ComboBoxItem x:Name="ArTranslationComboBoxItem" Content="AR - العربية"/>
-                        <ComboBoxItem x:Name="BgTranslationComboBoxItem" Content="BG - Български"/>
-                        <ComboBoxItem x:Name="CsTranslationComboBoxItem" Content="CS - Čeština"/>
-                        <ComboBoxItem x:Name="DaTranslationComboBoxItem" Content="DA - Dansk"/>
-                        <ComboBoxItem x:Name="DeTranslationComboBoxItem" Content="DE - Deutsch"/>
-                        <ComboBoxItem x:Name="ElTranslationComboBoxItem" Content="EL - Ελληνικά"/>
-                        <ComboBoxItem x:Name="EnTranslationComboBoxItem" Content="EN - English"/>
-                        <ComboBoxItem x:Name="EsTranslationComboBoxItem" Content="ES - Español"/>
-                        <ComboBoxItem x:Name="EtTranslationComboBoxItem" Content="ET - Eesti"/>
-                        <ComboBoxItem x:Name="FiTranslationComboBoxItem" Content="FI - Suomi"/>
-                        <ComboBoxItem x:Name="FrTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold"/>
-                        <ComboBoxItem x:Name="HuTranslationComboBoxItem" Content="HU - Magyar"/>
-                        <ComboBoxItem x:Name="IdTranslationComboBoxItem" Content="ID - Bahasa Indonesia"/>
-                        <ComboBoxItem x:Name="ItTranslationComboBoxItem" Content="IT - Italiano"/>
-                        <ComboBoxItem x:Name="JaTranslationComboBoxItem" Content="JA - 日本語"/>
-                        <ComboBoxItem x:Name="KoTranslationComboBoxItem" Content="KO - 한국어"/>
-                        <ComboBoxItem x:Name="LtTranslationComboBoxItem" Content="LT - Lietuvių"/>
-                        <ComboBoxItem x:Name="LvTranslationComboBoxItem" Content="LV - Latviešu"/>
-                        <ComboBoxItem x:Name="NbTranslationComboBoxItem" Content="NB - Norsk Bokmål"/>
-                        <ComboBoxItem x:Name="NlTranslationComboBoxItem" Content="NL - Nederlands"/>
-                        <ComboBoxItem x:Name="PlTranslationComboBoxItem" Content="PL - Polski"/>
-                        <ComboBoxItem x:Name="PtTranslationComboBoxItem" Content="PT - Português"/>
-                        <ComboBoxItem x:Name="RoTranslationComboBoxItem" Content="RO - Română"/>
-                        <ComboBoxItem x:Name="RuTranslationComboBoxItem" Content="RU - Русский"/>
-                        <ComboBoxItem x:Name="SkTranslationComboBoxItem" Content="SK - Slovenský"/>
-                        <ComboBoxItem x:Name="SlTranslationComboBoxItem" Content="SL - Slovenščina"/>
-                        <ComboBoxItem x:Name="SvTranslationComboBoxItem" Content="SV - Svenska"/>
-                        <ComboBoxItem x:Name="TrTranslationComboBoxItem" Content="TR - Türkçe"/>
-                        <ComboBoxItem x:Name="UkTranslationComboBoxItem" Content="UK - Українська"/>
-                        <ComboBoxItem x:Name="ZhTranslationComboBoxItem" Content="ZH - 中文"/>
+                    <CheckBox x:Name="EnableAutomaticTranslationLangDetectionCheckbox" Style="{StaticResource CustomCheckBoxStyle}" Visibility="Collapsed" Margin="10,5,0,10" Checked="EnableAutomaticTranslationLangDetection" Unchecked="DisableAutomaticTranslationLangDetection" />
+                    <TextBlock x:Name="TranslationSourceLanguageComboBoxText" Margin="10,0,10,2" Visibility="Collapsed"/>
+                    <ComboBox x:Name="TranslationSourceLanguageComboBox" Margin="10,0,10,10" Visibility="Collapsed">
+                        <ComboBoxItem Content="AR - العربية"/>
+                        <ComboBoxItem Content="BG - Български"/>
+                        <ComboBoxItem Content="CS - Čeština"/>
+                        <ComboBoxItem Content="DA - Dansk"/>
+                        <ComboBoxItem Content="DE - Deutsch"/>
+                        <ComboBoxItem Content="EL - Ελληνικά"/>
+                        <ComboBoxItem Content="EN - English"/>
+                        <ComboBoxItem Content="ES - Español"/>
+                        <ComboBoxItem Content="ET - Eesti"/>
+                        <ComboBoxItem Content="FI - Suomi"/>
+                        <ComboBoxItem x:Name="FrSourceTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold"/>
+                        <ComboBoxItem Content="HU - Magyar"/>
+                        <ComboBoxItem Content="ID - Bahasa Indonesia"/>
+                        <ComboBoxItem Content="IT - Italiano"/>
+                        <ComboBoxItem Content="JA - 日本語"/>
+                        <ComboBoxItem Content="KO - 한국어"/>
+                        <ComboBoxItem Content="LT - Lietuvių"/>
+                        <ComboBoxItem Content="LV - Latviešu"/>
+                        <ComboBoxItem Content="NB - Norsk Bokmål"/>
+                        <ComboBoxItem Content="NL - Nederlands"/>
+                        <ComboBoxItem Content="PL - Polski"/>
+                        <ComboBoxItem Content="PT - Português"/>
+                        <ComboBoxItem Content="RO - Română"/>
+                        <ComboBoxItem Content="RU - Русский"/>
+                        <ComboBoxItem Content="SK - Slovenský"/>
+                        <ComboBoxItem Content="SL - Slovenščina"/>
+                        <ComboBoxItem Content="SV - Svenska"/>
+                        <ComboBoxItem Content="TR - Türkçe"/>
+                        <ComboBoxItem Content="UK - Українська"/>
+                        <ComboBoxItem Content="ZH - 中文"/>
                     </ComboBox>
                     
+                    <TextBlock x:Name="TranslationDestinationLanguageComboBoxText" Margin="10,0,10,2" Visibility="Collapsed"/>
+                    <ComboBox x:Name="TranslationLanguageDestinationComboBox" Margin="10,0,10,10" Visibility="Collapsed">
+                        <ComboBoxItem Content="AR - العربية"/>
+                        <ComboBoxItem Content="BG - Български"/>
+                        <ComboBoxItem Content="CS - Čeština"/>
+                        <ComboBoxItem Content="DA - Dansk"/>
+                        <ComboBoxItem Content="DE - Deutsch"/>
+                        <ComboBoxItem Content="EL - Ελληνικά"/>
+                        <ComboBoxItem Content="EN - English"/>
+                        <ComboBoxItem Content="ES - Español"/>
+                        <ComboBoxItem Content="ET - Eesti"/>
+                        <ComboBoxItem Content="FI - Suomi"/>
+                        <ComboBoxItem x:Name="FrDestinationTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold"/>
+                        <ComboBoxItem Content="HU - Magyar"/>
+                        <ComboBoxItem Content="ID - Bahasa Indonesia"/>
+                        <ComboBoxItem Content="IT - Italiano"/>
+                        <ComboBoxItem Content="JA - 日本語"/>
+                        <ComboBoxItem Content="KO - 한국어"/>
+                        <ComboBoxItem Content="LT - Lietuvių"/>
+                        <ComboBoxItem Content="LV - Latviešu"/>
+                        <ComboBoxItem Content="NB - Norsk Bokmål"/>
+                        <ComboBoxItem Content="NL - Nederlands"/>
+                        <ComboBoxItem Content="PL - Polski"/>
+                        <ComboBoxItem Content="PT - Português"/>
+                        <ComboBoxItem Content="RO - Română"/>
+                        <ComboBoxItem Content="RU - Русский"/>
+                        <ComboBoxItem Content="SK - Slovenský"/>
+                        <ComboBoxItem Content="SL - Slovenščina"/>
+                        <ComboBoxItem Content="SV - Svenska"/>
+                        <ComboBoxItem Content="TR - Türkçe"/>
+                        <ComboBoxItem Content="UK - Українська"/>
+                        <ComboBoxItem Content="ZH - 中文"/>
+                    </ComboBox>
+                    
+                    
+                    
+                    <!-- Gestion des adresses de groupe -->
                     <TextBlock x:Name="GroupAddressManagementTitle" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" Margin="10,10,0,3" />
+                    <CheckBox x:Name="RemoveUnusedAddressesCheckBox" Style="{StaticResource CustomCheckBoxStyle}" Margin="10,0,10,10" />
                     
-                    <CheckBox x:Name="RemoveUnusedAddressesCheckBox" Style="{StaticResource CustomCheckBoxStyle}" Margin="10,0,10,10"></CheckBox>
                     
+                    
+                    <!-- Paramètres de l'application -->
                     <TextBlock x:Name="AppSettingsTitle" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" Margin="10,10,0,0" />
                     
                     <TextBlock x:Name="ThemeTextBox" Margin="10,0,10,2"/>
@@ -214,22 +262,25 @@
                         <ComboBoxItem x:Name="UkAppLanguageComboBoxItem" Content="UK - Українська"/>
                         <ComboBoxItem x:Name="ZhAppLanguageComboBoxItem" Content="ZH - 中文"/>
                     </ComboBox>
-
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
-                        
-                    </StackPanel>
+                    
                 </StackPanel>
             </Border>
         </Grid>
         
+        
+        <!-- Partie basse de la fenêtre (boutons sauvegarder et annuler) -->
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,5,0,0" Background="White">
+            
+            <!-- Trait de séparation -->
             <Path Stroke="#D7D7D7" StrokeThickness="2">
                 <Path.Data>
                     <LineGeometry StartPoint="0,1" EndPoint="500,1" />
                 </Path.Data>
             </Path>
+            
+            <!-- Bouton de sauvegarde et d'annulation -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <!-- Bouton save -->
                 <Button x:Name="SaveButton" Height="32" Background="Transparent" BorderThickness="0" Click="SaveButtonClick">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="pack://application:,,,/resources/checkmark.png" Width="20" Height="20" Margin="5,0,5,0" VerticalAlignment="Center"/>
@@ -237,15 +288,15 @@
                     </StackPanel>
                 </Button>
                 
+                <!-- Bouton cancel -->
                 <Button x:Name="CancelButton" Height="32" FontFamily="Aptos" Background="Transparent" BorderThickness="0" Margin="25,0,0,0" Click="CancelButtonClick">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/resources/cross.png" Width="20" Height="20" Margin="5,0,5,0" VerticalAlignment="Center"/>
                             <TextBlock x:Name="CancelButtonText" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0"/>
                         </StackPanel>
                 </Button>
-                
             </StackPanel>
         </StackPanel>
+        
     </Grid>
-    
 </Window>

@@ -7,7 +7,7 @@ namespace KNXBoostDesktop
     public class FormatterTranslate : Formatter
     {
         // Destination language for translation
-        private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationLang ?? string.Empty;
+        private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationDestinationLang ?? string.Empty;
 
         public override string Format(string input)
         {
