@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using DeepL;
+using DeepL.Model;
 
 namespace KNXBoostDesktop
 {
@@ -8,6 +9,7 @@ namespace KNXBoostDesktop
     {
         // Destination language for translation
         private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationDestinationLang ?? string.Empty;
+        private string _sourceLanguage = App.DisplayElements?.SettingsWindow.TranslationSourceLang ?? string.Empty;
 
         public override string Format(string input)
         {
@@ -76,7 +78,16 @@ namespace KNXBoostDesktop
                 var translator = new Translator(authKey);
 
                 // Translate the text
-                var translatedText = await translator.TranslateTextAsync(input,null,_destLanguage);
+                TextResult translatedText;
+                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
+                {
+                    translatedText = await translator.TranslateTextAsync(input, null, _destLanguage);
+                }
+                else
+                {
+                    translatedText = await translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
+                }
+
                 return translatedText.Text;
             }
             catch (ArgumentNullException ex)
