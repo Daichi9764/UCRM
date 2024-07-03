@@ -166,7 +166,6 @@ namespace KNXBoostDesktop
                                 App.ConsoleAndLogWriteLine(
                                     "Error: Could not parse boolean value of the activation of the deepL translation, restoring default value");
                             }
-
                             break;
 
                         case "deepl key [encrypted]":
@@ -183,8 +182,28 @@ namespace KNXBoostDesktop
                                                            $"Restoring default value.");
                             }
                             break;
+                        
+                        case "enable automatic source lang detection for translation":
+                            try
+                            {
+                                // On essaie de cast la valeur en booléen
+                                EnableAutomaticSourceLangDetection = bool.Parse(value);
+                            }
+                            // Si l'utilisateur n'a pas écrit dans le fichier paramètres un string s'apparentant à true ou false
+                            catch (FormatException)
+                            {
+                                App.ConsoleAndLogWriteLine(
+                                    "Error: Could not parse boolean value of the activation of the automatic detection of the " +
+                                    "translation source language, restoring default value");
+                            }
+                            break;
 
-                        case "translation lang":
+                        case "source translation lang":
+                            // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
+                            TranslationSourceLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
+                            break;
+                        
+                        case "destination translation lang":
                             // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             TranslationDestinationLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
@@ -238,6 +257,12 @@ namespace KNXBoostDesktop
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
+
+            // Ajustement de la taille de la fenêtre si la détection automatique de la langue de source pour la traduction est activée
+            if (!EnableAutomaticSourceLangDetection && EnableDeeplTranslation)
+            {
+                Height -= 50;
+            }
         }
         
         
@@ -272,7 +297,13 @@ namespace KNXBoostDesktop
                 writer.Write("deepL Key [ENCRYPTED] : ");
                 writer.WriteLine(Convert.ToBase64String(DeeplKey));
 
-                writer.Write("translation lang : ");
+                writer.Write("source translation lang : ");
+                writer.WriteLine(TranslationSourceLang);
+                
+                writer.Write("enable automatic source lang detection for translation : ");
+                writer.WriteLine(EnableAutomaticSourceLangDetection);
+                
+                writer.Write("destination translation lang : ");
                 writer.WriteLine(TranslationDestinationLang);
 
                 writer.Write("remove unused group addresses : ");
@@ -320,23 +351,42 @@ namespace KNXBoostDesktop
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
             
-            if ((_emkFileExists)&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey);
+            if ((_emkFileExists)&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+
+            EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
             // Si la langue de traduction ou de l'application n'est pas le français, on désélectionne le français dans le combobox
             // pour sélectionner la langue voulue
-            if ((TranslationDestinationLang != "FR")||(AppLang != "FR"))
+            if (TranslationDestinationLang != "FR")
             {
                 FrDestinationTranslationComboBoxItem.IsSelected = (TranslationDestinationLang == "FR"); // Sélection/Désélection
-                FrAppLanguageComboBoxItem.IsSelected = (AppLang == "FR"); // Sélection/Désélection
-    
-                // Sélection du langage de traduction
+
+                // Sélection du langage destination de traduction
                 foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items) // Parcours de toutes les possibilités de langue
                 {
                     if (!item.Content.ToString()!.StartsWith(TranslationDestinationLang)) continue; // Si la langue n'est pas celle que l'on veut, on skip
                     item.IsSelected = true; // Sélection de la langue
                     break; // Si on a trouvé la langue, on peut quitter la boucle
                 }
+            }
+            
+            if (TranslationSourceLang != "FR")
+            {
+                FrSourceTranslationComboBoxItem.IsSelected = (TranslationSourceLang == "FR"); // Sélection/Désélection
                 
+                // Sélection du langage source de traduction
+                foreach (ComboBoxItem item in TranslationSourceLanguageComboBox.Items) // Parcours de toutes les possibilités de langue
+                {
+                    if (!item.Content.ToString()!.StartsWith(TranslationSourceLang)) continue; // Si la langue n'est pas celle que l'on veut, on skip
+                    item.IsSelected = true; // Sélection de la langue
+                    break; // Si on a trouvé la langue, on peut quitter la boucle
+                }
+            }
+            
+            if (AppLang != "FR")
+            {
+                FrAppLanguageComboBoxItem.IsSelected = (AppLang == "FR"); // Sélection/Désélection
+
                 // Sélection du langage de l'application (même fonctionnement que le code ci-dessus)
                 foreach (ComboBoxItem item in AppLanguageComboBox.Items)
                 {
@@ -1170,6 +1220,8 @@ namespace KNXBoostDesktop
             EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
             RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
@@ -1209,6 +1261,14 @@ namespace KNXBoostDesktop
             
             // On affiche le checkmark de la détection automatique de la langue source de la traduction
             EnableAutomaticTranslationLangDetectionCheckbox.Visibility = Visibility.Visible;
+            
+            if (!EnableAutomaticSourceLangDetection)
+            {
+                TranslationSourceLanguageComboBox.Visibility = Visibility.Visible;
+                TranslationSourceLanguageComboBoxText.Visibility = Visibility.Visible;
+
+                Height += 50;
+            }
 
             // Ajustement de la taille de la fenêtre pour que les nouveaux éléments affichés aient de la place
             Height += 125;
@@ -1229,6 +1289,14 @@ namespace KNXBoostDesktop
             // On masque le checkmark de la détection automatique de la langue source de la traduction
             EnableAutomaticTranslationLangDetectionCheckbox.Visibility = Visibility.Collapsed;
 
+            if (TranslationSourceLanguageComboBox.Visibility == Visibility.Visible)
+            {
+                TranslationSourceLanguageComboBox.Visibility = Visibility.Collapsed;
+                TranslationSourceLanguageComboBoxText.Visibility = Visibility.Collapsed;
+
+                Height -= 50;
+            }
+
             // Ajustement de la taille de la fenêtre
             Height -= 125;
         }
@@ -1242,7 +1310,7 @@ namespace KNXBoostDesktop
             TranslationSourceLanguageComboBox.Visibility = Visibility.Collapsed;
 
             // Ajustement de la taille de la fenêtre
-            Height -= 90;
+            Height -= 50;
         }
 
         
@@ -1254,7 +1322,7 @@ namespace KNXBoostDesktop
             TranslationSourceLanguageComboBox.Visibility = Visibility.Visible;
 
             // Ajustement de la taille de la fenêtre
-            Height += 90;
+            Height += 50;
         }
         
         
