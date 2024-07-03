@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
+      <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
     </ItemGroup>
 
     <ItemGroup>
@@ -53,7 +54,19 @@
       <None Remove="resources\loupe.png" />
       <Resource Include="resources\loupe.png" />
       <None Remove="resources\settingsIcon2.png" />
-      <Resource Include="resources\settingsIcon2.png" />
+      <None Remove="resources\knx-logo-white.png" />
+      <Resource Include="resources\knx-logo-white.png" />
+      <None Remove="resources\knx-logo-white.ico" />
+      <Resource Include="resources\knx-logo-white.ico" />
+      <Resource Include="resources\exporterProjet.png" />
+      <None Remove="resources\telechargeur.png" />
+      <None Remove="resources\telecharger.png" />
+      <Resource Include="resources\telechargerProjet.png" />
+      <None Remove="resources\parametres-de-lapplication.png" />
+      <Resource Include="resources\parametres-de-lapplication.png" />
+      <None Remove="resources\BOOST.ico" />
+      <None Remove="resources\BOOST-2.ico" />
+      <Resource Include="resources\BOOST-2.ico" />
     </ItemGroup>
 
 </Project>

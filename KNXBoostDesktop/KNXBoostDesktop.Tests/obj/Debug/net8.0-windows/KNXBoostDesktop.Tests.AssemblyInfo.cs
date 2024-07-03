@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KNXBoostDesktop.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa84825570953f65a8badf5915fc0f9fdbb68651")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6c6daaedc9a651517ed5a89ed17686f9379b197")]
 [assembly: System.Reflection.AssemblyProductAttribute("KNXBoostDesktop.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KNXBoostDesktop.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
