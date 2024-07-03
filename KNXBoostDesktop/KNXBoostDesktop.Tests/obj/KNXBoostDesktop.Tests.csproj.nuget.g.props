@@ -21,5 +21,7 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgNUnit_Analyzers Condition=" '$(PkgNUnit_Analyzers)' == '' ">C:\Users\MINIPC\.nuget\packages\nunit.analyzers\3.9.0</PkgNUnit_Analyzers>
+    <PkgMicrosoft_Xaml_Behaviors_Wpf Condition=" '$(PkgMicrosoft_Xaml_Behaviors_Wpf)' == '' ">C:\Users\MINIPC\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.77</PkgMicrosoft_Xaml_Behaviors_Wpf>
+    <PkgMahApps_Metro Condition=" '$(PkgMahApps_Metro)' == '' ">C:\Users\MINIPC\.nuget\packages\mahapps.metro\3.0.0-alpha0492</PkgMahApps_Metro>
   </PropertyGroup>
 </Project>

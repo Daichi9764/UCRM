@@ -128,6 +128,10 @@
             "DeepL.net": {
               "target": "Package",
               "version": "[1.9.0, )"
+            },
+            "MahApps.Metro": {
+              "target": "Package",
+              "version": "[3.0.0-alpha0492, )"
             }
           },
           "imports": [

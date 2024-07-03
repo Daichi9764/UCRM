@@ -14,10 +14,13 @@ using System.Xml.Linq;
 using Microsoft.Win32;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Windows.Media.Animation;
+using MahApps.Metro.Controls;
+using Microsoft.Xaml.Behaviors.Media;
 
 namespace KNXBoostDesktop;
 
-public partial class MainWindow : Window
+public partial class MainWindow : MetroWindow 
 
 {
     /* ------------------------------------------------------------------------------------------------
@@ -44,8 +47,9 @@ public partial class MainWindow : Window
         //ViewModel.IsProjectImported = false;
 
         Title = $"{App.AppName} v{App.AppVersion}";
+        
 
-        Uri iconUri = new ("./resources/icon.ico", UriKind.RelativeOrAbsolute);
+        Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
         
@@ -187,7 +191,7 @@ public partial class MainWindow : Window
     }
     
 
-    private void ClosingMainWindow(object sender, CancelEventArgs e)
+    public void ClosingMainWindow(object sender, CancelEventArgs e)
     {
         Application.Current.Shutdown();
     }
@@ -360,7 +364,16 @@ public partial class MainWindow : Window
             tb.Text = "";
             tb.Foreground = new SolidColorBrush(Colors.Black);
         }
+
+        // Accéder à l'animation dans les ressources de la fenêtre
+        Storyboard expandAnimation = this.Resources["ExpandAnimation"] as Storyboard;
+        if (expandAnimation != null)
+        {
+            // Démarrer l'animation sur le TextBox qui a déclenché l'événement GotFocus
+            expandAnimation.Begin(tb);
+        }
     }
+
 
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
@@ -373,6 +386,23 @@ public partial class MainWindow : Window
                 tb.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }), System.Windows.Threading.DispatcherPriority.Background);
+        
+        // Accéder à l'animation dans les ressources de la fenêtre
+        Storyboard expandAnimation = this.Resources["DeExpandAnimation"] as Storyboard;
+        if (expandAnimation != null)
+        {
+            // Démarrer l'animation sur le TextBox qui a déclenché l'événement GotFocus
+            expandAnimation.Begin(tb);
+        }
+    }
+    private void txtSearch1_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter || e.Key == Key.Escape)
+        {
+            // Perdre le focus du TextBox
+            txtSearch1.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            e.Handled = true; // Pour indiquer que l'événement est géré
+        }
     }
 
     //-------------------- Gestion de la recherche ---------------------------------------------------//
@@ -639,6 +669,15 @@ public partial class MainWindow : Window
         }
     }
 
+    
+
+    private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            DragMove();
+        }
+    } 
 }
 
 
