@@ -184,7 +184,7 @@
             </Grid.RowDefinitions>
 
             <!-- Recherge et Boutons -->
-            <Grid Grid.Row="0" Margin="10,5,10,10" d:DataContext="{d:DesignInstance }">
+            <Grid Grid.Row="0" Margin="10,5,10,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -197,7 +197,22 @@
                             <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Background="White" Margin="-10,0,0,0" Padding="0">
                                 <DockPanel>
                                     <!-- Image de loupe -->
-                                    <Image Source="pack://application:,,,/resources/loupe.png" Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,5,0"/>
+                                    <Image Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,5,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V191.27 H191.2 V0 H0 Z">
+                                                        <DrawingGroup.Transform>
+                                                            <TranslateTransform X="0.004999995231628418" Y="0.0076204603537917137" />
+                                                        </DrawingGroup.Transform>
+                                                        <DrawingGroup Opacity="1">
+                                                            <GeometryDrawing Brush="#FF000000" Geometry="F1 M191.2,191.27z M0,0z M72.86,100.05C63.1,84.57 59.89,68.01 63.87,50.27 67.42,34.43 75.92,21.7 89.06,12.18 115.15,-6.72000000000001 151.18,-3.30000000000001 173.47,20.09 195.69,43.4 197.19,79.62 176.98,104.87 156.72,130.18 119.8,136.99 91.26,118.36 83.38,126.25 44.52,165.11 36.62,173.01 31.79,177.85 26.95,182.68 22.13,187.5 17.11,192.52 8.96999999999999,192.52 3.93999999999999,187.5 3.87999999999999,187.44 3.81999999999999,187.38 3.75999999999999,187.32 -1.26000000000001,182.3 -1.26000000000001,174.15 3.75999999999999,169.13 16.43,156.47 60.12,112.78 72.86,100.05z M125.48,23.05C103.79,23.7 86.08,41.32 85.32,63.01 84.48,86.99 104.07,106.65 128.06,105.91 149.76,105.24 167.46,87.58 168.17,65.88 168.96,41.94 149.41,22.34 125.48,23.05z" />
+                                                        </DrawingGroup>
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
 
                                     <!-- TextBox avec texte temporaire -->
                                     <TextBox x:Name="txtSearch1" 
@@ -235,15 +250,30 @@
                     <Button Name="chargerProjet" 
                             Style="{StaticResource Hover}" 
                             Click="ImportProjectButtonClick" 
-                            Width="200" Height="25" 
+                            Height="25" 
                             Margin="0,0,10,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="pack://application:,,,/resources/telechargerProjet.png" Width="20" Height="20" Margin="2,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="importProjet" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Charger un nouveau projet" Margin="0,0,5,0"/>
+                            <Image Grid.Column="0" Width="20" Height="15" Margin="2,0,5,0" VerticalAlignment="Center">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V800 H800 V0 H0 Z">
+                                                <DrawingGroup Opacity="1">
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M384.3,624.7C388.6,629 394.4,631.3 400,631.3 405.6,631.3 411.4,629.2 415.7,624.7L593,447.3C601.7,438.6 601.7,424.5 593,415.8 584.3,407.1 570.2,407.1 561.5,415.8L422.3,555.1 422.3,22.3C422.3,9.9 412.4,0 400,0 387.6,0 377.7,9.9 377.7,22.3L377.7,555.1 238.5,415.8C229.8,407.1 215.7,407.1 207,415.8 198.3,424.5 198.3,438.6 207,447.3L384.3,624.7z" />
+                                                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M703.5,755.5L96.5,755.5C84.1,755.5 74.2,765.4 74.2,777.8 74.2,790.2 84.1,800.1 96.5,800.1L703.5,800.1C715.9,800.1 725.8,790.2 725.8,777.8 725.8,765.4 715.9,755.5 703.5,755.5z" />
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock x:Name="importProjet" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Charger un nouveau projet" Margin="0,0,10,0"/>
                         </Grid>
                     </Button>
             
@@ -254,21 +284,50 @@
                             Background="White"
                             BorderThickness="1" BorderBrush="LightGray"
                             Padding="0">
-                        <Image x:Name="parametersImage" Width="25" Height="25"
+                            
+                        <Image x:Name="parametersImage" Width="15" Height="15"
                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Margin="0" Stretch="Fill"
-                               Source="pack://application:,,,/resources/parametres-de-lapplication.png"/>
+                               Margin="0" Stretch="Fill">
+                            <Image.Source>
+                                <DrawingImage>
+                                  <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V200 H200 V0 H0 Z">
+                                      <DrawingGroup.Transform>
+                                        <TranslateTransform X="0" Y="0.0099999997764825821" />
+                                      </DrawingGroup.Transform>
+                                      <GeometryDrawing Brush="#FF000000" Geometry="F1 M200,200z M0,0z M108.98,199.8C102.99,199.8 97,199.8 91.01,199.8 90.92,199.77 90.83,199.73 90.73,199.72 87.08,199.33 83.82,197.97 80.93,195.7 78.69,193.94 76.95,191.78 75.68,189.24 74.25,186.37 73.61,183.33 73.67,180.13 73.69,179.07 73.6,178.02 73.18,177.02 72.29,174.9 70.75,173.41 68.72,172.37 65.56,170.75 61.32,170.95 58.52,173.84 54.73,177.75 49.96,179.48 44.52,179.18 40.17,178.94 36.33,177.37 33.18,174.35 29.7,171 26.34,167.52 22.89,164.13 18.57,159.87 16.46,154.73 16.71,148.67 16.9,144.16 18.45,140.11 21.43,136.69 22.79,135.13 24.32,133.74 25.74,132.24 26.1,131.86 26.4,131.38 26.56,130.88 27.23,128.77 25.52,126.07 23.08,126.19 21.13,126.28 19.17,126.27 17.23,126.08 12.85,125.67 9.06,123.88 5.9,120.82 2.19,117.22 0.180000000000004,112.83 0.0900000000000043,107.65 0.0100000000000043,102.48 0.0400000000000043,97.3 0.0800000000000043,92.12 0.110000000000004,88.23 1.36,84.71 3.63,81.57 6.64,77.41 10.67,74.8 15.72,73.91 17.59,73.58 19.54,73.68 21.45,73.55 22.19,73.5 22.96,73.44 23.64,73.18 25.28,72.56 26.33,71.3 27.04,69.72 28.03,67.51 27.8,64.82 25.86,62.97 25.02,62.17 24.22,61.34 23.4,60.53 19.47,56.62 17.32,51.9 17.1,46.35 16.86,40.5 18.77,35.4 22.78,31.15 25.38,28.39 28.11,25.76 30.8,23.08 31.34,22.54 31.91,22.03 32.51,21.56 37.08,17.98 42.26,16.47 48.04,17.15 52.15,17.63 55.84,19.16 58.98,21.87 60.42,23.11 61.74,24.49 63.1,25.82 63.82,26.53 64.63,27.08 65.62,27.33 67.56,27.82 69.34,27.4 70.96,26.31 72.6,25.21 73.62,23.7 73.64,21.65 73.65,20.85 73.65,20.06 73.64,19.26 73.62,15.83 74.45,12.63 76.13,9.63999999999997 77.61,7.00999999999997 79.62,4.86999999999997 82.12,3.18999999999997 84.05,1.88999999999997 86.15,0.939999999999974 88.44,0.469999999999974 89.34,0.279999999999974 90.25,0.149999999999974 91.16,-0.0100000000000264 97.02,-0.0100000000000264 102.88,-0.0100000000000264 108.74,-0.0100000000000264 108.88,0.0199999999999736 109.02,0.0599999999999736 109.16,0.0899999999999736 110.2,0.279999999999974 111.26,0.379999999999974 112.27,0.669999999999974 116.77,1.92999999999997 120.36,4.50999999999997 122.98,8.36999999999997 124.93,11.23 126.07,14.42 126.21,17.91 126.28,19.6 126.25,21.29 126.27,22.99 126.28,23.36 126.29,23.75 126.38,24.1 127.01,26.4 130.53,27.61 132.37,25.64 133.39,24.55 134.47,23.51 135.53,22.45 138.87,19.11 142.91,17.2 147.59,16.74 153.83,16.13 159.26,18 163.75,22.4 167.17,25.75 170.55,29.14 173.9,32.55 179.29,38.02 180.77,45.88 177.77,52.85 176.8,55.09 175.42,57.04 173.66,58.73 172.73,59.63 172.05,60.68 171.71,61.94 171.13,64.03 171.32,66.07 172.15,68.05 173.14,70.39 174.76,72.15 177.15,73.13 178.05,73.5 179,73.6 179.97,73.59 181.9,73.57 183.81,73.71 185.67,74.23 190.08,75.46 193.65,77.89 196.32,81.62 198.55,84.75 199.81,88.23 199.85,92.09 199.9,97.27 199.91,102.44 199.85,107.62 199.8,112.25 198.14,116.3 195.09,119.75 192.28,122.94 188.75,124.95 184.59,125.83 182.6,126.25 180.58,126.24 178.56,126.24 178.07,126.24 177.58,126.24 177.11,126.34 174.39,126.92 172.48,129.71 172.32,132.32 172.2,134.24 172.96,135.75 174.33,137.09 178.72,141.39 180.48,146.62 179.47,152.69 178.87,156.35 177.09,159.44 174.47,162.05 170.37,166.14 166.26,170.22 162.17,174.33 159.05,177.46 155.35,179.32 150.91,179.64 147.47,179.89 144.25,179.17 141.24,177.49 139.54,176.55 138.13,175.26 136.73,173.93 136.22,173.45 135.62,172.98 134.98,172.72 132.55,171.74 130.34,172.33 128.37,173.91 126.93,175.06 126.22,176.59 126.25,178.47 126.27,179.96 126.25,181.47 126.1,182.95 125.69,186.89 124.11,190.33 121.51,193.3 118.8,196.4 115.43,198.41 111.42,199.34 110.65,199.54 109.81,199.65 108.98,199.8z M100.03,10.55C100.03,10.55 100.03,10.56 100.03,10.56 97.36,10.56 94.69,10.47 92.02,10.58 88.19,10.74 84.78,13.97 84.36,17.76 84.22,19.03 84.24,20.33 84.25,21.61 84.28,28.43 79.79,34.43 73.43,36.9 70.6,38 67.68,38.36 64.66,37.89 62.04,37.48 59.6,36.6 57.55,34.91 56.01,33.64 54.59,32.21 53.19,30.79 51.19,28.77 48.82,27.66 45.99,27.56 43.32,27.47 40.84,28.18 38.89,30.03 35.97,32.79 33.12,35.64 30.35,38.55 26.93,42.14 26.69,47.9 29.76,51.77 30.86,53.15 32.17,54.37 33.42,55.62 36.2,58.39 37.75,61.71 38.1,65.61 38.43,69.27 37.64,72.71 35.76,75.85 32.81,80.77 28.52,83.67 22.71,84.11 21.61,84.19 20.5,84.12 19.39,84.17 18.63,84.2 17.85,84.23 17.12,84.41 13.24,85.35 10.67,88.6 10.64,92.64 10.6,97.47 10.65,102.31 10.62,107.14 10.59,111.86 14.58,115.81 19.31,115.66 20.63,115.62 21.95,115.65 23.27,115.66 25.31,115.68 27.3,116.01 29.13,116.94 33.64,119.23 36.34,122.88 37.12,127.87 37.74,131.81 36.84,135.43 34.29,138.52 33.04,140.03 31.57,141.37 30.19,142.77 28.8,144.18 27.79,145.81 27.44,147.78 26.85,151.09 27.72,153.97 30.08,156.37 31.97,158.28 33.87,160.17 35.78,162.07 37.34,163.62 38.86,165.21 40.47,166.7 43.25,169.27 47.39,169.4 50.35,167.07 51.13,166.46 51.81,165.72 52.56,165.08 56.96,161.37 62.07,160.18 67.67,161.06 71.67,161.69 75.2,163.42 78.18,166.18 81.11,168.89 83.17,172.15 83.88,176.12 84.18,177.76 84.19,179.45 84.26,181.12 84.46,185.52 87.88,189.09 92.28,189.23 96.13,189.36 99.99,189.28 103.85,189.28 105.2,189.28 106.55,189.31 107.9,189.23 111.62,189.03 114.94,186.15 115.55,182.49 115.78,181.11 115.74,179.67 115.74,178.26 115.76,174.65 116.84,171.42 119.02,168.55 121.78,164.93 125.45,162.79 129.91,161.98 133.22,161.37 136.42,161.79 139.5,163.13 141.5,164 143.16,165.34 144.7,166.87 145.36,167.52 146.12,168.15 146.95,168.55 149.54,169.79 152.42,169.21 154.49,167.15 156.25,165.41 157.99,163.65 159.74,161.9 162.36,159.27 165.01,156.67 167.58,154 169.37,152.14 169.75,149.2 168.67,146.85 168.17,145.75 167.34,144.93 166.5,144.11 163.77,141.44 162.25,138.18 161.91,134.4 161.41,128.88 163.19,124.13 167.11,120.24 169.78,117.59 173.03,116.02 176.82,115.72 178.24,115.61 179.68,115.66 181.11,115.64 185.51,115.56 189.15,112.03 189.33,107.63 189.4,106.04 189.36,104.44 189.36,102.85 189.36,99.27 189.4,95.69 189.32,92.11 189.25,88.89 186.95,85.86 183.95,84.72 182.64,84.22 181.29,84.16 179.92,84.16 176.86,84.1499999999999 173.96,83.4799999999999 171.26,81.99 167.3,79.8 164.46,76.5899999999999 162.62,72.4799999999999 161.04,68.9499999999999 160.49,65.2599999999999 161.08,61.4199999999999 161.7,57.3999999999999 163.47,53.9699999999999 166.39,51.1099999999999 167.04,50.4699999999999 167.61,49.6899999999999 168.02,48.8799999999999 169.32,46.3099999999999 169.13,42.5599999999999 166.37,39.8699999999999 163.01,36.5999999999999 159.75,33.2299999999999 156.4,29.9499999999999 155.69,29.2499999999999 154.86,28.6199999999999 153.97,28.1799999999999 150.14,26.2799999999999 145.97,27.0099999999999 142.92,30.0199999999999 141.88,31.0499999999999 140.84,32.0899999999999 139.81,33.1299999999999 137.79,35.1699999999999 135.37,36.5199999999999 132.55,36.9599999999999 127.17,37.8099999999999 122.61,36.1499999999999 119.01,32.0599999999999 117.02,29.7899999999999 115.9,27.1099999999999 115.78,24.0699999999999 115.71,22.2999999999999 115.77,20.5199999999999 115.72,18.7499999999999 115.6,14.3199999999999 112.15,10.7499999999999 107.73,10.5699999999999 105.18,10.47 102.6,10.55 100.03,10.55z" />
+                                      <GeometryDrawing Brush="#FF000000" Geometry="F1 M200,200z M0,0z M99.91,63.09C120.21,63.01 136.73,79.42 136.81,99.78 136.9,120.39 120.05,136.72 100.05,136.74 79.76,136.75 63.24,120.35 63.17,99.96 63.12,79.96 79.26,63.16 99.91,63.09z M126.27,99.95C126.29,85.41 114.55,73.65 100,73.63 85.53,73.61 73.78,85.34 73.73,99.85 73.68,114.38 85.46,126.21 100.05,126.17 114.9,126.12 126.25,114.1 126.27,99.95z" />
+                                    </DrawingGroup>
+                                  </DrawingImage.Drawing>
+                                </DrawingImage> 
+                            </Image.Source>
+                        </Image>
                     </Button>
             
                     <!-- Export Button -->
-                    <Button Width="200" Height="25" Style="{StaticResource Hover}" IsEnabled="{Binding IsProjectImported}" Margin="0,0,-10,0">
+                    <Button Height="25" Style="{StaticResource Hover}" IsEnabled="{Binding IsProjectImported}" Margin="0,0,-10,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="pack://application:,,,/resources/exporterProjet.png" Width="20" Height="20" Margin="2,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="exportProjet" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Exporter le projet modifié" Margin="5,0,5,0"/>
+                            <Image Grid.Column="0" Width="20" Height="15" Margin="2,0,5,0" VerticalAlignment="Center">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V800 H800 V0 H0 Z">
+                                                <DrawingGroup Opacity="1">
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M415.7,6.6C411.4,2.3 405.6,0 400,0 394.4,0 388.6,2.1 384.3,6.6L207,183.9C198.3,192.6 198.3,206.7 207,215.4 215.7,224.1 229.8,224.1 238.5,215.4L377.7,76.2 377.7,609C377.7,621.4 387.6,631.3 400,631.3 412.4,631.3 422.3,621.4 422.3,609L422.3,76.2 561.5,215.4C570.2,224.1 584.3,224.1 593,215.4 601.7,206.7 601.7,192.6 593,183.9L415.7,6.6z" />
+                                                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M703.5,755.5L96.5,755.5C84.1,755.5 74.2,765.4 74.2,777.8 74.2,790.2 84.1,800.1 96.5,800.1L703.5,800.1C715.9,800.1 725.8,790.2 725.8,777.8 725.8,765.4 715.9,755.5 703.5,755.5z" />
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock x:Name="exportProjet" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Exporter le projet modifié" Margin="0,0,10,0"/>
                         </Grid>
                     </Button>
                     
@@ -295,7 +354,77 @@
 
                     <!-- Titre et Icon/-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top" >
-                        <Image Source="D:\OneDrive - INSA Toulouse\Téléchargements\svgtopng\IconAdressesdeGroupe.png" Height="20" Margin="10" />
+        <Image Height="20" Margin="10">
+                            <Image.Source>
+                                <DrawingImage >
+                                  <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
+                                      <DrawingGroup Opacity="1">
+                                        <GeometryDrawing Brush="#FF9199A3">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                      </DrawingGroup>
+                                      <DrawingGroup Opacity="1">
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FF3C4B5E">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <DrawingGroup Opacity="1">
+                                          <GeometryDrawing Brush="#FF334A9A">
+                                            <GeometryDrawing.Geometry>
+                                              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                            </GeometryDrawing.Geometry>
+                                          </GeometryDrawing>
+                                          <GeometryDrawing Brush="#FF334A9A">
+                                            <GeometryDrawing.Geometry>
+                                              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                            </GeometryDrawing.Geometry>
+                                          </GeometryDrawing>
+                                        </DrawingGroup>
+                                        <GeometryDrawing Brush="#FF334A9A">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FF334A9A">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFB82318">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                      </DrawingGroup>
+                                    </DrawingGroup>
+                                  </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
                         <TextBlock Text="Adresses de Groupe Originales" FontSize="14" FontWeight="Bold" Margin="0,10"/>
                     </StackPanel>
 
@@ -334,7 +463,77 @@
 
                     <!-- Titre et Icon/-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
-                            <Image Source="D:\OneDrive - INSA Toulouse\Téléchargements\svgtopng\IconAdressesdeGroupe.png" Height="20" Margin="10"  />
+                        <Image Height="20" Margin="10">
+                            <Image.Source>
+                                <DrawingImage >
+                                  <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
+                                      <DrawingGroup Opacity="1">
+                                        <GeometryDrawing Brush="#FF9199A3">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                      </DrawingGroup>
+                                      <DrawingGroup Opacity="1">
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FF3C4B5E">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <DrawingGroup Opacity="1">
+                                          <GeometryDrawing Brush="#FF334A9A">
+                                            <GeometryDrawing.Geometry>
+                                              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                            </GeometryDrawing.Geometry>
+                                          </GeometryDrawing>
+                                          <GeometryDrawing Brush="#FF334A9A">
+                                            <GeometryDrawing.Geometry>
+                                              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                            </GeometryDrawing.Geometry>
+                                          </GeometryDrawing>
+                                        </DrawingGroup>
+                                        <GeometryDrawing Brush="#FF334A9A">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FF334A9A">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="#FFB82318">
+                                          <GeometryDrawing.Geometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                          </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                      </DrawingGroup>
+                                    </DrawingGroup>
+                                  </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
                             <TextBlock Text="Adresses de Groupe Modifiées" FontSize="14" FontWeight="Bold" Margin="0,10"/>
                         </StackPanel>
                     
