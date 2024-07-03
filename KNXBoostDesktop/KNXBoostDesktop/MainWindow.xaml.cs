@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Microsoft.Win32;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 
 namespace KNXBoostDesktop;
 
@@ -204,52 +205,84 @@ public partial class MainWindow : Window
         LoadXmlFile(xmlFilePath1, treeView1);
         LoadXmlFile(xmlFilePath2, treeView2);
     }
-
+    
     private static void LoadXmlFile(string filePath, TreeView treeView)
-    {
-        try
         {
-            XmlDocument xmlDoc = new();
-            xmlDoc.Load(filePath);
-
-            treeView.Items.Clear();
-
-            // Ajouter tous les nœuds récursivement
-            if (xmlDoc.DocumentElement != null)
+            try
             {
-                foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
+                XmlDocument xmlDoc = new();
+                xmlDoc.Load(filePath);
+
+                treeView.Items.Clear();
+
+                // Ajouter tous les nœuds récursivement
+                if (xmlDoc.DocumentElement != null)
                 {
-                    AddNodeRecursively(node, treeView.Items);
+                    foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
+                    {
+                        AddNodeRecursively(node, treeView.Items, 0);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
 
-    private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems)
+    private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
     {
         if (xmlNode.NodeType == XmlNodeType.Element)
         {
-            TreeViewItem treeNode = CreateTreeViewItemFromXmlNode(xmlNode);
+            TreeViewItem treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
 
             parentItems.Add(treeNode);
 
             // Parcourir récursivement les enfants
             foreach (XmlNode childNode in xmlNode.ChildNodes)
             {
-                AddNodeRecursively(childNode, treeNode.Items);
+                AddNodeRecursively(childNode, treeNode.Items, level + 1);
             }
         }
     }
 
-    private static TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode)
+    private static TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
     {
-        TreeViewItem treeNode = new() { Header = ((XmlElement)xmlNode).GetAttribute("Name") };
+        StackPanel stack = new StackPanel { Orientation = Orientation.Horizontal };
+
+        // Définir l'icône en fonction du niveau
+        Image icon = new Image
+        {
+            Width = 16,
+            Height = 16,
+            Margin = new Thickness(0, 0, 5, 0)
+        };
+
+        switch (level)
+        {
+            case 0:
+                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level.png"));
+                break;
+            case 1:
+                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level2.png"));
+                break;
+            case 2:
+                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"));
+                break;
+            default:
+                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"));
+                break;
+        }
+
+        TextBlock text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
+
+        stack.Children.Add(icon);
+        stack.Children.Add(text);
+
+        TreeViewItem treeNode = new() { Header = stack };
         return treeNode;
     }
+    
 
     //-------------------- Gestion du scroll verticale synchronisé ------------------------------------//
 
@@ -317,9 +350,6 @@ public partial class MainWindow : Window
     }
     
     
-    
-    
-    
     // CHANGMENTS NATHAN
     
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -347,106 +377,87 @@ public partial class MainWindow : Window
 
     //-------------------- Gestion de la recherche ---------------------------------------------------//
 
-    private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
+    private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
+    {
+     
+        if (txtSearch1.Text != "Chercher...")
         {
-            HandleSearchTextChanged(treeView1, txtSearch1.Text);
-        }
+            string normalizedSearchText = NormalizeString(txtSearch1.Text);
 
-       /* private void TxtSearch2_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            HandleSearchTextChanged(treeView2, txtSearch2.Text);
-        }*/
-
-        private static void HandleSearchTextChanged(TreeView treeView, string searchText)
-        {
-            // Formate le texte entrée
-            string normalizedSearchText = NormalizeString(searchText);
-
-            // Si le champ de recherche est vide, réinitialiser la TreeView avec tous les éléments visibles
-            if (string.IsNullOrWhiteSpace(normalizedSearchText))
-            {
-                ResetTreeViewItemsVisibility(treeView.Items);
-            }
-            else
-            {
-                // Filtrer et masquer les éléments de la TreeView basé sur le texte de recherche
-                foreach (object obj in treeView.Items)
-                {
-                    if (obj is TreeViewItem item)
-                    {
-                        // Réinitialiser la visibilité avant de filtrer
-                        item.Visibility = Visibility.Visible;
-                        FilterTreeViewItems(item, normalizedSearchText);
-                    }
-                }
-            }
-        }
-
-        private static void ResetTreeViewItemsVisibility(ItemCollection items)
-        {
-            // Réinitialiser la visibilité de tous les éléments de la TreeView
-            foreach (object obj in items)
+            // Filtrer et masquer les éléments de la TreeView basé sur le texte de recherche
+            foreach (object obj in treeView1.Items)
             {
                 if (obj is TreeViewItem item)
                 {
-                    item.Visibility = Visibility.Visible; // Rendre visible l'élément
-                    item.IsExpanded = false; // Réduire tous les éléments pour commencer
-                    ResetTreeViewItemsVisibility(item.Items); // Appeler récursivement pour les enfants
+                    item.Visibility = Visibility.Visible;
+                    FilterTreeViewItems(item, normalizedSearchText);
                 }
             }
         }
+    }
 
-        private static bool FilterTreeViewItems(TreeViewItem item, string searchText)
+    private static bool FilterTreeViewItems(TreeViewItem item, string searchText)
+    {
+        bool itemVisible = false; // Indicateur pour déterminer si l'élément est visible
+
+        // Extraire le texte du TextBlock dans le Header du TreeViewItem
+        string? headerText = null;
+        if (item.Header is StackPanel headerStack)
         {
-            bool itemVisible = false; // Indicateur pour déterminer si l'élément est visible
-
-            string? header = item.Header?.ToString();
-            if (header == null)
+            var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
+            if (textBlock != null)
             {
-                return false; // Si l'entête est null, l'élément n'est pas visible
+                headerText = textBlock.Text;
             }
-
-            string normalizedHeader = NormalizeString(header);
-
-            // Vérifier si l'élément correspond au texte de recherche
-            if (normalizedHeader.Contains(searchText))
-            {
-                item.Visibility = Visibility.Visible; // Rendre visible l'élément
-                item.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
-                itemVisible = true; // Indiquer que l'élément est visible
-            }
-            else
-            {
-                item.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
-            }
-
-            // Filtrer récursivement les enfants
-            bool hasVisibleChild = false;
-            foreach (object obj in item.Items)
-            {
-                if (obj is TreeViewItem childItem)
-                {
-                    // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
-                    bool childVisible = FilterTreeViewItems(childItem, searchText);
-                    if (childVisible)
-                    {
-                        hasVisibleChild = true;
-                        item.IsExpanded = true; // Développer l'élément si un enfant est visible
-                    }
-                }
-            }
-
-            // Si un enfant est visible, rendre visible cet élément
-            if (hasVisibleChild)
-            {
-                item.Visibility = Visibility.Visible;
-                itemVisible = true;
-            }
-
-            return itemVisible; // Retourner l'état de visibilité de l'élément
         }
 
-        private static string NormalizeString(string input)
+        if (headerText == null)
+        {
+            item.Visibility = Visibility.Collapsed;
+            return false; // Si l'entête est null, l'élément n'est pas visible
+        }
+
+        string normalizedHeader = NormalizeString(headerText);
+
+        // Vérifier si l'élément correspond au texte de recherche
+        if (normalizedHeader.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+        {
+            item.Visibility = Visibility.Visible; // Rendre visible l'élément
+            item.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
+            itemVisible = true; // Indiquer que l'élément est visible
+        }
+        else
+        {
+            item.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
+        }
+
+        // Filtrer récursivement les enfants
+        bool hasVisibleChild = false;
+        foreach (object obj in item.Items)
+        {
+            if (obj is TreeViewItem childItem)
+            {
+                // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
+                bool childVisible = FilterTreeViewItems(childItem, searchText);
+                if (childVisible)
+                {
+                    hasVisibleChild = true;
+                    item.IsExpanded = true; // Développer l'élément si un enfant est visible
+                }
+            }
+        }
+
+        // Si un enfant est visible, rendre visible cet élément
+        if (hasVisibleChild)
+        {
+            item.Visibility = Visibility.Visible;
+            itemVisible = true;
+        }
+
+        return itemVisible; // Retourner l'état de visibilité de l'élément
+    }
+
+    private static string NormalizeString(string input)
         {
             if (input == null) return string.Empty;
 
@@ -465,189 +476,6 @@ public partial class MainWindow : Window
             // Remove spaces, underscores, and hyphens
             return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
         }
-
-        private void ToggleSearchVisibility1(object sender, RoutedEventArgs e)
-        {
-            if (txtSearch1.Visibility == Visibility.Visible)
-            {
-                txtSearch1.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                txtSearch1.Visibility = Visibility.Visible;
-            }
-        }
-
-         /* private void ToggleSearchVisibility2(object sender, RoutedEventArgs e)
-        {
-            if (txtSearch2.Visibility == Visibility.Visible)
-            {
-                txtSearch2.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                txtSearch2.Visibility = Visibility.Visible;
-            }
-        }*/
-        
-
-    /*private void TxtSearch1_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        HandleSearchTextChangedForBothTrees(txtSearch1.Text);
-    }
-
-    private void HandleSearchTextChangedForBothTrees(string searchText)
-    {
-        var visibilityTreeView1 = new Dictionary<string, bool>();
-        var visibilityTreeView2 = new Dictionary<string, bool>();
-
-        HandleSearchTextChanged(treeView1, searchText, visibilityTreeView1);
-        HandleSearchTextChanged(treeView2, searchText, visibilityTreeView2);
-
-        SynchronizeTreeViewVisibility(treeView1.Items, visibilityTreeView1, visibilityTreeView2);
-        SynchronizeTreeViewVisibility(treeView2.Items, visibilityTreeView1, visibilityTreeView2);
-    }
-
-    private static void HandleSearchTextChanged(TreeView treeView, string searchText, Dictionary<string, bool> visibilityDictionary)
-    {
-        string normalizedSearchText = NormalizeString(searchText);
-
-        if (string.IsNullOrWhiteSpace(normalizedSearchText))
-        {
-            ResetTreeViewItemsVisibility(treeView.Items, visibilityDictionary);
-        }
-        else
-        {
-            foreach (object obj in treeView.Items)
-            {
-                if (obj is TreeViewItem item)
-                {
-                    item.Visibility = Visibility.Visible;
-                    FilterTreeViewItems(item, normalizedSearchText, visibilityDictionary);
-                }
-            }
-        }
-    }
-
-    private static void ResetTreeViewItemsVisibility(ItemCollection items, Dictionary<string, bool> visibilityDictionary)
-    {
-        foreach (object obj in items) 
-        {
-            if (obj is TreeViewItem item)
-            {
-                item.Visibility = Visibility.Visible;
-                item.IsExpanded = false;
-                visibilityDictionary[item.Header.ToString()] = true;
-                ResetTreeViewItemsVisibility(item.Items, visibilityDictionary);
-            }
-        }
-    }
-
-    private static bool FilterTreeViewItems(TreeViewItem item, string searchText, Dictionary<string, bool> visibilityDictionary)
-    {
-        bool itemVisible = false;
-
-        string? header = item.Header?.ToString();
-        if (header == null)
-        {
-            return false;
-        }
-
-        string normalizedHeader = NormalizeString(header);
-
-        if (normalizedHeader.Contains(searchText))
-        {
-            item.Visibility = Visibility.Visible;
-            item.IsExpanded = true;
-            itemVisible = true;
-        }
-        else
-        {
-            item.Visibility = Visibility.Collapsed;
-        }
-
-        bool hasVisibleChild = false;
-        foreach (object obj in item.Items)
-        {
-            if (obj is TreeViewItem childItem)
-            {
-                bool childVisible = FilterTreeViewItems(childItem, searchText, visibilityDictionary);
-                if (childVisible)
-                {
-                    hasVisibleChild = true;
-                    item.IsExpanded = true;
-                }
-            }
-        }
-
-        if (hasVisibleChild)
-        {
-            item.Visibility = Visibility.Visible;
-            itemVisible = true;
-        }
-
-        visibilityDictionary[header] = itemVisible;
-
-        return itemVisible;
-    }
-
-    private static void SynchronizeTreeViewVisibility(ItemCollection items, Dictionary<string, bool> visibilityTreeView1, Dictionary<string, bool> visibilityTreeView2)
-    {
-        foreach (object obj in items)
-        {
-            if (obj is TreeViewItem item)
-            {
-                string? header = item.Header?.ToString();
-                if (header != null)
-                {
-                    bool isVisibleInTreeView1 = visibilityTreeView1.ContainsKey(header) && visibilityTreeView1[header];
-                    bool isVisibleInTreeView2 = visibilityTreeView2.ContainsKey(header) && visibilityTreeView2[header];
-
-                    if (isVisibleInTreeView1 || isVisibleInTreeView2)
-                    {
-                        item.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        item.Visibility = Visibility.Collapsed;
-                    }
-                    SynchronizeTreeViewVisibility(item.Items, visibilityTreeView1, visibilityTreeView2);
-                }
-            }
-        }
-    }
-
-    private static string NormalizeString(string input)
-    {
-        if (input == null) return string.Empty;
-
-        string normalizedString = input.Normalize(NormalizationForm.FormD);
-        StringBuilder stringBuilder = new();
-
-        foreach (char c in normalizedString)
-        {
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-            {
-                stringBuilder.Append(c);
-            }
-        }
-
-        return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
-    }
-
-    private void ToggleSearchVisibility1(object sender, RoutedEventArgs e)
-    {
-        if (txtSearch1.Visibility == Visibility.Visible)
-        {
-            txtSearch1.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            txtSearch1.Visibility = Visibility.Visible;
-        }
-    }
-
-    */
 
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
 
@@ -699,22 +527,34 @@ public partial class MainWindow : Window
 
     private static string? GetItemPath(TreeViewItem item)
     {
-        if (item.Header == null)
+        if (item.Header is not StackPanel headerStack)
         {
             return null;
         }
 
-        string? path = item.Header?.ToString();
+        var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
+        if (textBlock == null)
+        {
+            return null;
+        }
+
+        string? path = textBlock.Text;
         var parent = item.Parent as TreeViewItem;
 
         while (parent != null)
         {
-            if (parent.Header == null)
+            if (parent.Header is not StackPanel parentHeaderStack)
             {
                 return null;
             }
 
-            path = parent.Header.ToString() + "\\&" + path;
+            var parentTextBlock = parentHeaderStack.Children.OfType<TextBlock>().FirstOrDefault();
+            if (parentTextBlock == null)
+            {
+                return null;
+            }
+
+            path = parentTextBlock.Text + "\\&" + path;
             parent = parent.Parent as TreeViewItem;
         }
         return path;
@@ -723,7 +563,6 @@ public partial class MainWindow : Window
     private static TreeViewItem? FindTreeViewItemByPath(TreeView treeView, string path)
     {
         _ = path ?? throw new ArgumentNullException(nameof(path));
-
 
         string[] parts = path.Split("\\&");
         ItemCollection items = treeView.Items;
@@ -735,11 +574,15 @@ public partial class MainWindow : Window
             foreach (object item in items)
             {
                 TreeViewItem? treeViewItem = item as TreeViewItem;
-                if (treeViewItem is not null && treeViewItem.Header?.ToString() == part)
+                if (treeViewItem is not null && treeViewItem.Header is StackPanel headerStack)
                 {
-                    currentItem = treeViewItem;
-                    items = treeViewItem.Items;
-                    break;
+                    var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
+                    if (textBlock != null && textBlock.Text == part)
+                    {
+                        currentItem = treeViewItem;
+                        items = treeViewItem.Items;
+                        break;
+                    }
                 }
             }
             if (currentItem == null) return null;
@@ -747,45 +590,29 @@ public partial class MainWindow : Window
         return currentItem;
     }
 
-    //--------------------- Gestion rétractation synchronisé ----------------------------------------------//
+
+    //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
 
     private bool isTreeViewExpanded = false;
+
     private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
-    {
-        btnCollapseAll_Click(sender, e);
-
-        //Fonction pour tourner le bouton non fonctionnel
-        //btnToggleArrow_Click(sender, e);
-    }
-
-    private void btnCollapseAll_Click(object sender, RoutedEventArgs e)
     {
         if (isTreeViewExpanded)
         {
+            rotateTransform.Angle = -90;
+            rotateTransform2.Angle = -90;
             CollapseAllTreeViewItems(treeView1.Items);
             CollapseAllTreeViewItems(treeView2.Items);
         }
         else
         {
+            rotateTransform.Angle = 0;
+            rotateTransform2.Angle = 0;
             ExpandAllTreeViewItems(treeView1.Items);
             ExpandAllTreeViewItems(treeView2.Items);
         }
 
         isTreeViewExpanded = !isTreeViewExpanded; // Inverser l'état
-    }
-
-    private void btnToggleArrow_Click(object sender, RoutedEventArgs e)
-    {
-        isTreeViewExpanded = !isTreeViewExpanded; // Inverser l'état
-
-        if (isTreeViewExpanded)
-        {
-            rotateTransform.Angle = -90; // Rotation vers la droite
-        }
-        else
-        {
-            rotateTransform.Angle = 0; // Rotation vers le bas
-        }
     }
 
     private void CollapseAllTreeViewItems(ItemCollection items)

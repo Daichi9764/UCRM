@@ -12,50 +12,13 @@
 
 
     <Window.Resources>
-        <!-- Style pour le bouton Import KNX Project -->
-        <Style x:Key="ImportButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#FF6200EE"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="BorderBrush" Value="#FF3700B3"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}"
-                                CornerRadius="15">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF3700B3"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FF6200EE"/>
-                    <Setter Property="BorderBrush" Value="#FF6200EE"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!-- Style pour un autre bouton -->
+        <!-- Style Bouton Console -->
         <Style x:Key="AnotherButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#FF009688"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="BorderBrush" Value="#FF00796B"/>
-            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
@@ -127,16 +90,29 @@
             </Style.Triggers>
         </Style>
         
+        <!-- Style bouton invisible -->
+        <Style x:Key="ToggleButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#D7D7D7" />
+        </Style>
+
     </Window.Resources>
 
     <Border BorderBrush="#369226" BorderThickness="1" Padding="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <!-- Recherche et boutons -->
-                <RowDefinition Height="*"/>
-                <!-- Scroll Horizontal -->
                 <RowDefinition Height="Auto"/>
+                <!-- Arbres -->
+                <RowDefinition Height="*"/>
                 <!-- Temporaire avec ouvrir console -->
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -145,7 +121,7 @@
 
 
             <!-- Recherge et Boutons -->
-    <Grid Margin="10" d:DataContext="{d:DesignInstance }">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -156,17 +132,22 @@
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Background="White" Margin="0">
-                        <DockPanel Width="150" Height="20">
-                            <!-- Image de loupe -->
-                            <Image Source="pack://application:,,,/resources/loupe.png" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                                <DockPanel Width="150" Height="20">
+                                    <!-- Image de loupe -->
+                                    <Image Source="pack://application:,,,/resources/loupe.png" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
 
-                            <!-- TextBox avec texte temporaire -->
-                            <TextBox x:Name="txtSearch1" VerticalContentAlignment="Center" Margin="0,0,0,0" BorderThickness="0" Background="Transparent"
+                                    <!-- TextBox avec texte temporaire -->
+                                    <TextBox x:Name="txtSearch1" VerticalContentAlignment="Center" Margin="0,0,0,0" BorderThickness="0" Background="Transparent"
                                      Foreground="Gray" Text="Chercher..."
-                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                        </DockPanel>
+                                     GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                     TextChanged="TxtSearch_TextChanged"/>
+                                </DockPanel>
                     </Border>
-                </StackPanel>
+                    
+                    <!-- Buttons de la console -->
+                    <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="25" Content="C" Margin="5" Style="{StaticResource AnotherButtonStyle}"/>
+                    
+                 </StackPanel>
             </Grid>
         </StackPanel>
 
@@ -219,36 +200,23 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- Adresses de Groupes Originales/-->
                 <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
                     <Border Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,2"/>
 
-  
-                            
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top" >
-                            <Image Source="D:\OneDrive - INSA Toulouse\Téléchargements\svgtopng\IconAdressesdeGroupe.png" Height="20" Margin="10" />
-                            <TextBlock Text="Adresses de Groupe Originales" FontSize="14" FontWeight="Bold" Margin="0,10"/>
-                        </StackPanel>
+                    <!-- Titre et Icon/-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                        <Image Source="D:\OneDrive - INSA Toulouse\Téléchargements\svgtopng\IconAdressesdeGroupe.png" Height="20" Margin="10" />
+                        <TextBlock Text="Adresses de Groupe Originales" FontSize="14" FontWeight="Bold" Margin="0,10"/>
+                    </StackPanel>
 
-                    <Button x:Name="btnToggleArrow" Click="btnCollapseAndToggle_Click" Width="20" Height="20" HorizontalAlignment="Right" Margin="10"  >
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="Transparent">
-                                                <ContentPresenter />
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Foreground" Value="#D7D7D7" />
-                            </Style>
-                        </Button.Style>
+                    <!-- Bouton déploiement/-->
+                    <Button x:Name="btnToggleArrow" Click="btnCollapseAndToggle_Click" Width="20" Height="20" HorizontalAlignment="Right" Margin="10"  Style="{StaticResource ToggleButtonStyle}" >
                         <TextBlock Text="▼" x:Name="tbArrowIcon" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <TextBlock.RenderTransform>
                                 <RotateTransform Angle="0" CenterX="6" CenterY="7" x:Name="rotateTransform"/>
@@ -256,20 +224,22 @@
                         </TextBlock>
                     </Button>
 
-
+                    <!-- Arbre 1/-->
                     <ScrollViewer Grid.Row="1" Name="scrollViewer1" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                         <TreeView x:Name="treeView1" ItemContainerStyle="{StaticResource TreeViewItemStyle}" BorderThickness="0" />
                     </ScrollViewer>
 
                 </Grid>
+                
+                <!-- Bordure de contour Gauche/-->
                 <Border Grid.Column="0" BorderBrush="#D7D7D7 " BorderThickness="2,2,0,2"/>
 
 
-                <!-- GridSplitter to adjust the width of the TreeViews -->
+                <!-- Ajuster les largeurs de fenêtres -->
                 <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D7D7D7"/>
-                
 
 
+                <!-- Adresses de Groupes Originales/-->
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -278,35 +248,34 @@
 
                     <Border Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,2"/>
 
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                    <!-- Titre et Icon/-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
                             <Image Source="D:\OneDrive - INSA Toulouse\Téléchargements\svgtopng\IconAdressesdeGroupe.png" Height="20" Margin="10"  />
                             <TextBlock Text="Adresses de Groupe Modifiées" FontSize="14" FontWeight="Bold" Margin="0,10"/>
                         </StackPanel>
+                    
+                    <!-- Bouton déploiement/-->
+                    <Button x:Name="btnToggleArrow2" Click="btnCollapseAndToggle_Click" Width="20" Height="20" HorizontalAlignment="Right" Margin="10"  Style="{StaticResource ToggleButtonStyle}" >
+                        <TextBlock Text="▼" x:Name="tbArrowIcon2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="6" CenterY="7" x:Name="rotateTransform2"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Button>
 
-                    </Grid>
 
+                    <!-- Arbre 2/-->
                     <ScrollViewer Grid.Row="1" Name="scrollViewer2" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <TreeView x:Name="treeView2" ItemContainerStyle="{StaticResource TreeViewItemStyle}" BorderThickness="0" />
                     </ScrollViewer>
 
                 </Grid>
+                
+                <!-- Bordure de contour Droit/-->
                 <Border Grid.Column="2" BorderBrush="#D7D7D7 " BorderThickness="0,2,2,2"/>
 
 
             </Grid>
-
-            <!-- Buttons de la console -->
-            <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
-                <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-            </StackPanel>
         </Grid>
     </Border>
 </Window>

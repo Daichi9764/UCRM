@@ -33,10 +33,16 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="resources\Icon_level.png" />
+      <None Remove="resources\Icon_level2.png" />
+      <None Remove="resources\Icon_level3.png" />
       <None Remove="upload.png" />
     </ItemGroup>
 
     <ItemGroup>
+      <Resource Include="resources\Icon_level.png" />
+      <Resource Include="resources\Icon_level2.png" />
+      <Resource Include="resources\Icon_level3.png" />
       <Resource Include="resources\upload.png" />
       <None Remove="resources\download.png" />
       <Resource Include="resources\download.png" />
