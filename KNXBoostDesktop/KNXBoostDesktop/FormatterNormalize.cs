@@ -73,6 +73,12 @@ public class FormatterNormalize : Formatter
             throw new ApplicationException($"An error occurred while normalizing '{input}': {ex.Message}", ex);
         }
     }
+
+    public override string Translate(string input)
+    {
+        App.ConsoleAndLogWrite("Translate method is not implemented in FormatterNormalize");
+        return string.Empty;
+    }
 }
 
 

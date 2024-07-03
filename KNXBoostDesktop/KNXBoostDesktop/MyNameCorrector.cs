@@ -264,8 +264,23 @@ public class MyNameCorrector
                                 var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Translate the group name
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    {
+                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
+                                        if (nameAncestorGrpRange != null)
+                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                    }
                                     // Format the name of the ancestor GroupRange
                                     nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+                                }
+                                
+                                // Translate the group name
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                {
+                                    var nameGrpRange = groupRangeElement.Attribute("Name");
+                                    if (nameGrpRange != null)
+                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
                                 }
 
                                 // Format the name of the current GroupRange
@@ -328,8 +343,7 @@ public class MyNameCorrector
 
                     if (groupAddressElement != null)
                     {
-                        App.ConsoleAndLogWriteLine(
-                            $"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                        App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
                         var nameAttr = groupAddressElement.Attribute("Name");
                         if (nameAttr != null)
                         {
@@ -343,11 +357,25 @@ public class MyNameCorrector
                                     .FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Translate the group name
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    {
+                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
+                                        if (nameAncestorGrpRange != null)
+                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                    }
                                     // Format the name of the ancestor GroupRange
                                     nameFunction =
                                         $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                 }
 
+                                // Translate the group name
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                {
+                                    var nameGrpRange = groupRangeElement.Attribute("Name");
+                                    if (nameGrpRange != null)
+                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
+                                }
                                 // Format the name of the current GroupRange
                                 nameFunction +=
                                     $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";

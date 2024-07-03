@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using DeepL;
 using DeepL.Model;
+using System.Threading.Tasks;
 
 namespace KNXBoostDesktop
 {
@@ -25,10 +26,10 @@ namespace KNXBoostDesktop
                 
                 // Translate the input string
                 var translated = Task.Run(() => GetTranslatedStringAsync(input)).Result;
-
+                
                 // Replace all punctuation with spaces
                 translated = Regex.Replace(translated, @"[\p{P}]", " ");
-
+                
                 // Convert to lowercase
                 translated = translated.ToLower();
 
@@ -36,10 +37,10 @@ namespace KNXBoostDesktop
                 translated = translated.Replace(" ", "_");
 
                 // Split the words, capitalize each one, and join without underscores
-                string[] words = translated.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < words.Length; i++)
-                {
-                    words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
+                string[] words = translated.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries); 
+                for (int i = 0; i < words.Length; i++) 
+                { 
+                    words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]); 
                 }
 
                 return string.Join("", words);
@@ -47,6 +48,20 @@ namespace KNXBoostDesktop
             catch (Exception ex)
             {
                 App.ConsoleAndLogWriteLine($"Error in Format method in FormatterTranslate: {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        public override string Translate(string input)
+        {
+            try
+            {
+                // Translate the input string 
+                return Task.Run(() => GetTranslatedStringAsync(input)).Result;
+            }
+            catch (Exception ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error in Translate method in FormatterTranslate: {ex.Message}");
                 return string.Empty;
             }
         }
@@ -71,7 +86,7 @@ namespace KNXBoostDesktop
 
                 if (string.IsNullOrEmpty(authKey))
                 {
-                    throw new ArgumentNullException($"DeepL API key is not configured.");
+                    throw new ArgumentNullException("DeepL API key is not configured.");
                 }
 
                 // Initialize the DeepL Translator
