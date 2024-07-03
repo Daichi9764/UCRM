@@ -177,13 +177,10 @@
         
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
                 <!-- Recherche et boutons -->
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
                 <!-- Arbres -->
                 <RowDefinition Height="*"/>
-                <!-- Temporaire avec ouvrir console -->
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Recherge et Boutons -->
