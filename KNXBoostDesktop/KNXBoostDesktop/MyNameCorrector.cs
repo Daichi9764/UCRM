@@ -1,12 +1,16 @@
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using DeepL;
 namespace KNXBoostDesktop;
 
 public class MyNameCorrector
 {
     private static XNamespace _globalKnxNamespace = string.Empty;
     private static string _projectFilesDirectory = string.Empty;
+    public static string AuthKey { get; private set; }
+    public static Translator Translator { get; private set; }
+    public static bool ValidDeeplKey; 
     
     public static async Task CorrectName(LoadingWindow loadingWindow)
     {
@@ -58,7 +62,15 @@ public class MyNameCorrector
             Formatter formatter;
             if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
-                formatter= new FormatterTranslate();
+                ValidDeeplKey = CheckDeeplKey();
+                if (ValidDeeplKey)
+                {
+                    formatter= new FormatterTranslate();
+                }
+                else
+                {
+                    formatter= new FormatterNormalize();
+                }
             }
             else
             { 
@@ -73,7 +85,6 @@ public class MyNameCorrector
                 .Where(s => s.Attribute("Type")?.Value == "Room" || s.Attribute("Type")?.Value == "Corridor")
                 .Select(room => new
                 {
-                    RoomId = room.Attribute("Id")?.Value, //peut être inutile
                     RoomName = room.Attribute("Name")?.Value,
                     FloorName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Floor")?.Attribute("Name")?.Value,
                     BuildingPartName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "BuildingPart")?.Attribute("Name")?.Value,
@@ -96,7 +107,7 @@ public class MyNameCorrector
                     message = $"Distribution Board Name : {loc.DistributionBoardName} ";
                 }
 
-                message += $"Room ID: {loc.RoomId}, Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}";
+                message += $"Room Name: {loc.RoomName}, Floor: {loc.FloorName}, Building Part: {loc.BuildingPartName}, Building: {loc.BuildingName}";
                 App.ConsoleAndLogWriteLine(message);
                 foreach (var deviceRef in loc.DeviceRefs)
                 {
@@ -264,27 +275,31 @@ public class MyNameCorrector
                                 var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Format the name of the ancestor GroupRange
+                                    nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+                                    
                                     // Translate the group name
-                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
                                         if (nameAncestorGrpRange != null)
                                             nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
                                     }
-                                    // Format the name of the ancestor GroupRange
-                                    nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+                                    
                                 }
                                 
+                                // Format the name of the current GroupRange
+                                nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+                                
                                 // Translate the group name
-                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
                                     if (nameGrpRange != null)
                                         nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
                                 }
 
-                                // Format the name of the current GroupRange
-                                nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+                                
                             }
 
                             // Construct the new name by combining the object type, function, and location
@@ -357,28 +372,31 @@ public class MyNameCorrector
                                     .FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Format the name of the ancestor GroupRange
+                                    nameFunction =
+                                        $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+                                    
                                     // Translate the group name
-                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
                                         if (nameAncestorGrpRange != null)
                                             nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
                                     }
-                                    // Format the name of the ancestor GroupRange
-                                    nameFunction =
-                                        $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                 }
+                                
+                                // Format the name of the current GroupRange
+                                nameFunction +=
+                                    $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
 
                                 // Translate the group name
-                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
                                     if (nameGrpRange != null)
                                         nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
                                 }
-                                // Format the name of the current GroupRange
-                                nameFunction +=
-                                    $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+                                
                             }
 
                             // Construct the new name by combining the object type, function, and location
@@ -744,5 +762,31 @@ public class MyNameCorrector
             App.ConsoleAndLogWriteLine($"An unexpected error occurred during SetNamespaceFromXml(): {ex.Message}");
         }
     }
+
+    public static bool CheckDeeplKey()
+    {
+        try
+        {
+            // Retrieve the DeepL API authentication key
+            AuthKey = App.DisplayElements?.SettingsWindow.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty;
+        
+            // Initialize the DeepL Translator
+            Translator = new Translator(AuthKey);
+
+            // Perform a small test translation to check the key
+            Task.Run(async () =>
+            {
+                await Translator.TranslateTextAsync("test", "EN", "FR");
+            }).GetAwaiter().GetResult();
+
+            return true;
+        }
+        catch (AuthorizationException ex)
+        {
+            App.ConsoleAndLogWriteLine($"DeepL API key error: {ex.Message}");
+            return false;
+        }
+    }
 }
+
 
