@@ -10,28 +10,22 @@ using System.Xml;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
 using Microsoft.Win32;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using System.Windows.Media.Animation;
-using MahApps.Metro.Controls;
-using Microsoft.Xaml.Behaviors.Media;
 
 namespace KNXBoostDesktop;
 
-public partial class MainWindow : MetroWindow 
+public partial class MainWindow 
 
 {
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     //private readonly string xmlFilePath1 = App.Fm?.ProjectFolderPath + "GroupAddresses.xml"; 
-    private string xmlFilePath1;
+    private string _xmlFilePath1 = "";
     
-    private string xmlFilePath2;
+    private string _xmlFilePath2 = "";
 
-    public MainViewModel ViewModel { get; set; }
+    private MainViewModel ViewModel { get; set; }
 
 
     /* ------------------------------------------------------------------------------------------------
@@ -40,23 +34,17 @@ public partial class MainWindow : MetroWindow
     public MainWindow()
     {   
         InitializeComponent();
-        //LoadXmlFiles();
         
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
-        //ViewModel.IsProjectImported = false;
 
         //Title = $"{App.AppName} v{App.AppVersion}";
         Title = "";
         
-
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
-        
-        
-
-        //DataContext = this;
     }
+    
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
     private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
@@ -86,11 +74,11 @@ public partial class MainWindow : MetroWindow
             
             App.Fm.FindZeroXml();
             MyNameCorrector.CorrectName();
-            xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
-            xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+            _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
+            _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
             //Define the project path
-            ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml");
-            ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
+            ExportUpdatedNameAddresses.Export(App.Fm.ZeroXmlPath ?? throw new InvalidOperationException(), App.Fm.ProjectFolderPath + "/GroupAddresses.xml");
+            ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
             LoadXmlFiles();
 
             ViewModel.IsProjectImported = true;
@@ -101,7 +89,6 @@ public partial class MainWindow : MetroWindow
         }
     }
     
-
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
         if (App.DisplayElements == null) return;
@@ -115,8 +102,7 @@ public partial class MainWindow : MetroWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
-
-
+    
     private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}0_updated.xml externally");
@@ -146,7 +132,6 @@ public partial class MainWindow : MetroWindow
             App.ConsoleAndLogWriteLine($"The file {absoluteFilePath} does not exist.");
         }
     }
-    
     
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
@@ -190,9 +175,8 @@ public partial class MainWindow : MetroWindow
             }
         }
     }
-    
 
-    public void ClosingMainWindow(object sender, CancelEventArgs e)
+    private void ClosingMainWindow(object sender, CancelEventArgs e)
     {
         Application.Current.Shutdown();
     }
@@ -207,8 +191,8 @@ public partial class MainWindow : MetroWindow
 
     private void LoadXmlFiles()
     {
-        LoadXmlFile(xmlFilePath1, treeView1);
-        LoadXmlFile(xmlFilePath2, treeView2);
+        LoadXmlFile(_xmlFilePath1, TreeViewGauche);
+        LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
     
     private static void LoadXmlFile(string filePath, TreeView treeView)
@@ -239,7 +223,7 @@ public partial class MainWindow : MetroWindow
     {
         if (xmlNode.NodeType == XmlNodeType.Element)
         {
-            TreeViewItem treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
+            var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
 
             parentItems.Add(treeNode);
 
@@ -253,33 +237,24 @@ public partial class MainWindow : MetroWindow
 
     private static TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
     {
-        StackPanel stack = new StackPanel { Orientation = Orientation.Horizontal };
+        var stack = new StackPanel { Orientation = Orientation.Horizontal };
 
         // Définir l'icône en fonction du niveau
-        Image icon = new Image
+        var icon = new Image
         {
             Width = 16,
             Height = 16,
-            Margin = new Thickness(0, 0, 5, 0)
+            Margin = new Thickness(0, 0, 5, 0),
+            Source = level switch
+            {
+                0 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level.png")),
+                1 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level2.png")),
+                2 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png")),
+                _ => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"))
+            }
         };
 
-        switch (level)
-        {
-            case 0:
-                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level.png"));
-                break;
-            case 1:
-                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level2.png"));
-                break;
-            case 2:
-                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"));
-                break;
-            default:
-                icon.Source = new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"));
-                break;
-        }
-
-        TextBlock text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
+        var text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
 
         stack.Children.Add(icon);
         stack.Children.Add(text);
@@ -289,121 +264,101 @@ public partial class MainWindow : MetroWindow
     }
     
 
-    //-------------------- Gestion du scroll verticale synchronisé ------------------------------------//
+    //-------------------- Gestion du scroll vertical synchronisé ------------------------------------//
 
     private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-        if (sender is ScrollViewer changedScrollViewer)
+        if (sender is not ScrollViewer changedScrollViewer) return;
+        // Défilement horizontal
+        if (changedScrollViewer == ScrollViewerGauche && e.HorizontalChange != 0)
         {
-            // Défilement horizontal
-            if (changedScrollViewer == scrollViewer1 && e.HorizontalChange != 0)
-            {
-                scrollViewer2.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
-            }
-            else if (changedScrollViewer == scrollViewer2 && e.HorizontalChange != 0)
-            {
-                scrollViewer1.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
-            }
+            ScrollViewerDroite.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
+        }
+        else if (changedScrollViewer == ScrollViewerDroite && e.HorizontalChange != 0)
+        {
+            ScrollViewerGauche.ScrollToHorizontalOffset(changedScrollViewer.HorizontalOffset);
+        }
 
-            // Défilement vertical
-            if (changedScrollViewer == scrollViewer1 && e.VerticalChange != 0)
-            {
-                scrollViewer2.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
-            }
-            else if (changedScrollViewer == scrollViewer2 && e.VerticalChange != 0)
-            {
-                scrollViewer1.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
-            }
+        // Défilement vertical
+        if (changedScrollViewer == ScrollViewerGauche && e.VerticalChange != 0)
+        {
+            ScrollViewerDroite.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
+        }
+        else if (changedScrollViewer == ScrollViewerDroite && e.VerticalChange != 0)
+        {
+            ScrollViewerGauche.ScrollToVerticalOffset(changedScrollViewer.VerticalOffset);
         }
     }
 
     private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (sender is ScrollViewer scrollViewer)
+        if (sender is not ScrollViewer scrollViewer) return;
+        // Vérifier si Ctrl est enfoncé
+        var isShiftPressed = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+
+        switch (isShiftPressed)
         {
-            // Vérifier si Ctrl est enfoncé
-            bool isShiftPressed = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-
             // Défilement horizontal
-            if (isShiftPressed)
+            case true when scrollViewer == ScrollViewerGauche:
+                ScrollViewerGauche.ScrollToHorizontalOffset(ScrollViewerGauche.HorizontalOffset - e.Delta);
+                break;
+            case true:
             {
-                if (scrollViewer == scrollViewer1)
+                if (scrollViewer == ScrollViewerDroite)
                 {
-                    scrollViewer1.ScrollToHorizontalOffset(scrollViewer1.HorizontalOffset - e.Delta);
+                    ScrollViewerDroite.ScrollToHorizontalOffset(ScrollViewerDroite.HorizontalOffset - e.Delta);
                 }
-                else if (scrollViewer == scrollViewer2)
-                {
-                    scrollViewer2.ScrollToHorizontalOffset(scrollViewer2.HorizontalOffset - e.Delta);
-                }
-            }
 
+                break;
+            }
             // Défilement vertical avec Ctrl enfoncé
-            if (!isShiftPressed)
+            case false:
             {
-                if (scrollViewer == scrollViewer1)
+                if (scrollViewer == ScrollViewerGauche)
                 {
-                    scrollViewer1.ScrollToVerticalOffset(scrollViewer1.VerticalOffset - e.Delta);
+                    ScrollViewerGauche.ScrollToVerticalOffset(ScrollViewerGauche.VerticalOffset - e.Delta);
                 }
-                else if (scrollViewer == scrollViewer2)
+                else if (scrollViewer == ScrollViewerDroite)
                 {
-                    scrollViewer2.ScrollToVerticalOffset(scrollViewer2.VerticalOffset - e.Delta);
+                    ScrollViewerDroite.ScrollToVerticalOffset(ScrollViewerDroite.VerticalOffset - e.Delta);
                 }
 
                 e.Handled = true; // Indiquer que l'événement a été géré
+                break;
             }
         }
     }
     
     
-    // CHANGMENTS NATHAN
+    //-------------------- Gestion de la barre de recherche ------------------------------------//
     
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
     {
-        TextBox tb = sender as TextBox;
-        if (tb.Text == "Chercher...")
-        {
-            tb.Text = "";
-            tb.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        // Accéder à l'animation dans les ressources de la fenêtre
-        Storyboard expandAnimation = this.Resources["ExpandAnimation"] as Storyboard;
-        if (expandAnimation != null)
-        {
-            // Démarrer l'animation sur le TextBox qui a déclenché l'événement GotFocus
-            expandAnimation.Begin(tb);
-        }
+        var tb = sender as TextBox;
+        if (tb?.Text != "Chercher...") return;
+        tb.Text = "";
+        tb.Foreground = new SolidColorBrush(Colors.Black);
     }
-
 
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
-        TextBox tb = sender as TextBox;
+        var tb = sender as TextBox;
         // Utiliser un Dispatcher pour s'assurer que le TextBox a réellement perdu le focus
-        tb.Dispatcher.BeginInvoke(new Action(() => {
-            if (string.IsNullOrWhiteSpace(tb.Text))
-            {
-                tb.Text = "Chercher...";
-                tb.Foreground = new SolidColorBrush(Colors.Gray);
-            }
-        }), System.Windows.Threading.DispatcherPriority.Background);
-        
-        // Accéder à l'animation dans les ressources de la fenêtre
-        Storyboard expandAnimation = this.Resources["DeExpandAnimation"] as Storyboard;
-        if (expandAnimation != null)
+        tb?.Dispatcher.BeginInvoke(new Action(() =>
         {
-            // Démarrer l'animation sur le TextBox qui a déclenché l'événement GotFocus
-            expandAnimation.Begin(tb);
-        }
+            if (!string.IsNullOrWhiteSpace(tb.Text)) return;
+            tb.Text = "Chercher...";
+            tb.Foreground = new SolidColorBrush(Colors.Gray);
+        }), System.Windows.Threading.DispatcherPriority.Background);
     }
+    
     private void txtSearch1_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter || e.Key == Key.Escape)
-        {
-            // Perdre le focus du TextBox
-            txtSearch1.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-            e.Handled = true; // Pour indiquer que l'événement est géré
-        }
+        if (e.Key is not (Key.Enter or Key.Escape)) return;
+        // Perdre le focus du TextBox
+        TxtSearch1.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        // Pour indiquer que l'événement est géré
+        e.Handled = true; 
     }
 
     //-------------------- Gestion de la recherche ---------------------------------------------------//
@@ -528,7 +483,7 @@ public partial class MainWindow : MetroWindow
         }
     }
 
-    private static string NormalizeString(string input)
+    private static string NormalizeString(string? input)
     {
         if (input == null) return string.Empty;
 
@@ -548,51 +503,38 @@ public partial class MainWindow : MetroWindow
         return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
     }
 
-
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
 
     private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
     {
-        var item = e.OriginalSource as TreeViewItem;
-        if (item is not null)
-        {
-            SynchronizeTreeViewItemExpansion(treeView1, item);
-            SynchronizeTreeViewItemExpansion(treeView2, item);
-        }
+        if (e.OriginalSource is not TreeViewItem item) return;
+        SynchronizeTreeViewItemExpansion(TreeViewGauche, item);
+        SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
     private void TreeViewItem_Collapsed(object sender, RoutedEventArgs e)
     {
-        var item = e.OriginalSource as TreeViewItem;
-        if (item is not null)
-        {
-            SynchronizeTreeViewItemExpansion(treeView1, item);
-            SynchronizeTreeViewItemExpansion(treeView2, item);
-        }
+        if (e.OriginalSource is not TreeViewItem item) return;
+        SynchronizeTreeViewItemExpansion(TreeViewGauche, item);
+        SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
     private static void SynchronizeTreeViewItemExpansion(TreeView targetTreeView, TreeViewItem sourceItem)
     {
-        string? itemPath = GetItemPath(sourceItem);
-        if (itemPath == null)
+        var itemPath = GetItemPath(sourceItem);
+        if (itemPath == null) return; // Gérer le cas où itemPath est null
+        
+        var targetItem = FindTreeViewItemByPath(targetTreeView, itemPath);
+        if (targetItem == null) return;
+        targetItem.IsExpanded = sourceItem.IsExpanded;
+        for (var i = 0; i < sourceItem.Items.Count; i++)
         {
-            // Gérer le cas où itemPath est null
-            return;
-        }
+            var sourceChildItem = sourceItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
+            var targetChildItem = targetItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
 
-        TreeViewItem? targetItem = FindTreeViewItemByPath(targetTreeView, itemPath);
-        if (targetItem != null)
-        {
-            targetItem.IsExpanded = sourceItem.IsExpanded;
-            for (int i = 0; i < sourceItem.Items.Count; i++)
+            if (sourceChildItem is not null && targetChildItem is not null)
             {
-                TreeViewItem? sourceChildItem = sourceItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
-                TreeViewItem? targetChildItem = targetItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
-
-                if (sourceChildItem is not null && targetChildItem is not null)
-                {
-                    SynchronizeTreeViewItemExpansion(targetTreeView, sourceChildItem);
-                }
+                SynchronizeTreeViewItemExpansion(targetTreeView, sourceChildItem);
             }
         }
     }
@@ -610,7 +552,7 @@ public partial class MainWindow : MetroWindow
             return null;
         }
 
-        string? path = textBlock.Text;
+        var path = textBlock.Text;
         var parent = item.Parent as TreeViewItem;
 
         while (parent != null)
@@ -636,26 +578,21 @@ public partial class MainWindow : MetroWindow
     {
         _ = path ?? throw new ArgumentNullException(nameof(path));
 
-        string[] parts = path.Split("\\&");
-        ItemCollection items = treeView.Items;
+        var parts = path.Split("\\&");
+        var items = treeView.Items;
         TreeViewItem? currentItem = null;
 
-        foreach (string part in parts)
+        foreach (var part in parts)
         {
             currentItem = null;
-            foreach (object item in items)
+            foreach (var item in items)
             {
-                TreeViewItem? treeViewItem = item as TreeViewItem;
-                if (treeViewItem is not null && treeViewItem.Header is StackPanel headerStack)
-                {
-                    var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
-                    if (textBlock != null && textBlock.Text == part)
-                    {
-                        currentItem = treeViewItem;
-                        items = treeViewItem.Items;
-                        break;
-                    }
-                }
+                if (item is not TreeViewItem { Header: StackPanel headerStack } treeViewItem) continue;
+                var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
+                if (textBlock == null || textBlock.Text != part) continue;
+                currentItem = treeViewItem;
+                items = treeViewItem.Items;
+                break;
             }
             if (currentItem == null) return null;
         }
@@ -665,63 +602,48 @@ public partial class MainWindow : MetroWindow
 
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
 
-    private bool isTreeViewExpanded = false;
+    private bool _isTreeViewExpanded;
 
     private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
     {
-        if (isTreeViewExpanded)
+        if (_isTreeViewExpanded)
         {
-            rotateTransform.Angle = -90;
-            rotateTransform2.Angle = -90;
-            CollapseAllTreeViewItems(treeView1.Items);
-            CollapseAllTreeViewItems(treeView2.Items);
+            RotateTransform.Angle = -90;
+            RotateTransform2.Angle = -90;
+            CollapseAllTreeViewItems(TreeViewGauche.Items);
+            CollapseAllTreeViewItems(TreeViewDroite.Items);
         }
         else
         {
-            rotateTransform.Angle = 0;
-            rotateTransform2.Angle = 0;
-            ExpandAllTreeViewItems(treeView1.Items);
-            ExpandAllTreeViewItems(treeView2.Items);
+            RotateTransform.Angle = 0;
+            RotateTransform2.Angle = 0;
+            ExpandAllTreeViewItems(TreeViewGauche.Items);
+            ExpandAllTreeViewItems(TreeViewDroite.Items);
         }
 
-        isTreeViewExpanded = !isTreeViewExpanded; // Inverser l'état
+        _isTreeViewExpanded = !_isTreeViewExpanded; // Inverser l'état
     }
 
-    private void CollapseAllTreeViewItems(ItemCollection items)
+    private static void CollapseAllTreeViewItems(ItemCollection items)
     {
-        foreach (object obj in items)
+        foreach (var obj in items)
         {
-            if (obj is TreeViewItem item)
-            {
-                item.IsExpanded = false;
-                CollapseAllTreeViewItems(item.Items);
-            }
-        }
-    }
-
-    private void ExpandAllTreeViewItems(ItemCollection items)
-    {
-        foreach (object obj in items)
-        {
-            if (obj is TreeViewItem item)
-            {
-                item.IsExpanded = true;
-                ExpandAllTreeViewItems(item.Items);
-            }
+            if (obj is not TreeViewItem item) continue;
+            item.IsExpanded = false;
+            CollapseAllTreeViewItems(item.Items);
         }
     }
 
-    
-
-    private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private static void ExpandAllTreeViewItems(ItemCollection items)
     {
-        if (e.LeftButton == MouseButtonState.Pressed)
+        foreach (var obj in items)
         {
-            DragMove();
+            if (obj is not TreeViewItem item) continue;
+            item.IsExpanded = true;
+            ExpandAllTreeViewItems(item.Items);
         }
-    } 
+    }
 }
-
 
 public class TreeItem
     {

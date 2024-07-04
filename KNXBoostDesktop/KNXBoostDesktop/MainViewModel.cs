@@ -8,7 +8,7 @@ namespace KNXBoostDesktop
 
         public bool IsProjectImported
         {
-            get { return _isProjectImported; }
+            get => _isProjectImported;
             set 
             { 
                 _isProjectImported = value; 
@@ -16,9 +16,9 @@ namespace KNXBoostDesktop
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
