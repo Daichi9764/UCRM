@@ -28,7 +28,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.5"; // Version de l'application
+        public static readonly string AppVersion = "1.6"; // Version de l'application
         
         // Gestion des logs
         private static string? _logPath; // Chemin du fichier logs
@@ -86,7 +86,7 @@ namespace KNXBoostDesktop
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
 
-            DisplayElements?.ShowGroupAddressRenameWindow("Cmd_Eclairage_OnOff_Batiment_FacadeXx_Etage_Piece_Circuit");
+            //DisplayElements?.ShowGroupAddressRenameWindow("Cmd_Eclairage_OnOff_Batiment_FacadeXx_Etage_Piece_Circuit");
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
