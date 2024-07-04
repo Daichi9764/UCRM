@@ -70,9 +70,6 @@ namespace KNXBoostDesktop
         {
             try
             {
-                // Retrieve the DeepL API authentication key
-                var authKey = App.DisplayElements?.SettingsWindow.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey);
-
                 // Adjust the destination language format
                 switch (_destLanguage)
                 {
@@ -84,23 +81,20 @@ namespace KNXBoostDesktop
                         break;
                 }
 
-                if (string.IsNullOrEmpty(authKey))
+                if (string.IsNullOrEmpty(MyNameCorrector.AuthKey))
                 {
                     throw new ArgumentNullException("DeepL API key is not configured.");
                 }
-
-                // Initialize the DeepL Translator
-                var translator = new Translator(authKey);
 
                 // Translate the text
                 TextResult translatedText;
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
                 {
-                    translatedText = await translator.TranslateTextAsync(input, null, _destLanguage);
+                    translatedText = await MyNameCorrector.Translator.TranslateTextAsync(input, null, _destLanguage);
                 }
                 else
                 {
-                    translatedText = await translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
+                    translatedText = await MyNameCorrector.Translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
                 }
 
                 return translatedText.Text;

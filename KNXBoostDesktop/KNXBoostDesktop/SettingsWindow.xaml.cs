@@ -1424,13 +1424,6 @@ namespace KNXBoostDesktop
         // Fonction s'exécutant lors du clic sur le bouton sauvegarder
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            // TODO REMPLACER PAR LA FONCTION D'EMMA QUI CHECK SI LA CLE API EST CORRECTE
-            if ((bool) EnableTranslationCheckBox.IsChecked! && DeeplApiKeyTextBox.Text == "")
-            {
-                MessageBox.Show("La clé d'API DeepL est incorrecte. La fonction de traduction ne pourra fonctionner.", "Attention !", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            }
-            
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
@@ -1440,6 +1433,15 @@ namespace KNXBoostDesktop
             RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            
+            if (EnableDeeplTranslation)
+            {
+                MyNameCorrector.ValidDeeplKey = MyNameCorrector.CheckDeeplKey();
+                if (!MyNameCorrector.ValidDeeplKey)
+                {
+                    MessageBox.Show("La clé d'API DeepL est incorrecte. La fonction de traduction ne pourra fonctionner.", "Attention !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
             
             // Sauvegarde des paramètres dans le fichier appSettings
             App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
