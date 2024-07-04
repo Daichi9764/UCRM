@@ -410,103 +410,144 @@ public partial class MainWindow : MetroWindow
 
     private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
     {
-     
         if (txtSearch1.Text != "Chercher...")
         {
             string normalizedSearchText = NormalizeString(txtSearch1.Text);
 
-            // Filtrer et masquer les éléments de la TreeView basé sur le texte de recherche
-            foreach (object obj in treeView1.Items)
+            // Filtrer et masquer les éléments des deux TreeView basés sur le texte de recherche
+            int itemCount = Math.Min(treeView1.Items.Count, treeView2.Items.Count);
+            for (int i = 0; i < itemCount; i++)
             {
-                if (obj is TreeViewItem item)
+                if (treeView1.Items[i] is TreeViewItem item1 && treeView2.Items[i] is TreeViewItem item2)
                 {
-                    item.Visibility = Visibility.Visible;
-                    FilterTreeViewItems(item, normalizedSearchText);
+                    item1.Visibility = Visibility.Visible;
+                    item2.Visibility = Visibility.Visible;
+                    FilterTreeViewItems(item1, item2, normalizedSearchText);
                 }
+
             }
         }
     }
 
-    private static bool FilterTreeViewItems(TreeViewItem item, string searchText)
+    private static bool FilterTreeViewItems(TreeViewItem item1, TreeViewItem item2 , string searchText)
     {
-        bool itemVisible = false; // Indicateur pour déterminer si l'élément est visible
+        bool item1Visible = false; // Indicateur pour déterminer si l'élément est visible
+        bool item2Visible = false;
 
         // Extraire le texte du TextBlock dans le Header du TreeViewItem
-        string? headerText = null;
-        if (item.Header is StackPanel headerStack)
+        string? headerText1 = null;
+        string? headerText2 = null;
+
+        if (item1.Header is StackPanel headerStack1 && item2.Header is StackPanel headerStack2 )
         {
-            var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
-            if (textBlock != null)
+            var textBlock1 = headerStack1.Children.OfType<TextBlock>().FirstOrDefault();
+            var textBlock2 = headerStack2.Children.OfType<TextBlock>().FirstOrDefault();
+            if (textBlock1 != null && textBlock1 != null)
             {
-                headerText = textBlock.Text;
+                headerText1 = textBlock1.Text;
+                headerText2 = textBlock2.Text;
             }
         }
 
-        if (headerText == null)
+        if (headerText1 == null && headerText2 == null)
         {
-            item.Visibility = Visibility.Collapsed;
+            item1.Visibility = Visibility.Collapsed;
+            item2.Visibility = Visibility.Collapsed;
+
             return false; // Si l'entête est null, l'élément n'est pas visible
         }
 
-        string normalizedHeader = NormalizeString(headerText);
+        string normalizedHeader1 = NormalizeString(headerText1);
+        string normalizedHeader2 = NormalizeString(headerText2);
 
         // Vérifier si l'élément correspond au texte de recherche
-        if (normalizedHeader.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+        if (normalizedHeader1.Contains(searchText, StringComparison.OrdinalIgnoreCase) || normalizedHeader2.Contains(searchText, StringComparison.OrdinalIgnoreCase))
         {
-            item.Visibility = Visibility.Visible; // Rendre visible l'élément
-            item.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
-            itemVisible = true; // Indiquer que l'élément est visible
+            item1.Visibility = Visibility.Visible; // Rendre visible l'élément
+            item1.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
+            item1Visible = true; // Indiquer que l'élément est visible
+
+            item2.Visibility = Visibility.Visible; // Rendre visible l'élément
+            item2.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
+            item2Visible = true; // Indiquer que l'élément est visible
         }
         else
         {
-            item.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
+            item1.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
+            item2.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
+
         }
 
-        // Filtrer récursivement les enfants
+
         bool hasVisibleChild = false;
-        foreach (object obj in item.Items)
+
+        int itemCount = Math.Min(item1.Items.Count, item2.Items.Count);
+        for (int i = 0; i < itemCount; i++)
         {
-            if (obj is TreeViewItem childItem)
+           
+            if ((item1.Items[i] is TreeViewItem childItem1) && (item2.Items[i] is TreeViewItem childItem2))
             {
                 // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
-                bool childVisible = FilterTreeViewItems(childItem, searchText);
+                bool childVisible = FilterTreeViewItems(childItem1, childItem2, searchText);
                 if (childVisible)
                 {
                     hasVisibleChild = true;
-                    item.IsExpanded = true; // Développer l'élément si un enfant est visible
+                    item1.IsExpanded = true; // Développer l'élément si un enfant est visible
+                    item2.IsExpanded = true;
                 }
             }
+
         }
 
         // Si un enfant est visible, rendre visible cet élément
         if (hasVisibleChild)
         {
-            item.Visibility = Visibility.Visible;
-            itemVisible = true;
+            item1.Visibility = Visibility.Visible;
+            item1Visible = true;
+            item2.Visibility = Visibility.Visible;
+            item2Visible = true;
         }
 
-        return itemVisible; // Retourner l'état de visibilité de l'élément
+
+        return item1Visible; // Retourner l'état de visibilité de l'élément
+    }
+
+    private static void SynchronizeVisibilityWithOtherTreeView(TreeViewItem item, TreeView otherTreeView)
+    {
+        foreach (object obj in otherTreeView.Items)
+        {
+            if (obj is TreeViewItem otherItem && item.Header.ToString() == otherItem.Header.ToString())
+            {
+                if (item.Visibility == Visibility.Visible)
+                {
+                    otherItem.Visibility = Visibility.Visible;
+                }
+
+                break;
+            }
+        }
     }
 
     private static string NormalizeString(string input)
+    {
+        if (input == null) return string.Empty;
+
+        // Remove diacritics (accents)
+        string normalizedString = input.Normalize(NormalizationForm.FormD);
+        StringBuilder stringBuilder = new();
+
+        foreach (char c in normalizedString)
         {
-            if (input == null) return string.Empty;
-
-            // Remove diacritics (accents)
-            string normalizedString = input.Normalize(NormalizationForm.FormD);
-            StringBuilder stringBuilder = new();
-
-            foreach (char c in normalizedString)
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
             {
-                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                {
-                    stringBuilder.Append(c);
-                }
+                stringBuilder.Append(c);
             }
-
-            // Remove spaces, underscores, and hyphens
-            return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
         }
+
+        // Remove spaces, underscores, and hyphens
+        return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
+    }
+
 
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
 
