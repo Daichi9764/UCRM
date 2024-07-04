@@ -30,17 +30,15 @@
 
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
+      <PackageReference Include="Svg" Version="3.4.7" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="resources\settingsIcon.png" />
-      <Resource Include="resources\settingsIcon.png" />
       <None Remove="resources\checkmark.png" />
-      <Resource Include="resources\checkmark.png" />
       <None Remove="resources\cross.png" />
-      <Resource Include="resources\cross.png" />
       <None Remove="resources\whitecross.png" />
-      <Resource Include="resources\whitecross.png" />
+      <None Remove="resources\settings.svg" />
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 // ReSharper disable ConvertToUsingDeclaration
@@ -409,20 +409,24 @@ namespace KNXBoostDesktop
                 case "AR":
                     SettingsWindowTopTitle.Text = "الإعدادات";
                     TranslationTitle.Text = "ترجمة";
-                    EnableTranslationCheckBox.Content = "تمكين الترجمة";
-                    DeeplApiKeyText.Text = "مفتاح API لـ DeepL:";
+                    EnableTranslationCheckBox.Content = "تفعيل الترجمة";
+                    DeeplApiKeyText.Text = "مفتاح API الخاص بـ DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(اضغط هنا للحصول على مفتاح مجاناً)");
+                    Hyperlink.Inlines.Add("(انقر هنا للحصول على مفتاح مجانًا)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ar/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "لغة الترجمة:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "تمكين الكشف التلقائي عن اللغة للترجمة";
+                    TranslationSourceLanguageComboBoxText.Text = "لغة المصدر للترجمة:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "لغة الوجهة للترجمة:";
 
                     GroupAddressManagementTitle.Text = "إدارة عناوين المجموعة";
                     RemoveUnusedAddressesCheckBox.Content = "إزالة العناوين غير المستخدمة";
 
                     AppSettingsTitle.Text = "إعدادات التطبيق";
-                    ThemeTextBox.Text = "سمة:";
+                    ThemeTextBox.Text = "السمة:";
                     LightThemeComboBoxItem.Content = "فاتح (افتراضي)";
                     DarkThemeComboBoxItem.Content = "داكن";
 
@@ -436,16 +440,21 @@ namespace KNXBoostDesktop
                 case "BG":
                     SettingsWindowTopTitle.Text = "Настройки";
                     TranslationTitle.Text = "Превод";
-                    EnableTranslationCheckBox.Content = "Разреши превод";
-                    DeeplApiKeyText.Text = "API ключ за DeepL:";
+                    EnableTranslationCheckBox.Content = "Активиране на превода";
+                    DeeplApiKeyText.Text = "DeepL API ключ:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Кликнете тук, за да получите ключ безплатно)");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Език на превод:";
+                    Hyperlink.Inlines.Add("(Кликнете тук за безплатен ключ)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Активиране на автоматичното разпознаване на езика за превод";
+                    TranslationSourceLanguageComboBoxText.Text = "Изходен език за превод:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Целеви език за превод:";
 
                     GroupAddressManagementTitle.Text = "Управление на групови адреси";
-                    RemoveUnusedAddressesCheckBox.Content = "Премахване на неизползвани адреси";
+                    RemoveUnusedAddressesCheckBox.Content = "Премахване на неизползваните адреси";
 
                     AppSettingsTitle.Text = "Настройки на приложението";
                     ThemeTextBox.Text = "Тема:";
@@ -455,7 +464,7 @@ namespace KNXBoostDesktop
                     AppLanguageTextBlock.Text = "Език на приложението:";
 
                     SaveButtonText.Text = "Запази";
-                    CancelButtonText.Text = "Отказ";
+                    CancelButtonText.Text = "Отмени";
                     break;
 
                 // Tchèque
@@ -463,16 +472,20 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Nastavení";
                     TranslationTitle.Text = "Překlad";
                     EnableTranslationCheckBox.Content = "Povolit překlad";
-                    DeeplApiKeyText.Text = "API klíč pro DeepL:";
+                    DeeplApiKeyText.Text = "API klíč DeepL:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikněte sem a získejte klíč zdarma)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/cs/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Jazyk překladu:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Povolit automatickou detekci jazyka pro překlad";
+                    TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk překladu:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Cílový jazyk překladu:";
 
                     GroupAddressManagementTitle.Text = "Správa skupinových adres";
-                    RemoveUnusedAddressesCheckBox.Content = "Odstranit nepoužívané adresy";
+                    RemoveUnusedAddressesCheckBox.Content = "Odebrat nepoužívané adresy";
 
                     AppSettingsTitle.Text = "Nastavení aplikace";
                     ThemeTextBox.Text = "Téma:";
@@ -490,20 +503,25 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Indstillinger";
                     TranslationTitle.Text = "Oversættelse";
                     EnableTranslationCheckBox.Content = "Aktiver oversættelse";
-                    DeeplApiKeyText.Text = "DeepL API-nøgle:";
+                    DeeplApiKeyText.Text = "DeepL API nøgle:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik her for at få en gratis nøgle)");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Oversættelsessprog:";
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Aktiver automatisk sprogdetektion til oversættelse";
+                    TranslationSourceLanguageComboBoxText.Text = "Kildesprog for oversættelse:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Målsprog for oversættelse:";
 
                     GroupAddressManagementTitle.Text = "Administration af gruppeadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrugte adresser";
 
                     AppSettingsTitle.Text = "Applikationsindstillinger";
                     ThemeTextBox.Text = "Tema:";
-                    LightThemeComboBoxItem.Content = "Lys (standard)";
-                    DarkThemeComboBoxItem.Content = "Mørk";
+                    LightThemeComboBoxItem.Content = "Lyst (standard)";
+                    DarkThemeComboBoxItem.Content = "Mørkt";
 
                     AppLanguageTextBlock.Text = "Applikationssprog:";
 
@@ -519,13 +537,17 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API-Schlüssel:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klicken Sie hier, um einen Schlüssel kostenlos zu erhalten)");
+                    Hyperlink.Inlines.Add("(Hier klicken, um einen kostenlosen Schlüssel zu erhalten)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/de/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Automatische Spracherkennung für Übersetzungen aktivieren";
+                    TranslationSourceLanguageComboBoxText.Text = "Quellsprache der Übersetzung:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Zielsprache der Übersetzung:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Übersetzungssprache:";
-
-                    GroupAddressManagementTitle.Text = "Gruppenadressenverwaltung";
-                    RemoveUnusedAddressesCheckBox.Content = "Nicht verwendete Adressen entfernen";
+                    GroupAddressManagementTitle.Text = "Verwaltung von Gruppenadressen";
+                    RemoveUnusedAddressesCheckBox.Content = "Unbenutzte Adressen entfernen";
 
                     AppSettingsTitle.Text = "App-Einstellungen";
                     ThemeTextBox.Text = "Thema:";
@@ -543,42 +565,51 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Ρυθμίσεις";
                     TranslationTitle.Text = "Μετάφραση";
                     EnableTranslationCheckBox.Content = "Ενεργοποίηση μετάφρασης";
-                    DeeplApiKeyText.Text = "API κλειδί για DeepL:";
+                    DeeplApiKeyText.Text = "Κλειδί API του DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να λάβετε ένα κλειδί δωρεάν)");
+                    Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να αποκτήσετε ένα δωρεάν κλειδί)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Ενεργοποίηση αυτόματης ανίχνευσης γλώσσας για μετάφραση";
+                    TranslationSourceLanguageComboBoxText.Text = "Γλώσσα προέλευσης για μετάφραση:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Γλώσσα προορισμού για μετάφραση:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Γλώσσα μετάφρασης:";
-
-                    GroupAddressManagementTitle.Text = "Διαχείριση ομαδικών διευθύνσεων";
+                    GroupAddressManagementTitle.Text = "Διαχείριση διευθύνσεων ομάδας";
                     RemoveUnusedAddressesCheckBox.Content = "Αφαίρεση αχρησιμοποίητων διευθύνσεων";
 
                     AppSettingsTitle.Text = "Ρυθμίσεις εφαρμογής";
                     ThemeTextBox.Text = "Θέμα:";
-                    LightThemeComboBoxItem.Content = "Φωτεινό (προεπιλεγμένο)";
+                    LightThemeComboBoxItem.Content = "Φωτεινό (προεπιλογή)";
                     DarkThemeComboBoxItem.Content = "Σκοτεινό";
 
                     AppLanguageTextBlock.Text = "Γλώσσα εφαρμογής:";
 
                     SaveButtonText.Text = "Αποθήκευση";
-                    CancelButtonText.Text = "Άκυρο";
+                    CancelButtonText.Text = "Ακύρωση";
                     break;
 
                 // Anglais
                 case "EN":
                     SettingsWindowTopTitle.Text = "Settings";
                     TranslationTitle.Text = "Translation";
-                    EnableTranslationCheckBox.Content = "Enable translation";
+                    EnableTranslationCheckBox.Content = "Enable Translation";
                     DeeplApiKeyText.Text = "DeepL API Key:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Click here to get a free key)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Translation Language:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Enable automatic language detection for translation";
+                    TranslationSourceLanguageComboBoxText.Text = "Source language for translation:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Target language for translation:";
 
                     GroupAddressManagementTitle.Text = "Group Address Management";
-                    RemoveUnusedAddressesCheckBox.Content = "Remove Unused Addresses";
+                    RemoveUnusedAddressesCheckBox.Content = "Remove unused addresses";
 
                     AppSettingsTitle.Text = "Application Settings";
                     ThemeTextBox.Text = "Theme:";
@@ -593,21 +624,25 @@ namespace KNXBoostDesktop
 
                 // Espagnol
                 case "ES":
-                    SettingsWindowTopTitle.Text = "Configuraciones";
+                    SettingsWindowTopTitle.Text = "Configuración";
                     TranslationTitle.Text = "Traducción";
                     EnableTranslationCheckBox.Content = "Habilitar traducción";
                     DeeplApiKeyText.Text = "Clave API de DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratuita)");
+                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratis)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/es/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de traducción:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Habilitar detección automática de idioma para la traducción";
+                    TranslationSourceLanguageComboBoxText.Text = "Idioma de origen para la traducción:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para la traducción:";
 
                     GroupAddressManagementTitle.Text = "Gestión de direcciones de grupo";
                     RemoveUnusedAddressesCheckBox.Content = "Eliminar direcciones no utilizadas";
 
-                    AppSettingsTitle.Text = "Configuraciones de la aplicación";
+                    AppSettingsTitle.Text = "Configuración de la aplicación";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Claro (predeterminado)";
                     DarkThemeComboBoxItem.Content = "Oscuro";
@@ -626,11 +661,16 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API võti:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klõpsake siin, et saada tasuta võti)");
+                    Hyperlink.Inlines.Add("(Klikkige siia, et saada tasuta võti)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Luba tõlke jaoks automaatne keele tuvastamine";
+                    TranslationSourceLanguageComboBoxText.Text = "Tõlke lähtekeel:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Tõlke sihtkeel:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Tõlke keel:";
-
-                    GroupAddressManagementTitle.Text = "Rühma aadresside haldamine";
+                    GroupAddressManagementTitle.Text = "Grupi aadresside haldamine";
                     RemoveUnusedAddressesCheckBox.Content = "Eemalda kasutamata aadressid";
 
                     AppSettingsTitle.Text = "Rakenduse seaded";
@@ -653,10 +693,15 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Napsauta tästä saadaksesi ilmaisen avaimen)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Ota kielen automaattinen tunnistus käyttöön käännöstä varten";
+                    TranslationSourceLanguageComboBoxText.Text = "Käännöksen lähdekieli:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Käännöksen kohdekieli:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Käännöskieli:";
-
-                    GroupAddressManagementTitle.Text = "Ryhmän osoitteiden hallinta";
+                    GroupAddressManagementTitle.Text = "Ryhmäosoitteiden hallinta";
                     RemoveUnusedAddressesCheckBox.Content = "Poista käyttämättömät osoitteet";
 
                     AppSettingsTitle.Text = "Sovelluksen asetukset";
@@ -678,11 +723,16 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API kulcs:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kattintson ide, hogy ingyenes kulcsot kapjon)");
+                    Hyperlink.Inlines.Add("(Kattintson ide, hogy ingyenes kulcsot szerezzen)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Automatikus nyelvfelismerés engedélyezése a fordításhoz";
+                    TranslationSourceLanguageComboBoxText.Text = "Forrásnyelv a fordításhoz:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Cél nyelv a fordításhoz:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Fordítási nyelv:";
-
-                    GroupAddressManagementTitle.Text = "Csoportos címkezelés";
+                    GroupAddressManagementTitle.Text = "Csoportcím kezelés";
                     RemoveUnusedAddressesCheckBox.Content = "Nem használt címek eltávolítása";
 
                     AppSettingsTitle.Text = "Alkalmazás beállításai";
@@ -700,17 +750,21 @@ namespace KNXBoostDesktop
                 case "ID":
                     SettingsWindowTopTitle.Text = "Pengaturan";
                     TranslationTitle.Text = "Terjemahan";
-                    EnableTranslationCheckBox.Content = "Aktifkan terjemahan";
+                    EnableTranslationCheckBox.Content = "Aktifkan Terjemahan";
                     DeeplApiKeyText.Text = "Kunci API DeepL:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik di sini untuk mendapatkan kunci gratis)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/id/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Aktifkan deteksi bahasa otomatis untuk terjemahan";
+                    TranslationSourceLanguageComboBoxText.Text = "Bahasa sumber untuk terjemahan:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Bahasa tujuan untuk terjemahan:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Bahasa Terjemahan:";
-
-                    GroupAddressManagementTitle.Text = "Pengelolaan Alamat Grup";
-                    RemoveUnusedAddressesCheckBox.Content = "Hapus Alamat yang Tidak Digunakan";
+                    GroupAddressManagementTitle.Text = "Manajemen Alamat Grup";
+                    RemoveUnusedAddressesCheckBox.Content = "Hapus alamat yang tidak digunakan";
 
                     AppSettingsTitle.Text = "Pengaturan Aplikasi";
                     ThemeTextBox.Text = "Tema:";
@@ -727,14 +781,18 @@ namespace KNXBoostDesktop
                 case "IT":
                     SettingsWindowTopTitle.Text = "Impostazioni";
                     TranslationTitle.Text = "Traduzione";
-                    EnableTranslationCheckBox.Content = "Abilita traduzione";
-                    DeeplApiKeyText.Text = "Chiave API DeepL:";
+                    EnableTranslationCheckBox.Content = "Abilita Traduzione";
+                    DeeplApiKeyText.Text = "Chiave API di DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Clicca qui per ottenere una chiave gratuita)");
+                    Hyperlink.Inlines.Add("(Fai clic qui per ottenere una chiave gratuita)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/it/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Lingua di traduzione:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Abilita rilevamento automatico della lingua per la traduzione";
+                    TranslationSourceLanguageComboBoxText.Text = "Lingua di origine per la traduzione:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Lingua di destinazione per la traduzione:";
 
                     GroupAddressManagementTitle.Text = "Gestione degli indirizzi di gruppo";
                     RemoveUnusedAddressesCheckBox.Content = "Rimuovi indirizzi non utilizzati";
@@ -758,17 +816,21 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL APIキー:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(無料のキーを取得するにはここをクリック)");
+                    Hyperlink.Inlines.Add("(ここをクリックして無料のキーを取得)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ja/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "翻訳言語:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "翻訳のための自動言語検出を有効にする";
+                    TranslationSourceLanguageComboBoxText.Text = "翻訳のソース言語:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "翻訳のターゲット言語:";
 
                     GroupAddressManagementTitle.Text = "グループアドレス管理";
                     RemoveUnusedAddressesCheckBox.Content = "使用されていないアドレスを削除";
 
                     AppSettingsTitle.Text = "アプリケーション設定";
                     ThemeTextBox.Text = "テーマ:";
-                    LightThemeComboBoxItem.Content = "ライト (デフォルト)";
+                    LightThemeComboBoxItem.Content = "ライト（デフォルト）";
                     DarkThemeComboBoxItem.Content = "ダーク";
 
                     AppLanguageTextBlock.Text = "アプリケーションの言語:";
@@ -785,18 +847,22 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API 키:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(무료 키를 얻으려면 여기를 클릭하세요)");
+                    Hyperlink.Inlines.Add("(무료 키를 받으려면 여기를 클릭하세요)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ko/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "번역 언어:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "번역을 위한 자동 언어 감지 활성화";
+                    TranslationSourceLanguageComboBoxText.Text = "번역 소스 언어:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "번역 대상 언어:";
 
                     GroupAddressManagementTitle.Text = "그룹 주소 관리";
                     RemoveUnusedAddressesCheckBox.Content = "사용하지 않는 주소 제거";
 
                     AppSettingsTitle.Text = "애플리케이션 설정";
                     ThemeTextBox.Text = "테마:";
-                    LightThemeComboBoxItem.Content = "밝게 (기본)";
-                    DarkThemeComboBoxItem.Content = "어둡게";
+                    LightThemeComboBoxItem.Content = "라이트 (기본값)";
+                    DarkThemeComboBoxItem.Content = "다크";
 
                     AppLanguageTextBlock.Text = "애플리케이션 언어:";
 
@@ -808,15 +874,20 @@ namespace KNXBoostDesktop
                 case "LV":
                     SettingsWindowTopTitle.Text = "Iestatījumi";
                     TranslationTitle.Text = "Tulkot";
-                    EnableTranslationCheckBox.Content = "Iespējot tulkojumu";
+                    EnableTranslationCheckBox.Content = "Iespējot tulkošanu";
                     DeeplApiKeyText.Text = "DeepL API atslēga:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai iegūtu bezmaksas atslēgu)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Iespējot automātisku valodas noteikšanu tulkošanai";
+                    TranslationSourceLanguageComboBoxText.Text = "Tulkojuma avota valoda:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Tulkojuma mērķa valoda:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Tulkot valodu:";
-
-                    GroupAddressManagementTitle.Text = "Grupas adrešu pārvaldība";
+                    GroupAddressManagementTitle.Text = "Grupas adreses pārvaldība";
                     RemoveUnusedAddressesCheckBox.Content = "Noņemt neizmantotās adreses";
 
                     AppSettingsTitle.Text = "Lietotnes iestatījumi";
@@ -839,18 +910,23 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Spustelėkite čia, kad gautumėte nemokamą raktą)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Įjungti automatinį kalbos aptikimą vertimui";
+                    TranslationSourceLanguageComboBoxText.Text = "Vertimo šaltinio kalba:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Vertimo tikslinė kalba:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Vertimo kalba:";
-
-                    GroupAddressManagementTitle.Text = "Grupės adresų tvarkymas";
+                    GroupAddressManagementTitle.Text = "Grupės adresų valdymas";
                     RemoveUnusedAddressesCheckBox.Content = "Pašalinti nenaudojamus adresus";
 
-                    AppSettingsTitle.Text = "Programos nustatymai";
+                    AppSettingsTitle.Text = "Programėlės nustatymai";
                     ThemeTextBox.Text = "Tema:";
-                    LightThemeComboBoxItem.Content = "Šviesus (numatytasis)";
-                    DarkThemeComboBoxItem.Content = "Tamsus";
+                    LightThemeComboBoxItem.Content = "Šviesi (numatytoji)";
+                    DarkThemeComboBoxItem.Content = "Tamsi";
 
-                    AppLanguageTextBlock.Text = "Programos kalba:";
+                    AppLanguageTextBlock.Text = "Programėlės kalba:";
 
                     SaveButtonText.Text = "Išsaugoti";
                     CancelButtonText.Text = "Atšaukti";
@@ -865,13 +941,18 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Oversettelsesspråk:";
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Aktiver automatisk språkgjenkjenning for oversettelse";
+                    TranslationSourceLanguageComboBoxText.Text = "Kildespråk for oversettelse:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Målspråk for oversettelse:";
 
                     GroupAddressManagementTitle.Text = "Administrasjon av gruppeadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrukte adresser";
 
-                    AppSettingsTitle.Text = "App-innstillinger";
+                    AppSettingsTitle.Text = "Programinnstillinger";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Lys (standard)";
                     DarkThemeComboBoxItem.Content = "Mørk";
@@ -892,18 +973,22 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik hier om een gratis sleutel te krijgen)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/nl/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Automatische taalherkenning voor vertaling inschakelen";
+                    TranslationSourceLanguageComboBoxText.Text = "Bron taal voor vertaling:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Doeltaal voor vertaling:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Vertaaltaal:";
-
-                    GroupAddressManagementTitle.Text = "Beheer van groepsadressen";
+                    GroupAddressManagementTitle.Text = "Groepsadresbeheer";
                     RemoveUnusedAddressesCheckBox.Content = "Verwijder ongebruikte adressen";
 
-                    AppSettingsTitle.Text = "App-instellingen";
+                    AppSettingsTitle.Text = "Applicatie-instellingen";
                     ThemeTextBox.Text = "Thema:";
                     LightThemeComboBoxItem.Content = "Licht (standaard)";
                     DarkThemeComboBoxItem.Content = "Donker";
 
-                    AppLanguageTextBlock.Text = "App-taal:";
+                    AppLanguageTextBlock.Text = "Applicatietaal:";
 
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
@@ -917,10 +1002,14 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "Klucz API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknij tutaj, aby otrzymać darmowy klucz)");
+                    Hyperlink.Inlines.Add("(Kliknij tutaj, aby uzyskać darmowy klucz)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pl/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Język tłumaczenia:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Włącz automatyczne wykrywanie języka do tłumaczenia";
+                    TranslationSourceLanguageComboBoxText.Text = "Język źródłowy do tłumaczenia:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Język docelowy do tłumaczenia:";
 
                     GroupAddressManagementTitle.Text = "Zarządzanie adresami grup";
                     RemoveUnusedAddressesCheckBox.Content = "Usuń nieużywane adresy";
@@ -941,13 +1030,17 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Configurações";
                     TranslationTitle.Text = "Tradução";
                     EnableTranslationCheckBox.Content = "Ativar tradução";
-                    DeeplApiKeyText.Text = "Chave API do DeepL:";
+                    DeeplApiKeyText.Text = "Chave API DeepL:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Clique aqui para obter uma chave gratuita)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pt-PT/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Idioma da tradução:";
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pt/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Ativar detecção automática de idioma para tradução";
+                    TranslationSourceLanguageComboBoxText.Text = "Idioma de origem para tradução:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para tradução:";
 
                     GroupAddressManagementTitle.Text = "Gerenciamento de endereços de grupo";
                     RemoveUnusedAddressesCheckBox.Content = "Remover endereços não utilizados";
@@ -967,53 +1060,31 @@ namespace KNXBoostDesktop
                 case "RO":
                     SettingsWindowTopTitle.Text = "Setări";
                     TranslationTitle.Text = "Traducere";
-                    EnableTranslationCheckBox.Content = "Activare traducere";
+                    EnableTranslationCheckBox.Content = "Activează traducerea";
                     DeeplApiKeyText.Text = "Cheie API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuit)");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Limba de traducere:";
+                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuită)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Activează detectarea automată a limbii pentru traducere";
+                    TranslationSourceLanguageComboBoxText.Text = "Limbă sursă pentru traducere:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Limbă destinație pentru traducere:";
 
                     GroupAddressManagementTitle.Text = "Gestionarea adreselor de grup";
                     RemoveUnusedAddressesCheckBox.Content = "Eliminați adresele neutilizate";
 
                     AppSettingsTitle.Text = "Setările aplicației";
-                    ThemeTextBox.Text = "Temă:";
+                    ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Luminoasă (implicit)";
                     DarkThemeComboBoxItem.Content = "Întunecată";
 
                     AppLanguageTextBlock.Text = "Limba aplicației:";
 
-                    SaveButtonText.Text = "Salvați";
-                    CancelButtonText.Text = "Anulați";
-                    break;
-
-                // Russe
-                case "RU":
-                    SettingsWindowTopTitle.Text = "Настройки";
-                    TranslationTitle.Text = "Перевод";
-                    EnableTranslationCheckBox.Content = "Включить перевод";
-                    DeeplApiKeyText.Text = "Ключ API DeepL:";
-
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ru/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Язык перевода:";
-
-                    GroupAddressManagementTitle.Text = "Управление групповыми адресами";
-                    RemoveUnusedAddressesCheckBox.Content = "Удалить неиспользуемые адреса";
-
-                    AppSettingsTitle.Text = "Настройки приложения";
-                    ThemeTextBox.Text = "Тема:";
-                    LightThemeComboBoxItem.Content = "Светлая (по умолчанию)";
-                    DarkThemeComboBoxItem.Content = "Тёмная";
-
-                    AppLanguageTextBlock.Text = "Язык приложения:";
-
-                    SaveButtonText.Text = "Сохранить";
-                    CancelButtonText.Text = "Отменить";
+                    SaveButtonText.Text = "Salvează";
+                    CancelButtonText.Text = "Anulează";
                     break;
 
                 // Slovaque
@@ -1021,20 +1092,25 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Nastavenia";
                     TranslationTitle.Text = "Preklad";
                     EnableTranslationCheckBox.Content = "Povoliť preklad";
-                    DeeplApiKeyText.Text = "API kľúč pre DeepL:";
+                    DeeplApiKeyText.Text = "DeepL API kľúč:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknite sem a získajte kľúč zadarmo)");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Jazyk prekladu:";
+                    Hyperlink.Inlines.Add("(Kliknutím sem získate bezplatný kľúč)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Povoliť automatické rozpoznávanie jazyka pre preklad";
+                    TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk pre preklad:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Cieľový jazyk pre preklad:";
 
                     GroupAddressManagementTitle.Text = "Správa skupinových adries";
                     RemoveUnusedAddressesCheckBox.Content = "Odstrániť nepoužívané adresy";
 
                     AppSettingsTitle.Text = "Nastavenia aplikácie";
                     ThemeTextBox.Text = "Téma:";
-                    LightThemeComboBoxItem.Content = "Svetlá (predvolená)";
-                    DarkThemeComboBoxItem.Content = "Tmavá";
+                    LightThemeComboBoxItem.Content = "Svetlý (predvolený)";
+                    DarkThemeComboBoxItem.Content = "Tmavý";
 
                     AppLanguageTextBlock.Text = "Jazyk aplikácie:";
 
@@ -1045,16 +1121,21 @@ namespace KNXBoostDesktop
                 // Slovène
                 case "SL":
                     SettingsWindowTopTitle.Text = "Nastavitve";
-                    TranslationTitle.Text = "Prevajanje";
+                    TranslationTitle.Text = "Prevod";
                     EnableTranslationCheckBox.Content = "Omogoči prevajanje";
-                    DeeplApiKeyText.Text = "API ključ za DeepL:";
+                    DeeplApiKeyText.Text = "DeepL API ključ:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačen ključ)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Omogoči samodejno zaznavanje jezika za prevajanje";
+                    TranslationSourceLanguageComboBoxText.Text = "Izvorni jezik za prevod:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Ciljni jezik za prevod:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Jezik prevajanja:";
-
-                    GroupAddressManagementTitle.Text = "Upravljanje skupinskih naslovov";
+                    GroupAddressManagementTitle.Text = "Upravljanje naslovov skupine";
                     RemoveUnusedAddressesCheckBox.Content = "Odstrani neuporabljene naslove";
 
                     AppSettingsTitle.Text = "Nastavitve aplikacije";
@@ -1078,13 +1159,17 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klicka här för att få en gratis nyckel)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/sv/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Översättningsspråk:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Aktivera automatisk språkigenkänning för översättning";
+                    TranslationSourceLanguageComboBoxText.Text = "Källspråk för översättning:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Målspråk för översättning:";
 
                     GroupAddressManagementTitle.Text = "Hantera gruppadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Ta bort oanvända adresser";
 
-                    AppSettingsTitle.Text = "Applikationsinställningar";
+                    AppSettingsTitle.Text = "Programinställningar";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Ljus (standard)";
                     DarkThemeComboBoxItem.Content = "Mörk";
@@ -1100,16 +1185,20 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Ayarlar";
                     TranslationTitle.Text = "Çeviri";
                     EnableTranslationCheckBox.Content = "Çeviriyi etkinleştir";
-                    DeeplApiKeyText.Text = "DeepL API Anahtarı:";
+                    DeeplApiKeyText.Text = "DeepL API anahtarı:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Ücretsiz anahtar almak için buraya tıklayın)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/tr/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Çeviri için otomatik dil algılamayı etkinleştir";
+                    TranslationSourceLanguageComboBoxText.Text = "Çeviri için kaynak dil:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Çeviri için hedef dil:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Çeviri Dili:";
-
-                    GroupAddressManagementTitle.Text = "Grup Adres Yönetimi";
-                    RemoveUnusedAddressesCheckBox.Content = "Kullanılmayan Adresleri Kaldır";
+                    GroupAddressManagementTitle.Text = "Grup adres yönetimi";
+                    RemoveUnusedAddressesCheckBox.Content = "Kullanılmayan adresleri kaldır";
 
                     AppSettingsTitle.Text = "Uygulama Ayarları";
                     ThemeTextBox.Text = "Tema:";
@@ -1132,10 +1221,14 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Натисніть тут, щоб отримати безкоштовний ключ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/uk/pro-api");
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Увімкнути автоматичне визначення мови для перекладу";
+                    TranslationSourceLanguageComboBoxText.Text = "Мова джерела для перекладу:";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "Мова призначення для перекладу:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Мова перекладу:";
-
-                    GroupAddressManagementTitle.Text = "Управління груповими адресами";
+                    GroupAddressManagementTitle.Text = "Управління адресами групи";
                     RemoveUnusedAddressesCheckBox.Content = "Видалити невикористані адреси";
 
                     AppSettingsTitle.Text = "Налаштування додатка";
@@ -1148,29 +1241,64 @@ namespace KNXBoostDesktop
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
                     break;
+                
+                // Russe
+                case "RU":
+                    SettingsWindowTopTitle.Text = "Настройки";
+                    TranslationTitle.Text = "Перевод";
+                    EnableTranslationCheckBox.Content = "Включить перевод";
+                    DeeplApiKeyText.Text = "Ключ API DeepL:";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("Нажмите здесь, чтобы получить бесплатный ключ)");
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ru/pro-api");
+    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "Включить автоматическое определение языка для перевода";
+                    TranslationSourceLanguageComboBoxText.Text = "Исходный язык для перевода:";
+    
+                    TranslationDestinationLanguageComboBoxText.Text = "Язык назначения для перевода:";
+
+                    GroupAddressManagementTitle.Text = "Управление адресами групп";
+                    RemoveUnusedAddressesCheckBox.Content = "Удалить неиспользуемые адреса";
+
+                    AppSettingsTitle.Text = "Настройки приложения";
+                    ThemeTextBox.Text = "Тема:";
+                    LightThemeComboBoxItem.Content = "Светлая (по умолчанию)";
+                    DarkThemeComboBoxItem.Content = "Темная";
+
+                    AppLanguageTextBlock.Text = "Язык приложения:";
+
+                    SaveButtonText.Text = "Сохранить";
+                    CancelButtonText.Text = "Отменить";
+                    break;
 
                 // Chinois simplifié
                 case "ZH":
                     SettingsWindowTopTitle.Text = "设置";
                     TranslationTitle.Text = "翻译";
                     EnableTranslationCheckBox.Content = "启用翻译";
-                    DeeplApiKeyText.Text = "DeepL API密钥:";
+                    DeeplApiKeyText.Text = "DeepL API 密钥:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(点击这里获取免费的密钥)");
+                    Hyperlink.Inlines.Add("(点击这里获取免费密钥)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/zh/pro-api");
-
-                    TranslationDestinationLanguageComboBoxText.Text = "翻译语言:";
+                    
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
+                        "启用自动语言检测进行翻译";
+                    TranslationSourceLanguageComboBoxText.Text = "翻译源语言：";
+                    
+                    TranslationDestinationLanguageComboBoxText.Text = "翻译目标语言：";
 
                     GroupAddressManagementTitle.Text = "组地址管理";
                     RemoveUnusedAddressesCheckBox.Content = "删除未使用的地址";
 
-                    AppSettingsTitle.Text = "应用程序设置";
-                    ThemeTextBox.Text = "主题:";
-                    LightThemeComboBoxItem.Content = "浅色 (默认)";
+                    AppSettingsTitle.Text = "应用设置";
+                    ThemeTextBox.Text = "主题：";
+                    LightThemeComboBoxItem.Content = "浅色（默认）";
                     DarkThemeComboBoxItem.Content = "深色";
 
-                    AppLanguageTextBlock.Text = "应用程序语言:";
+                    AppLanguageTextBlock.Text = "应用语言：";
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
@@ -1186,8 +1314,7 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Cliquez ici pour obtenir une clé gratuitement)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/fr/pro-api");
-
-                    // TODO CA CEST A TRADUIRE DANS TOUTES LES LANGUES
+                    
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Activer la détection automatique de la langue pour la traduction";
                     TranslationSourceLanguageComboBoxText.Text = "Langue source de la traduction:";
@@ -1207,8 +1334,84 @@ namespace KNXBoostDesktop
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
                     break;
-
             }
+
+            string textColor;
+            string darkBackgroundColor;
+            string deepDarkBackgroundColor;
+            string pathColor;
+            string textboxBackgroundColor;
+
+            var checkboxStyle = (Style)FindResource("CheckboxLightThemeStyle");
+            Brush borderBrush;
+            
+            if (EnableLightTheme) // Si le thème clair est actif,
+            {
+                textColor = "#000000";
+                darkBackgroundColor = "#F5F5F5";
+                deepDarkBackgroundColor = "#FFFFFF";
+                pathColor = "#D7D7D7";
+                textboxBackgroundColor = "#FFFFFF";
+                borderBrush = new SolidColorBrush(Colors.Gray);
+            }
+            else // Sinon, on met le thème sombre
+            {
+                textColor = "#E3DED4";
+                darkBackgroundColor = "#313131";
+                deepDarkBackgroundColor = "#262626";
+                pathColor = "#434343";
+                textboxBackgroundColor = "#262626";
+                checkboxStyle = (Style)FindResource("CheckboxDarkThemeStyle");
+                borderBrush = (Brush)FindResource("DarkThemeCheckBoxBorderBrush");
+            }
+            
+            // Définition des brush pour les divers éléments
+            var textColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textColor));
+            
+            // Arrière plan de la fenêtre
+            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
+                
+            // En-tête de la fenêtre
+            SettingsIconPath1.Brush = textColorBrush;
+            SettingsIconPath2.Brush = textColorBrush;
+            SettingsWindowTopTitle.Foreground = textColorBrush;
+            HeaderPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
+                
+            // Corps de la fenêtre
+            MainContentBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
+            MainContentPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            TranslationTitle.Foreground = textColorBrush;
+            EnableTranslationCheckBox.Foreground = textColorBrush;
+            DeeplApiKeyText.Foreground = textColorBrush;
+            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = textColorBrush;
+            TranslationSourceLanguageComboBoxText.Foreground = textColorBrush;
+            TranslationDestinationLanguageComboBoxText.Foreground = textColorBrush;
+            GroupAddressManagementTitle.Foreground = textColorBrush;
+            RemoveUnusedAddressesCheckBox.Foreground = textColorBrush;
+            AppSettingsTitle.Foreground = textColorBrush;
+            ThemeTextBox.Foreground = textColorBrush;
+            AppLanguageTextBlock.Foreground = textColorBrush;
+
+            EnableTranslationCheckBox.Style = checkboxStyle;
+            EnableAutomaticTranslationLangDetectionCheckbox.Style = checkboxStyle;
+            RemoveUnusedAddressesCheckBox.Style = checkboxStyle;
+
+            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
+            DeeplApiKeyTextBox.BorderBrush = borderBrush;
+            DeeplApiKeyTextBox.Foreground = textColorBrush;
+
+            TranslationSourceLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+            TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+            ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+            AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                
+            // Pied de page avec les boutons save et cancel
+            SettingsWindowFooter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            FooterPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
+            CancelButtonDrawing.Brush = textColorBrush;
+            CancelButtonText.Foreground = textColorBrush;
+            SaveButtonDrawing.Brush = textColorBrush;
+            SaveButtonText.Foreground = textColorBrush;
         }
 
         
@@ -1216,6 +1419,13 @@ namespace KNXBoostDesktop
         // Fonction s'exécutant lors du clic sur le bouton sauvegarder
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
+            // TODO REMPLACER PAR LA FONCTION D'EMMA QUI CHECK SI LA CLE API EST CORRECTE
+            if ((bool) EnableTranslationCheckBox.IsChecked! && DeeplApiKeyTextBox.Text == "")
+            {
+                MessageBox.Show("La clé d'API DeepL est incorrecte. La fonction de traduction ne pourra fonctionner.", "Attention !", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
@@ -1333,7 +1543,7 @@ namespace KNXBoostDesktop
         private static byte[] EncryptStringToBytes(string plainText)
         {
             // Générer une nouvelle clé et IV pour l'encryption
-            using (Aes aesAlg = Aes.Create())
+            using (var aesAlg = Aes.Create())
             {
                 try
                 {
