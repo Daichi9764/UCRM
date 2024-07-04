@@ -1353,6 +1353,11 @@ namespace KNXBoostDesktop
                 pathColor = "#D7D7D7";
                 textboxBackgroundColor = "#FFFFFF";
                 borderBrush = new SolidColorBrush(Colors.Gray);
+                
+                TranslationSourceLanguageComboBox.Style = null;
+                TranslationLanguageDestinationComboBox.Style = null;
+                ThemeComboBox.Style = null;
+                AppLanguageComboBox.Style = null;
             }
             else // Sinon, on met le thème sombre
             {
@@ -1363,6 +1368,11 @@ namespace KNXBoostDesktop
                 textboxBackgroundColor = "#262626";
                 checkboxStyle = (Style)FindResource("CheckboxDarkThemeStyle");
                 borderBrush = (Brush)FindResource("DarkThemeCheckBoxBorderBrush");
+                
+                TranslationSourceLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
             }
             
             // Définition des brush pour les divers éléments
@@ -1399,11 +1409,6 @@ namespace KNXBoostDesktop
             DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
             DeeplApiKeyTextBox.BorderBrush = borderBrush;
             DeeplApiKeyTextBox.Foreground = textColorBrush;
-
-            TranslationSourceLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-            TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-            ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-            AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
                 
             // Pied de page avec les boutons save et cancel
             SettingsWindowFooter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
