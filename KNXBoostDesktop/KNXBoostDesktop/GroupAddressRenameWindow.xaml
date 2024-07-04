@@ -103,10 +103,10 @@
             <!-- Conteneur principal (corps de la fenêtre) -->
             <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" BorderThickness="1">
                 <StackPanel x:Name="MainContentPanel" Background="White">
-                    <TextBlock x:Name="BeforeText" Text="Adresse de groupe" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
+                    <TextBlock x:Name="BeforeText" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
                     <TextBox x:Name="BeforeTextBox" Margin="10,0,10,10" IsReadOnly="True"/>
                     
-                    <TextBlock x:Name="AfterText" Text="Renommer en..." Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
+                    <TextBlock x:Name="AfterText" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
                     <TextBox x:Name="AfterTextBox" Margin="10,0,10,10" />
                 </StackPanel>
             </Border>
@@ -143,7 +143,7 @@
                                 </DrawingImage>
                             </Image.Source>
                         </Image>
-                        <TextBlock x:Name="SaveButtonText" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="SaveButtonText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0"/>
                     </StackPanel>
                 </Button>
                 
@@ -165,7 +165,7 @@
                                     </DrawingImage>
                                 </Image.Source>
                             </Image>
-                            <TextBlock x:Name="CancelButtonText" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="CancelButtonText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0"/>
                         </StackPanel>
                 </Button>
             </StackPanel>

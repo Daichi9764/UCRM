@@ -1451,6 +1451,9 @@ namespace KNXBoostDesktop
             // Mise à jour éventuellement du contenu pour update la langue du menu
             UpdateWindowContents();
             
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
+            
             // Masquage de la fenêtre de paramètres
             Hide();
         }

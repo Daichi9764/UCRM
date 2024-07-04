@@ -546,7 +546,7 @@
                                 </DrawingImage>
                             </Image.Source>
                         </Image>
-                        <TextBlock x:Name="SaveButtonText" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16"
+                        <TextBlock x:Name="SaveButtonText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16"
                                    HorizontalAlignment="Center" Margin="0,0,5,0" />
                     </StackPanel>
                 </Button>
@@ -571,7 +571,7 @@
                                 </DrawingImage>
                             </Image.Source>
                         </Image>
-                        <TextBlock x:Name="CancelButtonText" VerticalAlignment="Center" FontFamily="Aptos"
+                        <TextBlock x:Name="CancelButtonText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos"
                                    FontSize="16" HorizontalAlignment="Center" Margin="0,0,5,0" />
                     </StackPanel>
                 </Button>
