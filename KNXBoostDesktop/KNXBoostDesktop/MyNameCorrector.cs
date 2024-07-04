@@ -60,7 +60,7 @@ public class MyNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
-            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
                 ValidDeeplKey = CheckDeeplKey();
                 if (ValidDeeplKey)
@@ -279,7 +279,7 @@ public class MyNameCorrector
                                     nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                     
                                     // Translate the group name
-                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
+                                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
                                         if (nameAncestorGrpRange != null)
@@ -292,7 +292,7 @@ public class MyNameCorrector
                                 nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
                                 
                                 // Translate the group name
-                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
+                                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
                                     if (nameGrpRange != null)
@@ -308,7 +308,7 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName;  // Update the GroupAddress element's name
 
-                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
                             {
                                 // Mark the address as renamed
                                 renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
@@ -377,7 +377,7 @@ public class MyNameCorrector
                                         $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                     
                                     // Translate the group name
-                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
+                                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
                                         if (nameAncestorGrpRange != null)
@@ -390,7 +390,7 @@ public class MyNameCorrector
                                     $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
 
                                 // Translate the group name
-                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
+                                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
                                     if (nameGrpRange != null)
@@ -405,7 +405,7 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName; // Update the GroupAddress element's name
 
-                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
                             {
                                 // Mark the address as renamed
                                 renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
@@ -448,7 +448,7 @@ public class MyNameCorrector
             }
             
             // Deletes unused (not renamed) GroupAddresses if requested
-            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
             {
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 foreach (var groupAddress in allGroupAddresses)
@@ -489,7 +489,7 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
             }
 
-            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
             {
                 try
                 {
@@ -768,7 +768,7 @@ public class MyNameCorrector
         try
         {
             // Retrieve the DeepL API authentication key
-            AuthKey = App.DisplayElements?.SettingsWindow.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty;
+            AuthKey = App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty;
         
             // Initialize the DeepL Translator
             Translator = new Translator(AuthKey);

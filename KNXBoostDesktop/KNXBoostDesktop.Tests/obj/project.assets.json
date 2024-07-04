@@ -57,6 +57,15 @@
           "lib/net5.0/DeepL.net.dll": {}
         }
       },
+      "ExCSS/4.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/ExCSS.dll": {}
+        },
+        "runtime": {
+          "lib/net7.0/ExCSS.dll": {}
+        }
+      },
       "MahApps.Metro/3.0.0-alpha0492": {
         "type": "package",
         "dependencies": {
@@ -79,14 +88,7 @@
         "resource": {
           "lib/net8.0-windows7.0/de/MahApps.Metro.resources.dll": {
             "locale": "de"
-          },
-      "ExCSS/4.2.3": {
-        "type": "package",
-        "compile": {
-          "lib/net7.0/ExCSS.dll": {}
-        },
-        "runtime": {
-          "lib/net7.0/ExCSS.dll": {}
+          }
         }
       },
       "Microsoft.CodeCoverage/17.8.0": {
@@ -509,21 +511,6 @@
           "build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props": {}
         }
       },
-      "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ],
       "Microsoft.Win32.SystemEvents/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -545,6 +532,22 @@
             "rid": "win"
           }
         }
+      },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
       },
       "Moq/4.20.70": {
         "type": "package",
@@ -926,6 +929,29 @@
         "lib/netstandard2.0/ExCSS.dll",
         "lib/netstandard2.1/ExCSS.dll",
         "readme.md"
+      ]
+    },
+    "MahApps.Metro/3.0.0-alpha0492": {
+      "sha512": "ymSBkgMmaWAxpMJ1I0EiO2QCrOlO3tRbSeFp9InlopbklBxwzl9wirUBxxZXIccN7IF0JL6woS0WbHy/nb/DUg==",
+      "type": "package",
+      "path": "mahapps.metro/3.0.0-alpha0492",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/MahApps.Metro.dll",
+        "lib/net462/MahApps.Metro.xml",
+        "lib/net462/de/MahApps.Metro.resources.dll",
+        "lib/net6.0-windows7.0/MahApps.Metro.dll",
+        "lib/net6.0-windows7.0/MahApps.Metro.xml",
+        "lib/net6.0-windows7.0/de/MahApps.Metro.resources.dll",
+        "lib/net8.0-windows7.0/MahApps.Metro.dll",
+        "lib/net8.0-windows7.0/MahApps.Metro.xml",
+        "lib/net8.0-windows7.0/de/MahApps.Metro.resources.dll",
+        "mahapps.metro.3.0.0-alpha0492.nupkg.sha512",
+        "mahapps.metro.logo.png",
+        "mahapps.metro.nuspec",
+        "tools/VisualStudioToolsManifest.xml"
       ]
     },
     "Microsoft.CodeCoverage/17.8.0": {
@@ -1395,6 +1421,28 @@
         "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+      "sha512": "MCu674ZETgU18EbxfwIlRpUPJ02YbZenLsMCXTkpeA7KUBpXfFaOUDlEO+7UWu5AFnUoydg+aQENJkuaZPheMQ==",
+      "type": "package",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.77",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/Design/Microsoft.Xaml.Behaviors.Design.dll",
+        "lib/net462/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/net462/Microsoft.Xaml.Behaviors.dll",
+        "lib/net462/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net462/Microsoft.Xaml.Behaviors.xml",
+        "lib/net6.0-windows7.0/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll",
+        "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.xml",
+        "microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512",
+        "microsoft.xaml.behaviors.wpf.nuspec",
+        "tools/Install.ps1"
       ]
     },
     "Moq/4.20.70": {
@@ -1938,19 +1986,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MINIPC\\.nuget\\packages\\": {}
+    "C:\\Users\\coust\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MINIPC\\Desktop\\vieillesBackup\\UCRM - Copie\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
       "projectName": "KNXBoostDesktop.Tests",
-      "projectPath": "C:\\Users\\MINIPC\\Desktop\\vieillesBackup\\UCRM - Copie\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
-      "packagesPath": "C:\\Users\\MINIPC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MINIPC\\Desktop\\vieillesBackup\\UCRM - Copie\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\obj\\",
+      "projectPath": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\KNXBoostDesktop.Tests.csproj",
+      "packagesPath": "C:\\Users\\coust\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\MINIPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\coust\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1958,14 +2011,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\MINIPC\\Desktop\\vieillesBackup\\UCRM - Copie\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
-              "projectPath": "C:\\Users\\MINIPC\\Desktop\\vieillesBackup\\UCRM - Copie\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj"
+            "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj": {
+              "projectPath": "C:\\Users\\coust\\MySolutionFolder\\UCRM\\KNXBoostDesktop\\KNXBoostDesktop\\KNXBoostDesktop.csproj"
             }
           }
         }
@@ -2021,7 +2075,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
