@@ -53,7 +53,6 @@
 
     <mah:MetroWindow.Resources>
         
-        <local:WidthToVisibilityConverter x:Key="WidthToVisibilityConverter" Threshold="400"/>
         <local:WidthBelowThresholdConverter x:Key="WidthConverter" Threshold="680" /> 
 
         <Storyboard x:Key="ExpandAnimation">
