@@ -46,7 +46,8 @@ public partial class MainWindow : MetroWindow
         DataContext = ViewModel;
         //ViewModel.IsProjectImported = false;
 
-        Title = $"{App.AppName} v{App.AppVersion}";
+        //Title = $"{App.AppName} v{App.AppVersion}";
+        Title = "";
         
 
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
