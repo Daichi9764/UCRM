@@ -58,9 +58,9 @@
             <StackPanel Orientation="Vertical" Background="Transparent" Width="500">
                 <!-- Icone + titre paramètres -->
                 <StackPanel Orientation="Horizontal">
-                    <Image Height="30" Width="30" Margin="14,5,5,0" VerticalAlignment="Center">
+                    <Image Height="30" Width="30" Margin="14,10,5,0" VerticalAlignment="Center">
                         <Image.Source>
-                            <DrawingImage x:Key="renameDrawingImage">
+                            <DrawingImage>
                               <DrawingImage.Drawing>
                                 <DrawingGroup ClipGeometry="M0,0 V200 H200 V0 H0 Z">
                                   <DrawingGroup Opacity="1">

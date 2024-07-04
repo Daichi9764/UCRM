@@ -3,12 +3,17 @@ using System.Windows.Input;
 
 namespace KNXBoostDesktop;
 
-public partial class GroupAddressRenameWindow : Window
+public partial class GroupAddressRenameWindow
 {
     public GroupAddressRenameWindow()
     {
         InitializeComponent();
 
+        UpdateWindowTexts();
+    }
+
+    public void UpdateWindowTexts()
+    {
         switch (App.DisplayElements?.SettingsWindow.AppLang)
         {
             // Arabe
@@ -129,26 +134,25 @@ public partial class GroupAddressRenameWindow : Window
 
             // Langue par défaut (français)
             default:
+                GroupAddressRenameWindowTopTitle.Text = "Renommer l'adresse de groupe";
                 SaveButtonText.Text = "Enregistrer";
                 CancelButtonText.Text = "Annuler";
                 break;
         }
-        
-        
     }
-
+    
     private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        return;
     }
 }

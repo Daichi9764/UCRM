@@ -85,6 +85,9 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
+
+            GroupAddressRenameWindow ga = new GroupAddressRenameWindow();
+            ga.Show();
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
