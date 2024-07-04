@@ -770,6 +770,12 @@ public class MyNameCorrector
             // Retrieve the DeepL API authentication key
             AuthKey = App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty;
         
+            // Vérifiez si la clé d'authentification est null
+            if (string.IsNullOrEmpty(AuthKey))
+            {
+                throw new ArgumentNullException("DeepL API key is not configured.");
+            }
+            
             // Initialize the DeepL Translator
             Translator = new Translator(AuthKey);
 
@@ -780,6 +786,11 @@ public class MyNameCorrector
             }).GetAwaiter().GetResult();
 
             return true;
+        }
+        catch (ArgumentNullException ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
+            return false;
         }
         catch (AuthorizationException ex)
         {
