@@ -390,15 +390,202 @@ public partial class MainWindow
             // Exécuter les tâches
             await Task.Run(async () =>
             {
-                loadingWindow.UpdateTaskName("Tâche 1/4");
+                string task, loadingFinished;
+                
+                // Traduction de la fenêtre de chargement
+                switch (App.DisplayElements?.SettingsWindow?.AppLang)
+                {
+                    // Arabe
+                    case "AR":
+                        task = "مهمة";
+                        loadingFinished = "التحميل انتهى!";
+                        break;
+
+                    // Bulgare
+                    case "BG":
+                        task = "Задача";
+                        loadingFinished = "Зареждането приключи!";
+                        break;
+
+                    // Tchèque
+                    case "CS":
+                        task = "Úkol";
+                        loadingFinished = "Načítání dokončeno!";
+                        break;
+
+                    // Danois
+                    case "DA":
+                        task = "Opgave";
+                        loadingFinished = "Indlæsning afsluttet!";
+                        break;
+
+                    // Allemand
+                    case "DE":
+                        task = "Aufgabe";
+                        loadingFinished = "Laden abgeschlossen!";
+                        break;
+
+                    // Grec
+                    case "EL":
+                        task = "Εργασία";
+                        loadingFinished = "Η φόρτωση ολοκληρώθηκε!";
+                        break;
+
+                    // Anglais
+                    case "EN":
+                        task = "Task";
+                        loadingFinished = "Loading finished!";
+                        break;
+
+                    // Espagnol
+                    case "ES":
+                        task = "Tarea";
+                        loadingFinished = "¡Carga terminada!";
+                        break;
+
+                    // Estonien
+                    case "ET":
+                        task = "Ülesanne";
+                        loadingFinished = "Laadimine lõppenud!";
+                        break;
+
+                    // Finnois
+                    case "FI":
+                        task = "Tehtävä";
+                        loadingFinished = "Lataus valmis!";
+                        break;
+
+                    // Hongrois
+                    case "HU":
+                        task = "Feladat";
+                        loadingFinished = "Betöltés kész!";
+                        break;
+
+                    // Indonésien
+                    case "ID":
+                        task = "Tugas";
+                        loadingFinished = "Pemuatan selesai!";
+                        break;
+
+                    // Italien
+                    case "IT":
+                        task = "Compito";
+                        loadingFinished = "Caricamento completato!";
+                        break;
+
+                    // Japonais
+                    case "JA":
+                        task = "タスク";
+                        loadingFinished = "読み込み完了！";
+                        break;
+
+                    // Coréen
+                    case "KO":
+                        task = "작업";
+                        loadingFinished = "로드 완료!";
+                        break;
+
+                    // Letton
+                    case "LV":
+                        task = "Uzdevums";
+                        loadingFinished = "Ielāde pabeigta!";
+                        break;
+
+                    // Lituanien
+                    case "LT":
+                        task = "Užduotis";
+                        loadingFinished = "Įkėlimas baigtas!";
+                        break;
+
+                    // Norvégien
+                    case "NB":
+                        task = "Oppgave";
+                        loadingFinished = "Laster ferdig!";
+                        break;
+
+                    // Néerlandais
+                    case "NL":
+                        task = "Taak";
+                        loadingFinished = "Laden voltooid!";
+                        break;
+
+                    // Polonais
+                    case "PL":
+                        task = "Zadanie";
+                        loadingFinished = "Ładowanie zakończone!";
+                        break;
+
+                    // Portugais
+                    case "PT":
+                        task = "Tarefa";
+                        loadingFinished = "Carregamento concluído!";
+                        break;
+
+                    // Roumain
+                    case "RO":
+                        task = "Sarcină";
+                        loadingFinished = "Încărcare terminată!";
+                        break;
+
+                    // Russe
+                    case "RU":
+                        task = "Задача";
+                        loadingFinished = "Загрузка завершена!";
+                        break;
+
+                    // Slovaque
+                    case "SK":
+                        task = "Úloha";
+                        loadingFinished = "Načítanie dokončené!";
+                        break;
+
+                    // Slovène
+                    case "SL":
+                        task = "Naloga";
+                        loadingFinished = "Nalaganje končano!";
+                        break;
+
+                    // Suédois
+                    case "SV":
+                        task = "Uppgift";
+                        loadingFinished = "Inläsning klar!";
+                        break;
+
+                    // Turc
+                    case "TR":
+                        task = "Görev";
+                        loadingFinished = "Yükleme tamamlandı!";
+                        break;
+
+                    // Ukrainien
+                    case "UK":
+                        task = "Завдання";
+                        loadingFinished = "Завантаження завершено!";
+                        break;
+
+                    // Chinois simplifié
+                    case "ZH":
+                        task = "任务";
+                        loadingFinished = "加载完成！";
+                        break;
+
+                    // Langue par défaut (français)
+                    default:
+                        task = "Tâche";
+                        loadingFinished = "Chargement terminé !";
+                        break;
+                }
+
+                
+                loadingWindow.UpdateTaskName($"{task} 1/4");
                 await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
-                loadingWindow.UpdateTaskName("Tâche 2/4");
+                loadingWindow.UpdateTaskName($"{task} 2/4");
                 await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
                 
                 _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
                 _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
-                loadingWindow.UpdateTaskName("Tâche 3/4");
+                loadingWindow.UpdateTaskName($"{task} 3/4");
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
                 {
                     await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
@@ -408,7 +595,7 @@ public partial class MainWindow
                 {
                     await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
                 }
-                loadingWindow.UpdateTaskName("Tâche 3/4");
+                loadingWindow.UpdateTaskName($"{task} 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
 
                 await LoadXmlFiles(loadingWindow).ConfigureAwait(false);
@@ -416,7 +603,7 @@ public partial class MainWindow
                 // Mettre à jour l'interface utilisateur depuis le thread principal
                 Dispatcher.Invoke(() =>
                 {
-                    loadingWindow.UpdateTaskName("Chargement terminé !");
+                    loadingWindow.UpdateTaskName(loadingFinished);
                     loadingWindow.MarkActivityComplete();
                     loadingWindow.CompleteActivity();
                 });
