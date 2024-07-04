@@ -49,9 +49,7 @@ public partial class MainWindow
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
 
-        parametersImage.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
-
-        DataContext = this;
+        //DataContext = this;
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -103,6 +101,8 @@ public partial class MainWindow
             await ExecuteLongRunningTask();
             
             HideOverlay();
+
+            ViewModel.IsProjectImported = true;
         }
         else
         {
@@ -125,8 +125,8 @@ public partial class MainWindow
                 loadingWindow.UpdateTaskName("Tâche 2/4");
                 await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
                 
-                xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
-                xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+                _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
+                _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
@@ -319,8 +319,8 @@ public partial class MainWindow
         loadingWindow.MarkActivityComplete();
         loadingWindow.LogActivity($"Dans loadXMLFiles");
 
-        await LoadXmlFile(xmlFilePath1, TreeViewGauche);
-        await LoadXmlFile(xmlFilePath2, TreeViewDroite);
+        await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
+        await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
 
     private static async Task LoadXmlFile(string filePath, TreeView treeView)
