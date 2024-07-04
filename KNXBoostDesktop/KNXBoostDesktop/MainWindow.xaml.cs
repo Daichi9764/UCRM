@@ -365,15 +365,15 @@ public partial class MainWindow
 
     private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (txtSearch1.Text != "Chercher...")
+        if (TxtSearch1.Text != "Chercher...")
         {
-            string normalizedSearchText = NormalizeString(txtSearch1.Text);
+            string normalizedSearchText = NormalizeString(TxtSearch1.Text);
 
             // Filtrer et masquer les éléments des deux TreeView basés sur le texte de recherche
-            int itemCount = Math.Min(treeView1.Items.Count, treeView2.Items.Count);
+            int itemCount = Math.Min(TreeViewGauche.Items.Count, TreeViewDroite.Items.Count);
             for (int i = 0; i < itemCount; i++)
             {
-                if (treeView1.Items[i] is TreeViewItem item1 && treeView2.Items[i] is TreeViewItem item2)
+                if (TreeViewGauche.Items[i] is TreeViewItem item1 && TreeViewDroite.Items[i] is TreeViewItem item2)
                 {
                     item1.Visibility = Visibility.Visible;
                     item2.Visibility = Visibility.Visible;
