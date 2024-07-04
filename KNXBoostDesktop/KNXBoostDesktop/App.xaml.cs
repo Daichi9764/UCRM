@@ -31,8 +31,8 @@ namespace KNXBoostDesktop
         public static readonly string AppVersion = "1.5"; // Version de l'application
         
         // Gestion des logs
-        private static string LogPath; // Chemin du fichier logs
-        private static StreamWriter Writer; // Permet l'écriture du fichier de logging
+        private static string? _logPath; // Chemin du fichier logs
+        private static StreamWriter? _writer; // Permet l'écriture du fichier de logging
         
         // Composants de l'application
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
@@ -50,13 +50,13 @@ namespace KNXBoostDesktop
                 Directory.CreateDirectory("./logs");
             }
             
-            LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
-            Writer = new StreamWriter(LogPath);
+            _logPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+            _writer = new StreamWriter(_logPath);
             
             base.OnStartup(e);
 
             // Activation de l'auto-vidage du buffer du stream d'écriture
-            Writer.AutoFlush = true;
+            _writer.AutoFlush = true;
 
 
             ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
@@ -104,7 +104,7 @@ namespace KNXBoostDesktop
             base.OnExit(e);
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
-            Writer.Close(); // Fermeture du stream d'écriture des logs
+            _writer?.Close(); // Fermeture du stream d'écriture des logs
         }
 
         
@@ -121,7 +121,7 @@ namespace KNXBoostDesktop
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
             }
             
-            Writer.Write(msg); // Ecriture du message dans le fichier logs
+            _writer?.Write(msg); // Ecriture du message dans le fichier logs
         }
 
         
@@ -138,7 +138,7 @@ namespace KNXBoostDesktop
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
             }
             
-            Writer.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans le fichier logs
+            _writer?.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans le fichier logs
         }
 
         
@@ -180,14 +180,14 @@ namespace KNXBoostDesktop
                     }
 
                     // Créer le nom du fichier zip avec la date actuelle
-                    string zipFileName = Path.Combine(logDirectory, $"LogsArchive-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
+                    var zipFileName = Path.Combine(logDirectory, $"LogsArchive-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
 
                     // Créer l'archive zip et y ajouter les fichiers log
                     using (ZipArchive zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
                     {
                         foreach (var logFile in logFiles)
                         {
-                            if (logFile != LogPath) // Si le fichier logs n'est pas celui que l'on vient de créer pour le lancement actuel
+                            if (logFile != _logPath) // Si le fichier logs n'est pas celui que l'on vient de créer pour le lancement actuel
                             {
                                 zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute à l'archive
                                 File.Delete(logFile); // Puis on le supprime

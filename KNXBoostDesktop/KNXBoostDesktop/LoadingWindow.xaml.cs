@@ -7,7 +7,7 @@ namespace KNXBoostDesktop
     public partial class LoadingWindow
     {
         private ObservableCollection<Activity> Activities { get; }
-        private TaskCompletionSource<bool> _closeCompletionSource;
+        private TaskCompletionSource<bool>  _closeCompletionSource;
 
         public LoadingWindow()
         {
@@ -30,7 +30,7 @@ namespace KNXBoostDesktop
         {
             await Task.Delay(delay).ConfigureAwait(false);
             Dispatcher.Invoke(Close);
-            _closeCompletionSource.SetResult(true);
+            //_closeCompletionSource.SetResult(true);
         }
 
         public void UpdateTaskName(string taskName)

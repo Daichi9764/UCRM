@@ -1,172 +1,627 @@
-﻿<Window x:Class="KNXBoostDesktop.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KNXBoostDesktop"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        Background="#F5F5F5"
-        Closing="ClosingMainWindow">
-	
-	<Window.TaskbarItemInfo>
-		<TaskbarItemInfo x:Name="TaskbarInfo"/>
-	</Window.TaskbarItemInfo>
-	
-    <Window.Resources>
-        <!-- Style pour le bouton Import KNX Project -->
-        <Style x:Key="ImportButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#FF6200EE"/>
+﻿<mah:MetroWindow  x:Name="MainGrid" x:Class="KNXBoostDesktop.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:KNXBoostDesktop"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  mc:Ignorable="d"
+                  Title="MainWindow" Height="450" Width="800"
+                  MinWidth="309"
+                  MinHeight="165"
+                  Background="#F5F5F5"
+                  Closing="ClosingMainWindow"
+                  WindowTitleBrush="#369026"
+                  NonActiveWindowTitleBrush="#4a9b3c"
+                  TitleCharacterCasing="Normal"
+                  ShowIconOnTitleBar="False"
+                  FontFamily="{StaticResource AptosFontFamily}">
+    
+    <!-- Paramètres du logo dans la barre de titre -->
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <StackPanel Background="Transparent" Width="70" HorizontalAlignment="Center">
+                <Image Height="20" Margin="0,5" >
+                <Image.Source>
+                    <DrawingImage>
+                      <DrawingImage.Drawing>
+                        <DrawingGroup ClipGeometry="M0,0 V290.93 H442.08 V0 H0 Z">
+                          <DrawingGroup.Transform>
+                            <TranslateTransform X="0" Y="0.00083041295874863863" />
+                          </DrawingGroup.Transform>
+                          <DrawingGroup Opacity="1">
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M230.31,145.25C230.31,137.07 230.33,129.59 230.31,122.12 230.26,108.76 230.19,95.39 230.07,82.03 230.06,80.61 230.65,80.35 231.88,80.35 240.64,80.35 249.39,80.35 258.15,80.22 260.1,80.19 260.02,81.19 260.02,82.55 260,105.45 260.01,128.36 260.01,151.26 260.01,161.42 259.93,171.59 260.07,181.75 260.1,184.01 259.36,184.41 257.32,184.39 247.78,184.29 238.24,184.26 228.7,184.41 226.31,184.45 224.93,183.63 223.55,181.75 208.9,161.79 194.16,141.9 179.44,122 179.08,121.51 178.69,121.03 178.01,120.16 177.96,121.37 177.89,122.17 177.89,122.98 177.89,142.6 177.85,162.22 177.94,181.84 177.94,183.94 177.39,184.43 175.35,184.4 166.91,184.28 158.46,184.31 150.02,184.38 148.4,184.39 147.72,184.15 147.72,182.26 147.78,148.96 147.78,115.66 147.72,82.36 147.72,80.57 148.25,80.15 149.97,80.16 160.68,80.24 171.39,80.2299999999999 182.1,80.16 183.62,80.16 184.5,80.66 185.36,81.8699999999999 199.68,102.16 214.04,122.42 228.4,142.68 228.89,143.37 229.41,144.04 230.31,145.26z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M408.39,74.1C402.47,74.1 396.52,73.72 390.63,74.2 383.03,74.82 376.95,72.64 370.67,68.09 348.01,51.65 323.03,39.62 296.31,31.26 278.01,25.53 259.3,21.83 240.18,20.04 224.1,18.54 208.03,18.39 191.96,19.7 176.31,20.97 160.86,23.59 145.62,27.49 116.47,34.94 89.34,46.87 64.14,63.26 59.29,66.41 54.57,69.73 49.92,73.17 49.29,73.63 48.73,74.17 47.86,74.17 38.41,74.17 28.96,74.17 19.4,73.85 61.88,36.29 111.04,12.45 167.06,3.87 258.12,-10.08 338.59,13.82 408.61,73.23 408.54,73.52 408.46,73.81 408.39,74.1z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M121.8,81.14C118.21,84.47 114.51,87.7 111.05,91.16 101.11,101.11 91.32,111.21 81.36,121.13 79.81,122.67 79.66,123.6 81.09,125.28 92.77,139.03 104.37,152.86 115.99,166.65 120.82,172.38 125.66,178.11 130.47,183.81 130.14,184.62 129.5,184.32 129.03,184.32 118.32,184.34 107.61,184.32 96.9,184.37 95.56,184.37 94.8,183.85 93.99,182.87 83.26,170.05 72.47,157.28 61.76,144.44 60.59,143.04 59.96,142.81 58.62,144.29 55.79,147.41 52.77,150.37 49.74,153.31 48.76,154.27 48.39,155.25 48.4,156.6 48.45,165.12 48.38,173.64 48.47,182.16 48.49,183.89 48.07,184.4 46.29,184.38 37.77,184.28 29.25,184.28 20.72,184.38 18.88,184.4 18.54,183.78 18.55,182.11 18.64,148.89 18.68,115.67 18.69,82.45 18.69,80.91 18.96,80.29 20.72,80.31 29.24,80.41 37.76,80.41 46.29,80.31 48.08,80.29 48.48,80.83 48.47,82.56 48.4,96.16 48.43,109.76 48.43,123.36 49.35,123.67 49.54,122.84 49.91,122.47 63.3,108.9 76.68,95.32 90.02,81.7 91.08,80.62 92.14,80.13 93.68,80.14 102.82,80.21 111.96,80.18 121.09,80.18 121.33,80.5 121.57,80.81 121.8,81.13z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M409.1,81C405.45,84.49 401.73,87.92 398.16,91.49 386.82,102.81 375.56,114.21 364.21,125.52 362.92,126.8 362.7,127.51 364.01,129.05 378.92,146.62 393.72,164.28 408.55,181.92 409.1,182.57 409.62,183.23 410.15,183.89 409.65,184.65 408.96,184.33 408.41,184.33 398.01,184.37 387.61,184.36 377.22,184.44 375.67,184.45 374.65,184 373.64,182.79 364.09,171.33 354.45,159.94 344.9,148.47 343.75,147.09 343.18,146.89 341.81,148.31 330.71,159.85 319.5,171.29 308.36,182.8 307.31,183.89 306.25,184.39 304.7,184.37 296.33,184.3 287.97,184.33 279.6,184.33 278.93,184.33 278.26,184.33 276.96,184.33 280.33,180.86 283.27,177.8 286.24,174.76 300.22,160.46 314.2,146.16 328.24,131.92 329.45,130.69 329.47,130.05 328.36,128.73 315.41,113.39 302.53,97.99 289.65,82.59 289.12,81.96 288.37,81.46 288.22,80.54 288.69,80.03 289.27,80.26 289.78,80.26 300.02,80.24 310.26,80.28 320.51,80.22 321.98,80.22 322.95,80.67 323.9,81.79 331.69,90.95 339.58,100.03 347.34,109.23 348.59,110.71 349.2,110.65 350.49,109.33 359.58,100.08 368.75,90.9 377.89,81.7 378.67,80.92 379.37,80.22 380.65,80.23 389.95,80.28 399.25,80.26 408.55,80.26 408.73,80.51 408.91,80.76 409.09,81z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M60,243.97C62,244.72 64.02,245.27 65.85,246.21 73.45,250.12 76.12,256.87 75.83,264.89 75.4,276.98 68.01,284.82 55.36,287.06 52.13,287.63 48.88,288.03 45.58,288.03 31.12,288.01 16.65,287.99 2.19,288.07 0.409999999999998,288.07 -2.22044604925031E-15,287.58 0.00999999999999757,285.85 0.0699999999999976,258.57 0.0599999999999976,231.29 0.0299999999999976,204.01 0.0299999999999976,202.61 0.0299999999999976,201.7 1.94,201.73 17.81,201.97 33.69,201.25 49.54,202.15 56.67,202.55 63.37,204.65 68.5,210.12 74.48,216.5 75.78,227.91 71.39,235.47 69.25,239.16 65.92,241.38 62.06,242.94 61.38,243.22 60.54,243.21 60.01,243.97z M33.1,272.62C33.1,272.62 33.1,272.62 33.1,272.61 36.38,272.61 39.66,272.61 42.93,272.61 43.48,272.61 44.02,272.55 44.56,272.5 49.79,272.02 53.77,269.19 54.96,265.11 57.01,258.07 52.79,251.92 45.07,251 37.46,250.09 29.79,250.82 22.16,250.6 21,250.57 20.71,251.05 20.72,252.12 20.76,258.44 20.77,264.76 20.72,271.08 20.71,272.34 21.16,272.67 22.34,272.65 25.93,272.59 29.52,272.63 33.11,272.63z M32.65,217.15C32.65,217.15 32.65,217.06 32.65,217.02 29.37,217.02 26.08,217.1 22.81,216.99 21.21,216.93 20.66,217.36 20.7,219.04 20.81,223.96 20.74,228.88 20.74,233.8 20.74,237.64 20.74,237.69 24.53,237.63 30.93,237.53 37.34,237.97 43.73,237.3 48.68,236.78 52.04,234.2 53.1,230.11 54.83,223.43 50.8,217.76 43.66,217.2 40.01,216.91 36.32,217.15 32.65,217.15z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M233.25,290.91C225.08,291.07 217.24,289.62 209.83,286.12 199.32,281.16 192.1,273.09 188.39,262.18 184.59,251.03 184.24,239.6 188.04,228.34 193.2,213.07 204.1,203.9 219.61,200.3 231.7,197.49 243.66,198.21 255.22,203.06 266.36,207.73 273.99,215.84 278.01,227.17 282.37,239.47 282.43,251.91 277.54,264.05 271.22,279.73 258.79,287.61 242.6,290.36 239.49,290.89 236.37,290.81 233.25,290.92z M206.16,243.34C206.22,259.71 213.96,269.97 227.31,272.76 240.62,275.54 253.39,269.32 258.08,257.65 260.37,251.96 260.95,246.04 260.07,239.95 258.62,229.86 254.04,221.97 244.11,218.41 233.66,214.66 223.54,215.49 214.87,223.02 208.38,228.66 206.32,236.39 206.16,243.34z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M130.31,290.91C119.01,290.96 108.45,288.5 99.33,281.47 89.78,274.11 84.75,264.16 83.17,252.37 82.06,244.14 82.44,235.97 85.23,228.08 90.92,212.02 102.64,202.96 119.08,199.81 128.97,197.91 138.84,198.32 148.47,201.57 165.2,207.21 174.62,219.06 177.43,236.26 179.09,246.4 178.32,256.39 173.93,265.82 167.65,279.3 156.77,286.87 142.43,289.87 138.43,290.71 134.39,290.96 130.31,290.92z M103.3,243.18C103.34,251.67 104.81,258.32 109.34,263.9 115.61,271.64 124.13,274.02 133.65,273.13 142.79,272.28 149.96,267.98 154.25,259.65 157.19,253.95 157.97,247.82 157.32,241.45 156.27,231.18 152.05,222.84 142.16,218.76 132.25,214.67 122.34,215.24 113.49,221.78 105.91,227.38 103.51,235.59 103.29,243.19z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M326.77,290.79C317.1,291.07 307.96,289.12 299.89,283.56 293.2,278.95 289.33,272.43 287.78,264.49 287.43,262.67 287.87,261.89 289.88,261.61 294.67,260.94 299.41,259.98 304.16,259.06 305.55,258.79 306.27,258.73 306.68,260.57 308.68,269.49 316.19,275.37 325.68,275.72 330.1,275.88 334.42,275.37 338.42,273.32 342.75,271.1 344.9,266.9 344.05,262.53 343.55,259.93 341.9,258.26 339.73,257 335.23,254.41 330.17,253.76 325.2,252.81 318.01,251.44 310.81,250.25 303.99,247.27 288.75,240.63 288.09,224.92 293.14,214.76 296.44,208.12 301.98,203.86 308.87,201.53 322.09,197.06 335,197.43 347.08,205.13 352.99,208.9 356.61,214.44 358.47,221.19 358.99,223.08 358.46,223.76 356.61,224.13 351.86,225.05 347.13,226.05 342.44,227.24 340.75,227.67 340.33,227.19 339.96,225.68 336.94,213.5 323.29,211.55 315.51,216.23 312.75,217.89 311,220.34 310.74,223.61 310.38,228.03 312.35,230.82 316.95,232.66 321.48,234.47 326.33,234.96 331.07,235.88 337.04,237.04 343.01,238.06 348.77,240.19 369.78,247.97 366.93,272.28 355.79,281.69 348.91,287.49 340.83,289.86 332.15,290.76 330.37,290.94 328.56,290.79 326.76,290.79z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M404.35,201.77C415.61,201.77 426.87,201.81 438.12,201.73 439.85,201.72 440.42,202.15 440.37,203.94 440.24,208.47 440.27,213.01 440.37,217.54 440.4,219.06 439.97,219.53 438.42,219.51 431.38,219.43 424.35,219.57 417.31,219.42 415.12,219.38 414.44,219.84 414.45,222.18 414.55,243.28 414.48,264.39 414.56,285.5 414.56,287.55 414.1,288.14 412,288.08 406.77,287.91 401.52,287.94 396.29,288.08 394.35,288.13 393.82,287.58 393.83,285.62 393.9,264.51 393.83,243.41 393.94,222.3 393.95,219.85 393.25,219.37 390.97,219.42 384.02,219.57 377.05,219.42 370.1,219.51 368.47,219.53 367.96,219.1 368,217.43 368.11,212.9 368.11,208.36 368,203.83 367.96,202.18 368.47,201.72 370.11,201.73 381.52,201.79 392.94,201.76 404.35,201.76z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M421.92,77.26C421.96,71.56 426.37,67.24 432.08,67.3 437.75,67.36 442.14,71.81 442.09,77.45 442.04,82.99 437.34,87.62 431.88,87.52 426.28,87.41 421.88,82.88 421.92,77.25z M431.8,85.8C436.68,85.86 440.56,82.09 440.52,77.33 440.48,72.74 436.75,68.92 432.24,68.84 427.4,68.75 423.45,72.51 423.39,77.25 423.33,81.93 427.09,85.75 431.81,85.8z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M442.08,290.93z M0,0z M428.1,77.34C428.1,76.25,428.1,75.16,428.1,74.06Q428.1,70.96,432.35,71.14C434.74,71.24 436,72.6 435.8,74.85 435.77,75.16 435.8,75.59 435.62,75.75 433.04,77.93 434.96,79.84 435.92,81.84 436.15,82.31 437.04,82.91 436.22,83.4 435.43,83.87 434.57,83.6 434.09,82.64 433.53,81.53 432.95,80.42 432.33,79.34 431.97,78.7 431.47,78.13 430.65,78.39 429.85,78.64 430.11,79.41 430.08,79.99 430.04,80.77 430.06,81.55 430.06,82.33 430.06,83.01 429.97,83.58 429.06,83.54 428.17,83.5 428.11,82.91 428.11,82.25 428.11,80.61 428.11,78.97 428.11,77.33z M430.1,74.85C430.29,75.49 429.41,77 431.4,76.87 432.73,76.78 433.64,76.25 433.73,74.81 433.82,73.31 432.98,72.79 431.58,72.69 430.03,72.58 429.97,73.5 430.1,74.85z" />
+                          </DrawingGroup>
+                        </DrawingGroup>
+                      </DrawingImage.Drawing>
+                    </DrawingImage>
+                </Image.Source>
+            </Image>
+            </StackPanel>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <mah:MetroWindow.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="TaskbarInfo"/>
+    </mah:MetroWindow.TaskbarItemInfo>
+
+    <mah:MetroWindow.Resources>
+        
+        <!-- Import pour rétracter les boutons Charger et Exporter -->
+        <local:WidthBelowThresholdConverter x:Key="WidthConverterCharger" Threshold="607" /> 
+        <local:WidthBelowThresholdConverter x:Key="WidthConverterExport" Threshold="455" />
+        
+        <!-- Style la pour synchronisation des arbres -->
+        <Style x:Key="TreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+            <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
+            <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
+        </Style>
+
+        
+        <!-- Style pour le bouton Exporter -->
+        <Style x:Key="ExportButton" TargetType="Button">
+            <Setter Property="Background" Value="#4071B4"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="BorderBrush" Value="#FF3700B3"/>
-            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="12"/>            
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Padding" Value="0,0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="btnBorder" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="15">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="0"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Width="15" Height="15" Margin="5,0,5,0" VerticalAlignment="Center">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V800 H800 V0 H0 Z">
+                                                    <DrawingGroup Opacity="1">
+                                                        <DrawingGroup Opacity="1">
+                                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M415.7,6.6C411.4,2.3 405.6,0 400,0 394.4,0 388.6,2.1 384.3,6.6L207,183.9C198.3,192.6 198.3,206.7 207,215.4 215.7,224.1 229.8,224.1 238.5,215.4L377.7,76.2 377.7,609C377.7,621.4 387.6,631.3 400,631.3 412.4,631.3 422.3,621.4 422.3,609L422.3,76.2 561.5,215.4C570.2,224.1 584.3,224.1 593,215.4 601.7,206.7 601.7,192.6 593,183.9L415.7,6.6z" />
+                                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M703.5,755.5L96.5,755.5C84.1,755.5 74.2,765.4 74.2,777.8 74.2,790.2 84.1,800.1 96.5,800.1L703.5,800.1C715.9,800.1 725.8,790.2 725.8,777.8 725.8,765.4 715.9,755.5 703.5,755.5z" />
+                                                        </DrawingGroup>
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock x:Name="txtblock" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Margin="0,0,10,0"/>
+                            </Grid>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="btnBorder" Property="Background" Value="Gray"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                            </Trigger>
+                            <!-- Trigger when ActualWidth is below the threshold -->
+                            <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterExport}}" Value="True">
+                                <Setter TargetName="txtblock" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <!-- Default style when ActualWidth is above the threshold -->
+                            <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterExport}}" Value="False">
+                                <Setter Property="Background" Value="#4071B4"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF3700B3"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FF6200EE"/>
-                    <Setter Property="BorderBrush" Value="#FF6200EE"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
-
-        <!-- Style pour un autre bouton -->
-        <Style x:Key="AnotherButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#FF009688"/>
+        
+        <!-- Style pour le bouton Charger -->
+        <Style x:Key="ChargerButton" TargetType="Button">
+            <Setter Property="Background" Value="#4071B4"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="BorderBrush" Value="#FF00796B"/>
-            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="12"/>            
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Padding" Value="0,0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="btnBorder" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="15">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                CornerRadius="0"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Width="15" Height="15" Margin="5,0,5,0" VerticalAlignment="Center">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V800 H800 V0 H0 Z">
+                                                    <DrawingGroup Opacity="1">
+                                                        <DrawingGroup Opacity="1">
+                                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M384.3,624.7C388.6,629 394.4,631.3 400,631.3 405.6,631.3 411.4,629.2 415.7,624.7L593,447.3C601.7,438.6 601.7,424.5 593,415.8 584.3,407.1 570.2,407.1 561.5,415.8L422.3,555.1 422.3,22.3C422.3,9.9 412.4,0 400,0 387.6,0 377.7,9.9 377.7,22.3L377.7,555.1 238.5,415.8C229.8,407.1 215.7,407.1 207,415.8 198.3,424.5 198.3,438.6 207,447.3L384.3,624.7z" />
+                                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M800,800z M0,0z M703.5,755.5L96.5,755.5C84.1,755.5 74.2,765.4 74.2,777.8 74.2,790.2 84.1,800.1 96.5,800.1L703.5,800.1C715.9,800.1 725.8,790.2 725.8,777.8 725.8,765.4 715.9,755.5 703.5,755.5z" />
+                                                        </DrawingGroup>
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock x:Name="txtblock" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" Margin="0,0,10,0"/>
+                            </Grid>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                            </Trigger>
+                            <!-- Trigger when ActualWidth is below the threshold -->
+                            <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterCharger}}" Value="True">
+                                <Setter TargetName="txtblock" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <!-- Default style when ActualWidth is above the threshold -->
+                            <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterCharger}}" Value="False">
+                                <Setter Property="Background" Value="#4071B4"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF00796B"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FF009688"/>
-                    <Setter Property="BorderBrush" Value="#FF009688"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
-		
-		<!-- Style la synchronisation des arbres -->
-		<Style x:Key="TreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
-			<EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
-			<EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
-		</Style>
 
-    </Window.Resources>
+        <!-- Style pour le bouton Paramètres -->
+        <Style x:Key="SettingsButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D3D3D3"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#b8b8b8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D3D3D3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Border BorderBrush="#369226" BorderThickness="1" Padding="10">
-		<Grid>
-			<Grid x:Name="MainContent">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<!-- Titre et champ de recherche pour le premier tableau -->
-					<RowDefinition Height="*"/>
-					<!-- Premier tableau avec ScrollViewer -->
-					<RowDefinition Height="Auto"/>
-					<!-- Deuxième tableau avec ScrollViewer -->
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<!-- Première colonne pour le premier tableau -->
-					<ColumnDefinition Width="0.15*"/>
-					<!-- Colonne pour la flèche (10% de la largeur) -->
-					<ColumnDefinition Width="*"/>
-					<!-- Deuxième colonne pour le deuxième tableau -->
-				</Grid.ColumnDefinitions>
+        <!-- Style bouton invisible -->
+        <Style x:Key="ToggleButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#D3D3D3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#D7D7D7" />
+        </Style>
+        
+    </mah:MetroWindow.Resources>
+    
+    <Border BorderBrush="#369226" 
+            BorderThickness="1" 
+            Padding="10,5,10,10">
+        
+        <Grid>
+            <Grid x:Name="MainContent">
+                <Grid.RowDefinitions>
+                    <!-- Recherche et boutons -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Arbres -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            
+                <!-- Recherge et Boutons -->
+                <Grid Grid.Row="0" Margin="10,5,10,10">
+                    <Grid.ColumnDefinitions>
+                        <!-- Pour le champ de recherche -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Pour les boutons de droite -->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-				<!-- Left panel -->
-				<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
-					<TextBlock Text="Adresses de groupes originales" FontSize="14" FontWeight="Bold" Margin="0,0,10,0"/>
-					<Button Width="20" Height="20" Content="🔍" Click="ToggleSearchVisibility1"/>
-					<TextBox x:Name="txtSearch1" Width="110" Visibility="Collapsed" TextChanged="TxtSearch1_TextChanged"/>
-				</StackPanel>
-				<ScrollViewer Grid.Row="1" Grid.Column="0" Name="scrollViewer1" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Hidden">
-					<TreeView x:Name="treeView1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
-				</ScrollViewer>
+                    <!-- Bouton de recherche à gauche -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0">
+                                <Border x:Name="BorderBoutonsGauche" BorderBrush="#D7D7D7" BorderThickness="1" CornerRadius="0" Background="White" Margin="-10,0,0,0" Padding="0" Height="25">
+                                    <DockPanel>
+                                        <!-- Image de loupe -->
+                                        <Image Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,5,0">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V191.27 H191.2 V0 H0 Z">
+                                                            <DrawingGroup.Transform>
+                                                                <TranslateTransform X="0.004999995231628418" Y="0.0076204603537917137" />
+                                                            </DrawingGroup.Transform>
+                                                            <DrawingGroup Opacity="1">
+                                                                <GeometryDrawing Brush="#FF000000" Geometry="F1 M191.2,191.27z M0,0z M72.86,100.05C63.1,84.57 59.89,68.01 63.87,50.27 67.42,34.43 75.92,21.7 89.06,12.18 115.15,-6.72000000000001 151.18,-3.30000000000001 173.47,20.09 195.69,43.4 197.19,79.62 176.98,104.87 156.72,130.18 119.8,136.99 91.26,118.36 83.38,126.25 44.52,165.11 36.62,173.01 31.79,177.85 26.95,182.68 22.13,187.5 17.11,192.52 8.96999999999999,192.52 3.93999999999999,187.5 3.87999999999999,187.44 3.81999999999999,187.38 3.75999999999999,187.32 -1.26000000000001,182.3 -1.26000000000001,174.15 3.75999999999999,169.13 16.43,156.47 60.12,112.78 72.86,100.05z M125.48,23.05C103.79,23.7 86.08,41.32 85.32,63.01 84.48,86.99 104.07,106.65 128.06,105.91 149.76,105.24 167.46,87.58 168.17,65.88 168.96,41.94 149.41,22.34 125.48,23.05z" />
+                                                            </DrawingGroup>
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <!-- TextBox avec texte temporaire -->
+                                        <TextBox x:Name="TxtSearch1" 
+                                                 Width="140" Height="25"
+                                                 VerticalContentAlignment="Center" Margin="0,0,0,0" 
+                                                 BorderThickness="0" Background="Transparent"
+                                                 Foreground="Gray" Text="Chercher..." VerticalAlignment="Center"
+                                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                                                 PreviewKeyDown="txtSearch1_PreviewKeyDown"
+                                                 TextChanged="TxtSearch_TextChanged">
+                                        </TextBox>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
 
-	            <!-- Parameters Button -->
-	            <Button Grid.Row="3" Grid.Column="1" Width="30" Height="30" Click="OpenParameters" Margin="10"  >
-	                <Image x:Name="parametersImage" Width="20" Height="20"/>
-	            </Button>
-	 
-	            <!-- Arrow between the two panels -->
-				<Viewbox Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-					<Path Data="M-10,4 L0,4 L0,10 L10,0 L0,-10 L0,-4 L-10,-4 Z" Fill="#369226" Stretch="Uniform"/>
-				</Viewbox>
+                    <!-- Boutons à droite -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <!-- Bouton de paramètres -->
+                        <Button x:Name="ButtonSettings" Width="25" Height="25"
+                                Click="OpenParameters"
+                                Margin="0,0,10,0" 
+                                Background="White"
+                                BorderThickness="1" BorderBrush="#D7D7D7"
+                                Padding="0"
+                                Style="{StaticResource SettingsButton}">
 
-				<!-- Right panel -->
-				<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
-					<TextBlock Text="Adresses de groupes modifiées" FontSize="14" FontWeight="Bold" Margin="0,0,10,0"/>
-					<Button Width="20" Height="20" Content="🔍" Click="ToggleSearchVisibility2"	/>
-					<TextBox x:Name="txtSearch2" Width="110" Visibility="Collapsed" TextChanged="TxtSearch2_TextChanged"/>
-				</StackPanel>
-				<ScrollViewer Grid.Row="1" Grid.Column="2" Name="scrollViewer2" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Auto">
-					<TreeView x:Name="treeView2" Margin="10" ItemContainerStyle="{StaticResource TreeViewItemStyle}"/>
-				</ScrollViewer>
+                            <Image Width="15" Height="15"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Margin="0" Stretch="Fill" x:Name="Image">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V200 H200 V0 H0 Z">
+                                                <DrawingGroup.Transform>
+                                                    <TranslateTransform X="0" Y="0.0099999997764825821" />
+                                                </DrawingGroup.Transform>
+                                                <GeometryDrawing Brush="#FF000000" Geometry="F1 M200,200z M0,0z M108.98,199.8C102.99,199.8 97,199.8 91.01,199.8 90.92,199.77 90.83,199.73 90.73,199.72 87.08,199.33 83.82,197.97 80.93,195.7 78.69,193.94 76.95,191.78 75.68,189.24 74.25,186.37 73.61,183.33 73.67,180.13 73.69,179.07 73.6,178.02 73.18,177.02 72.29,174.9 70.75,173.41 68.72,172.37 65.56,170.75 61.32,170.95 58.52,173.84 54.73,177.75 49.96,179.48 44.52,179.18 40.17,178.94 36.33,177.37 33.18,174.35 29.7,171 26.34,167.52 22.89,164.13 18.57,159.87 16.46,154.73 16.71,148.67 16.9,144.16 18.45,140.11 21.43,136.69 22.79,135.13 24.32,133.74 25.74,132.24 26.1,131.86 26.4,131.38 26.56,130.88 27.23,128.77 25.52,126.07 23.08,126.19 21.13,126.28 19.17,126.27 17.23,126.08 12.85,125.67 9.06,123.88 5.9,120.82 2.19,117.22 0.180000000000004,112.83 0.0900000000000043,107.65 0.0100000000000043,102.48 0.0400000000000043,97.3 0.0800000000000043,92.12 0.110000000000004,88.23 1.36,84.71 3.63,81.57 6.64,77.41 10.67,74.8 15.72,73.91 17.59,73.58 19.54,73.68 21.45,73.55 22.19,73.5 22.96,73.44 23.64,73.18 25.28,72.56 26.33,71.3 27.04,69.72 28.03,67.51 27.8,64.82 25.86,62.97 25.02,62.17 24.22,61.34 23.4,60.53 19.47,56.62 17.32,51.9 17.1,46.35 16.86,40.5 18.77,35.4 22.78,31.15 25.38,28.39 28.11,25.76 30.8,23.08 31.34,22.54 31.91,22.03 32.51,21.56 37.08,17.98 42.26,16.47 48.04,17.15 52.15,17.63 55.84,19.16 58.98,21.87 60.42,23.11 61.74,24.49 63.1,25.82 63.82,26.53 64.63,27.08 65.62,27.33 67.56,27.82 69.34,27.4 70.96,26.31 72.6,25.21 73.62,23.7 73.64,21.65 73.65,20.85 73.65,20.06 73.64,19.26 73.62,15.83 74.45,12.63 76.13,9.63999999999997 77.61,7.00999999999997 79.62,4.86999999999997 82.12,3.18999999999997 84.05,1.88999999999997 86.15,0.939999999999974 88.44,0.469999999999974 89.34,0.279999999999974 90.25,0.149999999999974 91.16,-0.0100000000000264 97.02,-0.0100000000000264 102.88,-0.0100000000000264 108.74,-0.0100000000000264 108.88,0.0199999999999736 109.02,0.0599999999999736 109.16,0.0899999999999736 110.2,0.279999999999974 111.26,0.379999999999974 112.27,0.669999999999974 116.77,1.92999999999997 120.36,4.50999999999997 122.98,8.36999999999997 124.93,11.23 126.07,14.42 126.21,17.91 126.28,19.6 126.25,21.29 126.27,22.99 126.28,23.36 126.29,23.75 126.38,24.1 127.01,26.4 130.53,27.61 132.37,25.64 133.39,24.55 134.47,23.51 135.53,22.45 138.87,19.11 142.91,17.2 147.59,16.74 153.83,16.13 159.26,18 163.75,22.4 167.17,25.75 170.55,29.14 173.9,32.55 179.29,38.02 180.77,45.88 177.77,52.85 176.8,55.09 175.42,57.04 173.66,58.73 172.73,59.63 172.05,60.68 171.71,61.94 171.13,64.03 171.32,66.07 172.15,68.05 173.14,70.39 174.76,72.15 177.15,73.13 178.05,73.5 179,73.6 179.97,73.59 181.9,73.57 183.81,73.71 185.67,74.23 190.08,75.46 193.65,77.89 196.32,81.62 198.55,84.75 199.81,88.23 199.85,92.09 199.9,97.27 199.91,102.44 199.85,107.62 199.8,112.25 198.14,116.3 195.09,119.75 192.28,122.94 188.75,124.95 184.59,125.83 182.6,126.25 180.58,126.24 178.56,126.24 178.07,126.24 177.58,126.24 177.11,126.34 174.39,126.92 172.48,129.71 172.32,132.32 172.2,134.24 172.96,135.75 174.33,137.09 178.72,141.39 180.48,146.62 179.47,152.69 178.87,156.35 177.09,159.44 174.47,162.05 170.37,166.14 166.26,170.22 162.17,174.33 159.05,177.46 155.35,179.32 150.91,179.64 147.47,179.89 144.25,179.17 141.24,177.49 139.54,176.55 138.13,175.26 136.73,173.93 136.22,173.45 135.62,172.98 134.98,172.72 132.55,171.74 130.34,172.33 128.37,173.91 126.93,175.06 126.22,176.59 126.25,178.47 126.27,179.96 126.25,181.47 126.1,182.95 125.69,186.89 124.11,190.33 121.51,193.3 118.8,196.4 115.43,198.41 111.42,199.34 110.65,199.54 109.81,199.65 108.98,199.8z M100.03,10.55C100.03,10.55 100.03,10.56 100.03,10.56 97.36,10.56 94.69,10.47 92.02,10.58 88.19,10.74 84.78,13.97 84.36,17.76 84.22,19.03 84.24,20.33 84.25,21.61 84.28,28.43 79.79,34.43 73.43,36.9 70.6,38 67.68,38.36 64.66,37.89 62.04,37.48 59.6,36.6 57.55,34.91 56.01,33.64 54.59,32.21 53.19,30.79 51.19,28.77 48.82,27.66 45.99,27.56 43.32,27.47 40.84,28.18 38.89,30.03 35.97,32.79 33.12,35.64 30.35,38.55 26.93,42.14 26.69,47.9 29.76,51.77 30.86,53.15 32.17,54.37 33.42,55.62 36.2,58.39 37.75,61.71 38.1,65.61 38.43,69.27 37.64,72.71 35.76,75.85 32.81,80.77 28.52,83.67 22.71,84.11 21.61,84.19 20.5,84.12 19.39,84.17 18.63,84.2 17.85,84.23 17.12,84.41 13.24,85.35 10.67,88.6 10.64,92.64 10.6,97.47 10.65,102.31 10.62,107.14 10.59,111.86 14.58,115.81 19.31,115.66 20.63,115.62 21.95,115.65 23.27,115.66 25.31,115.68 27.3,116.01 29.13,116.94 33.64,119.23 36.34,122.88 37.12,127.87 37.74,131.81 36.84,135.43 34.29,138.52 33.04,140.03 31.57,141.37 30.19,142.77 28.8,144.18 27.79,145.81 27.44,147.78 26.85,151.09 27.72,153.97 30.08,156.37 31.97,158.28 33.87,160.17 35.78,162.07 37.34,163.62 38.86,165.21 40.47,166.7 43.25,169.27 47.39,169.4 50.35,167.07 51.13,166.46 51.81,165.72 52.56,165.08 56.96,161.37 62.07,160.18 67.67,161.06 71.67,161.69 75.2,163.42 78.18,166.18 81.11,168.89 83.17,172.15 83.88,176.12 84.18,177.76 84.19,179.45 84.26,181.12 84.46,185.52 87.88,189.09 92.28,189.23 96.13,189.36 99.99,189.28 103.85,189.28 105.2,189.28 106.55,189.31 107.9,189.23 111.62,189.03 114.94,186.15 115.55,182.49 115.78,181.11 115.74,179.67 115.74,178.26 115.76,174.65 116.84,171.42 119.02,168.55 121.78,164.93 125.45,162.79 129.91,161.98 133.22,161.37 136.42,161.79 139.5,163.13 141.5,164 143.16,165.34 144.7,166.87 145.36,167.52 146.12,168.15 146.95,168.55 149.54,169.79 152.42,169.21 154.49,167.15 156.25,165.41 157.99,163.65 159.74,161.9 162.36,159.27 165.01,156.67 167.58,154 169.37,152.14 169.75,149.2 168.67,146.85 168.17,145.75 167.34,144.93 166.5,144.11 163.77,141.44 162.25,138.18 161.91,134.4 161.41,128.88 163.19,124.13 167.11,120.24 169.78,117.59 173.03,116.02 176.82,115.72 178.24,115.61 179.68,115.66 181.11,115.64 185.51,115.56 189.15,112.03 189.33,107.63 189.4,106.04 189.36,104.44 189.36,102.85 189.36,99.27 189.4,95.69 189.32,92.11 189.25,88.89 186.95,85.86 183.95,84.72 182.64,84.22 181.29,84.16 179.92,84.16 176.86,84.1499999999999 173.96,83.4799999999999 171.26,81.99 167.3,79.8 164.46,76.5899999999999 162.62,72.4799999999999 161.04,68.9499999999999 160.49,65.2599999999999 161.08,61.4199999999999 161.7,57.3999999999999 163.47,53.9699999999999 166.39,51.1099999999999 167.04,50.4699999999999 167.61,49.6899999999999 168.02,48.8799999999999 169.32,46.3099999999999 169.13,42.5599999999999 166.37,39.8699999999999 163.01,36.5999999999999 159.75,33.2299999999999 156.4,29.9499999999999 155.69,29.2499999999999 154.86,28.6199999999999 153.97,28.1799999999999 150.14,26.2799999999999 145.97,27.0099999999999 142.92,30.0199999999999 141.88,31.0499999999999 140.84,32.0899999999999 139.81,33.1299999999999 137.79,35.1699999999999 135.37,36.5199999999999 132.55,36.9599999999999 127.17,37.8099999999999 122.61,36.1499999999999 119.01,32.0599999999999 117.02,29.7899999999999 115.9,27.1099999999999 115.78,24.0699999999999 115.71,22.2999999999999 115.77,20.5199999999999 115.72,18.7499999999999 115.6,14.3199999999999 112.15,10.7499999999999 107.73,10.5699999999999 105.18,10.47 102.6,10.55 100.03,10.55z" />
+                                                <GeometryDrawing Brush="#FF000000" Geometry="F1 M200,200z M0,0z M99.91,63.09C120.21,63.01 136.73,79.42 136.81,99.78 136.9,120.39 120.05,136.72 100.05,136.74 79.76,136.75 63.24,120.35 63.17,99.96 63.12,79.96 79.26,63.16 99.91,63.09z M126.27,99.95C126.29,85.41 114.55,73.65 100,73.63 85.53,73.61 73.78,85.34 73.73,99.85 73.68,114.38 85.46,126.21 100.05,126.17 114.9,126.12 126.25,114.1 126.27,99.95z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button>
+                        <!-- Import Button -->
+                        <Button x:Name="ButtonChargerProject" Content="Charger un nouveau projet"
+                                Style="{StaticResource ChargerButton}"
+                                Margin="0,0,10,0" Click="ImportProjectButtonClick"/>
+                        <!-- Export Button -->
+                        <Button x:Name="ButtonExportProject" Content="Exporter le projet modifié"
+                                Style="{StaticResource ExportButton}"
+                                IsEnabled="{Binding IsProjectImported}"
+                                Margin="0,0,-10,0"
+                                Click="ExportModifiedProjectButtonClick"/>
+                    </StackPanel>
+                </Grid>
+            
+                <!-- Arbres -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <!-- Panneau de gauche -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- Barre centrale -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Panneau de droite -->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-				
-				<!-- Buttons -->
-				<StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
-					<Button Name="ImportProjectButton" Click="ImportProjectButtonClick" Content="Importer .knxproj" Style="{StaticResource ImportButtonStyle}" Width="250" Margin="5"/>
-					<Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Content="Ouvrir la console" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-				</StackPanel>
-				<StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
-					<Button Name="OpenGroupAddressFileButton" Click="OpenGroupAddressFileButtonClick" Content="Ouvrir GroupAddresses.xml" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-					<Button Name="ExportModifiedProjectButton" Click="ExportModifiedProjectButtonClick" Content="Exporter le projet modifié" Style="{StaticResource AnotherButtonStyle}" Width="250" Margin="5"/>
-				</StackPanel>
-				
-				<Button Width="200" Height="50" Background="#4071B4" Foreground="White">
-					<StackPanel Orientation="Horizontal">
-						<!-- Image Icon -->
-						<Image Source="download_icon.png" Width="24" Height="24" Margin="0,0,10,0"/>
-						<!-- Button Text -->
-						<TextBlock VerticalAlignment="Center">Charger un nouveau projet</TextBlock>
-					</StackPanel>
-				</Button>
-			</Grid>
-			
-			<!-- Couche de désactivation -->
-			<Grid x:Name="Overlay" Background="White" Opacity="0.5" Visibility="Collapsed">
-				<TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
-			</Grid>
-		</Grid>
-	</Border>
-</Window>
+                    <!-- Adresses de Groupes Originales -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <!-- Barre avec le titre -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Affichage en dessous -->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="BorderPanneauGauche" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1" />
+
+                        <!-- Titre et Icon -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top"  >
+                            <Image x:Name="ImageAdressesGauche" Height="15" Margin="10">
+                                <Image.Source>
+                                    <DrawingImage >
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
+                                                <DrawingGroup Opacity="1">
+                                                    <GeometryDrawing Brush="#FF9199A3">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                                <DrawingGroup Opacity="1">
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FF3C4B5E">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
+                                                    <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFB82318">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock x:Name="TextBlockAdressesGauche" Text="Adresses de Groupe Originales" FontSize="12" FontWeight="Bold" Margin="0,10" />
+
+                            <!-- Buttons de la console -->
+                            <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
+
+                        </StackPanel>
+
+                        <!-- Bouton déploiement -->
+                        <Button Grid.Row="0" x:Name="BtnToggleArrow" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyle}" >
+                            <Image x:Name="ChevronImage" Width="10" Height="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    Stretch="Fill">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                                                <DrawingGroup.Transform>
+                                                    <RotateTransform Angle="-90" x:Name="RotateTransform"/>
+                                                </DrawingGroup.Transform>
+                                                <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
+                                                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button>
+
+                        <!-- Arbre Gauche -->
+                        <ScrollViewer Grid.Row="1" Name="ScrollViewerGauche" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Padding="10" Background="White">
+                            <TreeView x:Name="TreeViewGauche" ItemContainerStyle="{StaticResource TreeViewItemStyle}" BorderThickness="0" Background="Transparent" />
+                        </ScrollViewer>
+                    </Grid>
+
+                    <!-- Bordure de contour Gauche/-->
+                    <Border Grid.Column="0" BorderBrush="#D7D7D7 " BorderThickness="1,1,0,1" Padding="10" CornerRadius="0"/>
+
+                    <!-- Ajuster les largeurs de fenêtres -->
+                    <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D7D7D7"/>
+
+                    <!-- Adresses de Groupes Originales/-->
+                    <Grid Grid.Column="2" >
+                        <Grid.RowDefinitions>
+                            <!-- Barre avec le titre -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- Affichage en dessous -->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="BorderPanneauDroite" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1"/>
+
+                        <!-- Titre et Icon/-->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                            <Image x:Name="ImageAdressesDroite" Height="15" Margin="10">
+                                <Image.Source>
+                                    <DrawingImage >
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
+                                                <DrawingGroup Opacity="1">
+                                                    <GeometryDrawing Brush="#FF9199A3">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                                <DrawingGroup Opacity="1">
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FF3C4B5E">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
+                                                    <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFE4E5E4">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFB82318">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock x:Name="TextBlockAdressesDroite" Text="Adresses de Groupe Modifiées" FontSize="12" FontWeight="Bold" Margin="0,10"/>
+                        </StackPanel>
+
+                        <!-- Bouton déploiement/-->
+                        <Button Grid.Row="0" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyle}" >
+                            <Image x:Name="ChevronImage2" Width="10" Height="10"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Stretch="Fill">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                                                <DrawingGroup.Transform>
+                                                    <RotateTransform Angle="-90"  x:Name="RotateTransform2"/>
+                                                </DrawingGroup.Transform>
+                                                <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
+                                                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button>
+
+                        <!-- Arbre Droite -->
+                        <ScrollViewer Grid.Row="1" Name="ScrollViewerDroite" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="10" Background="White">
+                            <TreeView x:Name="TreeViewDroite" ItemContainerStyle="{StaticResource TreeViewItemStyle}" BorderThickness="0"  Background="Transparent"/>
+                        </ScrollViewer>
+
+                    </Grid>
+
+                    <!-- Bordure de contour Droit/-->
+                    <Border Grid.Column="2" BorderBrush="#D7D7D7 " BorderThickness="0,1,1,1" CornerRadius="0"/>
+                </Grid>
+            </Grid>
+        
+
+            <!-- Couche de désactivation -->
+            <Grid x:Name="Overlay" Background="White" Opacity="0.5" Visibility="Collapsed">
+                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+            </Grid>
+        </Grid>
+
+    </Border>
+</mah:MetroWindow>
