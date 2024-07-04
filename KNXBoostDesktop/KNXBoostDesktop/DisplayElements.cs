@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace KNXBoostDesktop
+﻿namespace KNXBoostDesktop
 {
     public class DisplayElements
     {
@@ -9,7 +7,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         public MainWindow MainWindow { get; } = new();
         public ConsoleWindow ConsoleWindow { get; } = new();
-        public SettingsWindow SettingsWindow { get; private set; } = new();
+        public SettingsWindow? SettingsWindow { get; private set; } = new();
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -31,7 +29,7 @@ namespace KNXBoostDesktop
         // Fonction pour ouvrir la fenêtre des paramètres
         public void ShowSettingsWindow()
         {
-            SettingsWindow.Show();
+            SettingsWindow?.Show();
         }
 
         public void CloseSettingsWindow()

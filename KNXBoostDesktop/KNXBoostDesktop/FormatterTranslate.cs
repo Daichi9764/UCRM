@@ -6,7 +6,7 @@ namespace KNXBoostDesktop;
 
 public class FormatterTranslate : Formatter
 {
-    private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationLang ?? string.Empty; 
+    private string _destLanguage = App.DisplayElements?.SettingsWindow?.TranslationLang ?? string.Empty; 
     
     public override string Format(string input)
     {
@@ -36,7 +36,7 @@ public class FormatterTranslate : Formatter
 
     private async Task<string> GetTranslatedStringAsync(string input)
     {
-        var authKey = App.DisplayElements?.SettingsWindow.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey);
+        var authKey = App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey);
         switch (_destLanguage)
         {
             case "PT" : _destLanguage = "pt-Pt";
