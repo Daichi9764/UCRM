@@ -2,15 +2,15 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KNX Boost Desktop"
-#define MyAppVersion "1.4"
-#define MyAppPublisher "INSA Toulouse"
+#define MyAppVersion "1.6"
+#define MyAppPublisher "My Company, Inc."
 #define MyAppURL "https://www.example.com/"
 #define MyAppExeName "KNXBoostDesktop.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{DE56F093-A70D-4CA3-A192-174A263558B8}
+AppId={{9F277317-DB60-4F03-A2AA-6CCD72CEFE7C}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -28,10 +28,11 @@ ArchitecturesAllowed=x64compatible
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-; Remove the following line to run in administrative install mode (install for all users.)
-PrivilegesRequired=lowest
+; Uncomment the following line to run in non administrative install mode (install for current user only.)
+;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=mysetup
+OutputBaseFilename=KNXBoostDesktop_installer
+SetupIconFile=C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\KNXBoostDesktop\KNXBoostDesktop\resources\BOOST-2.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -69,13 +70,27 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\resources\*"; DestDir: "{app}\resources"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\DeepL.net.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.deps.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\maxim\OneDrive - INSA Toulouse\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\resources\*"; DestDir: "{app}\resources\"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\ControlzEx.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\DeepL.net.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\KNXBoostDesktop.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\MahApps.Metro.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.DependencyInjection.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.DependencyInjection.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.Polly.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Options.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Primitives.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Polly.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Polly.Extensions.Http.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

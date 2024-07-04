@@ -6,7 +6,8 @@ namespace KNXBoostDesktop;
 
 public partial class GroupAddressRenameWindow
 {
-    public new bool? DialogResult;
+    public new bool? DialogResult { get; private set; } // True si l'utilisateur a cliqué sur sauvegarder, False sinon
+    public string newAddress { get; private set; } // Adresse modifiée par l'utilisateur
     
     public GroupAddressRenameWindow()
     {
@@ -308,6 +309,9 @@ public partial class GroupAddressRenameWindow
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
+
+        newAddress = "";
+        
         UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
         Hide(); // Masquage de la fenêtre de renommage
     }
@@ -315,6 +319,9 @@ public partial class GroupAddressRenameWindow
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
+
+        newAddress = AfterTextBox.Text; // Sauvegarde du texte modifié par l'utilisateur
+        
         Hide(); // Masquage de la fenêtre de renommage
     }
     
