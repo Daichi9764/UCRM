@@ -10,6 +10,9 @@ using System.Xml;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
+using System.Windows.Threading;
+using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace KNXBoostDesktop;
@@ -24,6 +27,8 @@ public partial class MainWindow
     private string _xmlFilePath1 = "";
     
     private string _xmlFilePath2 = "";
+
+    private LoadingWindow loadingWindow;
 
     private MainViewModel ViewModel { get; set; }
 
@@ -43,11 +48,26 @@ public partial class MainWindow
         
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
+
+        parametersImage.Source = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "resources/settingsIcon.png")));
+
+        DataContext = this;
+        
+        LocationChanged += MainWindow_LocationChanged;
+    }
+    
+    private void MainWindow_LocationChanged(object sender, EventArgs e)
+    {
+        // Mettez à jour la position de la LoadingWindow lorsque MainWindow est déplacée
+        if (loadingWindow != null && loadingWindow.IsVisible)
+        {
+            loadingWindow.UpdatePosition(Left, Top);
+        }
     }
     
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
-    private void ImportProjectButtonClick(object sender, RoutedEventArgs e)
+    private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
@@ -72,16 +92,17 @@ public partial class MainWindow
             // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
-            App.Fm.FindZeroXml();
-            MyNameCorrector.CorrectName();
-            _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
-            _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
-            //Define the project path
-            ExportUpdatedNameAddresses.Export(App.Fm.ZeroXmlPath ?? throw new InvalidOperationException(), App.Fm.ProjectFolderPath + "/GroupAddresses.xml");
-            ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml");
-            LoadXmlFiles();
-
-            ViewModel.IsProjectImported = true;
+            // Créer et configurer la LoadingWindow
+            loadingWindow = new LoadingWindow()
+            {
+                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+            };
+            
+            ShowOverlay();
+            
+            await ExecuteLongRunningTask();
+            
+            HideOverlay();
         }
         else
         {
@@ -89,6 +110,71 @@ public partial class MainWindow
         }
     }
     
+    private async Task ExecuteLongRunningTask()
+    {
+        loadingWindow.Show();
+        TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+
+        try
+        {
+            // Exécuter les tâches
+            await Task.Run(async () =>
+            {
+                loadingWindow.UpdateTaskName("Tâche 1/4");
+                await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
+                loadingWindow.UpdateTaskName("Tâche 2/4");
+                await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
+                
+                xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
+                xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
+                //Define the project path
+                loadingWindow.UpdateTaskName("Tâche 3/4");
+                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                {
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+
+                }
+                else
+                {
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                }
+                loadingWindow.UpdateTaskName("Tâche 3/4");
+                await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+
+                await LoadXmlFiles(loadingWindow).ConfigureAwait(false);
+
+                // Mettre à jour l'interface utilisateur depuis le thread principal
+                Dispatcher.Invoke(() =>
+                {
+                    loadingWindow.UpdateTaskName("Chargement terminé !");
+                    loadingWindow.MarkActivityComplete();
+                    loadingWindow.CompleteActivity();
+                });
+            });
+        }
+        finally
+        {
+            // Mettre à jour l'état de la barre des tâches et masquer l'overlay
+            Dispatcher.Invoke(() =>
+            {
+                TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
+                loadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
+            });
+        }
+    }
+    
+    private void ShowOverlay()
+    {
+        Overlay.Visibility = Visibility.Visible;
+        MainContent.IsEnabled = false;
+    }
+    
+    private void HideOverlay()
+    {
+        Overlay.Visibility = Visibility.Collapsed;
+        MainContent.IsEnabled = true;
+    }
+
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
         if (App.DisplayElements == null) return;
@@ -102,13 +188,52 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
+
+    private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ClickCount == 2)
+        {
+            ToggleWindowState();
+        }
+        else
+        {
+            DragMove();
+        }
+    }
+
+    private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+
+    private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        ToggleWindowState();
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void ToggleWindowState()
+    {
+        if (WindowState == WindowState.Normal)
+        {
+            WindowState = WindowState.Maximized;
+        }
+        else
+        {
+            WindowState = WindowState.Normal;
+        }
+    }
     
     private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
     {
-        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}0_updated.xml externally");
+        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml externally");
 
         // Résoudre le chemin absolu
-        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}0_updated.xml");
+        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml");
 
         // Vérifier si le fichier existe
         if (File.Exists(absoluteFilePath))
@@ -135,7 +260,7 @@ public partial class MainWindow
     
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}0_updated.xml";
+        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
         // Vérifier si le fichier source existe
@@ -148,7 +273,7 @@ public partial class MainWindow
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            FileName = "0_updated.xml", // Nom de fichier par défaut
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
             Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
         };
@@ -189,19 +314,28 @@ public partial class MainWindow
 
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
 
-    private void LoadXmlFiles()
-    {
-        LoadXmlFile(_xmlFilePath1, TreeViewGauche);
-        LoadXmlFile(_xmlFilePath2, TreeViewDroite);
-    }
-    
-    private static void LoadXmlFile(string filePath, TreeView treeView)
-        {
-            try
-            {
-                XmlDocument xmlDoc = new();
-                xmlDoc.Load(filePath);
+    private async Task LoadXmlFiles(LoadingWindow loadingWindow)
+    {            
+        loadingWindow.MarkActivityComplete();
+        loadingWindow.LogActivity($"Dans loadXMLFiles");
 
+        await LoadXmlFile(xmlFilePath1, TreeViewGauche);
+        await LoadXmlFile(xmlFilePath2, TreeViewDroite);
+    }
+
+    private static async Task LoadXmlFile(string filePath, TreeView treeView)
+    {
+        try
+        {
+            XmlDocument xmlDoc = await Task.Run(() =>
+            {
+                XmlDocument doc = new();
+                doc.Load(filePath);
+                return doc;
+            });
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
                 treeView.Items.Clear();
 
                 // Ajouter tous les nœuds récursivement
@@ -212,12 +346,18 @@ public partial class MainWindow
                         AddNodeRecursively(node, treeView.Items, 0);
                     }
                 }
-            }
-            catch (Exception ex)
+            });
+        }
+        catch (Exception ex)
+        {
+            // Afficher le message d'erreur sur le thread principal
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            });
         }
+
+    }
 
     private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
     {

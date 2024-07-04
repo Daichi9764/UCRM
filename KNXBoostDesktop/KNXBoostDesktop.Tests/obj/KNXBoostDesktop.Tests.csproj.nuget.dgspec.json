@@ -129,9 +129,9 @@
               "target": "Package",
               "version": "[1.9.0, )"
             },
-            "MahApps.Metro": {
+            "Svg": {
               "target": "Package",
-              "version": "[3.0.0-alpha0492, )"
+              "version": "[3.4.7, )"
             }
           },
           "imports": [

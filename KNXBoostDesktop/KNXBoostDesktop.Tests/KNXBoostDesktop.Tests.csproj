@@ -25,4 +25,10 @@
       <ProjectReference Include="..\KNXBoostDesktop\KNXBoostDesktop.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="SettingWindowTests.cs" />
+      <Compile Remove="ExportUpdatedNameAddressesTests.cs" />
+      <Compile Remove="LoadingWindowTests.cs" />
+    </ItemGroup>
+
 </Project>

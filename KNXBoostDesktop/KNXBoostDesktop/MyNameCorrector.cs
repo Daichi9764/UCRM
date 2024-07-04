@@ -8,7 +8,7 @@ public class MyNameCorrector
     private static XNamespace _globalKnxNamespace = string.Empty;
     private static string _projectFilesDirectory = string.Empty;
     
-    public static void CorrectName()
+    public static async Task CorrectName(LoadingWindow loadingWindow)
     {
         try
         {
@@ -20,6 +20,10 @@ public class MyNameCorrector
             
             // Load the XML file from the specified path
             XDocument knxDoc;
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Load XML file...");
+
             try
             {
                 knxDoc = XDocument.Load(App.Fm?.ZeroXmlPath ?? string.Empty);
@@ -52,17 +56,17 @@ public class MyNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
-            
-            //string a = formatter.Format("Coucou");
             if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
                 formatter= new FormatterTranslate();
-                //string a = formatter.Format("Coucou");
             }
             else
             { 
                 formatter = new FormatterNormalize();
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting infos...");
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
@@ -78,9 +82,12 @@ public class MyNameCorrector
                     DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
                 })
                 .ToList();
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Infos extracted.");
 
-            App.ConsoleAndLogWriteLine("Extracted Location Information:");
             // Display extracted location information
+            App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
             {
                 string message = string.Empty;
@@ -96,9 +103,12 @@ public class MyNameCorrector
                     App.ConsoleAndLogWriteLine($"  DeviceRef: {deviceRef}");
                 }
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting device references...");
 
             // Extract device instance references and  their group object instance references from the KNX file
-            var deviceRefs = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
+            var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
             .Select(di => new
             {
                 Id = di.Attribute("Id")?.Value,
@@ -114,8 +124,12 @@ public class MyNameCorrector
                             ComObjectInstanceRefId = cir.Attribute("RefId")?.Value,
                             IsFirstLink = index == 0  // Mark if it's the first link
                         }))
-            })
-            .SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
+            });
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Extracting device information... (This step can take some time)");
+
+            var deviceRefs = deviceRefsTemp1.SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
             {
                 di.Id,
                 di.ProductRefId,
@@ -135,7 +149,8 @@ public class MyNameCorrector
             }))
             .ToList();
 
-
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Device references and information extracted.");
 
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
@@ -144,8 +159,6 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
             }
 
-            
-            
             // Group deviceRefs by GroupAddressRef
             var groupedDeviceRefs = deviceRefs.GroupBy(dr => dr.GroupAddressRef)
                 .Select(g => new
@@ -166,6 +179,12 @@ public class MyNameCorrector
                         $"  Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
                 }
             }
+            
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Constructing the new group addresses...");
+            
+            // Collection to track the IDs of renamed GroupAddresses
+            HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
@@ -245,8 +264,23 @@ public class MyNameCorrector
                                 var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Translate the group name
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    {
+                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
+                                        if (nameAncestorGrpRange != null)
+                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                    }
                                     // Format the name of the ancestor GroupRange
                                     nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+                                }
+                                
+                                // Translate the group name
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                {
+                                    var nameGrpRange = groupRangeElement.Attribute("Name");
+                                    if (nameGrpRange != null)
+                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
                                 }
 
                                 // Format the name of the current GroupRange
@@ -258,6 +292,12 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName;  // Update the GroupAddress element's name
+
+                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            {
+                                // Mark the address as renamed
+                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                            }
                         }
                     }
                     else
@@ -303,8 +343,7 @@ public class MyNameCorrector
 
                     if (groupAddressElement != null)
                     {
-                        App.ConsoleAndLogWriteLine(
-                            $"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                        App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
                         var nameAttr = groupAddressElement.Attribute("Name");
                         if (nameAttr != null)
                         {
@@ -318,11 +357,25 @@ public class MyNameCorrector
                                     .FirstOrDefault();
                                 if (ancestorGroupRange != null)
                                 {
+                                    // Translate the group name
+                                    if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                    {
+                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
+                                        if (nameAncestorGrpRange != null)
+                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                    }
                                     // Format the name of the ancestor GroupRange
                                     nameFunction =
                                         $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
                                 }
 
+                                // Translate the group name
+                                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+                                {
+                                    var nameGrpRange = groupRangeElement.Attribute("Name");
+                                    if (nameGrpRange != null)
+                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
+                                }
                                 // Format the name of the current GroupRange
                                 nameFunction +=
                                     $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
@@ -333,16 +386,80 @@ public class MyNameCorrector
                             App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                             App.ConsoleAndLogWriteLine($"New Name: {newName}");
                             nameAttr.Value = newName; // Update the GroupAddress element's name
+
+                            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                            {
+                                // Mark the address as renamed
+                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                            }
                         }
                     }
                 }
             }
-
             
-            // Save the updated XML file
+            // Load the original XML file without any additional modifications
+            XDocument originalKnxDoc;
             try
             {
-                knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); // Change the path as needed
+                originalKnxDoc = XDocument.Load(App.Fm?.ZeroXmlPath ?? string.Empty);
+            }
+            catch (FileNotFoundException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: File not found. {ex.Message}");
+                return;
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Directory not found. {ex.Message}");
+                return;
+            }
+            catch (IOException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: IO exception occurred. {ex.Message}");
+                return;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Access denied. {ex.Message}");
+                return;
+            }
+            catch (XmlException ex)
+            {
+                App.ConsoleAndLogWriteLine($"Error: Invalid XML. {ex.Message}");
+                return;
+            }
+            
+            // Deletes unused (not renamed) GroupAddresses if requested
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            {
+                var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
+                foreach (var groupAddress in allGroupAddresses)
+                {
+                    var groupId = groupAddress.Attribute("Id")?.Value;
+                    if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
+                    {
+                        // Supprimer dans originalKnxDoc
+                        groupAddress.Remove();
+
+                        // Supprimer dans knxDoc
+                        var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
+                            .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
+
+                        if (correspondingGroupAddressInKnxDoc != null)
+                            correspondingGroupAddressInKnxDoc.Remove();
+
+                        App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
+                    }
+                }
+            }
+
+            // Save the updated XML files
+            loadingWindow.MarkActivityComplete();
+            loadingWindow.LogActivity($"Saving the updated XML file...");
+
+            try
+            {
+                knxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_updated.xml"); 
                 App.ConsoleAndLogWriteLine("Updated XML file saved as '0_updated.xml'");
             }
             catch (UnauthorizedAccessException ex)
@@ -353,13 +470,31 @@ public class MyNameCorrector
             {
                 App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
             }
+
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            {
+                try
+                {
+                    originalKnxDoc.Save($@"{App.Fm?.ProjectFolderPath}/0_original.xml");
+                    App.ConsoleAndLogWriteLine("Updated XML file saved as '0_updated.xml'");
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    App.ConsoleAndLogWriteLine($"Error: Access denied when saving the file. {ex.Message}");
+                }
+                catch (IOException ex)
+                {
+                    App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
+                }
+            }
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during CorrectName(): {ex.Message}");
         }
     }
 
+    // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
 
@@ -384,71 +519,65 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"File not found: {filePath}");
                 return string.Empty;
             }
-            else
-            {
-                App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
 
-                // Load the XML file
-                XDocument hardwareDoc = XDocument.Load(filePath);
+            App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
+
+            // Load the XML file
+            XDocument hardwareDoc = XDocument.Load(filePath);
                 
-                // Find the ComObject element with the matching Id
-                var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
-                    .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
+            // Find the ComObject element with the matching Id
+            var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
+                .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
                 
-                if (comObjectRefElement == null)
+            if (comObjectRefElement == null)
+            {
+                App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                return string.Empty;
+            }
+
+            App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
+            var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
+            var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
+
+            // If ReadFlag or WriteFlag are not found in ComObjectRef, check in ComObject
+            if (readFlag == null || writeFlag == null)
+            {
+                var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
+                    comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
+                        
+                var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                    .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
+                if (comObjectElement == null)
                 {
-                    App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                    App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
                     return string.Empty;
                 }
-                else
-                {
-                    App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
-                    var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
-                    var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
 
-                   // Return the appropriate string based on the flags
-                    if (readFlag == null || writeFlag == null)
-                    {
-                        var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
-                                comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
-                        
-                        var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
-                            .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
-                        if (comObjectElement == null)
-                        {
-                            App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
-                            return string.Empty;
-                        }
-                        else
-                        {
-                            App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
+                App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
                             
-                            // ??= is used to assert the expression if the variable is null
-                            readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
-                            writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
-                        }
-                    }
+                // ??= is used to assert the expression if the variable is null
+                readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
+                writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
+            }
                     
-                    App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
-                    
-                    if (readFlag == "Enabled" && writeFlag == "Disabled")
-                    {
-                        return "Ie";
-                    }
-                    else if (writeFlag == "Enabled" && readFlag == "Disabled")
-                    {
-                        return "Cmd";
-                    }
-                    else if (writeFlag == "Enabled" && readFlag == "Enabled")
-                    {
-                        return "Cmd";
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }
+            App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
                
+            // Determine the ObjectType based on the ReadFlag and WriteFlag values
+            if (readFlag == "Enabled" && writeFlag == "Disabled")
+            {
+                return "Ie";
+            }
+            else if (writeFlag == "Enabled" && readFlag == "Disabled")
+            {
+                return "Cmd";
+            }
+            else if (writeFlag == "Enabled" && readFlag == "Enabled")
+            {
+                return "Cmd";
+            }
+            else
+            {
+                return string.Empty;
             }
         }
         catch (FileNotFoundException ex)
@@ -473,11 +602,12 @@ public class MyNameCorrector
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred in GetObjectType(): {ex.Message}");
             return string.Empty;
         }
     }
     
+    // Method that reconstructs the name of the hardware file and its directory from the hardware2ProgramRefId of a device
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         try
@@ -504,11 +634,12 @@ public class MyNameCorrector
         }
         catch (Exception ex)
         {
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during FormatHardware2ProgramRefId(): {ex.Message}");
             return (string.Empty, string.Empty);
         }
     }
     
+    // Method that retrieves and returns the value of IsRailMounted from the Hardware.xml file in the mxxxxDirectory of the device based on productRefId
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct the full path to the Mxxxx directory
@@ -516,9 +647,12 @@ public class MyNameCorrector
         
         // Construct the full path to the Hardware.xml file
         string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
+        
+        //Check if the Directory exists
         if (!Directory.Exists(mxxxxDirectoryPath))
         { 
             App.ConsoleAndLogWriteLine($"{mxxxxDirectory} not found in directory: {mxxxxDirectoryPath}");
+            return false; // Default to false if the directory does not exist
         } 
         
         // Check if the Hardware.xml file exists
@@ -542,59 +676,73 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
                 return false; // Default to false if the product is not found
             }
-            else
+
+            // Get the IsRailMounted attribute value
+            var isRailMountedAttr = productElement.Attribute("IsRailMounted");
+            if (isRailMountedAttr == null) 
             { 
-                // Get the IsRailMounted attribute value
-                var isRailMountedAttr = productElement.Attribute("IsRailMounted");
-                if (isRailMountedAttr == null) 
-                { 
-                    App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
-                    return false; // Default to false if the attribute is not found
-                }
-
-                // Convert the attribute value to boolean
-                string isRailMountedValue = isRailMountedAttr.Value.ToLower();
-                if (isRailMountedValue == "true" || isRailMountedValue == "1")
-                { 
-                    return true;
-                }
-                else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
-                { 
-                    return false;
-                }
-                else 
-                { 
-                    App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
-                    return false; // Default to false for unexpected attribute values
-                }
-
+                App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
+                return false; // Default to false if the attribute is not found
             }
+
+            // Convert the attribute value to boolean
+            string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+            if (isRailMountedValue == "true" || isRailMountedValue == "1")
+            { 
+                return true;
+            }
+            else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
+            { 
+                return false;
+            }
+            else 
+            { 
+                App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
+                return false; // Default to false for unexpected attribute values
+            }
+        }
+        catch (XmlException ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml (XML exception): {ex.Message}");
+            return false; // Default to false in case of an XML error
         }
         catch (Exception ex)
         { 
-            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during GetIsDeviceRailMounted(): {ex.Message}");
             return false; // Default to false in case of an error
         }
     }
 
+    // Method that retrieves the namespace to use for searching in .xml files from the zeroFilePath (since the namespace varies depending on the ETS version)
     private static void SetNamespaceFromXml(string zeroXmlFilePath)
     {
-        XmlDocument doc = new XmlDocument();
-        
-        // Load XML file
-        doc.Load(zeroXmlFilePath);
-        
-        // Check the existence of the namespace in the root element
-        XmlElement? root = doc.DocumentElement;
-        if (root != null)
+        try
         {
-            // Get the namespace
-            XNamespace xmlns = root.GetAttribute("xmlns");
-            if (xmlns!=string.Empty)
+            XmlDocument doc = new XmlDocument();
+
+            // Load XML file
+            doc.Load(zeroXmlFilePath);
+
+            // Check the existence of the namespace in the root element
+            XmlElement? root = doc.DocumentElement;
+            if (root != null)
             {
-                _globalKnxNamespace = xmlns;
+                // Get the namespace
+                string xmlns = root.GetAttribute("xmlns");
+                if (!string.IsNullOrEmpty(xmlns))
+                {
+                    _globalKnxNamespace = XNamespace.Get(xmlns);
+                }
             }
         }
+        catch (XmlException ex)
+        {
+            App.ConsoleAndLogWriteLine($"Error loading XML file (XML exception): {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred during SetNamespaceFromXml(): {ex.Message}");
+        }
     }
-
 }
+

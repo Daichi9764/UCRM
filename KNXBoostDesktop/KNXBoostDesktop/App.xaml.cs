@@ -27,8 +27,8 @@ namespace KNXBoostDesktop
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
-        private const string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.4"; // Version de l'application
+        public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
+        public static readonly string AppVersion = "1.5"; // Version de l'application
         
         // Gestion des logs
         private static string? _logPath; // Chemin du fichier logs
@@ -71,11 +71,6 @@ namespace KNXBoostDesktop
             // Ouverture du gestionnaire de fichiers de projet
             ConsoleAndLogWriteLine("Opening project file manager");
             Fm = new ProjectFileManager();
-            
-            
-            // Initialisation des formateurs de chaînes (commentée car peut-être non nécessaire pour le moment)
-            //ConsoleAndLogWriteLine($"Opening string formatters");
-            //formatter = new FormatterNormalize();
 
             
             // Tentative d'archivage des fichiers de log

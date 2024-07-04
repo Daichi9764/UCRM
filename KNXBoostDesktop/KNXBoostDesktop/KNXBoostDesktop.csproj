@@ -31,6 +31,8 @@
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
       <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
+      <PackageReference Include="Svg" Version="3.4.7" />
+
     </ItemGroup>
 
     <ItemGroup>
@@ -41,6 +43,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="resources\settingsIcon.png" />
+      <None Remove="resources\checkmark.png" />
+      <None Remove="resources\cross.png" />
+      <None Remove="resources\whitecross.png" />
+      <None Remove="resources\settings.svg" />
       <Resource Include="resources\Icon_level.png" />
       <Resource Include="resources\Icon_level2.png" />
       <Resource Include="resources\Icon_level3.png" />

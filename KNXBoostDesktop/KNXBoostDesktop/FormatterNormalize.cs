@@ -7,68 +7,79 @@ namespace KNXBoostDesktop;
 public class FormatterNormalize : Formatter
 {
     public override string Format(string input)
+    {
+        try
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(input))
-                    return string.Empty;
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
 
-                // Remplacer toute la ponctuation et les signes spéciaux par des espaces
-                input = Regex.Replace(input, @"[\p{P}\p{S}]", " ");
+            // Replace all punctuation and special characters with spaces
+            input = Regex.Replace(input, @"[\p{P}\p{S}]", " ");
+            
+            // Replace underscores with spaces
+            input = input.Replace('_', ' '); 
+            //input = input.Replace('$',' ');
+            
+            // Convert to lowercase
+            input = input.ToLower();
 
-                input = input.Replace('_', ' ');
-                //input = input.Replace('$',' ');
-
-                // Mettre en minuscules
-                input = input.ToLower();
-
-                // Enlever les accents
-                string stFormD = input.Normalize(NormalizationForm.FormD);
-                StringBuilder sb = new StringBuilder();
-                foreach (char c in stFormD)
-                {
-                    UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(c);
-                    if (uc != UnicodeCategory.NonSpacingMark)
-                    {
-                        if (c == 'ß') sb.Append("ss");
-                        else sb.Append(c);
-                    }
+            // Remove diacritics (accents)
+            string stFormD = input.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder(); 
+            // Iterate over each character in the normalized string
+            foreach (char c in stFormD) 
+            { 
+                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(c); 
+                // If the character is not a non-spacing mark, append it to the result
+                if (uc != UnicodeCategory.NonSpacingMark) 
+                { 
+                    // Special case for German sharp s (ß) -> replace with "ss"
+                    if (c == 'ß') sb.Append("ss");
+                    else sb.Append(c);
                 }
-
-                string noDiacritics = sb.ToString().Normalize(NormalizationForm.FormC);
-
-                // Construire la chaîne sans ponctuation
-                StringBuilder result = new StringBuilder();
-                foreach (char c in noDiacritics)
-                {
-                    if (char.IsLetterOrDigit(c) || c == ' ' || !char.IsPunctuation(c))
-                    {
-                        result.Append(c);
-                    }
-                }
-
-                // Remplacer les espaces par des underscores
-                string withUnderscores = result.ToString().Replace(" ", "_");
-
-                // Remplacer les doubles underscores par un seul
-                string singleUnderscore = Regex.Replace(withUnderscores, @"_+", "_");
-
-                // Séparer les mots et capitaliser chacun d'eux, puis les joindre sans underscore
-                string[] words = singleUnderscore.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-
-                for (int i = 0; i < words.Length; i++)
-                {
-                    words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
-                }
-
-                return string.Join("", words);
             }
-            catch (Exception ex)
-            {
-                throw new ApplicationException($"Il y a eu une erreur lors de la normalisation de {input}.", ex);
+            
+            // Normalize result to FormC (canonical composition) and return
+            string noDiacritics = sb.ToString().Normalize(NormalizationForm.FormC);
+
+            // Build the string without punctuation
+            StringBuilder result = new StringBuilder(); 
+            foreach (char c in noDiacritics) 
+            { 
+                if (char.IsLetterOrDigit(c) || c == ' ' || !char.IsPunctuation(c)) 
+                { 
+                    result.Append(c);
+                }
             }
+
+            // Replace spaces with underscores
+            string withUnderscores = result.ToString().Replace(" ", "_");
+
+            // Replace multiple underscores with a single underscore
+            string singleUnderscore = Regex.Replace(withUnderscores, @"_+", "_");
+
+            // Split the words, capitalize each one, and join without underscore
+            string[] words = singleUnderscore.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
+            }
+
+            return string.Join("", words);
+        }
+        catch (Exception ex)
+        { 
+            throw new ApplicationException($"An error occurred while normalizing '{input}': {ex.Message}", ex);
         }
     }
+
+    public override string Translate(string input)
+    {
+        App.ConsoleAndLogWrite("Translate method is not implemented in FormatterNormalize");
+        return string.Empty;
+    }
+}
 
 
 
