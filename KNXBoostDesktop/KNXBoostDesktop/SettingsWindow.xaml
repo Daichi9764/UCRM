@@ -576,6 +576,10 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+            
+            <Canvas>
+                <TextBlock x:Name="AppVersionTextBlock" Foreground="Gray" FontStyle="Italic" FontSize="10" Canvas.Bottom="1" Canvas.Left="3"></TextBlock>
+            </Canvas>
         </StackPanel>
     </Grid>
 </Window>
