@@ -165,12 +165,12 @@
             
             <!-- Flat ComboBox -->
             <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#434343" />
-              <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#3A3A3A" />
-              <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
-              <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
-              <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
+            <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#3A3A3A" />
+            <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
+            <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
+            <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
 
-              <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
+            <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
                 <Grid>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -208,7 +208,7 @@
               </ControlTemplate>
 
             
-              <Style x:Key="ComboBoxFlatStyle"  TargetType="{x:Type ComboBox}">
+            <Style x:Key="ComboBoxFlatStyle"  TargetType="{x:Type ComboBox}">
                 <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
                 <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -281,7 +281,7 @@
                   </Setter.Value>
                 </Setter>
               </Style>
-              <!-- End of Flat ComboBox -->
+            <!-- End of Flat ComboBox -->
             
             
     </Window.Resources>
