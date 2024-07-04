@@ -12,8 +12,6 @@ public partial class GroupAddressRenameWindow
     public GroupAddressRenameWindow()
     {
         InitializeComponent();
-
-        UpdateWindowContents();
     }
 
     public void UpdateWindowContents()

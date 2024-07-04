@@ -11,8 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using System.Windows.Threading;
-using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace KNXBoostDesktop;
@@ -42,14 +40,9 @@ public partial class MainWindow
         
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
-
-        //Title = $"{App.AppName} v{App.AppVersion}";
-        Title = "";
         
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
-
-        //DataContext = this;
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -62,6 +55,283 @@ public partial class MainWindow
             loadingWindow.UpdatePosition(Left, Top);
         }
     }
+
+    public void UpdateWindowContents()
+    {
+        // Traduction de la fenêtre principale
+        switch (App.DisplayElements?.SettingsWindow?.AppLang)
+        {
+            // Arabe
+            case "AR":
+                TxtSearch1.Text = "بحث...";
+                ButtonChargerProject.Content = "تحميل مشروع جديد";
+                ButtonExportProject.Content = "تصدير المشروع المعدل";
+                TextBlockAdressesGauche.Text = "عناوين المجموعة الأصلية";
+                TextBlockAdressesDroite.Text = "عناوين المجموعة المعدلة";
+                break;
+
+            // Bulgare
+            case "BG":
+                TxtSearch1.Text = "Търсене...";
+                ButtonChargerProject.Content = "Зареждане на нов проект";
+                ButtonExportProject.Content = "Експортиране на модифицирания проект";
+                TextBlockAdressesGauche.Text = "Оригинални групови адреси";
+                TextBlockAdressesDroite.Text = "Модифицирани групови адреси";
+                break;
+
+            // Tchèque
+            case "CS":
+                TxtSearch1.Text = "Hledat...";
+                ButtonChargerProject.Content = "Načíst nový projekt";
+                ButtonExportProject.Content = "Exportovat upravený projekt";
+                TextBlockAdressesGauche.Text = "Původní skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                break;
+
+            // Danois
+            case "DA":
+                TxtSearch1.Text = "Søg...";
+                ButtonChargerProject.Content = "Indlæs et nyt projekt";
+                ButtonExportProject.Content = "Eksporter det ændrede projekt";
+                TextBlockAdressesGauche.Text = "Originale gruppeadresser";
+                TextBlockAdressesDroite.Text = "Ændrede gruppeadresser";
+                break;
+
+            // Allemand
+            case "DE":
+                TxtSearch1.Text = "Suchen...";
+                ButtonChargerProject.Content = "Neues Projekt laden";
+                ButtonExportProject.Content = "Geändertes Projekt exportieren";
+                TextBlockAdressesGauche.Text = "Ursprüngliche Gruppenadressen";
+                TextBlockAdressesDroite.Text = "Geänderte Gruppenadressen";
+                break;
+
+            // Grec
+            case "EL":
+                TxtSearch1.Text = "Αναζήτηση...";
+                ButtonChargerProject.Content = "Φόρτωση νέου έργου";
+                ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
+                TextBlockAdressesGauche.Text = "Πρωτότυπες ομαδικές διευθύνσεις";
+                TextBlockAdressesDroite.Text = "Τροποποιημένες ομαδικές διευθύνσεις";
+                break;
+
+            // Anglais
+            case "EN":
+                TxtSearch1.Text = "Search...";
+                ButtonChargerProject.Content = "Load a new project";
+                ButtonExportProject.Content = "Export the modified project";
+                TextBlockAdressesGauche.Text = "Original Group Addresses";
+                TextBlockAdressesDroite.Text = "Modified Group Addresses";
+                break;
+
+            // Espagnol
+            case "ES":
+                TxtSearch1.Text = "Buscar...";
+                ButtonChargerProject.Content = "Cargar un nuevo proyecto";
+                ButtonExportProject.Content = "Exportar el proyecto modificado";
+                TextBlockAdressesGauche.Text = "Direcciones de grupo originales";
+                TextBlockAdressesDroite.Text = "Direcciones de grupo modificadas";
+                break;
+
+            // Estonien
+            case "ET":
+                TxtSearch1.Text = "Otsi...";
+                ButtonChargerProject.Content = "Laadi uus projekt";
+                ButtonExportProject.Content = "Ekspordi muudetud projekt";
+                TextBlockAdressesGauche.Text = "Algupärased grupiaadressid";
+                TextBlockAdressesDroite.Text = "Muudetud grupiaadressid";
+                break;
+
+            // Finnois
+            case "FI":
+                TxtSearch1.Text = "Hae...";
+                ButtonChargerProject.Content = "Lataa uusi projekti";
+                ButtonExportProject.Content = "Vie muutettu projekti";
+                TextBlockAdressesGauche.Text = "Alkuperäiset ryhmäosoitteet";
+                TextBlockAdressesDroite.Text = "Muutetut ryhmäosoitteet";
+                break;
+
+            // Hongrois
+            case "HU":
+                TxtSearch1.Text = "Keresés...";
+                ButtonChargerProject.Content = "Új projekt betöltése";
+                ButtonExportProject.Content = "A módosított projekt exportálása";
+                TextBlockAdressesGauche.Text = "Eredeti csoportcímek";
+                TextBlockAdressesDroite.Text = "Módosított csoportcímek";
+                break;
+
+            // Indonésien
+            case "ID":
+                TxtSearch1.Text = "Cari...";
+                ButtonChargerProject.Content = "Muat proyek baru";
+                ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
+                TextBlockAdressesGauche.Text = "Alamat Grup Asli";
+                TextBlockAdressesDroite.Text = "Alamat Grup yang Dimodifikasi";
+                break;
+
+            // Italien
+            case "IT":
+                TxtSearch1.Text = "Cerca...";
+                ButtonChargerProject.Content = "Carica un nuovo progetto";
+                ButtonExportProject.Content = "Esporta il progetto modificato";
+                TextBlockAdressesGauche.Text = "Indirizzi di gruppo originali";
+                TextBlockAdressesDroite.Text = "Indirizzi di gruppo modificati";
+                break;
+
+            // Japonais
+            case "JA":
+                TxtSearch1.Text = "検索...";
+                ButtonChargerProject.Content = "新しいプロジェクトをロード";
+                ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
+                TextBlockAdressesGauche.Text = "元のグループアドレス";
+                TextBlockAdressesDroite.Text = "変更されたグループアドレス";
+                break;
+
+            // Coréen
+            case "KO":
+                TxtSearch1.Text = "검색...";
+                ButtonChargerProject.Content = "새 프로젝트 로드";
+                ButtonExportProject.Content = "수정된 프로젝트 내보내기";
+                TextBlockAdressesGauche.Text = "원본 그룹 주소";
+                TextBlockAdressesDroite.Text = "수정된 그룹 주소";
+                break;
+
+            // Letton
+            case "LV":
+                TxtSearch1.Text = "Meklēt...";
+                ButtonChargerProject.Content = "Ielādēt jaunu projektu";
+                ButtonExportProject.Content = "Eksportēt modificēto projektu";
+                TextBlockAdressesGauche.Text = "Oriģinālās grupu adreses";
+                TextBlockAdressesDroite.Text = "Modificētās grupu adreses";
+                break;
+
+            // Lituanien
+            case "LT":
+                TxtSearch1.Text = "Ieškoti...";
+                ButtonChargerProject.Content = "Įkelti naują projektą";
+                ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
+                TextBlockAdressesGauche.Text = "Originalūs grupių adresai";
+                TextBlockAdressesDroite.Text = "Modifikuoti grupių adresai";
+                break;
+
+            // Norvégien
+            case "NB":
+                TxtSearch1.Text = "Søk...";
+                ButtonChargerProject.Content = "Last inn et nytt prosjekt";
+                ButtonExportProject.Content = "Eksporter det endrede prosjektet";
+                TextBlockAdressesGauche.Text = "Opprinnelige gruppeadresser";
+                TextBlockAdressesDroite.Text = "Endrede gruppeadresser";
+                break;
+
+            // Néerlandais
+            case "NL":
+                TxtSearch1.Text = "Zoeken...";
+                ButtonChargerProject.Content = "Laad een nieuw project";
+                ButtonExportProject.Content = "Exporteer het gewijzigde project";
+                TextBlockAdressesGauche.Text = "Originele groepadressen";
+                TextBlockAdressesDroite.Text = "Gewijzigde groepadressen";
+                break;
+
+            // Polonais
+            case "PL":
+                TxtSearch1.Text = "Szukaj...";
+                ButtonChargerProject.Content = "Załaduj nowy projekt";
+                ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
+                TextBlockAdressesGauche.Text = "Oryginalne adresy grup";
+                TextBlockAdressesDroite.Text = "Zmodyfikowane adresy grup";
+                break;
+
+            // Portugais
+            case "PT":
+                TxtSearch1.Text = "Pesquisar...";
+                ButtonChargerProject.Content = "Carregar um novo projeto";
+                ButtonExportProject.Content = "Exportar o projeto modificado";
+                TextBlockAdressesGauche.Text = "Endereços de grupo originais";
+                TextBlockAdressesDroite.Text = "Endereços de grupo modificados";
+                break;
+
+            // Roumain
+            case "RO":
+                TxtSearch1.Text = "Căutare...";
+                ButtonChargerProject.Content = "Încărcați un proiect nou";
+                ButtonExportProject.Content = "Exportați proiectul modificat";
+                TextBlockAdressesGauche.Text = "Adresele grupului original";
+                TextBlockAdressesDroite.Text = "Adresele grupului modificate";
+                break;
+
+            // Russe
+            case "RU":
+                TxtSearch1.Text = "Поиск...";
+                ButtonChargerProject.Content = "Загрузить новый проект";
+                ButtonExportProject.Content = "Экспортировать измененный проект";
+                TextBlockAdressesGauche.Text = "Оригинальные групповые адреса";
+                TextBlockAdressesDroite.Text = "Измененные групповые адреса";
+                break;
+
+            // Slovaque
+            case "SK":
+                TxtSearch1.Text = "Hľadať...";
+                ButtonChargerProject.Content = "Načítať nový projekt";
+                ButtonExportProject.Content = "Exportovať upravený projekt";
+                TextBlockAdressesGauche.Text = "Pôvodné skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                break;
+
+            // Slovène
+            case "SL":
+                TxtSearch1.Text = "Iskanje...";
+                ButtonChargerProject.Content = "Naloži nov projekt";
+                ButtonExportProject.Content = "Izvozi spremenjeni projekt";
+                TextBlockAdressesGauche.Text = "Izvirni naslovi skupin";
+                TextBlockAdressesDroite.Text = "Spremenjeni naslovi skupin";
+                break;
+
+            // Suédois
+            case "SV":
+                TxtSearch1.Text = "Sök...";
+                ButtonChargerProject.Content = "Ladda ett nytt projekt";
+                ButtonExportProject.Content = "Exportera det modifierade projektet";
+                TextBlockAdressesGauche.Text = "Ursprungliga gruppadresser";
+                TextBlockAdressesDroite.Text = "Ändrade gruppadresser";
+                break;
+
+            // Turc
+            case "TR":
+                TxtSearch1.Text = "Ara...";
+                ButtonChargerProject.Content = "Yeni bir proje yükle";
+                ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
+                TextBlockAdressesGauche.Text = "Orijinal Grup Adresleri";
+                TextBlockAdressesDroite.Text = "Değiştirilen Grup Adresleri";
+                break;
+
+            // Ukrainien
+            case "UK":
+                TxtSearch1.Text = "Пошук...";
+                ButtonChargerProject.Content = "Завантажити новий проект";
+                ButtonExportProject.Content = "Експортувати змінений проект";
+                TextBlockAdressesGauche.Text = "Оригінальні групові адреси";
+                TextBlockAdressesDroite.Text = "Змінені групові адреси";
+                break;
+
+            // Chinois simplifié
+            case "ZH":
+                TxtSearch1.Text = "搜索...";
+                ButtonChargerProject.Content = "加载新项目";
+                ButtonExportProject.Content = "导出修改后的项目";
+                TextBlockAdressesGauche.Text = "原始组地址";
+                TextBlockAdressesDroite.Text = "修改后的组地址";
+                break;
+
+            // Langue par défaut (français)
+            default:
+                TxtSearch1.Text = "Chercher...";
+                ButtonChargerProject.Content = "Charger un nouveau projet";
+                ButtonExportProject.Content = "Exporter le projet modifié";
+                TextBlockAdressesGauche.Text = "Adresses de Groupe Originales";
+                TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
+                break;
+        }
+    }   
     
     //--------------------- Gestion des boutons -----------------------------------------------------//
 

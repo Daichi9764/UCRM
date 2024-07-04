@@ -65,6 +65,13 @@ namespace KNXBoostDesktop
             // Ouverture la fenêtre principale
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
+            
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+
+            // Mise à jour de la fenêtre principale
+            DisplayElements.MainWindow.UpdateWindowContents();
+            
             DisplayElements.ShowMainWindow();
 
             

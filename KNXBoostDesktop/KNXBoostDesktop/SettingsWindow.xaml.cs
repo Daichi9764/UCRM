@@ -1454,6 +1454,9 @@ namespace KNXBoostDesktop
             // Mise à jour de la fenêtre de renommage des adresses de groupe
             App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
             
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
+            
             // Masquage de la fenêtre de paramètres
             Hide();
         }

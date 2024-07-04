@@ -7,7 +7,7 @@
         ------------------------------------------------------------------------------------------------ */
         public MainWindow MainWindow { get; } = new();
         public ConsoleWindow ConsoleWindow { get; } = new();
-        public SettingsWindow? SettingsWindow { get; private set; } = new();
+        public SettingsWindow? SettingsWindow { get; } = new();
         public GroupAddressRenameWindow GroupAddressRenameWindow { get; } = new();
 
         /* ------------------------------------------------------------------------------------------------
