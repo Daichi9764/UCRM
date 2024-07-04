@@ -92,6 +92,22 @@
         </Viewbox>
         
         
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/> <!-- Espacement à gauche -->
+                <ColumnDefinition Width="*"/> <!-- Corps de la fenêtre -->
+                <ColumnDefinition Width="10"/> <!-- Espacement à droite -->
+            </Grid.ColumnDefinitions>
+            
+            <!-- Conteneur principal (corps de la fenêtre) -->
+            <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" BorderThickness="1">
+                <StackPanel x:Name="MainContentPanel" Background="White">
+                    
+                </StackPanel>
+            </Border>
+        </Grid>
+        
+        
         <!-- Partie basse de la fenêtre (boutons sauvegarder et annuler) -->
         <StackPanel x:Name="SettingsWindowFooter" Grid.Row="2" Orientation="Vertical" Margin="0,5,0,0" Background="White">
             
