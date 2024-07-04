@@ -53,7 +53,6 @@
 
     <mah:MetroWindow.Resources>
         
-        <local:WidthToVisibilityConverter x:Key="WidthToVisibilityConverter" Threshold="400"/>
         <local:WidthBelowThresholdConverter x:Key="WidthConverter" Threshold="680" /> 
 
         <Storyboard x:Key="ExpandAnimation">
@@ -77,7 +76,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="10"/>
-            <Setter Property="BorderBrush" Value="#FF00796B"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
@@ -110,47 +109,6 @@
             <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
         </Style>
 
-        <!-- Style la pour les boutons Charger et Exporter -->
-        <!--<Style x:Key="Hover" TargetType="Button">
-            <Setter Property="Background" Value="#4071B4"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Padding" Value="0,0"/>
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}"
-                                CornerRadius="0"
-                                Width="{TemplateBinding Width}"
-                                Height="{TemplateBinding Height}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="Gray"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="True">
-                    <Setter Property="Background" Value="#4071B4"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#355e97"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#355e97"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>-->
         
         <!-- Style la pour le bouton Exporter -->
         <Style x:Key="exportButton" TargetType="Button">
@@ -242,7 +200,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="3"
+                                CornerRadius="0"
                                 Width="{TemplateBinding Width}"
                                 Height="{TemplateBinding Height}">
                             <Grid>
@@ -468,7 +426,7 @@
                     <Border Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1" />
 
                     <!-- Titre et Icon/-->
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top"  >
                         <Image Height="15" Margin="10">
                             <Image.Source>
                                 <DrawingImage >
@@ -540,7 +498,7 @@
                                 </DrawingImage>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="Adresses de Groupe Originales" FontSize="12" FontWeight="Bold" Margin="0,10"/>
+                        <TextBlock Text="Adresses de Groupe Originales" FontSize="12" FontWeight="Bold" Margin="0,10" />
                     </StackPanel>
 
                     <!-- Bouton déploiement/-->
@@ -554,7 +512,7 @@
                                     <DrawingImage.Drawing>
                                         <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
                                             <DrawingGroup.Transform>
-                                                <RotateTransform Angle="0" x:Name="rotateTransform"/>
+                                                <RotateTransform Angle="-90" x:Name="rotateTransform"/>
                                             </DrawingGroup.Transform>
                                             <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
                                                 <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
@@ -675,7 +633,7 @@
                                     <DrawingImage.Drawing>
                                         <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
                                             <DrawingGroup.Transform>
-                                                <RotateTransform Angle="0"  x:Name="rotateTransform2"/>
+                                                <RotateTransform Angle="-90"  x:Name="rotateTransform2"/>
                                             </DrawingGroup.Transform>
                                             <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
                                                 <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
