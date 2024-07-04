@@ -10,10 +10,10 @@ public partial class GroupAddressRenameWindow
     {
         InitializeComponent();
 
-        UpdateWindowTexts();
+        UpdateWindowContents();
     }
 
-    public void UpdateWindowTexts()
+    public void UpdateWindowContents()
     {
         switch (App.DisplayElements?.SettingsWindow.AppLang)
         {
@@ -139,6 +139,15 @@ public partial class GroupAddressRenameWindow
                 SaveButtonText.Text = "Enregistrer";
                 CancelButtonText.Text = "Annuler";
                 break;
+
+                if (App.DisplayElements.SettingsWindow.EnableLightTheme)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
         }
     }
     
@@ -152,7 +161,7 @@ public partial class GroupAddressRenameWindow
 
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
-        UpdateWindowTexts(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+        UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
         Hide(); // Masquage de la fenêtre de paramétrage
     }
 
@@ -164,7 +173,7 @@ public partial class GroupAddressRenameWindow
     private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
     {
         e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
-        UpdateWindowTexts(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
+        UpdateWindowContents(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
         Hide(); // On masque la fenêtre à la place
     }
 }
