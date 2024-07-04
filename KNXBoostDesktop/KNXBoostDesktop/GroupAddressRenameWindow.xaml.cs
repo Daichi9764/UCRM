@@ -6,6 +6,8 @@ namespace KNXBoostDesktop;
 
 public partial class GroupAddressRenameWindow
 {
+    public new bool? DialogResult;
+    
     public GroupAddressRenameWindow()
     {
         InitializeComponent();
@@ -150,6 +152,12 @@ public partial class GroupAddressRenameWindow
                 }
         }
     }
+
+    public void setAddress(string address)
+    {
+        BeforeTextBox.Text = address;
+        AfterTextBox.Text = address;
+    }
     
     private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -161,13 +169,15 @@ public partial class GroupAddressRenameWindow
 
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
+        DialogResult = false;
         UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
-        Hide(); // Masquage de la fenêtre de paramétrage
+        Hide(); // Masquage de la fenêtre de renommage
     }
 
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
-        return;
+        DialogResult = true;
+        Hide(); // Masquage de la fenêtre de renommage
     }
     
     private void ClosingSettingsWindow(object? sender, CancelEventArgs e)

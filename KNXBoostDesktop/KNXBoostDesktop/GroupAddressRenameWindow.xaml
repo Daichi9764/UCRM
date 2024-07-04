@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
-        Height="250" Width="500"
+        Height="265" Width="500"
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -104,10 +104,10 @@
             <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" BorderThickness="1">
                 <StackPanel x:Name="MainContentPanel" Background="White">
                     <TextBlock x:Name="BeforeText" Text="Adresse de groupe" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
-                    <TextBox x:Name="BeforeTextBox" Text="zizi" Margin="10,0,10,10" IsReadOnly="True"/>
+                    <TextBox x:Name="BeforeTextBox" Margin="10,0,10,10" IsReadOnly="True"/>
                     
                     <TextBlock x:Name="AfterText" Text="Renommer en..." Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
-                    <TextBox x:Name="AfterTextBox" Text="zizi" Margin="10,0,10,10" />
+                    <TextBox x:Name="AfterTextBox" Margin="10,0,10,10" />
                 </StackPanel>
             </Border>
         </Grid>

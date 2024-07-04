@@ -8,6 +8,7 @@
         public MainWindow MainWindow { get; } = new();
         public ConsoleWindow ConsoleWindow { get; } = new();
         public SettingsWindow? SettingsWindow { get; private set; } = new();
+        public GroupAddressRenameWindow GroupAddressRenameWindow { get; } = new();
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -31,10 +32,13 @@
         {
             SettingsWindow?.Show();
         }
-
-        public void CloseSettingsWindow()
+        
+        
+        // Fonction pour ouvrir la fenêtre de renommage des adresses de groupe
+        public void ShowGroupAddressRenameWindow(string address)
         {
-            SettingsWindow = null;
+            GroupAddressRenameWindow?.Show();
+            GroupAddressRenameWindow?.setAddress(address);
         }
     }
 }
