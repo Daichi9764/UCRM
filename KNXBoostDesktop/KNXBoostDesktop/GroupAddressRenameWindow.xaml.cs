@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -143,16 +144,27 @@ public partial class GroupAddressRenameWindow
     
     private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        return;
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            DragMove();
+        }
     }
 
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
-        return;
+        UpdateWindowTexts(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+        Hide(); // Masquage de la fenêtre de paramétrage
     }
 
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
         return;
+    }
+    
+    private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
+    {
+        e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
+        UpdateWindowTexts(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
+        Hide(); // On masque la fenêtre à la place
     }
 }
