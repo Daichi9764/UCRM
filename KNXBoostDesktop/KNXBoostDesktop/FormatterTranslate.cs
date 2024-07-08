@@ -81,7 +81,7 @@ namespace KNXBoostDesktop
                         break;
                 }
 
-                if (string.IsNullOrEmpty(MyNameCorrector.AuthKey))
+                if (string.IsNullOrEmpty(GroupAddressNameCorrector.AuthKey))
                 {
                     throw new ArgumentNullException("DeepL API key is not configured.");
                 }
@@ -90,11 +90,11 @@ namespace KNXBoostDesktop
                 TextResult translatedText;
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
                 {
-                    translatedText = await MyNameCorrector.Translator.TranslateTextAsync(input, null, _destLanguage);
+                    translatedText = await GroupAddressNameCorrector.Translator.TranslateTextAsync(input, null, _destLanguage);
                 }
                 else
                 {
-                    translatedText = await MyNameCorrector.Translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
+                    translatedText = await GroupAddressNameCorrector.Translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
                 }
 
                 return translatedText.Text;

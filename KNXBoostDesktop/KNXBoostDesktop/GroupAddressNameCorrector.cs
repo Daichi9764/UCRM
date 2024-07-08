@@ -9,7 +9,7 @@ using DeepL;
 namespace KNXBoostDesktop;
 
 
-public class MyNameCorrector
+public class GroupAddressNameCorrector
 {
     private static XNamespace _globalKnxNamespace = string.Empty;
     private static string _projectFilesDirectory = string.Empty;

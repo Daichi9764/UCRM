@@ -1491,11 +1491,11 @@ namespace KNXBoostDesktop
             if (EnableDeeplTranslation)
             {
                 // On vérifie la validité de la clé API
-                var (isValid, errorMessage) = MyNameCorrector.CheckDeeplKey();
-                MyNameCorrector.ValidDeeplKey = isValid;
+                var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
+                GroupAddressNameCorrector.ValidDeeplKey = isValid;
                 
                 // Si la clé est incorrecte
-                if (!MyNameCorrector.ValidDeeplKey)
+                if (!GroupAddressNameCorrector.ValidDeeplKey)
                 {
                     // Message d'erreur
                     MessageBox.Show($"{errorMessage}", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
