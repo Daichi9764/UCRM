@@ -85,7 +85,6 @@
       <None Remove="resources\BOOST-2.ico" />
       <Resource Include="resources\BOOST-2.ico" />
       <None Remove="resources\Icon_level2SVG.svg" />
-      <Resource Include="resources\Icon_level2SVG.svg" />
     </ItemGroup>
 
 </Project>
