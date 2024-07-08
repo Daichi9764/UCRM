@@ -27,22 +27,85 @@ namespace KNXBoostDesktop
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
+        
+        /// <summary>
+        /// Represents the name of the application.
+        /// </summary>
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
+        
+        /// <summary>
+        /// Represents the version of the application.
+        /// </summary>
         public static readonly string AppVersion = "1.7"; // Version de l'application
         
+        
+        
         // Gestion des logs
+        
+        /// <summary>
+        /// Stores the file path for the log file. This path is used to determine where the log entries will be written.
+        /// </summary>
         private static string? _logPath; // Chemin du fichier logs
+        
+        /// <summary>
+        /// Provides a <see cref="StreamWriter"/> instance for writing log entries to the log file.
+        /// </summary>
+        /// <remarks>
+        /// This writer is used for appending log messages to the file specified by <see cref="_logPath"/>.
+        /// </remarks>
         private static StreamWriter? _writer; // Permet l'écriture du fichier de logging
         
+        
+        
         // Composants de l'application
+        
+        /// <summary>
+        /// Manages project files, providing functionality to handle project-related file operations.
+        /// </summary>
         public static ProjectFileManager? Fm { get; private set; } // Gestionnaire de fichiers du projet
+        
+        /// <summary>
+        /// Manages the application's display elements, including windows, buttons, and other UI components.
+        /// </summary>
         public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenêtres, boutons, ...)
+        
+        
         
         
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Fonction s'exécutant à l'ouverture de l'application
+        /// <summary>
+        /// Executes when the application starts up.
+        /// <para>
+        /// This method performs the following tasks:
+        /// <list type="bullet">
+        ///     <item>
+        ///         Creates a directory for log files if it does not already exist.
+        ///     </item>
+        ///     <item>
+        ///         Initializes the log file path and sets up the <see cref="_writer"/> for logging.
+        ///     </item>
+        ///     <item>
+        ///         Logs the start-up process of the application.
+        ///     </item>
+        ///     <item>
+        ///         Initializes and displays the main window and updates related UI components.
+        ///     </item>
+        ///     <item>
+        ///         Opens the project file manager.
+        ///     </item>
+        ///     <item>
+        ///         Attempts to archive old log files and cleans up folders from the last session.
+        ///     </item>
+        ///     <item>
+        ///         Logs a message indicating that the application has started successfully and performs garbage collection.
+        ///     </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="e">An instance of <see cref="StartupEventArgs"/> that contains the event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             if (!Directory.Exists("./logs"))
@@ -100,6 +163,27 @@ namespace KNXBoostDesktop
         
         
         // Fonction s'exécutant lorsque l'on ferme l'application
+        /// <summary>
+        /// Executes when the application is closing.
+        /// <para>
+        /// This method performs the following tasks:
+        /// <list type="bullet">
+        ///     <item>
+        ///         Logs the start of the application closing process.
+        ///     </item>
+        ///     <item>
+        ///         Calls the base class implementation of <see cref="OnExit"/> to ensure proper shutdown behavior.
+        ///     </item>
+        ///     <item>
+        ///         Logs the successful closure of the application.
+        ///     </item>
+        ///     <item>
+        ///         Closes the log file stream if it is open, to ensure all log entries are properly written.
+        ///     </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="e">An instance of <see cref="ExitEventArgs"/> that contains the event data.</param>
         protected override void OnExit(ExitEventArgs e)
         {
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
@@ -115,6 +199,24 @@ namespace KNXBoostDesktop
         
         // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'écrivant dans les
         // logs sans sauter de ligne après le message.
+        /// <summary>
+        /// Writes a message to the application console and log file without appending a newline after the message.
+        /// <para>
+        /// This method performs the following tasks:
+        /// <list type="bullet">
+        ///     <item>
+        ///         Writes the provided message to the console without adding a newline character.
+        ///     </item>
+        ///     <item>
+        ///         If the console window is visible, scrolls to the end of the console text to ensure the latest message is visible.
+        ///     </item>
+        ///     <item>
+        ///         Writes the same message to the log file without appending a newline character.
+        ///     </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="msg">The message to be written to the console and log file.</param>
         public static void ConsoleAndLogWrite(string msg)
         {
             Console.Write(msg); // Ecriture du message dans la console
@@ -132,6 +234,24 @@ namespace KNXBoostDesktop
         
         // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'écrivant dans les
         // logs. Ajoute la date et l'heure avant affichage. Saut d'une ligne en fin de message.
+        /// <summary>
+        /// Writes a message to the application console and log file, including the current date and time, and appends a newline after the message.
+        /// <para>
+        /// This method performs the following tasks:
+        /// <list type="bullet">
+        ///     <item>
+        ///         Writes the provided message to the console with a timestamp (date and time) at the beginning, followed by a newline.
+        ///     </item>
+        ///     <item>
+        ///         If the console window is visible, scrolls to the end of the console text to ensure that the latest message is displayed.
+        ///     </item>
+        ///     <item>
+        ///         Writes the same message to the log file with a timestamp (date and time) at the beginning, followed by a newline.
+        ///     </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="msg">The message to be written to the console and log file.</param>
         public static void ConsoleAndLogWriteLine(string msg)
         {
             Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
@@ -151,6 +271,20 @@ namespace KNXBoostDesktop
         // Fonctionnement: S'il y a plus de 50 fichiers logs.txt, ces fichiers sont rassemblés et compressés dans une archive zip
         // S'il y a plus de 10 archives, ces dernières sont supprimées avant la création de la nouvelle archive
         // Conséquence: on ne stocke les logs que des 50 derniers lancements de l'application
+        /// <summary>
+        /// Archives the log files in the log directory by compressing them into a ZIP archive when the number of log files exceeds 50.
+        /// <para>
+        /// If there are more than 50 log files, the method will create a new ZIP archive containing all log files, excluding the current log file.
+        /// If there are already 10 or more existing archives, it will delete the oldest ones before creating a new archive.
+        /// This ensures that only the log files from the last 50 application runs are retained.
+        /// </para>
+        /// <para>
+        /// If there are fewer than 50 log files, no archiving will be performed.
+        /// </para>
+        /// <para>
+        /// If an error occurs during the process, it logs the error message to the console and log file.
+        /// </para>
+        /// </summary>
         private static void ArchiveLogs()
         {
             string logDirectory = @"./logs/"; // Chemin du dossier de logs
@@ -217,6 +351,19 @@ namespace KNXBoostDesktop
         // Fonction permettant de supprimer tous les dossiers présents dans le dossier courant
         // Sauf le fichier logs. Cela permet de supprimer tous les projets exportés à la session précédente.
         // Fonction pour supprimer tous les dossiers sauf le dossier 'logs'
+        /// <summary>
+        /// Deletes all directories in the application directory except for those named 'logs' and 'resources'.
+        /// <para>
+        /// This method iterates through all subdirectories in the base directory and deletes them, excluding the directories 'logs' and 'resources'.
+        /// This helps in cleaning up directories from previous sessions, retaining only the specified directories for future use.
+        /// </para>
+        /// <para>
+        /// In case of an error during the deletion, such as unauthorized access or I/O errors, the method logs the error message to the console and continues processing other directories.
+        /// </para>
+        /// <para>
+        /// The method logs the path of each successfully deleted directory to the application log for tracking purposes.
+        /// </para>
+        /// </summary>
         private static void DeleteAllExceptLogsAndResources()
         {
             // Liste tous les sous-répertoires dans le répertoire de base
