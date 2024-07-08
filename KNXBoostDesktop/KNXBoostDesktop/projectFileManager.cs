@@ -9,8 +9,20 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
+        /// <summary>
+        /// Gets the path to the exported project folder.
+        /// </summary>
+        /// <remarks>
+        /// This property holds the file path of the project folder where the project files are exported.
+        /// </remarks>
         public string ProjectFolderPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
 
+        /// <summary>
+        /// Gets the path to the 0.xml file of the project.
+        /// </summary>
+        /// <remarks>
+        /// This property holds the file path to the 0.xml file associated with the project.
+        /// </remarks>
         public string ZeroXmlPath { get; private set; } = ""; // Chemin d'accès au fichier 0.xml du projet
 
 
@@ -18,6 +30,22 @@ namespace KNXBoostDesktop
         --------------------------------------------- METHODES --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
         // Fonction permettant de récupérer le contenu de l'archive .knxproj situé à knxprojSourcePath et de le placer dans le dossier knxprojExportPath
+        /// <summary>
+        /// Extracts the contents of a .knxproj archive located at the specified path and places them into the designated export folder.
+        /// </summary>
+        /// <param name="knxprojSourceFilePath">The path to the .knxproj file that will be extracted.</param>
+        /// <returns>Returns <c>true</c> if the project files were successfully extracted and the process was not cancelled; otherwise, returns <c>false</c>.</returns>
+        /// <remarks>
+        /// This method performs the following steps:
+        /// <list type="number">
+        /// <item>Normalizes the path of the .knxproj file and handles potential path-related exceptions.</item>
+        /// <item>Converts the .knxproj file into a .zip archive if the file type is valid.</item>
+        /// <item>Deletes any existing export folders or zip files to avoid conflicts.</item>
+        /// <item>Attempts to extract the .zip archive into the export folder, handling extraction-related exceptions.</item>
+        /// <item>Checks for password-protected project files and notifies the user if the project is locked.</item>
+        /// <item>Sets the project folder path and indicates successful extraction if no cancellation occurred.</item>
+        /// </list>
+        /// </remarks>
         public bool ExtractProjectFiles(string knxprojSourceFilePath)
         {
             bool managedToExtractProject = false;
@@ -300,6 +328,18 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de demander à l'utilisateur d'entrer un path
+        /// <summary>
+        /// Prompts the user to select a file path using an OpenFileDialog.
+        /// </summary>
+        /// <returns>Returns the selected file path as a string if a file is chosen; otherwise, returns an empty string.</returns>
+        /// <remarks>
+        /// This method:
+        /// <list type="number">
+        /// <item>Displays a file open dialog with predefined filters and settings.</item>
+        /// <item>Returns the path of the selected file if the user confirms their choice.</item>
+        /// <item>Handles potential exceptions, including invalid dialog state, external errors, and other unexpected issues.</item>
+        /// </list>
+        /// </remarks>
         private static string AskForPath()
         {
             try
@@ -349,6 +389,21 @@ namespace KNXBoostDesktop
         
         
         // Fonction permettant de trouver un fichier dans un dossier donné
+        /// <summary>
+        /// Searches for a specific file within a given directory and its subdirectories.
+        /// </summary>
+        /// <param name="rootPath">The root directory path where the search begins.</param>
+        /// <param name="fileNameToSearch">The name of the file to find.</param>
+        /// <returns>Returns the full path of the file if found; otherwise, returns an empty string.</returns>
+        /// <remarks>
+        /// This method:
+        /// <list type="number">
+        /// <item>Checks if the root directory exists; logs an error if it does not.</item>
+        /// <item>Uses a breadth-first search approach with a queue to explore the directory and its subdirectories.</item>
+        /// <item>Attempts to find the file by comparing the file names in a case-insensitive manner.</item>
+        /// <item>Handles exceptions such as unauthorized access, directory not found, and general I/O errors.</item>
+        /// </list>
+        /// </remarks>
         private static string FindFile(string rootPath, string fileNameToSearch)
         {
             if (!Directory.Exists(rootPath))
@@ -411,7 +466,21 @@ namespace KNXBoostDesktop
         
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
-        public async Task FindZeroXml(LoadingWindow loadingWindow)
+        /// <summary>
+        /// Asynchronously searches for the '0.xml' file in the exported KNX project directory.
+        /// </summary>
+        /// <param name="loadingWindow">An instance of the loading window used to display search status and progress.</param>
+        /// <remarks>
+        /// This method:
+        /// <list type="number">
+        /// <item>Updates the loading window with progress messages in the application's selected language.</item>
+        /// <item>Calls the <see cref="FindFile"/> method to search for the '0.xml' file within the directory specified by <see cref="ProjectFolderPath"/>.</item>
+        /// <item>If the file is found, updates the <see cref="ZeroXmlPath"/> property and logs the result.</item>
+        /// <item>If the file is not found, logs an error message and shuts down the application.</item>
+        /// <item>Handles exceptions related to file access, directory not found, and general I/O errors.</item>
+        /// </list>
+        /// </remarks>
+        public async Task FindZeroXml()
         {
             string searchingFile, foundFile;
             
@@ -600,7 +669,7 @@ namespace KNXBoostDesktop
             }
 
             
-            loadingWindow.LogActivity(searchingFile);
+            App.DisplayElements!.LoadingWindow?.LogActivity(searchingFile);
             
             try
             {
@@ -618,8 +687,8 @@ namespace KNXBoostDesktop
                 {
                     ZeroXmlPath = foundPath;
                     App.ConsoleAndLogWriteLine($"Found '0.xml' file at {Path.GetFullPath(ZeroXmlPath)}.");
-                    loadingWindow.MarkActivityComplete();
-                    loadingWindow.LogActivity(foundFile);
+                    App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
+                    App.DisplayElements!.LoadingWindow?.LogActivity(foundFile);
                 }
             }
             catch (UnauthorizedAccessException unAuthEx)

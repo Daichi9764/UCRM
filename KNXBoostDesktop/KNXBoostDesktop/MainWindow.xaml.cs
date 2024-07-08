@@ -681,9 +681,9 @@ public partial class MainWindow
 
                 
                 loadingWindow.UpdateTaskName($"{task} 1/4");
-                await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
+                await App.Fm.FindZeroXml().ConfigureAwait(false);
                 loadingWindow.UpdateTaskName($"{task} 2/4");
-                await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
+                await MyNameCorrector.CorrectName().ConfigureAwait(false);
                 
                 _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
                 _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
