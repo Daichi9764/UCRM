@@ -25,11 +25,6 @@ public class GroupAddressNameCorrector
     private static string _projectFilesDirectory = string.Empty;
     
     /// <summary>
-    /// Stores the authentication key used for accessing secured services or APIs.
-    /// </summary>
-    public static string AuthKey { get; private set; }
-    
-    /// <summary>
     /// Provides the translation services used for localizing text within the application.
     /// </summary>
     public static Translator Translator { get; private set; }
@@ -1336,18 +1331,17 @@ public class GroupAddressNameCorrector
     {
         try
         {
-            // Retrieve the DeepL API authentication key
-            AuthKey = App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty;
-        
-            // Vérifiez si la clé d'authentification est null
-            if (string.IsNullOrEmpty(AuthKey))
+            // Check if the key is null
+            if (string.IsNullOrEmpty(App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty))
             {
                 throw new ArgumentNullException($"DeepL API key is not configured.");
             }
             
             // Initialize the DeepL Translator
-            Translator = new Translator(AuthKey);
+            Translator = new Translator(App.DisplayElements?.SettingsWindow?.DecryptStringFromBytes(App.DisplayElements.SettingsWindow.DeeplKey) ?? string.Empty);
 
+            GC.Collect();
+            
             // Perform a small test translation to check the key
             Task.Run(async () =>
             {
