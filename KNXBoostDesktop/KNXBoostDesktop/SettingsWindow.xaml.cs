@@ -1436,13 +1436,20 @@ namespace KNXBoostDesktop
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             
+            // Si on a activé la traduction deepl
             if (EnableDeeplTranslation)
             {
+                // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = MyNameCorrector.CheckDeeplKey();
                 MyNameCorrector.ValidDeeplKey = isValid;
+                
+                // Si la clé est incorrecte
                 if (!MyNameCorrector.ValidDeeplKey)
                 {
+                    // Message d'erreur
                     MessageBox.Show($"{errorMessage}", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    
+                    // Décochage de la traduction deepL dans la fenêtre
                     EnableDeeplTranslation = false;
                 }
             }
