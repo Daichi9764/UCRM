@@ -4,7 +4,7 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
-    public static async Task Export(String sourcePath, String destPath, LoadingWindow loadingWindow)
+    public static async Task Export(String sourcePath, String destPath)
     {
         await Task.Run(() =>
         {
@@ -227,12 +227,12 @@ class ExportUpdatedNameAddresses
                 }
 
                 
-                loadingWindow.MarkActivityComplete();
-                loadingWindow.LogActivity(exportingAddresses);
-                loadingWindow.MarkActivityComplete();
-                loadingWindow.LogActivity(buildingXMLStructure);
-                loadingWindow.MarkActivityComplete();
-                loadingWindow.LogActivity(savingUpdatedFile);
+                App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                App.DisplayElements.LoadingWindow.LogActivity(exportingAddresses);
+                App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                App.DisplayElements.LoadingWindow.LogActivity(buildingXMLStructure);
+                App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                App.DisplayElements.LoadingWindow.LogActivity(savingUpdatedFile);
 
                 // Load the updated XML document
                 XDocument knxDoc = XDocument.Load(sourcePath);

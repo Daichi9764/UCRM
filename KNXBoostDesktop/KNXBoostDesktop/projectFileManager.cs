@@ -411,7 +411,7 @@ namespace KNXBoostDesktop
         
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
-        public async Task FindZeroXml(LoadingWindow loadingWindow)
+        public async Task FindZeroXml()
         {
             string searchingFile, foundFile;
             
@@ -598,9 +598,8 @@ namespace KNXBoostDesktop
                     foundFile = "Fichier '0.xml' trouvé.";
                     break;
             }
-
             
-            loadingWindow.LogActivity(searchingFile);
+            App.DisplayElements.LoadingWindow.LogActivity(searchingFile);
             
             try
             {
@@ -618,8 +617,8 @@ namespace KNXBoostDesktop
                 {
                     ZeroXmlPath = foundPath;
                     App.ConsoleAndLogWriteLine($"Found '0.xml' file at {Path.GetFullPath(ZeroXmlPath)}.");
-                    loadingWindow.MarkActivityComplete();
-                    loadingWindow.LogActivity(foundFile);
+                    App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                    App.DisplayElements.LoadingWindow.LogActivity(foundFile);
                 }
             }
             catch (UnauthorizedAccessException unAuthEx)

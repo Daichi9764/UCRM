@@ -30,7 +30,7 @@ public partial class MainWindow
 
     private bool lightThemeON;
 
-    private LoadingWindow loadingWindow;
+    //private LoadingWindow loadingWindow;
     
     private MainViewModel ViewModel { get; set; }
 
@@ -59,9 +59,9 @@ public partial class MainWindow
     private void MainWindow_LocationChanged(object sender, EventArgs e)
     {
         // Mettre à jour la position de la LoadingWindow lorsque MainWindow est déplacée
-        if (loadingWindow != null && loadingWindow.IsVisible)
+        if (App.DisplayElements.LoadingWindow != null && App.DisplayElements.LoadingWindow.IsVisible)
         {
-            loadingWindow.UpdatePosition(Left, Top);
+            App.DisplayElements.LoadingWindow.UpdatePosition(Left, Top);
         }
     }
 
@@ -490,7 +490,7 @@ public partial class MainWindow
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
             // Créer et configurer la LoadingWindow
-            loadingWindow = App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow
             {
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
@@ -511,11 +511,11 @@ public partial class MainWindow
     {
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
         {
-            loadingWindow.SetLightMode();
+            App.DisplayElements.LoadingWindow.SetLightMode();
         }
         else
         {
-            loadingWindow.SetDarKMode();
+            App.DisplayElements.LoadingWindow.SetDarKMode();
         }
         
         App.DisplayElements.ShowLoadingWindow();
@@ -714,34 +714,34 @@ public partial class MainWindow
                 }
 
                 
-                loadingWindow.UpdateTaskName($"{task} 1/4");
-                await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
-                loadingWindow.UpdateTaskName($"{task} 2/4");
-                await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
+                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 1/4");
+                await App.Fm.FindZeroXml().ConfigureAwait(false);
+                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 2/4");
+                await MyNameCorrector.CorrectName(App.DisplayElements.LoadingWindow).ConfigureAwait(false);
                 
                 _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
                 _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
-                loadingWindow.UpdateTaskName($"{task} 3/4");
+                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 3/4");
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
                 {
-                    await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
                 }
                 else
                 {
-                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath!,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath!,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
                 }
-                loadingWindow.UpdateTaskName($"{task} 3/4");
-                await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 3/4");
+                await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
 
-                await LoadXmlFiles(loadingWindow).ConfigureAwait(false);
+                await LoadXmlFiles().ConfigureAwait(false);
 
                 // Mettre à jour l'interface utilisateur depuis le thread principal
                 Dispatcher.Invoke(() =>
                 {
-                    loadingWindow.UpdateTaskName(loadingFinished);
-                    loadingWindow.MarkActivityComplete();
-                    loadingWindow.CompleteActivity();
+                    App.DisplayElements.LoadingWindow.UpdateTaskName(loadingFinished);
+                    App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                    App.DisplayElements.LoadingWindow.CompleteActivity();
                 });
             });
         }
@@ -751,7 +751,7 @@ public partial class MainWindow
             Dispatcher.Invoke(() =>
             {
                 TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
-                loadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
+                App.DisplayElements.LoadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
             });
         }
     }
@@ -967,7 +967,7 @@ public partial class MainWindow
     
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
 
-    private async Task LoadXmlFiles(LoadingWindow loadingWindow)
+    private async Task LoadXmlFiles()
     {            
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
