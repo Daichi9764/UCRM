@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
@@ -33,12 +34,15 @@ public partial class MainWindow
     
     private MainViewModel ViewModel { get; set; }
 
+    private string searchTextTranslate;
+
 
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     public MainWindow()
     {
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
         InitializeComponent();
 
         ViewModel = new MainViewModel();
@@ -68,6 +72,7 @@ public partial class MainWindow
         {
             // Arabe
             case "AR":
+                searchTextTranslate = "بحث...";
                 TxtSearch1.Text = "بحث...";
                 ButtonChargerProject.Content = "تحميل مشروع جديد";
                 ButtonExportProject.Content = "تصدير المشروع المعدل";
@@ -77,6 +82,7 @@ public partial class MainWindow
 
             // Bulgare
             case "BG":
+                searchTextTranslate = "Търсене...";
                 TxtSearch1.Text = "Търсене...";
                 ButtonChargerProject.Content = "Зареждане на нов проект";
                 ButtonExportProject.Content = "Експортиране на модифицирания проект";
@@ -86,6 +92,7 @@ public partial class MainWindow
 
             // Tchèque
             case "CS":
+                searchTextTranslate = "Hledat...";
                 TxtSearch1.Text = "Hledat...";
                 ButtonChargerProject.Content = "Načíst nový projekt";
                 ButtonExportProject.Content = "Exportovat upravený projekt";
@@ -95,6 +102,7 @@ public partial class MainWindow
 
             // Danois
             case "DA":
+                searchTextTranslate = "Søg...";
                 TxtSearch1.Text = "Søg...";
                 ButtonChargerProject.Content = "Indlæs et nyt projekt";
                 ButtonExportProject.Content = "Eksporter det ændrede projekt";
@@ -104,6 +112,7 @@ public partial class MainWindow
 
             // Allemand
             case "DE":
+                searchTextTranslate = "Suchen...";
                 TxtSearch1.Text = "Suchen...";
                 ButtonChargerProject.Content = "Neues Projekt laden";
                 ButtonExportProject.Content = "Geändertes Projekt exportieren";
@@ -113,6 +122,7 @@ public partial class MainWindow
 
             // Grec
             case "EL":
+                searchTextTranslate = "Αναζήτηση...";
                 TxtSearch1.Text = "Αναζήτηση...";
                 ButtonChargerProject.Content = "Φόρτωση νέου έργου";
                 ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
@@ -122,6 +132,7 @@ public partial class MainWindow
 
             // Anglais
             case "EN":
+                searchTextTranslate = "Search...";
                 TxtSearch1.Text = "Search...";
                 ButtonChargerProject.Content = "Load a new project";
                 ButtonExportProject.Content = "Export the modified project";
@@ -131,6 +142,7 @@ public partial class MainWindow
 
             // Espagnol
             case "ES":
+                searchTextTranslate = "Buscar...";
                 TxtSearch1.Text = "Buscar...";
                 ButtonChargerProject.Content = "Cargar un nuevo proyecto";
                 ButtonExportProject.Content = "Exportar el proyecto modificado";
@@ -140,6 +152,7 @@ public partial class MainWindow
 
             // Estonien
             case "ET":
+                searchTextTranslate = "Otsi...";
                 TxtSearch1.Text = "Otsi...";
                 ButtonChargerProject.Content = "Laadi uus projekt";
                 ButtonExportProject.Content = "Ekspordi muudetud projekt";
@@ -149,6 +162,7 @@ public partial class MainWindow
 
             // Finnois
             case "FI":
+                searchTextTranslate = "Hae...";
                 TxtSearch1.Text = "Hae...";
                 ButtonChargerProject.Content = "Lataa uusi projekti";
                 ButtonExportProject.Content = "Vie muutettu projekti";
@@ -158,6 +172,7 @@ public partial class MainWindow
 
             // Hongrois
             case "HU":
+                searchTextTranslate = "Keresés...";
                 TxtSearch1.Text = "Keresés...";
                 ButtonChargerProject.Content = "Új projekt betöltése";
                 ButtonExportProject.Content = "A módosított projekt exportálása";
@@ -167,6 +182,7 @@ public partial class MainWindow
 
             // Indonésien
             case "ID":
+                searchTextTranslate = "Cari...";
                 TxtSearch1.Text = "Cari...";
                 ButtonChargerProject.Content = "Muat proyek baru";
                 ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
@@ -176,6 +192,7 @@ public partial class MainWindow
 
             // Italien
             case "IT":
+                searchTextTranslate = "Cerca...";
                 TxtSearch1.Text = "Cerca...";
                 ButtonChargerProject.Content = "Carica un nuovo progetto";
                 ButtonExportProject.Content = "Esporta il progetto modificato";
@@ -185,6 +202,7 @@ public partial class MainWindow
 
             // Japonais
             case "JA":
+                searchTextTranslate = "検索...";
                 TxtSearch1.Text = "検索...";
                 ButtonChargerProject.Content = "新しいプロジェクトをロード";
                 ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
@@ -194,6 +212,7 @@ public partial class MainWindow
 
             // Coréen
             case "KO":
+                searchTextTranslate = "검색...";
                 TxtSearch1.Text = "검색...";
                 ButtonChargerProject.Content = "새 프로젝트 로드";
                 ButtonExportProject.Content = "수정된 프로젝트 내보내기";
@@ -203,6 +222,7 @@ public partial class MainWindow
 
             // Letton
             case "LV":
+                searchTextTranslate = "Meklēt...";
                 TxtSearch1.Text = "Meklēt...";
                 ButtonChargerProject.Content = "Ielādēt jaunu projektu";
                 ButtonExportProject.Content = "Eksportēt modificēto projektu";
@@ -212,6 +232,7 @@ public partial class MainWindow
 
             // Lituanien
             case "LT":
+                searchTextTranslate = "Ieškoti...";
                 TxtSearch1.Text = "Ieškoti...";
                 ButtonChargerProject.Content = "Įkelti naują projektą";
                 ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
@@ -221,6 +242,7 @@ public partial class MainWindow
 
             // Norvégien
             case "NB":
+                searchTextTranslate = "Søk...";
                 TxtSearch1.Text = "Søk...";
                 ButtonChargerProject.Content = "Last inn et nytt prosjekt";
                 ButtonExportProject.Content = "Eksporter det endrede prosjektet";
@@ -230,6 +252,7 @@ public partial class MainWindow
 
             // Néerlandais
             case "NL":
+                searchTextTranslate = "Zoeken...";
                 TxtSearch1.Text = "Zoeken...";
                 ButtonChargerProject.Content = "Laad een nieuw project";
                 ButtonExportProject.Content = "Exporteer het gewijzigde project";
@@ -239,6 +262,7 @@ public partial class MainWindow
 
             // Polonais
             case "PL":
+                searchTextTranslate = "Szukaj...";
                 TxtSearch1.Text = "Szukaj...";
                 ButtonChargerProject.Content = "Załaduj nowy projekt";
                 ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
@@ -248,6 +272,7 @@ public partial class MainWindow
 
             // Portugais
             case "PT":
+                searchTextTranslate = "Pesquisar...";
                 TxtSearch1.Text = "Pesquisar...";
                 ButtonChargerProject.Content = "Carregar um novo projeto";
                 ButtonExportProject.Content = "Exportar o projeto modificado";
@@ -257,6 +282,7 @@ public partial class MainWindow
 
             // Roumain
             case "RO":
+                searchTextTranslate = "Căutare...";
                 TxtSearch1.Text = "Căutare...";
                 ButtonChargerProject.Content = "Încărcați un proiect nou";
                 ButtonExportProject.Content = "Exportați proiectul modificat";
@@ -266,6 +292,7 @@ public partial class MainWindow
 
             // Russe
             case "RU":
+                searchTextTranslate = "Поиск...";
                 TxtSearch1.Text = "Поиск...";
                 ButtonChargerProject.Content = "Загрузить новый проект";
                 ButtonExportProject.Content = "Экспортировать измененный проект";
@@ -275,6 +302,7 @@ public partial class MainWindow
 
             // Slovaque
             case "SK":
+                searchTextTranslate = "Hľadať...";
                 TxtSearch1.Text = "Hľadať...";
                 ButtonChargerProject.Content = "Načítať nový projekt";
                 ButtonExportProject.Content = "Exportovať upravený projekt";
@@ -284,6 +312,7 @@ public partial class MainWindow
 
             // Slovène
             case "SL":
+                searchTextTranslate = "Iskanje...";
                 TxtSearch1.Text = "Iskanje...";
                 ButtonChargerProject.Content = "Naloži nov projekt";
                 ButtonExportProject.Content = "Izvozi spremenjeni projekt";
@@ -293,6 +322,7 @@ public partial class MainWindow
 
             // Suédois
             case "SV":
+                searchTextTranslate = "Sök...";
                 TxtSearch1.Text = "Sök...";
                 ButtonChargerProject.Content = "Ladda ett nytt projekt";
                 ButtonExportProject.Content = "Exportera det modifierade projektet";
@@ -302,6 +332,7 @@ public partial class MainWindow
 
             // Turc
             case "TR":
+                searchTextTranslate = "Ara...";
                 TxtSearch1.Text = "Ara...";
                 ButtonChargerProject.Content = "Yeni bir proje yükle";
                 ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
@@ -311,6 +342,7 @@ public partial class MainWindow
 
             // Ukrainien
             case "UK":
+                searchTextTranslate = "Пошук...";
                 TxtSearch1.Text = "Пошук...";
                 ButtonChargerProject.Content = "Завантажити новий проект";
                 ButtonExportProject.Content = "Експортувати змінений проект";
@@ -320,6 +352,7 @@ public partial class MainWindow
 
             // Chinois simplifié
             case "ZH":
+                searchTextTranslate = "搜索...";
                 TxtSearch1.Text = "搜索...";
                 ButtonChargerProject.Content = "加载新项目";
                 ButtonExportProject.Content = "导出修改后的项目";
@@ -329,6 +362,7 @@ public partial class MainWindow
 
             // Langue par défaut (français)
             default:
+                searchTextTranslate = "Chercher...";
                 TxtSearch1.Text = "Chercher...";
                 ButtonChargerProject.Content = "Charger un nouveau projet";
                 ButtonExportProject.Content = "Exporter le projet modifié";
@@ -1104,7 +1138,7 @@ public partial class MainWindow
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
     {
         var tb = sender as TextBox;
-        if (tb?.Text != "Chercher...") return;
+        if (tb?.Text != searchTextTranslate) return;
         tb.Text = "";
         tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
             new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
@@ -1117,7 +1151,7 @@ public partial class MainWindow
         tb?.Dispatcher.BeginInvoke(new Action(() =>
         {
             if (!string.IsNullOrWhiteSpace(tb.Text)) return;
-            tb.Text = "Chercher...";
+            tb.Text = searchTextTranslate;
             tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
