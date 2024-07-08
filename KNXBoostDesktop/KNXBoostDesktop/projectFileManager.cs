@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Win32;
 
+
 namespace KNXBoostDesktop
 {
     public class ProjectFileManager
@@ -51,7 +52,7 @@ namespace KNXBoostDesktop
             bool managedToExtractProject = false;
             bool managedToNormalizePaths = false;
             bool cancelOperation = false;
-            
+
             // Tant que l'on n'a pas réussi à extraire le projet ou que l'on n'a pas demandé l'annulation de l'extraction
             while ((!managedToExtractProject) && (!cancelOperation))
             {
@@ -62,7 +63,7 @@ namespace KNXBoostDesktop
                 // Répéter tant que l'on n'a pas réussi à normaliser les chemins d'accès ou que l'on n'a pas demandé
                 // à annuler l'extraction
                 string msg;
-                    
+
                 while ((!managedToNormalizePaths) && (!cancelOperation))
                 {
                     if (knxprojSourceFilePath.ToLower() == "null")
@@ -109,17 +110,20 @@ namespace KNXBoostDesktop
                 /* ------------------------------------------------------------------------------------------------
                 ---------------------------------- EXTRACTION DU FICHIER KNXPROJ ----------------------------------
                 ------------------------------------------------------------------------------------------------ */
-                
+
                 App.ConsoleAndLogWriteLine($"Starting to extract {Path.GetFileName(knxprojSourceFilePath)}...");
 
-                string zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
-                string knxprojExportFolderPath = $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/knxproj_exported/";
+                string
+                    zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
+                string knxprojExportFolderPath =
+                    $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/knxproj_exported/";
 
                 // Transformation du knxproj en zip
                 if (knxprojSourceFilePath.EndsWith(".knxproj"))
                 {
                     // Si le fichier entré est un .knxproj
-                    zipArchivePath = $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}.zip"; // On enlève .knxproj et on ajoute .zip
+                    zipArchivePath =
+                        $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}.zip"; // On enlève .knxproj et on ajoute .zip
                 }
                 else
                 {
@@ -134,7 +138,8 @@ namespace KNXBoostDesktop
 
                 if (File.Exists(zipArchivePath))
                 {
-                    App.ConsoleAndLogWriteLine($"{zipArchivePath} already exists. Removing the file before creating the new archive.");
+                    App.ConsoleAndLogWriteLine(
+                        $"{zipArchivePath} already exists. Removing the file before creating the new archive.");
                     try
                     {
                         File.Delete(zipArchivePath);
@@ -207,7 +212,7 @@ namespace KNXBoostDesktop
 
                 // Si le dossier d'exportation existe déjà, on le supprime pour laisser place au nouveau
                 if (Path.Exists(knxprojExportFolderPath))
-                {   
+                {
                     try
                     {
                         App.ConsoleAndLogWriteLine($"The folder {knxprojExportFolderPath} already exists, deleting...");
@@ -215,15 +220,17 @@ namespace KNXBoostDesktop
                     }
                     catch (IOException ex)
                     {
-                        App.ConsoleAndLogWriteLine($"Error deleting existing folder {knxprojExportFolderPath}: {ex.Message}");
+                        App.ConsoleAndLogWriteLine(
+                            $"Error deleting existing folder {knxprojExportFolderPath}: {ex.Message}");
                         knxprojSourceFilePath = AskForPath();
                         continue;
                     }
                     catch (UnauthorizedAccessException ex)
                     {
                         // Si on a pas les droits de supprimer le fichier
-                        App.ConsoleAndLogWriteLine($"Error deleting existing folder {knxprojExportFolderPath}: {ex.Message}" +
-                                                   $"Please change the rights of the file so the program can delete {zipArchivePath}");
+                        App.ConsoleAndLogWriteLine(
+                            $"Error deleting existing folder {knxprojExportFolderPath}: {ex.Message}" +
+                            $"Please change the rights of the file so the program can delete {zipArchivePath}");
                         knxprojSourceFilePath = AskForPath();
                         continue;
                     }
@@ -235,8 +242,8 @@ namespace KNXBoostDesktop
                         continue;
                     }
                 }
-                
-                
+
+
                 // Si le fichier a bien été transformé en zip, tentative d'extraction
                 try
                 {
@@ -281,11 +288,12 @@ namespace KNXBoostDesktop
                 /* ------------------------------------------------------------------------------------------------
                 -------------------------------- GESTION DES PROJETS KNX PROTEGES ---------------------------------
                 ------------------------------------------------------------------------------------------------ */
-                
+
                 // S'il existe un fichier P-XXXX.zip, alors le projet est protégé par un mot de passe
                 try
                 {
-                    if (Directory.GetFiles(knxprojExportFolderPath, "P-*.zip", SearchOption.TopDirectoryOnly).Length > 0)
+                    if (Directory.GetFiles(knxprojExportFolderPath, "P-*.zip", SearchOption.TopDirectoryOnly).Length >
+                        0)
                     {
                         App.ConsoleAndLogWriteLine(
                             $"Encountered an error while extracting {knxprojSourceFilePath} : the project is locked with a password in ETS6");
@@ -299,7 +307,8 @@ namespace KNXBoostDesktop
                 catch (UnauthorizedAccessException ex)
                 {
                     // Gestion des erreurs d'accès non autorisé
-                    App.ConsoleAndLogWriteLine($"Unauthorized access checking for protected project files: {ex.Message}.");
+                    App.ConsoleAndLogWriteLine(
+                        $"Unauthorized access checking for protected project files: {ex.Message}.");
                     knxprojSourceFilePath = AskForPath();
                     continue;
                 }
@@ -315,18 +324,18 @@ namespace KNXBoostDesktop
                 /* ------------------------------------------------------------------------------------------------
                 ------------------------------- SUPPRESSION DES FICHIERS RESIDUELS --------------------------------
                 ------------------------------------------------------------------------------------------------ */
-            
+
                 // Suppression du fichier zip temporaire
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
                 ProjectFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/";
                 managedToExtractProject = true;
             }
-            
+
             return (!cancelOperation) && (managedToExtractProject);
         }
 
 
-        
+
         // Fonction permettant de demander à l'utilisateur d'entrer un path
         /// <summary>
         /// Prompts the user to select a file path using an OpenFileDialog.
@@ -375,7 +384,8 @@ namespace KNXBoostDesktop
             catch (System.Runtime.InteropServices.ExternalException ex)
             {
                 // Gérer les exceptions liées aux erreurs internes des bibliothèques de l'OS
-                App.ConsoleAndLogWriteLine($"Error: An external error occurred while trying to open the file dialog. Details: {ex.Message}");
+                App.ConsoleAndLogWriteLine(
+                    $"Error: An external error occurred while trying to open the file dialog. Details: {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -386,8 +396,8 @@ namespace KNXBoostDesktop
             return "";
         }
 
-        
-        
+
+
         // Fonction permettant de trouver un fichier dans un dossier donné
         /// <summary>
         /// Searches for a specific file within a given directory and its subdirectories.
@@ -456,14 +466,16 @@ namespace KNXBoostDesktop
                 catch (Exception ex)
                 {
                     // Gérer toutes autres exceptions génériques
-                    App.ConsoleAndLogWriteLine($"An unexpected error occurred while accessing {currentDirectory} : {ex.Message}");
+                    App.ConsoleAndLogWriteLine(
+                        $"An unexpected error occurred while accessing {currentDirectory} : {ex.Message}");
                 }
             }
+
             return ""; // Fichier non trouvé
         }
 
-        
-        
+
+
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         /// <summary>
@@ -483,7 +495,7 @@ namespace KNXBoostDesktop
         public async Task FindZeroXml()
         {
             string searchingFile, foundFile;
-            
+
             // Traduction des textes de la fenêtre de chargement
             switch (App.DisplayElements?.SettingsWindow?.AppLang)
             {
@@ -667,9 +679,9 @@ namespace KNXBoostDesktop
                     foundFile = "Fichier '0.xml' trouvé.";
                     break;
             }
-            
+
             App.DisplayElements!.LoadingWindow?.LogActivity(searchingFile);
-            
+
             try
             {
                 string foundPath = FindFile(ProjectFolderPath, "0.xml");
@@ -711,5 +723,9 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"An unexpected error occurred while searching for '0.xml': {ex.Message}");
             }
         }
+
+
+
+        // Fonction générant les fichiers de débogage de l'application
     }
 }
