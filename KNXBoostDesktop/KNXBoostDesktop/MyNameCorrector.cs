@@ -20,7 +20,7 @@ public class MyNameCorrector
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
-    public static async Task CorrectName(LoadingWindow loadingWindow)
+    public static async Task CorrectName()
     {
         try
         {
@@ -401,8 +401,8 @@ public class MyNameCorrector
             // Load the XML file from the specified path
             XDocument knxDoc;
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(loadXml);
+            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(loadXml);
 
             try
             {
@@ -436,7 +436,7 @@ public class MyNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
-            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+            if (App.DisplayElements.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
                 ValidDeeplKey = CheckDeeplKey().Item1;
                 if (ValidDeeplKey)
@@ -453,8 +453,8 @@ public class MyNameCorrector
                 formatter = new FormatterNormalize();
             }
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(extractingInfos);
+            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(extractingInfos);
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
@@ -470,8 +470,8 @@ public class MyNameCorrector
                 })
                 .ToList();
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(infosExtracted);
+            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
@@ -491,8 +491,8 @@ public class MyNameCorrector
                 }
             }
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(extractingDeviceReferences);
+            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(extractingDeviceReferences);
 
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
@@ -503,7 +503,7 @@ public class MyNameCorrector
                 ProductRefId = di.Attribute("ProductRefId")?.Value,
                 GroupObjectInstanceRefs = di.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
                     .Where(cir => cir.Attribute("Links") != null)
-                    .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? Array.Empty<string>())
+                    .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? [])
                         .Select((link, index) => new
                         {
                             GroupAddressRef = link,
@@ -513,8 +513,8 @@ public class MyNameCorrector
                         }))
             });
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(extractingDeviceInfo);
+            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(extractingDeviceInfo);
             
             var deviceRefs = deviceRefsTemp1.SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
             {
@@ -536,8 +536,8 @@ public class MyNameCorrector
             }))
             .ToList();
 
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(infoAndReferencesExtracted);
+            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
             
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
@@ -567,8 +567,8 @@ public class MyNameCorrector
                 }
             }
             
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(constructingNewAddresses);
+            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(constructingNewAddresses);
             
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
@@ -924,8 +924,8 @@ public class MyNameCorrector
             }
 
             // Save the updated XML files
-            loadingWindow.MarkActivityComplete();
-            loadingWindow.LogActivity(savingUpdatedXml);
+            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements.LoadingWindow?.LogActivity(savingUpdatedXml);
 
             try
             {
@@ -941,7 +941,7 @@ public class MyNameCorrector
                 App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
             }
 
-            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            if (App.DisplayElements.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
             {
                 try
                 {
@@ -995,7 +995,7 @@ public class MyNameCorrector
             // Load the XML file
             XDocument hardwareDoc = XDocument.Load(filePath);
                 
-            // Find the ComObject element with the matching Id
+            // Find the ComObject element with the matching ID
             var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
                 .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
                 
@@ -1137,7 +1137,7 @@ public class MyNameCorrector
             // Load the Hardware.xml file
             XDocument hardwareDoc = XDocument.Load(hardwareFilePath);
 
-            // Find the Product element with the matching Id
+            // Find the Product element with the matching ID
             var productElement = hardwareDoc.Descendants(_globalKnxNamespace + "Product")
                 .FirstOrDefault(pe => pe.Attribute("Id")?.Value == productRefId);
 
