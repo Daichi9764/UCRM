@@ -429,8 +429,8 @@ public class GroupAddressNameCorrector
             // Load the XML file from the specified path
             XDocument knxDoc;
             
-            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(loadXml);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(loadXml);
 
             try
             {
@@ -464,7 +464,7 @@ public class GroupAddressNameCorrector
 
             // Create a formatter object for normalizing names
             Formatter formatter;
-            if (App.DisplayElements.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
                 ValidDeeplKey = CheckDeeplKey().Item1;
                 if (ValidDeeplKey)
@@ -481,8 +481,8 @@ public class GroupAddressNameCorrector
                 formatter = new FormatterNormalize();
             }
             
-            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(extractingInfos);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(extractingInfos);
 
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
@@ -498,8 +498,8 @@ public class GroupAddressNameCorrector
                 })
                 .ToList();
             
-            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(infosExtracted);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
@@ -519,8 +519,8 @@ public class GroupAddressNameCorrector
                 }
             }
             
-            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(extractingDeviceReferences);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceReferences);
 
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
@@ -541,8 +541,8 @@ public class GroupAddressNameCorrector
                         }))
             });
             
-            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(extractingDeviceInfo);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceInfo);
             
             var deviceRefs = deviceRefsTemp1.SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
             {
@@ -564,8 +564,8 @@ public class GroupAddressNameCorrector
             }))
             .ToList();
 
-            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
             
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
@@ -595,8 +595,8 @@ public class GroupAddressNameCorrector
                 }
             }
             
-            App.DisplayElements.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(constructingNewAddresses);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(constructingNewAddresses);
             
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
@@ -930,30 +930,47 @@ public class GroupAddressNameCorrector
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
             {
+                using StreamWriter writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
+                writer.WriteLine("Deleted addresses :");
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 foreach (var groupAddress in allGroupAddresses)
                 {
                     var groupId = groupAddress.Attribute("Id")?.Value;
                     if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
                     {
-                        // Supprimer dans originalKnxDoc
+                        var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
+                        string msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
+                        var ancestorgroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
+                        if (ancestorgroupElement != null)
+                        {
+                            msg += ancestorgroupElement.Attribute("Name")?.Value + " -> ";
+                        }
+
+                        msg += groupElement?.Attribute("Name")?.Value + ") with Id : " + groupId;
+                        writer?.WriteLine(msg); // Write message in the log file named deleted_group_addresses
+                        
+                        // Delete it in originalKnxDoc
                         groupAddress.Remove();
 
-                        // Supprimer dans knxDoc
+                        // Delete it in knxDoc
                         var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                             .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
 
                         if (correspondingGroupAddressInKnxDoc != null)
+                        {
                             correspondingGroupAddressInKnxDoc.Remove();
 
-                        App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
-                    }
+                            App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
+                        }
+                           
+                    } 
                 }
             }
 
+
             // Save the updated XML files
-            App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements.LoadingWindow?.LogActivity(savingUpdatedXml);
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(savingUpdatedXml);
 
             try
             {
@@ -969,7 +986,7 @@ public class GroupAddressNameCorrector
                 App.ConsoleAndLogWriteLine($"Error: IO exception occurred when saving the file. {ex.Message}");
             }
 
-            if (App.DisplayElements.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
             {
                 try
                 {
@@ -1325,7 +1342,7 @@ public class GroupAddressNameCorrector
             // Vérifiez si la clé d'authentification est null
             if (string.IsNullOrEmpty(AuthKey))
             {
-                throw new ArgumentNullException("DeepL API key is not configured.");
+                throw new ArgumentNullException($"DeepL API key is not configured.");
             }
             
             // Initialize the DeepL Translator

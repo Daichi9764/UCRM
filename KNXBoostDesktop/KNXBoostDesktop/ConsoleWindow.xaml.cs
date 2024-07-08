@@ -42,7 +42,7 @@ namespace KNXBoostDesktop
             Height = SystemParameters.PrimaryScreenHeight * 0.4;
             Width = SystemParameters.PrimaryScreenWidth * 0.5;
             
-            Uri iconUri = new("./resources/ConsoleWindowIcon.ico", UriKind.RelativeOrAbsolute);
+            Uri iconUri = new("../../../resources/ConsoleWindowIcon.ico", UriKind.RelativeOrAbsolute);
             Icon = BitmapFrame.Create(iconUri);
             
             Console.SetOut(new TextBoxWriter(ConsoleTextBox));
