@@ -75,13 +75,11 @@ namespace KNXBoostDesktop
                 {
                     Text = activity,
                     Background = "Transparent",
-                    IsCompleted = false
+                    IsCompleted = false,
+                    Foreground = App.DisplayElements!.SettingsWindow!.EnableLightTheme
+                        ? "#000000" : "#FFFFFF"
                 };
-                
-                activityToAdd.Foreground = 
-                    App.DisplayElements!.SettingsWindow!.EnableLightTheme
-                        ? "#000000" : "#FFFFFF";
-                
+
                 Activities.Add(activityToAdd);
                 //ApplyActivityStyle();
                 ActivityLog.ScrollIntoView(Activities.Last());
@@ -110,11 +108,9 @@ namespace KNXBoostDesktop
         {
             Dispatcher.Invoke(() =>
             {
-                if (Activities.Count > 0)
-                {
-                    Activities.Last().IsCompleted = true;
-                    ActivityLog.Items.Refresh();
-                }
+                if (Activities.Count <= 0) return;
+                Activities.Last().IsCompleted = true;
+                ActivityLog.Items.Refresh();
             });
         }
 
