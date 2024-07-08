@@ -4,7 +4,7 @@
  * Auteurs       : MICHEL Hugo, COUSTON Emma, MALBRANCHE Daichi,
  *                 BRUGIERE Nathan, OLIVEIRA LOPES Maxime
  * Date          : 12/06/2024
- * Version       : 1.1
+ * Version       : 1.7
  *
  * Description :
  * Fichier principal contenant la structure de l'application et toutes les
