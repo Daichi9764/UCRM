@@ -1,23 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace KNXBoostDesktop
 {
     public partial class LoadingWindow
     {
         private ObservableCollection<Activity> Activities { get; }
-        private TaskCompletionSource<bool>  _closeCompletionSource;
 
         public LoadingWindow()
         {
             InitializeComponent();
 
-            progressBar.Style = (Style)FindResource("NormalProgressBar");
-            progressBar.IsIndeterminate = true;
+            ProgressBar.Style = (Style)FindResource("NormalProgressBar");
+            ProgressBar.IsIndeterminate = true;
 
             Activities = new ObservableCollection<Activity>();
-            activityLog.ItemsSource = Activities;
+            ActivityLog.ItemsSource = Activities;
         }
 
         public void UpdatePosition(double mainWindowLeft, double mainWindowTop)
@@ -35,15 +37,27 @@ namespace KNXBoostDesktop
 
         public void UpdateTaskName(string taskName)
         {
-            Dispatcher.Invoke(() => { taskNameText.Text = taskName; });
+            Dispatcher.Invoke(() => { TaskNameText.Text = taskName; });
         }
 
         public void LogActivity(string activity)
         {
             Dispatcher.Invoke(() =>
             {
-                Activities.Add(new Activity { Text = activity, IsCompleted = false });
-                activityLog.ScrollIntoView(Activities.Last());
+                var activityToAdd = new Activity
+                {
+                    Text = activity,
+                    Background = "Transparent",
+                    IsCompleted = false
+                };
+                
+                activityToAdd.Foreground = 
+                    App.DisplayElements!.SettingsWindow!.EnableLightTheme
+                        ? "#000000" : "#FFFFFF";
+                
+                Activities.Add(activityToAdd);
+                //ApplyActivityStyle();
+                ActivityLog.ScrollIntoView(Activities.Last());
             });
         }
 
@@ -51,9 +65,9 @@ namespace KNXBoostDesktop
         {
             Dispatcher.Invoke(() =>
             {
-                progressBar.Style = (Style)FindResource("GreenProgressBar");
-                progressBar.IsIndeterminate = false;
-                progressBar.Value = 100;
+                ProgressBar.Style = (Style)FindResource("GreenProgressBar");
+                ProgressBar.IsIndeterminate = false;
+                ProgressBar.Value = 100;
             });
         }
 
@@ -64,9 +78,31 @@ namespace KNXBoostDesktop
                 if (Activities.Count > 0)
                 {
                     Activities.Last().IsCompleted = true;
-                    activityLog.Items.Refresh();
+                    ActivityLog.Items.Refresh();
                 }
             });
+        }
+
+        public void SetLightMode()
+        {
+            MainGrid.Background = MainWindow.ConvertStringColor("#FFFFFF");
+            TaskNameText.Foreground = MainWindow.ConvertStringColor("#000000");
+            ActivityLog.Background = MainWindow.ConvertStringColor("#F5F5F5");
+            ProgressBar.Background = MainWindow.ConvertStringColor("#FFFFFF");
+            ActivityLog.Foreground = MainWindow.ConvertStringColor("#000000");
+            ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#D7D7D7");
+            ActivityLog.ItemContainerStyle = (Style)FindResource("LightActivityStyle");
+        }
+        
+        public void SetDarKMode()
+        {
+            MainGrid.Background = MainWindow.ConvertStringColor("#313131");
+            TaskNameText.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
+            ActivityLog.Background = MainWindow.ConvertStringColor("#262626");
+            ProgressBar.Background = MainWindow.ConvertStringColor("#262626");
+            ActivityLog.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
+            ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#434343");
+            ActivityLog.ItemContainerStyle = (Style)FindResource("DarkActivityStyle");
         }
     }
 
@@ -74,6 +110,8 @@ namespace KNXBoostDesktop
     {
         public string Text { get; set; }
         public bool IsCompleted { get; set; }
+        public string Background { get; set; }
+        public string Foreground { get; set; }
     }
 
     public class BooleanToVisibilityConverter : IValueConverter

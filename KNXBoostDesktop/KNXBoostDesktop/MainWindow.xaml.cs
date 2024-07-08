@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
@@ -14,6 +15,7 @@ using System.Windows.Shell;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using Microsoft.Win32;
+using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
 namespace KNXBoostDesktop;
 
@@ -28,8 +30,10 @@ public partial class MainWindow
     
     private string _xmlFilePath2 = "";
 
-    private LoadingWindow loadingWindow;
+    private bool lightThemeON;
 
+    private LoadingWindow loadingWindow;
+    
     private MainViewModel ViewModel { get; set; }
 
 
@@ -37,26 +41,123 @@ public partial class MainWindow
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     public MainWindow()
-    {   
+    {
         InitializeComponent();
-        
+
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
 
         //Title = $"{App.AppName} v{App.AppVersion}";
         Title = "";
-        
-        Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
-        Icon = BitmapFrame.Create(iconUri);
 
-        //DataContext = this;
+        //Uri iconUri = new("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
+        //Icon = BitmapFrame.Create(iconUri);
+
+        //lightThemeON = App.DisplayElements?.SettingsWindow?.Background == ConvertStringColor("#F5F5F5");
+
+        const string settingsPath = "./appSettings";
+
+        try
+        {
+            // Si le fichier de paramétrage n'existe pas, on le crée
+            // Note : comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement avec Close().
+            if (!File.Exists(settingsPath)) File.Create(settingsPath).Close();
+        }
+        // Si le programme n'a pas accès en écriture pour créer le fichier
+        catch (UnauthorizedAccessException)
+        {
+            MessageBox.Show(
+                "Erreur: impossible d'accéder au fichier de paramétrage de l'application. Veuillez vérifier qu'il " +
+                "n'est pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1",
+                "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown(1);
+        }
+        // Si la longueur du path est incorrecte ou que des caractères non supportés sont présents
+        catch (ArgumentException)
+        {
+            MessageBox.Show(
+                $"Erreur: des caractères non supportés sont présents dans le chemin d'accès du fichier de paramétrage" +
+                $"({settingsPath}. Impossible d'accéder au fichier.\nCode erreur: 2", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown(2);
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3",
+                "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown(3);
+        }
+
+        // Déclaration du stream pour la lecture du fichier appSettings, initialement null
+        StreamReader? reader = null;
+        try
+        {
+            // Création du stream
+            reader = new StreamReader(settingsPath);
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3",
+                "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown(3);
+        }
+
+        try
+        {
+            // On parcourt toutes les lignes tant qu'elle n'est pas 'null'
+            while (reader!.ReadLine() is { } line)
+            {
+
+                // On coupe la ligne en deux morceaux : la partie avant le ' : ' qui contient le type de paramètre contenu dans la ligne,
+                // la partie après qui contient la valeur du paramètre
+                var parts = line.Split(':');
+
+                // S'il n'y a pas de ' : ' ou qu'il n'y a rien après les deux points, on skip car la ligne nous intéresse pas
+                if (parts.Length < 2) continue;
+
+                var parameter = parts[0].Trim().ToLower();
+                var value = parts[1].Trim();
+
+                switch (parameter)
+                {
+                    case "theme":
+                        lightThemeON = !value.Equals("dark", StringComparison.CurrentCultureIgnoreCase);
+                        break;
+                }
+
+                
+            }
+        }
+        // Si l'application a manqué de mémoire pendant la récupération des lignes
+        catch (OutOfMemoryException)
+        {
+            App.ConsoleAndLogWriteLine("Error: The program does not have sufficient memory to run. Please try closing a few applications before trying again.");
+            return;
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            App.ConsoleAndLogWriteLine("Error: An I/O error occured while reading the settings file.");
+            return;
+        }
+        finally
+        {
+            reader?.Close(); // Fermeture du stream de lecture
+        }
+        
+        UpdateWindowContents(lightThemeON);
         
         LocationChanged += MainWindow_LocationChanged;
     }
     
     private void MainWindow_LocationChanged(object sender, EventArgs e)
     {
-        // Mettez à jour la position de la LoadingWindow lorsque MainWindow est déplacée
+        // Mettre à jour la position de la LoadingWindow lorsque MainWindow est déplacée
         if (loadingWindow != null && loadingWindow.IsVisible)
         {
             loadingWindow.UpdatePosition(Left, Top);
@@ -91,15 +192,13 @@ public partial class MainWindow
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
             // Créer et configurer la LoadingWindow
-            loadingWindow = new LoadingWindow()
+            loadingWindow = App.DisplayElements!.LoadingWindow = new LoadingWindow
             {
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
             
             ShowOverlay();
-            
             await ExecuteLongRunningTask();
-            
             HideOverlay();
 
             ViewModel.IsProjectImported = true;
@@ -112,7 +211,17 @@ public partial class MainWindow
     
     private async Task ExecuteLongRunningTask()
     {
-        loadingWindow.Show();
+        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
+        {
+            loadingWindow.SetLightMode();
+        }
+        else
+        {
+            loadingWindow.SetDarKMode();
+        }
+        
+        App.DisplayElements.ShowLoadingWindow();
+        
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
 
         try
@@ -129,14 +238,13 @@ public partial class MainWindow
                 _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
                 loadingWindow.UpdateTaskName("Tâche 3/4");
-                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
                 {
                     await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
-
                 }
                 else
                 {
-                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
+                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath!,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
                 }
                 loadingWindow.UpdateTaskName("Tâche 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
@@ -163,16 +271,32 @@ public partial class MainWindow
         }
     }
     
-    private void ShowOverlay()
+    private new void ShowOverlay()
     {
-        Overlay.Visibility = Visibility.Visible;
-        MainContent.IsEnabled = false;
+        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
+        {
+            OverlayLight.Visibility = Visibility.Visible;
+            MainContent.IsEnabled = false;
+        }
+        else
+        {
+            OverlayDark.Visibility = Visibility.Visible;
+            MainContent.IsEnabled = false;
+        }
     }
     
-    private void HideOverlay()
+    private new void HideOverlay()
     {
-        Overlay.Visibility = Visibility.Collapsed;
-        MainContent.IsEnabled = true;
+        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
+        {
+            OverlayLight.Visibility = Visibility.Collapsed;
+            MainContent.IsEnabled = true;
+        }
+        else
+        {
+            OverlayDark.Visibility = Visibility.Collapsed;
+            MainContent.IsEnabled = true;
+        }
     }
 
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
@@ -310,8 +434,131 @@ public partial class MainWindow
     {
         App.DisplayElements!.ShowSettingsWindow();
     }
+    
+    private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
+    {
+        foreach (var item in treeView.Items)
+        {
+            if (treeView.ItemContainerGenerator.ContainerFromItem(item) is TreeViewItem treeViewItem)
+            {
+                ApplyStyleRecursive(treeViewItem, style);
+            }
+        }
+    }
 
+    // Méthode récursive pour appliquer le style à un TreeViewItem et ses enfants
+    private void ApplyStyleRecursive(TreeViewItem item, string style)
+    {
+        item.Style = FindResource(style) as Style;
 
+        // Parcourir les enfants récursivement
+        foreach (var subItem in item.Items)
+        {
+            if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
+            {
+                ApplyStyleRecursive(subTreeViewItem, style);
+            }
+        }
+    }
+    
+    public void UpdateWindowContents(bool isLightThemeOn)
+    {
+        string buttonTextColor;
+        string panelTextColor;
+        string titleBarColor;
+        string buttonColor;
+        
+        string settingsButtonColor;
+        string logoColor;
+        string borderColor;
+        string borderPanelColor;
+        
+        string panelBackgroundColor;
+        string backgroundColor;
+        
+            
+        if (isLightThemeOn)
+        {
+            buttonTextColor = "#FFFFFF";
+            panelTextColor = "#000000";
+            titleBarColor = "#369026";
+            buttonColor = "#4071B4";
+            panelBackgroundColor = "#FFFFFF";
+            backgroundColor = "#F5F5F5";
+
+            settingsButtonColor = "#FFFFFF";
+            logoColor = "#000000";
+            borderColor = "#D7D7D7";
+
+            borderPanelColor = "#D7D7D7";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
+            
+            //TreeViewGauche.Style = (Style)FindResource("MyTreeViewStyle");
+        }
+        else
+        {
+            backgroundColor = "#313131";
+            panelBackgroundColor = "#262626";
+
+            panelTextColor = "#FFFFFF";
+            
+            settingsButtonColor = "#262626";
+            logoColor = "#FFFFFF";
+            borderColor = "#434343";
+
+            borderPanelColor = "#525252";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
+        }
+        
+        // Panneaux et arrière-plan
+        MainGrid.Background = ConvertStringColor(backgroundColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        
+        // Bouton paramètre
+        BrushSettings1.Brush = ConvertStringColor(logoColor);
+        BrushSettings2.Brush = ConvertStringColor(logoColor);
+        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
+        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
+        
+        // Recherche
+        Recherche.BorderBrush = ConvertStringColor(borderColor);
+        Recherche.Background = ConvertStringColor(panelBackgroundColor);
+        LogoRecherche.Brush = ConvertStringColor(logoColor);
+        
+        // Panel
+        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
+        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
+        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
+        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
+        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
+        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
+        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
+    }
+
+    public static SolidColorBrush ConvertStringColor(string colorInput)
+    {
+        return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
+    }
+    
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
 
     private async Task LoadXmlFiles(LoadingWindow loadingWindow)
@@ -323,7 +570,7 @@ public partial class MainWindow
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
 
-    private static async Task LoadXmlFile(string filePath, TreeView treeView)
+    private async Task LoadXmlFile(string filePath, TreeView treeView)
     {
         try
         {
@@ -359,7 +606,7 @@ public partial class MainWindow
 
     }
 
-    private static void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
+    private void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
     {
         if (xmlNode.NodeType == XmlNodeType.Element)
         {
@@ -375,7 +622,7 @@ public partial class MainWindow
         }
     }
 
-    private static TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
+    private TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
     {
         var stack = new StackPanel { Orientation = Orientation.Horizontal };
 
@@ -399,7 +646,20 @@ public partial class MainWindow
         stack.Children.Add(icon);
         stack.Children.Add(text);
 
-        TreeViewItem treeNode = new() { Header = stack };
+        var treeNode = new TreeViewItem
+        {
+            Header = stack,
+        };
+
+        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
+        {
+            treeNode.Style = (Style)FindResource("TreeViewItemStyle2");
+        }
+        else
+        {
+            treeNode.Style = (Style)FindResource("TreeViewItemStyleDark");
+        }
+        
         return treeNode;
     }
     
@@ -477,7 +737,8 @@ public partial class MainWindow
         var tb = sender as TextBox;
         if (tb?.Text != "Chercher...") return;
         tb.Text = "";
-        tb.Foreground = new SolidColorBrush(Colors.Black);
+        tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+            new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
     }
 
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -488,7 +749,8 @@ public partial class MainWindow
         {
             if (!string.IsNullOrWhiteSpace(tb.Text)) return;
             tb.Text = "Chercher...";
-            tb.Foreground = new SolidColorBrush(Colors.Gray);
+            tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+                new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
     

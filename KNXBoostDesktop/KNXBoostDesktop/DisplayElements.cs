@@ -10,6 +10,8 @@
         public SettingsWindow? SettingsWindow { get; private set; } = new();
         public GroupAddressRenameWindow GroupAddressRenameWindow { get; } = new();
 
+        public LoadingWindow? LoadingWindow;
+        
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
@@ -26,13 +28,16 @@
             ConsoleWindow.Show();
         }
         
-        
         // Fonction pour ouvrir la fenêtre des paramètres
         public void ShowSettingsWindow()
         {
             SettingsWindow?.Show();
         }
-        
+
+        public void ShowLoadingWindow()
+        {
+            LoadingWindow?.Show();
+        }
         
         // Fonction pour ouvrir la fenêtre de renommage des adresses de groupe
         public void ShowGroupAddressRenameWindow(string address)
