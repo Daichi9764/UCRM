@@ -28,7 +28,7 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         // Données de l'application
         public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        public static readonly string AppVersion = "1.6"; // Version de l'application
+        public static readonly string AppVersion = "1.7"; // Version de l'application
         
         // Gestion des logs
         private static string? _logPath; // Chemin du fichier logs
