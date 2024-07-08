@@ -16,11 +16,27 @@ namespace KNXBoostDesktop
     /// </summary>
     public class FormatterTranslate : Formatter
     {
-        // Destination language for translation
+        /* ------------------------------------------------------------------------------------------------
+        ------------------------------------------- ATTRIBUTS  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
+        /// <summary>
+        /// Represents the destination language code used for translation. The value is retrieved from the application's settings,
+        /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationDestinationLang"/>.
+        /// </summary>
         private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationDestinationLang ?? string.Empty;
+        
+        /// <summary>
+        /// Represents the source language code used for translation. The value is retrieved from the application's settings,
+        /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationSourceLang"/>.
+        /// </summary>
         private string _sourceLanguage = App.DisplayElements?.SettingsWindow.TranslationSourceLang ?? string.Empty;
 
         
+        
+        
+        /* ------------------------------------------------------------------------------------------------
+        -------------------------------------------- METHODES  --------------------------------------------
+        ------------------------------------------------------------------------------------------------ */
         /// <summary>
         /// Translates the specified input string using the DeepL API and then formats the translated string. The formatting process
         /// involves replacing punctuation with spaces, converting to lowercase, replacing spaces with underscores, and capitalizing
