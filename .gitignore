@@ -16,12 +16,6 @@ KNXBoostDesktop/KNXBoostDesktop/bin/
 /KNXBoostDesktop/.idea/
 /KNXBoostDesktop/.idea
 /KNXBoostDesktop/KNXBoostDesktop/.vs
-
-# Except for specific files
-!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
-!/KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/
-!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources
-!KNXBoostDesktop/KNXBoostDesktop/bin/Debug/net8.0-windows/resources/
 KNXBoostDesktop/KNXBoostDesktop/obj/Debug/net8.0-windows/apphost.exe
 KNXBoostDesktop/KNXBoostDesktop/obj/Debug/net8.0-windows/apphost.exe
 /KNXBoostDesktop/KNXBoostDesktop/font/__MACOSX/._aptos.ttf
@@ -49,10 +43,4 @@ KNXBoostDesktop/KNXBoostDesktop/obj/Debug/net8.0-windows/apphost.exe
 /KNXBoostDesktop/KNXBoostDesktop/resources/BOOST-2.png
 /KNXBoostDesktop/KNXBoostDesktop/resources/BOOST-2bis.ico
 /KNXBoostDesktop/KNXBoostDesktop/resources/download (1).svg
-/KNXBoostDesktop/KNXBoostDesktop/resources/IconAdressesdeGroupe.svg
-/KNXBoostDesktop/KNXBoostDesktop/resources/IconSousGroupes_Plan de travail 1-01.svg
-/KNXBoostDesktop/KNXBoostDesktop/resources/IconSousGroupes_Plan de travail 1-02.svg
-/KNXBoostDesktop/KNXBoostDesktop/resources/IconSousGroupes_Plan de travail 1-04.svg
 /KNXBoostDesktop/KNXBoostDesktop/KNXBoostDesktop_4vkzizkw_wpftmp.csproj
-/KNXBoostDesktop/KNXBoostDesktop/resources/Loupe.svg
-/KNXBoostDesktop/KNXBoostDesktop/resources/upload (1).svg
