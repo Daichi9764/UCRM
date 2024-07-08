@@ -351,7 +351,7 @@ public partial class MainWindow
         string backgroundColor;
         
             
-        if (App.DisplayElements!.SettingsWindow.EnableLightTheme)
+        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
             buttonTextColor = "#FFFFFF";
             panelTextColor = "#000000";
