@@ -1443,8 +1443,7 @@ namespace KNXBoostDesktop
                 if (!MyNameCorrector.ValidDeeplKey)
                 {
                     MessageBox.Show($"{errorMessage}", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                    //MessageBox.Show("La clé d'API DeepL est incorrecte. La fonction de traduction ne pourra fonctionner.", "Attention !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    EnableDeeplTranslation = false;
                 }
             }
             
