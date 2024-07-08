@@ -436,107 +436,116 @@
 
                         <Border x:Name="BorderTitrePanneauGauche" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1" />
 
-                        <!-- Titre et Icon -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"  >
-                            <Image x:Name="ImageAdressesGauche" Height="15" Margin="10">
-                                <Image.Source>
-                                    <DrawingImage >
-                                        <DrawingImage.Drawing>
-                                            <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
-                                                <DrawingGroup Opacity="1">
-                                                    <GeometryDrawing Brush="#FF9199A3">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
-                                                <DrawingGroup Opacity="1">
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FF3C4B5E">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Titre et Icon -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Top"  >
+                                <Image x:Name="ImageAdressesGauche" Height="15" Margin="10">
+                                    <Image.Source>
+                                        <DrawingImage >
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
                                                     <DrawingGroup Opacity="1">
-                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing Brush="#FF9199A3">
                                                             <GeometryDrawing.Geometry>
-                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
-                                                            </GeometryDrawing.Geometry>
-                                                        </GeometryDrawing>
-                                                        <GeometryDrawing Brush="#FF334A9A">
-                                                            <GeometryDrawing.Geometry>
-                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
                                                             </GeometryDrawing.Geometry>
                                                         </GeometryDrawing>
                                                     </DrawingGroup>
-                                                    <GeometryDrawing Brush="#FF334A9A">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FF334A9A">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFB82318">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF3C4B5E">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <DrawingGroup Opacity="1">
+                                                            <GeometryDrawing Brush="#FF334A9A">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Brush="#FF334A9A">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFB82318">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
                                                 </DrawingGroup>
-                                            </DrawingGroup>
-                                        </DrawingImage.Drawing>
-                                    </DrawingImage>
-                                </Image.Source>
-                            </Image>
-                            <TextBlock x:Name="TextBlockAdressesGauche" Foreground="Black" FontSize="12" FontWeight="Bold" Margin="0,10" />
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock x:Name="TextBlockAdressesGauche" FontSize="12" FontWeight="Bold" Margin="0,10" />
 
-                            <!-- Buttons de la console -->
-                            <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
+                                <!-- Buttons de la console -->
+                                <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
 
-                        </StackPanel>
+                            </StackPanel>
 
-                        <!-- Bouton déploiement -->
-                        <Button Grid.Row="0" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyle}" >
-                            <Image x:Name="ChevronImage" Width="10" Height="10"
+
+                            <!-- Bouton déploiement -->
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyle}" >
+                                <Image x:Name="ChevronImage" Width="10" Height="10"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Stretch="Fill">
-                                <Image.Source>
-                                    <DrawingImage>
-                                        <DrawingImage.Drawing>
-                                            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                                                <DrawingGroup.Transform>
-                                                    <RotateTransform Angle="-90" x:Name="RotateTransform"/>
-                                                </DrawingGroup.Transform>
-                                                <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
-                                                    <GeometryDrawing x:Name="ChevronPanGauche" Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                                                    <DrawingGroup.Transform>
+                                                        <RotateTransform Angle="-90" x:Name="RotateTransform"/>
+                                                    </DrawingGroup.Transform>
+                                                    <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
+                                                        <GeometryDrawing x:Name="ChevronPanGauche" Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                                                    </DrawingGroup>
                                                 </DrawingGroup>
-                                            </DrawingGroup>
-                                        </DrawingImage.Drawing>
-                                    </DrawingImage>
-                                </Image.Source>
-                            </Image>
-                        </Button>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+
+                        </Grid>
 
                         <!-- Arbre Gauche -->
                         <ScrollViewer Grid.Row="1" Name="ScrollViewerGauche" BorderBrush="Transparent" BorderThickness="0" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Padding="10" Background="White">
@@ -561,104 +570,112 @@
 
                         <Border x:Name="BorderTitrePanneauDroite" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1"/>
 
-                        <!-- Titre et Icon/-->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
-                            <Image x:Name="ImageAdressesDroite" Height="15" Margin="10">
-                                <Image.Source>
-                                    <DrawingImage >
-                                        <DrawingImage.Drawing>
-                                            <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
-                                                <DrawingGroup Opacity="1">
-                                                    <GeometryDrawing Brush="#FF9199A3">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
-                                                <DrawingGroup Opacity="1">
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FF3C4B5E">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Titre et Icon droit/-->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left"  VerticalAlignment="Center" >
+                                <Image x:Name="ImageAdressesDroite" Height="15" Margin="10">
+                                    <Image.Source>
+                                        <DrawingImage >
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V365.2 H352 V0 H0 Z">
                                                     <DrawingGroup Opacity="1">
-                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                        <GeometryDrawing Brush="#FF9199A3">
                                                             <GeometryDrawing.Geometry>
-                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
-                                                            </GeometryDrawing.Geometry>
-                                                        </GeometryDrawing>
-                                                        <GeometryDrawing Brush="#FF334A9A">
-                                                            <GeometryDrawing.Geometry>
-                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="19,39.2,302,302" />
                                                             </GeometryDrawing.Geometry>
                                                         </GeometryDrawing>
                                                     </DrawingGroup>
-                                                    <GeometryDrawing Brush="#FF334A9A">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FF334A9A">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFE4E5E4">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Brush="#FFB82318">
-                                                        <GeometryDrawing.Geometry>
-                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,101.2,261,222" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF3C4B5E">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,79.2,261,22" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <DrawingGroup Opacity="1">
+                                                            <GeometryDrawing Brush="#FF334A9A">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,141.2,59.5,59.5" />
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Brush="#FF334A9A">
+                                                                <GeometryDrawing.Geometry>
+                                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,141.2,59.5,59.5" />
+                                                                </GeometryDrawing.Geometry>
+                                                            </GeometryDrawing>
+                                                        </DrawingGroup>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="99.25,222.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FF334A9A">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,222.2,59.5,59.5" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="39,59.2,82,20" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="180.25,59.2,18.75,19" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFE4E5E4">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="222,59.2,19,19" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                        <GeometryDrawing Brush="#FFB82318">
+                                                            <GeometryDrawing.Geometry>
+                                                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="264,59.2,20,20" />
+                                                            </GeometryDrawing.Geometry>
+                                                        </GeometryDrawing>
+                                                    </DrawingGroup>
                                                 </DrawingGroup>
-                                            </DrawingGroup>
-                                        </DrawingImage.Drawing>
-                                    </DrawingImage>
-                                </Image.Source>
-                            </Image>
-                            <TextBlock x:Name="TextBlockAdressesDroite" Foreground="Black" FontSize="12" FontWeight="Bold" Margin="0,10"/>
-                        </StackPanel>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock x:Name="TextBlockAdressesDroite" FontSize="12" FontWeight="Bold" Margin="0,10" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
 
-                        <!-- Bouton déploiement/-->
-                        <Button Grid.Row="0" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyle}" >
-                            <Image x:Name="ChevronImage2" Width="10" Height="10"
-                               VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Stretch="Fill">
-                                <Image.Source>
-                                    <DrawingImage>
-                                        <DrawingImage.Drawing>
-                                            <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                                                <DrawingGroup.Transform>
-                                                    <RotateTransform Angle="-90"  x:Name="RotateTransform2"/>
-                                                </DrawingGroup.Transform>
-                                                <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
-                                                    <GeometryDrawing x:Name="ChevronPanDroite" Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                            <!-- Bouton déploiement droit/-->
+
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyle}" >
+                                <Image x:Name="ChevronImage2" Width="10" Height="10"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Stretch="Fill">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                                                    <DrawingGroup.Transform>
+                                                        <RotateTransform Angle="-90"  x:Name="RotateTransform2"/>
+                                                    </DrawingGroup.Transform>
+                                                    <DrawingGroup Opacity="1" Transform="0.1,0,0,-0.1,0,512">
+                                                        <GeometryDrawing x:Name="ChevronPanDroite" Brush="#FF000000" Geometry="F1 M512,512z M0,0z M131,3836L-1,3704 1274,2432C1974,1732 2553,1160 2560,1160 2567,1160 3146,1732 3846,2432L5121,3704 4989,3836 4857,3969 3713,2832C3084,2207 2565,1695 2560,1695 2555,1695 2036,2207 1407,2832L263,3969 131,3836z" />
+                                                    </DrawingGroup>
                                                 </DrawingGroup>
-                                            </DrawingGroup>
-                                        </DrawingImage.Drawing>
-                                    </DrawingImage>
-                                </Image.Source>
-                            </Image>
-                        </Button>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
 
+                        </Grid>
                         <!-- Arbre Droite -->
                         <ScrollViewer Grid.Row="1" Name="ScrollViewerDroite" ScrollChanged="ScrollViewer_ScrollChanged" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="10" Background="White">
                             <TreeView x:Name="TreeViewDroite" Foreground="Black" ItemContainerStyle="{StaticResource TreeViewItemStyle2}" BorderThickness="0"  Background="Transparent"/>

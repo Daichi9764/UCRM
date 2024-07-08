@@ -1030,18 +1030,22 @@ public partial class MainWindow
         var stack = new StackPanel { Orientation = Orientation.Horizontal };
 
         // Définir l'icône en fonction du niveau
+        var drawingImageKey = level switch
+        {
+            0 => "Icon_level1",
+            1 => "Icon_level2",
+            2 => "Icon_level3",
+            _ => "Icon_level3"
+        };
+
+        var drawingImage = Application.Current.Resources[drawingImageKey] as DrawingImage;
+
         var icon = new Image
         {
             Width = 16,
             Height = 16,
             Margin = new Thickness(0, 0, 5, 0),
-            Source = level switch
-            {
-                0 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level.png")),
-                1 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level2.png")),
-                2 => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png")),
-                _ => new BitmapImage(new Uri("pack://application:,,,/resources/Icon_level3.png"))
-            }
+            Source = drawingImage
         };
 
         var text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
