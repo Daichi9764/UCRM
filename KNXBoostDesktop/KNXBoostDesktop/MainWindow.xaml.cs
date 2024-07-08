@@ -1,8 +1,6 @@
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.ComponentModel;
 using System.Text;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,23 +21,23 @@ public partial class MainWindow
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    //private readonly string xmlFilePath1 = App.Fm?.ProjectFolderPath + "GroupAddresses.xml"; 
+
     private string _xmlFilePath1 = "";
     
     private string _xmlFilePath2 = "";
-
-    private bool lightThemeON;
-
-    //private LoadingWindow loadingWindow;
     
-    private MainViewModel ViewModel { get; set; }
+    private string _searchTextTranslate = "";
 
-    private string searchTextTranslate;
-
+    private MainViewModel ViewModel { get; }
 
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    /// Sets up the render mode, data context, window icon, and updates the window contents.
+    /// </summary>
     public MainWindow()
     {
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
@@ -56,15 +54,24 @@ public partial class MainWindow
         LocationChanged += MainWindow_LocationChanged;
     }
     
-    private void MainWindow_LocationChanged(object sender, EventArgs e)
+    /// <summary>
+    /// Handles the LocationChanged event of the MainWindow.
+    /// This method will be called whenever the window's location changes.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void MainWindow_LocationChanged(object? sender, EventArgs e)
     {
         // Mettre à jour la position de la LoadingWindow lorsque MainWindow est déplacée
-        if (App.DisplayElements.LoadingWindow != null && App.DisplayElements.LoadingWindow.IsVisible)
+        if (App.DisplayElements != null && App.DisplayElements.LoadingWindow != null && App.DisplayElements.LoadingWindow.IsVisible)
         {
             App.DisplayElements.LoadingWindow.UpdatePosition(Left, Top);
         }
     }
 
+    /// <summary>
+    /// Updates the contents of the window, including theme and language.
+    /// </summary>
     public void UpdateWindowContents()
     {
         // Traduction de la fenêtre principale
@@ -72,7 +79,7 @@ public partial class MainWindow
         {
             // Arabe
             case "AR":
-                searchTextTranslate = "بحث...";
+                _searchTextTranslate = "بحث...";
                 TxtSearch1.Text = "بحث...";
                 ButtonChargerProject.Content = "تحميل مشروع جديد";
                 ButtonExportProject.Content = "تصدير المشروع المعدل";
@@ -82,7 +89,7 @@ public partial class MainWindow
 
             // Bulgare
             case "BG":
-                searchTextTranslate = "Търсене...";
+                _searchTextTranslate = "Търсене...";
                 TxtSearch1.Text = "Търсене...";
                 ButtonChargerProject.Content = "Зареждане на нов проект";
                 ButtonExportProject.Content = "Експортиране на модифицирания проект";
@@ -92,7 +99,7 @@ public partial class MainWindow
 
             // Tchèque
             case "CS":
-                searchTextTranslate = "Hledat...";
+                _searchTextTranslate = "Hledat...";
                 TxtSearch1.Text = "Hledat...";
                 ButtonChargerProject.Content = "Načíst nový projekt";
                 ButtonExportProject.Content = "Exportovat upravený projekt";
@@ -102,7 +109,7 @@ public partial class MainWindow
 
             // Danois
             case "DA":
-                searchTextTranslate = "Søg...";
+                _searchTextTranslate = "Søg...";
                 TxtSearch1.Text = "Søg...";
                 ButtonChargerProject.Content = "Indlæs et nyt projekt";
                 ButtonExportProject.Content = "Eksporter det ændrede projekt";
@@ -112,7 +119,7 @@ public partial class MainWindow
 
             // Allemand
             case "DE":
-                searchTextTranslate = "Suchen...";
+                _searchTextTranslate = "Suchen...";
                 TxtSearch1.Text = "Suchen...";
                 ButtonChargerProject.Content = "Neues Projekt laden";
                 ButtonExportProject.Content = "Geändertes Projekt exportieren";
@@ -122,7 +129,7 @@ public partial class MainWindow
 
             // Grec
             case "EL":
-                searchTextTranslate = "Αναζήτηση...";
+                _searchTextTranslate = "Αναζήτηση...";
                 TxtSearch1.Text = "Αναζήτηση...";
                 ButtonChargerProject.Content = "Φόρτωση νέου έργου";
                 ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
@@ -132,7 +139,7 @@ public partial class MainWindow
 
             // Anglais
             case "EN":
-                searchTextTranslate = "Search...";
+                _searchTextTranslate = "Search...";
                 TxtSearch1.Text = "Search...";
                 ButtonChargerProject.Content = "Load a new project";
                 ButtonExportProject.Content = "Export the modified project";
@@ -142,7 +149,7 @@ public partial class MainWindow
 
             // Espagnol
             case "ES":
-                searchTextTranslate = "Buscar...";
+                _searchTextTranslate = "Buscar...";
                 TxtSearch1.Text = "Buscar...";
                 ButtonChargerProject.Content = "Cargar un nuevo proyecto";
                 ButtonExportProject.Content = "Exportar el proyecto modificado";
@@ -152,7 +159,7 @@ public partial class MainWindow
 
             // Estonien
             case "ET":
-                searchTextTranslate = "Otsi...";
+                _searchTextTranslate = "Otsi...";
                 TxtSearch1.Text = "Otsi...";
                 ButtonChargerProject.Content = "Laadi uus projekt";
                 ButtonExportProject.Content = "Ekspordi muudetud projekt";
@@ -162,7 +169,7 @@ public partial class MainWindow
 
             // Finnois
             case "FI":
-                searchTextTranslate = "Hae...";
+                _searchTextTranslate = "Hae...";
                 TxtSearch1.Text = "Hae...";
                 ButtonChargerProject.Content = "Lataa uusi projekti";
                 ButtonExportProject.Content = "Vie muutettu projekti";
@@ -172,7 +179,7 @@ public partial class MainWindow
 
             // Hongrois
             case "HU":
-                searchTextTranslate = "Keresés...";
+                _searchTextTranslate = "Keresés...";
                 TxtSearch1.Text = "Keresés...";
                 ButtonChargerProject.Content = "Új projekt betöltése";
                 ButtonExportProject.Content = "A módosított projekt exportálása";
@@ -182,7 +189,7 @@ public partial class MainWindow
 
             // Indonésien
             case "ID":
-                searchTextTranslate = "Cari...";
+                _searchTextTranslate = "Cari...";
                 TxtSearch1.Text = "Cari...";
                 ButtonChargerProject.Content = "Muat proyek baru";
                 ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
@@ -192,7 +199,7 @@ public partial class MainWindow
 
             // Italien
             case "IT":
-                searchTextTranslate = "Cerca...";
+                _searchTextTranslate = "Cerca...";
                 TxtSearch1.Text = "Cerca...";
                 ButtonChargerProject.Content = "Carica un nuovo progetto";
                 ButtonExportProject.Content = "Esporta il progetto modificato";
@@ -202,7 +209,7 @@ public partial class MainWindow
 
             // Japonais
             case "JA":
-                searchTextTranslate = "検索...";
+                _searchTextTranslate = "検索...";
                 TxtSearch1.Text = "検索...";
                 ButtonChargerProject.Content = "新しいプロジェクトをロード";
                 ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
@@ -212,7 +219,7 @@ public partial class MainWindow
 
             // Coréen
             case "KO":
-                searchTextTranslate = "검색...";
+                _searchTextTranslate = "검색...";
                 TxtSearch1.Text = "검색...";
                 ButtonChargerProject.Content = "새 프로젝트 로드";
                 ButtonExportProject.Content = "수정된 프로젝트 내보내기";
@@ -222,7 +229,7 @@ public partial class MainWindow
 
             // Letton
             case "LV":
-                searchTextTranslate = "Meklēt...";
+                _searchTextTranslate = "Meklēt...";
                 TxtSearch1.Text = "Meklēt...";
                 ButtonChargerProject.Content = "Ielādēt jaunu projektu";
                 ButtonExportProject.Content = "Eksportēt modificēto projektu";
@@ -232,7 +239,7 @@ public partial class MainWindow
 
             // Lituanien
             case "LT":
-                searchTextTranslate = "Ieškoti...";
+                _searchTextTranslate = "Ieškoti...";
                 TxtSearch1.Text = "Ieškoti...";
                 ButtonChargerProject.Content = "Įkelti naują projektą";
                 ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
@@ -242,7 +249,7 @@ public partial class MainWindow
 
             // Norvégien
             case "NB":
-                searchTextTranslate = "Søk...";
+                _searchTextTranslate = "Søk...";
                 TxtSearch1.Text = "Søk...";
                 ButtonChargerProject.Content = "Last inn et nytt prosjekt";
                 ButtonExportProject.Content = "Eksporter det endrede prosjektet";
@@ -252,7 +259,7 @@ public partial class MainWindow
 
             // Néerlandais
             case "NL":
-                searchTextTranslate = "Zoeken...";
+                _searchTextTranslate = "Zoeken...";
                 TxtSearch1.Text = "Zoeken...";
                 ButtonChargerProject.Content = "Laad een nieuw project";
                 ButtonExportProject.Content = "Exporteer het gewijzigde project";
@@ -262,7 +269,7 @@ public partial class MainWindow
 
             // Polonais
             case "PL":
-                searchTextTranslate = "Szukaj...";
+                _searchTextTranslate = "Szukaj...";
                 TxtSearch1.Text = "Szukaj...";
                 ButtonChargerProject.Content = "Załaduj nowy projekt";
                 ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
@@ -272,7 +279,7 @@ public partial class MainWindow
 
             // Portugais
             case "PT":
-                searchTextTranslate = "Pesquisar...";
+                _searchTextTranslate = "Pesquisar...";
                 TxtSearch1.Text = "Pesquisar...";
                 ButtonChargerProject.Content = "Carregar um novo projeto";
                 ButtonExportProject.Content = "Exportar o projeto modificado";
@@ -282,7 +289,7 @@ public partial class MainWindow
 
             // Roumain
             case "RO":
-                searchTextTranslate = "Căutare...";
+                _searchTextTranslate = "Căutare...";
                 TxtSearch1.Text = "Căutare...";
                 ButtonChargerProject.Content = "Încărcați un proiect nou";
                 ButtonExportProject.Content = "Exportați proiectul modificat";
@@ -292,7 +299,7 @@ public partial class MainWindow
 
             // Russe
             case "RU":
-                searchTextTranslate = "Поиск...";
+                _searchTextTranslate = "Поиск...";
                 TxtSearch1.Text = "Поиск...";
                 ButtonChargerProject.Content = "Загрузить новый проект";
                 ButtonExportProject.Content = "Экспортировать измененный проект";
@@ -302,7 +309,7 @@ public partial class MainWindow
 
             // Slovaque
             case "SK":
-                searchTextTranslate = "Hľadať...";
+                _searchTextTranslate = "Hľadať...";
                 TxtSearch1.Text = "Hľadať...";
                 ButtonChargerProject.Content = "Načítať nový projekt";
                 ButtonExportProject.Content = "Exportovať upravený projekt";
@@ -312,7 +319,7 @@ public partial class MainWindow
 
             // Slovène
             case "SL":
-                searchTextTranslate = "Iskanje...";
+                _searchTextTranslate = "Iskanje...";
                 TxtSearch1.Text = "Iskanje...";
                 ButtonChargerProject.Content = "Naloži nov projekt";
                 ButtonExportProject.Content = "Izvozi spremenjeni projekt";
@@ -322,7 +329,7 @@ public partial class MainWindow
 
             // Suédois
             case "SV":
-                searchTextTranslate = "Sök...";
+                _searchTextTranslate = "Sök...";
                 TxtSearch1.Text = "Sök...";
                 ButtonChargerProject.Content = "Ladda ett nytt projekt";
                 ButtonExportProject.Content = "Exportera det modifierade projektet";
@@ -332,7 +339,7 @@ public partial class MainWindow
 
             // Turc
             case "TR":
-                searchTextTranslate = "Ara...";
+                _searchTextTranslate = "Ara...";
                 TxtSearch1.Text = "Ara...";
                 ButtonChargerProject.Content = "Yeni bir proje yükle";
                 ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
@@ -342,7 +349,7 @@ public partial class MainWindow
 
             // Ukrainien
             case "UK":
-                searchTextTranslate = "Пошук...";
+                _searchTextTranslate = "Пошук...";
                 TxtSearch1.Text = "Пошук...";
                 ButtonChargerProject.Content = "Завантажити новий проект";
                 ButtonExportProject.Content = "Експортувати змінений проект";
@@ -352,7 +359,7 @@ public partial class MainWindow
 
             // Chinois simplifié
             case "ZH":
-                searchTextTranslate = "搜索...";
+                _searchTextTranslate = "搜索...";
                 TxtSearch1.Text = "搜索...";
                 ButtonChargerProject.Content = "加载新项目";
                 ButtonExportProject.Content = "导出修改后的项目";
@@ -362,7 +369,7 @@ public partial class MainWindow
 
             // Langue par défaut (français)
             default:
-                searchTextTranslate = "Chercher...";
+                _searchTextTranslate = "Chercher...";
                 TxtSearch1.Text = "Chercher...";
                 ButtonChargerProject.Content = "Charger un nouveau projet";
                 ButtonExportProject.Content = "Exporter le projet modifié";
@@ -371,10 +378,7 @@ public partial class MainWindow
                 break;
         }
         
-        string buttonTextColor;
         string panelTextColor;
-        string titleBarColor;
-        string buttonColor;
         
         string settingsButtonColor;
         string logoColor;
@@ -385,12 +389,9 @@ public partial class MainWindow
         string backgroundColor;
         
             
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
+        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
-            buttonTextColor = "#FFFFFF";
             panelTextColor = "#000000";
-            titleBarColor = "#369026";
-            buttonColor = "#4071B4";
             panelBackgroundColor = "#FFFFFF";
             backgroundColor = "#F5F5F5";
 
@@ -406,8 +407,6 @@ public partial class MainWindow
 
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
-            
-            //TreeViewGauche.Style = (Style)FindResource("MyTreeViewStyle");
         }
         else
         {
@@ -462,8 +461,17 @@ public partial class MainWindow
         AjusteurPan.Background = ConvertStringColor(borderPanelColor);
     }   
     
+    
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
+    /// <summary>
+    /// Handles the button click event to import a KNX project file.
+    /// Displays an OpenFileDialog for the user to select the project file,
+    /// extracts necessary files, shows a loading window during the import process,
+    /// and updates the view model upon successful import.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
@@ -479,7 +487,7 @@ public partial class MainWindow
         };
 
         // Afficher la boîte de dialogue et vérifier si l'utilisateur a sélectionné un fichier
-        bool? result = openFileDialog.ShowDialog();
+        var result = openFileDialog.ShowDialog();
 
         if (result == true)
         {
@@ -507,18 +515,24 @@ public partial class MainWindow
         }
     }
     
+    /// <summary>
+    /// Executes a long-running task asynchronously, displaying progress in a loading window.
+    /// The task includes showing a progress indicator in the taskbar,
+    /// and performing multiple asynchronous operations including file extraction, data processing, and UI updates.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private async Task ExecuteLongRunningTask()
     {
-        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
+        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
-            App.DisplayElements.LoadingWindow.SetLightMode();
+            App.DisplayElements.LoadingWindow?.SetLightMode();
         }
         else
         {
-            App.DisplayElements.LoadingWindow.SetDarKMode();
+            App.DisplayElements?.LoadingWindow?.SetDarKMode();
         }
         
-        App.DisplayElements.ShowLoadingWindow();
+        App.DisplayElements?.ShowLoadingWindow();
         
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
 
@@ -714,34 +728,46 @@ public partial class MainWindow
                 }
 
                 
-                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 1/4");
-                await App.Fm.FindZeroXml().ConfigureAwait(false);
-                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 2/4");
-                await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
-                
-                _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
-                _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
-                //Define the project path
-                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 3/4");
-                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+                App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/4");
+                if (App.Fm != null)
                 {
-                    await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
+                    await App.Fm.FindZeroXml().ConfigureAwait(false);
+                    App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 2/4");
+                    await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
+
+                    _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
+                    _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+                    //Define the project path
+                    if (App.DisplayElements != null)
+                    {
+                        App.DisplayElements.LoadingWindow?.UpdateTaskName($"{task} 3/4");
+                        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+                        {
+                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_original.xml",
+                                App.Fm.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            await ExportUpdatedNameAddresses
+                                .Export(App.Fm.ZeroXmlPath, App.Fm.ProjectFolderPath + "/GroupAddresses.xml")
+                                .ConfigureAwait(false);
+                        }
+
+                        App.DisplayElements.LoadingWindow?.UpdateTaskName($"{task} 3/4");
+                    }
+
+                    await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
+                        App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
                 }
-                else
-                {
-                    await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath!,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
-                }
-                App.DisplayElements.LoadingWindow.UpdateTaskName($"{task} 3/4");
-                await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
 
                 await LoadXmlFiles().ConfigureAwait(false);
 
                 // Mettre à jour l'interface utilisateur depuis le thread principal
                 Dispatcher.Invoke(() =>
                 {
-                    App.DisplayElements.LoadingWindow.UpdateTaskName(loadingFinished);
-                    App.DisplayElements.LoadingWindow.MarkActivityComplete();
-                    App.DisplayElements.LoadingWindow.CompleteActivity();
+                    App.DisplayElements?.LoadingWindow?.UpdateTaskName(loadingFinished);
+                    App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+                    App.DisplayElements?.LoadingWindow?.CompleteActivity();
                 });
             });
         }
@@ -751,11 +777,15 @@ public partial class MainWindow
             Dispatcher.Invoke(() =>
             {
                 TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
-                App.DisplayElements.LoadingWindow.CloseAfterDelay(2000).ConfigureAwait(false);
+                App.DisplayElements?.LoadingWindow?.CloseAfterDelay(2000).ConfigureAwait(false);
             });
         }
     }
     
+    /// <summary>
+    /// Shows an overlay on the main content area based on the application's theme settings.
+    /// Disables user interaction with the main content while the overlay is visible.
+    /// </summary>
     private new void ShowOverlay()
     {
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
@@ -770,6 +800,10 @@ public partial class MainWindow
         }
     }
     
+    /// <summary>
+    /// Hides the overlay from the main content area based on the application's theme settings.
+    /// Enables user interaction with the main content after hiding the overlay.
+    /// </summary>
     private new void HideOverlay()
     {
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
@@ -797,47 +831,8 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
-
-    private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.ClickCount == 2)
-        {
-            ToggleWindowState();
-        }
-        else
-        {
-            DragMove();
-        }
-    }
-
-    private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-    {
-        WindowState = WindowState.Minimized;
-    }
-
-    private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-    {
-        ToggleWindowState();
-    }
-
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
-
-    private void ToggleWindowState()
-    {
-        if (WindowState == WindowState.Normal)
-        {
-            WindowState = WindowState.Maximized;
-        }
-        else
-        {
-            WindowState = WindowState.Normal;
-        }
-    }
     
-    private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
+    /*private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml externally");
 
@@ -865,11 +860,18 @@ public partial class MainWindow
         {
             App.ConsoleAndLogWriteLine($"The file {absoluteFilePath} does not exist.");
         }
-    }
+    }*/
     
+    /// <summary>
+    /// Handles the button click event to export the updated project file to a selected destination.
+    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
+    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        string sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
+        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
         // Vérifier si le fichier source existe
@@ -888,33 +890,44 @@ public partial class MainWindow
         };
 
         // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
-        bool? result = saveFileDialog.ShowDialog();
+        var result = saveFileDialog.ShowDialog();
 
-        if (result == true)
+        if (result != true) return;
+        // Chemin du fichier sélectionné par l'utilisateur
+        var destinationFilePath = saveFileDialog.FileName;
+        App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
+
+        try
         {
-            // Chemin du fichier sélectionné par l'utilisateur
-            string destinationFilePath = saveFileDialog.FileName;
-            App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
-
-            try
-            {
-                // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
-                File.Copy(sourceFilePath, destinationFilePath, true);
-                App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
-            }
-            catch (Exception ex)
-            {
-                // Gérer les exceptions et afficher un message d'erreur
-                App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
-            }
+            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+            File.Copy(sourceFilePath, destinationFilePath, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
+        }
+        catch (Exception ex)
+        {
+            // Gérer les exceptions et afficher un message d'erreur
+            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
         }
     }
 
+    /// <summary>
+    /// Handles the closing event of the main window by shutting down the application.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void ClosingMainWindow(object sender, CancelEventArgs e)
     {
         Application.Current.Shutdown();
     }
 
+    /// <summary>
+    /// Handles the button click event to open the application settings window.
+    /// Checks if the settings window is already open and brings it to the front if so,
+    /// otherwise, displays the settings window.
+    /// Clears keyboard focus from the button after opening the settings window.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (typically the button).</param>
+    /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
         // Vérifie si la fenêtre de paramètres est déjà ouverte
@@ -932,8 +945,12 @@ public partial class MainWindow
 
         Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
     }
-
     
+    /// <summary>
+    /// Applies a specified style to all TreeView items and their children recursively.
+    /// </summary>
+    /// <param name="treeView">The TreeView whose items should be styled.</param>
+    /// <param name="style">The name of the style to apply from application resources.</param>
     private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
     {
         foreach (var item in treeView.Items)
@@ -945,7 +962,11 @@ public partial class MainWindow
         }
     }
 
-    // Méthode récursive pour appliquer le style à un TreeViewItem et ses enfants
+    /// <summary>
+    /// Recursively applies a specified style to a TreeViewItem and its child items.
+    /// </summary>
+    /// <param name="item">The TreeViewItem to apply the style to.</param>
+    /// <param name="style">The name of the style to apply from application resources.</param>    
     private void ApplyStyleRecursive(TreeViewItem item, string style)
     {
         item.Style = FindResource(style) as Style;
@@ -960,19 +981,33 @@ public partial class MainWindow
         }
     }
     
+    /// <summary>
+    /// Converts a string representation of a color to a SolidColorBrush.
+    /// </summary>
+    /// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
+    /// <returns>A SolidColorBrush representing the converted color.</returns>
     public static SolidColorBrush ConvertStringColor(string colorInput)
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
     }
     
+    
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
 
+    /// <summary>
+    /// Asynchronously loads XML files into two TreeViews.
+    /// </summary>
     private async Task LoadXmlFiles()
     {            
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
 
+    /// <summary>
+    /// Asynchronously loads an XML file into a specified TreeView.
+    /// </summary>
+    /// <param name="filePath">The path to the XML file to load.</param>
+    /// <param name="treeView">The TreeView where XML nodes should be displayed.</param>
     private async Task LoadXmlFile(string filePath, TreeView treeView)
     {
         try
@@ -1009,22 +1044,32 @@ public partial class MainWindow
 
     }
 
+    /// <summary>
+    /// Adds XML nodes recursively to a TreeView.
+    /// </summary>
+    /// <param name="xmlNode">The XML node to add.</param>
+    /// <param name="parentItems">The parent collection of TreeView items.</param>
+    /// <param name="level">The depth level of the current XML node.</param>
     private void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
     {
-        if (xmlNode.NodeType == XmlNodeType.Element)
+        if (xmlNode.NodeType != XmlNodeType.Element) return;
+        var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
+
+        parentItems.Add(treeNode);
+
+        // Parcourir récursivement les enfants
+        foreach (XmlNode childNode in xmlNode.ChildNodes)
         {
-            var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
-
-            parentItems.Add(treeNode);
-
-            // Parcourir récursivement les enfants
-            foreach (XmlNode childNode in xmlNode.ChildNodes)
-            {
-                AddNodeRecursively(childNode, treeNode.Items, level + 1);
-            }
+            AddNodeRecursively(childNode, treeNode.Items, level + 1);
         }
     }
 
+    /// <summary>
+    /// Creates a TreeViewItem from an XML node, with its corresponding image.
+    /// </summary>
+    /// <param name="xmlNode">The XML node to create a TreeViewItem from.</param>
+    /// <param name="level">The depth level of the XML node.</param>
+    /// <returns>A TreeViewItem representing the XML node.</returns>
     private TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
     {
         var stack = new StackPanel { Orientation = Orientation.Horizontal };
@@ -1073,9 +1118,15 @@ public partial class MainWindow
 
     //-------------------- Gestion du scroll vertical synchronisé ------------------------------------//
 
+    /// <summary>
+    /// Handles the ScrollChanged event of the ScrollViewer to synchronize scrolling between two ScrollViewer instances.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (should be a ScrollViewer).</param>
+    /// <param name="e">The event data.</param>
     private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
         if (sender is not ScrollViewer changedScrollViewer) return;
+        
         // Défilement horizontal
         if (changedScrollViewer == ScrollViewerGauche && e.HorizontalChange != 0)
         {
@@ -1097,10 +1148,15 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// Handles the PreviewMouseWheel event of the ScrollViewer to manage scrolling behavior based on Shift key press.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (should be a ScrollViewer).</param>
+    /// <param name="e">The event data.</param>
     private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (sender is not ScrollViewer scrollViewer) return;
-        // Vérifier si Ctrl est enfoncé
+
         var isShiftPressed = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
 
         switch (isShiftPressed)
@@ -1115,7 +1171,6 @@ public partial class MainWindow
                 {
                     ScrollViewerDroite.ScrollToHorizontalOffset(ScrollViewerDroite.HorizontalOffset - e.Delta);
                 }
-
                 break;
             }
             // Défilement vertical avec Ctrl enfoncé
@@ -1129,7 +1184,6 @@ public partial class MainWindow
                 {
                     ScrollViewerDroite.ScrollToVerticalOffset(ScrollViewerDroite.VerticalOffset - e.Delta);
                 }
-
                 e.Handled = true; // Indiquer que l'événement a été géré
                 break;
             }
@@ -1139,15 +1193,25 @@ public partial class MainWindow
     
     //-------------------- Gestion de la barre de recherche ------------------------------------//
     
+    /// <summary>
+    /// Handles the GotFocus event of a TextBox by clearing its content if it matches the search text and adjusting its appearance.
+    /// </summary>
+    /// <param name="sender">The TextBox that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void TextBox_GotFocus(object sender, RoutedEventArgs e)
     {
         var tb = sender as TextBox;
-        if (tb?.Text != searchTextTranslate) return;
+        if (tb?.Text != _searchTextTranslate) return;
         tb.Text = "";
-        tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+        tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ? 
             new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
     }
 
+    /// <summary>
+    /// Handles the LostFocus event of a TextBox by restoring the initial search text if the TextBox is empty and adjusting its appearance.
+    /// </summary>
+    /// <param name="sender">The TextBox that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         var tb = sender as TextBox;
@@ -1155,48 +1219,74 @@ public partial class MainWindow
         tb?.Dispatcher.BeginInvoke(new Action(() =>
         {
             if (!string.IsNullOrWhiteSpace(tb.Text)) return;
-            tb.Text = searchTextTranslate;
-            tb.Foreground = App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+            tb.Text = _searchTextTranslate;
+            tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ? 
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
     
+    /// <summary>
+    /// Handles the PreviewKeyDown event of the search TextBox to move focus away and handle specific key presses (Enter or Escape).
+    /// </summary>
+    /// <param name="sender">The TextBox that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void txtSearch1_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        // Vérifier si la touche pressée est Enter ou Escape
         if (e.Key is not (Key.Enter or Key.Escape)) return;
+
         // Perdre le focus du TextBox
         TxtSearch1.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-        // Pour indiquer que l'événement est géré
-        e.Handled = true; 
-    }
 
+        // Indiquer que l'événement est géré pour éviter le traitement supplémentaire
+        e.Handled = true;
+    }
+    
+    
     //-------------------- Gestion de la recherche ---------------------------------------------------//
 
+    /// <summary>
+    /// Handles the TextChanged event of the search TextBox to filter and hide items in two TreeViews based on the search text.
+    /// </summary>
+    /// <param name="sender">The TextBox that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (TxtSearch1.Text != "Chercher...")
+        // Vérifier si le texte de recherche est égal au texte de recherche initial, si oui, ne rien faire
+        if (TxtSearch1.Text == _searchTextTranslate) return;
+
+        // Normaliser le texte de recherche
+        var normalizedSearchText = NormalizeString(TxtSearch1.Text);
+
+        // Déterminer le nombre d'éléments à comparer dans les deux TreeViews
+        var itemCount = Math.Min(TreeViewGauche.Items.Count, TreeViewDroite.Items.Count);
+
+        // Parcourir les éléments des deux TreeViews
+        for (var i = 0; i < itemCount; i++)
         {
-            string normalizedSearchText = NormalizeString(TxtSearch1.Text);
+            // Vérifier si les éléments sont de type TreeViewItem
+            if (TreeViewGauche.Items[i] is not TreeViewItem item1 ||
+                TreeViewDroite.Items[i] is not TreeViewItem item2) continue;
 
-            // Filtrer et masquer les éléments des deux TreeView basés sur le texte de recherche
-            int itemCount = Math.Min(TreeViewGauche.Items.Count, TreeViewDroite.Items.Count);
-            for (int i = 0; i < itemCount; i++)
-            {
-                if (TreeViewGauche.Items[i] is TreeViewItem item1 && TreeViewDroite.Items[i] is TreeViewItem item2)
-                {
-                    item1.Visibility = Visibility.Visible;
-                    item2.Visibility = Visibility.Visible;
-                    FilterTreeViewItems(item1, item2, normalizedSearchText);
-                }
+            // Rétablir la visibilité des éléments
+            item1.Visibility = Visibility.Visible;
+            item2.Visibility = Visibility.Visible;
 
-            }
+            // Filtrer les éléments dans les deux TreeViews en fonction du texte de recherche normalisé
+            FilterTreeViewItems(item1, item2, normalizedSearchText);
         }
     }
 
+    /// <summary>
+    /// Filters two TreeViewItems based on the search text and shows or hides them accordingly.
+    /// </summary>
+    /// <param name="item1">The first TreeViewItem to filter.</param>
+    /// <param name="item2">The second TreeViewItem to filter.</param>
+    /// <param name="searchText">The normalized search text to filter against.</param>
+    /// <returns>True if at least one of the TreeViewItems is visible after filtering, false otherwise.</returns>
     private static bool FilterTreeViewItems(TreeViewItem item1, TreeViewItem item2 , string searchText)
     {
-        bool item1Visible = false; // Indicateur pour déterminer si l'élément est visible
-        bool item2Visible = false;
+        var item1Visible = false; // Indicateur pour déterminer si l'élément est visible
 
         // Extraire le texte du TextBlock dans le Header du TreeViewItem
         string? headerText1 = null;
@@ -1206,10 +1296,10 @@ public partial class MainWindow
         {
             var textBlock1 = headerStack1.Children.OfType<TextBlock>().FirstOrDefault();
             var textBlock2 = headerStack2.Children.OfType<TextBlock>().FirstOrDefault();
-            if (textBlock1 != null && textBlock1 != null)
+            if (textBlock1 != null)
             {
                 headerText1 = textBlock1.Text;
-                headerText2 = textBlock2.Text;
+                headerText2 = textBlock2?.Text;
             }
         }
 
@@ -1221,8 +1311,8 @@ public partial class MainWindow
             return false; // Si l'entête est null, l'élément n'est pas visible
         }
 
-        string normalizedHeader1 = NormalizeString(headerText1);
-        string normalizedHeader2 = NormalizeString(headerText2);
+        var normalizedHeader1 = NormalizeString(headerText1);
+        var normalizedHeader2 = NormalizeString(headerText2);
 
         // Vérifier si l'élément correspond au texte de recherche
         if (normalizedHeader1.Contains(searchText, StringComparison.OrdinalIgnoreCase) || normalizedHeader2.Contains(searchText, StringComparison.OrdinalIgnoreCase))
@@ -1233,50 +1323,41 @@ public partial class MainWindow
 
             item2.Visibility = Visibility.Visible; // Rendre visible l'élément
             item2.IsExpanded = true; // Développer l'élément pour montrer les enfants correspondants
-            item2Visible = true; // Indiquer que l'élément est visible
         }
         else
         {
             item1.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
             item2.Visibility = Visibility.Collapsed; // Masquer l'élément si le texte ne correspond pas
-
         }
+        
+        var hasVisibleChild = false;
 
-
-        bool hasVisibleChild = false;
-
-        int itemCount = Math.Min(item1.Items.Count, item2.Items.Count);
-        for (int i = 0; i < itemCount; i++)
+        var itemCount = Math.Min(item1.Items.Count, item2.Items.Count);
+        for (var i = 0; i < itemCount; i++)
         {
-           
-            if ((item1.Items[i] is TreeViewItem childItem1) && (item2.Items[i] is TreeViewItem childItem2))
-            {
-                // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
-                bool childVisible = FilterTreeViewItems(childItem1, childItem2, searchText);
-                if (childVisible)
-                {
-                    hasVisibleChild = true;
-                    item1.IsExpanded = true; // Développer l'élément si un enfant est visible
-                    item2.IsExpanded = true;
-                }
-            }
+            if ((item1.Items[i] is not TreeViewItem childItem1) ||
+                (item2.Items[i] is not TreeViewItem childItem2)) continue;
+            
+            // Appliquer le filtre aux enfants et mettre à jour l'indicateur de visibilité
+            var childVisible = FilterTreeViewItems(childItem1, childItem2, searchText);
+            if (!childVisible) continue;
+            hasVisibleChild = true;
+            item1.IsExpanded = true; // Développer l'élément si un enfant est visible
+            item2.IsExpanded = true;
 
         }
 
         // Si un enfant est visible, rendre visible cet élément
-        if (hasVisibleChild)
-        {
-            item1.Visibility = Visibility.Visible;
-            item1Visible = true;
-            item2.Visibility = Visibility.Visible;
-            item2Visible = true;
-        }
-
-
+        if (!hasVisibleChild) return item1Visible; // Retourner l'état de visibilité de l'élément
+        
+        item1.Visibility = Visibility.Visible;
+        item1Visible = true;
+        item2.Visibility = Visibility.Visible;
+        
         return item1Visible; // Retourner l'état de visibilité de l'élément
     }
 
-    private static void SynchronizeVisibilityWithOtherTreeView(TreeViewItem item, TreeView otherTreeView)
+    /*private static void SynchronizeVisibilityWithOtherTreeView(TreeViewItem item, TreeView otherTreeView)
     {
         foreach (object obj in otherTreeView.Items)
         {
@@ -1290,30 +1371,38 @@ public partial class MainWindow
                 break;
             }
         }
-    }
+    }*/
 
+    /// <summary>
+    /// Normalizes a string by removing diacritics (accents), non-spacing marks, spaces, underscores, and hyphens.
+    /// </summary>
+    /// <param name="input">The input string to normalize.</param>
+    /// <returns>The normalized string with diacritics removed, converted to lowercase, and spaces, underscores, and hyphens removed.</returns>
     private static string NormalizeString(string? input)
     {
         if (input == null) return string.Empty;
 
         // Remove diacritics (accents)
-        string normalizedString = input.Normalize(NormalizationForm.FormD);
+        var normalizedString = input.Normalize(NormalizationForm.FormD);
         StringBuilder stringBuilder = new();
 
-        foreach (char c in normalizedString)
+        foreach (var c in normalizedString.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark))
         {
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-            {
-                stringBuilder.Append(c);
-            }
+            stringBuilder.Append(c);
         }
 
         // Remove spaces, underscores, and hyphens
         return stringBuilder.ToString().ToLower().Replace(" ", "").Replace("_", "").Replace("-", "");
     }
 
+    
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
 
+    /// <summary>
+    /// Handles the expanded event of a TreeViewItem by synchronizing expansion state with corresponding items in two TreeViews.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is not TreeViewItem item) return;
@@ -1321,6 +1410,11 @@ public partial class MainWindow
         SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
+    /// <summary>
+    /// Handles the collapsed event of a TreeViewItem by synchronizing expansion state with corresponding items in two TreeViews.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void TreeViewItem_Collapsed(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is not TreeViewItem item) return;
@@ -1328,6 +1422,11 @@ public partial class MainWindow
         SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
+    /// <summary>
+    /// Synchronizes the expansion state of a TreeViewItem between two TreeViews based on item path.
+    /// </summary>
+    /// <param name="targetTreeView">The target TreeView to synchronize with.</param>
+    /// <param name="sourceItem">The source TreeViewItem whose expansion state is being synchronized.</param>
     private static void SynchronizeTreeViewItemExpansion(TreeView targetTreeView, TreeViewItem sourceItem)
     {
         var itemPath = GetItemPath(sourceItem);
@@ -1348,6 +1447,11 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// Retrieves the path of a TreeViewItem by traversing its parent items recursively up to the root.
+    /// </summary>
+    /// <param name="item">The TreeViewItem whose path is to be retrieved.</param>
+    /// <returns>The path of the TreeViewItem as a string, or null if the path cannot be determined.</returns>
     private static string? GetItemPath(TreeViewItem item)
     {
         if (item.Header is not StackPanel headerStack)
@@ -1383,6 +1487,12 @@ public partial class MainWindow
         return path;
     }
 
+    /// <summary>
+    /// Finds a TreeViewItem in a TreeView based on a given path.
+    /// </summary>
+    /// <param name="treeView">The TreeView in which to search for the item.</param>
+    /// <param name="path">The path of the TreeViewItem to find.</param>
+    /// <returns>The TreeViewItem found, or null if not found.</returns>
     private static TreeViewItem? FindTreeViewItemByPath(TreeView treeView, string path)
     {
         _ = path ?? throw new ArgumentNullException(nameof(path));
@@ -1413,6 +1523,11 @@ public partial class MainWindow
 
     private bool _isTreeViewExpanded;
 
+    /// <summary>
+    /// Handles the click event of the collapse/expand toggle button.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
     private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
     {
         if (_isTreeViewExpanded)
@@ -1433,6 +1548,10 @@ public partial class MainWindow
         _isTreeViewExpanded = !_isTreeViewExpanded; // Inverser l'état
     }
 
+    /// <summary>
+    /// Recursively collapses all TreeView items starting from the specified collection.
+    /// </summary>
+    /// <param name="items">The collection of items to collapse.</param>
     private static void CollapseAllTreeViewItems(ItemCollection items)
     {
         foreach (var obj in items)
@@ -1443,6 +1562,10 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// Recursively expands all TreeView items starting from the specified collection.
+    /// </summary>
+    /// <param name="items">The collection of items to expand.</param>
     private static void ExpandAllTreeViewItems(ItemCollection items)
     {
         foreach (var obj in items)
@@ -1453,20 +1576,3 @@ public partial class MainWindow
         }
     }
 }
-
-public class TreeItem
-    {
-        public string Name { get; set; }
-        public ObservableCollection<TreeItem> Children { get; set; }
-
-        public TreeItem(string name) : this(name, new ObservableCollection<TreeItem>())
-        {
-        }
-
-        private TreeItem(string name, ObservableCollection<TreeItem> children)
-        {
-            Name = name;
-            Children = children;
-        }
-    }
-
