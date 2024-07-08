@@ -895,6 +895,8 @@ public partial class MainWindow
             // Sinon, affiche la fenêtre de paramètres
             App.DisplayElements.ShowSettingsWindow();
         }
+
+        Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
     }
 
     

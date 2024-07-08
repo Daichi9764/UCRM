@@ -22,13 +22,45 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         private readonly bool _emkFileExists; // A SUPPRIMER ?
         
+        /// <summary>
+        /// Gets or sets a value indicating whether DeepL translation is enabled.
+        /// </summary>
         public bool EnableDeeplTranslation { get; private set; } // Activation ou non de la traduction deepL
+        
+        /// <summary>
+        /// Gets or sets the DeepL API key used for accessing the DeepL translation service. Warning: the key is not
+        /// stored in memory using plain text. It is encrypted to improve safety.
+        /// </summary>
         public byte[] DeeplKey { get; private set; } // Clé API DeepL
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether automatic detection of the source language by DeepL is enabled.
+        /// </summary>
         public bool EnableAutomaticSourceLangDetection { get; private set; } // Activation ou non de la détection automatique de la langue par DeepL
+        
+        /// <summary>
+        /// Gets or sets the source language for translating group addresses.
+        /// </summary>
         public string TranslationSourceLang { get; private set; } // Langue de source pour la traduction des adresses de groupe
+        
+        /// <summary>
+        /// Gets or sets the destination language for translating group addresses.
+        /// </summary>
         public string TranslationDestinationLang { get; private set; } // Langue de destination pour la traduction des adresses de groupe
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether the feature to clean up unused group addresses is enabled.
+        /// </summary>
         public bool RemoveUnusedGroupAddresses { get; private set; } // Activation ou non de la fonctionnalité de nettoyage des adresses de groupe
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether the light theme is enabled for the application.
+        /// </summary>
         public bool EnableLightTheme { get; private set; } // Thème de l'application (sombre/clair)
+        
+        /// <summary>
+        /// Gets or sets the application language, with French as the default.
+        /// </summary>
         public string AppLang { get; private set; } // Langue de l'application (français par défaut)
         
         
@@ -40,6 +72,10 @@ namespace KNXBoostDesktop
         // Constructeur par défaut. Charge les paramètres contenus dans le fichier appSettings et les affiche également
         // dans la fenêtre de paramétrage de l'application. Si la valeur est incorrecte ou vide, une valeur par défaut
         // est affectée.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsWindow"/> class,
+        /// loading and applying settings from the appSettings file, and setting default values where necessary.
+        /// </summary>
         public SettingsWindow()
         {
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
@@ -269,6 +305,9 @@ namespace KNXBoostDesktop
         
         
         // Fonction s'exécutant à la fermeture de la fenêtre de paramètres
+        /// <summary>
+        /// Handles the settings window closing event by canceling the closure, restoring previous settings, and hiding the window.
+        /// </summary>
         private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
         {
             e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
@@ -278,6 +317,9 @@ namespace KNXBoostDesktop
 
 
         // Fonction permettant de sauvegarder les paramètres dans le fichier appSettings
+        /// <summary>
+        /// Saves the application settings to the appSettings file, handling potential I/O errors during the process.
+        /// </summary>
         private void SaveSettings()
         {
             // Création du stream d'écriture du fichier appSettings
@@ -349,6 +391,9 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de mettre à jour les champs dans la fenêtre de paramétrage
+        /// <summary>
+        /// Updates the contents (texts, textboxes, checkboxes, ...) of the settingswindow accordingly to the application settings.
+        /// </summary>
         private void UpdateWindowContents(bool isClosing = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
@@ -1424,6 +1469,12 @@ namespace KNXBoostDesktop
         
         // ----- GESTION DES BOUTONS -----
         // Fonction s'exécutant lors du clic sur le bouton sauvegarder
+        /// <summary>
+        /// Handles the save button click event by retrieving and validating settings from the settings window,
+        /// saving them, and updating relevant UI elements.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
@@ -1474,6 +1525,11 @@ namespace KNXBoostDesktop
 
         
         // Fonction s'exécutant lors du clic sur le bouton annuler
+        /// <summary>
+        /// Handles the cancel button click event by restoring previous settings and hiding the settings window.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
@@ -1483,6 +1539,11 @@ namespace KNXBoostDesktop
         
         // ----- GESTION DE DES CASES A COCHER -----
         // Fonction s'activant quand on coche l'activation de la traduction DeepL
+        /// <summary>
+        /// Handles the event triggered when the DeepL translation feature is enabled by showing related UI elements and adjusting the window size.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void EnableTranslation(object sender, RoutedEventArgs e)
         {
             // On affiche la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
@@ -1510,6 +1571,11 @@ namespace KNXBoostDesktop
 
         
         // Fonction s'activant quand on décoche l'activation de la traduction DeepL
+        /// <summary>
+        /// Handles the event triggered when the DeepL translation feature is disabled by hiding related UI elements and adjusting the window size.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void DisableTranslation(object sender, RoutedEventArgs e)
         {
             // On masque la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
@@ -1537,6 +1603,11 @@ namespace KNXBoostDesktop
         
         
         // Fonction s'activant quand on coche l'activation de la traduction DeepL
+        /// <summary>
+        /// Handles the event triggered when automatic translation language detection is enabled by hiding the source language selection UI elements and adjusting the window size.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void EnableAutomaticTranslationLangDetection(object sender, RoutedEventArgs e)
         {
             // On masque le menu déroulant de sélection de la langue de traduction
@@ -1549,6 +1620,11 @@ namespace KNXBoostDesktop
 
         
         // Fonction s'activant quand on décoche l'activation de la traduction DeepL
+        /// <summary>
+        /// Handles the event triggered when automatic translation language detection is disabled by showing the source language selection UI elements and adjusting the window size.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void DisableAutomaticTranslationLangDetection(object sender, RoutedEventArgs e)
         {
             // On affiche le menu déroulant de sélection de la langue de traduction
@@ -1564,6 +1640,12 @@ namespace KNXBoostDesktop
         // Fonction permettant d'encrypter un string donné avec une clé et un iv créés dynamiquement
         // Attention : cette fonction permet de stocker UN SEUL string (ici la clé deepL) à la fois. Si vous encryptez un autre string,
         // le combo clé/iv pour le premier string sera perdu.
+        /// <summary>
+        /// Encrypts the provided plain text string using dynamically generated AES key and IV, and stores the encrypted key and IV in files.
+        /// Note: This function is designed to store only one string at a time (e.g., the DeepL key). Encrypting another string will overwrite the key/IV used for the first string.
+        /// </summary>
+        /// <param name="plainText">The plain text string to be encrypted.</param>
+        /// <returns>A byte array containing the encrypted data.</returns>
         private static byte[] EncryptStringToBytes(string plainText)
         {
             // Générer une nouvelle clé et IV pour l'encryption
@@ -1640,6 +1722,12 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de décrypter un string donné à partir de la clé et de l'iv chiffrés
+        /// <summary>
+        /// Decrypts the provided byte array using encrypted AES key and IV stored in the application files, and returns the decrypted string.
+        /// If the key or IV files are missing or cannot be read, an empty string is returned.
+        /// </summary>
+        /// <param name="encryptedString">The byte array containing the encrypted data to be decrypted.</param>
+        /// <returns>The decrypted string, or an empty string if decryption fails.</returns>
         public string DecryptStringFromBytes(byte[] encryptedString)
         {
             // Si les fichiers des clés n'existent pas, on retourne un string vide
@@ -1742,6 +1830,12 @@ namespace KNXBoostDesktop
         
         
         // Fonction permettant d'encrypter et de stocker dans un fichier la clé principale de chiffrement
+        /// <summary>
+        /// Encrypts the provided main encryption key using DPAPI and stores it in a file.
+        /// The encryption is performed for the current user and session. If any errors occur during encryption or file operations, 
+        /// appropriate error messages are logged, and the operation is aborted.
+        /// </summary>
+        /// <param name="mainkey">The byte array containing the main encryption key to be encrypted and stored.</param>
         private static void EncryptAndStoreMainKey(byte[] mainkey)
         {
             byte[] encryptedMainKeyBytes;
@@ -1811,6 +1905,11 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de récupérer la clé principale chiffrée et de la déchiffrer
+        /// <summary>
+        /// Retrieves the encrypted main encryption key from a file, decrypts it using DPAPI, and returns it as a base64-encoded string.
+        /// If any errors occur during file reading or decryption, appropriate error messages are logged, and an empty string is returned.
+        /// </summary>
+        /// <returns>A base64-encoded string representation of the decrypted main encryption key, or an empty string if an error occurs.</returns>
         private static string RetrieveAndDecryptMainKey()
         {
             byte[] encryptedMainKeyBytes;
@@ -1888,6 +1987,13 @@ namespace KNXBoostDesktop
         
         
         // Fonction permettant d'encrypter la clé ou l'iv à partir de la clé principale de chiffrement
+        /// <summary>
+        /// Encrypts a given key or IV using the main encryption key retrieved from the file. 
+        /// The encryption is performed using AES with a zeroed IV. The encrypted result is then returned as a base64-encoded string.
+        /// If any errors occur during encryption, appropriate error messages are logged, and an empty string is returned.
+        /// </summary>
+        /// <param name="keyOrIv">The key or IV to be encrypted, provided as a base64-encoded string.</param>
+        /// <returns>A base64-encoded string representing the encrypted key or IV, or an empty string if an error occurs.</returns>
         private static string EncryptKeyOrIv(string keyOrIv)
         {
             using (var aesAlg = Aes.Create())
@@ -1939,6 +2045,13 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant de décrypter la clé ou l'iv à partir de la clé principale de chiffrement
+        /// <summary>
+        /// Decrypts a given base64-encoded encrypted key or IV using the main encryption key retrieved from the file.
+        /// The decryption is performed using AES with a zeroed IV. If any errors occur during decryption, appropriate error messages are logged,
+        /// and an empty string is returned.
+        /// </summary>
+        /// <param name="cipherText">The base64-encoded encrypted key or IV to be decrypted.</param>
+        /// <returns>A string representing the decrypted key or IV, or an empty string if an error occurs.</returns>
         private static string DecryptKeyOrIv(string cipherText)
         {
             using (var aesAlg = Aes.Create())
@@ -1997,6 +2110,12 @@ namespace KNXBoostDesktop
         
         
         // Fonction permettant de générer des clés aléatoires
+        /// <summary>
+        /// Generates a random key consisting of alphanumeric characters based on the specified length.
+        /// If the length is zero or less, an empty string is returned.
+        /// </summary>
+        /// <param name="length">The length of the random key to be generated.</param>
+        /// <returns>A string representing the generated random key. If the length is zero or less, an empty string is returned.</returns>
         private static string GenerateRandomKey(int length)
         {
             // Tableau contenant tous les caractères admissibles dans une clé d'encryption
@@ -2022,6 +2141,12 @@ namespace KNXBoostDesktop
         
         // ----- GESTION DES LIENS HYPERTEXTE -----
         // Fonction gérant le clic sur un lien hypertexte
+        /// <summary>
+        /// Handles the click event on a hyperlink by attempting to open the URL in the default web browser.
+        /// If an error occurs during the process, an error message is logged.
+        /// </summary>
+        /// <param name="sender">The source of the event, typically the hyperlink control.</param>
+        /// <param name="e">Event data containing the URI to navigate to.</param>
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             try
@@ -2049,6 +2174,12 @@ namespace KNXBoostDesktop
 
         
         // Fonction permettant d'effectuer des actions quand une touche spécifique du clavier est appuyée
+        /// <summary>
+        /// Handles the key down events in the settings window. Depending on the key pressed, 
+        /// either restores previous settings and hides the window, or saves new settings and then hides the window.
+        /// </summary>
+        /// <param name="sender">The source of the event, typically the settings window.</param>
+        /// <param name="e">Event data containing information about the key pressed.</param>
         private void SettingsWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -2084,6 +2215,13 @@ namespace KNXBoostDesktop
         }
         
         
+        // Fonction gérant le clic sur l'en-tête de la fenêtre de paramètres, de manière que l'on puisse
+        // déplacer la fenêtre avec la souris.
+        /// <summary>
+        /// Initiates a drag operation when the left mouse button is pressed on the header, allowing the window to be moved.
+        /// </summary>
+        /// <param name="sender">The source of the event, typically the header control.</param>
+        /// <param name="e">Event data containing information about the mouse button event.</param>
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
