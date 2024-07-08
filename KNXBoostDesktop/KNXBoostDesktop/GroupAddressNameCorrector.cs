@@ -11,15 +11,43 @@ namespace KNXBoostDesktop;
 
 public class GroupAddressNameCorrector
 {
+    /* ------------------------------------------------------------------------------------------------
+    ------------------------------------------- ATTRIBUTS  --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
+    /// <summary>
+    /// Represents the global XML namespace for KNX projects.
+    /// </summary>
     private static XNamespace _globalKnxNamespace = string.Empty;
+    
+    /// <summary>
+    /// Holds the path to the directory containing the project files.
+    /// </summary>
     private static string _projectFilesDirectory = string.Empty;
+    
+    /// <summary>
+    /// Stores the authentication key used for accessing secured services or APIs.
+    /// </summary>
     public static string AuthKey { get; private set; }
+    
+    /// <summary>
+    /// Provides the translation services used for localizing text within the application.
+    /// </summary>
     public static Translator Translator { get; private set; }
+    
+    /// <summary>
+    /// Indicates whether the DeepL API key is valid and can be used for translations.
+    /// </summary>
     public static bool ValidDeeplKey; 
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
+    
+    
+    
+    /* ------------------------------------------------------------------------------------------------
+    -------------------------------------------- METHODES  --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
     public static async Task CorrectName()
     {
         try
@@ -964,7 +992,26 @@ public class GroupAddressNameCorrector
         }
     }
 
+    
     // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
+    /// <summary>
+    /// Retrieves the object type of a participant based on its ReadFlag and WriteFlag values from a hardware XML file.
+    ///
+    /// This method constructs the path to the hardware XML file located in the specified <paramref name="mxxxxDirectory"/> 
+    /// and attempts to locate the <c>ComObjectRef</c> element with a matching ID based on <paramref name="comObjectInstanceRefId"/>.
+    /// If the <c>ReadFlag</c> or <c>WriteFlag</c> attributes are not found in <c>ComObjectRef</c>, it checks the <c>ComObject</c> element.
+    /// The object type is determined based on the combination of <c>ReadFlag</c> and <c>WriteFlag</c> values and is returned as "Cmd" or "Ie".
+    /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes are not found, 
+    /// the method logs an error and returns an empty string.
+    ///
+    /// <param name="hardwareFileName">The name of the hardware XML file to be loaded.</param>
+    /// <param name="mxxxxDirectory">The directory containing the hardware XML file.</param>
+    /// <param name="comObjectInstanceRefId">The reference ID of the ComObject instance to locate.</param>
+    /// <returns>
+    /// Returns the object type ("Cmd" or "Ie") based on the <c>ReadFlag</c> and <c>WriteFlag</c> attributes, or an empty string if
+    /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
+    /// </returns>
+    /// </summary>
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
 
@@ -1077,7 +1124,22 @@ public class GroupAddressNameCorrector
         }
     }
     
+    
     // Method that reconstructs the name of the hardware file and its directory from the hardware2ProgramRefId of a device
+    /// <summary>
+    /// Reconstructs the hardware file name and directory based on the given hardware2ProgramRefId.
+    ///
+    /// This method extracts the hardware file name and directory from the provided <paramref name="hardware2ProgramRefId"/> 
+    /// by splitting the string around the "HP" substring. It identifies the "M-XXXX" directory prefix from the portion before "HP" 
+    /// and constructs the hardware file name using the extracted directory and the portion after "HP". If "HP" or the "M-XXXX" 
+    /// prefix is not found, or if any errors occur, the method returns two empty strings.
+    ///
+    /// <param name="hardware2ProgramRefId">The reference ID used to reconstruct the hardware file name and directory.</param>
+    /// <returns>
+    /// A tuple containing the reconstructed hardware file name and the directory. Both values are empty strings if the
+    /// reconstruction fails or an error occurs.
+    /// </returns>
+    /// </summary>
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         try
@@ -1109,7 +1171,23 @@ public class GroupAddressNameCorrector
         }
     }
     
+    
     // Method that retrieves and returns the value of IsRailMounted from the Hardware.xml file in the mxxxxDirectory of the device based on productRefId
+    /// <summary>
+    /// Retrieves the value of the <c>IsRailMounted</c> attribute for a specific device from the Hardware.xml file.
+    ///
+    /// This method constructs the path to the Hardware.xml file located in the specified <paramref name="mxxxxDirectory"/>
+    /// and extracts the <c>IsRailMounted</c> attribute for the device with the specified <paramref name="productRefId"/>.
+    /// If the directory or file does not exist, or if the required attribute cannot be found, the method logs an error and defaults
+    /// to <c>false</c>. The method handles XML parsing errors and other exceptions gracefully.
+    ///
+    /// <param name="productRefId">The product reference ID of the device for which to retrieve the <c>IsRailMounted</c> attribute.</param>
+    /// <param name="mxxxxDirectory">The name of the directory containing the Hardware.xml file.</param>
+    /// <returns>
+    /// <c>true</c> if the <c>IsRailMounted</c> attribute is present and set to true or 1; otherwise, <c>false</c> if the attribute is
+    /// not found or set to false or 0, or if any error occurs.
+    /// </returns>
+    /// </summary>
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct the full path to the Mxxxx directory
@@ -1183,7 +1261,18 @@ public class GroupAddressNameCorrector
         }
     }
 
+    
     // Method that retrieves the namespace to use for searching in .xml files from the zeroFilePath (since the namespace varies depending on the ETS version)
+    /// <summary>
+    /// Sets the global KNX XML namespace from the specified XML file.
+    ///
+    /// This method loads the XML file located at <paramref name="zeroXmlFilePath"/> and retrieves
+    /// the namespace declaration from the root element. If a namespace is found, it updates the
+    /// static field <c>_globalKnxNamespace</c> with the retrieved namespace. If the XML file cannot
+    /// be loaded or an error occurs during processing, appropriate error messages are logged.
+    ///
+    /// <param name="zeroXmlFilePath">The path to the XML file from which to extract the namespace.</param>
+    /// </summary>
     private static void SetNamespaceFromXml(string zeroXmlFilePath)
     {
         try
@@ -1215,6 +1304,17 @@ public class GroupAddressNameCorrector
         }
     }
 
+    
+    /// <summary>
+    /// Checks the validity of the DeepL API key by attempting a test translation.
+    /// Retrieves the API key from the application settings, initializes the DeepL Translator,
+    /// and performs a test translation to verify that the key is valid and operational.
+    ///
+    /// <returns>
+    /// A tuple containing a boolean indicating success or failure and a string with an error message
+    /// if the key is invalid or if an exception occurs during the check.
+    /// </returns>
+    /// </summary>
     public static (bool, string) CheckDeeplKey()
     {
         try
