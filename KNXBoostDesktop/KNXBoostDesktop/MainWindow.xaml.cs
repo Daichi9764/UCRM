@@ -773,9 +773,6 @@ public partial class MainWindow
 
     private async Task LoadXmlFiles(LoadingWindow loadingWindow)
     {            
-        loadingWindow.MarkActivityComplete();
-        loadingWindow.LogActivity($"Dans loadXMLFiles");
-
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
