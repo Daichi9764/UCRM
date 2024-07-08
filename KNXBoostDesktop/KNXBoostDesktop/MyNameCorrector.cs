@@ -1,8 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 using DeepL;
+
 namespace KNXBoostDesktop;
+
 
 public class MyNameCorrector
 {
@@ -12,6 +17,9 @@ public class MyNameCorrector
     public static Translator Translator { get; private set; }
     public static bool ValidDeeplKey; 
     
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
     public static async Task CorrectName(LoadingWindow loadingWindow)
     {
         try
@@ -430,7 +438,7 @@ public class MyNameCorrector
             Formatter formatter;
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
             {
-                ValidDeeplKey = CheckDeeplKey();
+                ValidDeeplKey = CheckDeeplKey().Item1;
                 if (ValidDeeplKey)
                 {
                     formatter= new FormatterTranslate();
@@ -564,7 +572,10 @@ public class MyNameCorrector
             
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
-
+            
+            // Collection to memorize translations of group names already done
+            HashSet<string> translationCache = new HashSet<string>();
+            
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
             {
@@ -575,56 +586,11 @@ public class MyNameCorrector
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
                 var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
-
-                // Determine the nameObjectType based on the available device references
-                if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted.ObjectType))
-                {
-                    // Format the ObjectType of the rail-mounted device
-                    nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
-                }
-                else if (deviceRefObjectType != null)
-                {
-                    // Format the ObjectType of the device with a non-empty ObjectType
-                    nameObjectType = $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
-                }
-                else
-                {
-                    // Default nameObjectType if no valid ObjectType is found
-                    nameObjectType = $"Type";
-                    App.ConsoleAndLogWriteLine($"No Object Type found for {gdr.Devices.FirstOrDefault()?.GroupAddressRef}");
-                }
-
+                
                 // Get the first non-rail-mounted device reference, if any
                 var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
                 if (deviceNotRailMounted != null)
                 {
-                    // Get the location information for the device reference
-                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
-
-                    string nameLocation;
-                    if (location != null)
-                    {
-                        string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
-                        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
-                        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
-                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece"; 
-                        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
-                        
-                        // Format the location details
-                        nameLocation =
-                            $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
-                        if (distributionBoardName != string.Empty)
-                        {
-                            nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
-                        }
-                    }
-                    else
-                    {
-                        // Default location details if no location information is found
-                        nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
-                        App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceNotRailMounted.DeviceInstanceId}");
-                    }
-
                     // Find the GroupAddress element that matches the device's GroupAddressRef
                     var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                         .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceNotRailMounted.GroupAddressRef) == true);
@@ -633,8 +599,69 @@ public class MyNameCorrector
                     {
                         App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
                         var nameAttr = groupAddressElement.Attribute("Name");
+                        
                         if (nameAttr != null)
                         {
+                            // Get the location information for the device reference
+                            var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
+
+                            string nameLocation;
+                            if (location != null)
+                            {
+                                string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
+                                string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
+                                string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
+                                string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece"; 
+                                string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
+                                
+                                // Format the location details
+                                nameLocation = $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+                                
+                                if (distributionBoardName != string.Empty)
+                                {
+                                    nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
+                                }
+
+                                //Add circuit part to the name
+                                Match match = Regex.Match(nameAttr.Value,@"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
+
+                                if (match.Success)
+                                {
+                                    nameLocation += "_" + match.Value;
+                                }
+                            }
+                            else
+                            {
+                                // Default location details if no location information is found
+                                nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
+                                App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceNotRailMounted.DeviceInstanceId}");
+                            }
+
+                            // Determine the nameObjectType based on the available device references
+                            if (Regex.IsMatch(nameAttr.Value, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase)) //it contains cmd and not ie
+                            {
+                                nameObjectType = $"{formatter.Format("Cmd")}";
+                            }
+                            else if (Regex.IsMatch(nameAttr.Value, @"\bie\b", RegexOptions.IgnoreCase))
+                            {
+                                nameObjectType = $"{formatter.Format("Ie")}";
+                            }
+                            else if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted.ObjectType))
+                            {
+                                // Format the ObjectType of the rail-mounted device
+                                nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
+                            }
+                            else if (deviceRefObjectType != null)
+                            {
+                                // Format the ObjectType of the device with a non-empty ObjectType
+                                nameObjectType = $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
+                            }
+                            else
+                            {
+                                // Default nameObjectType if no valid ObjectType is found
+                                nameObjectType = $"{formatter.Format("Type")}";
+                                App.ConsoleAndLogWriteLine($"No Object Type found for {gdr.Devices.FirstOrDefault()?.GroupAddressRef}");
+                            }
                             // Get the GroupRange ancestor element, if any
                             var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                             if (groupRangeElement != null)
@@ -650,12 +677,17 @@ public class MyNameCorrector
                                     if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
-                                        if (nameAncestorGrpRange != null)
-                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                        string ancestorGroupRangeName = nameAncestorGrpRange?.Value ?? string.Empty;
+                                        
+                                        // Translated only if not already translated
+                                        if (nameAncestorGrpRange != null && ancestorGroupRangeName != string.Empty && !translationCache.Contains(ancestorGroupRangeName))
+                                        {
+                                            nameAncestorGrpRange.Value = formatter.Translate(ancestorGroupRangeName);
+                                            translationCache.Add(nameAncestorGrpRange.Value);
+                                        }
                                     }
                                     
                                 }
-                                
                                 // Format the name of the current GroupRange
                                 nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
                                 
@@ -663,8 +695,14 @@ public class MyNameCorrector
                                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
-                                    if (nameGrpRange != null)
-                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
+                                    string groupRangeName = nameGrpRange?.Value ?? string.Empty;
+                                    
+                                    // Translated only if not already translated
+                                    if (nameGrpRange != null && groupRangeName != string.Empty && !translationCache.Contains(groupRangeName))
+                                    {
+                                        nameGrpRange.Value = formatter.Translate(groupRangeName);
+                                        translationCache.Add(nameGrpRange.Value);
+                                    }
                                 }
 
                                 
@@ -693,33 +731,6 @@ public class MyNameCorrector
                 }
                 else if (deviceRailMounted != null && deviceNotRailMounted == null)
                 {
-                    // Get the location information for the device reference
-                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
-
-                    string nameLocation;
-                    if (location != null)
-                    {
-                        string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
-                        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
-                        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
-                        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
-                        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
-                        
-                        // Format the location details
-                        nameLocation =
-                            $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
-                        if (distributionBoardName != string.Empty)
-                        {
-                            nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
-                        }
-                    }
-                    else
-                    {
-                        // Default location details if no location information is found
-                        nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXx")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
-                        App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceRailMounted.DeviceInstanceId}");
-                    }
-
                     // Find the GroupAddress element that matches the device's GroupAddressRef
                     var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                         .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceRailMounted.GroupAddressRef) == true);
@@ -730,6 +741,67 @@ public class MyNameCorrector
                         var nameAttr = groupAddressElement.Attribute("Name");
                         if (nameAttr != null)
                         {
+                            // Get the location information for the device reference
+                            var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
+
+                            string nameLocation;
+                            if (location != null)
+                            {
+                                string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
+                                string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "FacadeXx";
+                                string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "FacadeXx";
+                                string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+                                string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
+                                
+                                // Format the location details
+                                nameLocation =
+                                    $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+                                if (distributionBoardName != string.Empty)
+                                {
+                                    nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
+                                }
+                                
+                                //Add circuit part to the name
+                                Match match = Regex.Match(nameAttr.Value,@"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
+
+                                if (match.Success)
+                                {
+                                    nameLocation += "_" + match.Value;
+                                }
+                            }
+                            else
+                            {
+                                // Default location details if no location information is found
+                                nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXx")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
+                                App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceRailMounted.DeviceInstanceId}");
+                            }
+
+                    
+                            // Determine the nameObjectType based on the available device references
+                            if (Regex.IsMatch(nameAttr.Value, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
+                            {
+                                nameObjectType = $"{formatter.Format("Cmd")}";
+                            }
+                            else if (Regex.IsMatch(nameAttr.Value, @"\bie\b", RegexOptions.IgnoreCase))
+                            {
+                                nameObjectType = $"{formatter.Format("Ie")}";
+                            }
+                            else if (!string.IsNullOrEmpty(deviceRailMounted.ObjectType))
+                            {
+                                // Format the ObjectType of the rail-mounted device
+                                nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
+                            }
+                            else if (deviceRefObjectType != null)
+                            {
+                                // Format the ObjectType of the device with a non-empty ObjectType
+                                nameObjectType = $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
+                            }
+                            else
+                            {
+                                // Default nameObjectType if no valid ObjectType is found
+                                nameObjectType = $"{formatter.Format("Type")}";
+                                App.ConsoleAndLogWriteLine($"No Object Type found for {gdr.Devices.FirstOrDefault()?.GroupAddressRef}");
+                            }
                             // Get the GroupRange ancestor element, if any
                             var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange")
                                 .FirstOrDefault();
@@ -748,8 +820,14 @@ public class MyNameCorrector
                                     if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                     {
                                         var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
-                                        if (nameAncestorGrpRange != null)
-                                            nameAncestorGrpRange.Value = formatter.Translate(nameAncestorGrpRange.Value);
+                                        string ancestorGroupRangeName = nameAncestorGrpRange?.Value ?? string.Empty;
+                                        
+                                        // Translated only if not already translated
+                                        if (nameAncestorGrpRange != null && ancestorGroupRangeName != string.Empty && !translationCache.Contains(ancestorGroupRangeName))
+                                        {
+                                            nameAncestorGrpRange.Value = formatter.Translate(ancestorGroupRangeName);
+                                            translationCache.Add(nameAncestorGrpRange.Value);
+                                        }
                                     }
                                 }
                                 
@@ -761,8 +839,14 @@ public class MyNameCorrector
                                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
                                 {
                                     var nameGrpRange = groupRangeElement.Attribute("Name");
-                                    if (nameGrpRange != null)
-                                        nameGrpRange.Value = formatter.Translate(nameGrpRange.Value);
+                                    string groupRangeName = nameGrpRange?.Value ?? string.Empty;
+                                    
+                                    // Translated only if not already translated
+                                    if (nameGrpRange != null && groupRangeName != string.Empty && !translationCache.Contains(groupRangeName))
+                                    {
+                                        nameGrpRange.Value = formatter.Translate(groupRangeName);
+                                        translationCache.Add(nameGrpRange.Value);
+                                    }
                                 }
                                 
                             }
@@ -1131,7 +1215,7 @@ public class MyNameCorrector
         }
     }
 
-    public static bool CheckDeeplKey()
+    public static (bool, string) CheckDeeplKey()
     {
         try
         {
@@ -1153,17 +1237,31 @@ public class MyNameCorrector
                 await Translator.TranslateTextAsync("test", "EN", "FR");
             }).GetAwaiter().GetResult();
 
-            return true;
+            return (true, string.Empty);
         }
         catch (ArgumentNullException ex)
         {
             App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
-            return false;
+            return (false, $"The DeepL key API field is empty. The translation function will not work.");
         }
         catch (AuthorizationException ex)
         {
             App.ConsoleAndLogWriteLine($"DeepL API key error: {ex.Message}");
-            return false;
+            return (false, $"The DeepL key API is incorrect. The translation function will not work.");
+        }
+        catch (HttpRequestException ex)
+        {
+            return (false, $"Network error: {ex.Message}. Please check your internet connection.");
+        }
+        catch (DeepLException ex)
+        {
+            App.ConsoleAndLogWriteLine($"DeepL API error: {ex.Message}");
+            return (false, $"DeepL API error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            return (false, $"An unexpected error occurred: {ex.Message}");
         }
     }
 }
