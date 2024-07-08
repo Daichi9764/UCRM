@@ -6,12 +6,41 @@ using System.Threading.Tasks;
 
 namespace KNXBoostDesktop
 {
+    /// <summary>
+    /// Provides functionality to translate and format input strings. This class extends the abstract <see cref="Formatter"/> 
+    /// class and implements specific behavior for translating text using the DeepL API and formatting the translated text.
+    ///
+    /// The <see cref="FormatterTranslate"/> class is designed to handle translation of text between different languages and
+    /// apply specific formatting to the translated strings. It uses the DeepL API to perform the translation and provides 
+    /// additional text processing like punctuation removal and capitalization of words.
+    /// </summary>
     public class FormatterTranslate : Formatter
     {
         // Destination language for translation
         private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationDestinationLang ?? string.Empty;
         private string _sourceLanguage = App.DisplayElements?.SettingsWindow.TranslationSourceLang ?? string.Empty;
 
+        
+        /// <summary>
+        /// Translates the specified input string using the DeepL API and then formats the translated string. The formatting process
+        /// involves replacing punctuation with spaces, converting to lowercase, replacing spaces with underscores, and capitalizing
+        /// each word.
+        ///
+        /// <para>
+        /// The method performs the following steps:
+        /// <list type="bullet">
+        ///     <item>Translates the input string based on predefined cases.</item>
+        ///     <item>Removes punctuation and replaces it with spaces.</item>
+        ///     <item>Converts the string to lowercase.</item>
+        ///     <item>Replaces spaces with underscores and removes multiple underscores.</item>
+        ///     <item>Capitalizes each word and joins them into a single string.</item>
+        /// </list>
+        /// </para>
+        /// 
+        /// <param name="input">The string to be translated and formatted.</param>
+        /// <returns>A formatted string where punctuation is removed, spaces are replaced with underscores, and words are capitalized.</returns>
+        /// <exception cref="Exception">Thrown when an error occurs during translation or formatting.</exception>
+        /// </summary>
         public override string Format(string input)
         {
             try
@@ -52,6 +81,19 @@ namespace KNXBoostDesktop
             }
         }
 
+        
+        /// <summary>
+        /// Translates the specified input string using the DeepL API. The translation is performed asynchronously and the result
+        /// is returned as a string.
+        ///
+        /// <para>
+        /// This method directly translates the input string without additional formatting. It uses the DeepL API for translation and
+        /// handles exceptions related to API errors or configuration issues.
+        /// </para>
+        /// 
+        /// <param name="input">The string to be translated.</param>
+        /// <returns>The translated string, or an empty string if an error occurs.</returns>
+        /// </summary>
         public override string Translate(string input)
         {
             try
@@ -66,6 +108,23 @@ namespace KNXBoostDesktop
             }
         }
 
+        
+        /// <summary>
+        /// Asynchronously translates the specified input string using the DeepL API. The method adjusts the destination language
+        /// based on predefined formats and optionally detects the source language automatically based on configuration settings.
+        ///
+        /// <para>
+        /// This method performs the following steps:
+        /// <list type="bullet">
+        ///     <item>Adjusts the destination language format based on predefined settings.</item>
+        ///     <item>Checks if the DeepL API key is configured.</item>
+        ///     <item>Translates the input string using the DeepL API, optionally detecting the source language.</item>
+        /// </list>
+        /// </para>
+        /// 
+        /// <param name="input">The string to be translated.</param>
+        /// <returns>The translated string as returned by the DeepL API, or an empty string if an error occurs.</returns>
+        /// </summary>
         private async Task<string> GetTranslatedStringAsync(string input)
         {
             try
