@@ -413,7 +413,194 @@ namespace KNXBoostDesktop
         // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         public async Task FindZeroXml(LoadingWindow loadingWindow)
         {
-            loadingWindow.LogActivity($"Recherche du fichier 0.xml...");
+            string searchingFile, foundFile;
+            
+            // Traduction des textes de la fenêtre de chargement
+            switch (App.DisplayElements?.SettingsWindow?.AppLang)
+            {
+                // Arabe
+                case "AR":
+                    searchingFile = "البحث عن الملف '0.xml' ...";
+                    foundFile = "تم العثور على الملف '0.xml'.";
+                    break;
+
+                // Bulgare
+                case "BG":
+                    searchingFile = "Търсене на файла '0.xml' ...";
+                    foundFile = "Файлът '0.xml' е намерен.";
+                    break;
+
+                // Tchèque
+                case "CS":
+                    searchingFile = "Hledání souboru '0.xml' ...";
+                    foundFile = "Soubor '0.xml' nalezen.";
+                    break;
+
+                // Danois
+                case "DA":
+                    searchingFile = "Søger efter filen '0.xml' ...";
+                    foundFile = "Filen '0.xml' fundet.";
+                    break;
+
+                // Allemand
+                case "DE":
+                    searchingFile = "Suche nach Datei '0.xml' ...";
+                    foundFile = "Datei '0.xml' gefunden.";
+                    break;
+
+                // Grec
+                case "EL":
+                    searchingFile = "Αναζήτηση του αρχείου '0.xml' ...";
+                    foundFile = "Το αρχείο '0.xml' βρέθηκε.";
+                    break;
+
+                // Anglais
+                case "EN":
+                    searchingFile = "Searching for file '0.xml' ...";
+                    foundFile = "File '0.xml' found.";
+                    break;
+
+                // Espagnol
+                case "ES":
+                    searchingFile = "Buscando el archivo '0.xml' ...";
+                    foundFile = "Archivo '0.xml' encontrado.";
+                    break;
+
+                // Estonien
+                case "ET":
+                    searchingFile = "Otsitakse faili '0.xml' ...";
+                    foundFile = "Fail '0.xml' leitud.";
+                    break;
+
+                // Finnois
+                case "FI":
+                    searchingFile = "Etsitään tiedostoa '0.xml' ...";
+                    foundFile = "Tiedosto '0.xml' löytyi.";
+                    break;
+
+                // Hongrois
+                case "HU":
+                    searchingFile = "A(z) '0.xml' fájl keresése ...";
+                    foundFile = "A(z) '0.xml' fájl megtalálva.";
+                    break;
+
+                // Indonésien
+                case "ID":
+                    searchingFile = "Mencari file '0.xml' ...";
+                    foundFile = "File '0.xml' ditemukan.";
+                    break;
+
+                // Italien
+                case "IT":
+                    searchingFile = "Ricerca del file '0.xml' ...";
+                    foundFile = "File '0.xml' trovato.";
+                    break;
+
+                // Japonais
+                case "JA":
+                    searchingFile = "'0.xml'ファイルを検索中 ...";
+                    foundFile = "'0.xml'ファイルが見つかりました。";
+                    break;
+
+                // Coréen
+                case "KO":
+                    searchingFile = "'0.xml' 파일 검색 중 ...";
+                    foundFile = "'0.xml' 파일을 찾았습니다.";
+                    break;
+
+                // Letton
+                case "LV":
+                    searchingFile = "Meklēju failu '0.xml' ...";
+                    foundFile = "Fails '0.xml' atrasts.";
+                    break;
+
+                // Lituanien
+                case "LT":
+                    searchingFile = "Ieškoma failo '0.xml' ...";
+                    foundFile = "Failas '0.xml' rastas.";
+                    break;
+
+                // Norvégien
+                case "NB":
+                    searchingFile = "Søker etter filen '0.xml' ...";
+                    foundFile = "Filen '0.xml' funnet.";
+                    break;
+
+                // Néerlandais
+                case "NL":
+                    searchingFile = "Zoeken naar bestand '0.xml' ...";
+                    foundFile = "Bestand '0.xml' gevonden.";
+                    break;
+
+                // Polonais
+                case "PL":
+                    searchingFile = "Wyszukiwanie pliku '0.xml' ...";
+                    foundFile = "Plik '0.xml' znaleziony.";
+                    break;
+
+                // Portugais
+                case "PT":
+                    searchingFile = "Procurando o arquivo '0.xml' ...";
+                    foundFile = "Arquivo '0.xml' encontrado.";
+                    break;
+
+                // Roumain
+                case "RO":
+                    searchingFile = "Căutare fișier '0.xml' ...";
+                    foundFile = "Fișierul '0.xml' găsit.";
+                    break;
+
+                // Russe
+                case "RU":
+                    searchingFile = "Поиск файла '0.xml' ...";
+                    foundFile = "Файл '0.xml' найден.";
+                    break;
+
+                // Slovaque
+                case "SK":
+                    searchingFile = "Hľadanie súboru '0.xml' ...";
+                    foundFile = "Súbor '0.xml' nájdený.";
+                    break;
+
+                // Slovène
+                case "SL":
+                    searchingFile = "Iskanje datoteke '0.xml' ...";
+                    foundFile = "Datoteka '0.xml' najdena.";
+                    break;
+
+                // Suédois
+                case "SV":
+                    searchingFile = "Söker efter filen '0.xml' ...";
+                    foundFile = "Filen '0.xml' hittades.";
+                    break;
+
+                // Turc
+                case "TR":
+                    searchingFile = "'0.xml' dosyası aranıyor ...";
+                    foundFile = "'0.xml' dosyası bulundu.";
+                    break;
+
+                // Ukrainien
+                case "UK":
+                    searchingFile = "Пошук файлу '0.xml' ...";
+                    foundFile = "Файл '0.xml' знайдено.";
+                    break;
+
+                // Chinois simplifié
+                case "ZH":
+                    searchingFile = "正在搜索文件 '0.xml' ...";
+                    foundFile = "文件 '0.xml' 已找到。";
+                    break;
+
+                // Langue par défaut (français)
+                default:
+                    searchingFile = "Recherche du fichier '0.xml' ...";
+                    foundFile = "Fichier '0.xml' trouvé.";
+                    break;
+            }
+
+            
+            loadingWindow.LogActivity(searchingFile);
             
             try
             {
@@ -432,7 +619,7 @@ namespace KNXBoostDesktop
                     ZeroXmlPath = foundPath;
                     App.ConsoleAndLogWriteLine($"Found '0.xml' file at {Path.GetFullPath(ZeroXmlPath)}.");
                     loadingWindow.MarkActivityComplete();
-                    loadingWindow.LogActivity("0.xml trouvé.");
+                    loadingWindow.LogActivity(foundFile);
                 }
             }
             catch (UnauthorizedAccessException unAuthEx)

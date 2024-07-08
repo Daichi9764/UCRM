@@ -256,8 +256,9 @@ namespace KNXBoostDesktop
             
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
+            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion}";
+
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
-            //App.DisplayElements?.MainWindow.UpdateWindowContents(EnableLightTheme);
 
             // Ajustement de la taille de la fenêtre si la détection automatique de la langue de source pour la traduction est activée
             if (!EnableAutomaticSourceLangDetection && EnableDeeplTranslation)
@@ -1455,7 +1456,8 @@ namespace KNXBoostDesktop
             // Mise à jour de la fenêtre de renommage des adresses de groupe
             App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
             
-            App.DisplayElements?.MainWindow.UpdateWindowContents(EnableLightTheme);
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
             
             // Masquage de la fenêtre de paramètres
             Hide();

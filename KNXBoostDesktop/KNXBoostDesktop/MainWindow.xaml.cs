@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
@@ -12,8 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using System.Windows.Threading;
-using System.Xml.Linq;
 using Microsoft.Win32;
 using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
@@ -46,15 +43,10 @@ public partial class MainWindow
 
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
-
-        //Title = $"{App.AppName} v{App.AppVersion}";
-        Title = "";
-
-        //Uri iconUri = new("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
-        //Icon = BitmapFrame.Create(iconUri);
-
-        //lightThemeON = App.DisplayElements?.SettingsWindow?.Background == ConvertStringColor("#F5F5F5");
-
+        
+        Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
+        Icon = BitmapFrame.Create(iconUri);
+        
         const string settingsPath = "./appSettings";
 
         try
@@ -112,7 +104,6 @@ public partial class MainWindow
             // On parcourt toutes les lignes tant qu'elle n'est pas 'null'
             while (reader!.ReadLine() is { } line)
             {
-
                 // On coupe la ligne en deux morceaux : la partie avant le ' : ' qui contient le type de paramètre contenu dans la ligne,
                 // la partie après qui contient la valeur du paramètre
                 var parts = line.Split(':');
@@ -129,8 +120,6 @@ public partial class MainWindow
                         lightThemeON = !value.Equals("dark", StringComparison.CurrentCultureIgnoreCase);
                         break;
                 }
-
-                
             }
         }
         // Si l'application a manqué de mémoire pendant la récupération des lignes
@@ -163,6 +152,373 @@ public partial class MainWindow
             loadingWindow.UpdatePosition(Left, Top);
         }
     }
+
+    public void UpdateWindowContents()
+    {
+        // Traduction de la fenêtre principale
+        switch (App.DisplayElements?.SettingsWindow?.AppLang)
+        {
+            // Arabe
+            case "AR":
+                TxtSearch1.Text = "بحث...";
+                ButtonChargerProject.Content = "تحميل مشروع جديد";
+                ButtonExportProject.Content = "تصدير المشروع المعدل";
+                TextBlockAdressesGauche.Text = "عناوين المجموعة الأصلية";
+                TextBlockAdressesDroite.Text = "عناوين المجموعة المعدلة";
+                break;
+
+            // Bulgare
+            case "BG":
+                TxtSearch1.Text = "Търсене...";
+                ButtonChargerProject.Content = "Зареждане на нов проект";
+                ButtonExportProject.Content = "Експортиране на модифицирания проект";
+                TextBlockAdressesGauche.Text = "Оригинални групови адреси";
+                TextBlockAdressesDroite.Text = "Модифицирани групови адреси";
+                break;
+
+            // Tchèque
+            case "CS":
+                TxtSearch1.Text = "Hledat...";
+                ButtonChargerProject.Content = "Načíst nový projekt";
+                ButtonExportProject.Content = "Exportovat upravený projekt";
+                TextBlockAdressesGauche.Text = "Původní skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                break;
+
+            // Danois
+            case "DA":
+                TxtSearch1.Text = "Søg...";
+                ButtonChargerProject.Content = "Indlæs et nyt projekt";
+                ButtonExportProject.Content = "Eksporter det ændrede projekt";
+                TextBlockAdressesGauche.Text = "Originale gruppeadresser";
+                TextBlockAdressesDroite.Text = "Ændrede gruppeadresser";
+                break;
+
+            // Allemand
+            case "DE":
+                TxtSearch1.Text = "Suchen...";
+                ButtonChargerProject.Content = "Neues Projekt laden";
+                ButtonExportProject.Content = "Geändertes Projekt exportieren";
+                TextBlockAdressesGauche.Text = "Ursprüngliche Gruppenadressen";
+                TextBlockAdressesDroite.Text = "Geänderte Gruppenadressen";
+                break;
+
+            // Grec
+            case "EL":
+                TxtSearch1.Text = "Αναζήτηση...";
+                ButtonChargerProject.Content = "Φόρτωση νέου έργου";
+                ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
+                TextBlockAdressesGauche.Text = "Πρωτότυπες ομαδικές διευθύνσεις";
+                TextBlockAdressesDroite.Text = "Τροποποιημένες ομαδικές διευθύνσεις";
+                break;
+
+            // Anglais
+            case "EN":
+                TxtSearch1.Text = "Search...";
+                ButtonChargerProject.Content = "Load a new project";
+                ButtonExportProject.Content = "Export the modified project";
+                TextBlockAdressesGauche.Text = "Original Group Addresses";
+                TextBlockAdressesDroite.Text = "Modified Group Addresses";
+                break;
+
+            // Espagnol
+            case "ES":
+                TxtSearch1.Text = "Buscar...";
+                ButtonChargerProject.Content = "Cargar un nuevo proyecto";
+                ButtonExportProject.Content = "Exportar el proyecto modificado";
+                TextBlockAdressesGauche.Text = "Direcciones de grupo originales";
+                TextBlockAdressesDroite.Text = "Direcciones de grupo modificadas";
+                break;
+
+            // Estonien
+            case "ET":
+                TxtSearch1.Text = "Otsi...";
+                ButtonChargerProject.Content = "Laadi uus projekt";
+                ButtonExportProject.Content = "Ekspordi muudetud projekt";
+                TextBlockAdressesGauche.Text = "Algupärased grupiaadressid";
+                TextBlockAdressesDroite.Text = "Muudetud grupiaadressid";
+                break;
+
+            // Finnois
+            case "FI":
+                TxtSearch1.Text = "Hae...";
+                ButtonChargerProject.Content = "Lataa uusi projekti";
+                ButtonExportProject.Content = "Vie muutettu projekti";
+                TextBlockAdressesGauche.Text = "Alkuperäiset ryhmäosoitteet";
+                TextBlockAdressesDroite.Text = "Muutetut ryhmäosoitteet";
+                break;
+
+            // Hongrois
+            case "HU":
+                TxtSearch1.Text = "Keresés...";
+                ButtonChargerProject.Content = "Új projekt betöltése";
+                ButtonExportProject.Content = "A módosított projekt exportálása";
+                TextBlockAdressesGauche.Text = "Eredeti csoportcímek";
+                TextBlockAdressesDroite.Text = "Módosított csoportcímek";
+                break;
+
+            // Indonésien
+            case "ID":
+                TxtSearch1.Text = "Cari...";
+                ButtonChargerProject.Content = "Muat proyek baru";
+                ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
+                TextBlockAdressesGauche.Text = "Alamat Grup Asli";
+                TextBlockAdressesDroite.Text = "Alamat Grup yang Dimodifikasi";
+                break;
+
+            // Italien
+            case "IT":
+                TxtSearch1.Text = "Cerca...";
+                ButtonChargerProject.Content = "Carica un nuovo progetto";
+                ButtonExportProject.Content = "Esporta il progetto modificato";
+                TextBlockAdressesGauche.Text = "Indirizzi di gruppo originali";
+                TextBlockAdressesDroite.Text = "Indirizzi di gruppo modificati";
+                break;
+
+            // Japonais
+            case "JA":
+                TxtSearch1.Text = "検索...";
+                ButtonChargerProject.Content = "新しいプロジェクトをロード";
+                ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
+                TextBlockAdressesGauche.Text = "元のグループアドレス";
+                TextBlockAdressesDroite.Text = "変更されたグループアドレス";
+                break;
+
+            // Coréen
+            case "KO":
+                TxtSearch1.Text = "검색...";
+                ButtonChargerProject.Content = "새 프로젝트 로드";
+                ButtonExportProject.Content = "수정된 프로젝트 내보내기";
+                TextBlockAdressesGauche.Text = "원본 그룹 주소";
+                TextBlockAdressesDroite.Text = "수정된 그룹 주소";
+                break;
+
+            // Letton
+            case "LV":
+                TxtSearch1.Text = "Meklēt...";
+                ButtonChargerProject.Content = "Ielādēt jaunu projektu";
+                ButtonExportProject.Content = "Eksportēt modificēto projektu";
+                TextBlockAdressesGauche.Text = "Oriģinālās grupu adreses";
+                TextBlockAdressesDroite.Text = "Modificētās grupu adreses";
+                break;
+
+            // Lituanien
+            case "LT":
+                TxtSearch1.Text = "Ieškoti...";
+                ButtonChargerProject.Content = "Įkelti naują projektą";
+                ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
+                TextBlockAdressesGauche.Text = "Originalūs grupių adresai";
+                TextBlockAdressesDroite.Text = "Modifikuoti grupių adresai";
+                break;
+
+            // Norvégien
+            case "NB":
+                TxtSearch1.Text = "Søk...";
+                ButtonChargerProject.Content = "Last inn et nytt prosjekt";
+                ButtonExportProject.Content = "Eksporter det endrede prosjektet";
+                TextBlockAdressesGauche.Text = "Opprinnelige gruppeadresser";
+                TextBlockAdressesDroite.Text = "Endrede gruppeadresser";
+                break;
+
+            // Néerlandais
+            case "NL":
+                TxtSearch1.Text = "Zoeken...";
+                ButtonChargerProject.Content = "Laad een nieuw project";
+                ButtonExportProject.Content = "Exporteer het gewijzigde project";
+                TextBlockAdressesGauche.Text = "Originele groepadressen";
+                TextBlockAdressesDroite.Text = "Gewijzigde groepadressen";
+                break;
+
+            // Polonais
+            case "PL":
+                TxtSearch1.Text = "Szukaj...";
+                ButtonChargerProject.Content = "Załaduj nowy projekt";
+                ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
+                TextBlockAdressesGauche.Text = "Oryginalne adresy grup";
+                TextBlockAdressesDroite.Text = "Zmodyfikowane adresy grup";
+                break;
+
+            // Portugais
+            case "PT":
+                TxtSearch1.Text = "Pesquisar...";
+                ButtonChargerProject.Content = "Carregar um novo projeto";
+                ButtonExportProject.Content = "Exportar o projeto modificado";
+                TextBlockAdressesGauche.Text = "Endereços de grupo originais";
+                TextBlockAdressesDroite.Text = "Endereços de grupo modificados";
+                break;
+
+            // Roumain
+            case "RO":
+                TxtSearch1.Text = "Căutare...";
+                ButtonChargerProject.Content = "Încărcați un proiect nou";
+                ButtonExportProject.Content = "Exportați proiectul modificat";
+                TextBlockAdressesGauche.Text = "Adresele grupului original";
+                TextBlockAdressesDroite.Text = "Adresele grupului modificate";
+                break;
+
+            // Russe
+            case "RU":
+                TxtSearch1.Text = "Поиск...";
+                ButtonChargerProject.Content = "Загрузить новый проект";
+                ButtonExportProject.Content = "Экспортировать измененный проект";
+                TextBlockAdressesGauche.Text = "Оригинальные групповые адреса";
+                TextBlockAdressesDroite.Text = "Измененные групповые адреса";
+                break;
+
+            // Slovaque
+            case "SK":
+                TxtSearch1.Text = "Hľadať...";
+                ButtonChargerProject.Content = "Načítať nový projekt";
+                ButtonExportProject.Content = "Exportovať upravený projekt";
+                TextBlockAdressesGauche.Text = "Pôvodné skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                break;
+
+            // Slovène
+            case "SL":
+                TxtSearch1.Text = "Iskanje...";
+                ButtonChargerProject.Content = "Naloži nov projekt";
+                ButtonExportProject.Content = "Izvozi spremenjeni projekt";
+                TextBlockAdressesGauche.Text = "Izvirni naslovi skupin";
+                TextBlockAdressesDroite.Text = "Spremenjeni naslovi skupin";
+                break;
+
+            // Suédois
+            case "SV":
+                TxtSearch1.Text = "Sök...";
+                ButtonChargerProject.Content = "Ladda ett nytt projekt";
+                ButtonExportProject.Content = "Exportera det modifierade projektet";
+                TextBlockAdressesGauche.Text = "Ursprungliga gruppadresser";
+                TextBlockAdressesDroite.Text = "Ändrade gruppadresser";
+                break;
+
+            // Turc
+            case "TR":
+                TxtSearch1.Text = "Ara...";
+                ButtonChargerProject.Content = "Yeni bir proje yükle";
+                ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
+                TextBlockAdressesGauche.Text = "Orijinal Grup Adresleri";
+                TextBlockAdressesDroite.Text = "Değiştirilen Grup Adresleri";
+                break;
+
+            // Ukrainien
+            case "UK":
+                TxtSearch1.Text = "Пошук...";
+                ButtonChargerProject.Content = "Завантажити новий проект";
+                ButtonExportProject.Content = "Експортувати змінений проект";
+                TextBlockAdressesGauche.Text = "Оригінальні групові адреси";
+                TextBlockAdressesDroite.Text = "Змінені групові адреси";
+                break;
+
+            // Chinois simplifié
+            case "ZH":
+                TxtSearch1.Text = "搜索...";
+                ButtonChargerProject.Content = "加载新项目";
+                ButtonExportProject.Content = "导出修改后的项目";
+                TextBlockAdressesGauche.Text = "原始组地址";
+                TextBlockAdressesDroite.Text = "修改后的组地址";
+                break;
+
+            // Langue par défaut (français)
+            default:
+                TxtSearch1.Text = "Chercher...";
+                ButtonChargerProject.Content = "Charger un nouveau projet";
+                ButtonExportProject.Content = "Exporter le projet modifié";
+                TextBlockAdressesGauche.Text = "Adresses de Groupe Originales";
+                TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
+                break;
+        }
+        
+        string buttonTextColor;
+        string panelTextColor;
+        string titleBarColor;
+        string buttonColor;
+        
+        string settingsButtonColor;
+        string logoColor;
+        string borderColor;
+        string borderPanelColor;
+        
+        string panelBackgroundColor;
+        string backgroundColor;
+        
+            
+        if (isLightThemeOn)
+        {
+            buttonTextColor = "#FFFFFF";
+            panelTextColor = "#000000";
+            titleBarColor = "#369026";
+            buttonColor = "#4071B4";
+            panelBackgroundColor = "#FFFFFF";
+            backgroundColor = "#F5F5F5";
+
+            settingsButtonColor = "#FFFFFF";
+            logoColor = "#000000";
+            borderColor = "#D7D7D7";
+
+            borderPanelColor = "#D7D7D7";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
+            
+            //TreeViewGauche.Style = (Style)FindResource("MyTreeViewStyle");
+        }
+        else
+        {
+            backgroundColor = "#313131";
+            panelBackgroundColor = "#262626";
+
+            panelTextColor = "#FFFFFF";
+            
+            settingsButtonColor = "#262626";
+            logoColor = "#FFFFFF";
+            borderColor = "#434343";
+
+            borderPanelColor = "#525252";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
+        }
+        
+        // Panneaux et arrière-plan
+        MainGrid.Background = ConvertStringColor(backgroundColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        
+        // Bouton paramètre
+        BrushSettings1.Brush = ConvertStringColor(logoColor);
+        BrushSettings2.Brush = ConvertStringColor(logoColor);
+        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
+        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
+        
+        // Recherche
+        Recherche.BorderBrush = ConvertStringColor(borderColor);
+        Recherche.Background = ConvertStringColor(panelBackgroundColor);
+        LogoRecherche.Brush = ConvertStringColor(logoColor);
+        
+        // Panel
+        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
+        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
+        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
+        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
+        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
+        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
+        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
+    }   
     
     //--------------------- Gestion des boutons -----------------------------------------------------//
 
@@ -229,15 +585,202 @@ public partial class MainWindow
             // Exécuter les tâches
             await Task.Run(async () =>
             {
-                loadingWindow.UpdateTaskName("Tâche 1/4");
+                string task, loadingFinished;
+                
+                // Traduction de la fenêtre de chargement
+                switch (App.DisplayElements?.SettingsWindow?.AppLang)
+                {
+                    // Arabe
+                    case "AR":
+                        task = "مهمة";
+                        loadingFinished = "التحميل انتهى!";
+                        break;
+
+                    // Bulgare
+                    case "BG":
+                        task = "Задача";
+                        loadingFinished = "Зареждането приключи!";
+                        break;
+
+                    // Tchèque
+                    case "CS":
+                        task = "Úkol";
+                        loadingFinished = "Načítání dokončeno!";
+                        break;
+
+                    // Danois
+                    case "DA":
+                        task = "Opgave";
+                        loadingFinished = "Indlæsning afsluttet!";
+                        break;
+
+                    // Allemand
+                    case "DE":
+                        task = "Aufgabe";
+                        loadingFinished = "Laden abgeschlossen!";
+                        break;
+
+                    // Grec
+                    case "EL":
+                        task = "Εργασία";
+                        loadingFinished = "Η φόρτωση ολοκληρώθηκε!";
+                        break;
+
+                    // Anglais
+                    case "EN":
+                        task = "Task";
+                        loadingFinished = "Loading finished!";
+                        break;
+
+                    // Espagnol
+                    case "ES":
+                        task = "Tarea";
+                        loadingFinished = "¡Carga terminada!";
+                        break;
+
+                    // Estonien
+                    case "ET":
+                        task = "Ülesanne";
+                        loadingFinished = "Laadimine lõppenud!";
+                        break;
+
+                    // Finnois
+                    case "FI":
+                        task = "Tehtävä";
+                        loadingFinished = "Lataus valmis!";
+                        break;
+
+                    // Hongrois
+                    case "HU":
+                        task = "Feladat";
+                        loadingFinished = "Betöltés kész!";
+                        break;
+
+                    // Indonésien
+                    case "ID":
+                        task = "Tugas";
+                        loadingFinished = "Pemuatan selesai!";
+                        break;
+
+                    // Italien
+                    case "IT":
+                        task = "Compito";
+                        loadingFinished = "Caricamento completato!";
+                        break;
+
+                    // Japonais
+                    case "JA":
+                        task = "タスク";
+                        loadingFinished = "読み込み完了！";
+                        break;
+
+                    // Coréen
+                    case "KO":
+                        task = "작업";
+                        loadingFinished = "로드 완료!";
+                        break;
+
+                    // Letton
+                    case "LV":
+                        task = "Uzdevums";
+                        loadingFinished = "Ielāde pabeigta!";
+                        break;
+
+                    // Lituanien
+                    case "LT":
+                        task = "Užduotis";
+                        loadingFinished = "Įkėlimas baigtas!";
+                        break;
+
+                    // Norvégien
+                    case "NB":
+                        task = "Oppgave";
+                        loadingFinished = "Laster ferdig!";
+                        break;
+
+                    // Néerlandais
+                    case "NL":
+                        task = "Taak";
+                        loadingFinished = "Laden voltooid!";
+                        break;
+
+                    // Polonais
+                    case "PL":
+                        task = "Zadanie";
+                        loadingFinished = "Ładowanie zakończone!";
+                        break;
+
+                    // Portugais
+                    case "PT":
+                        task = "Tarefa";
+                        loadingFinished = "Carregamento concluído!";
+                        break;
+
+                    // Roumain
+                    case "RO":
+                        task = "Sarcină";
+                        loadingFinished = "Încărcare terminată!";
+                        break;
+
+                    // Russe
+                    case "RU":
+                        task = "Задача";
+                        loadingFinished = "Загрузка завершена!";
+                        break;
+
+                    // Slovaque
+                    case "SK":
+                        task = "Úloha";
+                        loadingFinished = "Načítanie dokončené!";
+                        break;
+
+                    // Slovène
+                    case "SL":
+                        task = "Naloga";
+                        loadingFinished = "Nalaganje končano!";
+                        break;
+
+                    // Suédois
+                    case "SV":
+                        task = "Uppgift";
+                        loadingFinished = "Inläsning klar!";
+                        break;
+
+                    // Turc
+                    case "TR":
+                        task = "Görev";
+                        loadingFinished = "Yükleme tamamlandı!";
+                        break;
+
+                    // Ukrainien
+                    case "UK":
+                        task = "Завдання";
+                        loadingFinished = "Завантаження завершено!";
+                        break;
+
+                    // Chinois simplifié
+                    case "ZH":
+                        task = "任务";
+                        loadingFinished = "加载完成！";
+                        break;
+
+                    // Langue par défaut (français)
+                    default:
+                        task = "Tâche";
+                        loadingFinished = "Chargement terminé !";
+                        break;
+                }
+
+                
+                loadingWindow.UpdateTaskName($"{task} 1/4");
                 await App.Fm.FindZeroXml(loadingWindow).ConfigureAwait(false);
-                loadingWindow.UpdateTaskName("Tâche 2/4");
+                loadingWindow.UpdateTaskName($"{task} 2/4");
                 await MyNameCorrector.CorrectName(loadingWindow).ConfigureAwait(false);
                 
                 _xmlFilePath1 = $"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml";
                 _xmlFilePath2 = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml"; 
                 //Define the project path
-                loadingWindow.UpdateTaskName("Tâche 3/4");
+                loadingWindow.UpdateTaskName($"{task} 3/4");
                 if (App.DisplayElements != null && App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
                 {
                     await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_original.xml",App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
@@ -246,7 +789,7 @@ public partial class MainWindow
                 {
                     await ExportUpdatedNameAddresses.Export(App.Fm?.ZeroXmlPath!,App.Fm?.ProjectFolderPath + "/GroupAddresses.xml", loadingWindow).ConfigureAwait(false);
                 }
-                loadingWindow.UpdateTaskName("Tâche 3/4");
+                loadingWindow.UpdateTaskName($"{task} 3/4");
                 await ExportUpdatedNameAddresses.Export(App.Fm?.ProjectFolderPath + "/0_updated.xml",App.Fm?.ProjectFolderPath + "/UpdatedGroupAddresses.xml", loadingWindow).ConfigureAwait(false);
 
                 await LoadXmlFiles(loadingWindow).ConfigureAwait(false);
@@ -254,7 +797,7 @@ public partial class MainWindow
                 // Mettre à jour l'interface utilisateur depuis le thread principal
                 Dispatcher.Invoke(() =>
                 {
-                    loadingWindow.UpdateTaskName("Chargement terminé !");
+                    loadingWindow.UpdateTaskName(loadingFinished);
                     loadingWindow.MarkActivityComplete();
                     loadingWindow.CompleteActivity();
                 });
@@ -461,99 +1004,6 @@ public partial class MainWindow
         }
     }
     
-    public void UpdateWindowContents(bool isLightThemeOn)
-    {
-        string buttonTextColor;
-        string panelTextColor;
-        string titleBarColor;
-        string buttonColor;
-        
-        string settingsButtonColor;
-        string logoColor;
-        string borderColor;
-        string borderPanelColor;
-        
-        string panelBackgroundColor;
-        string backgroundColor;
-        
-            
-        if (isLightThemeOn)
-        {
-            buttonTextColor = "#FFFFFF";
-            panelTextColor = "#000000";
-            titleBarColor = "#369026";
-            buttonColor = "#4071B4";
-            panelBackgroundColor = "#FFFFFF";
-            backgroundColor = "#F5F5F5";
-
-            settingsButtonColor = "#FFFFFF";
-            logoColor = "#000000";
-            borderColor = "#D7D7D7";
-
-            borderPanelColor = "#D7D7D7";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
-            
-            //TreeViewGauche.Style = (Style)FindResource("MyTreeViewStyle");
-        }
-        else
-        {
-            backgroundColor = "#313131";
-            panelBackgroundColor = "#262626";
-
-            panelTextColor = "#FFFFFF";
-            
-            settingsButtonColor = "#262626";
-            logoColor = "#FFFFFF";
-            borderColor = "#434343";
-
-            borderPanelColor = "#525252";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
-        }
-        
-        // Panneaux et arrière-plan
-        MainGrid.Background = ConvertStringColor(backgroundColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        
-        // Bouton paramètre
-        BrushSettings1.Brush = ConvertStringColor(logoColor);
-        BrushSettings2.Brush = ConvertStringColor(logoColor);
-        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
-        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
-        
-        // Recherche
-        Recherche.BorderBrush = ConvertStringColor(borderColor);
-        Recherche.Background = ConvertStringColor(panelBackgroundColor);
-        LogoRecherche.Brush = ConvertStringColor(logoColor);
-        
-        // Panel
-        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
-        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
-        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
-        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
-        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
-        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
-        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
-    }
-
     public static SolidColorBrush ConvertStringColor(string colorInput)
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
@@ -563,9 +1013,6 @@ public partial class MainWindow
 
     private async Task LoadXmlFiles(LoadingWindow loadingWindow)
     {            
-        loadingWindow.MarkActivityComplete();
-        loadingWindow.LogActivity($"Dans loadXMLFiles");
-
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }

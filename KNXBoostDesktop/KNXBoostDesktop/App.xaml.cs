@@ -65,6 +65,13 @@ namespace KNXBoostDesktop
             // Ouverture la fenêtre principale
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
+            
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+
+            // Mise à jour de la fenêtre principale
+            DisplayElements.MainWindow.UpdateWindowContents();
+            
             DisplayElements.ShowMainWindow();
 
             
@@ -85,8 +92,6 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
-
-            //DisplayElements?.ShowGroupAddressRenameWindow("Cmd_Eclairage_OnOff_Batiment_FacadeXx_Etage_Piece_Circuit");
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
