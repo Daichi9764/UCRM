@@ -73,4 +73,8 @@
       <None Remove="resources\Icon_level2SVG.svg" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="KNXBoostDesktop_rz3kjjxl_wpftmp.csproj" />
+    </ItemGroup>
+
 </Project>
