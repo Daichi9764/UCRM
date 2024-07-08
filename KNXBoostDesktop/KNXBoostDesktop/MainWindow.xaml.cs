@@ -47,99 +47,7 @@ public partial class MainWindow
         Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
-        const string settingsPath = "./appSettings";
-
-        try
-        {
-            // Si le fichier de paramétrage n'existe pas, on le crée
-            // Note : comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement avec Close().
-            if (!File.Exists(settingsPath)) File.Create(settingsPath).Close();
-        }
-        // Si le programme n'a pas accès en écriture pour créer le fichier
-        catch (UnauthorizedAccessException)
-        {
-            MessageBox.Show(
-                "Erreur: impossible d'accéder au fichier de paramétrage de l'application. Veuillez vérifier qu'il " +
-                "n'est pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1",
-                "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown(1);
-        }
-        // Si la longueur du path est incorrecte ou que des caractères non supportés sont présents
-        catch (ArgumentException)
-        {
-            MessageBox.Show(
-                $"Erreur: des caractères non supportés sont présents dans le chemin d'accès du fichier de paramétrage" +
-                $"({settingsPath}. Impossible d'accéder au fichier.\nCode erreur: 2", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown(2);
-        }
-        // Aucune idée de la raison
-        catch (IOException)
-        {
-            MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3",
-                "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown(3);
-        }
-
-        // Déclaration du stream pour la lecture du fichier appSettings, initialement null
-        StreamReader? reader = null;
-        try
-        {
-            // Création du stream
-            reader = new StreamReader(settingsPath);
-        }
-        // Aucune idée de la raison
-        catch (IOException)
-        {
-            MessageBox.Show($"Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3",
-                "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown(3);
-        }
-
-        try
-        {
-            // On parcourt toutes les lignes tant qu'elle n'est pas 'null'
-            while (reader!.ReadLine() is { } line)
-            {
-                // On coupe la ligne en deux morceaux : la partie avant le ' : ' qui contient le type de paramètre contenu dans la ligne,
-                // la partie après qui contient la valeur du paramètre
-                var parts = line.Split(':');
-
-                // S'il n'y a pas de ' : ' ou qu'il n'y a rien après les deux points, on skip car la ligne nous intéresse pas
-                if (parts.Length < 2) continue;
-
-                var parameter = parts[0].Trim().ToLower();
-                var value = parts[1].Trim();
-
-                switch (parameter)
-                {
-                    case "theme":
-                        lightThemeON = !value.Equals("dark", StringComparison.CurrentCultureIgnoreCase);
-                        break;
-                }
-            }
-        }
-        // Si l'application a manqué de mémoire pendant la récupération des lignes
-        catch (OutOfMemoryException)
-        {
-            App.ConsoleAndLogWriteLine("Error: The program does not have sufficient memory to run. Please try closing a few applications before trying again.");
-            return;
-        }
-        // Aucune idée de la raison
-        catch (IOException)
-        {
-            App.ConsoleAndLogWriteLine("Error: An I/O error occured while reading the settings file.");
-            return;
-        }
-        finally
-        {
-            reader?.Close(); // Fermeture du stream de lecture
-        }
-        
-        UpdateWindowContents(lightThemeON);
+        UpdateWindowContents();
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -443,7 +351,7 @@ public partial class MainWindow
         string backgroundColor;
         
             
-        if (isLightThemeOn)
+        if (App.DisplayElements!.SettingsWindow.EnableLightTheme)
         {
             buttonTextColor = "#FFFFFF";
             panelTextColor = "#000000";
