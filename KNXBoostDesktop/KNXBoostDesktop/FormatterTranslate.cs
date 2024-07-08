@@ -23,16 +23,20 @@ namespace KNXBoostDesktop
         /// Represents the destination language code used for translation. The value is retrieved from the application's settings,
         /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationDestinationLang"/>.
         /// </summary>
-        private string _destLanguage = App.DisplayElements?.SettingsWindow.TranslationDestinationLang ?? string.Empty;
+        private string _destLanguage = App.DisplayElements?.SettingsWindow?.TranslationDestinationLang ?? string.Empty;
         
         /// <summary>
         /// Represents the source language code used for translation. The value is retrieved from the application's settings,
         /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationSourceLang"/>.
         /// </summary>
-        private string _sourceLanguage = App.DisplayElements?.SettingsWindow.TranslationSourceLang ?? string.Empty;
+        private string _sourceLanguage = App.DisplayElements?.SettingsWindow?.TranslationSourceLang ?? string.Empty;
 
-        
-        
+        /// <summary>
+        /// Cache for storing previously translated strings
+        /// </summary>
+        private Dictionary<string, string> _translationCache = new Dictionary<string, string>();
+
+       
         
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -69,26 +73,40 @@ namespace KNXBoostDesktop
                         break;
                 }
                 
-                // Translate the input string
-                var translated = Task.Run(() => GetTranslatedStringAsync(input)).Result;
-                
-                // Replace all punctuation with spaces
-                translated = Regex.Replace(translated, @"[\p{P}]", " ");
-                
-                // Convert to lowercase
-                translated = translated.ToLower();
-
-                // Replace spaces with underscores
-                translated = translated.Replace(" ", "_");
-
-                // Split the words, capitalize each one, and join without underscores
-                string[] words = translated.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries); 
-                for (int i = 0; i < words.Length; i++) 
-                { 
-                    words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]); 
+                // Check if the translation is already in the cache
+                if (_translationCache.TryGetValue(input, out var translated))
+                {
+                    return translated;
                 }
+                else
+                {
 
-                return string.Join("", words);
+                    // Translate the input string
+                    translated = Task.Run(() => GetTranslatedStringAsync(input)).Result;
+
+                    // Replace all punctuation with spaces
+                    translated = Regex.Replace(translated, @"[\p{P}]", " ");
+
+                    // Convert to lowercase
+                    translated = translated.ToLower();
+
+                    // Replace spaces with underscores
+                    translated = translated.Replace(" ", "_");
+
+                    // Split the words, capitalize each one, and join without underscores
+                    string[] words = translated.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < words.Length; i++)
+                    {
+                        words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
+                    }
+
+                    translated = string.Join("", words);
+                    
+                    // Store the translation in the cache
+                    _translationCache[input] = translated;
+
+                    return translated;
+                }
             }
             catch (Exception ex)
             {
@@ -158,12 +176,12 @@ namespace KNXBoostDesktop
 
                 if (string.IsNullOrEmpty(GroupAddressNameCorrector.AuthKey))
                 {
-                    throw new ArgumentNullException("DeepL API key is not configured.");
+                    throw new ArgumentNullException($"DeepL API key is not configured.");
                 }
 
                 // Translate the text
                 TextResult translatedText;
-                if (App.DisplayElements != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
+                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
                 {
                     translatedText = await GroupAddressNameCorrector.Translator.TranslateTextAsync(input, null, _destLanguage);
                 }
