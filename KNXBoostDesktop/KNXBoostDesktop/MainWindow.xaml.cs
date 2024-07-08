@@ -883,8 +883,20 @@ public partial class MainWindow
 
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-        App.DisplayElements!.ShowSettingsWindow();
+        // Vérifie si la fenêtre de paramètres est déjà ouverte
+        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
+        {
+            // Si la fenêtre est déjà ouverte, la met au premier plan
+            App.DisplayElements.SettingsWindow.Activate();
+            App.DisplayElements.SettingsWindow.Focus();
+        }
+        else
+        {
+            // Sinon, affiche la fenêtre de paramètres
+            App.DisplayElements.ShowSettingsWindow();
+        }
     }
+
     
     private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
     {
