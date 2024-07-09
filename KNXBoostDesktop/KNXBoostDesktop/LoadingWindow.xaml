@@ -7,10 +7,12 @@
         Height="275" Width="500" 
         Background="White"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="None" ResizeMode="NoResize">
+        WindowStyle="None" 
+        ResizeMode="NoResize">
     
     <Window.Resources>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
         <Style TargetType="ProgressBar" x:Key="NormalProgressBar">
             <Setter Property="Foreground" Value="#369226"/>
         </Style>
@@ -23,17 +25,18 @@
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="5"/>
+            <Setter Property="Width" Value="350"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#F5F5F5"/>
-                    <Setter Property="Foreground" Value="Black"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Purple"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="DarkActivityStyle" TargetType="ListBoxItem">
@@ -61,7 +64,7 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
                 <TextBlock x:Name="TaskNameText" Foreground="Black" Text="Initialisation..." FontSize="16" Margin="0,0,0,20" HorizontalAlignment="Center" />
                 <ProgressBar x:Name="ProgressBar" Height="15" Margin="0,0,0,10" IsIndeterminate="True"/>
-                <ListBox x:Name="ActivityLog" ItemContainerStyle="{StaticResource LightActivityStyle}" Height="110" Background="#F5F5F5" Foreground="Black" BorderThickness="1" BorderBrush="#D7D7D7" Margin="0,10,0,20">
+                <ListBox x:Name="ActivityLog" ItemContainerStyle="{StaticResource LightActivityStyle}" Height="125" Width="380" HorizontalAlignment="Center" Background="#F5F5F5" Foreground="Black" BorderThickness="1" BorderBrush="#D7D7D7" Margin="10">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -69,7 +72,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" x:Name="TextActuLoad" Text="{Binding Text}" Background="{Binding Background}" Foreground="{Binding Foreground}" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="0" x:Name="TextActuLoad" Text="{Binding Text}" TextWrapping="Wrap" Background="{Binding Background}" Foreground="{Binding Foreground}" Margin="5" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="✔" Margin="5,0,10,0" Visibility="{Binding IsCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="Green" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
