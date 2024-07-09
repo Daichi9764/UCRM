@@ -1458,7 +1458,7 @@ namespace KNXBoostDesktop
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
 
-
+            // Désactivation des cases si on active pas la traduction
             if (EnableDeeplTranslation) return;
             
             DeeplApiKeyTextBox.IsEnabled = false;
