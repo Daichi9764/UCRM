@@ -1453,25 +1453,24 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+
+
+            if (EnableDeeplTranslation) return;
             
-            
-            if (!EnableDeeplTranslation)
-            {
-                DeeplApiKeyTextBox.IsEnabled = false;
-                EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
-                TranslationSourceLanguageComboBox.IsEnabled = false;
-                TranslationLanguageDestinationComboBox.IsEnabled = false;
-                Hyperlink.IsEnabled = false;
+            DeeplApiKeyTextBox.IsEnabled = false;
+            EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
+            TranslationSourceLanguageComboBox.IsEnabled = false;
+            TranslationLanguageDestinationComboBox.IsEnabled = false;
+            Hyperlink.IsEnabled = false;
                 
-                Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
-                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
-                DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
-                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-            }
+            Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
+            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
         }
 
         
