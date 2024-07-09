@@ -155,6 +155,8 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
+
+            //ProjectFileManager.WriteDebugFile();
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
