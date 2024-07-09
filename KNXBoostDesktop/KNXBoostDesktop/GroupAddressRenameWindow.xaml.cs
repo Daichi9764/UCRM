@@ -4,16 +4,42 @@ using System.Windows.Input;
 
 namespace KNXBoostDesktop;
 
+/// <summary>
+/// Fenêtre pour renommer une adresse de groupe.
+/// </summary>
 public partial class GroupAddressRenameWindow
 {
+    /* ------------------------------------------------------------------------------------------------
+    ------------------------------------------- ATTRIBUTS  --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
+    /// <summary>
+    /// Obtient le résultat de la boîte de dialogue. True si l'utilisateur a cliqué sur "sauvegarder", False sinon.
+    /// </summary>
     public new bool? DialogResult { get; private set; } // True si l'utilisateur a cliqué sur sauvegarder, False sinon
+    
+    /// <summary>
+    /// Obtient l'adresse modifiée par l'utilisateur.
+    /// </summary>
     public string newAddress { get; private set; } // Adresse modifiée par l'utilisateur
     
+    
+    
+    /* ------------------------------------------------------------------------------------------------
+    -------------------------------------------- METHODES  --------------------------------------------
+    ------------------------------------------------------------------------------------------------ */
+    /// <summary>
+    /// Initialise une nouvelle instance de la classe <see cref="GroupAddressRenameWindow"/>.
+    /// </summary>
     public GroupAddressRenameWindow()
     {
+        newAddress = "";
         InitializeComponent();
     }
+    
 
+    /// <summary>
+    /// Met à jour le contenu de la fenêtre en fonction de la langue de l'application.
+    /// </summary>
     public void UpdateWindowContents()
     {
         switch (App.DisplayElements?.SettingsWindow.AppLang)
@@ -290,12 +316,21 @@ public partial class GroupAddressRenameWindow
         }
     }
 
+    
+    /// <summary>
+    /// Définit l'adresse actuelle à renommer.
+    /// </summary>
+    /// <param name="address">L'adresse actuelle de groupe.</param>
     public void setAddress(string address)
     {
         BeforeTextBox.Text = address;
         AfterTextBox.Text = address;
     }
     
+    
+    /// <summary>
+    /// Permet de déplacer la fenêtre en cliquant et en maintenant le bouton gauche de la souris enfoncé.
+    /// </summary>
     private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed)
@@ -304,6 +339,10 @@ public partial class GroupAddressRenameWindow
         }
     }
 
+    
+    /// <summary>
+    /// Gestionnaire d'événements pour le bouton "Annuler". Annule les modifications et masque la fenêtre.
+    /// </summary>
     private void CancelButtonClick(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
@@ -314,6 +353,10 @@ public partial class GroupAddressRenameWindow
         Hide(); // Masquage de la fenêtre de renommage
     }
 
+    
+    /// <summary>
+    /// Gestionnaire d'événements pour le bouton "Sauvegarder". Sauvegarde les modifications et masque la fenêtre.
+    /// </summary>
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
@@ -323,6 +366,10 @@ public partial class GroupAddressRenameWindow
         Hide(); // Masquage de la fenêtre de renommage
     }
     
+    
+    /// <summary>
+    /// Gestionnaire d'événements pour la fermeture de la fenêtre de paramètres. Annule la fermeture et masque la fenêtre à la place.
+    /// </summary>
     private void ClosingSettingsWindow(object? sender, CancelEventArgs e)
     {
         e.Cancel = true; // Pour éviter de tuer l'instance de SettingsWindow, on annule la fermeture
