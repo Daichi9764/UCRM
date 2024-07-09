@@ -1394,6 +1394,8 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = null;
                 ThemeComboBox.Style = null;
                 AppLanguageComboBox.Style = null;
+                SaveButton.Style = (Style)FindResource("BottomButtonLight");
+                CancelButton.Style = (Style)FindResource("BottomButtonLight");
             }
             else // Sinon, on met le thème sombre
             {
@@ -1409,6 +1411,8 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
                 ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
                 AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                SaveButton.Style = (Style)FindResource("BottomButtonDark");
+                CancelButton.Style = (Style)FindResource("BottomButtonDark");
             }
             
             // Définition des brush pour les divers éléments
