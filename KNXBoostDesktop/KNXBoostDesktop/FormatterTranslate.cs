@@ -65,11 +65,15 @@ namespace KNXBoostDesktop
         {
             try
             {
-                switch (input)
+                switch (input.ToLower())
                 {
-                    case "Cmd" : input = "Commande";
+                    case "cmd" : input = "Commande";
                         break;
-                    case "Ie" : input = "Indication d'état";
+                    case "ie" : input = "Indication d'état";
+                        break;
+                    case "rdc" : input = "Rez-de-chaussée ";
+                        break; 
+                    case "piece" : input = "salle";
                         break;
                 }
                 

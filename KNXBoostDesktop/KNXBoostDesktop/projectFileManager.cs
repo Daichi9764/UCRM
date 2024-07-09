@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using System.Xml;
+using System.Xml.Linq;
 
 
 namespace KNXBoostDesktop
@@ -481,7 +483,6 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Asynchronously searches for the '0.xml' file in the exported KNX project directory.
         /// </summary>
-        /// <param name="loadingWindow">An instance of the loading window used to display search status and progress.</param>
         /// <remarks>
         /// This method:
         /// <list type="number">
@@ -724,6 +725,59 @@ namespace KNXBoostDesktop
             }
         }
 
+        
+        /// <summary>
+        /// Loads an XML document from a specified path.
+        /// </summary>
+        /// <param name="path">The path to the XML document to load.</param>
+        /// <returns>Returns an XDocument if the file is successfully loaded; otherwise, returns null.</returns>
+        /// <remarks>
+        /// This method:
+        /// <list type="number">
+        /// <item>Attempts to load the XML document from the specified path.</item>
+        /// <item>Catches and logs specific exceptions such as FileNotFoundException, DirectoryNotFoundException, IOException, UnauthorizedAccessException, and XmlException.</item>
+        /// <item>Logs an error message and returns null if an exception is thrown.</item>
+        /// </list>
+        /// </remarks>
+        public XDocument? LoadKnxDocument(string path)
+        {
+            try
+            {
+                return XDocument.Load(path);
+            }
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException ||
+                                       ex is IOException || ex is UnauthorizedAccessException || ex is XmlException)
+            {
+                App.ConsoleAndLogWriteLine($"Error loading XML: {ex.Message}");
+                return null;
+            }
+        }
+    
+        /// <summary>
+        /// Saves an XML document to a specified path.
+        /// </summary>
+        /// <param name="xmlDoc">The XDocument to save.</param>
+        /// <param name="path">The path where the XML document will be saved.</param>
+        /// <remarks>
+        /// This method:
+        /// <list type="number">
+        /// <item>Attempts to save the XML document to the specified path.</item>
+        /// <item>Catches and logs specific exceptions such as UnauthorizedAccessException and IOException.</item>
+        /// <item>Logs a success message if the file is saved successfully, or an error message if an exception is thrown.</item>
+        /// </list>
+        /// </remarks>
+        public void SaveXml(XDocument xmlDoc, string path)
+        {
+            try
+            {
+                xmlDoc.Save(path);
+                App.ConsoleAndLogWriteLine($"Updated XML file saved as {path}");
+            }
+            catch (Exception ex) when ( ex is UnauthorizedAccessException || ex is IOException)
+            {
+                App.ConsoleAndLogWriteLine($"Error saving XML: {ex.Message}");
+            }
+        }
 
 
         // Fonction générant les fichiers de débogage de l'application

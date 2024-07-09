@@ -235,7 +235,7 @@ class ExportUpdatedNameAddresses
                 App.DisplayElements.LoadingWindow.LogActivity(savingUpdatedFile);
 
                 // Load the updated XML document
-                XDocument knxDoc = XDocument.Load(sourcePath);
+                XDocument? knxDoc = App.Fm?.LoadKnxDocument(sourcePath);
 
                 // Namespace for GroupAddress-Export
                 XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
@@ -324,8 +324,8 @@ class ExportUpdatedNameAddresses
                     root
                 );
 
-                updatedExportDoc.Save(destPath);
-
+                App.Fm?.SaveXml(updatedExportDoc,destPath);
+               
                 App.ConsoleAndLogWriteLine("UpdatedGroupAddresses.xml generated successfully.");
             }
             catch (Exception ex)
