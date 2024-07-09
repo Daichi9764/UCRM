@@ -46,7 +46,7 @@ public partial class MainWindow
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
         
-        Uri iconUri = new ("pack://application:,,,/resources/BOOST-2.ico", UriKind.RelativeOrAbsolute);
+        Uri iconUri = new ("pack://application:,,,/resources/IconApp.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
         UpdateWindowContents();

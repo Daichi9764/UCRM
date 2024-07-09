@@ -173,12 +173,7 @@ namespace KNXBoostDesktop
                         _destLanguage = "en-GB";
                         break;
                 }
-
-                if (string.IsNullOrEmpty(GroupAddressNameCorrector.AuthKey))
-                {
-                    throw new ArgumentNullException($"DeepL API key is not configured.");
-                }
-
+                
                 // Translate the text
                 TextResult translatedText;
                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)

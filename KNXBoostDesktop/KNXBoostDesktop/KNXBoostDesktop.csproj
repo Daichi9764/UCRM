@@ -36,6 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="resources\IconApp.ico" />
       <None Remove="resources\Icon_level.png" />
       <None Remove="resources\Icon_level2.png" />
       <None Remove="resources\Icon_level3.png" />
@@ -66,6 +67,7 @@
       <None Remove="resources\BOOST.ico" />
       <None Remove="resources\BOOST-2.ico" />
       <Resource Include="resources\BOOST-2.ico" />
+      <Resource Include="resources\IconApp.ico" />
       <None Remove="resources\Icon_level2SVG.svg" />
     </ItemGroup>
 
