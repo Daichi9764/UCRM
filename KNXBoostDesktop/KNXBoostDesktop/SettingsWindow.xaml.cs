@@ -2246,6 +2246,7 @@ namespace KNXBoostDesktop
         }
 
         
+        // ----- GESTION DES INPUTS CLAVIER/SOURIS -----
         // Fonction permettant d'effectuer des actions quand une touche spécifique du clavier est appuyée
         /// <summary>
         /// Handles the key down events in the settings window. Depending on the key pressed, 
