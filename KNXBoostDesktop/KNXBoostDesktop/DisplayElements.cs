@@ -38,12 +38,13 @@
         {
             LoadingWindow?.Show();
         }
-        
+
         // Fonction pour ouvrir la fenêtre de renommage des adresses de groupe
-        public void ShowGroupAddressRenameWindow(string address)
+        public bool? ShowGroupAddressRenameWindow(string address)
         {
-            GroupAddressRenameWindow?.Show();
-            GroupAddressRenameWindow?.SetAddress(address);
+            GroupAddressRenameWindow.SetAddress(address);
+            GroupAddressRenameWindow.ShowDialog();
+            return GroupAddressRenameWindow.DialogResult;
         }
     }
 }

@@ -376,4 +376,6 @@ public partial class GroupAddressRenameWindow
         UpdateWindowContents(); // Mise à jour du contenu de la fenêtre pour remettre les valeurs précédentes
         Hide(); // On masque la fenêtre à la place
     }
+
+
 }

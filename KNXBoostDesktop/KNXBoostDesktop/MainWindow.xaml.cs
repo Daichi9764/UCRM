@@ -945,13 +945,84 @@ public partial class MainWindow
 
         Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
     }
-    
-    /// <summary>
-    /// Applies a specified style to all TreeView items and their children recursively.
-    /// </summary>
-    /// <param name="treeView">The TreeView whose items should be styled.</param>
-    /// <param name="style">The name of the style to apply from application resources.</param>
-    private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
+
+    private void RenameWindow(object sender, RoutedEventArgs e)
+    {
+        if (TreeViewDroite.SelectedItem is TreeViewItem selectedItem)
+        {
+
+            // Vérifier si l'élément sélectionné est un élément de dernier niveau
+            if (selectedItem.Items.Count == 0)
+            {
+                // Extraire le texte de l'élément sélectionné
+                var stackPanel = selectedItem.Header as StackPanel;
+                var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+                if (textBlock != null)
+                {
+
+                    string itemName = textBlock.Text;
+                    var result = App.DisplayElements.ShowGroupAddressRenameWindow(itemName);
+                    if (result == true)
+
+                    {
+                        string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+                        textBlock.Text = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+
+                        // Afficher la nouvelle valeur dans la console
+                        App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
+
+                        // Renommer l'adresse dans le fichier XML
+                        RenameAddressInXmlFile(itemName, newAddress);
+                    }
+
+                }
+            }
+        
+        }
+    }
+
+    private void RenameAddressInXmlFile(string oldAddress, string newAddress)
+    {
+        try
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_xmlFilePath2);
+
+            // Déclaration d'un gestionnaire de noms pour l'espace de noms par défaut
+            XmlNamespaceManager nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
+            nsManager.AddNamespace("ga", "http://knx.org/xml/ga-export/01");
+
+            // Utiliser XPath pour trouver l'élément avec l'adresse à renommer
+            XmlNode nodeToRename = xmlDoc.SelectSingleNode($"//ga:GroupAddress[@Name='{oldAddress}']", nsManager);
+            if (nodeToRename != null && nodeToRename.Attributes != null)
+            {
+                nodeToRename.Attributes["Name"].Value = newAddress;
+                xmlDoc.Save(filePath);
+                Console.WriteLine($"Address '{oldAddress}' renamed to '{newAddress}' in the XML file.");
+            }
+            else
+            {
+                Console.WriteLine($"Address '{oldAddress}' not found in the XML file.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating XML file: {ex.Message}");
+        }
+    }
+
+
+
+
+
+
+
+/// <summary>
+/// Applies a specified style to all TreeView items and their children recursively.
+/// </summary>
+/// <param name="treeView">The TreeView whose items should be styled.</param>
+/// <param name="style">The name of the style to apply from application resources.</param>
+private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
     {
         foreach (var item in treeView.Items)
         {
@@ -1356,22 +1427,6 @@ public partial class MainWindow
         
         return item1Visible; // Retourner l'état de visibilité de l'élément
     }
-
-    /*private static void SynchronizeVisibilityWithOtherTreeView(TreeViewItem item, TreeView otherTreeView)
-    {
-        foreach (object obj in otherTreeView.Items)
-        {
-            if (obj is TreeViewItem otherItem && item.Header.ToString() == otherItem.Header.ToString())
-            {
-                if (item.Visibility == Visibility.Visible)
-                {
-                    otherItem.Visibility = Visibility.Visible;
-                }
-
-                break;
-            }
-        }
-    }*/
 
     /// <summary>
     /// Normalizes a string by removing diacritics (accents), non-spacing marks, spaces, underscores, and hyphens.
