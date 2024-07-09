@@ -930,7 +930,6 @@ public partial class MainWindow
     {
         if (TreeViewDroite.SelectedItem is TreeViewItem selectedItem)
         {
-
             // Vérifier si l'élément sélectionné est un élément de dernier niveau
             if (selectedItem.Items.Count == 0)
             {
@@ -939,25 +938,39 @@ public partial class MainWindow
                 var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
                 if (textBlock != null)
                 {
-
-                    string itemName = textBlock.Text;
-                    var result = App.DisplayElements.ShowGroupAddressRenameWindow(itemName);
-                    if (result == true)
-
+                    // Obtenir le chemin de l'élément sélectionné
+                    string? itemPath = GetItemPath(selectedItem);
+                    if (itemPath != null)
                     {
-                        string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
-                        textBlock.Text = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+                        // Trouver l'élément correspondant dans TreeViewGauche
+                        TreeViewItem? correspondingItem = FindTreeViewItemByPath(TreeViewGauche, itemPath);
+                        if (correspondingItem != null)
+                        {
+                            // Extraire le texte de l'élément correspondant
+                            var correspondingStackPanel = correspondingItem.Header as StackPanel;
+                            var correspondingTextBlock = correspondingStackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+                            if (correspondingTextBlock != null)
+                            {
+                                string originalAddress = correspondingTextBlock.Text;
+                                string editedAddress = textBlock.Text;
 
-                        // Afficher la nouvelle valeur dans la console
-                        App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
+                                var result = App.DisplayElements.ShowGroupAddressRenameWindow(originalAddress, editedAddress);
+                                if (result == true)
+                                {
+                                    string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+                                    textBlock.Text = newAddress;
 
-                        // Renommer l'adresse dans le fichier XML
-                        RenameAddressInXmlFile(_xmlFilePath2, itemName, newAddress);
+                                    // Afficher la nouvelle valeur dans la console
+                                    App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
+
+                                    // Renommer l'adresse dans le fichier XML
+                                    RenameAddressInXmlFile(_xmlFilePath2, originalAddress, newAddress);
+                                }
+                            }
+                        }
                     }
-
                 }
             }
-        
         }
     }
 

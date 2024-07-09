@@ -104,7 +104,7 @@
             <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" BorderThickness="1">
                 <StackPanel x:Name="MainContentPanel" Background="White">
                     <TextBlock x:Name="BeforeText" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
-                    <TextBox x:Name="BeforeTextBox" Margin="10,0,10,10" IsReadOnly="True"/>
+                    <TextBox x:Name="BeforeTextBox" Margin="10,0,10,10" IsReadOnly="True" Background="#F5F5F5"/>
                     
                     <TextBlock x:Name="AfterText" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
                     <TextBox x:Name="AfterTextBox" Margin="10,0,10,10" />
