@@ -650,11 +650,6 @@
                                     </Image.Source>
                                 </Image>
                                 <TextBlock x:Name="TextBlockAdressesDroite" FontSize="12" FontWeight="Bold" Margin="0,10" TextTrimming="CharacterEllipsis" />
-
-
-                                <!-- Bouton renomage temporaire/-->
-                                <Button Name="OpenRenameButton" Click="RenameWindow" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
-
                             </StackPanel>
 
                             <!-- Bouton déploiement droit/-->

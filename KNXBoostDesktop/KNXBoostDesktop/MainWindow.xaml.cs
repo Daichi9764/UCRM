@@ -515,6 +515,105 @@ public partial class MainWindow
         }
     }
     
+    private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (App.DisplayElements == null) return;
+
+        App.ConsoleAndLogWriteLine("Opening console window");
+        App.DisplayElements.ShowConsoleWindow();
+
+        // Pour éviter qu'à la réouverture de la console on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
+        if (App.DisplayElements.ConsoleWindow.IsVisible)
+        {
+            App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
+        }
+    }
+        
+    /// <summary>
+    /// Handles the button click event to export the updated project file to a selected destination.
+    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
+    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
+    {
+        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
+        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
+        
+        // Vérifier si le fichier source existe
+        if (!File.Exists(sourceFilePath))
+        {
+            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
+            return;
+        }
+
+        // Initialiser et configurer le SaveFileDialog
+        SaveFileDialog saveFileDialog = new()
+        {
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
+            DefaultExt = ".xml", // Extension par défaut
+            Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
+        };
+
+        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
+        var result = saveFileDialog.ShowDialog();
+
+        if (result != true) return;
+        // Chemin du fichier sélectionné par l'utilisateur
+        var destinationFilePath = saveFileDialog.FileName;
+        App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
+
+        try
+        {
+            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+            File.Copy(sourceFilePath, destinationFilePath, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
+        }
+        catch (Exception ex)
+        {
+            // Gérer les exceptions et afficher un message d'erreur
+            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Handles the closing event of the main window by shutting down the application.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ClosingMainWindow(object sender, CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
+
+    /// <summary>
+    /// Handles the button click event to open the application settings window.
+    /// Checks if the settings window is already open and brings it to the front if so,
+    /// otherwise, displays the settings window.
+    /// Clears keyboard focus from the button after opening the settings window.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (typically the button).</param>
+    /// <param name="e">The event data.</param>
+    private void OpenParameters(object sender, RoutedEventArgs e)
+    {
+        // Vérifie si la fenêtre de paramètres est déjà ouverte
+        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
+        {
+            // Si la fenêtre est déjà ouverte, la met au premier plan
+            App.DisplayElements.SettingsWindow.Activate();
+            App.DisplayElements.SettingsWindow.Focus();
+        }
+        else
+        {
+            // Sinon, affiche la fenêtre de paramètres
+            App.DisplayElements.ShowSettingsWindow();
+        }
+
+        Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
+    }
+
+    //--------------------- Gestion den la fenêtre de chargement -----------------------------------------------------//
     /// <summary>
     /// Executes a long-running task asynchronously, displaying progress in a loading window.
     /// The task includes showing a progress indicator in the taskbar,
@@ -531,9 +630,9 @@ public partial class MainWindow
         {
             App.DisplayElements?.LoadingWindow?.SetDarKMode();
         }
-        
+
         App.DisplayElements?.ShowLoadingWindow();
-        
+
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
 
         try
@@ -542,7 +641,7 @@ public partial class MainWindow
             await Task.Run(async () =>
             {
                 string task, loadingFinished;
-                
+
                 // Traduction de la fenêtre de chargement
                 switch (App.DisplayElements?.SettingsWindow?.AppLang)
                 {
@@ -727,7 +826,7 @@ public partial class MainWindow
                         break;
                 }
 
-                
+
                 App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/4");
                 if (App.Fm != null)
                 {
@@ -781,7 +880,7 @@ public partial class MainWindow
             });
         }
     }
-    
+
     /// <summary>
     /// Shows an overlay on the main content area based on the application's theme settings.
     /// Disables user interaction with the main content while the overlay is visible.
@@ -799,7 +898,7 @@ public partial class MainWindow
             MainContent.IsEnabled = false;
         }
     }
-    
+
     /// <summary>
     /// Hides the overlay from the main content area based on the application's theme settings.
     /// Enables user interaction with the main content after hiding the overlay.
@@ -818,134 +917,15 @@ public partial class MainWindow
         }
     }
 
-    private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
-    {
-        if (App.DisplayElements == null) return;
-
-        App.ConsoleAndLogWriteLine("Opening console window");
-        App.DisplayElements.ShowConsoleWindow();
-
-        // Pour éviter qu'à la réouverture de la console on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
-        if (App.DisplayElements.ConsoleWindow.IsVisible)
-        {
-            App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
-        }
-    }
-    
-    /*private void OpenGroupAddressFileButtonClick(object sender, RoutedEventArgs e)
-    {
-        App.ConsoleAndLogWriteLine($"Opening {App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml externally");
-
-        // Résoudre le chemin absolu
-        string absoluteFilePath = Path.GetFullPath($"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml");
-
-        // Vérifier si le fichier existe
-        if (File.Exists(absoluteFilePath))
-        {
-            try
-            {
-                // Ouvrir le fichier avec l'application par défaut
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = absoluteFilePath,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                App.ConsoleAndLogWriteLine($"Failed to open file: {ex.Message}");
-            }
-        }
-        else
-        {
-            App.ConsoleAndLogWriteLine($"The file {absoluteFilePath} does not exist.");
-        }
-    }*/
-    
+    //--------------------- Gestion de la fenêtre de renommage -----------------------------------------------------//
     /// <summary>
-    /// Handles the button click event to export the updated project file to a selected destination.
-    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
-    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
-    {
-        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
-        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
-        
-        // Vérifier si le fichier source existe
-        if (!File.Exists(sourceFilePath))
-        {
-            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
-            return;
-        }
-
-        // Initialiser et configurer le SaveFileDialog
-        SaveFileDialog saveFileDialog = new()
-        {
-            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
-            DefaultExt = ".xml", // Extension par défaut
-            Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
-        };
-
-        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
-        var result = saveFileDialog.ShowDialog();
-
-        if (result != true) return;
-        // Chemin du fichier sélectionné par l'utilisateur
-        var destinationFilePath = saveFileDialog.FileName;
-        App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
-
-        try
-        {
-            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
-            File.Copy(sourceFilePath, destinationFilePath, true);
-            App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
-        }
-        catch (Exception ex)
-        {
-            // Gérer les exceptions et afficher un message d'erreur
-            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Handles the closing event of the main window by shutting down the application.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ClosingMainWindow(object sender, CancelEventArgs e)
-    {
-        Application.Current.Shutdown();
-    }
-
-    /// <summary>
-    /// Handles the button click event to open the application settings window.
-    /// Checks if the settings window is already open and brings it to the front if so,
-    /// otherwise, displays the settings window.
-    /// Clears keyboard focus from the button after opening the settings window.
+    /// Handles the button click event to initiate the renaming of a selected item's address.
+    /// Checks if an item is selected in the TreeView and if it is a leaf node.
+    /// Extracts the text of the selected item and opens a dialog window to rename the address.
+    /// If the user confirms the renaming, updates the item's text in the TreeView and XML file.
     /// </summary>
     /// <param name="sender">The object that raised the event (typically the button).</param>
     /// <param name="e">The event data.</param>
-    private void OpenParameters(object sender, RoutedEventArgs e)
-    {
-        // Vérifie si la fenêtre de paramètres est déjà ouverte
-        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
-        {
-            // Si la fenêtre est déjà ouverte, la met au premier plan
-            App.DisplayElements.SettingsWindow.Activate();
-            App.DisplayElements.SettingsWindow.Focus();
-        }
-        else
-        {
-            // Sinon, affiche la fenêtre de paramètres
-            App.DisplayElements.ShowSettingsWindow();
-        }
-
-        Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
-    }
-
     private void RenameWindow(object sender, RoutedEventArgs e)
     {
         if (TreeViewDroite.SelectedItem is TreeViewItem selectedItem)
@@ -972,7 +952,7 @@ public partial class MainWindow
                         App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
 
                         // Renommer l'adresse dans le fichier XML
-                        RenameAddressInXmlFile(itemName, newAddress);
+                        RenameAddressInXmlFile(_xmlFilePath2, itemName, newAddress);
                     }
 
                 }
@@ -981,7 +961,15 @@ public partial class MainWindow
         }
     }
 
-    private void RenameAddressInXmlFile(string oldAddress, string newAddress)
+    /// <summary>
+    /// Renames an address entry in an XML file based on the provided old address and new address.
+    /// Uses XPath to locate and update the XML element corresponding to the old address.
+    /// Saves the modified XML file after updating the address.
+    /// </summary>
+    /// <param name="filePath">The path to the XML file.</param>
+    /// <param name="oldAddress">The current address to be renamed.</param>
+    /// <param name="newAddress">The new address to replace the old address.</param>
+    private void RenameAddressInXmlFile(string filePath, string oldAddress, string newAddress)
     {
         try
         {
@@ -1011,18 +999,13 @@ public partial class MainWindow
         }
     }
 
-
-
-
-
-
-
-/// <summary>
-/// Applies a specified style to all TreeView items and their children recursively.
-/// </summary>
-/// <param name="treeView">The TreeView whose items should be styled.</param>
-/// <param name="style">The name of the style to apply from application resources.</param>
-private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
+    //--------------------- Changement de thème -----------------------------------------------------//
+    /// <summary>
+    /// Applies a specified style to all TreeView items and their children recursively.
+    /// </summary>
+    /// <param name="treeView">The TreeView whose items should be styled.</param>
+    /// <param name="style">The name of the style to apply from application resources.</param>
+    private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
     {
         foreach (var item in treeView.Items)
         {
@@ -1064,7 +1047,6 @@ private void ApplyStyleToTreeViewItems(TreeView treeView, string style)
     
     
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
-
     /// <summary>
     /// Asynchronously loads XML files into two TreeViews.
     /// </summary>
