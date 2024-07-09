@@ -964,7 +964,7 @@ public partial class MainWindow
                                     App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
 
                                     // Renommer l'adresse dans le fichier XML
-                                    RenameAddressInXmlFile(_xmlFilePath2, originalAddress, newAddress);
+                                    RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
                                 }
                             }
                         }
