@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace KNXBoostDesktop
 {
@@ -76,7 +78,7 @@ namespace KNXBoostDesktop
                     Text = activity,
                     Background = "Transparent",
                     IsCompleted = false,
-                    Foreground = App.DisplayElements!.SettingsWindow!.EnableLightTheme
+                    Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme
                         ? "#000000" : "#FFFFFF"
                 };
 
@@ -192,5 +194,6 @@ namespace KNXBoostDesktop
         {
             throw new NotImplementedException();
         }
+        
     }
 }
