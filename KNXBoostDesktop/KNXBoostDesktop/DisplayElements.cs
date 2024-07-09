@@ -43,7 +43,7 @@
         public void ShowGroupAddressRenameWindow(string address)
         {
             GroupAddressRenameWindow?.Show();
-            GroupAddressRenameWindow?.setAddress(address);
+            GroupAddressRenameWindow?.SetAddress(address);
         }
     }
 }

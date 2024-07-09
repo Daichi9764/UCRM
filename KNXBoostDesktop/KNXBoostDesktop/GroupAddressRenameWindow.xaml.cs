@@ -20,7 +20,7 @@ public partial class GroupAddressRenameWindow
     /// <summary>
     /// Obtient l'adresse modifiée par l'utilisateur.
     /// </summary>
-    public string newAddress { get; private set; } // Adresse modifiée par l'utilisateur
+    public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
     
     
     
@@ -32,7 +32,7 @@ public partial class GroupAddressRenameWindow
     /// </summary>
     public GroupAddressRenameWindow()
     {
-        newAddress = "";
+        NewAddress = "";
         InitializeComponent();
     }
     
@@ -42,7 +42,7 @@ public partial class GroupAddressRenameWindow
     /// </summary>
     public void UpdateWindowContents()
     {
-        switch (App.DisplayElements?.SettingsWindow.AppLang)
+        switch (App.DisplayElements?.SettingsWindow!.AppLang)
         {
             // Arabe
             case "AR":
@@ -321,7 +321,7 @@ public partial class GroupAddressRenameWindow
     /// Définit l'adresse actuelle à renommer.
     /// </summary>
     /// <param name="address">L'adresse actuelle de groupe.</param>
-    public void setAddress(string address)
+    public void SetAddress(string address)
     {
         BeforeTextBox.Text = address;
         AfterTextBox.Text = address;
@@ -347,7 +347,7 @@ public partial class GroupAddressRenameWindow
     {
         DialogResult = false;
 
-        newAddress = "";
+        NewAddress = "";
         
         UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
         Hide(); // Masquage de la fenêtre de renommage
@@ -361,7 +361,7 @@ public partial class GroupAddressRenameWindow
     {
         DialogResult = true;
 
-        newAddress = AfterTextBox.Text; // Sauvegarde du texte modifié par l'utilisateur
+        NewAddress = AfterTextBox.Text; // Sauvegarde du texte modifié par l'utilisateur
         
         Hide(); // Masquage de la fenêtre de renommage
     }

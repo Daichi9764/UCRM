@@ -296,11 +296,11 @@ namespace KNXBoostDesktop
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
 
-            // Ajustement de la taille de la fenêtre si la détection automatique de la langue de source pour la traduction est activée
-            if (!EnableAutomaticSourceLangDetection && EnableDeeplTranslation)
-            {
-                Height -= 50;
-            }
+            // // Ajustement de la taille de la fenêtre si la détection automatique de la langue de source pour la traduction est activée
+            // if (!EnableAutomaticSourceLangDetection && EnableDeeplTranslation)
+            // {
+            //     Height -= 50;
+            // }
         }
         
         
@@ -1464,6 +1464,25 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+            
+            
+            if (!EnableDeeplTranslation)
+            {
+                DeeplApiKeyTextBox.IsEnabled = false;
+                EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
+                TranslationSourceLanguageComboBox.IsEnabled = false;
+                TranslationLanguageDestinationComboBox.IsEnabled = false;
+                Hyperlink.IsEnabled = false;
+                
+                Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
+                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
+                DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.LightGray);
+                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+            }
         }
 
         
@@ -1546,27 +1565,29 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void EnableTranslation(object sender, RoutedEventArgs e)
         {
+            // Activation du lien hypertexte
+            Hyperlink.IsEnabled = true;
+            Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#369226"));
+            
             // On affiche la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
-            TextDeeplApiStackPanel.Visibility = Visibility.Visible;
-            DeeplApiKeyTextBox.Visibility = Visibility.Visible;
+            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Black);
+            DeeplApiKeyTextBox.IsEnabled = true;
+            DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.White);
 
             // On affiche le menu déroulant de sélection de la langue de destination de la traduction
-            TranslationDestinationLanguageComboBoxText.Visibility = Visibility.Visible;
-            TranslationLanguageDestinationComboBox.Visibility = Visibility.Visible;
+            TranslationLanguageDestinationComboBox.IsEnabled = true;
+            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.Black);
+            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
+            
+            TranslationSourceLanguageComboBox.IsEnabled = true;
+            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
+            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
             
             // On affiche le checkmark de la détection automatique de la langue source de la traduction
-            EnableAutomaticTranslationLangDetectionCheckbox.Visibility = Visibility.Visible;
+            EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = true;
+            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Black);
             
-            if (!EnableAutomaticSourceLangDetection)
-            {
-                TranslationSourceLanguageComboBox.Visibility = Visibility.Visible;
-                TranslationSourceLanguageComboBoxText.Visibility = Visibility.Visible;
-
-                Height += 50;
-            }
-
-            // Ajustement de la taille de la fenêtre pour que les nouveaux éléments affichés aient de la place
-            Height += 125;
+            TranslationSourceLanguageComboBox.IsEnabled = (!EnableAutomaticSourceLangDetection)||(bool)(!EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!);
         }
 
         
@@ -1578,27 +1599,27 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void DisableTranslation(object sender, RoutedEventArgs e)
         {
+            // Désactivation du lien hypertexte
+            Hyperlink.IsEnabled = false;
+            Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
+            
             // On masque la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
-            TextDeeplApiStackPanel.Visibility = Visibility.Collapsed;
-            DeeplApiKeyTextBox.Visibility = Visibility.Collapsed;
+            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyTextBox.IsEnabled = false;
+            DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.LightGray);
 
             // On masque le menu déroulant de sélection de la langue de destination de la traduction
-            TranslationDestinationLanguageComboBoxText.Visibility = Visibility.Collapsed;
-            TranslationLanguageDestinationComboBox.Visibility = Visibility.Collapsed;
+            TranslationLanguageDestinationComboBox.IsEnabled = false;
+            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+            
+            TranslationSourceLanguageComboBox.IsEnabled = false;
+            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
             
             // On masque le checkmark de la détection automatique de la langue source de la traduction
-            EnableAutomaticTranslationLangDetectionCheckbox.Visibility = Visibility.Collapsed;
-
-            if (TranslationSourceLanguageComboBox.Visibility == Visibility.Visible)
-            {
-                TranslationSourceLanguageComboBox.Visibility = Visibility.Collapsed;
-                TranslationSourceLanguageComboBoxText.Visibility = Visibility.Collapsed;
-
-                Height -= 50;
-            }
-
-            // Ajustement de la taille de la fenêtre
-            Height -= 125;
+            EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
+            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
         }
         
         
@@ -1611,11 +1632,7 @@ namespace KNXBoostDesktop
         private void EnableAutomaticTranslationLangDetection(object sender, RoutedEventArgs e)
         {
             // On masque le menu déroulant de sélection de la langue de traduction
-            TranslationSourceLanguageComboBoxText.Visibility = Visibility.Collapsed;
-            TranslationSourceLanguageComboBox.Visibility = Visibility.Collapsed;
-
-            // Ajustement de la taille de la fenêtre
-            Height -= 50;
+            TranslationSourceLanguageComboBox.IsEnabled = false;
         }
 
         
@@ -1628,11 +1645,7 @@ namespace KNXBoostDesktop
         private void DisableAutomaticTranslationLangDetection(object sender, RoutedEventArgs e)
         {
             // On affiche le menu déroulant de sélection de la langue de traduction
-            TranslationSourceLanguageComboBoxText.Visibility = Visibility.Visible;
-            TranslationSourceLanguageComboBox.Visibility = Visibility.Visible;
-
-            // Ajustement de la taille de la fenêtre
-            Height += 50;
+            TranslationSourceLanguageComboBox.IsEnabled = true;
         }
         
         

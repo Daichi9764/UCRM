@@ -1,7 +1,7 @@
 ﻿<Window x:Class="KNXBoostDesktop.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="430" Width="500"
+        Height="560" Width="500"
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -42,7 +42,7 @@
                                           Margin="2"
                                           Stroke="{StaticResource LightThemeCheckMarkBrush}"
                                           StrokeThickness="2"
-                                          Visibility="Collapsed" />
+                                           />
                                 </Border>
                             </Grid>
                             <ContentPresenter VerticalAlignment="Center" />
@@ -88,7 +88,7 @@
                                           Margin="2"
                                           Stroke="{StaticResource DarkThemeCheckMarkBrush}"
                                           StrokeThickness="2"
-                                          Visibility="Collapsed" />
+                                           />
                                 </Border>
                             </Grid>
                             <ContentPresenter VerticalAlignment="Center" />
@@ -299,8 +299,7 @@
     </Window.Resources>
 
     <Border BorderBrush="#369226" 
-            BorderThickness="1" 
-            Padding="10,5,10,10">
+            BorderThickness="1" >
         <Grid x:Name="MainGrid">
 
             <Grid.RowDefinitions>
@@ -371,21 +370,21 @@
                                                  Margin="10,5,0,10" Checked="EnableTranslation" Unchecked="DisableTranslation">
                                        </CheckBox>
                
-                                       <StackPanel x:Name="TextDeeplApiStackPanel" Visibility="Collapsed" Orientation="Horizontal">
+                                       <StackPanel x:Name="TextDeeplApiStackPanel" Orientation="Horizontal">
                                            <TextBlock x:Name="DeeplApiKeyText" Margin="10,0,0,2" />
                                            <TextBlock Margin="5,0,0,0">
                                                <Hyperlink x:Name="Hyperlink" NavigateUri="https://www.deepl.com/en/pro-api"
                                                           RequestNavigate="Hyperlink_RequestNavigate" />
                                            </TextBlock>
                                        </StackPanel>
-                                       <TextBox x:Name="DeeplApiKeyTextBox" Margin="10,0,10,10" Visibility="Collapsed" />
+                                       <TextBox x:Name="DeeplApiKeyTextBox" Margin="10,0,10,10" />
                
                                        <CheckBox x:Name="EnableAutomaticTranslationLangDetectionCheckbox"
-                                                 Style="{StaticResource CheckboxLightThemeStyle}" Visibility="Collapsed"
+                                                 Style="{StaticResource CheckboxLightThemeStyle}"
                                                  Margin="10,5,0,10" Checked="EnableAutomaticTranslationLangDetection"
                                                  Unchecked="DisableAutomaticTranslationLangDetection" />
-                                       <TextBlock x:Name="TranslationSourceLanguageComboBoxText" Margin="10,0,10,2" Visibility="Collapsed" />
-                                       <ComboBox x:Name="TranslationSourceLanguageComboBox" Margin="10,0,10,10" Visibility="Collapsed">
+                                       <TextBlock x:Name="TranslationSourceLanguageComboBoxText" Margin="10,0,10,2"  />
+                                       <ComboBox x:Name="TranslationSourceLanguageComboBox" Margin="10,0,10,10" >
                                            <ComboBoxItem Content="AR - العربية" />
                                            <ComboBoxItem Content="BG - Български" />
                                            <ComboBoxItem Content="CS - Čeština" />
@@ -419,10 +418,8 @@
                                            <ComboBoxItem Content="ZH - 中文" />
                                        </ComboBox>
                
-                                       <TextBlock x:Name="TranslationDestinationLanguageComboBoxText" Margin="10,0,10,2"
-                                                  Visibility="Collapsed" />
-                                       <ComboBox x:Name="TranslationLanguageDestinationComboBox" Margin="10,0,10,10"
-                                                 Visibility="Collapsed">
+                                       <TextBlock x:Name="TranslationDestinationLanguageComboBoxText" Margin="10,0,10,2" />
+                                       <ComboBox x:Name="TranslationLanguageDestinationComboBox" Margin="10,0,10,10">
                                            <ComboBoxItem Content="AR - العربية" />
                                            <ComboBoxItem Content="BG - Български" />
                                            <ComboBoxItem Content="CS - Čeština" />
