@@ -20,8 +20,6 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        private readonly bool _emkFileExists; // A SUPPRIMER ?
-        
         /// <summary>
         /// Gets or sets a value indicating whether DeepL translation is enabled.
         /// </summary>
@@ -91,11 +89,8 @@ namespace KNXBoostDesktop
 
             const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
             
-            // Vérification que le fichier contenant la main key existe
-            _emkFileExists = File.Exists("./emk");
-            
             // Si le fichier contenant la main key n'existe pas
-            if (!_emkFileExists)
+            if (!File.Exists("./emk"))
             {
                 App.ConsoleAndLogWriteLine(
                     "Main key file not found. Generating a new one and resetting the settings file...");
@@ -295,12 +290,6 @@ namespace KNXBoostDesktop
             AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion}";
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
-
-            // // Ajustement de la taille de la fenêtre si la détection automatique de la langue de source pour la traduction est activée
-            // if (!EnableAutomaticSourceLangDetection && EnableDeeplTranslation)
-            // {
-            //     Height -= 50;
-            // }
         }
         
         
@@ -398,7 +387,7 @@ namespace KNXBoostDesktop
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
             
-            if ((_emkFileExists)&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+            if ((File.Exists("./emk"))&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -1405,6 +1394,8 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = null;
                 ThemeComboBox.Style = null;
                 AppLanguageComboBox.Style = null;
+                SaveButton.Style = (Style)FindResource("BottomButtonLight");
+                CancelButton.Style = (Style)FindResource("BottomButtonLight");
             }
             else // Sinon, on met le thème sombre
             {
@@ -1420,6 +1411,8 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
                 ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
                 AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                SaveButton.Style = (Style)FindResource("BottomButtonDark");
+                CancelButton.Style = (Style)FindResource("BottomButtonDark");
             }
             
             // Définition des brush pour les divers éléments
@@ -1464,25 +1457,24 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+
+            // Désactivation des cases si on active pas la traduction
+            if (EnableDeeplTranslation) return;
             
-            
-            if (!EnableDeeplTranslation)
-            {
-                DeeplApiKeyTextBox.IsEnabled = false;
-                EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
-                TranslationSourceLanguageComboBox.IsEnabled = false;
-                TranslationLanguageDestinationComboBox.IsEnabled = false;
-                Hyperlink.IsEnabled = false;
+            DeeplApiKeyTextBox.IsEnabled = false;
+            EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
+            TranslationSourceLanguageComboBox.IsEnabled = false;
+            TranslationLanguageDestinationComboBox.IsEnabled = false;
+            Hyperlink.IsEnabled = false;
                 
-                Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
-                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
-                DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.LightGray);
-                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-            }
+            Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
+            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
         }
 
         
@@ -1506,6 +1498,15 @@ namespace KNXBoostDesktop
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             
+            // Mise à jour éventuellement du contenu pour update la langue du menu
+            UpdateWindowContents();
+            
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
+            
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
+            
             // Si on a activé la traduction deepl
             if (EnableDeeplTranslation)
             {
@@ -1516,11 +1517,79 @@ namespace KNXBoostDesktop
                 // Si la clé est incorrecte
                 if (!GroupAddressNameCorrector.ValidDeeplKey)
                 {
+                    // Traduction de l'en-tête de la fenêtre d'avertissement
+                    var warningMessage = AppLang switch
+                    {
+                        // Arabe
+                        "AR" => "تحذير",
+                        // Bulgare
+                        "BG" => "Предупреждение",
+                        // Tchèque
+                        "CS" => "Varování",
+                        // Danois
+                        "DA" => "Advarsel",
+                        // Allemand
+                        "DE" => "Warnung",
+                        // Grec
+                        "EL" => "Προειδοποίηση",
+                        // Anglais
+                        "EN" => "Warning",
+                        // Espagnol
+                        "ES" => "Advertencia",
+                        // Estonien
+                        "ET" => "Hoiatus",
+                        // Finnois
+                        "FI" => "Varoitus",
+                        // Hongrois
+                        "HU" => "Figyelmeztetés",
+                        // Indonésien
+                        "ID" => "Peringatan",
+                        // Italien
+                        "IT" => "Avvertimento",
+                        // Japonais
+                        "JA" => "警告",
+                        // Coréen
+                        "KO" => "경고",
+                        // Letton
+                        "LV" => "Brīdinājums",
+                        // Lituanien
+                        "LT" => "Įspėjimas",
+                        // Norvégien
+                        "NB" => "Advarsel",
+                        // Néerlandais
+                        "NL" => "Waarschuwing",
+                        // Polonais
+                        "PL" => "Ostrzeżenie",
+                        // Portugais
+                        "PT" => "Aviso",
+                        // Roumain
+                        "RO" => "Avertizare",
+                        // Russe
+                        "RU" => "Предупреждение",
+                        // Slovaque
+                        "SK" => "Upozornenie",
+                        // Slovène
+                        "SL" => "Opozorilo",
+                        // Suédois
+                        "SV" => "Varning",
+                        // Turc
+                        "TR" => "Uyarı",
+                        // Ukrainien
+                        "UK" => "Попередження",
+                        // Chinois simplifié
+                        "ZH" => "警告",
+                        // Cas par défaut (français)
+                        _ => "Avertissement"
+                    };
+
                     // Message d'erreur
-                    MessageBox.Show($"{errorMessage}", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show($"{errorMessage}", warningMessage, MessageBoxButton.OK, MessageBoxImage.Warning);
                     
                     // Décochage de la traduction deepL dans la fenêtre
                     EnableDeeplTranslation = false;
+                    
+                    // Mise à jour de la case cochable
+                    UpdateWindowContents();
                 }
             }
             
@@ -1528,15 +1597,6 @@ namespace KNXBoostDesktop
             App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
             SaveSettings();
             App.ConsoleAndLogWriteLine("Settings saved successfully");
-            
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-            
-            // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
-            
-            // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents();
             
             // Masquage de la fenêtre de paramètres
             Hide();
@@ -1567,7 +1627,7 @@ namespace KNXBoostDesktop
         {
             // Activation du lien hypertexte
             Hyperlink.IsEnabled = true;
-            Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#369226"));
+            Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
             
             // On affiche la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
             DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Black);
@@ -1606,7 +1666,7 @@ namespace KNXBoostDesktop
             // On masque la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
             DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
             DeeplApiKeyTextBox.IsEnabled = false;
-            DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.LightGray);
+            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
 
             // On masque le menu déroulant de sélection de la langue de destination de la traduction
             TranslationLanguageDestinationComboBox.IsEnabled = false;
