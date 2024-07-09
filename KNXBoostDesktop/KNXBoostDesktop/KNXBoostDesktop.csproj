@@ -29,9 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="System.Management" Version="8.0.0" />
       <PackageReference Include="DeepL.net" Version="1.9.0" />
       <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-      <PackageReference Include="System.Management" Version="9.0.0-preview.5.24306.7" />
 
 
     </ItemGroup>
@@ -70,10 +70,6 @@
       <Resource Include="resources\BOOST-2.ico" />
       <Resource Include="resources\IconApp.ico" />
       <None Remove="resources\Icon_level2SVG.svg" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="KNXBoostDesktop_rz3kjjxl_wpftmp.csproj" />
     </ItemGroup>
 
 </Project>
