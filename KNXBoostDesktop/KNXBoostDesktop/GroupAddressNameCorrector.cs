@@ -34,10 +34,15 @@ public class GroupAddressNameCorrector
     /// </summary>
     public static bool ValidDeeplKey;
 
-    private static Formatter formatter;
+    /// <summary>
+    /// Formatter to use when calling CorrectName()
+    /// </summary>
+    private static Formatter? _formatter;
     
-    // Collection to memorize translations of group names already done
-    private static HashSet<string> translationCache = new HashSet<string>();
+    /// <summary>
+    /// Collection to memorize translations of group names already done.
+    /// </summary>
+    private static readonly HashSet<string> TranslationCache = new ();
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -431,7 +436,7 @@ public class GroupAddressNameCorrector
             if (knxDoc == null) return;
             
             // Create a formatter object for normalizing names
-            formatter = GetFormatter();
+            _formatter = GetFormatter();
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingInfos);
@@ -1179,7 +1184,7 @@ public class GroupAddressNameCorrector
         {
             // Default location details if no location information is found
             App.ConsoleAndLogWriteLine("No location found");
-            return $"_{formatter.Format("Bâtiment")}_{formatter.Format("Facade XX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
+            return $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
         }
 
         string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
@@ -1189,10 +1194,10 @@ public class GroupAddressNameCorrector
         string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
 
         // Format the location details
-        string nameLocation = $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+        string nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
         if (!string.IsNullOrEmpty(distributionBoardName))
         {
-            nameLocation += $"_{formatter.Format(distributionBoardName)}";
+            nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
 
         //Add circuit part to the name if it exist
@@ -1222,26 +1227,26 @@ public class GroupAddressNameCorrector
     {
         if (Regex.IsMatch(nameAttrValue, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
         {
-            return $"{formatter.Format("Cmd")}";
+            return $"{_formatter.Format("Cmd")}";
         }
         else if (Regex.IsMatch(nameAttrValue, @"\bie\b", RegexOptions.IgnoreCase))
         {
-            return $"{formatter.Format("Ie")}";
+            return $"{_formatter.Format("Ie")}";
         }
         else if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted?.ObjectType))
         {
             // Format the ObjectType of the rail-mounted device
-            return $"{formatter.Format(deviceRailMounted?.ObjectType ?? string.Empty)}";
+            return $"{_formatter.Format(deviceRailMounted?.ObjectType ?? string.Empty)}";
         }
         else if (deviceRefObjectType != null)
         {
             // Format the ObjectType of the device with a non-empty ObjectType
-            return $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
+            return $"{_formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
         }
 
         // Default nameObjectType if no valid ObjectType is found
         App.ConsoleAndLogWriteLine($"No Object Type found for {nameAttrValue}");
-        return $"{formatter.Format("Type")}";
+        return $"{_formatter.Format("Type")}";
     }
 
     
@@ -1269,13 +1274,13 @@ public class GroupAddressNameCorrector
         if (ancestorGroupRange != null)
         {
             // Format the name of the ancestor GroupRange
-            nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+            nameFunction = $"_{_formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
             // Translate the group name
             TranslateGroupRangeName(ancestorGroupRange);
         }
         
         // Format the name of the current GroupRange
-        nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+        nameFunction += $"_{_formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
         // Translate the group name
         TranslateGroupRangeName(groupRangeElement);
 
@@ -1299,12 +1304,12 @@ public class GroupAddressNameCorrector
         if (nameAttr == null) return;
 
         string nameValue = nameAttr.Value;
-        if (string.IsNullOrEmpty(nameValue) || translationCache.Contains(nameValue))
+        if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue))
             return;
 
         // Translated only if not already translated
-        nameAttr.Value = formatter.Translate(nameValue);
-        translationCache.Add(nameAttr.Value);
+        nameAttr.Value = _formatter.Translate(nameValue);
+        TranslationCache.Add(nameAttr.Value);
     }
     
 }
