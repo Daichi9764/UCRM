@@ -27,7 +27,6 @@
 
     <ItemGroup>
       <Resource Include="resources\ConsoleWindowIcon.ico" />
-      <Resource Include="resources\BOOST-2.ico" />
       <Resource Include="resources\IconApp.ico" />
     </ItemGroup>
     
