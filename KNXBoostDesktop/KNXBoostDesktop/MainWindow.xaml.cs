@@ -969,9 +969,6 @@ public partial class MainWindow
 
                                     // Renommer l'adresse dans le fichier XML
                                     RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
-
-                                    //Sauvegarder les modfications
-                                    SaveModifiedAdress(_xmlRenameFilePath, editedAddress, newAddress);
                                 }
                             }
                         }
@@ -1012,60 +1009,6 @@ public partial class MainWindow
             {
                 App.ConsoleAndLogWriteLine($"Address '{oldAddress}' not found in the XML file.");
             }
-        }
-        catch (Exception ex)
-        {
-            App.ConsoleAndLogWriteLine($"Error updating XML file: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Saves a record of an address modification in an XML file in order to add a "reset" property.
-    /// If the file does not exist, it creates a new XML file and adds the modification.
-    /// Each modification entry includes the old address, new address, and the timestamp of the modification.
-    /// </summary>
-    /// <param name="filePath">The path to the XML file where the modifications will be saved.</param>
-    /// <param name="oldAddress">The original address before modification.</param>
-    /// <param name="newAddress">The new address that replaces the old address.</param>
-    private void SaveModifiedAdress(string filePath, string oldAddress, string newAddress)
-    {
-        try
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-
-            // Vérifier si le fichier XML existe
-            if (!File.Exists(filePath))
-            {
-                // Si le fichier n'existe pas, créer un nouveau document XML
-                XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
-                xmlDoc.AppendChild(xmlDeclaration);
-
-                // Créer l'élément racine
-                XmlElement rootElement = xmlDoc.CreateElement("Root");
-                xmlDoc.AppendChild(rootElement);
-
-                // Enregistrer le nouveau fichier XML
-                xmlDoc.Save(filePath);
-            }
-            else
-            {
-                // Charger le document XML existant
-                xmlDoc.Load(filePath);
-            }
-
-            // Créer un nouvel élément <Change> avec les attributs OldAddress, NewAddress et la date de modification
-            XmlElement changeElement = xmlDoc.CreateElement("Change");
-            changeElement.SetAttribute("OldAddress", oldAddress);
-            changeElement.SetAttribute("NewAddress", newAddress);
-            changeElement.SetAttribute("TimeStamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
-            // Ajouter l'élément <Change> sous l'élément racine du document
-            xmlDoc.DocumentElement?.AppendChild(changeElement);
-
-            // Enregistrer les modifications dans le fichier XML
-            xmlDoc.Save(filePath);
-
-            App.ConsoleAndLogWriteLine($"Change saved: Old Address '{oldAddress}' -> New Address '{newAddress}'");
         }
         catch (Exception ex)
         {
