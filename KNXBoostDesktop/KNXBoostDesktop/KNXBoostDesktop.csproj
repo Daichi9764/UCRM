@@ -33,7 +33,7 @@
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
       <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-      <PackageReference Include="System.Management" Version="9.0.0-preview.6.24327.7" />
+      <PackageReference Include="System.Management" Version="8.0.0" />
     </ItemGroup>
     
 

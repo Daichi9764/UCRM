@@ -1,7 +1,7 @@
 ﻿<Window x:Class="KNXBoostDesktop.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="600" Width="500"
+        Height="585" Width="500"
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -23,7 +23,7 @@
         <SolidColorBrush x:Key="DarkThemeCheckBoxUncheckedHoverBackgroundBrush" Color="#404040" />
         <SolidColorBrush x:Key="DarkThemeCheckBoxCheckedHoverBackgroundBrush" Color="#5D8AC7" />
         <SolidColorBrush x:Key="DarkThemeCheckMarkBrush" Color="#B7D4FF" />
-
+        
 
         <!-- Style pour les checkbox (cases à cocher) -->
         <Style x:Key="CheckboxLightThemeStyle" TargetType="CheckBox">
@@ -107,6 +107,12 @@
                                 <Setter TargetName="Border" Property="BorderBrush"
                                         Value="{StaticResource DarkThemeCheckBoxBorderBrush}" />
                                 <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="#404040" />
+                                <Setter TargetName="Border" Property="BorderBrush"
+                                        Value="{StaticResource DarkThemeCheckBoxBorderBrush}" />
                             </Trigger>
                             <!-- MultiTrigger for mouse over when checked -->
                             <MultiTrigger>
@@ -294,6 +300,8 @@
         </Style>
         <!-- End of Flat ComboBox -->
 
+        
+        <!-- Styles pour les boutons en bas -->
         <Style x:Key="BottomButtonLight" TargetType="Button">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -351,7 +359,281 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!-- STYLES TESTS -->
 
+        <!-- Brushes for dark theme -->
+        <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="#333333"/>
+        <SolidColorBrush x:Key="ComboBoxForegroundBrush" Color="#E3DED4"/>
+        <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#444444"/>
+        <SolidColorBrush x:Key="ComboBoxMouseOverBrush" Color="#555555"/>
+        <SolidColorBrush x:Key="ComboBoxPressedBrush" Color="#666666"/>
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundBrush" Color="#444444"/>
+        <SolidColorBrush x:Key="ComboBoxItemMouseOverBrush" Color="#444444"/>
+        <SolidColorBrush x:Key="ComboBoxItemSelectedBrush" Color="#666666"/>
+
+        <!-- Style for ComboBoxItem -->
+        <Style x:Key="DarkComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Foreground" Value="{StaticResource ComboBoxForegroundBrush}"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#729CD5" TargetName="Border"/>
+                                <Setter Property="Foreground" Value="#000000"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource LightThemeCheckMarkBrush}" TargetName="Border"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Template for ComboBox ToggleButton -->
+        <ControlTemplate x:Key="ComboBoxToggleButtonTemplate2" TargetType="ToggleButton">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border x:Name="templateRoot"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" 
+                        BorderThickness="1"
+                        Grid.RowSpan="2"
+                        CornerRadius="2"/>
+                <Border x:Name="border" 
+                        BorderBrush="{StaticResource ComboBoxNormalBorderBrush}"
+                        BorderThickness="1" 
+                        Background="{TemplateBinding Background}" 
+                        Grid.RowSpan="2" 
+                        CornerRadius="0"/>
+                <Path x:Name="Arrow"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,10,0"
+                      VerticalAlignment="Center"
+                      Data="M 0 0 L 4 4 L 8 0 Z"
+                      Fill="{StaticResource ComboBoxForegroundBrush}"/>
+            </Grid>
+        </ControlTemplate>
+        
+        <!-- Style for ComboBox -->
+        <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{StaticResource ComboBoxForegroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBoxBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBoxBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/> <!-- Adjust border thickness here -->
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource DarkComboBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton"
+                                          Template="{StaticResource ComboBoxToggleButtonTemplate2}"
+                                          Grid.Column="2"
+                                          Focusable="False"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Background>
+                                    <StaticResource ResourceKey="ComboBoxBackgroundBrush"/>
+                                </ToggleButton.Background>
+                                <ToggleButton.Foreground>
+                                    <StaticResource ResourceKey="ComboBoxForegroundBrush"/>
+                                </ToggleButton.Foreground>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="7,3,23,3"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                            <Popup Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid Name="DropDown"
+                                      SnapsToDevicePixels="True"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                            Background="{StaticResource ComboBoxBackgroundBrush}"
+                                            BorderThickness="1"
+                                            BorderBrush="{StaticResource ComboBoxBorderBrush}"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow" SourceName="Popup" Value="True">
+                                <Setter Property="Margin" TargetName="DropDown" Value="0,0,5,5"/>
+                                <Setter Property="SnapsToDevicePixels" TargetName="DropDown" Value="True"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="ToggleButton" Value="{StaticResource ComboBoxMouseOverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        
+        <!-- Brushes for light theme -->
+        <SolidColorBrush x:Key="ComboBoxLightBorder" Color="#b8b8b8"/>
+        <SolidColorBrush x:Key="ComboBoxForegroundBrushLight" Color="#000000"/>
+
+        <!-- Style for ComboBoxItem -->
+        <Style x:Key="LightComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="{StaticResource ComboBoxForegroundBrushLight}"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#729CD5" TargetName="Border"/>
+                                <Setter Property="Foreground" Value="#000000"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource LightThemeCheckMarkBrush}" TargetName="Border"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Template for ComboBox ToggleButton -->
+        <ControlTemplate x:Key="ComboBoxToggleButtonTemplateLight" TargetType="ToggleButton">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border x:Name="templateRoot"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{StaticResource ComboBoxLightBorder}" 
+                        BorderThickness="1"
+                        Grid.RowSpan="2"
+                        CornerRadius="2"/>
+                <Border x:Name="border" 
+                        BorderBrush="{StaticResource ComboBoxLightBorder}"
+                        BorderThickness="1" 
+                        Background="{TemplateBinding Background}" 
+                        Grid.RowSpan="2" 
+                        CornerRadius="0"/>
+                <Path x:Name="Arrow"
+                      HorizontalAlignment="Right"
+                      Margin="0,0,10,0"
+                      VerticalAlignment="Center"
+                      Data="M 0 0 L 4 4 L 8 0 Z"
+                      Fill="{StaticResource ComboBoxForegroundBrushLight}"/>
+            </Grid>
+        </ControlTemplate>
+        
+        <!-- Style for ComboBox -->
+        <Style x:Key="LightComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{StaticResource ComboBoxForegroundBrushLight}"/>
+            <Setter Property="Background" Value="{StaticResource LightThemeCheckBoxUncheckedBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBoxLightBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/> <!-- Adjust border thickness here -->
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource LightComboBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton"
+                                          Template="{StaticResource ComboBoxToggleButtonTemplateLight}"
+                                          Grid.Column="2"
+                                          Focusable="False"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Background>
+                                    <StaticResource ResourceKey="LightThemeCheckBoxUncheckedBackgroundBrush"/>
+                                </ToggleButton.Background>
+                                <ToggleButton.Foreground>
+                                    <StaticResource ResourceKey="ComboBoxForegroundBrushLight"/>
+                                </ToggleButton.Foreground>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="7,3,23,3"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                            <Popup Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid Name="DropDown"
+                                      SnapsToDevicePixels="True"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                            Background="{StaticResource LightThemeCheckBoxUncheckedBackgroundBrush}"
+                                            BorderThickness="1"
+                                            BorderBrush="{StaticResource ComboBoxLightBorder}"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow" SourceName="Popup" Value="True">
+                                <Setter Property="Margin" TargetName="DropDown" Value="0,0,5,5"/>
+                                <Setter Property="SnapsToDevicePixels" TargetName="DropDown" Value="True"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="ToggleButton" Value="{StaticResource LightThemeCheckBoxHoverBackgroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{StaticResource LightThemeCheckBoxHoverBackgroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        
 
     </Window.Resources>
 
@@ -477,37 +759,36 @@
                
                                        <TextBlock x:Name="TranslationDestinationLanguageComboBoxText" Margin="10,0,10,2" />
                                        <ComboBox x:Name="TranslationLanguageDestinationComboBox" Margin="10,0,10,10">
-                                           <ComboBoxItem Content="AR - العربية" />
-                                           <ComboBoxItem Content="BG - Български" />
-                                           <ComboBoxItem Content="CS - Čeština" />
-                                           <ComboBoxItem Content="DA - Dansk" />
-                                           <ComboBoxItem Content="DE - Deutsch" />
-                                           <ComboBoxItem Content="EL - Ελληνικά" />
-                                           <ComboBoxItem Content="EN - English" />
-                                           <ComboBoxItem Content="ES - Español" />
-                                           <ComboBoxItem Content="ET - Eesti" />
-                                           <ComboBoxItem Content="FI - Suomi" />
-                                           <ComboBoxItem x:Name="FrDestinationTranslationComboBoxItem"
-                                                         Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold" />
-                                           <ComboBoxItem Content="HU - Magyar" />
-                                           <ComboBoxItem Content="ID - Bahasa Indonesia" />
-                                           <ComboBoxItem Content="IT - Italiano" />
-                                           <ComboBoxItem Content="JA - 日本語" />
-                                           <ComboBoxItem Content="KO - 한국어" />
-                                           <ComboBoxItem Content="LT - Lietuvių" />
-                                           <ComboBoxItem Content="LV - Latviešu" />
-                                           <ComboBoxItem Content="NB - Norsk Bokmål" />
-                                           <ComboBoxItem Content="NL - Nederlands" />
-                                           <ComboBoxItem Content="PL - Polski" />
-                                           <ComboBoxItem Content="PT - Português" />
-                                           <ComboBoxItem Content="RO - Română" />
-                                           <ComboBoxItem Content="RU - Русский" />
-                                           <ComboBoxItem Content="SK - Slovenský" />
-                                           <ComboBoxItem Content="SL - Slovenščina" />
-                                           <ComboBoxItem Content="SV - Svenska" />
-                                           <ComboBoxItem Content="TR - Türkçe" />
-                                           <ComboBoxItem Content="UK - Українська" />
-                                           <ComboBoxItem Content="ZH - 中文" />
+                                           <ComboBoxItem x:Name="ArDestinationTranslationComboBoxItem" Content="AR - العربية" />
+                                           <ComboBoxItem x:Name="BgDestinationTranslationComboBoxItem" Content="BG - Български" />
+                                           <ComboBoxItem x:Name="CsDestinationTranslationComboBoxItem" Content="CS - Čeština" />
+                                           <ComboBoxItem x:Name="DaDestinationTranslationComboBoxItem" Content="DA - Dansk" />
+                                           <ComboBoxItem x:Name="DeDestinationTranslationComboBoxItem" Content="DE - Deutsch" />
+                                           <ComboBoxItem x:Name="ElDestinationTranslationComboBoxItem" Content="EL - Ελληνικά" />
+                                           <ComboBoxItem x:Name="EnDestinationTranslationComboBoxItem" Content="EN - English" />
+                                           <ComboBoxItem x:Name="EsDestinationTranslationComboBoxItem" Content="ES - Español" />
+                                           <ComboBoxItem x:Name="EtDestinationTranslationComboBoxItem" Content="ET - Eesti" />
+                                           <ComboBoxItem x:Name="FiDestinationTranslationComboBoxItem" Content="FI - Suomi" />
+                                           <ComboBoxItem x:Name="FrDestinationTranslationComboBoxItem" Content="FR - Français (par défaut)" IsSelected="True" FontWeight="Bold" />
+                                           <ComboBoxItem x:Name="HuDestinationTranslationComboBoxItem" Content="HU - Magyar" />
+                                           <ComboBoxItem x:Name="IdDestinationTranslationComboBoxItem" Content="ID - Bahasa Indonesia" />
+                                           <ComboBoxItem x:Name="ItDestinationTranslationComboBoxItem" Content="IT - Italiano" />
+                                           <ComboBoxItem x:Name="JaDestinationTranslationComboBoxItem" Content="JA - 日本語" />
+                                           <ComboBoxItem x:Name="KoDestinationTranslationComboBoxItem" Content="KO - 한국어" />
+                                           <ComboBoxItem x:Name="LtDestinationTranslationComboBoxItem" Content="LT - Lietuvių" />
+                                           <ComboBoxItem x:Name="LvDestinationTranslationComboBoxItem" Content="LV - Latviešu" />
+                                           <ComboBoxItem x:Name="NbDestinationTranslationComboBoxItem" Content="NB - Norsk Bokmål" />
+                                           <ComboBoxItem x:Name="NlDestinationTranslationComboBoxItem" Content="NL - Nederlands" />
+                                           <ComboBoxItem x:Name="PlDestinationTranslationComboBoxItem" Content="PL - Polski" />
+                                           <ComboBoxItem x:Name="PtDestinationTranslationComboBoxItem" Content="PT - Português" />
+                                           <ComboBoxItem x:Name="RoDestinationTranslationComboBoxItem" Content="RO - Română" />
+                                           <ComboBoxItem x:Name="RuDestinationTranslationComboBoxItem" Content="RU - Русский" />
+                                           <ComboBoxItem x:Name="SkDestinationTranslationComboBoxItem" Content="SK - Slovenský" />
+                                           <ComboBoxItem x:Name="SlDestinationTranslationComboBoxItem" Content="SL - Slovenščina" />
+                                           <ComboBoxItem x:Name="SvDestinationTranslationComboBoxItem" Content="SV - Svenska" />
+                                           <ComboBoxItem x:Name="TrDestinationTranslationComboBoxItem" Content="TR - Türkçe" />
+                                           <ComboBoxItem x:Name="UkDestinationTranslationComboBoxItem" Content="UK - Українська" />
+                                           <ComboBoxItem x:Name="ZhDestinationTranslationComboBoxItem" Content="ZH - 中文" />
                                        </ComboBox>
                
                
