@@ -38,7 +38,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the version of the application.
         /// </summary>
-        public const float AppVersion = (float)1.7; // Version de l'application
+        public const float AppVersion = 1.7f; // Version de l'application
 
         public static readonly int AppBuild = 306;
         
