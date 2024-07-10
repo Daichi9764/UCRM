@@ -842,6 +842,10 @@ namespace KNXBoostDesktop
                 writer.WriteLine($"Version .NET utilisée par le logiciel: {Environment.Version}");
                 writer.WriteLine($"Logiciel exécuté depuis le dossier : {Environment.CurrentDirectory}");
                 writer.WriteLine();
+                
+                writer.WriteLine($"Version de {App.AppName} : {App.AppVersion.ToString(CultureInfo.InvariantCulture)}");
+                writer.WriteLine($"Build de {App.AppName} : {App.AppBuild}");
+                writer.WriteLine();
         
                 writer.WriteLine($"ID du process: {Environment.ProcessId}");
                 writer.WriteLine($"Process lancé en 64 bits ? {(Environment.Is64BitProcess ? "oui" : "non")}");

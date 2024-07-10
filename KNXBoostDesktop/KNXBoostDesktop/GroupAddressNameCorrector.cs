@@ -1093,6 +1093,9 @@ public class GroupAddressNameCorrector
     /// </summary>
     public static (bool, string) CheckDeeplKey()
     {
+        bool keyValid;
+        string errMessage;
+        
         try
         {
             // Check if the key is null
@@ -1112,32 +1115,359 @@ public class GroupAddressNameCorrector
                 await Translator.TranslateTextAsync("test", "EN", "FR");
             }).GetAwaiter().GetResult();
 
-            return (true, string.Empty);
+            keyValid = true;
+            errMessage = string.Empty;
         }
         catch (ArgumentNullException ex)
         {
             App.ConsoleAndLogWriteLine($"Error: {ex.Message}");
-            return (false, $"The DeepL key API field is empty. The translation function will not work.");
+            keyValid = false;
+            
+            errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "حقل مفتاح API لـ DeepL فارغ. لن تعمل وظيفة الترجمة.",
+                // Bulgare
+                "BG" => "Полето за API ключа на DeepL е празно. Функцията за превод няма да работи.",
+                // Tchèque
+                "CS" => "Pole klíče API DeepL je prázdné. Překladová funkce nebude fungovat.",
+                // Danois
+                "DA" => "DeepL API-nøglen er tom. Oversættelsesfunktionen vil ikke virke.",
+                // Allemand
+                "DE" => "Das DeepL API-Schlüsselfeld ist leer. Die Übersetzungsfunktion wird nicht funktionieren.",
+                // Grec
+                "EL" => "Το πεδίο κλειδιού API του DeepL είναι κενό. Η λειτουργία μετάφρασης δεν θα λειτουργήσει.",
+                // Anglais
+                "EN" => "The DeepL API key field is empty. The translation function will not work.",
+                // Espagnol
+                "ES" => "El campo de la clave API de DeepL está vacío. La función de traducción no funcionará.",
+                // Estonien
+                "ET" => "DeepL API võtmeväli on tühi. Tõlkefunktsioon ei tööta.",
+                // Finnois
+                "FI" => "DeepL API-avainkenttä on tyhjä. Käännöstoiminto ei toimi.",
+                // Hongrois
+                "HU" => "A DeepL API kulcsmező üres. A fordítási funkció nem fog működni.",
+                // Indonésien
+                "ID" => "Kolom kunci API DeepL kosong. Fungsi terjemahan tidak akan berfungsi.",
+                // Italien
+                "IT" => "Il campo della chiave API di DeepL è vuoto. La funzione di traduzione non funzionerà.",
+                // Japonais
+                "JA" => "DeepL APIキーのフィールドが空です。翻訳機能は動作しません。",
+                // Coréen
+                "KO" => "DeepL API 키 필드가 비어 있습니다. 번역 기능이 작동하지 않습니다.",
+                // Letton
+                "LV" => "DeepL API atslēgas lauks ir tukšs. Tulkotāja funkcija nedarbosies.",
+                // Lituanien
+                "LT" => "DeepL API rakto laukas tuščias. Vertimo funkcija neveiks.",
+                // Norvégien
+                "NB" => "DeepL API-nøkkelfeltet er tomt. Oversettelsesfunksjonen vil ikke fungere.",
+                // Néerlandais
+                "NL" => "Het DeepL API-sleutelveld is leeg. De vertaalfunctie zal niet werken.",
+                // Polonais
+                "PL" => "Pole klucza API DeepL jest puste. Funkcja tłumaczenia nie będzie działać.",
+                // Portugais
+                "PT" => "O campo da chave API do DeepL está vazio. A função de tradução não funcionará.",
+                // Roumain
+                "RO" => "Câmpul cheii API DeepL este gol. Funcția de traducere nu va funcționa.",
+                // Russe
+                "RU" => "Поле для API-ключа DeepL пусто. Функция перевода не будет работать.",
+                // Slovaque
+                "SK" => "Pole API kľúča DeepL je prázdne. Prekladová funkcia nebude fungovať.",
+                // Slovène
+                "SL" => "Polje za API ključ DeepL je prazno. Prevajalska funkcija ne bo delovala.",
+                // Suédois
+                "SV" => "DeepL API-nyckelfältet är tomt. Översättningsfunktionen kommer inte att fungera.",
+                // Turc
+                "TR" => "DeepL API anahtar alanı boş. Çeviri işlevi çalışmayacak.",
+                // Ukrainien
+                "UK" => "Поле для ключа API DeepL порожнє. Функція перекладу не працюватиме.",
+                // Chinois simplifié
+                "ZH" => "DeepL API 密钥字段为空。翻译功能将无法工作。",
+                // Cas par défaut (français)
+                _ => "Le champ de la clé API DeepL est vide. La fonction de traduction des adresses de groupe a été désactivée."
+            };
         }
         catch (AuthorizationException ex)
         {
             App.ConsoleAndLogWriteLine($"DeepL API key error: {ex.Message}");
-            return (false, $"The DeepL key API is incorrect. The translation function will not work.");
+            keyValid = false;
+            
+            errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "مفتاح API DeepL المدخل غير صحيح. تم تعطيل وظيفة ترجمة العناوين الجماعية.",
+                // Bulgare
+                "BG" => "Въведеният DeepL API ключ е невалиден. Функцията за превод на групови адреси е деактивирана.",
+                // Tchèque
+                "CS" => "Zadaný klíč API DeepL je neplatný. Funkce překladu skupinových adres byla deaktivována.",
+                // Danois
+                "DA" => "Den indtastede DeepL API-nøgle er ugyldig. Funktionen til oversættelse af gruppeadresser er deaktiveret.",
+                // Allemand
+                "DE" => "Der eingegebene DeepL API-Schlüssel ist ungültig. Die Übersetzungsfunktion für Gruppenadressen wurde deaktiviert.",
+                // Grec
+                "EL" => "Το κλειδί API του DeepL που εισάγατε δεν είναι έγκυρο. Η λειτουργία μετάφρασης διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
+                // Anglais
+                "EN" => "The entered DeepL API key is incorrect. The group address translation function has been disabled.",
+                // Espagnol
+                "ES" => "La clave de API de DeepL ingresada es incorrecta. La función de traducción de direcciones de grupo ha sido desactivada.",
+                // Estonien
+                "ET" => "Sisestatud DeepL API võti on vale. Rühma aadresside tõlkimise funktsioon on keelatud.",
+                // Finnois
+                "FI" => "Syötetty DeepL API-avain on virheellinen. Ryhmäosoitteiden käännöstoiminto on poistettu käytöstä.",
+                // Hongrois
+                "HU" => "A megadott DeepL API kulcs érvénytelen. A csoportcímek fordítási funkciója le van tiltva.",
+                // Indonésien
+                "ID" => "Kunci API DeepL yang dimasukkan tidak valid. Fungsi terjemahan alamat grup telah dinonaktifkan.",
+                // Italien
+                "IT" => "La chiave API DeepL inserita non è valida. La funzione di traduzione degli indirizzi di gruppo è stata disattivata.",
+                // Japonais
+                "JA" => "入力されたDeepL APIキーが無効です。グループアドレス翻訳機能が無効になっています。",
+                // Coréen
+                "KO" => "입력한 DeepL API 키가 잘못되었습니다. 그룹 주소 번역 기능이 비활성화되었습니다.",
+                // Letton
+                "LV" => "Ievadītā DeepL API atslēga ir nepareiza. Grupas adreses tulkošanas funkcija ir atspējota.",
+                // Lituanien
+                "LT" => "Įvestas neteisingas DeepL API raktas. Grupės adresų vertimo funkcija išjungta.",
+                // Norvégien
+                "NB" => "Den angitte DeepL API-nøkkelen er ugyldig. Funksjonen for oversettelse av gruppeadresser er deaktivert.",
+                // Néerlandais
+                "NL" => "De ingevoerde DeepL API-sleutel is ongeldig. De functie voor het vertalen van groepsadressen is uitgeschakeld.",
+                // Polonais
+                "PL" => "Wprowadzony klucz API DeepL jest nieprawidłowy. Funkcja tłumaczenia adresów grupowych została wyłączona.",
+                // Portugais
+                "PT" => "A chave API do DeepL inserida está incorreta. A função de tradução de endereços de grupo foi desativada.",
+                // Roumain
+                "RO" => "Cheia API DeepL introdusă este incorectă. Funcția de traducere a adreselor de grup a fost dezactivată.",
+                // Russe
+                "RU" => "Введенный ключ API DeepL неверен. Функция перевода групповых адресов отключена.",
+                // Slovaque
+                "SK" => "Zadaný kľúč API DeepL je neplatný. Funkcia prekladu skupinových adries bola deaktivovaná.",
+                // Slovène
+                "SL" => "Vneseni DeepL API ključ je neveljaven. Funkcija prevajanja skupinskih naslovov je onemogočena.",
+                // Suédois
+                "SV" => "Den angivna DeepL API-nyckeln är ogiltig. Funktionen för översättning av gruppadresser har inaktiverats.",
+                // Turc
+                "TR" => "Girilen DeepL API anahtarı geçersiz. Grup adresi çeviri fonksiyonu devre dışı bırakıldı.",
+                // Ukrainien
+                "UK" => "Введений ключ API DeepL неправильний. Функцію перекладу групових адрес вимкнено.",
+                // Chinois simplifié
+                "ZH" => "输入的 DeepL API 密钥不正确。已禁用群组地址翻译功能。",
+                // Cas par défaut (français)
+                _ => "La clé API DeepL entrée est incorrecte. La fonction de traduction des adresses de groupe a été désactivée."
+            };
+
         }
         catch (HttpRequestException ex)
         {
-            return (false, $"Network error: {ex.Message}. Please check your internet connection.");
+            keyValid = false;
+            
+            errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => $"خطأ في الاتصال بالشبكة عند التحقق من مفتاح API DeepL لتفعيل ترجمة عناوين المجموعة: {ex.Message}. يرجى التحقق من اتصال الشبكة وإعادة المحاولة.",
+                // Bulgare
+                "BG" => $"Грешка в мрежовата връзка при проверка на API ключа на DeepL за активиране на превода на групови адреси: {ex.Message}. Моля, проверете мрежовата си връзка и опитайте отново.",
+                // Tchèque
+                "CS" => $"Chyba síťového připojení při ověřování klíče API DeepL pro aktivaci překladu skupinových adres: {ex.Message}. Zkontrolujte prosím své síťové připojení a zkuste to znovu.",
+                // Danois
+                "DA" => $"Netværksforbindelsesfejl ved verificering af DeepL API-nøglen for at aktivere oversættelse af gruppeadresser: {ex.Message}. Kontroller venligst din netværksforbindelse og prøv igen.",
+                // Allemand
+                "DE" => $"Netzwerkverbindungsfehler bei der Überprüfung des DeepL API-Schlüssels zur Aktivierung der Übersetzung von Gruppenadressen: {ex.Message}. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.",
+                // Grec
+                "EL" => $"Σφάλμα σύνδεσης δικτύου κατά την επαλήθευση του κλειδιού API DeepL για την ενεργοποίηση της μετάφρασης διευθύνσεων ομάδας: {ex.Message}. Ελέγξτε τη σύνδεση δικτύου σας και δοκιμάστε ξανά.",
+                // Anglais
+                "EN" => $"Network connection error when verifying the DeepL API key to enable group address translation: {ex.Message}. Please check your network connection and try again.",
+                // Espagnol
+                "ES" => $"Error de conexión de red al verificar la clave API de DeepL para habilitar la traducción de direcciones de grupo: {ex.Message}. Por favor, verifique su conexión de red y vuelva a intentarlo.",
+                // Estonien
+                "ET" => $"Võrguühenduse viga DeepL API võtme kontrollimisel rühma aadressi tõlke lubamiseks: {ex.Message}. Kontrollige oma võrguühendust ja proovige uuesti.",
+                // Finnois
+                "FI" => $"Verkkoyhteysvirhe tarkistettaessa DeepL API-avainta ryhmäosoitteiden kääntämisen aktivoimiseksi: {ex.Message}. Tarkista verkkoyhteytesi ja yritä uudelleen.",
+                // Hongrois
+                "HU" => $"Hálózati kapcsolat hiba a DeepL API kulcs ellenőrzésekor a csoportcím fordításának engedélyezéséhez: {ex.Message}. Kérjük, ellenőrizze a hálózati kapcsolatát, és próbálja újra.",
+                // Indonésien
+                "ID" => $"Kesalahan koneksi jaringan saat memverifikasi kunci API DeepL untuk mengaktifkan terjemahan alamat grup: {ex.Message}. Silakan periksa koneksi jaringan Anda dan coba lagi.",
+                // Italien
+                "IT" => $"Errore di connessione di rete durante la verifica della chiave API DeepL per abilitare la traduzione degli indirizzi di gruppo: {ex.Message}. Si prega di controllare la connessione di rete e riprovare.",
+                // Japonais
+                "JA" => $"グループアドレスの翻訳を有効にするためにDeepL APIキーを検証する際のネットワーク接続エラー: {ex.Message}. ネットワーク接続を確認して、もう一度やり直してください。",
+                // Coréen
+                "KO" => $"그룹 주소 번역을 활성화하기 위해 DeepL API 키를 확인하는 동안 네트워크 연결 오류: {ex.Message}. 네트워크 연결을 확인하고 다시 시도하십시오.",
+                // Letton
+                "LV" => $"Tīkla savienojuma kļūda, pārbaudot DeepL API atslēgu, lai aktivizētu grupas adrešu tulkošanu: {ex.Message}. Lūdzu, pārbaudiet savu tīkla savienojumu un mēģiniet vēlreiz.",
+                // Lituanien
+                "LT" => $"Tinklo ryšio klaida tikrinant DeepL API raktą grupės adresų vertimui įjungti: {ex.Message}. Patikrinkite savo tinklo ryšį ir bandykite dar kartą.",
+                // Norvégien
+                "NB" => $"Nettverksforbindelsesfeil ved verifisering av DeepL API-nøkkelen for å aktivere oversettelse av gruppeadresser: {ex.Message}. Vennligst sjekk nettverksforbindelsen din og prøv igjen.",
+                // Néerlandais
+                "NL" => $"Netwerkverbindingsfout bij het verifiëren van de DeepL API-sleutel om groepsadresvertaling in te schakelen: {ex.Message}. Controleer uw netwerkverbinding en probeer het opnieuw.",
+                // Polonais
+                "PL" => $"Błąd połączenia sieciowego podczas weryfikacji klucza API DeepL w celu włączenia tłumaczenia adresów grupowych: {ex.Message}. Sprawdź swoje połączenie sieciowe i spróbuj ponownie.",
+                // Portugais
+                "PT" => $"Erro de conexão de rede ao verificar a chave API do DeepL para ativar a tradução de endereços de grupo: {ex.Message}. Verifique sua conexão de rede e tente novamente.",
+                // Roumain
+                "RO" => $"Eroare de conexiune la rețea la verificarea cheii API DeepL pentru a activa traducerea adreselor de grup: {ex.Message}. Vă rugăm să verificați conexiunea la rețea și să încercați din nou.",
+                // Russe
+                "RU" => $"Ошибка сетевого подключения при проверке ключа API DeepL для включения перевода групповых адресов: {ex.Message}. Пожалуйста, проверьте сетевое подключение и попробуйте еще раз.",
+                // Slovaque
+                "SK" => $"Chyba sieťového pripojenia pri overovaní kľúča API DeepL na aktiváciu prekladu skupinových adries: {ex.Message}. Skontrolujte svoje sieťové pripojenie a skúste to znova.",
+                // Slovène
+                "SL" => $"Napaka omrežne povezave pri preverjanju DeepL API ključa za omogočanje prevajanja skupinskih naslovov: {ex.Message}. Preverite svojo omrežno povezavo in poskusite znova.",
+                // Suédois
+                "SV" => $"Nätverksanslutningsfel vid verifiering av DeepL API-nyckeln för att aktivera översättning av gruppadresser: {ex.Message}. Kontrollera din nätverksanslutning och försök igen.",
+                // Turc
+                "TR" => $"Grup adresi çevirisini etkinleştirmek için DeepL API anahtarı doğrulanırken ağ bağlantısı hatası: {ex.Message}. Lütfen ağ bağlantınızı kontrol edin ve tekrar deneyin.",
+                // Ukrainien
+                "UK" => $"Помилка мережевого підключення під час перевірки ключа API DeepL для активації перекладу групових адрес: {ex.Message}. Будь ласка, перевірте своє мережеве підключення та спробуйте ще раз.",
+                // Chinois simplifié
+                "ZH" => $"在验证 DeepL API 密钥以启用组地址翻译时出现网络连接错误: {ex.Message}. 请检查您的网络连接，然后重试。",
+                // Cas par défaut (français)
+                _ => $"Erreur de connexion réseau lors de la vérification de la clé API DeepL pour activer la traduction des adresses de groupe: {ex.Message}. Veuillez vérifier votre connexion réseau et réessayer."
+            };
+            
         }
         catch (DeepLException ex)
         {
             App.ConsoleAndLogWriteLine($"DeepL API error: {ex.Message}");
-            return (false, $"DeepL API error: {ex.Message}");
+            keyValid = false;
+            
+            errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "خطأ أثناء تنشيط واجهة برمجة تطبيقات الترجمة DeepL: {ex.Message}. تم تعطيل ترجمة العناوين الجماعية.",
+                // Bulgare
+                "BG" => "Грешка при активиране на API за превод DeepL: {ex.Message}. Преводът на групови адреси е деактивиран.",
+                // Tchèque
+                "CS" => "Chyba při aktivaci překladového API DeepL: {ex.Message}. Překlad skupinových adres byl deaktivován.",
+                // Danois
+                "DA" => "Fejl ved aktivering af DeepL-oversættelses-API: {ex.Message}. Oversættelse af gruppeadresser er deaktiveret.",
+                // Allemand
+                "DE" => "Fehler bei der Aktivierung der DeepL-Übersetzungs-API: {ex.Message}. Die Übersetzung von Gruppenadressen wurde deaktiviert.",
+                // Grec
+                "EL" => "Σφάλμα κατά την ενεργοποίηση του API μετάφρασης DeepL: {ex.Message}. Η μετάφραση των διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
+                // Anglais
+                "EN" => "Error activating the DeepL translation API: {ex.Message}. Group address translation has been disabled.",
+                // Espagnol
+                "ES" => "Error al activar la API de traducción de DeepL: {ex.Message}. La traducción de direcciones de grupo ha sido desactivada.",
+                // Estonien
+                "ET" => "Tõlke-API DeepL aktiveerimisel ilmnes viga: {ex.Message}. Grupi aadresside tõlkimine on keelatud.",
+                // Finnois
+                "FI" => "Virhe DeepL-käännös-API:n aktivoinnissa: {ex.Message}. Ryhmäosoitteiden kääntäminen on poistettu käytöstä.",
+                // Hongrois
+                "HU" => "Hiba történt a DeepL fordító-API aktiválása során: {ex.Message}. A csoportcímek fordítása le van tiltva.",
+                // Indonésien
+                "ID" => "Kesalahan saat mengaktifkan API terjemahan DeepL: {ex.Message}. Terjemahan alamat grup telah dinonaktifkan.",
+                // Italien
+                "IT" => "Errore durante l'attivazione dell'API di traduzione DeepL: {ex.Message}. La traduzione degli indirizzi di gruppo è stata disattivata.",
+                // Japonais
+                "JA" => "DeepL翻訳APIの有効化中にエラーが発生しました: {ex.Message}。グループアドレスの翻訳が無効になっています。",
+                // Coréen
+                "KO" => "DeepL 번역 API 활성화 중 오류 발생: {ex.Message}. 그룹 주소 번역이 비활성화되었습니다.",
+                // Letton
+                "LV" => "Kļūda, aktivizējot DeepL tulkošanas API: {ex.Message}. Grupas adrešu tulkošana ir atspējota.",
+                // Lituanien
+                "LT" => "Klaida aktyvinant DeepL vertimo API: {ex.Message}. Grupės adresų vertimas išjungtas.",
+                // Norvégien
+                "NB" => "Feil ved aktivering av DeepL-oversettelses-API: {ex.Message}. Oversettelse av gruppeadresser er deaktivert.",
+                // Néerlandais
+                "NL" => "Fout bij het activeren van de DeepL-vertaal-API: {ex.Message}. Vertaling van groepsadressen is uitgeschakeld.",
+                // Polonais
+                "PL" => "Błąd podczas aktywacji API tłumaczenia DeepL: {ex.Message}. Tłumaczenie adresów grupowych zostało wyłączone.",
+                // Portugais
+                "PT" => "Erro ao ativar a API de tradução DeepL: {ex.Message}. A tradução de endereços de grupo foi desativada.",
+                // Roumain
+                "RO" => "Eroare la activarea API-ului de traducere DeepL: {ex.Message}. Traducerea adreselor de grup a fost dezactivată.",
+                // Russe
+                "RU" => "Ошибка при активации API перевода DeepL: {ex.Message}. Перевод групповых адресов отключен.",
+                // Slovaque
+                "SK" => "Chyba pri aktivácii prekladového API DeepL: {ex.Message}. Preklad skupinových adries bol deaktivovaný.",
+                // Slovène
+                "SL" => "Napaka pri aktivaciji prevajalskega API-ja DeepL: {ex.Message}. Prevajanje skupinskih naslovov je onemogočeno.",
+                // Suédois
+                "SV" => "Fel vid aktivering av DeepL-översättnings-API: {ex.Message}. Översättning av gruppadresser har inaktiverats.",
+                // Turc
+                "TR" => "DeepL çeviri API'si etkinleştirilirken hata oluştu: {ex.Message}. Grup adresi çevirisi devre dışı bırakıldı.",
+                // Ukrainien
+                "UK" => "Помилка під час активації API перекладу DeepL: {ex.Message}. Переклад групових адрес вимкнено.",
+                // Chinois simplifié
+                "ZH" => "激活DeepL翻译API时出错: {ex.Message}。组地址翻译已禁用。",
+                // Cas par défaut (français)
+                _ => $"Erreur lors de l'activation de l'API de traduction DeepL: {ex.Message}. La traduction des adresses de groupe a été désactivée."
+            };
+
         }
         catch (Exception ex)
         {
             App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
-            return (false, $"An unexpected error occurred: {ex.Message}");
+            keyValid = false;
+            
+            errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => $"حدث خطأ غير متوقع أثناء تفعيل واجهة برمجة تطبيقات الترجمة DeepL: {ex.Message}. تم تعطيل ترجمة عناوين المجموعة.",
+                // Bulgare
+                "BG" => $"Възникна неочаквана грешка при активиране на API за превод на DeepL: {ex.Message}. Преводът на груповите адреси е деактивиран.",
+                // Tchèque
+                "CS" => $"Při aktivaci překládacího API DeepL došlo k neočekávané chybě: {ex.Message}. Překlad skupinových adres byl deaktivován.",
+                // Danois
+                "DA" => $"Der opstod en uventet fejl under aktivering af DeepL-oversættelses-API: {ex.Message}. Oversættelse af gruppeadresser er deaktiveret.",
+                // Allemand
+                "DE" => $"Ein unerwarteter Fehler ist beim Aktivieren der DeepL-Übersetzungs-API aufgetreten: {ex.Message}. Die Übersetzung von Gruppenadressen wurde deaktiviert.",
+                // Grec
+                "EL" => $"Παρουσιάστηκε ένα απρόσμενο σφάλμα κατά την ενεργοποίηση του API μετάφρασης DeepL: {ex.Message}. Η μετάφραση των διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
+                // Anglais
+                "EN" => $"An unexpected error occurred while activating the DeepL translation API: {ex.Message}. Group address translation has been disabled.",
+                // Espagnol
+                "ES" => $"Ocurrió un error inesperado al activar la API de traducción de DeepL: {ex.Message}. La traducción de direcciones de grupo ha sido desactivada.",
+                // Estonien
+                "ET" => $"DeepL tõlke API aktiveerimisel ilmnes ootamatu viga: {ex.Message}. Grupi aadresside tõlkimine on keelatud.",
+                // Finnois
+                "FI" => $"DeepL-käännös-API:ta aktivoitaessa tapahtui odottamaton virhe: {ex.Message}. Ryhmäosoitteiden kääntäminen on poistettu käytöstä.",
+                // Hongrois
+                "HU" => $"A DeepL fordító-API aktiválása során váratlan hiba történt: {ex.Message}. A csoportcímek fordítása letiltásra került.",
+                // Indonésien
+                "ID" => $"Terjadi kesalahan tak terduga saat mengaktifkan API terjemahan DeepL: {ex.Message}. Terjemahan alamat grup telah dinonaktifkan.",
+                // Italien
+                "IT" => $"Si è verificato un errore imprevisto durante l'attivazione dell'API di traduzione DeepL: {ex.Message}. La traduzione degli indirizzi di gruppo è stata disabilitata.",
+                // Japonais
+                "JA" => $"DeepL翻訳APIの有効化中に予期しないエラーが発生しました: {ex.Message}。グループアドレスの翻訳が無効になりました。",
+                // Coréen
+                "KO" => $"DeepL 번역 API를 활성화하는 동안 예상치 못한 오류가 발생했습니다: {ex.Message}. 그룹 주소 번역이 비활성화되었습니다.",
+                // Letton
+                "LV" => $"Aktivējot DeepL tulkošanas API, radās neparedzēta kļūda: {ex.Message}. Grupas adreses tulkošana ir atspējota.",
+                // Lituanien
+                "LT" => $"Įjungiant „DeepL“ vertimo API įvyko nenumatyta klaida: {ex.Message}. Grupės adresų vertimas buvo išjungtas.",
+                // Norvégien
+                "NB" => $"En uventet feil oppsto under aktivering av DeepL oversettelses-API: {ex.Message}. Oversettelse av gruppeadresser er deaktivert.",
+                // Néerlandais
+                "NL" => $"Er is een onverwachte fout opgetreden bij het activeren van de DeepL-vertaal-API: {ex.Message}. Vertaling van groepsadressen is uitgeschakeld.",
+                // Polonais
+                "PL" => $"Wystąpił nieoczekiwany błąd podczas aktywacji interfejsu API tłumaczenia DeepL: {ex.Message}. Tłumaczenie adresów grupowych zostało wyłączone.",
+                // Portugais
+                "PT" => $"Ocorreu um erro inesperado ao ativar a API de tradução DeepL: {ex.Message}. A tradução de endereços de grupo foi desativada.",
+                // Roumain
+                "RO" => $"A apărut o eroare neașteptată în timpul activării API-ului de traducere DeepL: {ex.Message}. Traducerea adreselor de grup a fost dezactivată.",
+                // Russe
+                "RU" => $"Произошла непредвиденная ошибка при активации API перевода DeepL: {ex.Message}. Перевод групповых адресов был отключен.",
+                // Slovaque
+                "SK" => $"Pri aktivácii prekladacieho API DeepL došlo k neočakávanej chybe: {ex.Message}. Preklad skupinových adries bol deaktivovaný.",
+                // Slovène
+                "SL" => $"Pri aktivaciji prevajalskega API-ja DeepL je prišlo do nepričakovane napake: {ex.Message}. Prevajanje naslovov skupin je onemogočeno.",
+                // Suédois
+                "SV" => $"Ett oväntat fel uppstod vid aktivering av DeepL-översättnings-API: {ex.Message}. Översättning av gruppadresser har inaktiverats.",
+                // Turc
+                "TR" => $"DeepL çeviri API'si etkinleştirilirken beklenmedik bir hata oluştu: {ex.Message}. Grup adresi çevirisi devre dışı bırakıldı.",
+                // Ukrainien
+                "UK" => $"Виникла непередбачена помилка під час активації API перекладу DeepL: {ex.Message}. Переклад групових адрес відключено.",
+                // Chinois simplifié
+                "ZH" => $"激活DeepL翻译API时发生意外错误: {ex.Message}。已禁用群组地址翻译。",
+                // Cas par défaut (français)
+                _ => $"Une erreur inattendue est survenue lors de l'activation de l'API de traduction DeepL: {ex.Message}. La traduction des adresses de groupe a été désactivée."
+            };
+
         }
+
+        return (keyValid, errMessage);
     }
     
     /// <summary>

@@ -8,13 +8,16 @@
  *
  * Description :
  * Fichier principal contenant la structure de l'application et toutes les
- * fonctions n�cessaires � son utilisation.
+ * fonctions necessaires e son utilisation.
  *
  * Remarques :
  * Repo GitHub --> https://github.com/Daichi9764/UCRM
  *
  * **************************************************************************/
 
+// ReSharper disable GrammarMistakeInComment
+
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Windows;
@@ -26,19 +29,19 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         ------------------------------------------- ATTRIBUTS  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        // Donn�es de l'application
-        
+        // Donnees de l'application
+
         /// <summary>
         /// Represents the name of the application.
         /// </summary>
-        public static readonly string AppName = "KNX Boost Desktop"; // Nom de l'application
-        
+        public const string AppName = "KNX Boost Desktop"; // Nom de l'application
+
         /// <summary>
         /// Represents the version of the application.
         /// </summary>
-        public static readonly float AppVersion = (float) 1.7; // Version de l'application
+        public const float AppVersion = 1.7f; // Version de l'application
 
-        public static readonly int AppBuild = 304;
+        public static readonly int AppBuild = 306;
         
         
         // Gestion des logs
@@ -54,7 +57,7 @@ namespace KNXBoostDesktop
         /// <remarks>
         /// This writer is used for appending log messages to the file specified by <see cref="_logPath"/>.
         /// </remarks>
-        private static StreamWriter? _writer; // Permet l'�criture du fichier de logging
+        private static StreamWriter? _writer; // Permet l'ecriture du fichier de logging
         
         
         
@@ -68,7 +71,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Manages the application's display elements, including windows, buttons, and other UI components.
         /// </summary>
-        public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fen�tres, boutons, ...)
+        public static DisplayElements? DisplayElements { get; private set; } // Gestionnaire de l'affichage (contient les fenetres, boutons, ...)
         
         
         
@@ -76,7 +79,7 @@ namespace KNXBoostDesktop
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
-        // Fonction s'ex�cutant � l'ouverture de l'application
+        // Fonction s'executant e l'ouverture de l'application
         /// <summary>
         /// Executes when the application starts up.
         /// <para>
@@ -113,59 +116,58 @@ namespace KNXBoostDesktop
             {
                 Directory.CreateDirectory("./logs");
             }
-            
+
             _logPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
             _writer = new StreamWriter(_logPath);
-            
+
             base.OnStartup(e);
 
-            // Activation de l'auto-vidage du buffer du stream d'�criture
+            // Activation de l'auto-vidage du buffer du stream d'ecriture
             _writer.AutoFlush = true;
 
 
-            ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
+            ConsoleAndLogWriteLine(
+                $"STARTING {AppName.ToUpper()} V{AppVersion.ToString(CultureInfo.InvariantCulture)} BUILD {AppBuild}...");
 
-            
-            // Ouverture la fen�tre principale
+
+            // Ouverture la fenetre principale
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
-            
-            // Mise � jour de la fen�tre de renommage des adresses de groupe
+
+            // Mise e jour de la fenetre de renommage des adresses de groupe
             DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
 
-            // Mise � jour de la fen�tre principale
+            // Mise e jour de la fenetre principale
             DisplayElements.MainWindow.UpdateWindowContents();
-            
+
             DisplayElements.ShowMainWindow();
 
-            
+
             // Ouverture du gestionnaire de fichiers de projet
             ConsoleAndLogWriteLine("Opening project file manager");
             Fm = new ProjectFileManager();
 
-            
+
             // Tentative d'archivage des fichiers de log
             ConsoleAndLogWriteLine("Trying to archive log files");
             ArchiveLogs();
-            
-            
-            // Nettoyage des dossiers restants de la derni�re session
+
+
+            // Nettoyage des dossiers restants de la derniere session
             ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
             DeleteAllExceptLogsAndResources();
 
-            
+
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
-
-           ProjectFileManager.WriteDebugFile();
-            
+                
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
         }
 
         
         
-        // Fonction s'ex�cutant lorsque l'on ferme l'application
+        // Fonction s'executant lorsque l'on ferme l'application
         /// <summary>
         /// Executes when the application is closing.
         /// <para>
@@ -195,13 +197,13 @@ namespace KNXBoostDesktop
             base.OnExit(e);
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
-            _writer?.Close(); // Fermeture du stream d'�criture des logs
+            _writer?.Close(); // Fermeture du stream d'ecriture des logs
         }
 
         
         
-        // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'�crivant dans les
-        // logs sans sauter de ligne apr�s le message.
+        // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'ecrivant dans les
+        // logs sans sauter de ligne apres le message.
         /// <summary>
         /// Writes a message to the application console and log file without appending a newline after the message.
         /// <para>
@@ -224,7 +226,7 @@ namespace KNXBoostDesktop
         {
             Console.Write(msg); // Ecriture du message dans la console
             
-            // Si la fen�tre de la console est ouverte, on scrolle tout en bas
+            // Si la fenetre de la console est ouverte, on scrolle tout en bas
             if (DisplayElements is { ConsoleWindow.IsVisible: true })
             {
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
@@ -235,7 +237,7 @@ namespace KNXBoostDesktop
 
         
         
-        // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'�crivant dans les
+        // Fonction permettant l'affichage d'un message dans la console de l'application tout en l'ecrivant dans les
         // logs. Ajoute la date et l'heure avant affichage. Saut d'une ligne en fin de message.
         /// <summary>
         /// Writes a message to the application console and log file, including the current date and time, and appends a newline after the message.
@@ -257,9 +259,9 @@ namespace KNXBoostDesktop
         /// <param name="msg">The message to be written to the console and log file.</param>
         public static void ConsoleAndLogWriteLine(string msg)
         {
-            Console.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
+            Console.WriteLine($@"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
             
-            // Si la console est ouverte, on scrolle apr�s l'envoi du message pour �tre s�r d'afficher les derniers �v�nements
+            // Si la console est ouverte, on scrolle apres l'envoi du message pour etre ser d'afficher les derniers evenements
             if (DisplayElements is { ConsoleWindow.IsVisible: true })
             {
                 DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
@@ -271,9 +273,9 @@ namespace KNXBoostDesktop
         
         
         // Fonction d'archivage des logs
-        // Fonctionnement: S'il y a plus de 50 fichiers logs.txt, ces fichiers sont rassembl�s et compress�s dans une archive zip
-        // S'il y a plus de 10 archives, ces derni�res sont supprim�es avant la cr�ation de la nouvelle archive
-        // Cons�quence: on ne stocke les logs que des 50 derniers lancements de l'application
+        // Fonctionnement : S'il y a plus de 50 fichiers logs.txt, ces fichiers sont rassembles et compresses dans une archive zip
+        // S'il y a plus de 10 archives, ces dernieres sont supprimees avant la creation de la nouvelle archive
+        // Conséquence : on ne stocke les logs que des 50 derniers lancements de l'application
         /// <summary>
         /// Archives the log files in the log directory by compressing them into a ZIP archive when the number of log files exceeds 50.
         /// <para>
@@ -294,20 +296,20 @@ namespace KNXBoostDesktop
             
             try
             {
-                // V�rifier si le r�pertoire existe
+                // Verifier si le repertoire existe
                 if (!Directory.Exists(logDirectory))
                 {
                     ConsoleAndLogWriteLine($"The specified directory does not exist : {logDirectory}");
                     return;
                 }
 
-                // Obtenir tous les fichiers log dans le r�pertoire
+                // Obtenir tous les fichiers log dans le repertoire
                 var logFiles = Directory.GetFiles(logDirectory, "*.txt");
 
-                // V�rifier s'il y a plus de 50 fichiers log
+                // Verifier s'il y a plus de 50 fichiers log
                 if (logFiles.Length > 50)
                 {
-                    // Obtenir tous les fichiers d'archive dans le r�pertoire
+                    // Obtenir tous les fichiers d'archive dans le repertoire
                     var archiveFiles = Directory.GetFiles(logDirectory, "LogsArchive-*.zip");
 
                     // Supprimer les archives existantes si elles sont plus de 10
@@ -320,18 +322,18 @@ namespace KNXBoostDesktop
                         ConsoleAndLogWriteLine("Deleted all existing archive files as they exceeded the limit of 10.");
                     }
 
-                    // Cr�er le nom du fichier zip avec la date actuelle
+                    // Creer le nom du fichier zip avec la date actuelle
                     var zipFileName = Path.Combine(logDirectory, $"LogsArchive-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
 
-                    // Cr�er l'archive zip et y ajouter les fichiers log
+                    // Creer l'archive zip et y ajouter les fichiers log
                     using (ZipArchive zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
                     {
                         foreach (var logFile in logFiles)
                         {
-                            if (logFile != _logPath) // Si le fichier logs n'est pas celui que l'on vient de cr�er pour le lancement actuel
+                            if (logFile != _logPath) // Si le fichier logs n'est pas celui que l'on vient de creer pour le lancement actuel
                             {
-                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute � l'archive
-                                File.Delete(logFile); // Puis on le supprime
+                                zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute e l'archive
+                                File.Delete(logFile); // Puis, on le supprime
                             }
                         }
                     }
@@ -351,8 +353,8 @@ namespace KNXBoostDesktop
         
         
         
-        // Fonction permettant de supprimer tous les dossiers pr�sents dans le dossier courant
-        // Sauf le fichier logs. Cela permet de supprimer tous les projets export�s � la session pr�c�dente.
+        // Fonction permettant de supprimer tous les dossiers presents dans le dossier courant
+        // Sauf le fichier logs. Cela permet de supprimer tous les projets exportes a la session precedente.
         // Fonction pour supprimer tous les dossiers sauf le dossier 'logs'
         /// <summary>
         /// Deletes all directories in the application directory except for those named 'logs' and 'resources'.
@@ -369,7 +371,7 @@ namespace KNXBoostDesktop
         /// </summary>
         private static void DeleteAllExceptLogsAndResources()
         {
-            // Liste tous les sous-r�pertoires dans le r�pertoire de base
+            // Liste tous les sous-répertoires dans le répertoire de base
             string[] directories = Directory.GetDirectories("./");
 
             foreach (string directory in directories)
@@ -387,12 +389,12 @@ namespace KNXBoostDesktop
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    Console.WriteLine($"Access denied: {ex.Message}");
+                    Console.WriteLine($@"Access denied: {ex.Message}");
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($"I/O error: {ex.Message}");
+                    Console.WriteLine($@"I/O error: {ex.Message}");
                     continue;
                 }
                 App.ConsoleAndLogWriteLine($"Deleted directory: {directory}");
@@ -400,6 +402,8 @@ namespace KNXBoostDesktop
         }
     }
 }
+
+
 
 
 
