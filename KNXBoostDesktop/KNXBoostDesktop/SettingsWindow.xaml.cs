@@ -287,7 +287,7 @@ namespace KNXBoostDesktop
             
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
-            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion}";
+            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion} (build {App.AppBuild})";
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
         }
