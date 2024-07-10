@@ -101,7 +101,7 @@ public partial class GroupAddressRenameWindow
             // Anglais
             case "EN":
                 GroupAddressRenameWindowTopTitle.Text = "Rename Group Address";
-                BeforeText.Text = "Group Address";
+                BeforeText.Text = "Original Group Address";
                 AfterText.Text = "Rename to...";
                 SaveButtonText.Text = "Save";
                 CancelButtonText.Text = "Cancel";
