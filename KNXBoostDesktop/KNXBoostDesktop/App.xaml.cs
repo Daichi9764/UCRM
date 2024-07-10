@@ -17,6 +17,7 @@
 
 // ReSharper disable GrammarMistakeInComment
 
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Windows;
@@ -111,58 +112,66 @@ namespace KNXBoostDesktop
         /// <param name="e">An instance of <see cref="StartupEventArgs"/> that contains the event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (!Directory.Exists("./logs"))
+            try
             {
-                Directory.CreateDirectory("./logs");
+                if (!Directory.Exists("./logs"))
+                {
+                    Directory.CreateDirectory("./logs");
+                }
+
+                _logPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+                _writer = new StreamWriter(_logPath);
+
+                base.OnStartup(e);
+
+                // Activation de l'auto-vidage du buffer du stream d'ecriture
+                _writer.AutoFlush = true;
+
+
+                ConsoleAndLogWriteLine(
+                    $"STARTING {AppName.ToUpper()} V{AppVersion.ToString(CultureInfo.InvariantCulture)} BUILD {AppBuild}...");
+
+
+                // Ouverture la fenetre principale
+                ConsoleAndLogWriteLine("Opening main window");
+                DisplayElements = new DisplayElements();
+
+                // Mise e jour de la fenetre de renommage des adresses de groupe
+                DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+
+                // Mise e jour de la fenetre principale
+                DisplayElements.MainWindow.UpdateWindowContents();
+
+                DisplayElements.ShowMainWindow();
+
+
+                // Ouverture du gestionnaire de fichiers de projet
+                ConsoleAndLogWriteLine("Opening project file manager");
+                Fm = new ProjectFileManager();
+
+
+                // Tentative d'archivage des fichiers de log
+                ConsoleAndLogWriteLine("Trying to archive log files");
+                ArchiveLogs();
+
+
+                // Nettoyage des dossiers restants de la derniere session
+                ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
+                DeleteAllExceptLogsAndResources();
+
+
+                ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
+                ConsoleAndLogWriteLine("-----------------------------------------------------------");
+
+                ProjectFileManager.WriteDebugFile();
+
+                // Appel au garbage collector pour nettoyer les variables issues 
+                GC.Collect();
             }
-            
-            _logPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
-            _writer = new StreamWriter(_logPath);
-            
-            base.OnStartup(e);
-
-            // Activation de l'auto-vidage du buffer du stream d'ecriture
-            _writer.AutoFlush = true;
-
-
-            ConsoleAndLogWriteLine($"STARTING {AppName.ToUpper()} APP...");
-
-            
-            // Ouverture la fenetre principale
-            ConsoleAndLogWriteLine("Opening main window");
-            DisplayElements = new DisplayElements();
-            
-            // Mise e jour de la fenetre de renommage des adresses de groupe
-            DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
-
-            // Mise e jour de la fenetre principale
-            DisplayElements.MainWindow.UpdateWindowContents();
-            
-            DisplayElements.ShowMainWindow();
-
-            
-            // Ouverture du gestionnaire de fichiers de projet
-            ConsoleAndLogWriteLine("Opening project file manager");
-            Fm = new ProjectFileManager();
-
-            
-            // Tentative d'archivage des fichiers de log
-            ConsoleAndLogWriteLine("Trying to archive log files");
-            ArchiveLogs();
-            
-            
-            // Nettoyage des dossiers restants de la derniere session
-            ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
-            DeleteAllExceptLogsAndResources();
-
-            
-            ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
-            ConsoleAndLogWriteLine("-----------------------------------------------------------");
-
-           ProjectFileManager.WriteDebugFile();
-            
-            // Appel au garbage collector pour nettoyer les variables issues 
-            GC.Collect();
+            catch (Exception ex)
+            {
+                App.ConsoleAndLogWriteLine(ex.Message);
+            }
         }
 
         

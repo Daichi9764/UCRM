@@ -6,23 +6,11 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
-        <ApplicationIcon>bin\Debug\net8.0-windows\IconApp.ico</ApplicationIcon>
+        <ApplicationIcon>resources\IconApp.ico</ApplicationIcon>
     </PropertyGroup>
+    
 
     <ItemGroup>
-      <None Remove="resources\icon.ico" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="bin\Debug\net8.0-windows\IconApp.ico" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="ZipPasswordInputWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
       <Page Update="SettingsWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>

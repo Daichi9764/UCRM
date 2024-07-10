@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography;
@@ -287,7 +288,7 @@ namespace KNXBoostDesktop
             
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
-            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion} (build {App.AppBuild})";
+            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion.ToString(CultureInfo.InvariantCulture)} (build {App.AppBuild})";
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
         }
