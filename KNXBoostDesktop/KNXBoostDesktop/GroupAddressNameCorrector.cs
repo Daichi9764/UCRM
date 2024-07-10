@@ -32,14 +32,17 @@ public class GroupAddressNameCorrector
     /// <summary>
     /// Indicates whether the DeepL API key is valid and can be used for translations.
     /// </summary>
-    public static bool ValidDeeplKey; 
+    public static bool ValidDeeplKey;
+
+    private static Formatter formatter;
+    
+    // Collection to memorize translations of group names already done
+    private static HashSet<string> translationCache = new HashSet<string>();
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
-    
-    
-    
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 2513MB")]
     /* ------------------------------------------------------------------------------------------------
     -------------------------------------------- METHODES  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
@@ -428,24 +431,46 @@ public class GroupAddressNameCorrector
             if (knxDoc == null) return;
             
             // Create a formatter object for normalizing names
-            Formatter formatter = GetFormatter();
+            formatter = GetFormatter();
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingInfos);
 
-           // Extract location information from the KNX file
+            // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
-                .Where(s => s.Attribute("Type")?.Value == "Room" || s.Attribute("Type")?.Value == "Corridor")
-                .Select(room => new
+                .Where(s => 
                 {
-                    RoomName = room.Attribute("Name")?.Value,
-                    FloorName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Floor")?.Attribute("Name")?.Value,
-                    BuildingPartName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "BuildingPart")?.Attribute("Name")?.Value,
-                    BuildingName = room.Ancestors(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "Building")?.Attribute("Name")?.Value,
-                    DistributionBoardName = room.Descendants(_globalKnxNamespace + "Space").FirstOrDefault(s => s.Attribute("Type")?.Value == "DistributionBoard")?.Attribute("Name")?.Value,
-                    DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef").Select(dir => dir.Attribute("RefId")?.Value)
+                    var type = s.Attribute("Type")?.Value;
+                    return type == "Room" || type == "Corridor";
+                })
+                .Select(room =>
+                {
+                    var getAncestorName = new Func<string, string>(type =>
+                        room.Ancestors(_globalKnxNamespace + "Space")
+                            .FirstOrDefault(s => s.Attribute("Type")?.Value == type)
+                            ?.Attribute("Name")?.Value ?? string.Empty
+                    );
+
+                    var getDescendantName = new Func<string, string>(type =>
+                        room.Descendants(_globalKnxNamespace + "Space")
+                            .FirstOrDefault(s => s.Attribute("Type")?.Value == type)
+                            ?.Attribute("Name")?.Value ?? string.Empty
+                    );
+
+                    return new
+                    {
+                        RoomName = room.Attribute("Name")?.Value,
+                        FloorName = getAncestorName("Floor"),
+                        BuildingPartName = getAncestorName("BuildingPart"),
+                        BuildingName = getAncestorName("Building"),
+                        DistributionBoardName = getDescendantName("DistributionBoard"),
+                        DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
+                            .Select(dir => dir.Attribute("RefId")?.Value)
+                            .ToList()
+                    };
                 })
                 .ToList();
+
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
@@ -455,7 +480,7 @@ public class GroupAddressNameCorrector
             foreach (var loc in locationInfo)
             {
                 string message = string.Empty;
-                if (loc.DistributionBoardName != null)
+                if (loc.DistributionBoardName != string.Empty)
                 {
                     message = $"Distribution Board Name : {loc.DistributionBoardName} ";
                 }
@@ -474,46 +499,69 @@ public class GroupAddressNameCorrector
 
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
-            .Select(di => new
-            {
-                Id = di.Attribute("Id")?.Value,
-                Hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value,
-                ProductRefId = di.Attribute("ProductRefId")?.Value,
-                GroupObjectInstanceRefs = di.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
-                    .Where(cir => cir.Attribute("Links") != null)
-                    .SelectMany(cir => (cir.Attribute("Links")?.Value.Split(' ') ?? [])
-                        .Select((link, index) => new
+                .Select(di =>
+                {
+                    var id = di.Attribute("Id")?.Value;
+                    var hardware2ProgramRefId = di.Attribute("Hardware2ProgramRefId")?.Value;
+                    var productRefId = di.Attribute("ProductRefId")?.Value;
+
+                    var groupObjectInstanceRefs = di.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
+                        .Where(cir => cir.Attribute("Links") != null)
+                        .SelectMany(cir =>
                         {
-                            GroupAddressRef = link,
-                            DeviceInstanceId = di.Attribute("Id")?.Value,
-                            ComObjectInstanceRefId = cir.Attribute("RefId")?.Value,
-                            IsFirstLink = index == 0  // Mark if it's the first link
-                        }))
-            });
+                            var links = cir.Attribute("Links")?.Value.Split(' ') ?? new string[0];
+                            var comObjectInstanceRefId = cir.Attribute("RefId")?.Value;
+
+                            return links.Select((link, index) => new
+                            {
+                                GroupAddressRef = link,
+                                DeviceInstanceId = id,
+                                ComObjectInstanceRefId = comObjectInstanceRefId,
+                                IsFirstLink = index == 0
+                            });
+                        });
+
+                    return new
+                    {
+                        Id = id,
+                        Hardware2ProgramRefId = hardware2ProgramRefId,
+                        ProductRefId = productRefId,
+                        GroupObjectInstanceRefs = groupObjectInstanceRefs
+                    };
+                });
+
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceInfo);
             
-            var deviceRefs = deviceRefsTemp1.SelectMany(di => di.GroupObjectInstanceRefs.Select(g => new
+            var deviceRefs = deviceRefsTemp1.SelectMany(di =>
             {
-                di.Id,
-                di.ProductRefId,
-                HardwareFileName = di.Hardware2ProgramRefId != null ? 
-                    FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName : 
-                    null,
-                MxxxxDirectory = di.Hardware2ProgramRefId != null ? 
-                    FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory : 
-                    null,
-                IsDeviceRailMounted = di.ProductRefId != null && di.Hardware2ProgramRefId != null && GetIsDeviceRailMounted(di.ProductRefId, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory),
-                g.GroupAddressRef,
-                g.DeviceInstanceId,
-                g.ComObjectInstanceRefId,
-                ObjectType = di.Hardware2ProgramRefId != null && g.ComObjectInstanceRefId != null && g.IsFirstLink ?
-                    GetObjectType(FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).HardwareFileName, FormatHardware2ProgramRefId(di.Hardware2ProgramRefId).MxxxxDirectory, g.ComObjectInstanceRefId) : 
-                    null
-            }))
-            .ToList();
+                var formattedHardware = di.Hardware2ProgramRefId != null ? 
+                    (FormatHardware2ProgramRefId(di.Hardware2ProgramRefId)) : 
+                    (null, null);
 
+                var hardwareFileName = formattedHardware.Item1;
+                var mxxxxDirectory = formattedHardware.Item2;
+                var isDeviceRailMounted = mxxxxDirectory != null && di.ProductRefId != null && 
+                                          GetIsDeviceRailMounted(di.ProductRefId, mxxxxDirectory);
+
+                return di.GroupObjectInstanceRefs.Select(g => new
+                {
+                    di.Id,
+                    di.ProductRefId,
+                    HardwareFileName = hardwareFileName,
+                    MxxxxDirectory = mxxxxDirectory,
+                    IsDeviceRailMounted = isDeviceRailMounted,
+                    g.GroupAddressRef,
+                    g.DeviceInstanceId,
+                    g.ComObjectInstanceRefId,
+                    ObjectType = hardwareFileName != null && g.ComObjectInstanceRefId != null && mxxxxDirectory != null && g.IsFirstLink ?
+                        GetObjectType(hardwareFileName, mxxxxDirectory, g.ComObjectInstanceRefId) : 
+                        null
+                });
+            }).ToList();
+
+            
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
             
@@ -551,297 +599,106 @@ public class GroupAddressNameCorrector
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
             
-            // Collection to memorize translations of group names already done
-            HashSet<string> translationCache = new HashSet<string>();
-            
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
             {
-                string nameObjectType;
-                string nameFunction = string.Empty;
-
                 // Get the first rail-mounted device reference, if any
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
                 var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
-                
                 // Get the first non-rail-mounted device reference, if any
                 var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
+                
                 if (deviceNotRailMounted != null)
                 {
                     // Find the GroupAddress element that matches the device's GroupAddressRef
                     var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                         .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceNotRailMounted.GroupAddressRef) == true);
 
-                    if (groupAddressElement != null)
+                    if (groupAddressElement == null)
                     {
-                        App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
-                        var nameAttr = groupAddressElement.Attribute("Name");
-                        
-                        if (nameAttr != null)
-                        {
-                            // Get the location information for the device reference
-                            var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
-
-                            string nameLocation;
-                            if (location != null)
-                            {
-                                string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
-                                string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "Facade Xx";
-                                string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage ";
-                                string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece"; 
-                                string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
-                                
-                                // Format the location details
-                                nameLocation = $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
-                                
-                                if (distributionBoardName != string.Empty)
-                                {
-                                    nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
-                                }
-
-                                //Add circuit part to the name if there is one
-                                Match match = Regex.Match(nameAttr.Value,@"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-
-                                if (match.Success)
-                                {
-                                    nameLocation += "_" + match.Value;
-                                }
-                            }
-                            else
-                            {
-                                // Default location details if no location information is found
-                                nameLocation = $"_{formatter.Format("Bâtiment")}_{formatter.Format("Facade XX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
-                                App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceNotRailMounted.DeviceInstanceId}");
-                            }
-
-                            // Determine the nameObjectType based on the available device references
-                            if (Regex.IsMatch(nameAttr.Value, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase)) //it contains cmd and not ie
-                            {
-                                nameObjectType = $"{formatter.Format("Cmd")}";
-                            }
-                            else if (Regex.IsMatch(nameAttr.Value, @"\bie\b", RegexOptions.IgnoreCase))
-                            {
-                                nameObjectType = $"{formatter.Format("Ie")}";
-                            }
-                            else if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted.ObjectType))
-                            {
-                                // Format the ObjectType of the rail-mounted device
-                                nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
-                            }
-                            else if (deviceRefObjectType != null)
-                            {
-                                // Format the ObjectType of the device with a non-empty ObjectType
-                                nameObjectType = $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
-                            }
-                            else
-                            {
-                                // Default nameObjectType if no valid ObjectType is found
-                                nameObjectType = $"{formatter.Format("Type")}";
-                                App.ConsoleAndLogWriteLine($"No Object Type found for {gdr.Devices.FirstOrDefault()?.GroupAddressRef}");
-                            }
-                            // Get the GroupRange ancestor element, if any
-                            var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                            if (groupRangeElement != null)
-                            {
-                                // Check for a higher-level GroupRange ancestor
-                                var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                                if (ancestorGroupRange != null)
-                                {
-                                    // Format the name of the ancestor GroupRange
-                                    nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
-                                    
-                                    // Translate the group name
-                                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
-                                    {
-                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
-                                        string ancestorGroupRangeName = nameAncestorGrpRange?.Value ?? string.Empty;
-                                        
-                                        // Translated only if not already translated
-                                        if (nameAncestorGrpRange != null && ancestorGroupRangeName != string.Empty && !translationCache.Contains(ancestorGroupRangeName))
-                                        {
-                                            nameAncestorGrpRange.Value = formatter.Translate(ancestorGroupRangeName);
-                                            translationCache.Add(nameAncestorGrpRange.Value);
-                                        }
-                                    }
-                                    
-                                }
-                                // Format the name of the current GroupRange
-                                nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
-                                
-                                // Translate the group name
-                                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
-                                {
-                                    var nameGrpRange = groupRangeElement.Attribute("Name");
-                                    string groupRangeName = nameGrpRange?.Value ?? string.Empty;
-                                    
-                                    // Translated only if not already translated
-                                    if (nameGrpRange != null && groupRangeName != string.Empty && !translationCache.Contains(groupRangeName))
-                                    {
-                                        nameGrpRange.Value = formatter.Translate(groupRangeName);
-                                        translationCache.Add(nameGrpRange.Value);
-                                    }
-                                }
-
-                                
-                            }
-
-                            // Construct the new name by combining the object type, function, and location
-                            var newName = nameObjectType + nameFunction + nameLocation;
-                            App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
-                            App.ConsoleAndLogWriteLine($"New Name: {newName}");
-                            nameAttr.Value = newName;  // Update the GroupAddress element's name
-
-                            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
-                            {
-                                // Mark the address as renamed
-                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Log if no GroupAddress element is found for the reference
                         App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted.GroupAddressRef}");
-                        
-                        
+                        continue; 
                     }
+
+                    App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                    var nameAttr = groupAddressElement.Attribute("Name");
+
+                    if (nameAttr == null)
+                    {
+                        App.ConsoleAndLogWriteLine($"No group address name found for  {groupAddressElement}");
+                        continue; 
+                    }
+                        
+                    // Get the location information for the device reference
+                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
+
+                    string nameLocation = GetLocationName(location, nameAttr.Value);
+                    
+                    // Determine the nameObjectType based on the available device references
+                    string nameObjectType =
+                        DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
+
+                    string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
+                    
+                    // Construct the new name by combining the object type, function, and location
+                    var newName = nameObjectType + nameFunction + nameLocation;
+                    App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
+                    App.ConsoleAndLogWriteLine($"New Name: {newName}");
+                    nameAttr.Value = newName;  // Update the GroupAddress element's name
+
+                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                    {
+                        // Mark the address as renamed
+                        renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                    }
+                    
+                   
                 }
-                else if (deviceRailMounted != null && deviceNotRailMounted == null)
+                else if (deviceRailMounted != null)
                 {
                     // Find the GroupAddress element that matches the device's GroupAddressRef
                     var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                         .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceRailMounted.GroupAddressRef) == true);
 
-                    if (groupAddressElement != null)
+                    if (groupAddressElement == null)
                     {
-                        App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
-                        var nameAttr = groupAddressElement.Attribute("Name");
-                        if (nameAttr != null)
-                        {
-                            // Get the location information for the device reference
-                            var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
-
-                            string nameLocation;
-                            if (location != null)
-                            {
-                                string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Batiment";
-                                string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "Facade Xx";
-                                string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage";
-                                string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
-                                string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
-                                
-                                // Format the location details
-                                nameLocation =
-                                    $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
-                                if (distributionBoardName != string.Empty)
-                                {
-                                    nameLocation += $"_{formatter.Format(distributionBoardName)}"; 
-                                }
-                                
-                                //Add circuit part to the name
-                                Match match = Regex.Match(nameAttr.Value,@"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-
-                                if (match.Success)
-                                {
-                                    nameLocation += "_" + match.Value;
-                                }
-                            }
-                            else
-                            {
-                                // Default location details if no location information is found
-                                nameLocation = $"_{formatter.Format("Batiment")}_{formatter.Format("FacadeXx")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
-                                App.ConsoleAndLogWriteLine($"No location found for DeviceInstanceId: {deviceRailMounted.DeviceInstanceId}");
-                            }
-
-                    
-                            // Determine the nameObjectType based on the available device references
-                            if (Regex.IsMatch(nameAttr.Value, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
-                            {
-                                nameObjectType = $"{formatter.Format("Cmd")}";
-                            }
-                            else if (Regex.IsMatch(nameAttr.Value, @"\bie\b", RegexOptions.IgnoreCase))
-                            {
-                                nameObjectType = $"{formatter.Format("Ie")}";
-                            }
-                            else if (!string.IsNullOrEmpty(deviceRailMounted.ObjectType))
-                            {
-                                // Format the ObjectType of the rail-mounted device
-                                nameObjectType = $"{formatter.Format(deviceRailMounted.ObjectType ?? string.Empty)}";
-                            }
-                            else if (deviceRefObjectType != null)
-                            {
-                                // Format the ObjectType of the device with a non-empty ObjectType
-                                nameObjectType = $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
-                            }
-                            else
-                            {
-                                // Default nameObjectType if no valid ObjectType is found
-                                nameObjectType = $"{formatter.Format("Type")}";
-                                App.ConsoleAndLogWriteLine($"No Object Type found for {gdr.Devices.FirstOrDefault()?.GroupAddressRef}");
-                            }
-                            // Get the GroupRange ancestor element, if any
-                            var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange")
-                                .FirstOrDefault();
-                            if (groupRangeElement != null)
-                            {
-                                // Check for a higher-level GroupRange ancestor
-                                var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange")
-                                    .FirstOrDefault();
-                                if (ancestorGroupRange != null)
-                                {
-                                    // Format the name of the ancestor GroupRange
-                                    nameFunction =
-                                        $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
-                                    
-                                    // Translate the group name
-                                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
-                                    {
-                                        var nameAncestorGrpRange = ancestorGroupRange.Attribute("Name");
-                                        string ancestorGroupRangeName = nameAncestorGrpRange?.Value ?? string.Empty;
-                                        
-                                        // Translated only if not already translated
-                                        if (nameAncestorGrpRange != null && ancestorGroupRangeName != string.Empty && !translationCache.Contains(ancestorGroupRangeName))
-                                        {
-                                            nameAncestorGrpRange.Value = formatter.Translate(ancestorGroupRangeName);
-                                            translationCache.Add(nameAncestorGrpRange.Value);
-                                        }
-                                    }
-                                }
-                                
-                                // Format the name of the current GroupRange
-                                nameFunction +=
-                                    $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
-
-                                // Translate the group name
-                                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation && ValidDeeplKey)
-                                {
-                                    var nameGrpRange = groupRangeElement.Attribute("Name");
-                                    string groupRangeName = nameGrpRange?.Value ?? string.Empty;
-                                    
-                                    // Translated only if not already translated
-                                    if (nameGrpRange != null && groupRangeName != string.Empty && !translationCache.Contains(groupRangeName))
-                                    {
-                                        nameGrpRange.Value = formatter.Translate(groupRangeName);
-                                        translationCache.Add(nameGrpRange.Value);
-                                    }
-                                }
-                                
-                            }
-
-                            // Construct the new name by combining the object type, function, and location
-                            var newName = nameObjectType + nameFunction + nameLocation;
-                            App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
-                            App.ConsoleAndLogWriteLine($"New Name: {newName}");
-                            nameAttr.Value = newName; // Update the GroupAddress element's name
-
-                            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
-                            {
-                                // Mark the address as renamed
-                                renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
-                            }
-                        }
+                        App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted.GroupAddressRef}");
+                        continue; 
                     }
+                    
+                    App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                    var nameAttr = groupAddressElement.Attribute("Name");
+                    
+                    if (nameAttr == null)
+                    {
+                        App.ConsoleAndLogWriteLine($"No group address name found for  {groupAddressElement}");
+                        continue; 
+                    }
+                    
+                    // Get the location information for the device reference
+                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
+
+                    string nameLocation = GetLocationName(location, nameAttr.Value);
+                                                
+                    // Determine the nameObjectType based on the available device references
+                    string nameObjectType = DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
+                            
+                    string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
+
+                    // Construct the new name by combining the object type, function, and location
+                    var newName = nameObjectType + nameFunction + nameLocation;
+                    App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
+                    App.ConsoleAndLogWriteLine($"New Name: {newName}");
+                    nameAttr.Value = newName; // Update the GroupAddress element's name
+
+                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                    {
+                        // Mark the address as renamed
+                        renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
+                    }
+                    
+                    
                 }
             }
             
@@ -888,7 +745,6 @@ public class GroupAddressNameCorrector
                     } 
                 }
             }
-
 
             // Save the updated XML files
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
@@ -1279,6 +1135,17 @@ public class GroupAddressNameCorrector
         }
     }
     
+    /// <summary>
+    /// Retrieves the appropriate Formatter instance based on the application settings.
+    /// Checks if the settings window is accessible and if DeepL translation is enabled.
+    /// If enabled, validates the DeepL API key and returns a translation formatter if the key is valid.
+    /// Otherwise, returns a normalization formatter.
+    ///
+    /// <returns>
+    /// A Formatter instance, either for translation if the DeepL API key is valid,
+    /// or for normalization if the key is invalid or if DeepL translation is not enabled.
+    /// </returns>
+    /// </summary>
     private static Formatter GetFormatter()
     {
         if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableDeeplTranslation)
@@ -1292,7 +1159,153 @@ public class GroupAddressNameCorrector
 
         return new FormatterNormalize();
     }
+
+    /// <summary>
+    /// Generates a formatted location name based on the provided location object and name attribute value.
+    /// If the location object is null, returns a default formatted location name.
+    /// Otherwise, constructs the location name using the available attributes of the location object,
+    /// with fallback values for missing attributes. Appends a formatted distribution board name if present,
+    /// and adds the name attribute value if it matches the specified pattern.
+    ///
+    /// <param name="location">A dynamic object representing the location with attributes such as BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
+    /// <param name="nameAttrValue">A string containing the name attribute value that is appended to the location name if it matches a specific pattern.</param>
+    /// <returns>
+    /// A formatted string representing the location name, constructed from the location attributes and the name attribute value.
+    /// </returns>
+    /// </summary>
+    static string GetLocationName(dynamic location, string nameAttrValue)
+    {
+        if (location == null)
+        {
+            // Default location details if no location information is found
+            App.ConsoleAndLogWriteLine("No location found");
+            return $"_{formatter.Format("Bâtiment")}_{formatter.Format("Facade XX")}_{formatter.Format("Etage")}_{formatter.Format("Piece")}";
+        }
+
+        string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
+        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "Facade XX";
+        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage";
+        string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
+        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
+
+        // Format the location details
+        string nameLocation = $"_{formatter.Format(buildingName)}_{formatter.Format(buildingPartName)}_{formatter.Format(floorName)}_{formatter.Format(roomName)}";
+        if (!string.IsNullOrEmpty(distributionBoardName))
+        {
+            nameLocation += $"_{formatter.Format(distributionBoardName)}";
+        }
+
+        //Add circuit part to the name if it exist
+        Match match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
+        if (match.Success)
+        {
+            nameLocation += "_" + match.Value;
+        }
+
+        return nameLocation;
+    }
+
+    /// <summary>
+    /// Determines the formatted name for a device based on its type and the provided name attribute value.
+    /// Checks for specific patterns in the name attribute value to categorize the device as "Cmd" or "Ie".
+    /// If no patterns match, it returns the formatted ObjectType of the device if available.
+    /// Otherwise, returns a default formatted type name.
+    ///
+    /// <param name="deviceRailMounted">A dynamic object representing a rail-mounted device with an ObjectType attribute.</param>
+    /// <param name="deviceRefObjectType">A dynamic object representing a reference object type with an ObjectType attribute.</param>
+    /// <param name="nameAttrValue">A string containing the name attribute value to be checked for specific patterns.</param>
+    /// <returns>
+    /// A formatted string representing the device type, determined by matching patterns in the name attribute value or by using the ObjectType of the provided device objects.
+    /// </returns>
+    /// </summary>
+    static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
+    {
+        if (Regex.IsMatch(nameAttrValue, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
+        {
+            return $"{formatter.Format("Cmd")}";
+        }
+        else if (Regex.IsMatch(nameAttrValue, @"\bie\b", RegexOptions.IgnoreCase))
+        {
+            return $"{formatter.Format("Ie")}";
+        }
+        else if (deviceRailMounted != null && !string.IsNullOrEmpty(deviceRailMounted?.ObjectType))
+        {
+            // Format the ObjectType of the rail-mounted device
+            return $"{formatter.Format(deviceRailMounted?.ObjectType ?? string.Empty)}";
+        }
+        else if (deviceRefObjectType != null)
+        {
+            // Format the ObjectType of the device with a non-empty ObjectType
+            return $"{formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
+        }
+
+        // Default nameObjectType if no valid ObjectType is found
+        App.ConsoleAndLogWriteLine($"No Object Type found for {nameAttrValue}");
+        return $"{formatter.Format("Type")}";
+    }
+
     
+    /// <summary>
+    /// Retrieves and formats the function name for a group range based on the provided group address element.
+    /// It traverses the ancestors of the element to find the relevant group range elements,
+    /// formats their names, and combines them into a single function name.
+    /// If no group range element is found, returns an empty string.
+    ///
+    /// <param name="groupAddressElement">An XElement representing the group address.</param>
+    /// <returns>
+    /// A formatted string representing the function name for the group range, constructed from the names of the ancestor group range elements.
+    /// </returns>
+    /// </summary>
+    static string GetGroupRangeFunctionName(XElement groupAddressElement)
+    {
+        // Get the GroupRange ancestor element, if any
+        var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
+        if (groupRangeElement == null) return string.Empty;
+
+        string nameFunction = string.Empty;
+        
+        // Check for a higher-level GroupRange ancestor
+        var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
+        if (ancestorGroupRange != null)
+        {
+            // Format the name of the ancestor GroupRange
+            nameFunction = $"_{formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+            // Translate the group name
+            TranslateGroupRangeName(ancestorGroupRange);
+        }
+        
+        // Format the name of the current GroupRange
+        nameFunction += $"_{formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+        // Translate the group name
+        TranslateGroupRangeName(groupRangeElement);
+
+        return nameFunction;
+    }
+
+    /// <summary>
+    /// Translates the name attribute of the provided group range element using DeepL translation if enabled and valid.
+    /// Checks if translation is enabled, the DeepL API key is valid, and the name attribute is not already translated.
+    /// If these conditions are met, translates the name attribute and adds it to the translation cache to avoid redundant translations.
+    ///
+    /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be translated.</param>
+    /// </summary>
+    static void TranslateGroupRangeName(XElement groupRangeElement)
+    {
+        //Check if the translation is needed
+        if (App.DisplayElements?.SettingsWindow == null || !App.DisplayElements.SettingsWindow.EnableDeeplTranslation || !ValidDeeplKey)
+            return;
+
+        var nameAttr = groupRangeElement.Attribute("Name");
+        if (nameAttr == null) return;
+
+        string nameValue = nameAttr.Value;
+        if (string.IsNullOrEmpty(nameValue) || translationCache.Contains(nameValue))
+            return;
+
+        // Translated only if not already translated
+        nameAttr.Value = formatter.Translate(nameValue);
+        translationCache.Add(nameAttr.Value);
+    }
     
 }
 
