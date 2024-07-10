@@ -36,7 +36,9 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the version of the application.
         /// </summary>
-        public static readonly string AppVersion = "1.7"; // Version de l'application
+        public static readonly float AppVersion = (float) 1.7; // Version de l'application
+
+        public static readonly int AppBuild = 255;
         
         
         
@@ -155,6 +157,8 @@ namespace KNXBoostDesktop
             
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
+
+           ProjectFileManager.WriteDebugFile();
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
@@ -372,7 +376,7 @@ namespace KNXBoostDesktop
             foreach (string directory in directories)
             {
                 // Exclure le dossier 'logs' et 'resources'
-                if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase)))
+                if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;
                 }

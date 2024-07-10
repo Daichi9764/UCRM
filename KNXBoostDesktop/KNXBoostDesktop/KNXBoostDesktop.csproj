@@ -6,13 +6,15 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
-        <ApplicationIcon>icon.ico</ApplicationIcon>
+        <ApplicationIcon>bin\Debug\net8.0-windows\IconApp.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="KNX_logo.svg.ico">
-        <DependentUpon>MainWindow.xaml</DependentUpon>
-      </None>
+      <None Remove="resources\icon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="bin\Debug\net8.0-windows\IconApp.ico" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,48 +33,44 @@
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
       <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-
-
+      <PackageReference Include="System.Management" Version="8.0.0" />
     </ItemGroup>
+    
 
     <ItemGroup>
-      <None Remove="resources\IconApp.ico" />
-      <None Remove="resources\Icon_level.png" />
-      <None Remove="resources\Icon_level2.png" />
-      <None Remove="resources\Icon_level3.png" />
-      <None Remove="upload.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="resources\settingsIcon.png" />
-      <None Remove="resources\checkmark.png" />
-      <None Remove="resources\cross.png" />
-      <None Remove="resources\whitecross.png" />
-      <None Remove="resources\settings.svg" />
-      <None Remove="resources\download.png" />
-      <None Remove="resources\settingsIcon.png" />
-      <None Remove="resources\UpdatedDummy.xml" />
-      <None Remove="resources\OriginalDummy.xml" />
-      <None Remove="resources\icon.ico" />
-      <Resource Include="resources\icon.ico" />
-      <None Remove="resources\ConsoleWindowIcon.ico" />
       <Resource Include="resources\ConsoleWindowIcon.ico" />
-      <None Remove="resources\loupe.png" />
-      <None Remove="resources\settingsIcon2.png" />
-      <None Remove="resources\knx-logo-white.png" />
-      <None Remove="resources\knx-logo-white.ico" />
-      <None Remove="resources\telechargeur.png" />
-      <None Remove="resources\telecharger.png" />
-      <None Remove="resources\parametres-de-lapplication.png" />
-      <None Remove="resources\BOOST.ico" />
-      <None Remove="resources\BOOST-2.ico" />
       <Resource Include="resources\BOOST-2.ico" />
       <Resource Include="resources\IconApp.ico" />
-      <None Remove="resources\Icon_level2SVG.svg" />
     </ItemGroup>
+    
 
     <ItemGroup>
-      <Content Include="KNXBoostDesktop_rz3kjjxl_wpftmp.csproj" />
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Properties\Settings.Designer.cs">
+        <DesignTimeSharedInput>True</DesignTimeSharedInput>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Settings.settings</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+    
+
+    <ItemGroup>
+      <None Update="Properties\Settings.settings">
+        <Generator>SettingsSingleFileGenerator</Generator>
+        <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      </None>
     </ItemGroup>
 
 </Project>

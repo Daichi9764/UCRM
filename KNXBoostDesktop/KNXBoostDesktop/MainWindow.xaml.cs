@@ -613,7 +613,7 @@ public partial class MainWindow
         Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
     }
 
-    //--------------------- Gestion den la fenêtre de chargement -----------------------------------------------------//
+    //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
     /// <summary>
     /// Executes a long-running task asynchronously, displaying progress in a loading window.
     /// The task includes showing a progress indicator in the taskbar,
@@ -930,7 +930,6 @@ public partial class MainWindow
     {
         if (TreeViewDroite.SelectedItem is TreeViewItem selectedItem)
         {
-
             // Vérifier si l'élément sélectionné est un élément de dernier niveau
             if (selectedItem.Items.Count == 0)
             {
@@ -939,25 +938,39 @@ public partial class MainWindow
                 var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
                 if (textBlock != null)
                 {
-
-                    string itemName = textBlock.Text;
-                    var result = App.DisplayElements.ShowGroupAddressRenameWindow(itemName);
-                    if (result == true)
-
+                    // Obtenir le chemin de l'élément sélectionné
+                    string? itemPath = GetItemPath(selectedItem);
+                    if (itemPath != null)
                     {
-                        string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
-                        textBlock.Text = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+                        // Trouver l'élément correspondant dans TreeViewGauche
+                        TreeViewItem? correspondingItem = FindTreeViewItemByPath(TreeViewGauche, itemPath);
+                        if (correspondingItem != null)
+                        {
+                            // Extraire le texte de l'élément correspondant
+                            var correspondingStackPanel = correspondingItem.Header as StackPanel;
+                            var correspondingTextBlock = correspondingStackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+                            if (correspondingTextBlock != null)
+                            {
+                                string originalAddress = correspondingTextBlock.Text;
+                                string editedAddress = textBlock.Text;
 
-                        // Afficher la nouvelle valeur dans la console
-                        App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
+                                var result = App.DisplayElements.ShowGroupAddressRenameWindow(originalAddress, editedAddress);
+                                if (result == true)
+                                {
+                                    string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
+                                    textBlock.Text = newAddress;
 
-                        // Renommer l'adresse dans le fichier XML
-                        RenameAddressInXmlFile(_xmlFilePath2, itemName, newAddress);
+                                    // Afficher la nouvelle valeur dans la console
+                                    App.ConsoleAndLogWriteLine("New Address: " + textBlock.Text);
+
+                                    // Renommer l'adresse dans le fichier XML
+                                    RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
+                                }
+                            }
+                        }
                     }
-
                 }
             }
-        
         }
     }
 
@@ -1044,14 +1057,14 @@ public partial class MainWindow
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
     }
-    
-    
+
+
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
     /// <summary>
     /// Asynchronously loads XML files into two TreeViews.
     /// </summary>
     private async Task LoadXmlFiles()
-    {            
+    {
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
     }
@@ -1079,9 +1092,10 @@ public partial class MainWindow
                 // Ajouter tous les nœuds récursivement
                 if (xmlDoc.DocumentElement != null)
                 {
+                    int index = 0;
                     foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
                     {
-                        AddNodeRecursively(node, treeView.Items, 0);
+                        AddNodeRecursively(node, treeView.Items, 0, index++);
                     }
                 }
             });
@@ -1094,7 +1108,6 @@ public partial class MainWindow
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             });
         }
-
     }
 
     /// <summary>
@@ -1103,17 +1116,19 @@ public partial class MainWindow
     /// <param name="xmlNode">The XML node to add.</param>
     /// <param name="parentItems">The parent collection of TreeView items.</param>
     /// <param name="level">The depth level of the current XML node.</param>
-    private void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level)
+    /// <param name="index">The index of the current XML node among its siblings.</param>
+    private void AddNodeRecursively(XmlNode xmlNode, ItemCollection parentItems, int level, int index)
     {
         if (xmlNode.NodeType != XmlNodeType.Element) return;
-        var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level);
+        var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level, index);
 
         parentItems.Add(treeNode);
 
         // Parcourir récursivement les enfants
+        int childIndex = 0;
         foreach (XmlNode childNode in xmlNode.ChildNodes)
         {
-            AddNodeRecursively(childNode, treeNode.Items, level + 1);
+            AddNodeRecursively(childNode, treeNode.Items, level + 1, childIndex++);
         }
     }
 
@@ -1122,8 +1137,9 @@ public partial class MainWindow
     /// </summary>
     /// <param name="xmlNode">The XML node to create a TreeViewItem from.</param>
     /// <param name="level">The depth level of the XML node.</param>
+    /// <param name="index">The index of the XML node among its siblings.</param>
     /// <returns>A TreeViewItem representing the XML node.</returns>
-    private TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level)
+    private TreeViewItem CreateTreeViewItemFromXmlNode(XmlNode xmlNode, int level, int index)
     {
         var stack = new StackPanel { Orientation = Orientation.Horizontal };
 
@@ -1154,6 +1170,7 @@ public partial class MainWindow
         var treeNode = new TreeViewItem
         {
             Header = stack,
+            Tag = GetNodePath(level, index)
         };
 
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
@@ -1164,10 +1181,21 @@ public partial class MainWindow
         {
             treeNode.Style = (Style)FindResource("TreeViewItemStyleDark");
         }
-        
+
         return treeNode;
     }
-    
+
+    /// <summary>
+    /// Generates a unique path for the node based on its level and index.
+    /// </summary>
+    /// <param name="level">The depth level of the node.</param>
+    /// <param name="index">The index of the node among its siblings.</param>
+    /// <returns>A string representing the unique path of the node.</returns>
+    private string GetNodePath(int level, int index)
+    {
+        return $"{level}-{index}";
+    }
+
 
     //-------------------- Gestion du scroll vertical synchronisé ------------------------------------//
 
@@ -1468,7 +1496,7 @@ public partial class MainWindow
     {
         var itemPath = GetItemPath(sourceItem);
         if (itemPath == null) return; // Gérer le cas où itemPath est null
-        
+
         var targetItem = FindTreeViewItemByPath(targetTreeView, itemPath);
         if (targetItem == null) return;
         targetItem.IsExpanded = sourceItem.IsExpanded;
@@ -1484,6 +1512,7 @@ public partial class MainWindow
         }
     }
 
+
     /// <summary>
     /// Retrieves the path of a TreeViewItem by traversing its parent items recursively up to the root.
     /// </summary>
@@ -1491,38 +1520,27 @@ public partial class MainWindow
     /// <returns>The path of the TreeViewItem as a string, or null if the path cannot be determined.</returns>
     private static string? GetItemPath(TreeViewItem item)
     {
-        if (item.Header is not StackPanel headerStack)
+        var path = item.Tag as string;
+        if (path == null)
         {
             return null;
         }
 
-        var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
-        if (textBlock == null)
-        {
-            return null;
-        }
-
-        var path = textBlock.Text;
         var parent = item.Parent as TreeViewItem;
-
         while (parent != null)
         {
-            if (parent.Header is not StackPanel parentHeaderStack)
+            var parentPath = parent.Tag as string;
+            if (parentPath == null)
             {
                 return null;
             }
 
-            var parentTextBlock = parentHeaderStack.Children.OfType<TextBlock>().FirstOrDefault();
-            if (parentTextBlock == null)
-            {
-                return null;
-            }
-
-            path = parentTextBlock.Text + "\\&" + path;
+            path = parentPath + "\\" + path;
             parent = parent.Parent as TreeViewItem;
         }
         return path;
     }
+
 
     /// <summary>
     /// Finds a TreeViewItem in a TreeView based on a given path.
@@ -1534,7 +1552,7 @@ public partial class MainWindow
     {
         _ = path ?? throw new ArgumentNullException(nameof(path));
 
-        var parts = path.Split("\\&");
+        var parts = path.Split("\\");
         var items = treeView.Items;
         TreeViewItem? currentItem = null;
 
@@ -1543,9 +1561,9 @@ public partial class MainWindow
             currentItem = null;
             foreach (var item in items)
             {
-                if (item is not TreeViewItem { Header: StackPanel headerStack } treeViewItem) continue;
-                var textBlock = headerStack.Children.OfType<TextBlock>().FirstOrDefault();
-                if (textBlock == null || textBlock.Text != part) continue;
+                if (item is not TreeViewItem treeViewItem) continue;
+                var itemPath = treeViewItem.Tag as string;
+                if (itemPath == null || itemPath != part) continue;
                 currentItem = treeViewItem;
                 items = treeViewItem.Items;
                 break;
@@ -1554,6 +1572,7 @@ public partial class MainWindow
         }
         return currentItem;
     }
+
 
 
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//

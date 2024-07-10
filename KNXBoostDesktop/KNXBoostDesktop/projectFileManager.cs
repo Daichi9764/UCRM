@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
 using Microsoft.Win32;
-using System.Xml;
-using System.Xml.Linq;
-
+using System.Globalization;
+using System.Management;
 
 namespace KNXBoostDesktop
 {
@@ -483,6 +482,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Asynchronously searches for the '0.xml' file in the exported KNX project directory.
         /// </summary>
+        /// <param name="loadingWindow">An instance of the loading window used to display search status and progress.</param>
         /// <remarks>
         /// This method:
         /// <list type="number">
@@ -725,61 +725,235 @@ namespace KNXBoostDesktop
             }
         }
 
-        
-        /// <summary>
-        /// Loads an XML document from a specified path.
-        /// </summary>
-        /// <param name="path">The path to the XML document to load.</param>
-        /// <returns>Returns an XDocument if the file is successfully loaded; otherwise, returns null.</returns>
-        /// <remarks>
-        /// This method:
-        /// <list type="number">
-        /// <item>Attempts to load the XML document from the specified path.</item>
-        /// <item>Catches and logs specific exceptions such as FileNotFoundException, DirectoryNotFoundException, IOException, UnauthorizedAccessException, and XmlException.</item>
-        /// <item>Logs an error message and returns null if an exception is thrown.</item>
-        /// </list>
-        /// </remarks>
-        public XDocument? LoadKnxDocument(string path)
-        {
-            try
-            {
-                return XDocument.Load(path);
-            }
-            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException ||
-                                       ex is IOException || ex is UnauthorizedAccessException || ex is XmlException)
-            {
-                App.ConsoleAndLogWriteLine($"Error loading XML: {ex.Message}");
-                return null;
-            }
-        }
-    
-        /// <summary>
-        /// Saves an XML document to a specified path.
-        /// </summary>
-        /// <param name="xmlDoc">The XDocument to save.</param>
-        /// <param name="path">The path where the XML document will be saved.</param>
-        /// <remarks>
-        /// This method:
-        /// <list type="number">
-        /// <item>Attempts to save the XML document to the specified path.</item>
-        /// <item>Catches and logs specific exceptions such as UnauthorizedAccessException and IOException.</item>
-        /// <item>Logs a success message if the file is saved successfully, or an error message if an exception is thrown.</item>
-        /// </list>
-        /// </remarks>
-        public void SaveXml(XDocument xmlDoc, string path)
-        {
-            try
-            {
-                xmlDoc.Save(path);
-                App.ConsoleAndLogWriteLine($"Updated XML file saved as {path}");
-            }
-            catch (Exception ex) when ( ex is UnauthorizedAccessException || ex is IOException)
-            {
-                App.ConsoleAndLogWriteLine($"Error saving XML: {ex.Message}");
-            }
-        }
 
 
         // Fonction générant les fichiers de débogage de l'application
+        public static void WriteDebugFile()
+        {
+            // Créez le répertoire "./debug" s'il n'existe pas
+            Directory.CreateDirectory("./debug");
+        
+            // Définir le chemin du fichier de sortie
+            string filePath = "./debug/debugInfo.txt";
+        
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine("--------------------------------------------------------------------");
+                writer.WriteLine("|                      INFORMATIONS MACHINE                        |");
+                writer.WriteLine("--------------------------------------------------------------------");
+        
+                try
+                {
+                    // Requête WMI pour obtenir les informations sur le système d'exploitation
+                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
+                    ManagementObjectCollection results = searcher.Get();
+        
+                    foreach (var o in results)
+                    {
+                        var resultat = (ManagementObject)o;
+                        // Obtenir le nom de l'OS
+                        string osName = resultat["Caption"].ToString();
+                        // Afficher les informations sur l'OS
+                        writer.WriteLine($"Système d'exploitation : {osName}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine(
+                        $"Système d'exploitation : Erreur lors de la récupération des informations sur l'OS : {ex.Message}");
+                }
+        
+                writer.WriteLine($"Version de l'OS : {Environment.OSVersion}");
+                writer.WriteLine($"OS 64 bits ? {(Environment.Is64BitOperatingSystem ? "oui" : "non")}");
+                writer.WriteLine($"Dossier système: {Environment.SystemDirectory}");
+                writer.WriteLine();
+        
+                writer.WriteLine($"Langue du système d'exploitation : {CultureInfo.CurrentCulture.DisplayName}");
+                writer.WriteLine($"Code de langue (ISO 639-1) : {CultureInfo.CurrentCulture.TwoLetterISOLanguageName}");
+                writer.WriteLine($"Nom de la culture : {CultureInfo.CurrentCulture.Name}");
+                writer.WriteLine();
+        
+                writer.WriteLine($"Nom de la machine: {Environment.MachineName}");
+                writer.WriteLine();
+        
+                writer.WriteLine($"Nom de domaine utilisateur: {Environment.UserDomainName}");
+                writer.WriteLine($"Nom d'utilisateur: {Environment.UserName}");
+                writer.WriteLine();
+        
+                writer.WriteLine("--------------------------------------------------------------------");
+                writer.WriteLine("|                      INFORMATIONS LOGICIEL                       |");
+                writer.WriteLine("--------------------------------------------------------------------");
+        
+                writer.WriteLine($"Version .NET utilisée par le logiciel: {Environment.Version}");
+                writer.WriteLine($"Logiciel exécuté depuis le dossier : {Environment.CurrentDirectory}");
+                writer.WriteLine();
+        
+                writer.WriteLine($"ID du process: {Environment.ProcessId}");
+                writer.WriteLine($"Process lancé en 64 bits ? {(Environment.Is64BitProcess ? "oui" : "non")}");
+                writer.WriteLine(
+                    $"Process lancé en mode administrateur ? {(Environment.IsPrivilegedProcess ? "oui" : "non")}");
+                writer.WriteLine();
+        
+                // Affichage de la RAM utilisée par le logiciel
+                double bytes = Environment.WorkingSet;
+                var kilobytes = bytes / 1024;
+                var megabytes = kilobytes / 1024;
+                var gigabytes = megabytes / 1024;
+        
+                // Affichage dans différents formats
+                writer.Write($"Mémoire vive utilisée par le logiciel : ");
+                if (kilobytes >= 0.5 && megabytes <= 0.5) writer.WriteLine($"{kilobytes:0.00} Ko");
+                else if (megabytes >= 0.5 && gigabytes <= 0.5) writer.WriteLine($"{megabytes:0.00} Mo");
+                else if (gigabytes >= 0.5) writer.WriteLine($"{gigabytes:0.00} Go");
+                else writer.WriteLine($"{bytes} octets");
+                writer.WriteLine();
+        
+                writer.WriteLine("--------------------------------------------------------------------");
+                writer.WriteLine("|                 INFORMATIONS SUR LE MATERIEL                     |");
+                writer.WriteLine("--------------------------------------------------------------------");
+        
+                writer.WriteLine("-- Informations sur le processeur (CPU) --");
+                try
+                {
+                    // Requête WMI pour obtenir les informations sur le processeur
+                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_Processor");
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
+                    ManagementObjectCollection results = searcher.Get();
+        
+                    foreach (ManagementObject resultaat in results)
+                    {
+                        writer.WriteLine($"Nom : {resultaat["Name"]}");
+                        writer.WriteLine($"Fabricant : {resultaat["Manufacturer"]}");
+                        writer.WriteLine($"Description : {resultaat["Description"]}");
+                        writer.WriteLine($"Nombre de coeurs : {resultaat["NumberOfCores"]}");
+                        writer.WriteLine($"Nombre de processeurs logiques : {resultaat["NumberOfLogicalProcessors"]}");
+                        writer.WriteLine($"Vitesse d'horloge actuelle : {resultaat["CurrentClockSpeed"]} MHz");
+                        writer.WriteLine($"Vitesse d'horloge maximale : {resultaat["MaxClockSpeed"]} MHz");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine(
+                        $"Erreur lors de la récupération des informations sur le processeur : {ex.Message}");
+                }
+        
+                writer.WriteLine();
+        
+                writer.WriteLine("-- Informations sur le processeur graphique (GPU) --");
+                try
+                {
+                    // Créer une requête WMI pour obtenir les informations sur la carte graphique
+                    var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
+        
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        // Obtenir les propriétés de la carte graphique
+                        string name = obj["Caption"]?.ToString();
+                        string deviceID = obj["DeviceID"]?.ToString();
+                        string driverVersion = obj["DriverVersion"]?.ToString();
+                        string driverDate = obj["DriverDate"]?.ToString();
+                        string videoMemory = obj["AdapterRAM"] != null
+                            ? (Convert.ToUInt64(obj["AdapterRAM"]) / 1024 / 1024).ToString() + " MB"
+                            : "N/A";
+        
+                        // Formater la date du pilote vidéo
+                        string formattedDriverDate = FormatDriverDate(driverDate);
+        
+                        // Afficher les informations
+                        writer.WriteLine($"Nom de la carte graphique : {name}");
+                        writer.WriteLine($"Version du pilote : {driverVersion}");
+                        writer.WriteLine($"Date du pilote : {formattedDriverDate}");
+                        writer.WriteLine($"Mémoire vidéo : {videoMemory}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine($"Erreur lors de l'accès aux informations WMI : {ex.Message}");
+                }
+        
+                writer.WriteLine();
+        
+                writer.WriteLine("-- Informations sur la mémoire physique (RAM) --");
+                try
+                {
+                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
+                    ManagementObjectCollection results = searcher.Get();
+        
+                    foreach (ManagementObject rezult in results)
+                    {
+                        ulong totalMemoryBytes = (ulong)rezult["TotalVisibleMemorySize"] * 1024;
+                        ulong availableMemoryBytes = (ulong)rezult["FreePhysicalMemory"] * 1024;
+        
+                        double totalMemoryGB = totalMemoryBytes / (1024.0 * 1024 * 1024);
+                        double availableMemoryGB = availableMemoryBytes / (1024.0 * 1024 * 1024);
+        
+                        writer.WriteLine(
+                            $"Mémoire Physique : {availableMemoryGB:F2} Go libre sur {totalMemoryGB:F2} Go total");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine($"Erreur lors de la récupération des informations sur la mémoire : {ex.Message}");
+                }
+        
+                writer.WriteLine();
+        
+                writer.WriteLine("-- Informations sur la mémoire de masse --");
+        
+                // Stocker les informations des lecteurs
+                string diskInfo = "Espace libre dans les volumes : \n";
+        
+                // Parcourir les lecteurs et obtenir les informations
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
+                {
+                    if (drive.IsReady) // Vérifie si le lecteur est prêt
+                    {
+                        // Formatage de l'espace libre en Go avec 1 décimale
+                        double freeSpaceGB = drive.AvailableFreeSpace / (1024.0 * 1024 * 1024);
+                        string formattedFreeSpace = $"{freeSpaceGB:F1} Go";
+        
+                        // Ajouter les informations au résultat
+                        diskInfo += $" {drive.Name} {formattedFreeSpace},\n";
+                    }
+                }
+        
+                // Supprimer la dernière virgule
+                if (diskInfo.EndsWith(",\n"))
+                {
+                    diskInfo = diskInfo.Remove(diskInfo.Length - 2);
+                }
+        
+                // Afficher le résultat
+                writer.WriteLine(diskInfo);
+            }
+        
+            Console.WriteLine("Les informations ont été écrites dans le fichier ./debug/debugInfo.txt");
+        }
+
+        private static string FormatDriverDate(string driverDate)
+        {
+            // Exemple de format : 20220902000000.000000-000
+            // Le format souhaité est DD/MM/YYYY
+
+            if (string.IsNullOrEmpty(driverDate) || driverDate.Length < 8)
+            {
+                return "Date inconnue";
+            }
+
+            // Extraire la partie date de la chaîne (YYYYMMDD)
+            string datePart = driverDate.Substring(0, 8);
+
+            // Convertir en DateTime
+            if (DateTime.TryParseExact(datePart, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateTime date))
+            {
+                // Formater la date en DD/MM/YYYY
+                return date.ToString("dd/MM/yyyy");
+            }
+
+            return "Date invalide";
+        }
     }
 }

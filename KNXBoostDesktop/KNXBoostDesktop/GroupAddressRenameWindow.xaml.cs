@@ -101,7 +101,7 @@ public partial class GroupAddressRenameWindow
             // Anglais
             case "EN":
                 GroupAddressRenameWindowTopTitle.Text = "Rename Group Address";
-                BeforeText.Text = "Group Address";
+                BeforeText.Text = "Original Group Address";
                 AfterText.Text = "Rename to...";
                 SaveButtonText.Text = "Save";
                 CancelButtonText.Text = "Cancel";
@@ -308,7 +308,7 @@ public partial class GroupAddressRenameWindow
             // Langue par défaut (français)
             default:
                 GroupAddressRenameWindowTopTitle.Text = "Renommer l'adresse de groupe";
-                BeforeText.Text = "Adresse de groupe";
+                BeforeText.Text = "Adresse de groupe orignale ";
                 AfterText.Text = "Renommer en...";
                 SaveButtonText.Text = "Enregistrer";
                 CancelButtonText.Text = "Annuler";
@@ -316,15 +316,15 @@ public partial class GroupAddressRenameWindow
         }
     }
 
-    
+
     /// <summary>
     /// Définit l'adresse actuelle à renommer.
     /// </summary>
     /// <param name="address">L'adresse actuelle de groupe.</param>
-    public void SetAddress(string address)
+    public void SetAddress(string addressOriginale, string addressModifiée)
     {
-        BeforeTextBox.Text = address;
-        AfterTextBox.Text = address;
+        BeforeTextBox.Text = addressOriginale;
+        AfterTextBox.Text = addressModifiée;
     }
     
     
