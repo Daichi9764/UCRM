@@ -38,7 +38,7 @@ namespace KNXBoostDesktop
         /// </summary>
         public static readonly float AppVersion = (float) 1.7; // Version de l'application
 
-        public static readonly int AppBuild = 441;
+        public static readonly int AppBuild = 442;
         
         
         // Gestion des logs
@@ -400,6 +400,7 @@ namespace KNXBoostDesktop
         }
     }
 }
+
 
 
 
