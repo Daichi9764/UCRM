@@ -1388,12 +1388,12 @@ namespace KNXBoostDesktop
                 deepDarkBackgroundColor = "#FFFFFF";
                 pathColor = "#D7D7D7";
                 textboxBackgroundColor = "#FFFFFF";
-                borderBrush = new SolidColorBrush(Colors.Gray);
+                borderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#b8b8b8"));
                 
-                TranslationSourceLanguageComboBox.Style = null;
-                TranslationLanguageDestinationComboBox.Style = null;
-                ThemeComboBox.Style = null;
-                AppLanguageComboBox.Style = null;
+                TranslationSourceLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
+                TranslationLanguageDestinationComboBox.Style = (Style)FindResource("LightComboBoxStyle");
+                ThemeComboBox.Style = (Style)FindResource("LightComboBoxStyle");
+                AppLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
             }
@@ -1407,10 +1407,10 @@ namespace KNXBoostDesktop
                 checkboxStyle = (Style)FindResource("CheckboxDarkThemeStyle");
                 borderBrush = (Brush)FindResource("DarkThemeCheckBoxBorderBrush");
                 
-                TranslationSourceLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-                TranslationLanguageDestinationComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-                ThemeComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
-                AppLanguageComboBox.Style = (Style)FindResource("ComboBoxFlatStyle");
+                TranslationSourceLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
+                TranslationLanguageDestinationComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
+                ThemeComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
+                AppLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
             }
@@ -1420,7 +1420,7 @@ namespace KNXBoostDesktop
             
             // Arrière plan de la fenêtre
             Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
-                
+            
             // En-tête de la fenêtre
             SettingsIconPath1.Brush = textColorBrush;
             SettingsIconPath2.Brush = textColorBrush;
@@ -1436,6 +1436,7 @@ namespace KNXBoostDesktop
             EnableAutomaticTranslationLangDetectionCheckbox.Foreground = textColorBrush;
             TranslationSourceLanguageComboBoxText.Foreground = textColorBrush;
             TranslationDestinationLanguageComboBoxText.Foreground = textColorBrush;
+            TranslationLanguageDestinationComboBox.Foreground = textColorBrush;
             GroupAddressManagementTitle.Foreground = textColorBrush;
             RemoveUnusedAddressesCheckBox.Foreground = textColorBrush;
             AppSettingsTitle.Foreground = textColorBrush;
@@ -1457,24 +1458,66 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
-
-            // Désactivation des cases si on active pas la traduction
-            if (EnableDeeplTranslation) return;
             
-            DeeplApiKeyTextBox.IsEnabled = false;
-            EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
-            TranslationSourceLanguageComboBox.IsEnabled = false;
-            TranslationLanguageDestinationComboBox.IsEnabled = false;
-            Hyperlink.IsEnabled = false;
+            foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
+            {
+                item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
+            }
+            
+            foreach (ComboBoxItem item in ThemeComboBox.Items)
+            {
+                item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+            }
+            
+            foreach (ComboBoxItem item in AppLanguageComboBox.Items)
+            {
+                item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+            }
+            
+            foreach (ComboBoxItem item in TranslationSourceLanguageComboBox.Items)
+            {
+                item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+            }
+            
+              
+            if (!EnableDeeplTranslation)
+            {
+                DeeplApiKeyTextBox.IsEnabled = false;
+                EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
+                TranslationSourceLanguageComboBox.IsEnabled = false;
+                TranslationLanguageDestinationComboBox.IsEnabled = false;
+                Hyperlink.IsEnabled = false;
+
+                if (EnableLightTheme)
+                {
+                    Hyperlink.Foreground = new SolidColorBrush(Colors.Gray);
+                    DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Gray);
+                    DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
+                    EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Gray);
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+                    TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                    TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+                }
+                else
+                {
+                    Hyperlink.Foreground = new SolidColorBrush(Colors.DimGray);
+                    DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.DimGray);
+                    DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#111111"));
+                    DeeplApiKeyTextBox.Foreground = new SolidColorBrush(Colors.DarkGray);
+                    EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.DimGray);
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+                    TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                    TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+                }
                 
-            Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
-            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
-            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
-            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
+            }
+            
         }
 
         
@@ -1627,27 +1670,73 @@ namespace KNXBoostDesktop
         {
             // Activation du lien hypertexte
             Hyperlink.IsEnabled = true;
-            Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
-            
             // On affiche la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
-            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Black);
             DeeplApiKeyTextBox.IsEnabled = true;
-            DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.White);
-
             // On affiche le menu déroulant de sélection de la langue de destination de la traduction
             TranslationLanguageDestinationComboBox.IsEnabled = true;
-            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.Black);
-            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
-            
-            TranslationSourceLanguageComboBox.IsEnabled = true;
-            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
-            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
-            
             // On affiche le checkmark de la détection automatique de la langue source de la traduction
             EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = true;
-            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Black);
             
             TranslationSourceLanguageComboBox.IsEnabled = (!EnableAutomaticSourceLangDetection)||(bool)(!EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!);
+
+            if (EnableLightTheme)
+            {
+                Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
+
+                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Black);
+                DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.White);
+
+                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.Black);
+                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
+
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
+
+                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Black);
+                
+                if (TranslationSourceLanguageComboBox.IsEnabled)
+                {
+                    //TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Green"));
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
+                }
+                else
+                {
+                    //TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Red"));
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                }
+            }
+            else
+            {
+                Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
+
+                DeeplApiKeyText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4")); 
+                DeeplApiKeyTextBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+                DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#333333"));
+                
+                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+
+                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+
+                if (TranslationSourceLanguageComboBox.IsEnabled)
+                {
+                    //TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Green"));
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
+                }
+                else
+                {
+                    //TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Red"));
+                    TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+                    TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                }
+            }
+
         }
 
         
@@ -1661,25 +1750,44 @@ namespace KNXBoostDesktop
         {
             // Désactivation du lien hypertexte
             Hyperlink.IsEnabled = false;
-            Hyperlink.Foreground = new SolidColorBrush(Colors.LightGray);
-            
             // On masque la textbox qui permet à l'utilisateur d'entrer la clé API DeepL
-            DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.LightGray);
             DeeplApiKeyTextBox.IsEnabled = false;
-            DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
-
             // On masque le menu déroulant de sélection de la langue de destination de la traduction
             TranslationLanguageDestinationComboBox.IsEnabled = false;
-            TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-            
-            TranslationSourceLanguageComboBox.IsEnabled = false;
-            TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.LightGray);
-            TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.LightGray);
-            
             // On masque le checkmark de la détection automatique de la langue source de la traduction
             EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = false;
-            EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.LightGray);
+            TranslationSourceLanguageComboBox.IsEnabled = false;
+
+            if (EnableLightTheme)
+            {
+                Hyperlink.Foreground = new SolidColorBrush(Colors.Gray);
+
+                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Gray);
+                DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0"));
+
+                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+
+                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                Hyperlink.Foreground = new SolidColorBrush(Colors.DimGray);
+
+                DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.DimGray);
+                DeeplApiKeyTextBox.Foreground = new SolidColorBrush(Colors.DarkGray);
+
+                TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+
+                EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
         }
         
         
@@ -1693,6 +1801,17 @@ namespace KNXBoostDesktop
         {
             // On masque le menu déroulant de sélection de la langue de traduction
             TranslationSourceLanguageComboBox.IsEnabled = false;
+
+            if (EnableLightTheme)
+            {
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Gray);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
         }
 
         
@@ -1706,6 +1825,18 @@ namespace KNXBoostDesktop
         {
             // On affiche le menu déroulant de sélection de la langue de traduction
             TranslationSourceLanguageComboBox.IsEnabled = true;
+            
+            if (EnableLightTheme)
+            {
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            else
+            {
+                TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.White);
+                TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.White);
+            }
+            
         }
         
         
