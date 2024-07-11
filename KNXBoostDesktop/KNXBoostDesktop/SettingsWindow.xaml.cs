@@ -119,7 +119,11 @@ namespace KNXBoostDesktop
             {
                 // Si le fichier de paramétrage n'existe pas, on le crée
                 // Note : comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement avec Close().
-                if (!File.Exists(settingsPath)) File.Create(settingsPath).Close();
+                if (!File.Exists(settingsPath))
+                {
+                    File.Create(settingsPath).Close();
+                    
+                }
             }
             // Si le programme n'a pas accès en écriture pour créer le fichier
             catch (UnauthorizedAccessException)
@@ -2003,13 +2007,15 @@ namespace KNXBoostDesktop
             // Si le stream est 'null'
             catch (ArgumentNullException)
             {
-                App.ConsoleAndLogWriteLine("Error: decryption stream is null or the keys are null. Data could not be decrypted.");
+                App.ConsoleAndLogWriteLine(
+                    "Error: decryption stream is null or the keys are null. Data could not be decrypted.");
                 return "";
             }
             // Si le format des clés est invalide
             catch (FormatException)
             {
-                App.ConsoleAndLogWriteLine("Error: the encryption keys are not in the right format. Data could not be decrypted.");
+                App.ConsoleAndLogWriteLine(
+                    "Error: the encryption keys are not in the right format. Data could not be decrypted.");
                 return "";
             }
             // Si le stream ne permet pas la lecture
@@ -2028,7 +2034,13 @@ namespace KNXBoostDesktop
             // Aucune idée de la raison
             catch (IOException)
             {
-                App.ConsoleAndLogWriteLine("Error: I/O error occured while attempting to decrypt the data. Data could not be decrypted.");
+                App.ConsoleAndLogWriteLine(
+                    "Error: I/O error occured while attempting to decrypt the data. Data could not be decrypted.");
+                return "";
+            }
+            catch (CryptographicException)
+            {
+                App.ConsoleAndLogWriteLine("Error: error while attempting to decrypt the DeepL API Key. Data could not be decrypted.");
                 return "";
             }
         }
@@ -2203,6 +2215,11 @@ namespace KNXBoostDesktop
         {
             using (var aesAlg = Aes.Create())
             {
+                if (RetrieveAndDecryptMainKey() == "")
+                {
+                    EncryptAndStoreMainKey(Convert.FromBase64String(GenerateRandomKey(32)));
+                }
+                
                 aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
                 aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
 
@@ -2261,8 +2278,34 @@ namespace KNXBoostDesktop
         {
             using (var aesAlg = Aes.Create())
             {
-                aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
-                aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
+                try
+                {
+                    aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
+                    aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
+                }
+                catch (ArgumentNullException)
+                {
+                    App.ConsoleAndLogWriteLine(
+                        "Error: The decrypted main key is incorrect. The decryption keys for the DeepL API key could not be retrieved.");
+                    return "";
+                }
+                catch (CryptographicException)
+                {
+                    App.ConsoleAndLogWriteLine(
+                        "Error: The decrypted main key is incorrect. The decryption keys for the DeepL API key could not be retrieved.");
+                    try
+                    {
+                        File.Delete("./emk");
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        MessageBox.Show("Erreur : impossible d'accéder au fichier 'ei', 'ek' ou 'appSettings'. Veuillez vérifier qu'ils " +
+                                        "ne sont pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1", "Erreur", 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        Application.Current.Shutdown(1);
+                    }
+                    return "";
+                }
 
                 var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
