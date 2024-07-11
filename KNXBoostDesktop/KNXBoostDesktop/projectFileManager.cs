@@ -1265,24 +1265,22 @@ namespace KNXBoostDesktop
             }
 
             // Créer l'archive ZIP et ajouter les fichiers/répertoires
-            using (var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+            using var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create);
+            foreach (var path in paths)
             {
-                foreach (var path in paths)
+                if (Directory.Exists(path))
                 {
-                    if (Directory.Exists(path))
-                    {
-                        // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
-                        AddDirectoryToArchive(archive, path, Path.GetFileName(path));
-                    }
-                    else if (File.Exists(path))
-                    {
-                        // Ajouter le fichier unique à l'archive
-                        archive.CreateEntryFromFile(path, Path.GetFileName(path));
-                    }
-                    else
-                    {
-                        App.ConsoleAndLogWriteLine($"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
-                    }
+                    // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
+                    AddDirectoryToArchive(archive, path, Path.GetFileName(path));
+                }
+                else if (File.Exists(path))
+                {
+                    // Ajouter le fichier unique à l'archive
+                    archive.CreateEntryFromFile(path, Path.GetFileName(path));
+                }
+                else
+                {
+                    App.ConsoleAndLogWriteLine($"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
                 }
             }
         }
@@ -1303,11 +1301,12 @@ namespace KNXBoostDesktop
             {
                 // Créer un chemin relatif à stocker dans le fichier ZIP
                 var entryPath = Path.Combine(entryName, Path.GetFileName(file));
-                using (var entryStream = archive.CreateEntry(entryPath).Open())
-                using (var fileStream = File.OpenRead(file))
-                {
-                    fileStream.CopyTo(entryStream);
-                }
+                
+                using var entryStream = archive.CreateEntry(entryPath).Open();
+                
+                using var fileStream = File.OpenRead(file);
+                
+                fileStream.CopyTo(entryStream);
             }
             
             //App.ConsoleAndLogWriteLine(Directory.GetDirectories(directoryPath));

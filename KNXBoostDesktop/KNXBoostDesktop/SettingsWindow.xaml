@@ -902,7 +902,7 @@
                                                <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,10" />
                        
-                                               <CheckBox x:Name="AddInfosOSCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
+                                               <CheckBox x:Name="AddInfosOsCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
                                                          Margin="10,5,0,10">
                                                </CheckBox>
                                                
