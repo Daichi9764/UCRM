@@ -84,7 +84,7 @@ namespace KNXBoostDesktop
             TranslationDestinationLang = "FR";
             EnableAutomaticSourceLangDetection = true;
             TranslationSourceLang = "FR";
-            RemoveUnusedGroupAddresses = false;
+            RemoveUnusedGroupAddresses = true;
             EnableLightTheme = true;
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
