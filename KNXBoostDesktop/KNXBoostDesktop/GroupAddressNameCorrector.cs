@@ -461,6 +461,18 @@ public class GroupAddressNameCorrector
                             .FirstOrDefault(s => s.Attribute("Type")?.Value == type)
                             ?.Attribute("Name")?.Value ?? string.Empty
                     );
+                    
+                    // Liste de tous les dispositifs dans la pièce
+                    var allDeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
+                        .Select(dir => dir.Attribute("RefId")?.Value)
+                        .ToList();
+
+                    // Liste des dispositifs dans les tableaux de distribution
+                    var deviceRefsInDistributionBoards = room.Elements(_globalKnxNamespace + "Space")
+                        .Where(s => s.Attribute("Type")?.Value == "DistributionBoard")
+                        .SelectMany(db => db.Elements(_globalKnxNamespace + "DeviceInstanceRef")
+                            .Select(dir => dir.Attribute("RefId")?.Value))
+                        .ToList();
 
                     return new
                     {
@@ -469,9 +481,8 @@ public class GroupAddressNameCorrector
                         BuildingPartName = getAncestorName("BuildingPart"),
                         BuildingName = getAncestorName("Building"),
                         DistributionBoardName = getDescendantName("DistributionBoard"),
-                        DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
-                            .Select(dir => dir.Attribute("RefId")?.Value)
-                            .ToList()
+                        DeviceRefs = allDeviceRefs, // Tous les dispositifs dans la pièce
+                        DeviceRefsInDistributionBoards = deviceRefsInDistributionBoards // Dispositifs dans les tableaux de distribution
                     };
                 })
                 .ToList();
@@ -1595,7 +1606,7 @@ public class GroupAddressNameCorrector
 
         // Format the location details
         nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
-        if (!string.IsNullOrEmpty(distributionBoardName))
+        if (!string.IsNullOrEmpty(distributionBoardName)&& location.DeviceRefsInDistributionBoards == location.DeviceRefs)
         {
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
