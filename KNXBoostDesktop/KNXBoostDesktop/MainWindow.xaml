@@ -559,7 +559,7 @@
                     <Border Grid.Column="0" x:Name="BorderPanGauche" BorderBrush="#D7D7D7 " BorderThickness="1,1,0,1" Padding="10" CornerRadius="0"/>
 
                     <!-- Ajuster les largeurs de fenêtres -->
-                    <GridSplitter Grid.Column="1" x:Name="AjusteurPan" Width="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D7D7D7"/>
+                    <GridSplitter Grid.Column="1" x:Name="AjusteurPan" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D7D7D7"/>
 
                     <!-- Adresses de Groupes Originales/-->
                     <Grid Grid.Column="2" >

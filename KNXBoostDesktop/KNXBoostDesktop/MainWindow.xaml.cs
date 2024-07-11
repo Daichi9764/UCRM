@@ -1074,6 +1074,9 @@ public partial class MainWindow
     {
         await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
         await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
+
+        TreeViewGauche.SelectedItemChanged += TreeViewGauche_SelectedItemChanged;
+        TreeViewDroite.SelectedItemChanged += TreeViewDroite_SelectedItemChanged;
     }
 
     /// <summary>
@@ -1580,6 +1583,52 @@ public partial class MainWindow
         return currentItem;
     }
 
+    //--------------------- Gestion sélection synchronisée ----------------------------------------------//
+
+    // <summary>
+    /// Handles the SelectedItemChanged event of the TreeViewGauche to synchronize selection with TreeViewDroite.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void TreeViewGauche_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        // Synchronize selection from TreeViewGauche to TreeViewDroite
+        SynchronizeTreeViewSelection(TreeViewGauche, TreeViewDroite);
+    }
+
+    /// <summary>
+    /// Handles the SelectedItemChanged event of the TreeViewDroite to synchronize selection with TreeViewGauche.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
+    private void TreeViewDroite_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        // Synchronize selection from TreeViewDroite to TreeViewGauche
+        SynchronizeTreeViewSelection(TreeViewDroite, TreeViewGauche);
+    }
+
+    /// <summary>
+    /// Synchronizes the selection between two TreeViews.
+    /// </summary>
+    /// <param name="sourceTreeView">The source TreeView from which selection is made.</param>
+    /// <param name="targetTreeView">The target TreeView to synchronize selection with.</param>
+    private static void SynchronizeTreeViewSelection(TreeView sourceTreeView, TreeView targetTreeView)
+    {
+        // Récupérer l'élément sélectionné dans le TreeView source
+        var selectedSourceItem = sourceTreeView.SelectedItem as TreeViewItem;
+        if (selectedSourceItem == null) return;
+
+        // Récupérer le chemin de l'élément sélectionné
+        var itemPath = GetItemPath(selectedSourceItem);
+        if (itemPath == null) return;
+
+        // Trouver l'élément correspondant dans le TreeView cible
+        var targetItem = FindTreeViewItemByPath(targetTreeView, itemPath);
+        if (targetItem == null) return;
+
+        // Sélectionner l'élément correspondant dans le TreeView cible
+        targetItem.IsSelected = true;
+    }
 
 
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
