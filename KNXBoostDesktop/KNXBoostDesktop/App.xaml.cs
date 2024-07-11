@@ -49,13 +49,13 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Stores the file path for the log file. This path is used to determine where the log entries will be written.
         /// </summary>
-        private static string? _logPath; // Chemin du fichier logs
+        public static string? LogPath { get; private set; } // Chemin du fichier logs
         
         /// <summary>
         /// Provides a <see cref="StreamWriter"/> instance for writing log entries to the log file.
         /// </summary>
         /// <remarks>
-        /// This writer is used for appending log messages to the file specified by <see cref="_logPath"/>.
+        /// This writer is used for appending log messages to the file specified by <see cref="LogPath"/>.
         /// </remarks>
         private static StreamWriter? _writer; // Permet l'ecriture du fichier de logging
         
@@ -117,8 +117,8 @@ namespace KNXBoostDesktop
                 Directory.CreateDirectory("./logs");
             }
 
-            _logPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
-            _writer = new StreamWriter(_logPath);
+            LogPath = $"./logs/logs-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+            _writer = new StreamWriter(LogPath);
 
             base.OnStartup(e);
 
@@ -160,7 +160,7 @@ namespace KNXBoostDesktop
 
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
-                
+            
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
         }
@@ -330,7 +330,7 @@ namespace KNXBoostDesktop
                     {
                         foreach (var logFile in logFiles)
                         {
-                            if (logFile != _logPath) // Si le fichier logs n'est pas celui que l'on vient de creer pour le lancement actuel
+                            if (logFile != LogPath) // Si le fichier logs n'est pas celui que l'on vient de creer pour le lancement actuel
                             {
                                 zip.CreateEntryFromFile(logFile, Path.GetFileName(logFile)); // On l'ajoute e l'archive
                                 File.Delete(logFile); // Puis, on le supprime
@@ -371,12 +371,10 @@ namespace KNXBoostDesktop
         /// </summary>
         private static void DeleteAllExceptLogsAndResources()
         {
-            // Liste tous les sous-répertoires dans le répertoire de base
-            string[] directories = Directory.GetDirectories("./");
-
-            foreach (string directory in directories)
+            // Itération sur tous les répertoires dans le répertoire de base
+            foreach (var directory in Directory.GetDirectories("./"))
             {
-                // Exclure le dossier 'logs' et 'resources'
+                // Exclure le dossier 'logs', 'resources', 'de' et 'runtimes'
                 if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;

@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Win32;
 using System.Globalization;
+using System.IO.Compression;
 using System.Management;
 using System.Xml;
 using System.Xml.Linq;
@@ -155,7 +156,7 @@ namespace KNXBoostDesktop
                     }
                     catch (UnauthorizedAccessException ex)
                     {
-                        // Si on a pas les droits de supprimer le fichier
+                        // Si on n'a pas les droits de supprimer le fichier
                         App.ConsoleAndLogWriteLine($"Error deleting existing file {zipArchivePath}: {ex.Message}. " +
                                                    $"Please change the rights of the file so the program can delete {zipArchivePath}");
                         knxprojSourceFilePath = AskForPath();
@@ -230,7 +231,7 @@ namespace KNXBoostDesktop
                     }
                     catch (UnauthorizedAccessException ex)
                     {
-                        // Si on a pas les droits de supprimer le fichier
+                        // Si on n'a pas les droits de supprimer le fichier
                         App.ConsoleAndLogWriteLine(
                             $"Error deleting existing folder {knxprojExportFolderPath}: {ex.Message}" +
                             $"Please change the rights of the file so the program can delete {zipArchivePath}");
@@ -250,7 +251,7 @@ namespace KNXBoostDesktop
                 // Si le fichier a bien été transformé en zip, tentative d'extraction
                 try
                 {
-                    System.IO.Compression.ZipFile.ExtractToDirectory(zipArchivePath,
+                    ZipFile.ExtractToDirectory(zipArchivePath,
                         knxprojExportFolderPath); // On extrait le zip
                     File.Delete(zipArchivePath); // On n'a plus besoin du zip, on le supprime
                 }
@@ -480,11 +481,10 @@ namespace KNXBoostDesktop
 
 
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
-        // ATTENTION: Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
+        // ATTENTION : Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         /// <summary>
         /// Asynchronously searches for the '0.xml' file in the exported KNX project directory.
         /// </summary>
-        /// <param name="loadingWindow">An instance of the loading window used to display search status and progress.</param>
         /// <remarks>
         /// This method:
         /// <list type="number">
@@ -687,7 +687,7 @@ namespace KNXBoostDesktop
 
             try
             {
-                string foundPath = FindFile(ProjectFolderPath, "0.xml");
+                var foundPath = FindFile(ProjectFolderPath, "0.xml");
 
                 // Si le fichier n'a pas été trouvé
                 if (string.IsNullOrEmpty(foundPath))
@@ -701,8 +701,8 @@ namespace KNXBoostDesktop
                 {
                     ZeroXmlPath = foundPath;
                     App.ConsoleAndLogWriteLine($"Found '0.xml' file at {Path.GetFullPath(ZeroXmlPath)}.");
-                    App.DisplayElements!.LoadingWindow?.MarkActivityComplete();
-                    App.DisplayElements!.LoadingWindow?.LogActivity(foundFile);
+                    App.DisplayElements.LoadingWindow?.MarkActivityComplete();
+                    App.DisplayElements.LoadingWindow?.LogActivity(foundFile);
                 }
             }
             catch (UnauthorizedAccessException unAuthEx)
@@ -781,59 +781,71 @@ namespace KNXBoostDesktop
             }
         }
 
+        
         // Fonction générant les fichiers de débogage de l'application
-        public static void WriteDebugFile()
+        /// <summary>
+        /// Generates a debug file for the application.
+        /// Creates a debug directory if it does not exist and writes system, software, and hardware information
+        /// to a file named "debugInfo.txt". System and hardware information are optional and can be included based on the parameters provided.
+        /// </summary>
+        /// <param name="includeOsInfo">Indicates whether to include operating system information. (Optional)</param>
+        /// <param name="includeHardwareInfo">Indicates whether to include hardware information. (Optional)</param>
+        private static void WriteSystemInformationDebugFile(bool includeOsInfo = true, bool includeHardwareInfo = true)
         {
             // Créez le répertoire "./debug" s'il n'existe pas
             Directory.CreateDirectory("./debug");
         
             // Définir le chemin du fichier de sortie
-            string filePath = "./debug/debugInfo.txt";
+            const string filePath = "./debug/debugInfo.txt";
         
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (var writer = new StreamWriter(filePath))
             {
-                writer.WriteLine("--------------------------------------------------------------------");
-                writer.WriteLine("|                      INFORMATIONS MACHINE                        |");
-                writer.WriteLine("--------------------------------------------------------------------");
-        
-                try
+                // Si on choisit d'inclure les informations sur le système d'exploitation
+                if (includeOsInfo)
                 {
-                    // Requête WMI pour obtenir les informations sur le système d'exploitation
-                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-                    ManagementObjectCollection results = searcher.Get();
-        
-                    foreach (var o in results)
+                    writer.WriteLine("--------------------------------------------------------------------");
+                    writer.WriteLine("|                      INFORMATIONS MACHINE                        |");
+                    writer.WriteLine("--------------------------------------------------------------------");
+            
+                    try
                     {
-                        var resultat = (ManagementObject)o;
-                        // Obtenir le nom de l'OS
-                        string osName = resultat["Caption"].ToString();
-                        // Afficher les informations sur l'OS
-                        writer.WriteLine($"Système d'exploitation : {osName}");
+                        // Requête WMI pour obtenir les informations sur le système d'exploitation
+                        var wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+                        var searcher = new ManagementObjectSearcher(wql);
+                        var results = searcher.Get();
+            
+                        foreach (var o in results)
+                        {
+                            var resultat = (ManagementObject)o;
+                            // Obtenir le nom de l'OS
+                            var osName = resultat["Caption"].ToString();
+                            // Afficher les informations sur l'OS
+                            writer.WriteLine($"Système d'exploitation : {osName}");
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        writer.WriteLine(
+                            $"Système d'exploitation : Erreur lors de la récupération des informations sur l'OS : {ex.Message}");
+                    }
+            
+                    writer.WriteLine($"Version de l'OS : {Environment.OSVersion}");
+                    writer.WriteLine($"OS 64 bits ? {(Environment.Is64BitOperatingSystem ? "oui" : "non")}");
+                    writer.WriteLine($"Dossier système: {Environment.SystemDirectory}");
+                    writer.WriteLine();
+            
+                    writer.WriteLine($"Langue du système d'exploitation : {CultureInfo.CurrentCulture.DisplayName}");
+                    writer.WriteLine($"Code de langue (ISO 639-1) : {CultureInfo.CurrentCulture.TwoLetterISOLanguageName}");
+                    writer.WriteLine($"Nom de la culture : {CultureInfo.CurrentCulture.Name}");
+                    writer.WriteLine();
+            
+                    writer.WriteLine($"Nom de la machine: {Environment.MachineName}");
+                    writer.WriteLine();
+            
+                    writer.WriteLine($"Nom de domaine utilisateur: {Environment.UserDomainName}");
+                    writer.WriteLine($"Nom d'utilisateur: {Environment.UserName}");
+                    writer.WriteLine();
                 }
-                catch (Exception ex)
-                {
-                    writer.WriteLine(
-                        $"Système d'exploitation : Erreur lors de la récupération des informations sur l'OS : {ex.Message}");
-                }
-        
-                writer.WriteLine($"Version de l'OS : {Environment.OSVersion}");
-                writer.WriteLine($"OS 64 bits ? {(Environment.Is64BitOperatingSystem ? "oui" : "non")}");
-                writer.WriteLine($"Dossier système: {Environment.SystemDirectory}");
-                writer.WriteLine();
-        
-                writer.WriteLine($"Langue du système d'exploitation : {CultureInfo.CurrentCulture.DisplayName}");
-                writer.WriteLine($"Code de langue (ISO 639-1) : {CultureInfo.CurrentCulture.TwoLetterISOLanguageName}");
-                writer.WriteLine($"Nom de la culture : {CultureInfo.CurrentCulture.Name}");
-                writer.WriteLine();
-        
-                writer.WriteLine($"Nom de la machine: {Environment.MachineName}");
-                writer.WriteLine();
-        
-                writer.WriteLine($"Nom de domaine utilisateur: {Environment.UserDomainName}");
-                writer.WriteLine($"Nom d'utilisateur: {Environment.UserName}");
-                writer.WriteLine();
         
                 writer.WriteLine("--------------------------------------------------------------------");
                 writer.WriteLine("|                      INFORMATIONS LOGICIEL                       |");
@@ -866,130 +878,467 @@ namespace KNXBoostDesktop
                 else if (gigabytes >= 0.5) writer.WriteLine($"{gigabytes:0.00} Go");
                 else writer.WriteLine($"{bytes} octets");
                 writer.WriteLine();
-        
-                writer.WriteLine("--------------------------------------------------------------------");
-                writer.WriteLine("|                 INFORMATIONS SUR LE MATERIEL                     |");
-                writer.WriteLine("--------------------------------------------------------------------");
-        
-                writer.WriteLine("-- Informations sur le processeur (CPU) --");
-                try
+
+                // Si on choisit d'inclure les informations sur le matériel de l'ordinateur
+                if (includeHardwareInfo)
                 {
-                    // Requête WMI pour obtenir les informations sur le processeur
-                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_Processor");
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-                    ManagementObjectCollection results = searcher.Get();
-        
-                    foreach (ManagementObject resultaat in results)
+                    writer.WriteLine("--------------------------------------------------------------------");
+                    writer.WriteLine("|                 INFORMATIONS SUR LE MATERIEL                     |");
+                    writer.WriteLine("--------------------------------------------------------------------");
+            
+                    writer.WriteLine("-- Informations sur le processeur (CPU) --");
+                    try
                     {
-                        writer.WriteLine($"Nom : {resultaat["Name"]}");
-                        writer.WriteLine($"Fabricant : {resultaat["Manufacturer"]}");
-                        writer.WriteLine($"Description : {resultaat["Description"]}");
-                        writer.WriteLine($"Nombre de coeurs : {resultaat["NumberOfCores"]}");
-                        writer.WriteLine($"Nombre de processeurs logiques : {resultaat["NumberOfLogicalProcessors"]}");
-                        writer.WriteLine($"Vitesse d'horloge actuelle : {resultaat["CurrentClockSpeed"]} MHz");
-                        writer.WriteLine($"Vitesse d'horloge maximale : {resultaat["MaxClockSpeed"]} MHz");
+                        // Requête WMI pour obtenir les informations sur le processeur
+                        var wql = new ObjectQuery("SELECT * FROM Win32_Processor");
+                        var searcher = new ManagementObjectSearcher(wql);
+                        var results = searcher.Get();
+            
+                        foreach (var o in results)
+                        {
+                            var resultaat = (ManagementObject)o;
+                            writer.WriteLine($"Nom : {resultaat["Name"]}");
+                            writer.WriteLine($"Fabricant : {resultaat["Manufacturer"]}");
+                            writer.WriteLine($"Description : {resultaat["Description"]}");
+                            writer.WriteLine($"Nombre de coeurs : {resultaat["NumberOfCores"]}");
+                            writer.WriteLine($"Nombre de processeurs logiques : {resultaat["NumberOfLogicalProcessors"]}");
+                            writer.WriteLine($"Vitesse d'horloge actuelle : {resultaat["CurrentClockSpeed"]} MHz");
+                            writer.WriteLine($"Vitesse d'horloge maximale : {resultaat["MaxClockSpeed"]} MHz");
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    writer.WriteLine(
-                        $"Erreur lors de la récupération des informations sur le processeur : {ex.Message}");
-                }
-        
-                writer.WriteLine();
-        
-                writer.WriteLine("-- Informations sur le processeur graphique (GPU) --");
-                try
-                {
-                    // Créer une requête WMI pour obtenir les informations sur la carte graphique
-                    var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
-        
-                    foreach (ManagementObject obj in searcher.Get())
+                    catch (Exception ex)
                     {
-                        // Obtenir les propriétés de la carte graphique
-                        string name = obj["Caption"]?.ToString();
-                        string deviceID = obj["DeviceID"]?.ToString();
-                        string driverVersion = obj["DriverVersion"]?.ToString();
-                        string driverDate = obj["DriverDate"]?.ToString();
-                        string videoMemory = obj["AdapterRAM"] != null
-                            ? (Convert.ToUInt64(obj["AdapterRAM"]) / 1024 / 1024).ToString() + " MB"
-                            : "N/A";
-        
-                        // Formater la date du pilote vidéo
-                        string formattedDriverDate = FormatDriverDate(driverDate);
-        
-                        // Afficher les informations
-                        writer.WriteLine($"Nom de la carte graphique : {name}");
-                        writer.WriteLine($"Version du pilote : {driverVersion}");
-                        writer.WriteLine($"Date du pilote : {formattedDriverDate}");
-                        writer.WriteLine($"Mémoire vidéo : {videoMemory}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    writer.WriteLine($"Erreur lors de l'accès aux informations WMI : {ex.Message}");
-                }
-        
-                writer.WriteLine();
-        
-                writer.WriteLine("-- Informations sur la mémoire physique (RAM) --");
-                try
-                {
-                    ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-                    ManagementObjectCollection results = searcher.Get();
-        
-                    foreach (ManagementObject rezult in results)
-                    {
-                        ulong totalMemoryBytes = (ulong)rezult["TotalVisibleMemorySize"] * 1024;
-                        ulong availableMemoryBytes = (ulong)rezult["FreePhysicalMemory"] * 1024;
-        
-                        double totalMemoryGB = totalMemoryBytes / (1024.0 * 1024 * 1024);
-                        double availableMemoryGB = availableMemoryBytes / (1024.0 * 1024 * 1024);
-        
                         writer.WriteLine(
-                            $"Mémoire Physique : {availableMemoryGB:F2} Go libre sur {totalMemoryGB:F2} Go total");
+                            $"Erreur lors de la récupération des informations sur le processeur : {ex.Message}");
                     }
-                }
-                catch (Exception ex)
-                {
-                    writer.WriteLine($"Erreur lors de la récupération des informations sur la mémoire : {ex.Message}");
-                }
-        
-                writer.WriteLine();
-        
-                writer.WriteLine("-- Informations sur la mémoire de masse --");
-        
-                // Stocker les informations des lecteurs
-                string diskInfo = "Espace libre dans les volumes : \n";
-        
-                // Parcourir les lecteurs et obtenir les informations
-                foreach (DriveInfo drive in DriveInfo.GetDrives())
-                {
-                    if (drive.IsReady) // Vérifie si le lecteur est prêt
+            
+                    writer.WriteLine();
+            
+                    writer.WriteLine("-- Informations sur le processeur graphique (GPU) --");
+                    try
                     {
+                        // Créer une requête WMI pour obtenir les informations sur la carte graphique
+                        var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
+            
+                        foreach (var obj in searcher.Get())
+                        {
+                            // Obtenir les propriétés de la carte graphique
+                            var name = obj["Caption"]?.ToString();
+                            var driverVersion = obj["DriverVersion"]?.ToString();
+                            var driverDate = obj["DriverDate"]?.ToString();
+                            var videoMemory = obj["AdapterRAM"] != null
+                                ? (Convert.ToUInt64(obj["AdapterRAM"]) / 1024 / 1024) + " MB"
+                                : "N/A";
+            
+                            // Formater la date du pilote vidéo
+                            if (driverDate != null)
+                            {
+                                var formattedDriverDate = FormatDriverDate(driverDate);
+            
+                                // Afficher les informations
+                                writer.WriteLine($"Nom de la carte graphique : {name}");
+                                writer.WriteLine($"Version du pilote : {driverVersion}");
+                                writer.WriteLine($"Date du pilote : {formattedDriverDate}");
+                            }
+
+                            writer.WriteLine($"Mémoire vidéo : {videoMemory}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        writer.WriteLine($"Erreur lors de l'accès aux informations WMI : {ex.Message}");
+                    }
+            
+                    writer.WriteLine();
+            
+                    writer.WriteLine("-- Informations sur la mémoire physique (RAM) --");
+                    try
+                    {
+                        ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+                        ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
+                        ManagementObjectCollection results = searcher.Get();
+            
+                        foreach (var o in results)
+                        {
+                            var rezult = (ManagementObject)o;
+                            var totalMemoryBytes = (ulong)rezult["TotalVisibleMemorySize"] * 1024;
+                            var availableMemoryBytes = (ulong)rezult["FreePhysicalMemory"] * 1024;
+            
+                            var totalMemoryGb = totalMemoryBytes / (1024.0 * 1024 * 1024);
+                            var availableMemoryGb = availableMemoryBytes / (1024.0 * 1024 * 1024);
+            
+                            writer.WriteLine(
+                                $"Mémoire Physique : {availableMemoryGb:F2} Go libre sur {totalMemoryGb:F2} Go total");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        writer.WriteLine($"Erreur lors de la récupération des informations sur la mémoire : {ex.Message}");
+                    }
+            
+                    writer.WriteLine();
+            
+                    writer.WriteLine("-- Informations sur la mémoire de masse --");
+            
+                    // Stocker les informations des lecteurs
+                    var diskInfo = "Espace libre dans les volumes : \n";
+            
+                    // Parcourir les lecteurs et obtenir les informations
+                    foreach (var drive in DriveInfo.GetDrives())
+                    {
+                        if (!drive.IsReady) continue; // Vérifie si le lecteur est prêt
+                        
                         // Formatage de l'espace libre en Go avec 1 décimale
-                        double freeSpaceGB = drive.AvailableFreeSpace / (1024.0 * 1024 * 1024);
-                        string formattedFreeSpace = $"{freeSpaceGB:F1} Go";
-        
+                        var freeSpaceGb = drive.AvailableFreeSpace / (1024.0 * 1024 * 1024);
+                        var formattedFreeSpace = $"{freeSpaceGb:F1} Go";
+            
                         // Ajouter les informations au résultat
                         diskInfo += $" {drive.Name} {formattedFreeSpace},\n";
                     }
+            
+                    // Supprimer la dernière virgule
+                    if (diskInfo.EndsWith(",\n"))
+                    {
+                        diskInfo = diskInfo.Remove(diskInfo.Length - 2);
+                    }
+            
+                    // Afficher le résultat
+                    writer.WriteLine(diskInfo);
                 }
-        
-                // Supprimer la dernière virgule
-                if (diskInfo.EndsWith(",\n"))
-                {
-                    diskInfo = diskInfo.Remove(diskInfo.Length - 2);
-                }
-        
-                // Afficher le résultat
-                writer.WriteLine(diskInfo);
             }
-        
-            Console.WriteLine("Les informations ont été écrites dans le fichier ./debug/debugInfo.txt");
+            
+            App.ConsoleAndLogWriteLine($"System information debug file created at {filePath}");
         }
 
+        
+        // Fonction récupérant tous les fichiers de débogage, les stocke dans une archive zip et permet d'enregistrer
+        public static void CreateDebugArchive(bool includeOsInfo = true, bool includeHardwareInfo = true, bool includeImportedProjects = true, bool includeRemovedGroupAddressList = true)
+        {
+            // Ecriture du fichier d'informations système
+            WriteSystemInformationDebugFile(includeOsInfo, includeHardwareInfo);
+
+            try
+            {
+                if (File.Exists("debug/latest-log.txt")) File.Delete("debug/latest-log.txt");
+            }
+            // Si le fichier n'est pas accessible
+            catch (UnauthorizedAccessException)
+            {
+                string errorText;
+                string title;
+
+                // Traduction de la fenêtre d'erreur
+                switch (App.DisplayElements?.SettingsWindow!.AppLang)
+                {
+                    // Arabe
+                    case "AR":
+                        errorText = $"خطأ: لا يمكن الوصول إلى {Path.GetFullPath("debug/latest-log.txt")}. لا يمكن حذفه لاستبداله. عملية التصحيح ملغاة.";
+                        title = "خطأ";
+                        break;
+
+                    // Bulgare
+                    case "BG":
+                        errorText = $"Грешка: Не може да се получи достъп до {Path.GetFullPath("debug/latest-log.txt")}. Не може да бъде изтрит за замяна. Операцията за отстраняване на грешки е отменена.";
+                        title = "ГРЕШКА";
+                        break;
+
+                    // Tchèque
+                    case "CS":
+                        errorText = $"Chyba: Nelze přistoupit k {Path.GetFullPath("debug/latest-log.txt")}. Nelze jej smazat, aby byl nahrazen. Operace ladění byla zrušena.";
+                        title = "CHYBA";
+                        break;
+
+                    // Danois
+                    case "DA":
+                        errorText = $"Fejl: Kan ikke få adgang til {Path.GetFullPath("debug/latest-log.txt")}. Kan ikke slettes for at blive erstattet. Fejlfinding operation annulleret.";
+                        title = "FEJL";
+                        break;
+
+                    // Allemand
+                    case "DE":
+                        errorText = $"Fehler: Zugriff auf {Path.GetFullPath("debug/latest-log.txt")} nicht möglich. Kann nicht gelöscht werden, um ersetzt zu werden. Debugging-Vorgang abgebrochen.";
+                        title = "FEHLER";
+                        break;
+
+                    // Grec
+                    case "EL":
+                        errorText = $"Σφάλμα: Δεν είναι δυνατή η πρόσβαση στο {Path.GetFullPath("debug/latest-log.txt")}. Δεν μπορεί να διαγραφεί για να αντικατασταθεί. Η διαδικασία αποσφαλμάτωσης ακυρώθηκε.";
+                        title = "ΣΦΑΛΜΑ";
+                        break;
+
+                    // Anglais
+                    case "EN":
+                        errorText = $"Error: Unable to access {Path.GetFullPath("debug/latest-log.txt")}. Cannot delete it to replace it. Debugging operation canceled.";
+                        title = "ERROR";
+                        break;
+
+                    // Espagnol
+                    case "ES":
+                        errorText = $"Error: No se puede acceder a {Path.GetFullPath("debug/latest-log.txt")}. No se puede eliminar para reemplazarlo. La operación de depuración ha sido cancelada.";
+                        title = "ERROR";
+                        break;
+
+                    // Estonien
+                    case "ET":
+                        errorText = $"Viga: Ei saa juurde pääseda {Path.GetFullPath("debug/latest-log.txt")}. Ei saa kustutada, et asendada. Silumisoperatsioon tühistatud.";
+                        title = "VIGA";
+                        break;
+
+                    // Finnois
+                    case "FI":
+                        errorText = $"Virhe: Ei voi käyttää {Path.GetFullPath("debug/latest-log.txt")}. Ei voi poistaa korvattavaksi. Virheenkorjaustoiminto peruutettu.";
+                        title = "VIRHE";
+                        break;
+
+                    // Hongrois
+                    case "HU":
+                        errorText = $"Hiba: Nem lehet hozzáférni a {Path.GetFullPath("debug/latest-log.txt")}. Nem lehet törölni a helyettesítéshez. A hibaelhárítási művelet megszakítva.";
+                        title = "HIBA";
+                        break;
+
+                    // Indonésien
+                    case "ID":
+                        errorText = $"Kesalahan: Tidak dapat mengakses {Path.GetFullPath("debug/latest-log.txt")}. Tidak dapat dihapus untuk diganti. Operasi debugging dibatalkan.";
+                        title = "KESALAHAN";
+                        break;
+
+                    // Italien
+                    case "IT":
+                        errorText = $"Errore: Impossibile accedere a {Path.GetFullPath("debug/latest-log.txt")}. Non può essere eliminato per essere sostituito. Operazione di debug annullata.";
+                        title = "ERRORE";
+                        break;
+
+                    // Japonais
+                    case "JA":
+                        errorText = $"エラー: {Path.GetFullPath("debug/latest-log.txt")} にアクセスできません。置き換えるために削除できません。デバッグ操作がキャンセルされました。";
+                        title = "エラー";
+                        break;
+
+                    // Coréen
+                    case "KO":
+                        errorText = $"오류: {Path.GetFullPath("debug/latest-log.txt")}에 접근할 수 없습니다. 교체를 위해 삭제할 수 없습니다. 디버깅 작업이 취소되었습니다.";
+                        title = "오류";
+                        break;
+
+                    // Letton
+                    case "LV":
+                        errorText = $"Kļūda: nevar piekļūt {Path.GetFullPath("debug/latest-log.txt")}. Nevar izdzēst, lai aizstātu. Debuga darbība atcelta.";
+                        title = "KĻŪDA";
+                        break;
+
+                    // Lituanien
+                    case "LT":
+                        errorText = $"Klaida: Nepavyksta pasiekti {Path.GetFullPath("debug/latest-log.txt")}. Negalima ištrinti, kad pakeistumėte. Derinimo operacija nutraukta.";
+                        title = "KLAIDA";
+                        break;
+
+                    // Norvégien
+                    case "NB":
+                        errorText = $"Feil: Kan ikke få tilgang til {Path.GetFullPath("debug/latest-log.txt")}. Kan ikke slettes for å bli erstattet. Feilsøkingsoperasjon avbrutt.";
+                        title = "FEIL";
+                        break;
+
+                    // Néerlandais
+                    case "NL":
+                        errorText = $"Fout: Kan geen toegang krijgen tot {Path.GetFullPath("debug/latest-log.txt")}. Kan niet worden verwijderd om te worden vervangen. Debuggingoperatie geannuleerd.";
+                        title = "FOUT";
+                        break;
+
+                    // Polonais
+                    case "PL":
+                        errorText = $"Błąd: Nie można uzyskać dostępu do {Path.GetFullPath("debug/latest-log.txt")}. Nie można usunąć, aby zastąpić. Operacja debugowania anulowana.";
+                        title = "BŁĄD";
+                        break;
+
+                    // Portugais
+                    case "PT":
+                        errorText = $"Erro: Não é possível aceder a {Path.GetFullPath("debug/latest-log.txt")}. Não é possível excluí-lo para substituí-lo. Operação de depuração cancelada.";
+                        title = "ERRO";
+                        break;
+
+                    // Roumain
+                    case "RO":
+                        errorText = $"Eroare: Nu se poate accesa {Path.GetFullPath("debug/latest-log.txt")}. Nu poate fi șters pentru a fi înlocuit. Operațiunea de depanare a fost anulată.";
+                        title = "EROARE";
+                        break;
+
+                    // Russe
+                    case "RU":
+                        errorText = $"Ошибка: невозможно получить доступ к {Path.GetFullPath("debug/latest-log.txt")}. Невозможно удалить для замены. Операция отладки отменена.";
+                        title = "ОШИБКА";
+                        break;
+
+                    // Slovaque
+                    case "SK":
+                        errorText = $"Chyba: Nie je možné získať prístup k {Path.GetFullPath("debug/latest-log.txt")}. Nie je možné ho odstrániť, aby bol nahradený. Operácia ladenia bola zrušená.";
+                        title = "CHYBA";
+                        break;
+
+                    // Slovène
+                    case "SL":
+                        errorText = $"Napaka: Dostop do {Path.GetFullPath("debug/latest-log.txt")} ni mogoč. Ne more se izbrisati za zamenjavo. Postopek odpravljanja napak je bil preklican.";
+                        title = "NAPAKA";
+                        break;
+
+                    // Suédois
+                    case "SV":
+                        errorText = $"Fel: Det går inte att komma åt {Path.GetFullPath("debug/latest-log.txt")}. Kan inte tas bort för att ersättas. Felsökningsoperationen avbröts.";
+                        title = "FEL";
+                        break;
+
+                    // Turc
+                    case "TR":
+                        errorText = $"Hata: {Path.GetFullPath("debug/latest-log.txt")} erişilemiyor. Değiştirmek için silinemiyor. Hata ayıklama işlemi iptal edildi.";
+                        title = "HATA";
+                        break;
+
+                    // Ukrainien
+                    case "UK":
+                        errorText = $"Помилка: неможливо отримати доступ до {Path.GetFullPath("debug/latest-log.txt")}. Не можна видалити для заміни. Операцію налагодження скасовано.";
+                        title = "ПОМИЛКА";
+                        break;
+
+                    // Chinois simplifié
+                    case "ZH":
+                        errorText = $"错误：无法访问 {Path.GetFullPath("debug/latest-log.txt")}。无法删除以进行替换。调试操作已取消。";
+                        title = "错误";
+                        break;
+
+                    // Langue par défaut (français)
+                    default:
+                        errorText = $"Erreur : impossible d'accéder à {Path.GetFullPath("debug/latest-log.txt")}. Impossible de le supprimer pour le remplacer. Opération de débogage annulée.";
+                        title = "ERREUR";
+                        break;
+                }
+                
+                MessageBox.Show(errorText, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            if (App.LogPath != null) File.Copy(App.LogPath, "debug/latest-log.txt");
+            
+            // Création de l'archive zip et ajout des fichiers
+            CreateZipArchive($"debug-{DateTime.Now:dd-MM-yyyy_HH-mm-ss}.zip", "debug/debugInfo.txt", "debug/latest-log.txt");
+
+            // Récupération des dossiers projets et stockage dans des archives zip
+            if (includeImportedProjects)
+            {
+                // Itération sur tous les répertoires dans le répertoire de base
+                foreach (var directory in Directory.GetDirectories("./"))
+                {
+                    // Exclure le dossier 'logs', 'resources', 'debug', 'de' et 'runtimes'
+                    if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase)) ||
+                        (Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase)) ||
+                        (Path.GetFileName(directory).Equals("debug", StringComparison.OrdinalIgnoreCase)) ||
+                        (Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase)) ||
+                        (Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        continue;
+                    }
+                
+                    // Stockage du projet dans une archive portant le même nom
+                    CreateZipArchive($"debug/{directory}.zip", directory);
+                }
+            }
+            
+            // Stockage de ces archives zip dans l'archive de debug
+
+            // Menu pour sauvegarder l'archive créée
+        }
+        
+        
+        // Fonction permettant de créer une archive zip et d'ajouter des fichiers dedans
+        /// <summary>
+        /// Creates a ZIP archive at the specified path, adding files and/or directories to it.
+        /// If the specified path is a directory, all files and subdirectories within it are included in the archive.
+        /// If the path is a file, only that file is added to the archive.
+        /// If the ZIP file already exists, it will be overwritten.
+        /// </summary>
+        /// <param name="zipFilePath">The path where the ZIP archive will be created.</param>
+        /// <param name="paths">An array of file and/or directory paths to include in the archive.</param>
+        private static void CreateZipArchive(string zipFilePath, params string[] paths)
+        {
+            // Assurer que le fichier ZIP n'existe pas déjà
+            if (File.Exists(zipFilePath))
+            {
+                File.Delete(zipFilePath);
+            }
+
+            // Créer l'archive ZIP et ajouter les fichiers/répertoires
+            using (var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+            {
+                foreach (var path in paths)
+                {
+                    if (Directory.Exists(path))
+                    {
+                        // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
+                        AddDirectoryToArchive(archive, path, Path.GetFileName(path));
+                    }
+                    else if (File.Exists(path))
+                    {
+                        // Ajouter le fichier unique à l'archive
+                        archive.CreateEntryFromFile(path, Path.GetFileName(path));
+                    }
+                    else
+                    {
+                        App.ConsoleAndLogWriteLine($"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
+                    }
+                }
+            }
+        }
+
+        
+        // Fonction permettant d'ajouter le contenu d'un dossier dans une archive zip
+        /// <summary>
+        /// Recursively adds all files and subdirectories from the specified directory to the ZIP archive.
+        /// Only the contents of the directory are included in the archive, not the directory itself.
+        /// </summary>
+        /// <param name="archive">The ZIP archive to which files and subdirectories will be added.</param>
+        /// <param name="directoryPath">The path of the directory whose contents will be added to the archive.</param>
+        /// <param name="entryName">The relative path within the ZIP archive where the contents of the directory will be placed.</param>
+        private static void AddDirectoryToArchive(ZipArchive archive, string directoryPath, string entryName)
+        {
+            // Ajouter les fichiers du répertoire à l'archive ZIP
+            foreach (var file in Directory.GetFiles(directoryPath))
+            {
+                // Créer un chemin relatif à stocker dans le fichier ZIP
+                var entryPath = Path.Combine(entryName, Path.GetFileName(file));
+                using (var entryStream = archive.CreateEntry(entryPath).Open())
+                using (var fileStream = File.OpenRead(file))
+                {
+                    fileStream.CopyTo(entryStream);
+                }
+            }
+            
+            //App.ConsoleAndLogWriteLine(Directory.GetDirectories(directoryPath));
+
+            // Ajouter récursivement les sous-répertoires
+            foreach (var directory in Directory.GetDirectories(directoryPath))
+            {
+                // Ajouter le contenu du sous-répertoire au ZIP
+                AddDirectoryToArchive(archive, directory, Path.Combine(entryName, Path.GetFileName(directory)));
+            }
+        }
+
+        
+        
+        // Fonction pour le formattage des dates de pilotes
+        /// <summary>
+        /// Formats driver date strings into a readable "DD/MM/YYYY" format.
+        /// </summary>
+        /// <param name="driverDate">
+        /// The driver date string in the format "YYYYMMDDHHMMSS.SSSSSS-UUU".
+        /// </param>
+        /// <returns>
+        /// A formatted date string in "DD/MM/YYYY" format if the input is valid; 
+        /// otherwise, "Date inconnue" or "Date invalide".
+        /// </returns>
+        /// <remarks>
+        /// This function takes a driver date string typically formatted as "YYYYMMDDHHMMSS.SSSSSS-UUU" and
+        /// extracts the date part (first 8 characters). It then converts this part into a DateTime object 
+        /// and formats it into "DD/MM/YYYY" format. If the input string is null, empty, or less than 8 characters,
+        /// it returns "Date inconnue". If the conversion to DateTime fails, it returns "Date invalide".
+        /// </remarks>
         private static string FormatDriverDate(string driverDate)
         {
             // Exemple de format : 20220902000000.000000-000
