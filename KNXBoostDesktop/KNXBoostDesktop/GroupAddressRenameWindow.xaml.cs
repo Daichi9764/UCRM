@@ -314,6 +314,69 @@ public partial class GroupAddressRenameWindow
                 CancelButtonText.Text = "Annuler";
                 break;
         }
+
+        if (App.DisplayElements.SettingsWindow.EnableLightTheme)
+        {
+            var txtColor = MainWindow.ConvertStringColor("#000000");
+            
+            MainGrid.Background = MainWindow.ConvertStringColor("#F5F5F5");
+            DrawingBrush1.Brush = txtColor;
+            DrawingBrush2.Brush = txtColor;
+            GroupAddressRenameWindowTopTitle.Foreground = txtColor;
+            HeaderPath.Stroke = MainWindow.ConvertStringColor("#D7D7D7");
+            MainContentPanel.Background = MainWindow.ConvertStringColor("#FFFFFF");
+            MainContentBorder.BorderBrush = MainWindow.ConvertStringColor("#D7D7D7");
+            BeforeText.Foreground = txtColor;
+            BeforeTextBox.Style = (Style)FindResource("TextBoxFocusStyleLight");
+            BeforeTextBox.Foreground = txtColor;
+            BeforeTextBox.Background = MainWindow.ConvertStringColor("#F5F5F5");
+            BeforeTextBox.BorderBrush = MainWindow.ConvertStringColor("#b8b8b8");
+            AfterText.Foreground = txtColor;
+            AfterTextBox.Style = (Style)FindResource("TextBoxFocusStyleLight");
+            AfterTextBox.Foreground = txtColor;
+            AfterTextBox.Background = MainWindow.ConvertStringColor("#FFFFFF");
+            AfterTextBox.BorderBrush = MainWindow.ConvertStringColor("#b8b8b8");
+            FooterPath.Stroke = MainWindow.ConvertStringColor("#D7D7D7");
+            SettingsWindowFooter.Background = MainWindow.ConvertStringColor("#FFFFFF");
+
+            SaveButton.Style = (Style)FindResource("BottomButtonLight");
+            SaveButtonText.Foreground = txtColor;
+            SaveButtonDrawing.Brush = txtColor;
+            CancelButton.Style = (Style)FindResource("BottomButtonLight");
+            CancelButtonText.Foreground = txtColor;
+            CancelButtonDrawing.Brush = txtColor;
+        }
+        else
+        {
+            var txtColor = MainWindow.ConvertStringColor("#E3DED4");
+            
+            MainGrid.Background = MainWindow.ConvertStringColor("#313131");
+            DrawingBrush1.Brush = txtColor;
+            DrawingBrush2.Brush = txtColor;
+            GroupAddressRenameWindowTopTitle.Foreground = txtColor;
+            HeaderPath.Stroke = MainWindow.ConvertStringColor("#434343");
+            MainContentPanel.Background = MainWindow.ConvertStringColor("#262626");
+            MainContentBorder.BorderBrush = MainWindow.ConvertStringColor("#434343");
+            BeforeText.Foreground = txtColor;
+            BeforeTextBox.Style = (Style)FindResource("TextBoxFocusStyleDark");
+            BeforeTextBox.Foreground = txtColor;
+            BeforeTextBox.Background = MainWindow.ConvertStringColor("#313131");
+            BeforeTextBox.BorderBrush = MainWindow.ConvertStringColor("#434343");
+            AfterText.Foreground = txtColor;
+            AfterTextBox.Style = (Style)FindResource("TextBoxFocusStyleDark");
+            AfterTextBox.Foreground = txtColor;
+            AfterTextBox.Background = MainWindow.ConvertStringColor("#262626");
+            AfterTextBox.BorderBrush = MainWindow.ConvertStringColor("#434343");
+            FooterPath.Stroke = MainWindow.ConvertStringColor("#434343");
+            SettingsWindowFooter.Background = MainWindow.ConvertStringColor("#262626");
+            
+            SaveButton.Style = (Style)FindResource("BottomButtonDark");
+            SaveButtonText.Foreground = txtColor;
+            SaveButtonDrawing.Brush = txtColor;
+            CancelButton.Style = (Style)FindResource("BottomButtonDark");
+            CancelButtonText.Foreground = txtColor;
+            CancelButtonDrawing.Brush = txtColor;
+        }
     }
 
 
