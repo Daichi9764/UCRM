@@ -161,6 +161,15 @@ namespace KNXBoostDesktop
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
             
+            if ((Directory.Exists("./logs")) && (Directory.GetFiles("./logs", "*.txt").Length == 1) && (Directory.GetFiles("./logs", "*.zip").Length == 0)) 
+                MessageBox.Show("Lors de l'importation d'un projet KNX dans KNX Boost Desktop, veuillez noter " +
+                                "que la précision dans la correction des adresses de groupe dépend fortement de la qualité et " +
+                                "de la structuration des données du projet. Si le projet KNX est mal structuré ou manque " +
+                                "d'informations essentielles, le logiciel pourrait ne pas être en mesure de corriger les adresses " +
+                                "de groupe de manière entièrement pertinente et fiable. Assurez-vous que votre projet est bien " +
+                                "structuré pour obtenir les meilleurs résultats.", $"Avertissement", 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
         }
