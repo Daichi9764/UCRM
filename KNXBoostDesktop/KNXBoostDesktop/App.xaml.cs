@@ -41,7 +41,7 @@ namespace KNXBoostDesktop
         /// </summary>
         public const float AppVersion = 1.8f; // Version de l'application
 
-        public static readonly int AppBuild = 315;
+        public static readonly int AppBuild = 319;
         
         
         // Gestion des logs
@@ -167,8 +167,8 @@ namespace KNXBoostDesktop
                                 "de la structuration des données du projet. Si le projet KNX est mal structuré ou manque " +
                                 "d'informations essentielles, le logiciel pourrait ne pas être en mesure de corriger les adresses " +
                                 "de groupe de manière entièrement pertinente et fiable. Assurez-vous que votre projet est bien " +
-                                "structuré pour obtenir les meilleurs résultats.", $"Avertissement", 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                                "structuré pour obtenir les meilleurs résultats.", "Information importante", 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
@@ -396,18 +396,40 @@ namespace KNXBoostDesktop
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    Console.WriteLine($@"Access denied: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"Access denied: {ex.Message}");
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    Console.WriteLine($@"I/O error: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"I/O error: {ex.Message}");
                     continue;
                 }
                 ConsoleAndLogWriteLine($"Deleted directory: {directory}");
             }
+
+            foreach (var zipFile in Directory.GetFiles("./", "*.zip"))
+            {
+                try
+                {
+                    File.Delete(zipFile);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    ConsoleAndLogWriteLine($@"Access denied: {ex.Message}");
+                    continue;
+                }
+                catch (IOException ex)
+                {
+                    ConsoleAndLogWriteLine($@"I/O error: {ex.Message}");
+                    continue;
+                }
+                ConsoleAndLogWriteLine($"Deleted file: {zipFile}");
+            }
+            
         }
     }
 }
+
+
 
 

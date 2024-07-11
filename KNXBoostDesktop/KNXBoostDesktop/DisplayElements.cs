@@ -79,5 +79,7 @@
             GroupAddressRenameWindow.SetPath(xmlRenameFilePath);
             return GroupAddressRenameWindow.DialogResult;
         }
-    }
+    } 
+    
+    // masquer boutons en bas quand onglet debug
 }

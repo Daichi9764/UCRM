@@ -84,7 +84,7 @@ namespace KNXBoostDesktop
             TranslationDestinationLang = "FR";
             EnableAutomaticSourceLangDetection = true;
             TranslationSourceLang = "FR";
-            RemoveUnusedGroupAddresses = false;
+            RemoveUnusedGroupAddresses = true;
             EnableLightTheme = true;
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
@@ -481,6 +481,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "حفظ";
                     CancelButtonText.Text = "إلغاء";
+                    
+                    MenuDebug.Text = "قائمة التصحيح";
+                    AddInfosOSCheckBox.Content = "تضمين معلومات نظام التشغيل";
+                    AddInfosHardCheckBox.Content = "تضمين معلومات أجهزة الكمبيوتر";
+                    AddImportedFiles.Content = "تضمين الملفات المستوردة منذ الإطلاق";
+                    IncludeAddressList.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
+                    CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
                     break;
 
                 // Bulgare
@@ -512,6 +519,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Запази";
                     CancelButtonText.Text = "Отмени";
+                    
+                    MenuDebug.Text = "Меню за отстраняване на грешки";
+                    AddInfosOSCheckBox.Content = "Включване на информация за операционната система";
+                    AddInfosHardCheckBox.Content = "Включване на информация за хардуера";
+                    AddImportedFiles.Content = "Включване на импортираните файлове от стартиране";
+                    IncludeAddressList.Content = "Включване на списъка с изтрити адреси";
+                    CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
                     break;
 
                 // Tchèque
@@ -543,6 +557,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložit";
                     CancelButtonText.Text = "Zrušit";
+                    
+                    MenuDebug.Text = "Ladicí nabídka";
+                    AddInfosOSCheckBox.Content = "Zahrnout informace o operačním systému";
+                    AddInfosHardCheckBox.Content = "Zahrnout informace o hardwaru";
+                    AddImportedFiles.Content = "Zahrnout importované soubory od spuštění";
+                    IncludeAddressList.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
+                    CreateArchiveDebugText.Text = "Vytvořit ladicí soubor";
                     break;
 
                 // Danois
@@ -574,6 +595,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Gem";
                     CancelButtonText.Text = "Annuller";
+                    
+                    MenuDebug.Text = "Fejlfindingsmenu";
+                    AddInfosOSCheckBox.Content = "Inkluder oplysninger om operativsystemet";
+                    AddInfosHardCheckBox.Content = "Inkluder hardwareoplysninger";
+                    AddImportedFiles.Content = "Inkluder importerede filer siden opstart";
+                    IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i projekter";
+                    CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
                     break;
 
                 // Allemand
@@ -605,6 +633,20 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Speichern";
                     CancelButtonText.Text = "Abbrechen";
+                    
+                    MenuDebug.Text = "Debug-Menü";
+                    AddInfosOSCheckBox.Content = "Betriebssysteminformationen einbeziehen";
+                    AddInfosHardCheckBox.Content = "Hardwareinformationen einbeziehen";
+                    AddImportedFiles.Content = "Seit dem Start importierte Dateien einbeziehen";
+                    IncludeAddressList.Content = "Liste der gelöschten Gruppenadressen in Projekten einbeziehen";
+                    CreateArchiveDebugText.Text = "Debug-Datei erstellen";
+                    
+                    MenuDebug.Text = "Μενού αποσφαλμάτωσης";
+                    AddInfosOSCheckBox.Content = "Συμπερίληψη πληροφοριών λειτουργικού συστήματος";
+                    AddInfosHardCheckBox.Content = "Συμπερίληψη πληροφοριών υλικού υπολογιστή";
+                    AddImportedFiles.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
+                    IncludeAddressList.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
+                    CreateArchiveDebugText.Text = "Δημιουργία αρχείου αποσφαλμάτωσης";
                     break;
 
                 // Grec
@@ -667,6 +709,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Save";
                     CancelButtonText.Text = "Cancel";
+                    
+                    MenuDebug.Text = "Debug Menu";
+                    AddInfosOSCheckBox.Content = "Include OS information";
+                    AddInfosHardCheckBox.Content = "Include hardware information";
+                    AddImportedFiles.Content = "Include files imported since launch";
+                    IncludeAddressList.Content = "Include list of deleted group addresses in projects";
+                    CreateArchiveDebugText.Text = "Create debug file";
                     break;
 
                 // Espagnol
@@ -698,6 +747,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Guardar";
                     CancelButtonText.Text = "Cancelar";
+                    
+                    MenuDebug.Text = "Menú de depuración";
+                    AddInfosOSCheckBox.Content = "Incluir información del sistema operativo";
+                    AddInfosHardCheckBox.Content = "Incluir información de hardware";
+                    AddImportedFiles.Content = "Incluir archivos importados desde el inicio";
+                    IncludeAddressList.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
+                    CreateArchiveDebugText.Text = "Crear archivo de depuración";
                     break;
 
                 // Estonien
@@ -729,6 +785,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvesta";
                     CancelButtonText.Text = "Tühista";
+                    
+                    MenuDebug.Text = "Silumisvalik";
+                    AddInfosOSCheckBox.Content = "Kaasa operatsioonisüsteemi teave";
+                    AddInfosHardCheckBox.Content = "Kaasa riistvara teave";
+                    AddImportedFiles.Content = "Kaasa imporditud failid käivitamisest alates";
+                    IncludeAddressList.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
+                    CreateArchiveDebugText.Text = "Loo silumisfail";
                     break;
 
                 // Finnois
@@ -760,6 +823,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Tallenna";
                     CancelButtonText.Text = "Peruuta";
+                    
+                    MenuDebug.Text = "Vianmääritysvalikko";
+                    AddInfosOSCheckBox.Content = "Sisällytä käyttöjärjestelmän tiedot";
+                    AddInfosHardCheckBox.Content = "Sisällytä laitteistotiedot";
+                    AddImportedFiles.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
+                    IncludeAddressList.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
+                    CreateArchiveDebugText.Text = "Luo vianmääritystiedosto";
                     break;
 
                 // Hongrois
@@ -791,6 +861,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Mentés";
                     CancelButtonText.Text = "Mégse";
+                    
+                    MenuDebug.Text = "Hibakeresési menü";
+                    AddInfosOSCheckBox.Content = "Tartalmazza az operációs rendszer adatait";
+                    AddInfosHardCheckBox.Content = "Tartalmazza a hardveradatokat";
+                    AddImportedFiles.Content = "Tartalmazza az indítás óta importált fájlokat";
+                    IncludeAddressList.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
+                    CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
                     break;
 
                 // Indonésien
@@ -822,6 +899,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Simpan";
                     CancelButtonText.Text = "Batal";
+                    
+                    MenuDebug.Text = "Menu Debug";
+                    AddInfosOSCheckBox.Content = "Sertakan informasi OS";
+                    AddInfosHardCheckBox.Content = "Sertakan informasi hardware";
+                    AddImportedFiles.Content = "Sertakan file yang diimpor sejak peluncuran";
+                    IncludeAddressList.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
+                    CreateArchiveDebugText.Text = "Buat file debug";
                     break;
 
                 // Italien
@@ -853,6 +937,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salva";
                     CancelButtonText.Text = "Annulla";
+                    
+                    MenuDebug.Text = "Menu di debug";
+                    AddInfosOSCheckBox.Content = "Includi informazioni sul sistema operativo";
+                    AddInfosHardCheckBox.Content = "Includi informazioni sull'hardware";
+                    AddImportedFiles.Content = "Includi file importati dal lancio";
+                    IncludeAddressList.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
+                    CreateArchiveDebugText.Text = "Crea file di debug";
                     break;
 
                 // Japonais
@@ -884,6 +975,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "キャンセル";
+                    
+                    MenuDebug.Text = "デバッグメニュー";
+                    AddInfosOSCheckBox.Content = "OS情報を含む";
+                    AddInfosHardCheckBox.Content = "ハードウェア情報を含む";
+                    AddImportedFiles.Content = "起動以降にインポートされたファイルを含む";
+                    IncludeAddressList.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
+                    CreateArchiveDebugText.Text = "デバッグファイルを作成";
                     break;
 
                 // Coréen
@@ -915,6 +1013,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "저장";
                     CancelButtonText.Text = "취소";
+                    
+                    MenuDebug.Text = "디버그 메뉴";
+                    AddInfosOSCheckBox.Content = "운영 체제 정보를 포함";
+                    AddInfosHardCheckBox.Content = "하드웨어 정보를 포함";
+                    AddImportedFiles.Content = "실행 후 가져온 파일 포함";
+                    IncludeAddressList.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
+                    CreateArchiveDebugText.Text = "디버그 파일 생성";
                     break;
 
                 // Letton
@@ -946,6 +1051,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Saglabāt";
                     CancelButtonText.Text = "Atcelt";
+                    
+                    MenuDebug.Text = "Atkļūdošanas izvēlne";
+                    AddInfosOSCheckBox.Content = "Iekļaut OS informāciju";
+                    AddInfosHardCheckBox.Content = "Iekļaut aparatūras informāciju";
+                    AddImportedFiles.Content = "Iekļaut kopš palaišanas importētos failus";
+                    IncludeAddressList.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
+                    CreateArchiveDebugText.Text = "Izveidot atkļūdošanas failu";
                     break;
 
                 // Lituanien
@@ -977,6 +1089,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Išsaugoti";
                     CancelButtonText.Text = "Atšaukti";
+                    
+                    MenuDebug.Text = "Derinimo meniu";
+                    AddInfosOSCheckBox.Content = "Įtraukti OS informaciją";
+                    AddInfosHardCheckBox.Content = "Įtraukti aparatūros informaciją";
+                    AddImportedFiles.Content = "Įtraukti nuo paleidimo importuotus failus";
+                    IncludeAddressList.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
+                    CreateArchiveDebugText.Text = "Sukurti derinimo failą";
                     break;
 
                 // Norvégien
@@ -1008,6 +1127,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Lagre";
                     CancelButtonText.Text = "Avbryt";
+                    
+                    MenuDebug.Text = "Feilsøkingsmeny";
+                    AddInfosOSCheckBox.Content = "Inkluder OS-informasjon";
+                    AddInfosHardCheckBox.Content = "Inkluder maskinvareinformasjon";
+                    AddImportedFiles.Content = "Inkluder filer importert siden oppstart";
+                    IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
+                    CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
                     break;
 
                 // Néerlandais
@@ -1039,6 +1165,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
+                    
+                    MenuDebug.Text = "Debug-menu";
+                    AddInfosOSCheckBox.Content = "OS-informatie opnemen";
+                    AddInfosHardCheckBox.Content = "Hardware-informatie opnemen";
+                    AddImportedFiles.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
+                    IncludeAddressList.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
+                    CreateArchiveDebugText.Text = "Maak een debug-bestand";
                     break;
 
                 // Polonais
@@ -1070,6 +1203,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Zapisz";
                     CancelButtonText.Text = "Anuluj";
+                    
+                    MenuDebug.Text = "Menu debugowania";
+                    AddInfosOSCheckBox.Content = "Uwzględnij informacje o systemie operacyjnym";
+                    AddInfosHardCheckBox.Content = "Uwzględnij informacje o sprzęcie";
+                    AddImportedFiles.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
+                    IncludeAddressList.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
+                    CreateArchiveDebugText.Text = "Utwórz plik debugowania";
                     break;
 
                 // Portugais
@@ -1101,6 +1241,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvar";
                     CancelButtonText.Text = "Cancelar";
+                    
+                    MenuDebug.Text = "Menu de depuração";
+                    AddInfosOSCheckBox.Content = "Incluir informações do sistema operacional";
+                    AddInfosHardCheckBox.Content = "Incluir informações de hardware";
+                    AddImportedFiles.Content = "Incluir arquivos importados desde o lançamento";
+                    IncludeAddressList.Content = "Incluir lista de endereços de grupo excluídos em projetos";
+                    CreateArchiveDebugText.Text = "Criar arquivo de depuração";
                     break;
 
                 // Roumain
@@ -1132,6 +1279,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvează";
                     CancelButtonText.Text = "Anulează";
+                    
+                    MenuDebug.Text = "Meniu depanare";
+                    AddInfosOSCheckBox.Content = "Includeți informații despre sistemul de operare";
+                    AddInfosHardCheckBox.Content = "Includeți informații despre hardware";
+                    AddImportedFiles.Content = "Includeți fișierele importate de la lansare";
+                    IncludeAddressList.Content = "Includeți lista adreselor de grup șterse în proiecte";
+                    CreateArchiveDebugText.Text = "Creați fișierul de depanare";
                     break;
 
                 // Slovaque
@@ -1163,6 +1317,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložiť";
                     CancelButtonText.Text = "Zrušiť";
+                    
+                    MenuDebug.Text = "Ladiace menu";
+                    AddInfosOSCheckBox.Content = "Zahrnúť informácie o operačnom systéme";
+                    AddInfosHardCheckBox.Content = "Zahrnúť informácie o hardvéri";
+                    AddImportedFiles.Content = "Zahrnúť súbory importované od spustenia";
+                    IncludeAddressList.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
+                    CreateArchiveDebugText.Text = "Vytvoriť súbor na ladenie";
                     break;
 
                 // Slovène
@@ -1194,6 +1355,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Shrani";
                     CancelButtonText.Text = "Prekliči";
+                    
+                    MenuDebug.Text = "Meni za odpravljanje napak";
+                    AddInfosOSCheckBox.Content = "Vključi informacije o operacijskem sistemu";
+                    AddInfosHardCheckBox.Content = "Vključi informacije o strojni opremi";
+                    AddImportedFiles.Content = "Vključi uvožene datoteke od zagona";
+                    IncludeAddressList.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
+                    CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
                     break;
 
                 // Suédois
@@ -1225,6 +1393,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Spara";
                     CancelButtonText.Text = "Avbryt";
+                    
+                    MenuDebug.Text = "Felsökningsmeny";
+                    AddInfosOSCheckBox.Content = "Inkludera OS-information";
+                    AddInfosHardCheckBox.Content = "Inkludera hårdvaruinformation";
+                    AddImportedFiles.Content = "Inkludera importerade filer sedan start";
+                    IncludeAddressList.Content = "Inkludera lista över raderade gruppadresser i projekt";
+                    CreateArchiveDebugText.Text = "Skapa felsökningsfil";
                     break;
 
                 // Turc
@@ -1256,6 +1431,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Kaydet";
                     CancelButtonText.Text = "İptal";
+                    
+                    MenuDebug.Text = "Hata Ayıklama Menüsü";
+                    AddInfosOSCheckBox.Content = "OS bilgilerini ekle";
+                    AddInfosHardCheckBox.Content = "Donanım bilgilerini ekle";
+                    AddImportedFiles.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
+                    IncludeAddressList.Content = "Projelerde silinen grup adresleri listesini ekle";
+                    CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
                     break;
 
                 // Ukrainien
@@ -1287,6 +1469,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
+                    
+                    MenuDebug.Text = "Меню налагодження";
+                    AddInfosOSCheckBox.Content = "Включити інформацію про ОС";
+                    AddInfosHardCheckBox.Content = "Включити інформацію про апаратне забезпечення";
+                    AddImportedFiles.Content = "Включити файли, імпортовані з моменту запуску";
+                    IncludeAddressList.Content = "Включити список видалених групових адрес у проектах";
+                    CreateArchiveDebugText.Text = "Створити файл налагодження";
                     break;
                 
                 // Russe
@@ -1318,6 +1507,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Сохранить";
                     CancelButtonText.Text = "Отменить";
+                    
+                    MenuDebug.Text = "Меню отладки";
+                    AddInfosOSCheckBox.Content = "Включить информацию о ОС";
+                    AddInfosHardCheckBox.Content = "Включить информацию о оборудовании";
+                    AddImportedFiles.Content = "Включить файлы, импортированные с момента запуска";
+                    IncludeAddressList.Content = "Включить список удаленных групповых адресов в проектах";
+                    CreateArchiveDebugText.Text = "Создать файл отладки";
                     break;
 
                 // Chinois simplifié
@@ -1349,6 +1545,13 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
+                    
+                    MenuDebug.Text = "调试菜单";
+                    AddInfosOSCheckBox.Content = "包括操作系统信息";
+                    AddInfosHardCheckBox.Content = "包括硬件信息";
+                    AddImportedFiles.Content = "包括启动以来导入的文件";
+                    IncludeAddressList.Content = "包括项目中已删除的组地址列表";
+                    CreateArchiveDebugText.Text = "创建调试文件";
                     break;
 
 	            // Langue par défaut (français)
@@ -1377,9 +1580,18 @@ namespace KNXBoostDesktop
                     DarkThemeComboBoxItem.Content = "Sombre";
 
                     AppLanguageTextBlock.Text = "Langue de l'application:";
+                    
+                    MenuDebug.Text = "Menu de deboggage";
+                    AddInfosOSCheckBox.Content = "Inclure les informations sur le système d'exploitation";
+                    AddInfosHardCheckBox.Content = "Inclure les informations sur le matériel de l'ordinateur";
+                    AddImportedFiles.Content = "Inclure les fichiers des projets importés depuis le lancement";
+                    IncludeAddressList.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
+                    CreateArchiveDebugText.Text = "Créer le fichier de deboggage";
+                        
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
+                    
                     break;
             }
 
@@ -1407,6 +1619,9 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
+                
+                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                    MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             }
             else // Sinon, on met le thème sombre
             {
@@ -1424,6 +1639,10 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
+                
+                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                    MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
+
             }
             
             // Définition des brush pour les divers éléments
@@ -1469,6 +1688,8 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+            
+            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked! ? true : false;
             
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
@@ -1913,6 +2134,54 @@ namespace KNXBoostDesktop
                 TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
                 TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
             }
+        }
+
+        private void EnableIncludeAddress(object sender, RoutedEventArgs e)
+        {
+            IncludeAddressList.IsEnabled = true;
+
+            IncludeAddressList.Foreground = EnableLightTheme ? 
+                new SolidColorBrush(Colors.Black) : MainWindow.ConvertStringColor("#E3DED4");
+        }
+
+        private void DisableIncludeAddress(object sender, RoutedEventArgs e)
+        {
+            IncludeAddressList.IsEnabled = false;
+            IncludeAddressList.IsChecked = false;
+
+            IncludeAddressList.Foreground = EnableLightTheme ? 
+                new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                TabItem selectedTab = (sender as TabControl).SelectedItem as TabItem;
+                if (selectedTab != null && selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
+                {
+                    SaveButton.Visibility = Visibility.Collapsed;
+                    CancelButton.Visibility = Visibility.Collapsed;
+                    CreateArchiveDebugButton.Visibility = Visibility.Visible;
+                }
+                else if (selectedTab != null && selectedTab.Header != null &&
+                         selectedTab.Header.ToString() == "Paramètres généraux")
+                {
+                    SaveButton.Visibility = Visibility.Visible;
+                    CancelButton.Visibility = Visibility.Visible;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+        
+        private void CreateDebugReport(object sender, RoutedEventArgs e)
+        {
+            var includeOsInfo = AddInfosOSCheckBox.IsChecked;
+            var includeHardwareInfo = AddInfosHardCheckBox.IsChecked;
+            var includeImportedProjects = AddImportedFiles.IsChecked;
+            var includeRemovedGroupAddressList = (bool)IncludeAddressList.IsChecked! && (bool)AddImportedFiles.IsChecked!;
+            
+            ProjectFileManager.CreateDebugArchive((bool)includeOsInfo!, (bool)includeHardwareInfo!, (bool)includeImportedProjects!, includeRemovedGroupAddressList!);
         }
 
         
@@ -2574,6 +2843,6 @@ namespace KNXBoostDesktop
                 DragMove();
             }
         }
-        
+
     }
 }

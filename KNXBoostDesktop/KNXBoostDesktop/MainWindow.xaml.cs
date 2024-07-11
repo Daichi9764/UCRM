@@ -510,8 +510,6 @@ public partial class MainWindow
             HideOverlay();
 
             ViewModel.IsProjectImported = true;
-            
-            ProjectFileManager.CreateDebugArchive(true,true,true,true);
         }
         else
         {
