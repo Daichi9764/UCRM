@@ -41,7 +41,7 @@ namespace KNXBoostDesktop
         /// </summary>
         public const float AppVersion = 1.7f; // Version de l'application
 
-        public static readonly int AppBuild = 307;
+        public static readonly int AppBuild = 308;
         
         
         // Gestion des logs
@@ -156,7 +156,7 @@ namespace KNXBoostDesktop
             // Nettoyage des dossiers restants de la derniere session
             ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
             DeleteAllExceptLogsAndResources();
-
+            
 
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
