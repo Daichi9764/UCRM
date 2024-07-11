@@ -8,7 +8,7 @@
  *
  * Description :
  * Fichier principal contenant la structure de l'application et toutes les
- * fonctions necessaires e son utilisation.
+ * fonctions necessaires a son utilisation.
  *
  * Remarques :
  * Repo GitHub --> https://github.com/Daichi9764/UCRM
