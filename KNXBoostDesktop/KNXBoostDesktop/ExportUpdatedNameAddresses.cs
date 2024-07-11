@@ -4,6 +4,14 @@ namespace KNXBoostDesktop;
 
 class ExportUpdatedNameAddresses
 {
+    /// <summary>
+    /// Asynchronously exports group address information to an XML file based on the specified source and destination paths.
+    /// Translates loading messages based on the application language settings. Builds an XML structure
+    /// containing group address and group range information extracted from the source XML document.
+    /// Saves the updated XML structure to the destination path.
+    /// </summary>
+    /// <param name="sourcePath">The path to the source XML document containing group address information.</param>
+    /// <param name="destPath">The destination path to save the updated XML document.</param>
     public static async Task Export(String sourcePath, String destPath)
     {
         await Task.Run(() =>
@@ -336,7 +344,12 @@ class ExportUpdatedNameAddresses
         
     }
 
-    // Converter from decimal to KNX 3-level address
+    /// <summary>
+    /// Converts a decimal address to KNX 3-level address format.
+    /// KNX addresses are structured as Main Group/Middle Group/Sub Group.
+    /// </summary>
+    /// <param name="decimalAddress">The decimal address to convert.</param>
+    /// <returns>The KNX 3-level address string in the format "MainGroup/MiddleGroup/SubGroup".</returns>
     private static string DecimalToKnx3Level(int decimalAddress)
     {
         int mainGroup = decimalAddress / 2048;

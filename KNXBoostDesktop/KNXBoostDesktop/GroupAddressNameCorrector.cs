@@ -37,7 +37,7 @@ public class GroupAddressNameCorrector
     /// <summary>
     /// Formatter to use when calling CorrectName()
     /// </summary>
-    private static Formatter? _formatter;
+    private static Formatter _formatter;
     
     /// <summary>
     /// Collection to memorize translations of group names already done.
@@ -461,6 +461,16 @@ public class GroupAddressNameCorrector
                             .FirstOrDefault(s => s.Attribute("Type")?.Value == type)
                             ?.Attribute("Name")?.Value ?? string.Empty
                     );
+                    
+                    var allDeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
+                        .Select(dir => dir.Attribute("RefId")?.Value)
+                        .ToList();
+                    
+                    var deviceRefsInDistributionBoards = room.Elements(_globalKnxNamespace + "Space")
+                        .Where(s => s.Attribute("Type")?.Value == "DistributionBoard")
+                        .SelectMany(db => db.Elements(_globalKnxNamespace + "DeviceInstanceRef")
+                            .Select(dir => dir.Attribute("RefId")?.Value))
+                        .ToList();
 
                     return new
                     {
@@ -469,9 +479,8 @@ public class GroupAddressNameCorrector
                         BuildingPartName = getAncestorName("BuildingPart"),
                         BuildingName = getAncestorName("Building"),
                         DistributionBoardName = getDescendantName("DistributionBoard"),
-                        DeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
-                            .Select(dir => dir.Attribute("RefId")?.Value)
-                            .ToList()
+                        DeviceRefs = allDeviceRefs, 
+                        DeviceRefsInDistributionBoards = deviceRefsInDistributionBoards 
                     };
                 })
                 .ToList();
@@ -638,6 +647,33 @@ public class GroupAddressNameCorrector
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
 
+                    // If no location found, search on the other devices
+                    if (location == null)
+                    {
+                        bool locationFound = false;
+
+                        foreach (var device in gdr.Devices)
+                        {
+                            // Check if a location has been found
+                            if (locationFound)
+                            {
+                                break; 
+                            }
+
+                            // To not look again in deviceNotRailMounted
+                            if (device == deviceNotRailMounted)
+                            {
+                                continue; // Pass if it's deviceNotRailMounted
+                            }
+
+                            location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
+                            if (location != null)
+                            {
+                                locationFound = true; 
+                            }
+                        }
+                    }
+                    
                     string nameLocation = GetLocationName(location, nameAttr.Value);
                     
                     // Determine the nameObjectType based on the available device references
@@ -668,7 +704,7 @@ public class GroupAddressNameCorrector
 
                     if (groupAddressElement == null)
                     {
-                        App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted.GroupAddressRef}");
+                        App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted?.GroupAddressRef}");
                         continue; 
                     }
                     
@@ -683,6 +719,33 @@ public class GroupAddressNameCorrector
                     
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
+                    
+                    // If no location found, search on the other devices
+                    if (location == null)
+                    {
+                        bool locationFound = false;
+
+                        foreach (var device in gdr.Devices)
+                        {
+                            // Check if a location has been found
+                            if (locationFound)
+                            {
+                                break; 
+                            }
+
+                            // To not look again in deviceRailMounted
+                            if (device == deviceRailMounted)
+                            {
+                                continue; // Pass if it's deviceRailMounted
+                            }
+
+                            location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
+                            if (location != null)
+                            {
+                                locationFound = true; 
+                            }
+                        }
+                    }
 
                     string nameLocation = GetLocationName(location, nameAttr.Value);
                                                 
@@ -788,6 +851,7 @@ public class GroupAddressNameCorrector
     /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
     /// </returns>
     /// </summary>
+    [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
     {
 
@@ -1510,11 +1574,24 @@ public class GroupAddressNameCorrector
     /// </summary>
     static string GetLocationName(dynamic location, string nameAttrValue)
     {
+        string nameLocation;
+        Match match;
         if (location == null)
         {
             // Default location details if no location information is found
             App.ConsoleAndLogWriteLine("No location found");
-            return $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
+            
+            nameLocation = $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
+            
+            //Add circuit part to the name if it exist
+            match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
+            if (match.Success)
+            {
+                nameLocation += "_" + match.Value;
+            }
+
+            return nameLocation;
+
         }
 
         string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
@@ -1524,14 +1601,14 @@ public class GroupAddressNameCorrector
         string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
 
         // Format the location details
-        string nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
-        if (!string.IsNullOrEmpty(distributionBoardName))
+        nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
+        if (!string.IsNullOrEmpty(distributionBoardName)&& location.DeviceRefsInDistributionBoards == location.DeviceRefs)
         {
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
 
         //Add circuit part to the name if it exist
-        Match match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
+        match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
         if (match.Success)
         {
             nameLocation += "_" + match.Value;
