@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using System.IO;
+
 
 namespace KNXBoostDesktop;
 
@@ -23,6 +25,9 @@ public partial class GroupAddressRenameWindow
     /// </summary>
     public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
     public string SavedAddress { get; private set; } // Adresse issue du logiciel sauvegardée pour reset
+
+    private string xmlRenameFilePath = "";
+
 
 
 
@@ -395,10 +400,15 @@ public partial class GroupAddressRenameWindow
     {
         BeforeTextBox.Text = addressOriginale;
         AfterTextBox.Text = addressModifiée;
-        if ( SavedAddress == "" ) SavedAddress = addressModifiée; 
+        SavedAddress = addressModifiée; 
     }
-    
-    
+
+    public void SetPath(string _xmlRenameFilePath)
+    {
+        xmlRenameFilePath = _xmlRenameFilePath;
+    }
+
+
     /// <summary>
     /// Permet de déplacer la fenêtre en cliquant et en maintenant le bouton gauche de la souris enfoncé.
     /// </summary>
@@ -451,7 +461,63 @@ public partial class GroupAddressRenameWindow
 
     private void Reset(object? sender, RoutedEventArgs e)
     {
-            // Remet l'adresse du logiciel initiale en cas de reset
-            AfterTextBox.Text = SavedAddress;               
+        try
+        {
+            string path = xmlRenameFilePath; // Remplacez par le chemin réel de votre fichier XML
+
+            // Vérifier si le fichier existe
+            if (!File.Exists(path))
+            {
+                AfterTextBox.Text = SavedAddress; // Utiliser SavedAddress si le fichier n'existe pas
+                App.ConsoleAndLogWriteLine($"File not created. Reset with '{SavedAddress}'");
+                return;
+            }
+
+            // Charger le document XML
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+
+            // Rechercher l'élément <Change> où OriginalAddress correspond à BeforeTextBox.Text
+            XmlNodeList changeNodes = xmlDoc.SelectNodes($"/Root/Change[@OriginalAddress='{BeforeTextBox.Text}']");
+
+            if (changeNodes != null && changeNodes.Count > 0)
+            {
+                // Initialiser la variable pour stocker le OldAddress le plus ancien
+                string oldestOldAddress = null;
+                DateTime oldestTimeStamp = DateTime.MaxValue;
+
+                // Parcourir les nodes pour trouver le OldAddress le plus ancien
+                foreach (XmlNode changeNode in changeNodes)
+                {
+                    // Récupérer OldAddress et TimeStamp de chaque node
+                    string oldAddress = changeNode.Attributes["OldAddress"]?.Value;
+                    DateTime timeStamp = DateTime.Parse(changeNode.Attributes["TimeStamp"]?.Value);
+
+                    // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
+                    if (timeStamp < oldestTimeStamp)
+                    {
+                        oldestTimeStamp = timeStamp;
+                        oldestOldAddress = oldAddress;
+                    }
+                }
+
+                // Mettre à jour AfterTextBox.Text avec le OldAddress le plus ancien trouvé
+                AfterTextBox.Text = oldestOldAddress;
+
+                App.ConsoleAndLogWriteLine($"Reset successful: After Address set to '{oldestOldAddress}' based on Original Address '{BeforeTextBox.Text}'");
+            }
+            else
+            {
+                // Gérer le cas où aucun élément correspondant n'est trouvé
+                AfterTextBox.Text = SavedAddress; // Utiliser SavedAddress si aucune correspondance n'est trouvée
+                App.ConsoleAndLogWriteLine($"Address not modified yet. Reset with '{SavedAddress}'");
+            }
+        }
+        catch (Exception ex)
+        {
+            // En cas d'exception, utiliser SavedAddress
+            App.ConsoleAndLogWriteLine($"Error during reset: {ex.Message}");
+            AfterTextBox.Text = SavedAddress;
+        }
     }
 }

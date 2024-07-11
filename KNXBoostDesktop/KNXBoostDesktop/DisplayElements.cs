@@ -72,10 +72,11 @@
         /// <param name="addressOriginal">The original group address.</param>
         /// <param name="addressEdited">The edited group address.</param>
         /// <returns>The dialog result of the group address rename window.</returns>
-        public bool? ShowGroupAddressRenameWindow(string addressOriginal, string addressEdited)
+        public bool? ShowGroupAddressRenameWindow(string addressOriginal, string addressEdited, string xmlRenameFilePath)
         {
             GroupAddressRenameWindow.SetAddress(addressOriginal, addressEdited);
             GroupAddressRenameWindow.ShowDialog();
+            GroupAddressRenameWindow.SetPath(xmlRenameFilePath);
             return GroupAddressRenameWindow.DialogResult;
         }
     }
