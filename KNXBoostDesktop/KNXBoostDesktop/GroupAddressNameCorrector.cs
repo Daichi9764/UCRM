@@ -462,12 +462,10 @@ public class GroupAddressNameCorrector
                             ?.Attribute("Name")?.Value ?? string.Empty
                     );
                     
-                    // Liste de tous les dispositifs dans la pièce
                     var allDeviceRefs = room.Descendants(_globalKnxNamespace + "DeviceInstanceRef")
                         .Select(dir => dir.Attribute("RefId")?.Value)
                         .ToList();
-
-                    // Liste des dispositifs dans les tableaux de distribution
+                    
                     var deviceRefsInDistributionBoards = room.Elements(_globalKnxNamespace + "Space")
                         .Where(s => s.Attribute("Type")?.Value == "DistributionBoard")
                         .SelectMany(db => db.Elements(_globalKnxNamespace + "DeviceInstanceRef")
@@ -481,8 +479,8 @@ public class GroupAddressNameCorrector
                         BuildingPartName = getAncestorName("BuildingPart"),
                         BuildingName = getAncestorName("Building"),
                         DistributionBoardName = getDescendantName("DistributionBoard"),
-                        DeviceRefs = allDeviceRefs, // Tous les dispositifs dans la pièce
-                        DeviceRefsInDistributionBoards = deviceRefsInDistributionBoards // Dispositifs dans les tableaux de distribution
+                        DeviceRefs = allDeviceRefs, 
+                        DeviceRefsInDistributionBoards = deviceRefsInDistributionBoards 
                     };
                 })
                 .ToList();
@@ -649,30 +647,29 @@ public class GroupAddressNameCorrector
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
 
-                    // Si aucune localisation n'est trouvée, itérer sur les autres dispositifs du groupe
+                    // If no location found, search on the other devices
                     if (location == null)
                     {
-                        // Utilisation d'un indicateur pour savoir si une localisation a été trouvée
                         bool locationFound = false;
 
                         foreach (var device in gdr.Devices)
                         {
-                            // Vérifier si nous avons déjà trouvé une localisation
+                            // Check if a location has been found
                             if (locationFound)
                             {
-                                break; // Sortir de la boucle si une localisation a été trouvée
+                                break; 
                             }
 
-                            // Éviter de rechercher à nouveau dans deviceNotRailMounted
+                            // To not look again in deviceNotRailMounted
                             if (device == deviceNotRailMounted)
                             {
-                                continue; // Passer à l'itération suivante si c'est deviceNotRailMounted
+                                continue; // Pass if it's deviceNotRailMounted
                             }
 
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                locationFound = true; // Mettre à jour l'indicateur
+                                locationFound = true; 
                             }
                         }
                     }
@@ -723,30 +720,29 @@ public class GroupAddressNameCorrector
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
                     
-                    // Si aucune localisation n'est trouvée, itérer sur les autres dispositifs du groupe
+                    // If no location found, search on the other devices
                     if (location == null)
                     {
-                        // Utilisation d'un indicateur pour savoir si une localisation a été trouvée
                         bool locationFound = false;
 
                         foreach (var device in gdr.Devices)
                         {
-                            // Vérifier si nous avons déjà trouvé une localisation
+                            // Check if a location has been found
                             if (locationFound)
                             {
-                                break; // Sortir de la boucle si une localisation a été trouvée
+                                break; 
                             }
 
-                            // Éviter de rechercher à nouveau dans deviceNotRailMounted
+                            // To not look again in deviceRailMounted
                             if (device == deviceRailMounted)
                             {
-                                continue; // Passer à l'itération suivante si c'est deviceNotRailMounted
+                                continue; // Pass if it's deviceRailMounted
                             }
 
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                locationFound = true; // Mettre à jour l'indicateur
+                                locationFound = true; 
                             }
                         }
                     }
