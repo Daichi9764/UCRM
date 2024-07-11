@@ -11,7 +11,7 @@
         AllowsTransparency="True"
         Background="#F5F5F5"
         Closing="ClosingSettingsWindow">
-    
+
     <Window.Resources>
         <!-- Style pour le bouton de fermeture de la fenêtre -->
         <Style x:Key="CloseButtonStyle" TargetType="Button">
@@ -159,6 +159,35 @@
             </Setter>
         </Style>
         
+        <!-- Style pour le bouton de reinitialisation -->
+        <Style x:Key="SquareButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#A9A9A9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="0,-5,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F5F5F5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     
     
@@ -223,7 +252,15 @@
                         <TextBox x:Name="BeforeTextBox" Margin="10,0,10,10" IsReadOnly="True" Background="#F5F5F5"/>
                         
                         <TextBlock x:Name="AfterText" Margin="10,10,0,2" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold" />
-                        <TextBox x:Name="AfterTextBox" Margin="10,0,10,10" />
+                        <Grid Margin="10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  Grid.Column="0" x:Name="AfterTextBox" Margin="0,0,10,0"/>
+                            <Button Grid.Column="1" Content="⟲" FontSize="24" x:Name="AfterTextBoxButton" Click="Reset" Style="{StaticResource SquareButtonStyle}">
+                            </Button>
+                        </Grid>
                     </StackPanel>
                 </Border>
             </Grid>

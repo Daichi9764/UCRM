@@ -25,7 +25,9 @@ public partial class MainWindow
     private string _xmlFilePath1 = "";
     
     private string _xmlFilePath2 = "";
-    
+
+    private string _xmlRenameFilePath = "";
+
     private string _searchTextTranslate = "";
 
     private MainViewModel ViewModel { get; }
@@ -836,6 +838,8 @@ public partial class MainWindow
 
                     _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
                     _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+                    _xmlRenameFilePath = App.Fm.ProjectFolderPath + "RenamedAddressesHistory.xml";
+
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -999,18 +1003,19 @@ public partial class MainWindow
             {
                 nodeToRename.Attributes["Name"].Value = newAddress;
                 xmlDoc.Save(filePath);
-                Console.WriteLine($"Address '{oldAddress}' renamed to '{newAddress}' in the XML file.");
+                App.ConsoleAndLogWriteLine($"Address '{oldAddress}' renamed to '{newAddress}' in the XML file.");
             }
             else
             {
-                Console.WriteLine($"Address '{oldAddress}' not found in the XML file.");
+                App.ConsoleAndLogWriteLine($"Address '{oldAddress}' not found in the XML file.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error updating XML file: {ex.Message}");
+            App.ConsoleAndLogWriteLine($"Error updating XML file: {ex.Message}");
         }
     }
+
 
     //--------------------- Changement de thème -----------------------------------------------------//
     /// <summary>

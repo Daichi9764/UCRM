@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
 
 namespace KNXBoostDesktop;
 
@@ -21,9 +22,10 @@ public partial class GroupAddressRenameWindow
     /// Obtient l'adresse modifiée par l'utilisateur.
     /// </summary>
     public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
-    
-    
-    
+    public string SavedAddress { get; private set; } // Adresse issue du logiciel sauvegardée pour reset
+
+
+
     /* ------------------------------------------------------------------------------------------------
     -------------------------------------------- METHODES  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
@@ -33,6 +35,7 @@ public partial class GroupAddressRenameWindow
     public GroupAddressRenameWindow()
     {
         NewAddress = "";
+        SavedAddress = "";
         InitializeComponent();
     }
     
@@ -388,6 +391,7 @@ public partial class GroupAddressRenameWindow
     {
         BeforeTextBox.Text = addressOriginale;
         AfterTextBox.Text = addressModifiée;
+        if ( SavedAddress == "" ) SavedAddress = addressModifiée; 
     }
     
     
@@ -441,4 +445,9 @@ public partial class GroupAddressRenameWindow
     }
 
 
+    private void Reset(object? sender, RoutedEventArgs e)
+    {
+            // Remet l'adresse du logiciel initiale en cas de reset
+            AfterTextBox.Text = SavedAddress;               
+    }
 }
