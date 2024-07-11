@@ -177,7 +177,7 @@ namespace KNXBoostDesktop
                 while (reader!.ReadLine() is { } line)
                 {
                     // Créer un HashSet avec tous les codes de langue valides
-                    HashSet<string> validLanguageCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                    var validLanguageCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                     {
                         "AR", "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI",
                         "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
