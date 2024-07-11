@@ -1377,9 +1377,19 @@ namespace KNXBoostDesktop
                     DarkThemeComboBoxItem.Content = "Sombre";
 
                     AppLanguageTextBlock.Text = "Langue de l'application:";
+                    
+                    
+                    MenuDebug.Text = "Menu de deboggage";
+                    AddInfosOSCheckBox.Content = "Inclure les informations sur le système d'exploitation";
+                    AddInfosHardCheckBox.Content = "Inclure les informations sur le matériel de l'ordinateur";
+                    AddImportedFiles.Content = "Inclure les fichiers des projets importés depuis le lancement";
+                    IncludeAddressList.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
+                    CreateArchiveDebugText.Text = "Créer le fichier de deboggage";
+                        
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
+                    
                     break;
             }
 
@@ -1407,6 +1417,9 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
+                
+                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                    MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             }
             else // Sinon, on met le thème sombre
             {
@@ -1424,6 +1437,10 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
+                
+                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                    MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
+
             }
             
             // Définition des brush pour les divers éléments
@@ -1469,6 +1486,8 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+            
+            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked! ? true : false;
             
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
@@ -1913,6 +1932,32 @@ namespace KNXBoostDesktop
                 TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
                 TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
             }
+        }
+
+        private void EnableIncludeAddress(object sender, RoutedEventArgs e)
+        {
+            IncludeAddressList.IsEnabled = true;
+
+            IncludeAddressList.Foreground = EnableLightTheme ? 
+                new SolidColorBrush(Colors.Black) : MainWindow.ConvertStringColor("#E3DED4");
+        }
+
+        private void DisableIncludeAddress(object sender, RoutedEventArgs e)
+        {
+            IncludeAddressList.IsEnabled = false;
+            IncludeAddressList.IsChecked = false;
+
+            IncludeAddressList.Foreground = EnableLightTheme ? 
+                new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
+        }
+        private void CreateDebugReport(object sender, RoutedEventArgs e)
+        {
+            var includeOsInfo = AddInfosOSCheckBox.IsChecked;
+            var includeHardwareInfo = AddInfosHardCheckBox.IsChecked;
+            var includeImportedProjects = AddImportedFiles.IsChecked;
+            var includeRemovedGroupAddressList = (bool)IncludeAddressList.IsChecked! && (bool)AddImportedFiles.IsChecked!;
+            
+            ProjectFileManager.CreateDebugArchive((bool)includeOsInfo!, (bool)includeHardwareInfo!, (bool)includeImportedProjects!, includeRemovedGroupAddressList!);
         }
 
         
@@ -2574,6 +2619,6 @@ namespace KNXBoostDesktop
                 DragMove();
             }
         }
-        
+
     }
 }

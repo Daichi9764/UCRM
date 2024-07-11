@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace KNXBoostDesktop
 {
@@ -73,18 +75,20 @@ namespace KNXBoostDesktop
         {
             Dispatcher.Invoke(() =>
             {
-                var activityToAdd = new Activity
+                var newActivity = new Activity
                 {
                     Text = activity,
                     Background = "Transparent",
-                    IsCompleted = false,
                     Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme
-                        ? "#000000" : "#FFFFFF"
+                        ? "#000000" : "#FFFFFF",
+                    StartTime = DateTime.Now,
+                    IsInProgress = true
                 };
 
-                Activities.Add(activityToAdd);
-                //ApplyActivityStyle();
-                ActivityLog.ScrollIntoView(Activities.Last());
+                newActivity.StartTrackingDuration(); // Commence à suivre la durée
+
+                Activities.Add(newActivity);
+                ActivityLog.ScrollIntoView(newActivity);
             });
         }
 
@@ -110,8 +114,10 @@ namespace KNXBoostDesktop
         {
             Dispatcher.Invoke(() =>
             {
-                if (Activities.Count <= 0) return;
-                Activities.Last().IsCompleted = true;
+                if (Activities.Count == 0) return;
+        
+                Activities.Last().MarkComplete(); // Marque l'activité comme complétée
+        
                 ActivityLog.Items.Refresh();
             });
         }
@@ -147,28 +153,150 @@ namespace KNXBoostDesktop
         }
     }
 
-    public class Activity
+    public class Activity : INotifyPropertyChanged
+{
+    private string text;
+    private bool isCompleted;
+    private string background;
+    private string foreground;
+    private string duration;
+    private DateTime startTime;
+    private DispatcherTimer timer;
+    private bool isInProgress;
+    
+    public bool IsInProgress
     {
-        /// <summary>
-        /// Gets or sets the text of the activity.
-        /// </summary>
-        public string Text { get; set; }
-        
-        /// <summary>
-        /// Gets or sets a value indicating whether the activity is completed.
-        /// </summary>
-        public bool IsCompleted { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the background color of the activity.
-        /// </summary>
-        public string Background { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the foreground color of the activity.
-        /// </summary>
-        public string Foreground { get; set; }
+        get => isInProgress;
+        set
+        {
+            isInProgress = value;
+            OnPropertyChanged(nameof(IsInProgress));
+            OnPropertyChanged(nameof(IsInProgressVisibility)); // Met à jour la visibilité en fonction de IsInProgress
+        }
     }
+
+    public Visibility IsInProgressVisibility => IsInProgress && !IsCompleted ? Visibility.Visible : Visibility.Hidden;
+
+
+    public string Text
+    {
+        get => text;
+        set
+        {
+            text = value;
+            OnPropertyChanged(nameof(Text));
+        }
+    }
+
+    public bool IsCompleted
+    {
+        get => isCompleted;
+        set
+        {
+            isCompleted = value;
+            OnPropertyChanged(nameof(IsCompleted));
+            OnPropertyChanged(nameof(IsCompletedVisibility)); // Met à jour la visibilité en fonction de IsCompleted
+        }
+    }
+
+    public string Background
+    {
+        get => background;
+        set
+        {
+            background = value;
+            OnPropertyChanged(nameof(Background));
+        }
+    }
+
+    public string Foreground
+    {
+        get => foreground;
+        set
+        {
+            foreground = value;
+            OnPropertyChanged(nameof(Foreground));
+        }
+    }
+
+    public string Duration
+    {
+        get => duration;
+        set
+        {
+            duration = value;
+            OnPropertyChanged(nameof(Duration));
+        }
+    }
+
+    public DateTime StartTime
+    {
+        get => startTime;
+        set
+        {
+            startTime = value;
+            OnPropertyChanged(nameof(StartTime));
+        }
+    }
+
+    public DispatcherTimer Timer
+    {
+        get => timer;
+        set
+        {
+            timer = value;
+            OnPropertyChanged(nameof(Timer));
+        }
+    }
+
+    public Visibility IsCompletedVisibility => IsCompleted ? Visibility.Visible : Visibility.Hidden;
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    // Met à jour la durée en fonction du temps écoulé
+    private void UpdateDuration()
+    {
+        var elapsed = DateTime.Now - StartTime;
+        
+        // Affiche "00:00" si le temps écoulé est inférieur à une seconde
+        if (elapsed < TimeSpan.FromMilliseconds(100))
+        {
+            Duration = "00:00";
+        }
+        else
+        {
+            Duration = $"{(int)elapsed.TotalMinutes:D2}:{elapsed.Seconds:D2}";
+        }
+    }
+
+    // Méthode publique pour démarrer le suivi de la durée
+    public void StartTrackingDuration()
+    {
+        Timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(1) // Mise à jour toutes les secondes
+        };
+        Timer.Tick += (sender, args) =>
+        {
+            UpdateDuration(); // Met à jour la durée en temps réel
+        };
+        Timer.Start();
+
+        UpdateDuration(); // Met à jour la durée initiale
+    }
+
+    // Méthode publique pour marquer l'activité comme complétée
+    public void MarkComplete()
+    {
+        IsCompleted = true;
+        Timer?.Stop();
+        UpdateDuration(); // Met à jour la durée une dernière fois
+    }
+}
 
     public class BooleanToVisibilityConverter : IValueConverter
     {

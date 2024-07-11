@@ -78,5 +78,7 @@
             GroupAddressRenameWindow.ShowDialog();
             return GroupAddressRenameWindow.DialogResult;
         }
-    }
+    } 
+    
+    // masquer boutons en bas quand onglet debug
 }
