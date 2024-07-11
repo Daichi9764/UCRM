@@ -108,7 +108,7 @@
         <!-- Style pour les TextBox -->
         <Style x:Key="TextBoxFocusStyleLight" TargetType="TextBox">
             <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderBrush" Value="#A9A9A9"/>
             <Setter Property="Foreground" Value="#E3DED4"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="5"/>
@@ -160,7 +160,7 @@
         </Style>
         
         <!-- Style pour le bouton de reinitialisation -->
-        <Style x:Key="SquareButtonStyle" TargetType="Button">
+        <Style x:Key="SquareButtonStyleLight" TargetType="Button">
             <Setter Property="Width" Value="30"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -185,6 +185,34 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SquareButtonStyleDark" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#262626"/>
+            <Setter Property="BorderBrush" Value="#434343"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="0,-5,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#313131"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                   </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -258,7 +286,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox  Grid.Column="0" x:Name="AfterTextBox" Margin="0,0,10,0"/>
-                            <Button Grid.Column="1" Content="⟲" FontSize="24" x:Name="AfterTextBoxButton" Click="Reset" Style="{StaticResource SquareButtonStyle}">
+                            <Button Grid.Column="1" Content="⟲" FontSize="24" x:Name="AfterTextBoxButton" Click="Reset" Style="{StaticResource SquareButtonStyleLight}">
                             </Button>
                         </Grid>
                     </StackPanel>

@@ -348,6 +348,8 @@ public partial class GroupAddressRenameWindow
             CancelButton.Style = (Style)FindResource("BottomButtonLight");
             CancelButtonText.Foreground = txtColor;
             CancelButtonDrawing.Brush = txtColor;
+            AfterTextBoxButton.Style = (Style)FindResource("SquareButtonStyleLight");
+            AfterTextBoxButton.Foreground = txtColor;
         }
         else
         {
@@ -379,6 +381,8 @@ public partial class GroupAddressRenameWindow
             CancelButton.Style = (Style)FindResource("BottomButtonDark");
             CancelButtonText.Foreground = txtColor;
             CancelButtonDrawing.Brush = txtColor;
+            AfterTextBoxButton.Style = (Style)FindResource("SquareButtonStyleDark");
+            AfterTextBoxButton.Foreground = txtColor;
         }
     }
 
