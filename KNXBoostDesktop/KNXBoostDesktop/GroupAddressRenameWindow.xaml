@@ -70,7 +70,6 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#F5F5F5"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
-                                <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
