@@ -1950,6 +1950,28 @@ namespace KNXBoostDesktop
             IncludeAddressList.Foreground = EnableLightTheme ? 
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                TabItem selectedTab = (sender as TabControl).SelectedItem as TabItem;
+                if (selectedTab != null && selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
+                {
+                    SaveButton.Visibility = Visibility.Collapsed;
+                    CancelButton.Visibility = Visibility.Collapsed;
+                    CreateArchiveDebugButton.Visibility = Visibility.Visible;
+                }
+                else if (selectedTab != null && selectedTab.Header != null &&
+                         selectedTab.Header.ToString() == "Paramètres généraux")
+                {
+                    SaveButton.Visibility = Visibility.Visible;
+                    CancelButton.Visibility = Visibility.Visible;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+        
         private void CreateDebugReport(object sender, RoutedEventArgs e)
         {
             var includeOsInfo = AddInfosOSCheckBox.IsChecked;

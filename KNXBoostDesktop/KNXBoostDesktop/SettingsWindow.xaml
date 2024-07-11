@@ -746,8 +746,10 @@
                                <!-- Conteneur principal (corps de la fenêtre) -->
                                <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" 
                                        BorderThickness="0">
-                                   <TabControl BorderBrush="#D7D7D7" BorderThickness="1">
-                                       <TabItem Header="Paramètres" Style="{StaticResource CustomTabItemStyle}">
+                                   <TabControl SelectionChanged="TabControl_SelectionChanged" 
+                                               BorderBrush="#D7D7D7" 
+                                               BorderThickness="1">
+                                       <TabItem x:Name="OngletParametresGeneraux" Header="Paramètres généraux" Style="{StaticResource CustomTabItemStyle}">
                                            
                                            <StackPanel x:Name="MainContentPanel" Background="White">
                                                <!-- Gestion de la traduction des adresses de groupe -->
@@ -895,10 +897,10 @@
                        
                                            </StackPanel>
                                        </TabItem>
-                                       <TabItem Header="Debug" Style="{StaticResource CustomTabItemStyle}">
+                                       <TabItem x:Name="OngletDebug" Header="Debug" Style="{StaticResource CustomTabItemStyle}">
                                            <StackPanel>
                                                <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
-                                                          Margin="10,10,0,0" />
+                                                          Margin="10,10,0,10" />
                        
                                                <CheckBox x:Name="AddInfosOSCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
                                                          Margin="10,5,0,10">
@@ -916,14 +918,7 @@
                                                          Margin="10,5,0,10">
                                                </CheckBox>
                                                
-                                               <Button x:Name="CreateArchiveDebug" Margin="0,0,10,0" Height="32" Style="{StaticResource BottomButtonLight}"
-                                                   Click="CreateDebugReport" Visibility="Visible">
-                                                   <StackPanel Orientation="Horizontal">
-                                                       
-                                                       <TextBlock x:Name="CreateArchiveDebugText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16"
-                                                                  HorizontalAlignment="Center" Margin="0,0,5,0" />
-                                                   </StackPanel>
-                                               </Button>
+                                               
                                                
                                            </StackPanel>
                                            
@@ -996,6 +991,16 @@
                                                       HorizontalAlignment="Center" Margin="0,0,5,0" />
                                        </StackPanel>
                                    </Button>
+                                   
+                                   <Button x:Name="CreateArchiveDebugButton" Margin="25,0,0,0" Height="32" Style="{StaticResource BottomButtonLight}"
+                                           Click="CreateDebugReport" Visibility="Collapsed">
+                                       <StackPanel Orientation="Horizontal">
+                                           
+                                           <TextBlock x:Name="CreateArchiveDebugText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16"
+                                                      HorizontalAlignment="Center" Margin="5,0,5,0" />
+                                       </StackPanel>
+                                   </Button>
+                                   
                                    
                                </StackPanel>
                                
