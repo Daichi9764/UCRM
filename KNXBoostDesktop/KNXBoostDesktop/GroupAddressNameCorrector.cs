@@ -646,6 +646,7 @@ public class GroupAddressNameCorrector
                         
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
+                    string deviceLocated = deviceNotRailMounted.DeviceInstanceId ?? string.Empty;
 
                     // If no location found, search on the other devices
                     if (location == null)
@@ -669,12 +670,13 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
+                                deviceLocated = device.DeviceInstanceId;
                                 locationFound = true; 
                             }
                         }
                     }
                     
-                    string nameLocation = GetLocationName(location, nameAttr.Value);
+                    string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
                     
                     // Determine the nameObjectType based on the available device references
                     string nameObjectType =
@@ -719,6 +721,7 @@ public class GroupAddressNameCorrector
                     
                     // Get the location information for the device reference
                     var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
+                    string deviceLocated = deviceRailMounted.DeviceInstanceId ?? string.Empty ;
                     
                     // If no location found, search on the other devices
                     if (location == null)
@@ -742,12 +745,13 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
+                                deviceLocated = device.DeviceInstanceId;
                                 locationFound = true; 
                             }
                         }
                     }
 
-                    string nameLocation = GetLocationName(location, nameAttr.Value);
+                    string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
                                                 
                     // Determine the nameObjectType based on the available device references
                     string nameObjectType = DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
@@ -1572,7 +1576,7 @@ public class GroupAddressNameCorrector
     /// A formatted string representing the location name, constructed from the location attributes and the name attribute value.
     /// </returns>
     /// </summary>
-    static string GetLocationName(dynamic location, string nameAttrValue)
+    static string GetLocationName(dynamic location, string nameAttrValue, string deviceRef)
     {
         string nameLocation;
         Match match;
@@ -1602,7 +1606,7 @@ public class GroupAddressNameCorrector
 
         // Format the location details
         nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
-        if (!string.IsNullOrEmpty(distributionBoardName)&& location.DeviceRefsInDistributionBoards == location.DeviceRefs)
+        if (!string.IsNullOrEmpty(distributionBoardName) && location.DeviceRefsInDistributionBoards.Contains(deviceRef))
         {
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
