@@ -1778,8 +1778,8 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
-            
-            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked! ? true : false;
+
+            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked!;
             
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
@@ -2245,22 +2245,20 @@ namespace KNXBoostDesktop
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is TabControl)
+            if (e.Source is not TabControl) return;
+            var selectedTab = (((TabControl)sender).SelectedItem as TabItem)!;
+            if (selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
             {
-                TabItem selectedTab = (sender as TabControl).SelectedItem as TabItem;
-                if (selectedTab != null && selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
-                {
-                    SaveButton.Visibility = Visibility.Collapsed;
-                    CancelButton.Visibility = Visibility.Collapsed;
-                    CreateArchiveDebugButton.Visibility = Visibility.Visible;
-                }
-                else if (selectedTab != null && selectedTab.Header != null &&
-                         selectedTab.Header.ToString() == "Paramètres généraux")
-                {
-                    SaveButton.Visibility = Visibility.Visible;
-                    CancelButton.Visibility = Visibility.Visible;
-                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
-                }
+                SaveButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+                CreateArchiveDebugButton.Visibility = Visibility.Visible;
+            }
+            else if (selectedTab.Header != null &&
+                     selectedTab.Header.ToString() == "Paramètres généraux")
+            {
+                SaveButton.Visibility = Visibility.Visible;
+                CancelButton.Visibility = Visibility.Visible;
+                CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
             }
         }
         
