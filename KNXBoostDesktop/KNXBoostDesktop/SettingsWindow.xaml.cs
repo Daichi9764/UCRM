@@ -2310,7 +2310,7 @@ namespace KNXBoostDesktop
         /// <returns>A byte array containing the encrypted data.</returns>
         private static byte[] EncryptStringToBytes(string plainText)
         {
-            // Générer une nouvelle clé et IV pour l'encryption
+            // Générer une nouvelle clé et IV pour le cryptage
             using (var aesAlg = Aes.Create())
             {
                 try
@@ -2521,19 +2521,19 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine("Error: The main key is null. Aborting storing operation.");
                 return;
             }
-            // Si l'encryption échoue
+            // Si le cryptage échoue
             catch (CryptographicException)
             {
                 App.ConsoleAndLogWriteLine("Error: Could not encrypt main key.");
                 return;
             }
-            // Si l'OS ne supporte pas cet algorithme d'encryption
+            // Si l'OS ne supporte pas cet algorithme de cryptage
             catch (NotSupportedException)
             {
                 App.ConsoleAndLogWriteLine($"Error: The system does not support the methods used to encrypt the main key.");
                 return;
             }
-            // Si le process n'a plus assez de RAM disponible pour l'encryption
+            // Si le process n'a plus assez de RAM disponible pour le cryptage
             catch (OutOfMemoryException)
             {
                 App.ConsoleAndLogWriteLine("Error: The application ran out of memory during the encryption of the main key.");
@@ -2819,7 +2819,7 @@ namespace KNXBoostDesktop
         /// <returns>A string representing the generated random key. If the length is zero or less, an empty string is returned.</returns>
         private static string GenerateRandomKey(int length)
         {
-            // Tableau contenant tous les caractères admissibles dans une clé d'encryption
+            // Tableau contenant tous les caractères admissibles dans une clé de cryptage
             var chars ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
             // Si la longueur est de 0 ou moins, on retourne un string vide
