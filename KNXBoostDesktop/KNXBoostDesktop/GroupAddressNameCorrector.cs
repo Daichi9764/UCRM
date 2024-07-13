@@ -848,20 +848,21 @@ public class GroupAddressNameCorrector
     
     // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
     /// <summary>
-    /// Retrieves the object type of a participant based on its ReadFlag and WriteFlag values from a hardware XML file.
-    ///
-    /// This method constructs the path to the hardware XML file located in the specified <paramref name="mxxxxDirectory"/> 
-    /// and attempts to locate the <c>ComObjectRef</c> element with a matching ID based on <paramref name="comObjectInstanceRefId"/>.
-    /// If the <c>ReadFlag</c> or <c>WriteFlag</c> attributes are not found in <c>ComObjectRef</c>, it checks the <c>ComObject</c> element.
-    /// The object type is determined based on the combination of <c>ReadFlag</c> and <c>WriteFlag</c> values and is returned as "Cmd" or "Ie".
-    /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes are not found, 
-    /// the method logs an error and returns an empty string.
-    ///
+    /// Retrieves the object type based on the ReadFlag and WriteFlag values from a hardware XML file.
+    /// This method constructs the path to the hardware XML file located in the specified directory and attempts
+    /// to locate the ComObjectRef element with a matching ID based on the provided ComObjectInstanceRefId.
+    /// If the ReadFlag or WriteFlag attributes are not found in ComObjectRef, it checks the ComObject element.
+    /// The object type ("Cmd" or "Ie") is determined based on the combination of ReadFlag and WriteFlag values.
+    /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes
+    /// are not found, the method logs an error and returns an empty string.
+    /// 
     /// <param name="hardwareFileName">The name of the hardware XML file to be loaded.</param>
-    /// <param name="mxxxxDirectory">The directory containing the hardware XML file.</param>
-    /// <param name="comObjectInstanceRefId">The reference ID of the ComObject instance to locate.</param>
+    /// <param name="mxxxxDirectory">The directory containing the Mxxxx files.</param>
+    /// <param name="comObjectInstanceRefId">The reference ID of the ComObjectInstance to locate in the XML file.</param>
+    /// <param name="readFlagFound">The initial value of the read flag if available.</param>
+    /// <param name="writeFlagFound">The initial value of the write flag if available.</param>
     /// <returns>
-    /// Returns the object type ("Cmd" or "Ie") based on the <c>ReadFlag</c> and <c>WriteFlag</c> attributes, or an empty string if
+    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag and WriteFlag attributes, or an empty string if
     /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
     /// </returns>
     /// </summary>
@@ -1578,22 +1579,21 @@ public class GroupAddressNameCorrector
     }
 
     /// <summary>
-    /// Generates a formatted location name based on the provided location object and name attribute value.
-    /// If the location object is null, returns a default formatted location name.
-    /// Otherwise, constructs the location name using the available attributes of the location object,
-    /// with fallback values for missing attributes. Appends a formatted distribution board name if present,
-    /// and adds the name attribute value if it matches the specified pattern.
-    ///
-    /// <param name="location">A dynamic object representing the location with attributes such as BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
-    /// <param name="nameAttrValue">A string containing the name attribute value that is appended to the location name if it matches a specific pattern.</param>
+    /// Generates a formatted location name for a device based on its location details and name attribute value.
+    /// If the location is not provided, it returns a default formatted location name.
+    /// Checks the name attribute value to append a valid circuit identifier if present.
+    /// 
+    /// <param name="location">A dynamic object representing the location details of the device, including BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
+    /// <param name="nameAttrValue">A string containing the name attribute value to be analyzed for a circuit identifier.</param>
+    /// <param name="deviceRef">A string reference to the device used to verify its presence in a distribution board.</param>
     /// <returns>
-    /// A formatted string representing the location name, constructed from the location attributes and the name attribute value.
+    /// A formatted string representing the location name of the device, incorporating default or actual location details and a circuit identifier if applicable.
     /// </returns>
     /// </summary>
     static string GetLocationName(dynamic location, string nameAttrValue, string deviceRef)
     {
         string nameLocation;
-        Match match;
+        var (match, value) = AsCircuitInPreviousName(nameAttrValue);
         if (location == null)
         {
             // Default location details if no location information is found
@@ -1602,11 +1602,11 @@ public class GroupAddressNameCorrector
             nameLocation = $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
             
             //Add circuit part to the name if it exist
-            match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-            if (match.Success)
-            {
-                nameLocation += "_" + match.Value;
+            if (match)
+            { 
+                nameLocation += "_" + value;
             }
+
 
             return nameLocation;
 
@@ -1626,14 +1626,60 @@ public class GroupAddressNameCorrector
         }
 
         //Add circuit part to the name if it exist
-        match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-        if (match.Success)
+        if (match)
         { 
-            string modifiedValue = match.Value.Replace("+", "_").Replace("/", "_");
-            nameLocation += "_" + modifiedValue;
+            nameLocation += "_" + value;
         }
 
         return nameLocation;
+    }
+    
+    /// <summary>
+    /// Analyzes a given name attribute value to determine if it includes a valid circuit identifier in its last word.
+    /// The method splits the name attribute value into individual words and inspects the last word for the presence of both letters and digits.
+    /// Special characters other than '/' and '+' will invalidate the last word as a circuit identifier.
+    /// 
+    /// <param name="nameAttrValue">A string containing the name attribute value to be analyzed.</param>
+    /// <returns>
+    /// A tuple containing a boolean and a string:
+    /// - The boolean indicates whether the last word contains both letters and digits, signifying it as a valid circuit identifier.
+    /// - The string returns the last word if it is valid, otherwise an empty string.
+    /// </returns>
+    /// </summary>
+    private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
+    {
+        // Separate the string into words using spaces as delimiters
+        string[] words = nameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Check for words and get the last word
+        if (words.Length == 0)
+        {
+            return (false, string.Empty);
+        }
+
+        string lastWord = words[words.Length - 1];
+
+        bool containsLetter = false;
+        bool containsDigit = false;
+
+        foreach (char c in lastWord)
+        {
+            if (char.IsLetter(c))
+            {
+                containsLetter = true;
+            }
+            if (char.IsDigit(c))
+            {
+                containsDigit = true;
+            }
+            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+')
+            {
+                return (false, lastWord);
+            }
+        }
+
+        bool isValid = containsLetter && containsDigit;
+        return (isValid, isValid ? lastWord : string.Empty);
     }
 
     /// <summary>
@@ -1651,11 +1697,11 @@ public class GroupAddressNameCorrector
     /// </summary>
     static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
     {
-        if (Regex.IsMatch(nameAttrValue, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
+        if (nameAttrValue.ToLower().Contains("cmd") && !nameAttrValue.ToLower().Contains("ie"))
         {
             return $"{_formatter.Format("Cmd")}";
         }
-        else if (Regex.IsMatch(nameAttrValue, @"\bie\b", RegexOptions.IgnoreCase))
+        else if(nameAttrValue.ToLower().Contains("ie"))
         {
             return $"{_formatter.Format("Ie")}";
         }
