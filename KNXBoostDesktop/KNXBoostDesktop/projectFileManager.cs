@@ -1246,6 +1246,17 @@ namespace KNXBoostDesktop
                         {
                             CreateZipArchive(debugArchiveName, $"{directory.TrimStart('.', '/')}/{Path.GetFileName(file)}");
                         }
+
+                        if (!Path.GetFileName(file).Equals("deleted_group_addresses.txt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            CreateZipArchive(debugArchiveName, $"{directory.TrimStart('.', '/')}/{Path.GetFileName(file)}");
+                        }
+                    }
+
+                    foreach (var dir in Directory.GetDirectories(directory))
+                    {
+                        App.ConsoleAndLogWriteLine(dir.TrimStart('.', '/'));
+                        CreateZipArchive(debugArchiveName, dir.TrimStart('.', '/'));
                     }
                 }
             }
@@ -1388,6 +1399,8 @@ namespace KNXBoostDesktop
             if (result == true)
             {
                 App.ConsoleAndLogWriteLine($"Debug archive saved at {saveFileDialog.FileName}.");
+                
+                if (File.Exists(saveFileDialog.FileName)) File.Delete(saveFileDialog.FileName);
                 File.Copy(debugArchiveName, $"{saveFileDialog.FileName}");
             }
             else
