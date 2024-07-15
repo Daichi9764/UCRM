@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-using System.Text.RegularExpressions;
 using System.Net.Http;
 using DeepL;
 
@@ -529,6 +528,11 @@ public class GroupAddressNameCorrector
                         {
                             var links = cir.Attribute("Links")?.Value.Split(' ') ?? new string[0];
                             var comObjectInstanceRefId = cir.Attribute("RefId")?.Value;
+                            if (comObjectInstanceRefId != null && !comObjectInstanceRefId.StartsWith("O-") && comObjectInstanceRefId.Contains("O-"))
+                            {
+                                int index = comObjectInstanceRefId.IndexOf("O-", StringComparison.Ordinal);
+                                comObjectInstanceRefId = comObjectInstanceRefId.Substring(index);
+                            }
                             var readFlag = cir.Attribute("ReadFlag")?.Value;
                             var writeFlag = cir.Attribute("WriteFlag")?.Value;
 
@@ -680,7 +684,7 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                deviceLocated = device.DeviceInstanceId;
+                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
                                 locationFound = true; 
                             }
                         }
@@ -755,7 +759,7 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                deviceLocated = device.DeviceInstanceId;
+                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
                                 locationFound = true; 
                             }
                         }
