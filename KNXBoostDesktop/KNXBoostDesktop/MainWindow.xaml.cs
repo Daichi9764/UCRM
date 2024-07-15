@@ -1418,7 +1418,71 @@ public partial class MainWindow
             // Afficher le message d'erreur sur le thread principal
             await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string caption = App.DisplayElements?.SettingsWindow!.AppLang switch
+                {
+                    // Arabe
+                    "AR" => "خطأ",
+                    // Bulgare
+                    "BG" => "Грешка",
+                    // Tchèque
+                    "CS" => "Chyba",
+                    // Danois
+                    "DA" => "Fejl",
+                    // Allemand
+                    "DE" => "Fehler",
+                    // Grec
+                    "EL" => "Σφάλμα",
+                    // Anglais
+                    "EN" => "Error",
+                    // Espagnol
+                    "ES" => "Error",
+                    // Estonien
+                    "ET" => "Viga",
+                    // Finnois
+                    "FI" => "Virhe",
+                    // Hongrois
+                    "HU" => "Hiba",
+                    // Indonésien
+                    "ID" => "Kesalahan",
+                    // Italien
+                    "IT" => "Errore",
+                    // Japonais
+                    "JA" => "エラー",
+                    // Coréen
+                    "KO" => "오류",
+                    // Letton
+                    "LV" => "Kļūda",
+                    // Lituanien
+                    "LT" => "Klaida",
+                    // Norvégien
+                    "NB" => "Feil",
+                    // Néerlandais
+                    "NL" => "Fout",
+                    // Polonais
+                    "PL" => "Błąd",
+                    // Portugais
+                    "PT" => "Erro",
+                    // Roumain
+                    "RO" => "Eroare",
+                    // Russe
+                    "RU" => "Ошибка",
+                    // Slovaque
+                    "SK" => "Chyba",
+                    // Slovène
+                    "SL" => "Napaka",
+                    // Suédois
+                    "SV" => "Fel",
+                    // Turc
+                    "TR" => "Hata",
+                    // Ukrainien
+                    "UK" => "Помилка",
+                    // Chinois simplifié
+                    "ZH" => "错误",
+                    // Cas par défaut (français)
+                    _ => "Erreur"
+                };
+                
+                MessageBox.Show(ex.Message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
             });
         }
     }
