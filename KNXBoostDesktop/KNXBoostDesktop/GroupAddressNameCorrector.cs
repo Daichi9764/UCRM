@@ -1704,11 +1704,18 @@ public class GroupAddressNameCorrector
     /// </summary>
     static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
     {
-        if (nameAttrValue.ToLower().Contains("cmd") && !nameAttrValue.ToLower().Contains("ie"))
+        // Split nameAttrValue into a list of words using spaces and other common separators, including underscores
+        var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Check for the presence of "cmd" and "ie" in the list of words
+        bool containsCmd = words.Contains("cmd");
+        bool containsIe = words.Contains("ie");
+
+        if (containsCmd && !containsIe)
         {
             return $"{_formatter.Format("Cmd")}";
         }
-        else if(nameAttrValue.ToLower().Contains("ie"))
+        else if (containsIe)
         {
             return $"{_formatter.Format("Ie")}";
         }
