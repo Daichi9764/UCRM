@@ -41,6 +41,9 @@ namespace KNXBoostDesktop
         /// </summary>
         public const float AppVersion = 1.8f; // Version de l'application
 
+        /// <summary>
+        /// Represents the build of the application. Updated each time portions of code are merged on github.
+        /// </summary>
         public static readonly int AppBuild = 325;
         
         
