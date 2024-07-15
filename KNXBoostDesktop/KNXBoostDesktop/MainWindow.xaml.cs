@@ -653,8 +653,6 @@ public partial class MainWindow
         {
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
-        
-        ProjectFileManager.CreateDebugArchive();
     }
         
     /// <summary>

@@ -1432,7 +1432,8 @@ namespace KNXBoostDesktop
                     if (Directory.Exists(path))
                     {
                         // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
-                        AddDirectoryToArchive(archive, path, Path.GetFileName(path));
+                        App.ConsoleAndLogWriteLine($"{path} {Path.GetDirectoryName(path)}");
+                        AddDirectoryToArchive(archive, path, path);
                     }
                     else if (File.Exists(path))
                     {
