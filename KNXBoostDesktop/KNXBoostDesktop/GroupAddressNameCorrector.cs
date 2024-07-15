@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-using System.Text.RegularExpressions;
 using System.Net.Http;
 using DeepL;
 
@@ -38,6 +37,7 @@ public class GroupAddressNameCorrector
     /// Formatter to use when calling CorrectName()
     /// </summary>
     private static Formatter _formatter;
+
     
     /// <summary>
     /// Collection to memorize translations of group names already done.
@@ -48,6 +48,9 @@ public class GroupAddressNameCorrector
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 2513MB")]
+    [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
+    [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
+    [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
     /* ------------------------------------------------------------------------------------------------
     -------------------------------------------- METHODES  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
@@ -525,13 +528,22 @@ public class GroupAddressNameCorrector
                         {
                             var links = cir.Attribute("Links")?.Value.Split(' ') ?? new string[0];
                             var comObjectInstanceRefId = cir.Attribute("RefId")?.Value;
+                            if (comObjectInstanceRefId != null && !comObjectInstanceRefId.StartsWith("O-") && comObjectInstanceRefId.Contains("O-"))
+                            {
+                                int index = comObjectInstanceRefId.IndexOf("O-", StringComparison.Ordinal);
+                                comObjectInstanceRefId = comObjectInstanceRefId.Substring(index);
+                            }
+                            var readFlag = cir.Attribute("ReadFlag")?.Value;
+                            var writeFlag = cir.Attribute("WriteFlag")?.Value;
 
                             return links.Select((link, index) => new
                             {
                                 GroupAddressRef = link,
                                 DeviceInstanceId = id,
                                 ComObjectInstanceRefId = comObjectInstanceRefId,
-                                IsFirstLink = index == 0
+                                IsFirstLink = index == 0,
+                                ReadFlag = readFlag,
+                                WriteFlag = writeFlag
                             });
                         });
 
@@ -569,8 +581,10 @@ public class GroupAddressNameCorrector
                     g.GroupAddressRef,
                     g.DeviceInstanceId,
                     g.ComObjectInstanceRefId,
+                    g.ReadFlag,
+                    g.WriteFlag,
                     ObjectType = hardwareFileName != null && g.ComObjectInstanceRefId != null && mxxxxDirectory != null && g.IsFirstLink ?
-                        GetObjectType(hardwareFileName, mxxxxDirectory, g.ComObjectInstanceRefId) : 
+                        GetObjectType(hardwareFileName, mxxxxDirectory, g.ComObjectInstanceRefId, g.ReadFlag ?? string.Empty, g.WriteFlag ?? string.Empty) : 
                         null
                 });
             }).ToList();
@@ -670,7 +684,7 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                deviceLocated = device.DeviceInstanceId;
+                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
                                 locationFound = true; 
                             }
                         }
@@ -745,7 +759,7 @@ public class GroupAddressNameCorrector
                             location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
                             if (location != null)
                             {
-                                deviceLocated = device.DeviceInstanceId;
+                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
                                 locationFound = true; 
                             }
                         }
@@ -822,11 +836,11 @@ public class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(savingUpdatedXml);
             
-            App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}/0_updated.xml");
+            App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}0_updated.xml");
 
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
-                App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}/0_original.xml");
+                App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}0_original.xml");
             }
         }
         catch (Exception ex)
@@ -838,25 +852,26 @@ public class GroupAddressNameCorrector
     
     // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
     /// <summary>
-    /// Retrieves the object type of a participant based on its ReadFlag and WriteFlag values from a hardware XML file.
-    ///
-    /// This method constructs the path to the hardware XML file located in the specified <paramref name="mxxxxDirectory"/> 
-    /// and attempts to locate the <c>ComObjectRef</c> element with a matching ID based on <paramref name="comObjectInstanceRefId"/>.
-    /// If the <c>ReadFlag</c> or <c>WriteFlag</c> attributes are not found in <c>ComObjectRef</c>, it checks the <c>ComObject</c> element.
-    /// The object type is determined based on the combination of <c>ReadFlag</c> and <c>WriteFlag</c> values and is returned as "Cmd" or "Ie".
-    /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes are not found, 
-    /// the method logs an error and returns an empty string.
-    ///
+    /// Retrieves the object type based on the ReadFlag and WriteFlag values from a hardware XML file.
+    /// This method constructs the path to the hardware XML file located in the specified directory and attempts
+    /// to locate the ComObjectRef element with a matching ID based on the provided ComObjectInstanceRefId.
+    /// If the ReadFlag or WriteFlag attributes are not found in ComObjectRef, it checks the ComObject element.
+    /// The object type ("Cmd" or "Ie") is determined based on the combination of ReadFlag and WriteFlag values.
+    /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes
+    /// are not found, the method logs an error and returns an empty string.
+    /// 
     /// <param name="hardwareFileName">The name of the hardware XML file to be loaded.</param>
-    /// <param name="mxxxxDirectory">The directory containing the hardware XML file.</param>
-    /// <param name="comObjectInstanceRefId">The reference ID of the ComObject instance to locate.</param>
+    /// <param name="mxxxxDirectory">The directory containing the Mxxxx files.</param>
+    /// <param name="comObjectInstanceRefId">The reference ID of the ComObjectInstance to locate in the XML file.</param>
+    /// <param name="readFlagFound">The initial value of the read flag if available.</param>
+    /// <param name="writeFlagFound">The initial value of the write flag if available.</param>
     /// <returns>
-    /// Returns the object type ("Cmd" or "Ie") based on the <c>ReadFlag</c> and <c>WriteFlag</c> attributes, or an empty string if
+    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag and WriteFlag attributes, or an empty string if
     /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
     /// </returns>
     /// </summary>
     [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
-    private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId)
+    private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId, string readFlagFound, string writeFlagFound)
     {
 
         // Construct the full path to the Mxxxx directory
@@ -864,63 +879,67 @@ public class GroupAddressNameCorrector
 
         try
         {
-            // Check if the Mxxxx directory exists
-            if (!Directory.Exists(mxxxxDirectoryPath))
+            var readFlag = readFlagFound;
+            var writeFlag = writeFlagFound;
+            if (string.IsNullOrEmpty(readFlag) || string.IsNullOrEmpty(writeFlag))
             {
-                App.ConsoleAndLogWriteLine($"Directory not found: {mxxxxDirectoryPath}");
-                return string.Empty;
-            }
-
-            // Construct the full path to the hardware file
-            string filePath = Path.Combine(mxxxxDirectoryPath, hardwareFileName);
-
-            // Check if the hardware file exists
-            if (!File.Exists(filePath))
-            {
-                App.ConsoleAndLogWriteLine($"File not found: {filePath}");
-                return string.Empty;
-            }
-
-            App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
-
-            // Load the XML file
-            XDocument hardwareDoc = XDocument.Load(filePath);
-                
-            // Find the ComObject element with the matching ID
-            var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
-                .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
-                
-            if (comObjectRefElement == null)
-            {
-                App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
-                return string.Empty;
-            }
-
-            App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
-            var readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
-            var writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
-
-            // If ReadFlag or WriteFlag are not found in ComObjectRef, check in ComObject
-            if (readFlag == null || writeFlag == null)
-            {
-                var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
-                    comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
-                        
-                var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
-                    .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
-                if (comObjectElement == null)
+                // Check if the Mxxxx directory exists
+                if (!Directory.Exists(mxxxxDirectoryPath))
                 {
-                    App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
+                    App.ConsoleAndLogWriteLine($"Directory not found: {mxxxxDirectoryPath}");
                     return string.Empty;
                 }
 
-                App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
-                            
-                // ??= is used to assert the expression if the variable is null
-                readFlag ??= comObjectElement.Attribute("ReadFlag")?.Value;
-                writeFlag ??= comObjectElement.Attribute("WriteFlag")?.Value;
-            }
+                // Construct the full path to the hardware file
+                string filePath = Path.Combine(mxxxxDirectoryPath, hardwareFileName);
+
+                // Check if the hardware file exists
+                if (!File.Exists(filePath))
+                {
+                    App.ConsoleAndLogWriteLine($"File not found: {filePath}");
+                    return string.Empty;
+                }
+
+                App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
+
+                // Load the XML file
+                XDocument hardwareDoc = XDocument.Load(filePath);
                     
+                // Find the ComObject element with the matching ID
+                var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
+                    .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
+                    
+                if (comObjectRefElement == null)
+                {
+                    App.ConsoleAndLogWriteLine($"ComObjectRef with Id ending in: {comObjectInstanceRefId} not found in file: {filePath}");
+                    return string.Empty;
+                }
+
+                App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
+                if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
+                if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
+
+                // If ReadFlag or WriteFlag are not found in ComObjectRef, check in ComObject
+                if (readFlag == null || writeFlag == null)
+                {
+                    var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
+                        comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
+                            
+                    var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                        .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
+                    if (comObjectElement == null)
+                    {
+                        App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
+                        return string.Empty;
+                    }
+
+                    App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
+                                
+                    // ??= is used to assert the expression if the variable is null
+                    if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
+                    if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
+                }
+            }        
             App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
                
             // Determine the ObjectType based on the ReadFlag and WriteFlag values
@@ -1564,22 +1583,21 @@ public class GroupAddressNameCorrector
     }
 
     /// <summary>
-    /// Generates a formatted location name based on the provided location object and name attribute value.
-    /// If the location object is null, returns a default formatted location name.
-    /// Otherwise, constructs the location name using the available attributes of the location object,
-    /// with fallback values for missing attributes. Appends a formatted distribution board name if present,
-    /// and adds the name attribute value if it matches the specified pattern.
-    ///
-    /// <param name="location">A dynamic object representing the location with attributes such as BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
-    /// <param name="nameAttrValue">A string containing the name attribute value that is appended to the location name if it matches a specific pattern.</param>
+    /// Generates a formatted location name for a device based on its location details and name attribute value.
+    /// If the location is not provided, it returns a default formatted location name.
+    /// Checks the name attribute value to append a valid circuit identifier if present.
+    /// 
+    /// <param name="location">A dynamic object representing the location details of the device, including BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
+    /// <param name="nameAttrValue">A string containing the name attribute value to be analyzed for a circuit identifier.</param>
+    /// <param name="deviceRef">A string reference to the device used to verify its presence in a distribution board.</param>
     /// <returns>
-    /// A formatted string representing the location name, constructed from the location attributes and the name attribute value.
+    /// A formatted string representing the location name of the device, incorporating default or actual location details and a circuit identifier if applicable.
     /// </returns>
     /// </summary>
     static string GetLocationName(dynamic location, string nameAttrValue, string deviceRef)
     {
         string nameLocation;
-        Match match;
+        var (match, value) = AsCircuitInPreviousName(nameAttrValue);
         if (location == null)
         {
             // Default location details if no location information is found
@@ -1588,11 +1606,11 @@ public class GroupAddressNameCorrector
             nameLocation = $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
             
             //Add circuit part to the name if it exist
-            match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-            if (match.Success)
-            {
-                nameLocation += "_" + match.Value;
+            if (match)
+            { 
+                nameLocation += "_" + value;
             }
+
 
             return nameLocation;
 
@@ -1612,13 +1630,63 @@ public class GroupAddressNameCorrector
         }
 
         //Add circuit part to the name if it exist
-        match = Regex.Match(nameAttrValue, @"(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9/+]+$");
-        if (match.Success)
-        {
-            nameLocation += "_" + match.Value;
+        if (match)
+        { 
+            nameLocation += "_" + value;
         }
 
         return nameLocation;
+    }
+    
+    /// <summary>
+    /// Analyzes a given name attribute value to determine if it includes a valid circuit identifier in its last word.
+    /// The method splits the name attribute value into individual words and inspects the last word for the presence of both letters and digits.
+    /// Special characters other than '/' and '+' will invalidate the last word as a circuit identifier.
+    /// 
+    /// <param name="nameAttrValue">A string containing the name attribute value to be analyzed.</param>
+    /// <returns>
+    /// A tuple containing a boolean and a string:
+    /// - The boolean indicates whether the last word contains both letters and digits, signifying it as a valid circuit identifier.
+    /// - The string returns the last word if it is valid, otherwise an empty string.
+    /// </returns>
+    /// </summary>
+    private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
+    {
+        // Replace underscores with spaces
+        string modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
+
+        // Separate the string into words using spaces as delimiters
+        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Check for words and get the last word
+        if (words.Length == 0)
+        {
+            return (false, string.Empty);
+        }
+
+        string lastWord = words[words.Length - 1];
+
+        bool containsLetter = false;
+        bool containsDigit = false;
+
+        foreach (char c in lastWord)
+        {
+            if (char.IsLetter(c))
+            {
+                containsLetter = true;
+            }
+            if (char.IsDigit(c))
+            {
+                containsDigit = true;
+            }
+            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+')
+            {
+                return (false, lastWord);
+            }
+        }
+
+        bool isValid = containsLetter && containsDigit;
+        return (isValid, isValid ? lastWord : string.Empty);
     }
 
     /// <summary>
@@ -1636,11 +1704,18 @@ public class GroupAddressNameCorrector
     /// </summary>
     static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
     {
-        if (Regex.IsMatch(nameAttrValue, @"^(?!.*\bie\b).*?\b(cmd)\b(?!.*\bie\b).*$", RegexOptions.IgnoreCase))
+        // Split nameAttrValue into a list of words using spaces and other common separators, including underscores
+        var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Check for the presence of "cmd" and "ie" in the list of words
+        bool containsCmd = words.Contains("cmd");
+        bool containsIe = words.Contains("ie");
+
+        if (containsCmd && !containsIe)
         {
             return $"{_formatter.Format("Cmd")}";
         }
-        else if (Regex.IsMatch(nameAttrValue, @"\bie\b", RegexOptions.IgnoreCase))
+        else if (containsIe)
         {
             return $"{_formatter.Format("Ie")}";
         }
@@ -1654,6 +1729,8 @@ public class GroupAddressNameCorrector
             // Format the ObjectType of the device with a non-empty ObjectType
             return $"{_formatter.Format(deviceRefObjectType.ObjectType ?? string.Empty)}";
         }
+        
+        
 
         // Default nameObjectType if no valid ObjectType is found
         App.ConsoleAndLogWriteLine($"No Object Type found for {nameAttrValue}");
