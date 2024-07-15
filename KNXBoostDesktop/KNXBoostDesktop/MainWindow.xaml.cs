@@ -22,16 +22,39 @@ public partial class MainWindow
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
 
+    /// <summary>
+    ///  Path to the original 0.xml file
+    /// </summary>
     private string _xmlFilePath1 = "";
 
+    /// <summary>
+    ///  Path to the modified 0.xml file
+    /// </summary>
     private string _xmlFilePath2 = "";
 
+    /// <summary>
+    ///  Path to the history file for the group address rename window
+    /// </summary>
     private string _xmlRenameFilePath = "";
 
+    /// <summary>
+    ///  Texte "Rechercher ..." de la barre de recherche. A SUPPRIMER DES QUE POSSIBLE /!\
+    /// </summary>
     private string _searchTextTranslate = "";
 
+    /// <summary>
+    /// Gets the main view model instance.
+    /// </summary>
     private MainViewModel ViewModel { get; }
+    
+    /// <summary>
+    /// Indicates whether the TreeView is expanded.
+    /// </summary>
+    private bool _isTreeViewExpanded;
 
+    
+    
+    
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
@@ -56,6 +79,7 @@ public partial class MainWindow
         LocationChanged += MainWindow_LocationChanged;
     }
     
+    
     /// <summary>
     /// Handles the LocationChanged event of the MainWindow.
     /// This method will be called whenever the window's location changes.
@@ -71,6 +95,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Updates the contents of the window, including theme and language.
     /// </summary>
@@ -464,8 +489,8 @@ public partial class MainWindow
     }   
     
     
+    
     //--------------------- Gestion des boutons -----------------------------------------------------//
-
     /// <summary>
     /// Handles the button click event to import a KNX project file.
     /// Displays an OpenFileDialog for the user to select the project file,
@@ -641,6 +666,13 @@ public partial class MainWindow
         }
     }
     
+    
+    /// <summary>
+    /// Handles the click event for the Open Console button.
+    /// Opens the console window and ensures it scrolls to the bottom to display the latest messages.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The event data.</param>
     private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
     {
         if (App.DisplayElements == null) return;
@@ -648,13 +680,14 @@ public partial class MainWindow
         App.ConsoleAndLogWriteLine("Opening console window");
         App.DisplayElements.ShowConsoleWindow();
 
-        // Pour éviter qu'à la réouverture de la console on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
+        // Pour éviter qu'à la réouverture de la console, on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
         if (App.DisplayElements.ConsoleWindow.IsVisible)
         {
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
         
+    
     /// <summary>
     /// Handles the button click event to export the updated project file to a selected destination.
     /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
@@ -828,6 +861,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Handles the closing event of the main window by shutting down the application.
     /// </summary>
@@ -837,6 +871,7 @@ public partial class MainWindow
     {
         Application.Current.Shutdown();
     }
+    
 
     /// <summary>
     /// Handles the button click event to open the application settings window.
@@ -861,9 +896,11 @@ public partial class MainWindow
             App.DisplayElements.ShowSettingsWindow();
         }
 
-        Keyboard.ClearFocus(); // On dé-sélectionne le bouton paramètres dans mainwindow
+        Keyboard.ClearFocus(); // On désélectionne le bouton paramètres dans mainwindow
     }
 
+    
+    
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
     /// <summary>
     /// Executes a long-running task asynchronously, displaying progress in a loading window.
@@ -1134,6 +1171,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Shows an overlay on the main content area based on the application's theme settings.
     /// Disables user interaction with the main content while the overlay is visible.
@@ -1152,6 +1190,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Hides the overlay from the main content area based on the application's theme settings.
     /// Enables user interaction with the main content after hiding the overlay.
@@ -1170,6 +1209,8 @@ public partial class MainWindow
         }
     }
 
+    
+    
     //--------------------- Gestion de la fenêtre de renommage -----------------------------------------------------//
     /// <summary>
     /// Handles the button click event to initiate the renaming of a selected item's address.
@@ -1181,52 +1222,51 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void RenameWindow(object sender, RoutedEventArgs e)
     {
-        if (TreeViewDroite.SelectedItem is TreeViewItem selectedItem)
-        {
-            // Vérifier si l'élément sélectionné est un élément de dernier niveau
-            if (selectedItem.Items.Count == 0)
-            {
-                // Extraire le texte de l'élément sélectionné
-                var stackPanel = selectedItem.Header as StackPanel;
-                var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
-                if (textBlock != null)
-                {
-                    // Obtenir le chemin de l'élément sélectionné
-                    string? itemPath = GetItemPath(selectedItem);
-                    if (itemPath != null)
-                    {
-                        // Trouver l'élément correspondant dans TreeViewGauche
-                        TreeViewItem? correspondingItem = FindTreeViewItemByPath(TreeViewGauche, itemPath);
-                        if (correspondingItem != null)
-                        {
-                            // Extraire le texte de l'élément correspondant
-                            var correspondingStackPanel = correspondingItem.Header as StackPanel;
-                            var correspondingTextBlock = correspondingStackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
-                            if (correspondingTextBlock != null)
-                            {
-                                string originalAddress = correspondingTextBlock.Text;
-                                string editedAddress = textBlock.Text;
+        if (TreeViewDroite.SelectedItem is not TreeViewItem selectedItem) return;
+        
+        // Vérifier si l'élément sélectionné est un élément de dernier niveau
+        if (selectedItem.Items.Count != 0) return;
+        
+        // Extraire le texte de l'élément sélectionné
+        var stackPanel = selectedItem.Header as StackPanel;
+        var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+        
+        if (textBlock == null) return;
+        
+        // Obtenir le chemin de l'élément sélectionné
+        var itemPath = GetItemPath(selectedItem);
+        
+        if (itemPath == null) return;
+        
+        // Trouver l'élément correspondant dans TreeViewGauche
+        var correspondingItem = FindTreeViewItemByPath(TreeViewGauche, itemPath);
+        
+        if (correspondingItem == null) return;
+        
+        // Extraire le texte de l'élément correspondant
+        var correspondingStackPanel = correspondingItem.Header as StackPanel;
+        var correspondingTextBlock = correspondingStackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+        
+        if (correspondingTextBlock == null) return;
+                            
+        var originalAddress = correspondingTextBlock.Text;
+        var editedAddress = textBlock.Text;
 
-                                var result = App.DisplayElements.ShowGroupAddressRenameWindow(originalAddress, editedAddress, _xmlRenameFilePath);
-                                if (result == true)
-                                {
-                                    string newAddress = App.DisplayElements.GroupAddressRenameWindow.NewAddress;
-                                    textBlock.Text = newAddress;
+        var result = App.DisplayElements?.ShowGroupAddressRenameWindow(originalAddress, editedAddress, _xmlRenameFilePath);
+                                
+        if (result != true) return;
+        
+        var newAddress = App.DisplayElements!.GroupAddressRenameWindow.NewAddress;
+        textBlock.Text = newAddress;
+        
+        //Sauvegarder les modfications
+        SaveModifiedAdress(_xmlRenameFilePath, editedAddress, newAddress, originalAddress);
 
-
-                                    //Sauvegarder les modfications
-                                    SaveModifiedAdress(_xmlRenameFilePath, editedAddress, newAddress, originalAddress);
-
-                                    // Renommer l'adresse dans le fichier XML
-                                    RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // Renommer l'adresse dans le fichier XML
+        RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
     }
+
+    
     /// <summary>
     /// Saves a record of an address modification in an XML file in order to add a "reset" property.
     /// If the file does not exist, it creates a new XML file and adds the modification.
@@ -1235,21 +1275,22 @@ public partial class MainWindow
     /// <param name="filePath">The path to the XML file where the modifications will be saved.</param>
     /// <param name="oldAddress">The original address before modification.</param>
     /// <param name="newAddress">The new address that replaces the old address.</param>
+    /// <param name="originalAddress">The original group address.</param>
     private void SaveModifiedAdress(string filePath, string oldAddress, string newAddress, string originalAddress)
     {
         try
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
 
             // Vérifier si le fichier XML existe
             if (!File.Exists(filePath))
             {
                 // Si le fichier n'existe pas, créer un nouveau document XML
-                XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
+                var xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
                 xmlDoc.AppendChild(xmlDeclaration);
 
                 // Créer l'élément racine
-                XmlElement rootElement = xmlDoc.CreateElement("Root");
+                var rootElement = xmlDoc.CreateElement("Root");
                 xmlDoc.AppendChild(rootElement);
 
                 // Enregistrer le nouveau fichier XML
@@ -1262,7 +1303,7 @@ public partial class MainWindow
             }
 
             // Créer un nouvel élément <Change> avec les attributs OldAddress, NewAddress et la date de modification
-            XmlElement changeElement = xmlDoc.CreateElement("Change");
+            var changeElement = xmlDoc.CreateElement("Change");
             changeElement.SetAttribute("OldAddress", oldAddress);
             changeElement.SetAttribute("NewAddress", newAddress);
             changeElement.SetAttribute("OriginalAddress", originalAddress);
@@ -1295,18 +1336,18 @@ public partial class MainWindow
     {
         try
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load(_xmlFilePath2);
 
             // Déclaration d'un gestionnaire de noms pour l'espace de noms par défaut
-            XmlNamespaceManager nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
+            var nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
             nsManager.AddNamespace("ga", "http://knx.org/xml/ga-export/01");
 
             // Utiliser XPath pour trouver l'élément avec l'adresse à renommer
-            XmlNode nodeToRename = xmlDoc.SelectSingleNode($"//ga:GroupAddress[@Name='{oldAddress}']", nsManager);
-            if (nodeToRename != null && nodeToRename.Attributes != null)
+            var nodeToRename = xmlDoc.SelectSingleNode($"//ga:GroupAddress[@Name='{oldAddress}']", nsManager);
+            if (nodeToRename?.Attributes != null)
             {
-                nodeToRename.Attributes["Name"].Value = newAddress;
+                nodeToRename.Attributes["Name"]!.Value = newAddress;
                 xmlDoc.Save(filePath);
                 App.ConsoleAndLogWriteLine($"Address '{oldAddress}' renamed to '{newAddress}' in the XML file.");
             }
@@ -1322,6 +1363,7 @@ public partial class MainWindow
     }
 
 
+    
     //--------------------- Changement de thème -----------------------------------------------------//
     /// <summary>
     /// Applies a specified style to all TreeView items and their children recursively.
@@ -1339,6 +1381,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Recursively applies a specified style to a TreeViewItem and its child items.
     /// </summary>
@@ -1358,6 +1401,7 @@ public partial class MainWindow
         }
     }
     
+    
     /// <summary>
     /// Converts a string representation of a color to a SolidColorBrush.
     /// </summary>
@@ -1369,6 +1413,7 @@ public partial class MainWindow
     }
 
 
+    
     //--------------------- Gestion de l'affichage à partir de fichiers -------------------------------//
     /// <summary>
     /// Asynchronously loads XML files into two TreeViews.
@@ -1382,6 +1427,7 @@ public partial class MainWindow
         TreeViewDroite.SelectedItemChanged += TreeViewDroite_SelectedItemChanged;
     }
 
+    
     /// <summary>
     /// Asynchronously loads an XML file into a specified TreeView.
     /// </summary>
@@ -1487,6 +1533,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Adds XML nodes recursively to a TreeView.
     /// </summary>
@@ -1509,6 +1556,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Creates a TreeViewItem from an XML node, with its corresponding image.
     /// </summary>
@@ -1562,20 +1610,21 @@ public partial class MainWindow
         return treeNode;
     }
 
+    
     /// <summary>
     /// Generates a unique path for the node based on its level and index.
     /// </summary>
     /// <param name="level">The depth level of the node.</param>
     /// <param name="index">The index of the node among its siblings.</param>
     /// <returns>A string representing the unique path of the node.</returns>
-    private string GetNodePath(int level, int index)
+    private static string GetNodePath(int level, int index)
     {
         return $"{level}-{index}";
     }
 
 
+    
     //-------------------- Gestion du scroll vertical synchronisé ------------------------------------//
-
     /// <summary>
     /// Handles the ScrollChanged event of the ScrollViewer to synchronize scrolling between two ScrollViewer instances.
     /// </summary>
@@ -1606,6 +1655,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Handles the PreviewMouseWheel event of the ScrollViewer to manage scrolling behavior based on Shift key press.
     /// </summary>
@@ -1649,8 +1699,8 @@ public partial class MainWindow
     }
     
     
-    //-------------------- Gestion de la barre de recherche ------------------------------------//
     
+    //-------------------- Gestion de la barre de recherche ------------------------------------//
     /// <summary>
     /// Handles the GotFocus event of a TextBox by clearing its content if it matches the search text and adjusting its appearance.
     /// </summary>
@@ -1665,6 +1715,7 @@ public partial class MainWindow
             new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.White);
     }
 
+    
     /// <summary>
     /// Handles the LostFocus event of a TextBox by restoring the initial search text if the TextBox is empty and adjusting its appearance.
     /// </summary>
@@ -1683,6 +1734,7 @@ public partial class MainWindow
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
     
+    
     /// <summary>
     /// Handles the PreviewKeyDown event of the search TextBox to move focus away and handle specific key presses (Enter or Escape).
     /// </summary>
@@ -1690,7 +1742,7 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void txtSearch1_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        // Vérifier si la touche pressée est Enter ou Escape
+        // Vérifier si la touche pressée est 'Enter' ou 'Escape'
         if (e.Key is not (Key.Enter or Key.Escape)) return;
 
         // Perdre le focus du TextBox
@@ -1701,8 +1753,8 @@ public partial class MainWindow
     }
     
     
+    
     //-------------------- Gestion de la recherche ---------------------------------------------------//
-
     /// <summary>
     /// Handles the TextChanged event of the search TextBox to filter and hide items in two TreeViews based on the search text.
     /// </summary>
@@ -1735,6 +1787,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Filters two TreeViewItems based on the search text and shows or hides them accordingly.
     /// </summary>
@@ -1815,6 +1868,7 @@ public partial class MainWindow
         return item1Visible; // Retourner l'état de visibilité de l'élément
     }
 
+    
     /// <summary>
     /// Normalizes a string by removing diacritics (accents), non-spacing marks, spaces, underscores, and hyphens.
     /// </summary>
@@ -1838,8 +1892,8 @@ public partial class MainWindow
     }
 
     
+    
     //--------------------- Gestion développement synchronisé ----------------------------------------------//
-
     /// <summary>
     /// Handles the expanded event of a TreeViewItem by synchronizing expansion state with corresponding items in two TreeViews.
     /// </summary>
@@ -1852,6 +1906,7 @@ public partial class MainWindow
         SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
+    
     /// <summary>
     /// Handles the collapsed event of a TreeViewItem by synchronizing expansion state with corresponding items in two TreeViews.
     /// </summary>
@@ -1864,6 +1919,7 @@ public partial class MainWindow
         SynchronizeTreeViewItemExpansion(TreeViewDroite, item);
     }
 
+    
     /// <summary>
     /// Synchronizes the expansion state of a TreeViewItem between two TreeViews based on item path.
     /// </summary>
@@ -1888,7 +1944,7 @@ public partial class MainWindow
             }
         }
     }
-
+    
 
     /// <summary>
     /// Retrieves the path of a TreeViewItem by traversing its parent items recursively up to the root.
@@ -1950,9 +2006,10 @@ public partial class MainWindow
         return currentItem;
     }
 
+    
+    
     //--------------------- Gestion sélection synchronisée ----------------------------------------------//
-
-    // <summary>
+    /// <summary>
     /// Handles the SelectedItemChanged event of the TreeViewGauche to synchronize selection with TreeViewDroite.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
@@ -1963,6 +2020,7 @@ public partial class MainWindow
         SynchronizeTreeViewSelection(TreeViewGauche, TreeViewDroite);
     }
 
+    
     /// <summary>
     /// Handles the SelectedItemChanged event of the TreeViewDroite to synchronize selection with TreeViewGauche.
     /// </summary>
@@ -1974,6 +2032,7 @@ public partial class MainWindow
         SynchronizeTreeViewSelection(TreeViewDroite, TreeViewGauche);
     }
 
+    
     /// <summary>
     /// Synchronizes the selection between two TreeViews.
     /// </summary>
@@ -1998,10 +2057,8 @@ public partial class MainWindow
     }
 
 
+    
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
-
-    private bool _isTreeViewExpanded;
-
     /// <summary>
     /// Handles the click event of the collapse/expand toggle button.
     /// </summary>
@@ -2027,6 +2084,7 @@ public partial class MainWindow
         _isTreeViewExpanded = !_isTreeViewExpanded; // Inverser l'état
     }
 
+    
     /// <summary>
     /// Recursively collapses all TreeView items starting from the specified collection.
     /// </summary>
@@ -2041,6 +2099,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Recursively expands all TreeView items starting from the specified collection.
     /// </summary>
