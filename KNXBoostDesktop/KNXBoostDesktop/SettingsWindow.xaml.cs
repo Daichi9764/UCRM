@@ -2308,6 +2308,7 @@ namespace KNXBoostDesktop
             
         }
         
+        
         // Fonction permettant de détecter le thème de windows (clair/sombre)
         /// <summary>
         /// Detects the current Windows theme (light or dark).
@@ -2692,6 +2693,12 @@ namespace KNXBoostDesktop
             }
         }
 
+        
+        /// <summary>
+        /// Enables the <see cref="IncludeAddressList"/> control and sets its foreground color based on the theme.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void EnableIncludeAddress(object sender, RoutedEventArgs e)
         {
             IncludeAddressList.IsEnabled = true;
@@ -2700,6 +2707,12 @@ namespace KNXBoostDesktop
                 new SolidColorBrush(Colors.Black) : MainWindow.ConvertStringColor("#E3DED4");
         }
 
+        
+        /// <summary>
+        /// Disables the <see cref="IncludeAddressList"/> control, unchecks it, and sets its foreground color based on the theme.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void DisableIncludeAddress(object sender, RoutedEventArgs e)
         {
             IncludeAddressList.IsEnabled = false;
@@ -2709,6 +2722,12 @@ namespace KNXBoostDesktop
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
         }
 
+        
+        /// <summary>
+        /// Handles the <see cref="TabControl.SelectionChanged"/> event to adjust the visibility of buttons based on the selected tab.
+        /// </summary>
+        /// <param name="sender">The source of the event, expected to be a <see cref="TabControl"/>.</param>
+        /// <param name="e">The event data.</param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is not TabControl) return;
@@ -2728,6 +2747,12 @@ namespace KNXBoostDesktop
             }
         }
         
+        
+        /// <summary>
+        /// Creates a debug report based on the state of various checkboxes and the include address list.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void CreateDebugReport(object sender, RoutedEventArgs e)
         {
             var includeOsInfo = AddInfosOsCheckBox.IsChecked;
@@ -3527,6 +3552,5 @@ namespace KNXBoostDesktop
                 DragMove();
             }
         }
-
     }
 }
