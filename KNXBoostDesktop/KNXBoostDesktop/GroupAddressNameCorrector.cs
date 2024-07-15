@@ -836,11 +836,11 @@ public class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(savingUpdatedXml);
             
-            App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}/0_updated.xml");
+            App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}0_updated.xml");
 
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
-                App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}/0_original.xml");
+                App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}0_original.xml");
             }
         }
         catch (Exception ex)
@@ -1652,8 +1652,11 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
     {
+        // Replace underscores with spaces
+        string modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
+
         // Separate the string into words using spaces as delimiters
-        string[] words = nameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
         // Check for words and get the last word
         if (words.Length == 0)
