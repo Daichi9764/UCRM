@@ -1216,10 +1216,12 @@ namespace KNXBoostDesktop
             }
             
             if (App.LogPath != null) File.Copy(App.LogPath, "debug/latest-log.txt");
+
+            string debugArchiveName = $"debug-{DateTime.Now:dd-MM-yyyy_HH-mm-ss}.zip";
             
             // Création de l'archive zip et ajout des fichiers
-            CreateZipArchive($"debug-{DateTime.Now:dd-MM-yyyy_HH-mm-ss}.zip", "debug/debugInfo.txt", "debug/latest-log.txt");
-
+            CreateZipArchive(debugArchiveName, "debug/debugInfo.txt", "debug/latest-log.txt");
+            
             // Récupération des dossiers projets et stockage dans des archives zip
             if (includeImportedProjects)
             {
@@ -1227,23 +1229,46 @@ namespace KNXBoostDesktop
                 foreach (var directory in Directory.GetDirectories("./"))
                 {
                     // Exclure le dossier 'logs', 'resources', 'debug', 'de' et 'runtimes'
-                    if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase)) ||
-                        (Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase)) ||
-                        (Path.GetFileName(directory).Equals("debug", StringComparison.OrdinalIgnoreCase)) ||
-                        (Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase)) ||
-                        (Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
+                    if (Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetFileName(directory).Equals("debug", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase) ||
+                        Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase))
                     {
                         continue;
                     }
                 
-                    // Stockage du projet dans une archive portant le même nom
-                    CreateZipArchive($"debug/{directory}.zip", directory);
+                    // Ajout du dossier du projet dans l'archive de debug
+                    foreach (var file in Directory.GetFiles(directory))
+                    {
+                        if (Path.GetFileName(file).Equals("deleted_group_addresses.txt") &&
+                            includeRemovedGroupAddressList && App.DisplayElements!.SettingsWindow!.RemoveUnusedGroupAddresses)
+                        {
+                            CreateZipArchive(debugArchiveName, $"{directory.TrimStart('.', '/')}/{Path.GetFileName(file)}");
+                        }
+                    }
                 }
             }
-            
-            // Stockage de ces archives zip dans l'archive de debug
 
-            // Menu pour sauvegarder l'archive créée
+            // Afficher la boîte de dialogue de sauvegarde
+            var saveFileDialog = new SaveFileDialog
+            {
+                FileName = $"debug-{DateTime.Now:dd-MM-yyyy_HH-mm-ss}.zip",
+                DefaultExt = ".zip",
+                Filter = "Archive ZIP (.zip)|*.zip"
+            };
+
+            var result = saveFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                App.ConsoleAndLogWriteLine("Debug archive saved.");
+                File.Copy(debugArchiveName, $"{saveFileDialog.FileName}");
+            }
+            else
+            {
+                App.ConsoleAndLogWriteLine("User cancelled the debug operation");
+            }
         }
         
         
@@ -1258,29 +1283,63 @@ namespace KNXBoostDesktop
         /// <param name="paths">An array of file and/or directory paths to include in the archive.</param>
         private static void CreateZipArchive(string zipFilePath, params string[] paths)
         {
-            // Assurer que le fichier ZIP n'existe pas déjà
+            // Si l'archive existe déjà, on va juste la mettre à jour
             if (File.Exists(zipFilePath))
             {
-                File.Delete(zipFilePath);
-            }
+                //File.Delete(zipFilePath);
+                using var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Update);
 
-            // Créer l'archive ZIP et ajouter les fichiers/répertoires
-            using var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create);
-            foreach (var path in paths)
+                foreach (var path in paths)
+                {
+                    if (Directory.Exists(path))
+                    {
+                        // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
+                        AddDirectoryToArchive(archive, path, Path.GetFileName(path));
+                    }
+                    else if (File.Exists(path))
+                    {
+                        // Créer le dossier dans l'archive si nécessaire
+                        var directoryInArchive = Path.GetDirectoryName(path)?.Replace("\\", "/")!;
+
+                        // Ajouter le fichier dans l'archive
+                        archive.CreateEntryFromFile(path,
+                            directoryInArchive.Equals("debug", StringComparison.OrdinalIgnoreCase)
+                                ? $"{Path.GetFileName(path)}" : $"{directoryInArchive}/{Path.GetFileName(path)}", CompressionLevel.Optimal);
+                    }
+                    else
+                    {
+                        App.ConsoleAndLogWriteLine(
+                            $"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
+                    }
+                }
+            }
+            else
             {
-                if (Directory.Exists(path))
+                // Créer l'archive ZIP et ajouter les fichiers/répertoires
+                using var archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create);
+                
+                foreach (var path in paths)
                 {
-                    // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
-                    AddDirectoryToArchive(archive, path, Path.GetFileName(path));
-                }
-                else if (File.Exists(path))
-                {
-                    // Ajouter le fichier unique à l'archive
-                    archive.CreateEntryFromFile(path, Path.GetFileName(path));
-                }
-                else
-                {
-                    App.ConsoleAndLogWriteLine($"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
+                    if (Directory.Exists(path))
+                    {
+                        // Ajouter tous les fichiers du répertoire (et sous-répertoires) à l'archive
+                        AddDirectoryToArchive(archive, path, Path.GetFileName(path));
+                    }
+                    else if (File.Exists(path))
+                    {
+                        // Créer le dossier dans l'archive si nécessaire
+                        var directoryInArchive = Path.GetDirectoryName(path)?.Replace("\\", "/")!;
+
+                        // Ajouter le fichier dans l'archive
+                        archive.CreateEntryFromFile(path,
+                            directoryInArchive.Equals("debug", StringComparison.OrdinalIgnoreCase)
+                                ? $"{Path.GetFileName(path)}" : $"{directoryInArchive}/{Path.GetFileName(path)}", CompressionLevel.Optimal);
+                    }
+                    else
+                    {
+                        App.ConsoleAndLogWriteLine(
+                            $"Le chemin {path} n'a pas été trouvé et ne sera pas ajouté à l'archive en cours de création.");
+                    }
                 }
             }
         }
