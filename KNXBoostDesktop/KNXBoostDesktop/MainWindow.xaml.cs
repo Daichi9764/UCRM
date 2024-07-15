@@ -482,8 +482,132 @@ public partial class MainWindow
         OpenFileDialog openFileDialog = new()
         {
             // Définir des propriétés optionnelles
-            Title = "Sélectionnez un projet KNX à importer",
-            Filter = "ETS KNX Project File (*.knxproj)|*.knxproj|other file|*.*",
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "اختر مشروع KNX للاستيراد",
+                // Bulgare
+                "BG" => "Изберете KNX проект за импортиране",
+                // Tchèque
+                "CS" => "Vyberte projekt KNX k importu",
+                // Danois
+                "DA" => "Vælg et KNX-projekt til import",
+                // Allemand
+                "DE" => "Wählen Sie ein KNX-Projekt zum Importieren",
+                // Grec
+                "EL" => "Επιλέξτε ένα έργο KNX προς εισαγωγή",
+                // Anglais
+                "EN" => "Select a KNX project to import",
+                // Espagnol
+                "ES" => "Seleccione un proyecto KNX para importar",
+                // Estonien
+                "ET" => "Valige KNX projekt importimiseks",
+                // Finnois
+                "FI" => "Valitse KNX-projekti tuominen",
+                // Hongrois
+                "HU" => "Válasszon egy KNX projektet importálásra",
+                // Indonésien
+                "ID" => "Pilih proyek KNX untuk diimpor",
+                // Italien
+                "IT" => "Seleziona un progetto KNX da importare",
+                // Japonais
+                "JA" => "インポートするKNXプロジェクトを選択",
+                // Coréen
+                "KO" => "가져올 KNX 프로젝트를 선택하세요",
+                // Letton
+                "LV" => "Izvēlieties KNX projektu importēšanai",
+                // Lituanien
+                "LT" => "Pasirinkite KNX projektą importuoti",
+                // Norvégien
+                "NB" => "Velg et KNX-prosjekt å importere",
+                // Néerlandais
+                "NL" => "Selecteer een KNX-project om te importeren",
+                // Polonais
+                "PL" => "Wybierz projekt KNX do importu",
+                // Portugais
+                "PT" => "Selecione um projeto KNX para importar",
+                // Roumain
+                "RO" => "Selectați un proiect KNX pentru import",
+                // Russe
+                "RU" => "Выберите проект KNX для импорта",
+                // Slovaque
+                "SK" => "Vyberte projekt KNX na import",
+                // Slovène
+                "SL" => "Izberite KNX projekt za uvoz",
+                // Suédois
+                "SV" => "Välj ett KNX-projekt att importera",
+                // Turc
+                "TR" => "İçe aktarılacak bir KNX projesi seçin",
+                // Ukrainien
+                "UK" => "Виберіть проект KNX для імпорту",
+                // Chinois simplifié
+                "ZH" => "选择要导入的KNX项目",
+                // Cas par défaut (français)
+                _ => "Sélectionnez un projet KNX à importer"
+            },
+            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "ملفات مشروع KNX|*.knxproj|جميع الملفات|*.*",
+                // Bulgare
+                "BG" => "KNX проектни файлове|*.knxproj|Всички файлове|*.*",
+                // Tchèque
+                "CS" => "Soubor projektu KNX|*.knxproj|Všechny soubory|*.*",
+                // Danois
+                "DA" => "KNX projektfiler|*.knxproj|Alle filer|*.*",
+                // Allemand
+                "DE" => "KNX-Projektdateien|*.knxproj|Alle Dateien|*.*",
+                // Grec
+                "EL" => "Αρχεία έργου KNX|*.knxproj|Όλα τα αρχεία|*.*",
+                // Anglais
+                "EN" => "KNX Project Files|*.knxproj|All Files|*.*",
+                // Espagnol
+                "ES" => "Archivos de proyecto KNX|*.knxproj|Todos los archivos|*.*",
+                // Estonien
+                "ET" => "KNX projekti failid|*.knxproj|Kõik failid|*.*",
+                // Finnois
+                "FI" => "KNX-projektitiedostot|*.knxproj|Kaikki tiedostot|*.*",
+                // Hongrois
+                "HU" => "KNX projektfájlok|*.knxproj|Minden fájl|*.*",
+                // Indonésien
+                "ID" => "File Proyek KNX|*.knxproj|Semua file|*.*",
+                // Italien
+                "IT" => "File di progetto KNX|*.knxproj|Tutti i file|*.*",
+                // Japonais
+                "JA" => "KNXプロジェクトファイル|*.knxproj|すべてのファイル|*.*",
+                // Coréen
+                "KO" => "KNX 프로젝트 파일|*.knxproj|모든 파일|*.*",
+                // Letton
+                "LV" => "KNX projekta faili|*.knxproj|Visi faili|*.*",
+                // Lituanien
+                "LT" => "KNX projekto failai|*.knxproj|Visi failai|*.*",
+                // Norvégien
+                "NB" => "KNX prosjektfiler|*.knxproj|Alle filer|*.*",
+                // Néerlandais
+                "NL" => "KNX-projectbestanden|*.knxproj|Alle bestanden|*.*",
+                // Polonais
+                "PL" => "Pliki projektu KNX|*.knxproj|Wszystkie pliki|*.*",
+                // Portugais
+                "PT" => "Arquivos de projeto KNX|*.knxproj|Todos os arquivos|*.*",
+                // Roumain
+                "RO" => "Fișiere proiect KNX|*.knxproj|Toate fișierele|*.*",
+                // Russe
+                "RU" => "Файлы проекта KNX|*.knxproj|Все файлы|*.*",
+                // Slovaque
+                "SK" => "Súbory projektu KNX|*.knxproj|Všetky súbory|*.*",
+                // Slovène
+                "SL" => "Datoteke projekta KNX|*.knxproj|Vse datoteke|*.*",
+                // Suédois
+                "SV" => "KNX-projektfiler|*.knxproj|Alla filer|*.*",
+                // Turc
+                "TR" => "KNX Proje Dosyaları|*.knxproj|Tüm Dosyalar|*.*",
+                // Ukrainien
+                "UK" => "Файли проекту KNX|*.knxproj|Усі файли|*.*",
+                // Chinois simplifié
+                "ZH" => "KNX 项目文件|*.knxproj|所有文件|*.*",
+                // Cas par défaut (français)
+                _ => "Fichiers projet ETS|*.knxproj|Tous les fichiers|*.*"
+            },
             FilterIndex = 1,
             Multiselect = false
         };
@@ -529,6 +653,8 @@ public partial class MainWindow
         {
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
+        
+        ProjectFileManager.CreateDebugArchive();
     }
         
     /// <summary>
@@ -553,9 +679,135 @@ public partial class MainWindow
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
+                // Bulgare
+                "BG" => "Запазване на актуализирания файл с адреси на групи като...",
+                // Tchèque
+                "CS" => "Uložit aktualizovaný soubor skupinových adres jako...",
+                // Danois
+                "DA" => "Gem den opdaterede gruppeadressedatafil som...",
+                // Allemand
+                "DE" => "Aktualisierte Gruppenadressdatei speichern unter...",
+                // Grec
+                "EL" => "Αποθήκευση του ενημερωμένου αρχείου διευθύνσεων ομάδας ως...",
+                // Anglais
+                "EN" => "Save updated group address file as...",
+                // Espagnol
+                "ES" => "Guardar archivo de direcciones de grupo actualizado como...",
+                // Estonien
+                "ET" => "Salvesta värskendatud rühma aadresside fail nimega...",
+                // Finnois
+                "FI" => "Tallenna päivitetty ryhmäosoitetiedosto nimellä...",
+                // Hongrois
+                "HU" => "Mentse a frissített csoportcím fájlt másként...",
+                // Indonésien
+                "ID" => "Simpan file alamat grup yang diperbarui sebagai...",
+                // Italien
+                "IT" => "Salva il file degli indirizzi del gruppo aggiornato come...",
+                // Japonais
+                "JA" => "更新されたグループアドレスファイルを名前を付けて保存...",
+                // Coréen
+                "KO" => "업데이트된 그룹 주소 파일을 다음 이름으로 저장...",
+                // Letton
+                "LV" => "Saglabāt atjaunināto grupas adrešu failu kā...",
+                // Lituanien
+                "LT" => "Išsaugoti atnaujintą grupės adresų failą kaip...",
+                // Norvégien
+                "NB" => "Lagre oppdatert gruppeadressefil som...",
+                // Néerlandais
+                "NL" => "Bijgewerkt groepsadresbestand opslaan als...",
+                // Polonais
+                "PL" => "Zapisz zaktualizowany plik adresów grupowych jako...",
+                // Portugais
+                "PT" => "Salvar arquivo de endereços de grupo atualizado como...",
+                // Roumain
+                "RO" => "Salvează fișierul actualizat de adrese de grup ca...",
+                // Russe
+                "RU" => "Сохранить обновленный файл адресов группы как...",
+                // Slovaque
+                "SK" => "Uložiť aktualizovaný súbor skupinových adries ako...",
+                // Slovène
+                "SL" => "Shrani posodobljeno datoteko skupinskih naslovov kot...",
+                // Suédois
+                "SV" => "Spara uppdaterad gruppadressfil som...",
+                // Turc
+                "TR" => "Güncellenmiş grup adres dosyasını farklı kaydet...",
+                // Ukrainien
+                "UK" => "Зберегти оновлений файл групових адрес як...",
+                // Chinois simplifié
+                "ZH" => "将更新的组地址文件另存为...",
+                // Cas par défaut (français)
+                _ => "Enregistrer le fichier d'adresses de groupe modifiées sous..."
+            },
             FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
-            Filter = "XML files (.xml)|*.xml|All files (*.*)|*.*" // Filtre des types de fichiers
+            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
+                // Bulgare
+                "BG" => "XML файлове|*.xml|Всички файлове|*.*",
+                // Tchèque
+                "CS" => "XML soubory|*.xml|Všechny soubory|*.*",
+                // Danois
+                "DA" => "XML-filer|*.xml|Alle filer|*.*",
+                // Allemand
+                "DE" => "XML-Dateien|*.xml|Alle Dateien|*.*",
+                // Grec
+                "EL" => "Αρχεία XML|*.xml|Όλα τα αρχεία|*.*",
+                // Anglais
+                "EN" => "XML Files|*.xml|All Files|*.*",
+                // Espagnol
+                "ES" => "Archivos XML|*.xml|Todos los archivos|*.*",
+                // Estonien
+                "ET" => "XML-failid|*.xml|Kõik failid|*.*",
+                // Finnois
+                "FI" => "XML-tiedostot|*.xml|Kaikki tiedostot|*.*",
+                // Hongrois
+                "HU" => "XML fájlok|*.xml|Minden fájl|*.*",
+                // Indonésien
+                "ID" => "File XML|*.xml|Semua file|*.*",
+                // Italien
+                "IT" => "File XML|*.xml|Tutti i file|*.*",
+                // Japonais
+                "JA" => "XMLファイル|*.xml|すべてのファイル|*.*",
+                // Coréen
+                "KO" => "XML 파일|*.xml|모든 파일|*.*",
+                // Letton
+                "LV" => "XML faili|*.xml|Visi faili|*.*",
+                // Lituanien
+                "LT" => "XML failai|*.xml|Visi failai|*.*",
+                // Norvégien
+                "NB" => "XML-filer|*.xml|Alle filer|*.*",
+                // Néerlandais
+                "NL" => "XML-bestanden|*.xml|Alle bestanden|*.*",
+                // Polonais
+                "PL" => "Pliki XML|*.xml|Wszystkie pliki|*.*",
+                // Portugais
+                "PT" => "Arquivos XML|*.xml|Todos os arquivos|*.*",
+                // Roumain
+                "RO" => "Fișiere XML|*.xml|Toate fișierele|*.*",
+                // Russe
+                "RU" => "XML-файлы|*.xml|Все файлы|*.*",
+                // Slovaque
+                "SK" => "XML súbory|*.xml|Všetky súbory|*.*",
+                // Slovène
+                "SL" => "XML datoteke|*.xml|Vse datoteke|*.*",
+                // Suédois
+                "SV" => "XML-filer|*.xml|Alla filer|*.*",
+                // Turc
+                "TR" => "XML Dosyaları|*.xml|Tüm Dosyalar|*.*",
+                // Ukrainien
+                "UK" => "XML-файли|*.xml|Всі файли|*.*",
+                // Chinois simplifié
+                "ZH" => "XML 文件|*.xml|所有文件|*.*",
+                // Cas par défaut (français)
+                _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
+            }
+
         };
 
         // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
@@ -563,14 +815,13 @@ public partial class MainWindow
 
         if (result != true) return;
         // Chemin du fichier sélectionné par l'utilisateur
-        var destinationFilePath = saveFileDialog.FileName;
-        App.ConsoleAndLogWriteLine($"Destination path selected: {destinationFilePath}");
+        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
 
         try
         {
             // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
-            File.Copy(sourceFilePath, destinationFilePath, true);
-            App.ConsoleAndLogWriteLine($"File saved successfully at {destinationFilePath}.");
+            File.Copy(sourceFilePath, saveFileDialog.FileName, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
         }
         catch (Exception ex)
         {

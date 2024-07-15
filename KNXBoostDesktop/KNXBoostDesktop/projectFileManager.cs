@@ -1253,21 +1253,146 @@ namespace KNXBoostDesktop
             // Afficher la boîte de dialogue de sauvegarde
             var saveFileDialog = new SaveFileDialog
             {
+                Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+                {
+                    // Arabe
+                    "AR" => "حفظ أرشيف التصحيح باسم...",
+                    // Bulgare
+                    "BG" => "Запазване на архива за отстраняване на грешки като...",
+                    // Tchèque
+                    "CS" => "Uložit archiv ladění jako...",
+                    // Danois
+                    "DA" => "Gem fejlfinding-arkiv som...",
+                    // Allemand
+                    "DE" => "Debug-Archiv speichern unter...",
+                    // Grec
+                    "EL" => "Αποθήκευση αρχείου αποσφαλμάτωσης ως...",
+                    // Anglais
+                    "EN" => "Save debug archive as...",
+                    // Espagnol
+                    "ES" => "Guardar archivo de depuración como...",
+                    // Estonien
+                    "ET" => "Salvesta silumisfail nimega...",
+                    // Finnois
+                    "FI" => "Tallenna virheenkorjausarkisto nimellä...",
+                    // Hongrois
+                    "HU" => "Hibakeresési archívum mentése másként...",
+                    // Indonésien
+                    "ID" => "Simpan arsip debug sebagai...",
+                    // Italien
+                    "IT" => "Salva archivio di debug come...",
+                    // Japonais
+                    "JA" => "デバッグアーカイブを名前を付けて保存...",
+                    // Coréen
+                    "KO" => "디버그 아카이브 이름으로 저장...",
+                    // Letton
+                    "LV" => "Saglabāt atkļūdošanas arhīvu kā...",
+                    // Lituanien
+                    "LT" => "Išsaugoti derinimo archyvą kaip...",
+                    // Norvégien
+                    "NB" => "Lagre feilsøkingsarkiv som...",
+                    // Néerlandais
+                    "NL" => "Sla foutopsporingsarchief op als...",
+                    // Polonais
+                    "PL" => "Zapisz archiwum debugowania jako...",
+                    // Portugais
+                    "PT" => "Salvar arquivo de depuração como...",
+                    // Roumain
+                    "RO" => "Salvează arhiva de depanare ca...",
+                    // Russe
+                    "RU" => "Сохранить архив отладки как...",
+                    // Slovaque
+                    "SK" => "Uložiť archív ladenia ako...",
+                    // Slovène
+                    "SL" => "Shrani razhroščevalni arhiv kot...",
+                    // Suédois
+                    "SV" => "Spara felsökningsarkiv som...",
+                    // Turc
+                    "TR" => "Hata ayıklama arşivini farklı kaydet...",
+                    // Ukrainien
+                    "UK" => "Зберегти архів налагодження як...",
+                    // Chinois simplifié
+                    "ZH" => "将调试存档另存为...",
+                    // Cas par défaut (français)
+                    _ => "Enregistrer l'archive de debug sous..."
+                },
                 FileName = $"debug-{DateTime.Now:dd-MM-yyyy_HH-mm-ss}.zip",
                 DefaultExt = ".zip",
-                Filter = "Archive ZIP (.zip)|*.zip"
+                Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+                {
+                    // Arabe
+                    "AR" => "ملفات ZIP|*.zip",
+                    // Bulgare
+                    "BG" => "ZIP файлове|*.zip",
+                    // Tchèque
+                    "CS" => "ZIP soubory|*.zip",
+                    // Danois
+                    "DA" => "ZIP-filer|*.zip",
+                    // Allemand
+                    "DE" => "ZIP-Dateien|*.zip",
+                    // Grec
+                    "EL" => "Αρχεία ZIP|*.zip",
+                    // Anglais
+                    "EN" => "ZIP files|*.zip",
+                    // Espagnol
+                    "ES" => "Archivos ZIP|*.zip",
+                    // Estonien
+                    "ET" => "ZIP failid|*.zip",
+                    // Finnois
+                    "FI" => "ZIP-tiedostot|*.zip",
+                    // Hongrois
+                    "HU" => "ZIP fájlok|*.zip",
+                    // Indonésien
+                    "ID" => "File ZIP|*.zip",
+                    // Italien
+                    "IT" => "File ZIP|*.zip",
+                    // Japonais
+                    "JA" => "ZIPファイル|*.zip",
+                    // Coréen
+                    "KO" => "ZIP 파일|*.zip",
+                    // Letton
+                    "LV" => "ZIP faili|*.zip",
+                    // Lituanien
+                    "LT" => "ZIP failai|*.zip",
+                    // Norvégien
+                    "NB" => "ZIP-filer|*.zip",
+                    // Néerlandais
+                    "NL" => "ZIP-bestanden|*.zip",
+                    // Polonais
+                    "PL" => "Pliki ZIP|*.zip",
+                    // Portugais
+                    "PT" => "Arquivos ZIP|*.zip",
+                    // Roumain
+                    "RO" => "Fișiere ZIP|*.zip",
+                    // Russe
+                    "RU" => "ZIP файлы|*.zip",
+                    // Slovaque
+                    "SK" => "ZIP súbory|*.zip",
+                    // Slovène
+                    "SL" => "ZIP datoteke|*.zip",
+                    // Suédois
+                    "SV" => "ZIP-filer|*.zip",
+                    // Turc
+                    "TR" => "ZIP dosyaları|*.zip",
+                    // Ukrainien
+                    "UK" => "ZIP файли|*.zip",
+                    // Chinois simplifié
+                    "ZH" => "ZIP 文件|*.zip",
+                    // Cas par défaut (français)
+                    _ => "Archive ZIP|*.zip"
+                }
             };
 
             var result = saveFileDialog.ShowDialog();
 
             if (result == true)
             {
-                App.ConsoleAndLogWriteLine("Debug archive saved.");
+                App.ConsoleAndLogWriteLine($"Debug archive saved at {saveFileDialog.FileName}.");
                 File.Copy(debugArchiveName, $"{saveFileDialog.FileName}");
             }
             else
             {
-                App.ConsoleAndLogWriteLine("User cancelled the debug operation");
+                App.ConsoleAndLogWriteLine("User did not save the debug archived and cancelled the operation.");
             }
         }
         
