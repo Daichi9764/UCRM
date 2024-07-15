@@ -37,12 +37,29 @@ public class GroupAddressNameCorrector
     /// Formatter to use when calling CorrectName()
     /// </summary>
     private static Formatter _formatter;
-
-    
+   
     /// <summary>
     /// Collection to memorize translations of group names already done.
     /// </summary>
-    private static readonly HashSet<string> TranslationCache = new ();
+    private static readonly HashSet<string> TranslationCache = new();
+
+    /// <summary>
+    /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
+    /// ComObject instance reference ID, ReadFlag found, and WriteFlag found.
+    /// </summary>
+    private static Dictionary<string, string> _objectTypeCache = new();
+    
+    /// <summary>
+    /// Collection to memorize the rail-mounted status of devices based on product reference ID and Mxxxx directory.
+    /// </summary>
+    private static Dictionary<string, bool> _isDeviceRailMountedCache = new();
+    
+    /// <summary>
+    /// Collection to memorize formatted hardware file names and Mxxxx directories based on hardware to program reference IDs.
+    /// </summary>
+    private static Dictionary<string, (string HardwareFileName, string MxxxxDirectory)> hardware2ProgramRefIdCache = new();
+
+
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -873,6 +890,14 @@ public class GroupAddressNameCorrector
     [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId, string readFlagFound, string writeFlagFound)
     {
+        // Construct a unique key for the cache based on the function parameters
+        string cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}";
+
+        // Check if the result is already in the cache
+        if (_objectTypeCache.TryGetValue(cacheKey, out string cacheResult))
+        {
+            return cacheResult;
+        }
 
         // Construct the full path to the Mxxxx directory
         string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
@@ -943,22 +968,27 @@ public class GroupAddressNameCorrector
             App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
                
             // Determine the ObjectType based on the ReadFlag and WriteFlag values
+            string result;
             if (readFlag == "Enabled" && writeFlag == "Disabled")
             {
-                return "Ie";
+                result = "Ie";
             }
             else if (writeFlag == "Enabled" && readFlag == "Disabled")
             {
-                return "Cmd";
+                result = "Cmd";
             }
             else if (writeFlag == "Enabled" && readFlag == "Enabled")
             {
-                return "Cmd";
+                result = "Cmd";
             }
             else
             {
-                return string.Empty;
+                result = string.Empty;
             }
+
+            // Store the result in the cache before returning
+            _objectTypeCache[cacheKey] = result;
+            return result;
         }
         catch (FileNotFoundException ex)
         {
@@ -1005,6 +1035,12 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
+        // Check if the result is already in the cache
+        if (hardware2ProgramRefIdCache.TryGetValue(hardware2ProgramRefId, out var cachedResult))
+        {
+            return cachedResult;
+        }
+        
         try
         {
             // Extract the part before "HP" and the part after "HP"
@@ -1020,7 +1056,11 @@ public class GroupAddressNameCorrector
             if (string.IsNullOrEmpty(mxxxxDirectory)) return (string.Empty, string.Empty); // If "M-XXXX" is not found, return two empty strings
 
             var hardwareFileName = $"{mxxxxDirectory}_A-{afterHp}.xml";
-            return (hardwareFileName, mxxxxDirectory);
+            var result = (hardwareFileName, mxxxxDirectory);
+
+            // Store the result in the cache before returning
+            hardware2ProgramRefIdCache[hardware2ProgramRefId] = result;
+            return result;
         }
         catch (ArgumentNullException ex)
         {
@@ -1053,6 +1093,15 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
+        // Construct a unique key for the cache based on the function parameters
+        string cacheKey = $"{productRefId}_{mxxxxDirectory}";
+
+        // Check if the result is already in the cache
+        if (_isDeviceRailMountedCache.TryGetValue(cacheKey, out bool cachedResult))
+        {
+            return cachedResult;
+        }
+        
         // Construct the full path to the Mxxxx directory
         string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
         
@@ -1098,19 +1147,24 @@ public class GroupAddressNameCorrector
 
             // Convert the attribute value to boolean
             string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+            bool result;
             if (isRailMountedValue == "true" || isRailMountedValue == "1")
             { 
-                return true;
+                result = true;
             }
             else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
             { 
-                return false;
+                result = false;
             }
             else 
             { 
                 App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
-                return false; // Default to false for unexpected attribute values
+                result = false; // Default to false for unexpected attribute values
             }
+
+            // Store the result in the cache before returning
+            _isDeviceRailMountedCache[cacheKey] = result;
+            return result;
         }
         catch (XmlException ex)
         {
