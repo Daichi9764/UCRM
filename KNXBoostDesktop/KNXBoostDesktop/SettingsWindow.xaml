@@ -749,7 +749,7 @@
                                    <TabControl SelectionChanged="TabControl_SelectionChanged" 
                                                BorderBrush="#D7D7D7" 
                                                BorderThickness="1">
-                                       <TabItem x:Name="OngletParametresGeneraux" Header="Paramètres généraux" Style="{StaticResource CustomTabItemStyle}">
+                                       <TabItem x:Name="OngletParametresGeneraux" Style="{StaticResource CustomTabItemStyle}">
                                            
                                            <StackPanel x:Name="MainContentPanel" Background="White">
                                                <!-- Gestion de la traduction des adresses de groupe -->
@@ -897,7 +897,7 @@
                        
                                            </StackPanel>
                                        </TabItem>
-                                       <TabItem x:Name="OngletDebug" Header="Debug" Style="{StaticResource CustomTabItemStyle}">
+                                       <TabItem x:Name="OngletDebug" Style="{StaticResource CustomTabItemStyle}">
                                            <StackPanel>
                                                <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,10" />

@@ -488,6 +488,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "تضمين الملفات المستوردة منذ الإطلاق";
                     IncludeAddressList.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
                     CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
+                    
+                    OngletParametresGeneraux.Header = "الإعدادات العامة";
+                    OngletDebug.Header = "تصحيح الأخطاء";
                     break;
 
                 // Bulgare
@@ -526,6 +529,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Включване на импортираните файлове от стартиране";
                     IncludeAddressList.Content = "Включване на списъка с изтрити адреси";
                     CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
+                    
+                    OngletParametresGeneraux.Header = "Общи настройки";
+                    OngletDebug.Header = "Отстраняване на грешки";
                     break;
 
                 // Tchèque
@@ -564,6 +570,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Zahrnout importované soubory od spuštění";
                     IncludeAddressList.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
                     CreateArchiveDebugText.Text = "Vytvořit ladicí soubor";
+                    
+                    OngletParametresGeneraux.Header = "Obecná nastavení";
+                    OngletDebug.Header = "Ladění";
                     break;
 
                 // Danois
@@ -602,6 +611,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Inkluder importerede filer siden opstart";
                     IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i projekter";
                     CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
+                    
+                    OngletParametresGeneraux.Header = "Generelle indstillinger";
+                    OngletDebug.Header = "Fejlfinding";
                     break;
 
                 // Allemand
@@ -647,6 +659,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
                     IncludeAddressList.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
                     CreateArchiveDebugText.Text = "Δημιουργία αρχείου αποσφαλμάτωσης";
+                    
+                    OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
+                    OngletDebug.Header = "Fehlerbehebung";
                     break;
 
                 // Grec
@@ -678,6 +693,9 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Αποθήκευση";
                     CancelButtonText.Text = "Ακύρωση";
+                    
+                    OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
+                    OngletDebug.Header = "Αποσφαλμάτωση";
                     break;
 
                 // Anglais
@@ -716,6 +734,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Include files imported since launch";
                     IncludeAddressList.Content = "Include list of deleted group addresses in projects";
                     CreateArchiveDebugText.Text = "Create debug file";
+                    
+                    OngletParametresGeneraux.Header = "General Settings";
+                    OngletDebug.Header = "Debugging";
                     break;
 
                 // Espagnol
@@ -754,6 +775,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Incluir archivos importados desde el inicio";
                     IncludeAddressList.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
                     CreateArchiveDebugText.Text = "Crear archivo de depuración";
+                    
+                    OngletParametresGeneraux.Header = "Configuración general";
+                    OngletDebug.Header = "Depuración";
                     break;
 
                 // Estonien
@@ -792,6 +816,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Kaasa imporditud failid käivitamisest alates";
                     IncludeAddressList.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
                     CreateArchiveDebugText.Text = "Loo silumisfail";
+                    
+                    OngletParametresGeneraux.Header = "Üldised seaded";
+                    OngletDebug.Header = "Silmamine";
                     break;
 
                 // Finnois
@@ -830,6 +857,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
                     IncludeAddressList.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
                     CreateArchiveDebugText.Text = "Luo vianmääritystiedosto";
+                    
+                    OngletParametresGeneraux.Header = "Yleiset asetukset";
+                    OngletDebug.Header = "Vianmääritys";
                     break;
 
                 // Hongrois
@@ -868,6 +898,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Tartalmazza az indítás óta importált fájlokat";
                     IncludeAddressList.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
                     CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
+                    
+                    OngletParametresGeneraux.Header = "Általános beállítások";
+                    OngletDebug.Header = "Hibakeresés";
                     break;
 
                 // Indonésien
@@ -906,6 +939,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Sertakan file yang diimpor sejak peluncuran";
                     IncludeAddressList.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
                     CreateArchiveDebugText.Text = "Buat file debug";
+                    
+                    OngletParametresGeneraux.Header = "Pengaturan umum";
+                    OngletDebug.Header = "Debugging";
                     break;
 
                 // Italien
@@ -944,6 +980,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Includi file importati dal lancio";
                     IncludeAddressList.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
                     CreateArchiveDebugText.Text = "Crea file di debug";
+                    
+                    OngletParametresGeneraux.Header = "Impostazioni generali";
+                    OngletDebug.Header = "Debug";
                     break;
 
                 // Japonais
@@ -982,6 +1021,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "起動以降にインポートされたファイルを含む";
                     IncludeAddressList.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
                     CreateArchiveDebugText.Text = "デバッグファイルを作成";
+                    
+                    OngletParametresGeneraux.Header = "一般設定";
+                    OngletDebug.Header = "デバッグ";
                     break;
 
                 // Coréen
@@ -1020,6 +1062,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "실행 후 가져온 파일 포함";
                     IncludeAddressList.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
                     CreateArchiveDebugText.Text = "디버그 파일 생성";
+                    
+                    OngletParametresGeneraux.Header = "일반 설정";
+                    OngletDebug.Header = "디버깅";
                     break;
 
                 // Letton
@@ -1058,6 +1103,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Iekļaut kopš palaišanas importētos failus";
                     IncludeAddressList.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
                     CreateArchiveDebugText.Text = "Izveidot atkļūdošanas failu";
+                    
+                    OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
+                    OngletDebug.Header = "Atkļūdošana";
                     break;
 
                 // Lituanien
@@ -1096,6 +1144,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Įtraukti nuo paleidimo importuotus failus";
                     IncludeAddressList.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
                     CreateArchiveDebugText.Text = "Sukurti derinimo failą";
+                    
+                    OngletParametresGeneraux.Header = "Bendrieji nustatymai";
+                    OngletDebug.Header = "Derinimas";
                     break;
 
                 // Norvégien
@@ -1134,6 +1185,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Inkluder filer importert siden oppstart";
                     IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
                     CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
+                    
+                    OngletParametresGeneraux.Header = "Generelle innstillinger";
+                    OngletDebug.Header = "Feilsøking";
                     break;
 
                 // Néerlandais
@@ -1172,6 +1226,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
                     IncludeAddressList.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
                     CreateArchiveDebugText.Text = "Maak een debug-bestand";
+                    
+                    OngletParametresGeneraux.Header = "Algemene instellingen";
+                    OngletDebug.Header = "Foutopsporing";
                     break;
 
                 // Polonais
@@ -1210,6 +1267,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
                     IncludeAddressList.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
                     CreateArchiveDebugText.Text = "Utwórz plik debugowania";
+                    
+                    OngletParametresGeneraux.Header = "Ustawienia ogólne";
+                    OngletDebug.Header = "Debugowanie";
                     break;
 
                 // Portugais
@@ -1248,6 +1308,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Incluir arquivos importados desde o lançamento";
                     IncludeAddressList.Content = "Incluir lista de endereços de grupo excluídos em projetos";
                     CreateArchiveDebugText.Text = "Criar arquivo de depuração";
+                    
+                    OngletParametresGeneraux.Header = "Configurações gerais";
+                    OngletDebug.Header = "Depuração";
                     break;
 
                 // Roumain
@@ -1286,6 +1349,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Includeți fișierele importate de la lansare";
                     IncludeAddressList.Content = "Includeți lista adreselor de grup șterse în proiecte";
                     CreateArchiveDebugText.Text = "Creați fișierul de depanare";
+                    
+                    OngletParametresGeneraux.Header = "Setări generale";
+                    OngletDebug.Header = "Depanare";
                     break;
 
                 // Slovaque
@@ -1324,6 +1390,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Zahrnúť súbory importované od spustenia";
                     IncludeAddressList.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
                     CreateArchiveDebugText.Text = "Vytvoriť súbor na ladenie";
+                    
+                    OngletParametresGeneraux.Header = "Všeobecné nastavenia";
+                    OngletDebug.Header = "Ladenie";
                     break;
 
                 // Slovène
@@ -1362,6 +1431,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Vključi uvožene datoteke od zagona";
                     IncludeAddressList.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
                     CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
+                    
+                    OngletParametresGeneraux.Header = "Splošne nastavitve";
+                    OngletDebug.Header = "Odpravljanje napak";
                     break;
 
                 // Suédois
@@ -1400,6 +1472,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Inkludera importerade filer sedan start";
                     IncludeAddressList.Content = "Inkludera lista över raderade gruppadresser i projekt";
                     CreateArchiveDebugText.Text = "Skapa felsökningsfil";
+                    
+                    OngletParametresGeneraux.Header = "Allmänna inställningar";
+                    OngletDebug.Header = "Felsökning";
                     break;
 
                 // Turc
@@ -1438,6 +1513,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
                     IncludeAddressList.Content = "Projelerde silinen grup adresleri listesini ekle";
                     CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
+                    
+                    OngletParametresGeneraux.Header = "Genel Ayarlar";
+                    OngletDebug.Header = "Hata Ayıklama";
                     break;
 
                 // Ukrainien
@@ -1476,6 +1554,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Включити файли, імпортовані з моменту запуску";
                     IncludeAddressList.Content = "Включити список видалених групових адрес у проектах";
                     CreateArchiveDebugText.Text = "Створити файл налагодження";
+                    
+                    OngletParametresGeneraux.Header = "Загальні налаштування";
+                    OngletDebug.Header = "Відлагодження";
                     break;
                 
                 // Russe
@@ -1486,7 +1567,7 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "Ключ API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("Нажмите здесь, чтобы получить бесплатный ключ)");
+                    Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ru/pro-api");
     
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
@@ -1514,6 +1595,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "Включить файлы, импортированные с момента запуска";
                     IncludeAddressList.Content = "Включить список удаленных групповых адресов в проектах";
                     CreateArchiveDebugText.Text = "Создать файл отладки";
+                    
+                    OngletParametresGeneraux.Header = "Общие настройки";
+                    OngletDebug.Header = "Отладка";
                     break;
 
                 // Chinois simplifié
@@ -1552,6 +1636,9 @@ namespace KNXBoostDesktop
                     AddImportedFiles.Content = "包括启动以来导入的文件";
                     IncludeAddressList.Content = "包括项目中已删除的组地址列表";
                     CreateArchiveDebugText.Text = "创建调试文件";
+                    
+                    OngletParametresGeneraux.Header = "常规设置";
+                    OngletDebug.Header = "调试";
                     break;
 
 	            // Langue par défaut (français)
@@ -1588,6 +1675,9 @@ namespace KNXBoostDesktop
                     IncludeAddressList.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
                     CreateArchiveDebugText.Text = "Créer le fichier de deboggage";
+
+                    OngletParametresGeneraux.Header = "Paramètres généraux";
+                    OngletDebug.Header = "Débogage";
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -1688,8 +1778,8 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
-            
-            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked! ? true : false;
+
+            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked!;
             
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
@@ -2155,22 +2245,20 @@ namespace KNXBoostDesktop
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is TabControl)
+            if (e.Source is not TabControl) return;
+            var selectedTab = (((TabControl)sender).SelectedItem as TabItem)!;
+            if (selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
             {
-                TabItem selectedTab = (sender as TabControl).SelectedItem as TabItem;
-                if (selectedTab != null && selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
-                {
-                    SaveButton.Visibility = Visibility.Collapsed;
-                    CancelButton.Visibility = Visibility.Collapsed;
-                    CreateArchiveDebugButton.Visibility = Visibility.Visible;
-                }
-                else if (selectedTab != null && selectedTab.Header != null &&
-                         selectedTab.Header.ToString() == "Paramètres généraux")
-                {
-                    SaveButton.Visibility = Visibility.Visible;
-                    CancelButton.Visibility = Visibility.Visible;
-                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
-                }
+                SaveButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+                CreateArchiveDebugButton.Visibility = Visibility.Visible;
+            }
+            else if (selectedTab.Header != null &&
+                     selectedTab.Header.ToString() == "Paramètres généraux")
+            {
+                SaveButton.Visibility = Visibility.Visible;
+                CancelButton.Visibility = Visibility.Visible;
+                CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
             }
         }
         
@@ -2222,7 +2310,7 @@ namespace KNXBoostDesktop
         /// <returns>A byte array containing the encrypted data.</returns>
         private static byte[] EncryptStringToBytes(string plainText)
         {
-            // Générer une nouvelle clé et IV pour l'encryption
+            // Générer une nouvelle clé et IV pour le cryptage
             using (var aesAlg = Aes.Create())
             {
                 try
@@ -2433,19 +2521,19 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine("Error: The main key is null. Aborting storing operation.");
                 return;
             }
-            // Si l'encryption échoue
+            // Si le cryptage échoue
             catch (CryptographicException)
             {
                 App.ConsoleAndLogWriteLine("Error: Could not encrypt main key.");
                 return;
             }
-            // Si l'OS ne supporte pas cet algorithme d'encryption
+            // Si l'OS ne supporte pas cet algorithme de cryptage
             catch (NotSupportedException)
             {
                 App.ConsoleAndLogWriteLine($"Error: The system does not support the methods used to encrypt the main key.");
                 return;
             }
-            // Si le process n'a plus assez de RAM disponible pour l'encryption
+            // Si le process n'a plus assez de RAM disponible pour le cryptage
             catch (OutOfMemoryException)
             {
                 App.ConsoleAndLogWriteLine("Error: The application ran out of memory during the encryption of the main key.");
@@ -2731,7 +2819,7 @@ namespace KNXBoostDesktop
         /// <returns>A string representing the generated random key. If the length is zero or less, an empty string is returned.</returns>
         private static string GenerateRandomKey(int length)
         {
-            // Tableau contenant tous les caractères admissibles dans une clé d'encryption
+            // Tableau contenant tous les caractères admissibles dans une clé de cryptage
             var chars ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
             // Si la longueur est de 0 ou moins, on retourne un string vide
