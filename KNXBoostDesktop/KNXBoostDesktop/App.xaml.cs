@@ -430,6 +430,18 @@ namespace KNXBoostDesktop
             }
             
         }
+        
+        
+        // Destructeur de App
+        /// <summary>
+        /// Finalizer for the <see cref="App"/> class.
+        /// Closes the log writer stream if it is still open when the application is being finalized.
+        /// </summary>
+        ~App()
+        {
+            // Si le stream d'écriture dans les logs est toujours ouvert, on le ferme
+            _writer?.Close();
+        }
     }
 }
 
