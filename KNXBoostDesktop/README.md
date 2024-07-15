@@ -4,6 +4,7 @@ Ce projet vise à corriger les erreurs de construction dans les projets ETS en r
 * Renommage automatique des champs de noms d'adresses de groupes selon une convention définie.
 * Traduction intégrée pour améliorer la compréhension et la correction des projets.
 * Interface utilisateur intuitive pour une utilisation facile et efficace.
+* Suppression d'adresses de groupe inutilisées
 
 
 ## Table des Matières 
