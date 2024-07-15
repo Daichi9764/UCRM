@@ -53,12 +53,12 @@ namespace KNXBoostDesktop
         /// </remarks>
         public bool ExtractProjectFiles(string knxprojSourceFilePath)
         {
-            bool managedToExtractProject = false;
-            bool managedToNormalizePaths = false;
-            bool cancelOperation = false;
+            var managedToExtractProject = false;
+            var managedToNormalizePaths = false;
+            var cancelOperation = false;
 
             // Tant que l'on n'a pas réussi à extraire le projet ou que l'on n'a pas demandé l'annulation de l'extraction
-            while ((!managedToExtractProject) && (!cancelOperation))
+            while (!managedToExtractProject && !cancelOperation)
             {
                 /* ------------------------------------------------------------------------------------------------
                 ---------------------------------------- GESTION DES PATH -----------------------------------------
@@ -68,9 +68,9 @@ namespace KNXBoostDesktop
                 // à annuler l'extraction
                 string msg;
 
-                while ((!managedToNormalizePaths) && (!cancelOperation))
+                while (!managedToNormalizePaths && !cancelOperation)
                 {
-                    if (knxprojSourceFilePath.ToLower() == "null")
+                    if (knxprojSourceFilePath.Equals("null", StringComparison.CurrentCultureIgnoreCase))
                     {
                         cancelOperation = true;
                         App.ConsoleAndLogWriteLine("User cancelled the project extraction process.");
@@ -119,7 +119,7 @@ namespace KNXBoostDesktop
 
                 string
                     zipArchivePath; // Adresse du fichier zip (utile pour la suite de manière à rendre le projet extractable)
-                string knxprojExportFolderPath =
+                var knxprojExportFolderPath =
                     $"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/knxproj_exported/";
 
                 // Transformation du knxproj en zip
@@ -301,9 +301,137 @@ namespace KNXBoostDesktop
                     {
                         App.ConsoleAndLogWriteLine(
                             $"Encountered an error while extracting {knxprojSourceFilePath} : the project is locked with a password in ETS6");
-                        MessageBox.Show(
-                            "Error: The project you have selected is password-protected and cannot be operated. Please unlock it in ETS and try again.",
-                            "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                        
+                        var messageBoxText = App.DisplayElements?.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => "خطأ: المشروع الذي اخترته محمي بكلمة مرور ولا يمكن تشغيله. يرجى إلغاء قفله في ETS والمحاولة مرة أخرى.",
+                            // Bulgare
+                            "BG" => "Грешка: Избраният проект е защитен с парола и не може да бъде опериран. Моля, отключете го в ETS и опитайте отново.",
+                            // Tchèque
+                            "CS" => "Chyba: Vybraný projekt je chráněn heslem a nelze s ním pracovat. Odemkněte jej prosím v ETS a zkuste to znovu.",
+                            // Danois
+                            "DA" => "Fejl: Det valgte projekt er adgangskodebeskyttet og kan ikke betjenes. Lås det op i ETS og prøv igen.",
+                            // Allemand
+                            "DE" => "Fehler: Das ausgewählte Projekt ist passwortgeschützt und kann nicht bearbeitet werden. Bitte entsperren Sie es in ETS und versuchen Sie es erneut.",
+                            // Grec
+                            "EL" => "Σφάλμα: Το επιλεγμένο έργο είναι προστατευμένο με κωδικό πρόσβασης και δεν μπορεί να λειτουργήσει. Ξεκλειδώστε το στο ETS και δοκιμάστε ξανά.",
+                            // Anglais
+                            "EN" => "Error: The project you have selected is password-protected and cannot be operated. Please unlock it in ETS and try again.",
+                            // Espagnol
+                            "ES" => "Error: El proyecto que ha seleccionado está protegido con contraseña y no se puede operar. Desbloquéelo en ETS e inténtelo de nuevo.",
+                            // Estonien
+                            "ET" => "Viga: Valitud projekt on parooliga kaitstud ja seda ei saa kasutada. Palun vabastage see ETS-is ja proovige uuesti.",
+                            // Finnois
+                            "FI" => "Virhe: Valitsemasi projekti on suojattu salasanalla eikä sitä voi käyttää. Avaa se ETS:ssä ja yritä uudelleen.",
+                            // Hongrois
+                            "HU" => "Hiba: A kiválasztott projekt jelszóval védett és nem használható. Kérjük, oldja fel az ETS-ben és próbálja újra.",
+                            // Indonésien
+                            "ID" => "Kesalahan: Proyek yang Anda pilih dilindungi kata sandi dan tidak dapat dioperasikan. Silakan buka kuncinya di ETS dan coba lagi.",
+                            // Italien
+                            "IT" => "Errore: Il progetto selezionato è protetto da password e non può essere operato. Sbloccalo in ETS e riprova.",
+                            // Japonais
+                            "JA" => "エラー: 選択したプロジェクトはパスワードで保護されており、操作できません。 ETSでロックを解除して再試行してください。",
+                            // Coréen
+                            "KO" => "오류: 선택한 프로젝트는 비밀번호로 보호되어 있으며 작동할 수 없습니다. ETS에서 잠금을 해제하고 다시 시도하십시오.",
+                            // Letton
+                            "LV" => "Kļūda: Izvēlētais projekts ir aizsargāts ar paroli un to nevar darbināt. Lūdzu, atbloķējiet to ETS un mēģiniet vēlreiz.",
+                            // Lituanien
+                            "LT" => "Klaida: Pasirinktas projektas yra apsaugotas slaptažodžiu ir jo negalima valdyti. Atrakinkite jį ETS ir bandykite dar kartą.",
+                            // Norvégien
+                            "NB" => "Feil: Prosjektet du har valgt er passordbeskyttet og kan ikke betjenes. Lås det opp i ETS og prøv igjen.",
+                            // Néerlandais
+                            "NL" => "Fout: Het geselecteerde project is met een wachtwoord beveiligd en kan niet worden bediend. Ontgrendel het in ETS en probeer het opnieuw.",
+                            // Polonais
+                            "PL" => "Błąd: Wybrany projekt jest chroniony hasłem i nie można nim operować. Odblokuj go w ETS i spróbuj ponownie.",
+                            // Portugais
+                            "PT" => "Erro: O projeto selecionado está protegido por senha e não pode ser operado. Desbloqueie-o no ETS e tente novamente.",
+                            // Roumain
+                            "RO" => "Eroare: Proiectul selectat este protejat prin parolă și nu poate fi operat. Vă rugăm să-l deblocați în ETS și încercați din nou.",
+                            // Russe
+                            "RU" => "Ошибка: Выбранный проект защищен паролем и не может быть использован. Пожалуйста, разблокируйте его в ETS и попробуйте снова.",
+                            // Slovaque
+                            "SK" => "Chyba: Vybraný projekt je chránený heslom a nie je možné s ním pracovať. Odomknite ho v ETS a skúste to znova.",
+                            // Slovène
+                            "SL" => "Napaka: Izbrani projekt je zaščiten z geslom in ga ni mogoče uporabljati. Odklenite ga v ETS in poskusite znova.",
+                            // Suédois
+                            "SV" => "Fel: Projektet du har valt är lösenordsskyddat och kan inte användas. Lås upp det i ETS och försök igen.",
+                            // Turc
+                            "TR" => "Hata: Seçtiğiniz proje parola korumalıdır ve çalıştırılamaz. Lütfen ETS'de kilidini açın ve tekrar deneyin.",
+                            // Ukrainien
+                            "UK" => "Помилка: Вибраний проект захищений паролем і не може бути використаний. Будь ласка, розблокуйте його в ETS і спробуйте знову.",
+                            // Chinois simplifié
+                            "ZH" => "错误：您选择的项目受密码保护，无法操作。 请在 ETS 中解锁并重试。",
+                            // Cas par défaut (français)
+                            _ => "Erreur : Le projet que vous avez sélectionné est protégé par mot de passe et ne peut pas être opéré. Veuillez le déverrouiller dans ETS et réessayez."
+                        };
+
+                        var caption = App.DisplayElements?.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => "خطأ",
+                            // Bulgare
+                            "BG" => "Грешка",
+                            // Tchèque
+                            "CS" => "Chyba",
+                            // Danois
+                            "DA" => "Fejl",
+                            // Allemand
+                            "DE" => "Fehler",
+                            // Grec
+                            "EL" => "Σφάλμα",
+                            // Anglais
+                            "EN" => "Error",
+                            // Espagnol
+                            "ES" => "Error",
+                            // Estonien
+                            "ET" => "Viga",
+                            // Finnois
+                            "FI" => "Virhe",
+                            // Hongrois
+                            "HU" => "Hiba",
+                            // Indonésien
+                            "ID" => "Kesalahan",
+                            // Italien
+                            "IT" => "Errore",
+                            // Japonais
+                            "JA" => "エラー",
+                            // Coréen
+                            "KO" => "오류",
+                            // Letton
+                            "LV" => "Kļūda",
+                            // Lituanien
+                            "LT" => "Klaida",
+                            // Norvégien
+                            "NB" => "Feil",
+                            // Néerlandais
+                            "NL" => "Fout",
+                            // Polonais
+                            "PL" => "Błąd",
+                            // Portugais
+                            "PT" => "Erro",
+                            // Roumain
+                            "RO" => "Eroare",
+                            // Russe
+                            "RU" => "Ошибка",
+                            // Slovaque
+                            "SK" => "Chyba",
+                            // Slovène
+                            "SL" => "Napaka",
+                            // Suédois
+                            "SV" => "Fel",
+                            // Turc
+                            "TR" => "Hata",
+                            // Ukrainien
+                            "UK" => "Помилка",
+                            // Chinois simplifié
+                            "ZH" => "错误",
+                            // Cas par défaut (français)
+                            _ => "Erreur"
+                        };
+
+                        MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                        
                         cancelOperation = true;
                         continue;
                     }
@@ -335,7 +463,7 @@ namespace KNXBoostDesktop
                 managedToExtractProject = true;
             }
 
-            return (!cancelOperation) && (managedToExtractProject);
+            return !cancelOperation && managedToExtractProject;
         }
 
 
