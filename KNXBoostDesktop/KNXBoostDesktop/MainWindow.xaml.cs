@@ -1391,7 +1391,7 @@ public partial class MainWindow
     {
         try
         {
-            XmlDocument xmlDoc = await Task.Run(() =>
+            var xmlDoc = await Task.Run(() =>
             {
                 XmlDocument doc = new();
                 doc.Load(filePath);
@@ -1403,13 +1403,13 @@ public partial class MainWindow
                 treeView.Items.Clear();
 
                 // Ajouter tous les nœuds récursivement
-                if (xmlDoc.DocumentElement != null)
+                if (xmlDoc.DocumentElement == null) return;
+                
+                var index = 0;
+                
+                foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
                 {
-                    int index = 0;
-                    foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
-                    {
-                        AddNodeRecursively(node, treeView.Items, 0, index++);
-                    }
+                    AddNodeRecursively(node, treeView.Items, 0, index++);
                 }
             });
         }
@@ -1418,7 +1418,7 @@ public partial class MainWindow
             // Afficher le message d'erreur sur le thread principal
             await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                string caption = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var caption = App.DisplayElements?.SettingsWindow!.AppLang switch
                 {
                     // Arabe
                     "AR" => "خطأ",
