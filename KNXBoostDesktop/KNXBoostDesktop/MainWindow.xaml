@@ -82,6 +82,7 @@
         </Style>
         <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
 
+        <!-- Style Toggle Clair et Sombre -->
         <Style x:Key="ExpandCollapseToggleStyleDark" TargetType="{x:Type ToggleButton}">
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="Width" Value="16"/>
@@ -149,7 +150,7 @@
             </Setter>
         </Style>
 
-
+        <!-- Style arbres Clair et Sombre -->
         <Style x:Key="TreeViewItemStyleLight" TargetType="TreeViewItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#000000"/>
@@ -227,8 +228,6 @@
                 <SolidColorBrush x:Key="{x:Static  SystemColors.InactiveSelectionHighlightBrushKey}" Color="{StaticResource TreeViewInactiveSelectedColorLight}"/>
             </Style.Resources>
         </Style>
-
-
         <Style x:Key="TreeViewItemStyleDark" TargetType="{x:Type TreeViewItem}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
@@ -307,9 +306,6 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{StaticResource TreeViewSelectedTextInactiveSelectedColorDark}"/>
             </Style.Resources>
         </Style>
-
-
-
 
         <!-- Style pour le bouton Exporter -->
         <Style x:Key="ExportButton" TargetType="Button">
