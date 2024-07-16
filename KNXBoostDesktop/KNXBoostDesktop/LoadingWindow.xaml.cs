@@ -29,6 +29,8 @@ namespace KNXBoostDesktop
 
             Activities = new ObservableCollection<Activity>();
             ActivityLog.ItemsSource = Activities;
+            
+            ApplyScaling(App.DisplayElements!.SettingsWindow!.AppScaleFactor/100f);
         }
 
         
@@ -167,12 +169,14 @@ namespace KNXBoostDesktop
             ActivityLog.ItemContainerStyle = (Style)FindResource("DarkActivityStyle");
             TotalTime.Foreground = MainWindow.ConvertStringColor("#E3DED4");
         }
-        
-        public void ApplyScaling(float scale)
+
+        private void ApplyScaling(float scale)
         {
             LoadingWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
-            Height *= scale;
-            Width *= scale;
+            
+            Height = Height * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : Height * scale;
+            Width = Width * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : Width * scale;
+            
         }
     }
 

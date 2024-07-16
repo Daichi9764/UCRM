@@ -64,6 +64,11 @@ namespace KNXBoostDesktop
         public string AppLang { get; private set; } // Langue de l'application (français par défaut)
         
         
+        /// <summary>
+        ///  Gets or sets the scale factor for the content of every window of the application
+        /// </summary>
+        public int AppScaleFactor { get; private set; } // Facteur d'échelle pour les fenêtres de l'application
+        
         
         
         /* ------------------------------------------------------------------------------------------------
@@ -78,6 +83,8 @@ namespace KNXBoostDesktop
         /// </summary>
         public SettingsWindow()
         {
+            InitializeComponent(); // Initialisation de la fenêtre de paramétrage
+            
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
             // la lecture du fichier settings. Cela permet d'éviter un crash si le fichier 
             EnableDeeplTranslation = false;
@@ -88,6 +95,7 @@ namespace KNXBoostDesktop
             EnableLightTheme = true;
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
+            AppScaleFactor = 100;
 
             const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
             
@@ -740,6 +748,19 @@ namespace KNXBoostDesktop
                             // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             AppLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
+                        
+                        case "window scale factor":
+                            try
+                            {
+                                AppScaleFactor = Convert.ToInt32(value) > 300 || Convert.ToInt32(value) < 50 ? 100 : Convert.ToInt32(value);
+                                ApplyScaling(AppScaleFactor/100f - 0.2f);
+                            }
+                            catch (Exception)
+                            {
+                                App.ConsoleAndLogWriteLine("Error: Could not parse the integer value of the window scale factor. Restoring default value (100%).");
+                            }
+                            
+                            break;
                     }
                 }
 
@@ -761,8 +782,6 @@ namespace KNXBoostDesktop
                 reader?.Close(); // Fermeture du stream de lecture
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
-            
-            InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
             AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion.ToString(CultureInfo.InvariantCulture)} (build {App.AppBuild})";
 
@@ -824,6 +843,9 @@ namespace KNXBoostDesktop
 
                 writer.Write("application language : ");
                 writer.WriteLine(AppLang);
+                
+                writer.Write("window scale factor : ");
+                writer.WriteLine(AppScaleFactor);
 
                 writer.WriteLine(
                     "-----------------------------------------------------------------------------------------");
@@ -914,6 +936,9 @@ namespace KNXBoostDesktop
             // Sélection du thème clair ou sombre
             LightThemeComboBoxItem.IsSelected = EnableLightTheme;
             DarkThemeComboBoxItem.IsSelected = !EnableLightTheme;
+            
+            // Mise à jour du slider
+            ScaleSlider.Value = AppScaleFactor;
             
             // Traduction du menu settings
             switch (AppLang)
@@ -2134,13 +2159,13 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Langue de l'application:";
                     
-                    MenuDebug.Text = "Menu de deboggage";
+                    MenuDebug.Text = "Menu de débogage";
                     AddInfosOsCheckBox.Content = "Inclure les informations sur le système d'exploitation";
                     AddInfosHardCheckBox.Content = "Inclure les informations sur le matériel de l'ordinateur";
                     AddImportedFilesCheckBox.Content = "Inclure les fichiers des projets importés depuis le lancement";
                     IncludeAddressListCheckBox.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
-                    CreateArchiveDebugText.Text = "Créer le fichier de deboggage";
+                    CreateArchiveDebugText.Text = "Créer le fichier de débogage";
 
                     OngletParametresGeneraux.Header = "Paramètres généraux";
                     OngletDebug.Header = "Débogage";
@@ -2445,9 +2470,17 @@ namespace KNXBoostDesktop
             RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            AppScaleFactor = (int) ScaleSlider.Value;
             
             // Mise à jour éventuellement du contenu pour update la langue du menu
             UpdateWindowContents();
+            
+            // Mise à jour de l'échelle de toutes les fenêtres
+            var scaleFactor = AppScaleFactor / 100f;
+            ApplyScaling(scaleFactor-0.2f);
+            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor-0.2f);
             
             // Mise à jour de la fenêtre de renommage des adresses de groupe
             App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
@@ -2756,22 +2789,21 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is TabControl)
+            if (e.Source is not TabControl) return;
+            
+            var selectedTab = (sender as TabControl)?.SelectedItem as TabItem;
+            switch (selectedTab)
             {
-                TabItem selectedTab = (sender as TabControl)?.SelectedItem as TabItem;
-                if (selectedTab is { Header: not null } && selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header)
-                {
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header:
                     SaveButton.Visibility = Visibility.Visible;
                     CancelButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
-                }
-                else if (selectedTab is { Header: not null } && selectedTab.Header.ToString() == (string?)OngletDebug.Header)
-                {
+                    break;
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletDebug.Header:
                     SaveButton.Visibility = Visibility.Collapsed;
                     CancelButton.Visibility = Visibility.Collapsed;
                     CreateArchiveDebugButton.Visibility = Visibility.Visible;
-                }
-                
+                    break;
             }
         }
         
@@ -2918,8 +2950,8 @@ namespace KNXBoostDesktop
                 return "";
             }
 
-            string encryptedKey = "";
-            string encryptedIv = "";
+            var encryptedKey = "";
+            var encryptedIv = "";
 
             try
             {
@@ -3582,11 +3614,12 @@ namespace KNXBoostDesktop
         }
 
 
-        public void ApplyScaling(double scale)
+        private void ApplyScaling(double scale)
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
-            Height *= scale;
-            Width *= scale;
+            
+            Height = 700 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 700 * scale;
+            Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }
 }

@@ -488,6 +488,11 @@ public partial class MainWindow
         BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
         BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
         AjusteurPan.Background = ConvertStringColor(borderPanelColor);
+
+        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        {
+            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+        }
     }   
     
     

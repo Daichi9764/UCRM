@@ -44,7 +44,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 331;
+        public static readonly int AppBuild = 333;
         
         
         // Gestion des logs
@@ -137,10 +137,10 @@ namespace KNXBoostDesktop
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
 
-            // Mise e jour de la fenetre de renommage des adresses de groupe
+            // Mise a jour de la fenetre de renommage des adresses de groupe
             DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
 
-            // Mise e jour de la fenetre principale
+            // Mise a jour de la fenetre principale
             DisplayElements.MainWindow.UpdateWindowContents();
 
             DisplayElements.ShowMainWindow();
@@ -444,6 +444,8 @@ namespace KNXBoostDesktop
         }
     }
 }
+
+
 
 
 

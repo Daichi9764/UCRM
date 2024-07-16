@@ -48,17 +48,23 @@ public class GroupAddressNameCorrector
     /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
     /// ComObject instance reference ID, ReadFlag found, and WriteFlag found.
     /// </summary>
-    private static ConcurrentDictionary<string, string> _objectTypeCache = new();
+    private static readonly ConcurrentDictionary<string, string> ObjectTypeCache = new();
     
     /// <summary>
     /// Collection to memorize the rail-mounted status of devices based on product reference ID and Mxxxx directory.
     /// </summary>
-    private static ConcurrentDictionary<string, bool> _isDeviceRailMountedCache = new();
+    private static readonly ConcurrentDictionary<string, bool> IsDeviceRailMountedCache = new();
     
     /// <summary>
     /// Collection to memorize formatted hardware file names and Mxxxx directories based on hardware to program reference IDs.
     /// </summary>
-    private static ConcurrentDictionary<string, (string HardwareFileName, string MxxxxDirectory)> _hardware2ProgramRefIdCache = new();
+    private static readonly ConcurrentDictionary<string, (string HardwareFileName, string MxxxxDirectory)> Hardware2ProgramRefIdCache = new();
+    
+    /// <summary>
+    /// Collection to memorize if the method FormatNewFileName as been called with the parameter hardwareFileName and its result
+    /// </summary>
+    private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
+
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -462,7 +468,7 @@ public class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.LogActivity(loadXml);
             
             // Load the XML file from the specified path
-            XDocument? knxDoc = App.Fm?.LoadKnxDocument(App.Fm.ZeroXmlPath);
+            XDocument? knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             if (knxDoc == null) return;
             
             // Create a formatter object for normalizing names
@@ -820,7 +826,7 @@ public class GroupAddressNameCorrector
             }
             
             // Load the original XML file without any additional modifications
-            XDocument? originalKnxDoc = App.Fm?.LoadKnxDocument(App.Fm.ZeroXmlPath);
+            XDocument? originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
@@ -916,7 +922,7 @@ public class GroupAddressNameCorrector
         string cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}";
 
         // Check if the result is already in the cache
-        if (_objectTypeCache.TryGetValue(cacheKey, out string cacheResult))
+        if (ObjectTypeCache.TryGetValue(cacheKey, out string cacheResult))
         {
             return cacheResult;
         }
@@ -944,7 +950,15 @@ public class GroupAddressNameCorrector
                 if (!File.Exists(filePath))
                 {
                     App.ConsoleAndLogWriteLine($"File not found: {filePath}");
-                    return string.Empty;
+                    string newFilePath = Path.Combine(mxxxxDirectoryPath,FormatNewFileName(comObjectInstanceRefId, hardwareFileName));
+
+                    if (!File.Exists(newFilePath))
+                    {
+                        App.ConsoleAndLogWriteLine($"File not found: {newFilePath}");
+                        return string.Empty;  
+                    }
+
+                    filePath = newFilePath ;
                 }
 
                 App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
@@ -1009,7 +1023,7 @@ public class GroupAddressNameCorrector
             }
 
             // Store the result in the cache before returning
-            _objectTypeCache[cacheKey] = result;
+            ObjectTypeCache[cacheKey] = result;
             return result;
         }
         catch (FileNotFoundException ex)
@@ -1038,6 +1052,69 @@ public class GroupAddressNameCorrector
             return string.Empty;
         }
     }
+
+    /// <summary>
+    /// Formats a new file name based on the provided comObjectInstanceRefId and hardwareFileName.
+    /// 
+    /// This method retrieves an XML document from App.Fm.ZeroXmlPath and uses it to find a parameter reference ID 
+    /// based on the comObjectInstanceRefId and hardwareFileName. It removes a specific prefix ("M-XXXX_A") and ".xml" 
+    /// extension from hardwareFileName to clean it up. The cleaned file name is used to query the XML document and 
+    /// construct a new file name based on the retrieved parameter reference ID. The function caches results based on 
+    /// hardwareFileName to optimize subsequent calls.
+    /// 
+    /// If the XML document is not available or if the required attributes are not found, the method returns an empty string.
+    /// </summary>
+    /// <param name="comObjectInstanceRefId">The reference ID used to identify the com object instance.</param>
+    /// <param name="hardwareFileName">The original hardware file name.</param>
+    /// <returns>The formatted new file name.</returns>
+    private static string FormatNewFileName(string comObjectInstanceRefId, string hardwareFileName)
+    {
+        // Check if the filename has already been formatted and cached
+        if (NewFileNameCache.TryGetValue(hardwareFileName, out string cachedResult))
+        {
+            return cachedResult;
+        }
+
+        XDocument? knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
+        if (knxDoc == null) return string.Empty;
+        
+        // Determine the part to remove (starts with "M-" and ends with "_A")
+        string prefixToRemove = "M-"; // Fixed part before the number
+        string suffixToRemove = "_A"; // Fixed part after the number
+
+        // Find the index where the number starts (after "M-")
+        int startIndex = hardwareFileName.IndexOf(prefixToRemove) + prefixToRemove.Length;
+
+        // Find the index where the number ends (just before "_A")
+        int endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex);
+
+        // Extract the number part
+        string numberPart = hardwareFileName.Substring(startIndex, endIndex - startIndex);
+
+        // Remove the prefix and suffix
+        string cleanedFileName = hardwareFileName.Replace(prefixToRemove + numberPart + suffixToRemove, "");
+
+        // Remove the .xml extension
+        cleanedFileName = cleanedFileName.Replace(".xml", "");
+
+        // Query XML document to find ParameterInstanceRef based on cleanedFileName
+        IEnumerable<XElement> comObject = knxDoc.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
+            .Where(cir => cir.Attribute("RefId")?.Value == comObjectInstanceRefId);
+
+        string parameterRefId = comObject.Ancestors(_globalKnxNamespace + "DeviceInstance").FirstOrDefault(co => co.Attribute("Hardware2ProgramRefId") != null &&
+                co.Attribute("Hardware2ProgramRefId").Value.EndsWith(cleanedFileName))
+            ?.Descendants(_globalKnxNamespace + "ParameterInstanceRef").Attributes("RefId").FirstOrDefault()?.Value ?? string.Empty;
+        
+        // Split parameterRefId based on "_P" and get the first part
+        string[] parts = parameterRefId.Split(new[] { "_P" }, StringSplitOptions.None);
+                    
+        string formattedFileName = $"{parts[0]}.xml";
+
+        // Cache the result for future use with this hardwareFileName
+        NewFileNameCache[hardwareFileName] = formattedFileName;
+
+        return formattedFileName;
+    }
     
     
     // Method that reconstructs the name of the hardware file and its directory from the hardware2ProgramRefId of a device
@@ -1058,7 +1135,7 @@ public class GroupAddressNameCorrector
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         // Check if the result is already in the cache
-        if (_hardware2ProgramRefIdCache.TryGetValue(hardware2ProgramRefId, out var cachedResult))
+        if (Hardware2ProgramRefIdCache.TryGetValue(hardware2ProgramRefId, out var cachedResult))
         {
             return cachedResult;
         }
@@ -1081,7 +1158,7 @@ public class GroupAddressNameCorrector
             var result = (hardwareFileName, mxxxxDirectory);
 
             // Store the result in the cache before returning
-            _hardware2ProgramRefIdCache[hardware2ProgramRefId] = result;
+            Hardware2ProgramRefIdCache[hardware2ProgramRefId] = result;
             return result;
         }
         catch (ArgumentNullException ex)
@@ -1119,7 +1196,7 @@ public class GroupAddressNameCorrector
         string cacheKey = $"{productRefId}_{mxxxxDirectory}";
 
         // Check if the result is already in the cache
-        if (_isDeviceRailMountedCache.TryGetValue(cacheKey, out bool cachedResult))
+        if (IsDeviceRailMountedCache.TryGetValue(cacheKey, out bool cachedResult))
         {
             return cachedResult;
         }
@@ -1185,7 +1262,7 @@ public class GroupAddressNameCorrector
             }
 
             // Store the result in the cache before returning
-            _isDeviceRailMountedCache[cacheKey] = result;
+            IsDeviceRailMountedCache[cacheKey] = result;
             return result;
         }
         catch (XmlException ex)
