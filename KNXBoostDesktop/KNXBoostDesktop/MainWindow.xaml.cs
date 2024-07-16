@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.IO;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
@@ -52,13 +54,13 @@ public partial class MainWindow
     /// </summary>
     private bool _isTreeViewExpanded;
 
-    
-    
-    
+
+
+
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// Sets up the render mode, data context, window icon, and updates the window contents.
@@ -432,18 +434,18 @@ public partial class MainWindow
             BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
             BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
 
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
         }
         else
         {
             backgroundColor = "#313131";
             panelBackgroundColor = "#262626";
 
-            panelTextColor = "#FFFFFF";
+            panelTextColor = "#E3DED4";
             
             settingsButtonColor = "#262626";
-            logoColor = "#FFFFFF";
+            logoColor = "#E3DED4";
             borderColor = "#434343";
 
             borderPanelColor = "#525252";
@@ -654,9 +656,41 @@ public partial class MainWindow
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
             
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+// Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
+            var updateTask = Task.Run(async () =>
+            {
+                while (stopwatch.IsRunning)
+                {
+                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        App.DisplayElements.LoadingWindow.TotalTime.Text =
+                            $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
+                    });
+                    await Task.Delay(100); // Met à jour toutes les 100ms
+                }
+            });
+            
             ShowOverlay();
             await ExecuteLongRunningTask();
             HideOverlay();
+            
+            stopwatch.Stop();
+            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+
+            // Mise à jour finale de l'affichage
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                App.DisplayElements.LoadingWindow.TotalTime.Text =
+                    $"Temps total : {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}";
+            });
+
+            // Attend la fin de la tâche de mise à jour (au cas où elle serait encore en cours)
+            await updateTask;
 
             ViewModel.IsProjectImported = true;
         }
@@ -1115,11 +1149,10 @@ public partial class MainWindow
                 }
 
 
-                App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/4");
                 if (App.Fm != null)
                 {
                     await App.Fm.FindZeroXml().ConfigureAwait(false);
-                    App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 2/4");
+                    App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
                     await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
 
                     _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
@@ -1129,7 +1162,7 @@ public partial class MainWindow
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
-                        App.DisplayElements.LoadingWindow?.UpdateTaskName($"{task} 3/4");
+                        App.DisplayElements.LoadingWindow?.UpdateTaskName($"{task} 3/3");
                         if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
                         {
                             await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_original.xml",
@@ -1381,7 +1414,7 @@ public partial class MainWindow
         }
     }
 
-    
+
     /// <summary>
     /// Recursively applies a specified style to a TreeViewItem and its child items.
     /// </summary>
@@ -1391,7 +1424,25 @@ public partial class MainWindow
     {
         item.Style = FindResource(style) as Style;
 
-        // Parcourir les enfants récursivement
+        // Ensure the TreeViewItem is expanded to generate child containers
+        item.IsExpanded = true;
+        item.UpdateLayout(); // Force update layout to generate child containers
+
+        item.ItemContainerGenerator.StatusChanged += (s, e) =>
+        {
+            if (item.ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            {
+                foreach (var subItem in item.Items)
+                {
+                    if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
+                    {
+                        ApplyStyleRecursive(subTreeViewItem, style);
+                    }
+                }
+            }
+        };
+
+        // Apply style to already generated child items
         foreach (var subItem in item.Items)
         {
             if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
@@ -1400,14 +1451,14 @@ public partial class MainWindow
             }
         }
     }
-    
-    
-    /// <summary>
-    /// Converts a string representation of a color to a SolidColorBrush.
-    /// </summary>
-    /// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
-    /// <returns>A SolidColorBrush representing the converted color.</returns>
-    public static SolidColorBrush ConvertStringColor(string colorInput)
+
+
+/// <summary>
+/// Converts a string representation of a color to a SolidColorBrush.
+/// </summary>
+/// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
+/// <returns>A SolidColorBrush representing the converted color.</returns>
+public static SolidColorBrush ConvertStringColor(string colorInput)
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
     }
@@ -1547,7 +1598,6 @@ public partial class MainWindow
         var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level, index);
 
         parentItems.Add(treeNode);
-
         // Parcourir récursivement les enfants
         int childIndex = 0;
         foreach (XmlNode childNode in xmlNode.ChildNodes)
@@ -1587,7 +1637,15 @@ public partial class MainWindow
             Source = drawingImage
         };
 
-        var text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
+
+        var text = new TextBlock
+        {
+            Text = ((XmlElement)xmlNode).GetAttribute("Name"),
+            FontSize = 12
+
+        };
+
+      
 
         stack.Children.Add(icon);
         stack.Children.Add(text);
@@ -1600,7 +1658,7 @@ public partial class MainWindow
 
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
         {
-            treeNode.Style = (Style)FindResource("TreeViewItemStyle2");
+            treeNode.Style = (Style)FindResource("TreeViewItemStyleLight");
         }
         else
         {
