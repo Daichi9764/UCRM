@@ -1566,7 +1566,7 @@ public partial class MainWindow
         item.IsExpanded = true;
         item.UpdateLayout(); // Force update layout to generate child containers
 
-        item.ItemContainerGenerator.StatusChanged += (s, e) =>
+        item.ItemContainerGenerator.StatusChanged += (_, _) =>
         {
             if (item.ItemContainerGenerator.Status !=
                 System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated) return;
@@ -1591,12 +1591,12 @@ public partial class MainWindow
     }
 
 
-/// <summary>
-/// Converts a string representation of a color to a SolidColorBrush.
-/// </summary>
-/// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
-/// <returns>A SolidColorBrush representing the converted color.</returns>
-public static SolidColorBrush ConvertStringColor(string colorInput)
+    /// <summary>
+    /// Converts a string representation of a color to a SolidColorBrush.
+    /// </summary>
+    /// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
+    /// <returns>A SolidColorBrush representing the converted color.</returns>
+    public static SolidColorBrush ConvertStringColor(string colorInput)
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
     }

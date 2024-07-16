@@ -36,6 +36,7 @@ namespace KNXBoostDesktop
         public string ProjectName { get; private set; } = "";
 
 
+        
         /* ------------------------------------------------------------------------------------------------
         --------------------------------------------- METHODES --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
@@ -926,6 +927,7 @@ namespace KNXBoostDesktop
         }
 
 
+        
         /// <summary>
         /// Loads an XML document from a specified path.
         /// </summary>
@@ -953,6 +955,8 @@ namespace KNXBoostDesktop
             }
         }
     
+        
+        
         /// <summary>
         /// Saves an XML document to a specified path.
         /// </summary>
@@ -979,6 +983,7 @@ namespace KNXBoostDesktop
             }
         }
 
+        
         
         // Fonction générant les fichiers de débogage de l'application
         /// <summary>
@@ -1251,7 +1256,16 @@ namespace KNXBoostDesktop
         }
 
         
+        
         // Fonction récupérant tous les fichiers de débogage, les stocke dans une archive zip et permet d'enregistrer
+        /// <summary>
+        /// Creates a debug archive by collecting all debug-related files, including optional system and hardware information,
+        /// imported projects, and a list of removed group addresses. The archive is then saved as a ZIP file.
+        /// </summary>
+        /// <param name="includeOsInfo">Specifies whether to include operating system information in the archive.</param>
+        /// <param name="includeHardwareInfo">Specifies whether to include hardware information in the archive.</param>
+        /// <param name="includeImportedProjects">Specifies whether to include imported projects in the archive.</param>
+        /// <param name="includeRemovedGroupAddressList">Specifies whether to include a list of removed group addresses in the archive.</param>
         public static void CreateDebugArchive(bool includeOsInfo = true, bool includeHardwareInfo = true, bool includeImportedProjects = true, bool includeRemovedGroupAddressList = true)
         {
             // Ecriture du fichier d'informations système
@@ -1679,6 +1693,7 @@ namespace KNXBoostDesktop
         }
         
         
+        
         // Fonction permettant de créer une archive zip et d'ajouter des fichiers dedans
         /// <summary>
         /// Creates a ZIP archive at the specified path, adding files and/or directories to it.
@@ -1766,6 +1781,7 @@ namespace KNXBoostDesktop
             }
         }
 
+        
         
         // Fonction permettant d'ajouter le contenu d'un dossier dans une archive zip
         /// <summary>
