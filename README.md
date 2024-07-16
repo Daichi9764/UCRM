@@ -7,8 +7,8 @@ Les projets sont destinés à améliorer la gestion et l'analyse des adresses de
 
 ## Projets inclus 
 1 . [KNXBoostDesktop](KNXBoostDesktop) _(En cours de développement)_
-
 * Ce projet vise à formater les champs de noms d'adresse de groupe pour des projets ETS nécessitant une clarification. Il permet d'optimiser la lisibilité et la cohérence des adresses de groupe.
+![image-removebg](https://github.com/user-attachments/assets/dc2a7e8b-9aee-4197-9d00-0b5067983585)
 
 2 . Projet 2 _(En cours de développement)_
   
