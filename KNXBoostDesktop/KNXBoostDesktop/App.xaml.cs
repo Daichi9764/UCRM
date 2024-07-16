@@ -175,9 +175,6 @@ namespace KNXBoostDesktop
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
-
-            DisplayElements.MainWindow.ApplyScaling(1.2);
-            DisplayElements.SettingsWindow.ApplyScaling(1.2);
         }
 
         
