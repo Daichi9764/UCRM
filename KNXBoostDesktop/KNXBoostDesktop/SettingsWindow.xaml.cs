@@ -750,9 +750,8 @@ namespace KNXBoostDesktop
                         case "window scale factor":
                             try
                             {
-                                App.ConsoleAndLogWriteLine(value);
                                 AppScaleFactor = Convert.ToInt32(value);
-                                App.ConsoleAndLogWriteLine($"{AppScaleFactor}");
+                                ApplyScaling(AppScaleFactor/100f - 0.2f);
                             }
                             catch (Exception)
                             {
@@ -2478,10 +2477,10 @@ namespace KNXBoostDesktop
             
             // Mise à jour de l'échelle de toutes les fenêtres
             var scaleFactor = AppScaleFactor / 100f;
-            ApplyScaling(scaleFactor);
+            ApplyScaling(scaleFactor-0.2f);
             App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor);
+            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor-0.2f);
             
             // Mise à jour de la fenêtre de renommage des adresses de groupe
             App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
@@ -3618,8 +3617,9 @@ namespace KNXBoostDesktop
         public void ApplyScaling(double scale)
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
-            Height = 700 *scale;
-            Width = 500 * scale;
+            
+            Height = 700 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 700 * scale;
+            Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }
 }

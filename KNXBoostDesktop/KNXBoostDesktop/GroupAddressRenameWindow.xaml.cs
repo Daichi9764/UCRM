@@ -324,7 +324,7 @@ public partial class GroupAddressRenameWindow
                 break;
         }
 
-        if (App.DisplayElements.SettingsWindow.EnableLightTheme)
+        if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
         {
             var txtColor = MainWindow.ConvertStringColor("#000000");
             
@@ -390,6 +390,8 @@ public partial class GroupAddressRenameWindow
             AfterTextBoxButton.Style = (Style)FindResource("SquareButtonStyleDark");
             AfterTextBoxButton.Foreground = txtColor;
         }
+        
+        ApplyScaling(App.DisplayElements.SettingsWindow.AppScaleFactor/100f);
     }
 
 
@@ -527,7 +529,8 @@ public partial class GroupAddressRenameWindow
     public void ApplyScaling(float scale)
     {
         AddressRenameWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
-        Height = 275 * scale;
-        Width = 500 * scale;
+        
+        Height = 275 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 275 * scale;
+        Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
     }
 }

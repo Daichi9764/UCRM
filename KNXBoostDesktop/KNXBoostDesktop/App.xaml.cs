@@ -137,10 +137,10 @@ namespace KNXBoostDesktop
             ConsoleAndLogWriteLine("Opening main window");
             DisplayElements = new DisplayElements();
 
-            // Mise e jour de la fenetre de renommage des adresses de groupe
+            // Mise a jour de la fenetre de renommage des adresses de groupe
             DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
 
-            // Mise e jour de la fenetre principale
+            // Mise a jour de la fenetre principale
             DisplayElements.MainWindow.UpdateWindowContents();
 
             DisplayElements.ShowMainWindow();
