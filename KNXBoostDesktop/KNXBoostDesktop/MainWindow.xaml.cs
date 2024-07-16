@@ -11,7 +11,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
@@ -410,68 +409,68 @@ public partial class MainWindow
         if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
         {
             if (App.DisplayElements == null) return;
-            App.DisplayElements!.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
+            App.DisplayElements.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
                 {
                     // Arabe
-                    "AR" => $"المشروع المستورد: {App.Fm?.ProjectName}",
+                    "AR" => $"المشروع المستورد: {App.Fm.ProjectName}",
                     // Bulgare
-                    "BG" => $"Импортиран проект: {App.Fm?.ProjectName}",
+                    "BG" => $"Импортиран проект: {App.Fm.ProjectName}",
                     // Tchèque
-                    "CS" => $"Importovaný projekt: {App.Fm?.ProjectName}",
+                    "CS" => $"Importovaný projekt: {App.Fm.ProjectName}",
                     // Danois
-                    "DA" => $"Importerede projekt: {App.Fm?.ProjectName}",
+                    "DA" => $"Importerede projekt: {App.Fm.ProjectName}",
                     // Allemand
-                    "DE" => $"Importiertes Projekt: {App.Fm?.ProjectName}",
+                    "DE" => $"Importiertes Projekt: {App.Fm.ProjectName}",
                     // Grec
-                    "EL" => $"Εισαγόμενο έργο: {App.Fm?.ProjectName}",
+                    "EL" => $"Εισαγόμενο έργο: {App.Fm.ProjectName}",
                     // Anglais
-                    "EN" => $"Imported Project: {App.Fm?.ProjectName}",
+                    "EN" => $"Imported Project: {App.Fm.ProjectName}",
                     // Espagnol
-                    "ES" => $"Proyecto importado: {App.Fm?.ProjectName}",
+                    "ES" => $"Proyecto importado: {App.Fm.ProjectName}",
                     // Estonien
-                    "ET" => $"Imporditud projekt: {App.Fm?.ProjectName}",
+                    "ET" => $"Imporditud projekt: {App.Fm.ProjectName}",
                     // Finnois
-                    "FI" => $"Tuotu projekti: {App.Fm?.ProjectName}",
+                    "FI" => $"Tuotu projekti: {App.Fm.ProjectName}",
                     // Hongrois
-                    "HU" => $"Importált projekt: {App.Fm?.ProjectName}",
+                    "HU" => $"Importált projekt: {App.Fm.ProjectName}",
                     // Indonésien
-                    "ID" => $"Proyek yang diimpor: {App.Fm?.ProjectName}",
+                    "ID" => $"Proyek yang diimpor: {App.Fm.ProjectName}",
                     // Italien
-                    "IT" => $"Progetto importato: {App.Fm?.ProjectName}",
+                    "IT" => $"Progetto importato: {App.Fm.ProjectName}",
                     // Japonais
-                    "JA" => $"インポートされたプロジェクト: {App.Fm?.ProjectName}",
+                    "JA" => $"インポートされたプロジェクト: {App.Fm.ProjectName}",
                     // Coréen
-                    "KO" => $"가져온 프로젝트: {App.Fm?.ProjectName}",
+                    "KO" => $"가져온 프로젝트: {App.Fm.ProjectName}",
                     // Letton
-                    "LV" => $"Importēts projekts: {App.Fm?.ProjectName}",
+                    "LV" => $"Importēts projekts: {App.Fm.ProjectName}",
                     // Lituanien
-                    "LT" => $"Importuotas projektas: {App.Fm?.ProjectName}",
+                    "LT" => $"Importuotas projektas: {App.Fm.ProjectName}",
                     // Norvégien
-                    "NB" => $"Importert prosjekt: {App.Fm?.ProjectName}",
+                    "NB" => $"Importert prosjekt: {App.Fm.ProjectName}",
                     // Néerlandais
-                    "NL" => $"Geïmporteerd project: {App.Fm?.ProjectName}",
+                    "NL" => $"Geïmporteerd project: {App.Fm.ProjectName}",
                     // Polonais
-                    "PL" => $"Zaimportowany projekt: {App.Fm?.ProjectName}",
+                    "PL" => $"Zaimportowany projekt: {App.Fm.ProjectName}",
                     // Portugais
-                    "PT" => $"Projeto importado: {App.Fm?.ProjectName}",
+                    "PT" => $"Projeto importado: {App.Fm.ProjectName}",
                     // Roumain
-                    "RO" => $"Proiect importat: {App.Fm?.ProjectName}",
+                    "RO" => $"Proiect importat: {App.Fm.ProjectName}",
                     // Russe
-                    "RU" => $"Импортированный проект: {App.Fm?.ProjectName}",
+                    "RU" => $"Импортированный проект: {App.Fm.ProjectName}",
                     // Slovaque
-                    "SK" => $"Importovaný projekt: {App.Fm?.ProjectName}",
+                    "SK" => $"Importovaný projekt: {App.Fm.ProjectName}",
                     // Slovène
-                    "SL" => $"Uvožen projekt: {App.Fm?.ProjectName}",
+                    "SL" => $"Uvožen projekt: {App.Fm.ProjectName}",
                     // Suédois
-                    "SV" => $"Importerade projekt: {App.Fm?.ProjectName}",
+                    "SV" => $"Importerade projekt: {App.Fm.ProjectName}",
                     // Turc
-                    "TR" => $"İçe aktarılan proje: {App.Fm?.ProjectName}",
+                    "TR" => $"İçe aktarılan proje: {App.Fm.ProjectName}",
                     // Ukrainien
-                    "UK" => $"Імпортований проект: {App.Fm?.ProjectName}",
+                    "UK" => $"Імпортований проект: {App.Fm.ProjectName}",
                     // Chinois simplifié
-                    "ZH" => $"导入项目: {App.Fm?.ProjectName}",
+                    "ZH" => $"导入项目: {App.Fm.ProjectName}",
                     // Cas par défaut (français)
-                    _ => $"Projet importé : {App.Fm?.ProjectName}"
+                    _ => $"Projet importé : {App.Fm.ProjectName}"
                 };
         }
         else
@@ -1569,14 +1568,14 @@ public partial class MainWindow
 
         item.ItemContainerGenerator.StatusChanged += (s, e) =>
         {
-            if (item.ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            if (item.ItemContainerGenerator.Status !=
+                System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated) return;
+            
+            foreach (var subItem in item.Items)
             {
-                foreach (var subItem in item.Items)
+                if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
                 {
-                    if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
-                    {
-                        ApplyStyleRecursive(subTreeViewItem, style);
-                    }
+                    ApplyStyleRecursive(subTreeViewItem, style);
                 }
             }
         };
