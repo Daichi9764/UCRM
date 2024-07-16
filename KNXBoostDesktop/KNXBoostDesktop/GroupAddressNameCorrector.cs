@@ -964,10 +964,10 @@ public class GroupAddressNameCorrector
                 App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
 
                 // Load the XML file
-                XDocument hardwareDoc = XDocument.Load(filePath);
+                XDocument? hardwareDoc = App.Fm?.LoadXmlDocument(filePath);
                     
                 // Find the ComObject element with the matching ID
-                var comObjectRefElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObjectRef")
+                var comObjectRefElement = hardwareDoc?.Descendants(_globalKnxNamespace + "ComObjectRef")
                     .FirstOrDefault(co => co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefId) == true);
                     
                 if (comObjectRefElement == null)
@@ -1221,60 +1221,49 @@ public class GroupAddressNameCorrector
             return false; // Default to false if the file does not exist
         }
         
-        try
-        {
-            // Load the Hardware.xml file
-            XDocument hardwareDoc = XDocument.Load(hardwareFilePath);
+        
+        // Load the Hardware.xml file
+        XDocument? hardwareDoc = App.Fm?.LoadXmlDocument(hardwareFilePath);
 
-            // Find the Product element with the matching ID
-            var productElement = hardwareDoc.Descendants(_globalKnxNamespace + "Product")
+        // Find the Product element with the matching ID
+        var productElement = hardwareDoc?.Descendants(_globalKnxNamespace + "Product")
                 .FirstOrDefault(pe => pe.Attribute("Id")?.Value == productRefId);
 
-            if (productElement == null)
-            { 
-                App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
-                return false; // Default to false if the product is not found
-            }
-
-            // Get the IsRailMounted attribute value
-            var isRailMountedAttr = productElement.Attribute("IsRailMounted");
-            if (isRailMountedAttr == null) 
-            { 
-                App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
-                return false; // Default to false if the attribute is not found
-            }
-
-            // Convert the attribute value to boolean
-            string isRailMountedValue = isRailMountedAttr.Value.ToLower();
-            bool result;
-            if (isRailMountedValue == "true" || isRailMountedValue == "1")
-            { 
-                result = true;
-            }
-            else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
-            { 
-                result = false;
-            }
-            else 
-            { 
-                App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
-                result = false; // Default to false for unexpected attribute values
-            }
-
-            // Store the result in the cache before returning
-            IsDeviceRailMountedCache[cacheKey] = result;
-            return result;
-        }
-        catch (XmlException ex)
-        {
-            App.ConsoleAndLogWriteLine($"Error reading Hardware.xml (XML exception): {ex.Message}");
-            return false; // Default to false in case of an XML error
-        }
-        catch (Exception ex)
+        if (productElement == null)
         { 
-            App.ConsoleAndLogWriteLine($"An unexpected error occurred during GetIsDeviceRailMounted(): {ex.Message}");
-            return false; // Default to false in case of an error
+            App.ConsoleAndLogWriteLine($"Product with Id: {productRefId} not found in file: {hardwareFilePath}");
+            return false; // Default to false if the product is not found
         }
+
+        // Get the IsRailMounted attribute value
+        var isRailMountedAttr = productElement.Attribute("IsRailMounted");
+        if (isRailMountedAttr == null) 
+        { 
+            App.ConsoleAndLogWriteLine($"IsRailMounted attribute not found for Product with Id: {productRefId}");
+            return false; // Default to false if the attribute is not found
+        }
+
+        // Convert the attribute value to boolean
+        string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+        bool result;
+        if (isRailMountedValue == "true" || isRailMountedValue == "1")
+        { 
+            result = true;
+        }
+        else if (isRailMountedValue == "false" || isRailMountedValue == "0") 
+        { 
+            result = false;
+        }
+        else 
+        { 
+            App.ConsoleAndLogWriteLine($"Unexpected IsRailMounted attribute value: {isRailMountedAttr.Value} for Product with Id: {productRefId}");
+            result = false; // Default to false for unexpected attribute values
+        }
+
+        // Store the result in the cache before returning
+        IsDeviceRailMountedCache[cacheKey] = result;
+        return result;
+        
     }
 
     
