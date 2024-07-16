@@ -788,7 +788,7 @@
                                        BorderThickness="0">
                                    <TabControl x:Name="ControlOnglet" SelectionChanged="TabControl_SelectionChanged" 
                                                BorderBrush="White" 
-                                               BorderThickness="2" Padding="-1.5,-1,-1,-1">
+                                               BorderThickness="2" Padding="-1,-1,-1,-1">
                                        <TabItem x:Name="OngletParametresGeneraux" Style="{StaticResource LightOnglet}">
                                            
                                            <StackPanel x:Name="MainContentPanel" Background="White">
