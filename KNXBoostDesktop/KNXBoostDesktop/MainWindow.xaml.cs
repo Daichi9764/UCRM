@@ -2113,4 +2113,17 @@ public partial class MainWindow
             ExpandAllTreeViewItems(item.Items);
         }
     }
+    
+    
+    
+    //-------------------------------------------- Logique de scaling ----------------------------------------------//
+    public void ApplyScaling(double scale)
+    {
+        // Créez un ScaleTransform avec la valeur de l'échelle
+        var scaleTransform = new ScaleTransform(scale, scale);
+
+        // Appliquez la transformation à l'ensemble de la fenêtre
+        LayoutTransform = scaleTransform;
+    }
+
 }
