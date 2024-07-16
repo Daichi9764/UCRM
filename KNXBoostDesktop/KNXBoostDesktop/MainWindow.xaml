@@ -66,6 +66,11 @@
         <Color x:Key="TreeViewSelectedColorDark">#369026</Color>
         <Color x:Key="TreeViewInactiveSelectedColorDark">Gray</Color>
         <Color x:Key="TreeViewSelectedTextInactiveSelectedColorDark">#FFFFFFFF</Color>
+        <SolidColorBrush x:Key="TreeViewSelectedNoChildrenBrushLight" Color="{StaticResource TreeViewSelectedColorLight}"/>
+        <SolidColorBrush x:Key="TreeViewSelectedWithChildrenBrushLight" Color="{StaticResource TreeViewInactiveSelectedColorLight}"/>
+        <SolidColorBrush x:Key="TreeViewSelectedNoChildrenBrushDark" Color="{StaticResource TreeViewSelectedColorDark}"/>
+        <SolidColorBrush x:Key="TreeViewSelectedWithChildrenBrushDark" Color="{StaticResource TreeViewInactiveSelectedColorDark}"/>
+        
         <!-- Couleurs Toggle Arbres -->
         <SolidColorBrush x:Key="LightPartToggle" Color="White"/>
         <SolidColorBrush x:Key="DarkPartToggle" Color="Black"/>
@@ -192,21 +197,20 @@
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter Property="Visibility" TargetName="BdFullRow" Value="Visible"/>
-                                <Setter Property="Background" TargetName="BdFullRow" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected" Value="true"/>
-                                    <Condition Property="IsSelectionActive" Value="false"/>
+                                    <Condition Property="HasItems" Value="False"/>
+                                    <Condition Property="IsSelected" Value="True"/>
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Visibility" TargetName="BdFullRow" Value="Visible"/>
-                                <Setter Property="Background" TargetName="BdFullRow" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                                <Setter Property="Foreground" Value="White"/>
                             </MultiTrigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
+                            <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                                <Setter Property="Background" TargetName="BdFullRow" Value="{StaticResource TreeViewSelectedNoChildrenBrushLight}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="True">
+                                <Setter Property="Background" TargetName="BdFullRow" Value="{StaticResource TreeViewSelectedWithChildrenBrushLight}"/>
+                            </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -269,21 +273,18 @@
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter Property="Visibility" TargetName="BdFullRow" Value="Visible"/>
-                                <Setter Property="Background" TargetName="BdFullRow" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
                             </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected" Value="true"/>
-                                    <Condition Property="IsSelectionActive" Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="Visibility" TargetName="BdFullRow" Value="Visible"/>
-                                <Setter Property="Background" TargetName="BdFullRow" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                            </MultiTrigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             </Trigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="False">
+                                <Setter Property="Background" TargetName="BdFullRow" Value="{StaticResource TreeViewSelectedNoChildrenBrushDark}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="True">
+                                <Setter Property="Background" TargetName="BdFullRow" Value="{StaticResource TreeViewSelectedWithChildrenBrushDark}"/>
+                            </DataTrigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -301,8 +302,6 @@
             </Style.Triggers>
             <Style.Resources>
                 <!-- Définir le Trigger pour la sélection -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource TreeViewSelectedColorDark}"/>
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{StaticResource TreeViewInactiveSelectedColorDark}"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{StaticResource TreeViewSelectedTextInactiveSelectedColorDark}"/>
             </Style.Resources>
         </Style>
@@ -652,7 +651,7 @@
                         <!-- Barre centrale -->
                         <ColumnDefinition Width="Auto"/>
                         <!-- Panneau de droite -->
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Adresses de Groupes Originales -->
