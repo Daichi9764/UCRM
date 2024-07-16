@@ -74,7 +74,16 @@ public class GroupAddressNameCorrector
     {
         try
         {
-            string loadXml, extractingInfos, infosExtracted, extractingDeviceReferences, extractingDeviceInfo, infoAndReferencesExtracted, constructingNewAddresses, savingUpdatedXml;
+            string loadXml, 
+                extractingInfos, 
+                infosExtracted, 
+                extractingDeviceReferences, 
+                extractingDeviceInfo, 
+                infoAndReferencesExtracted, 
+                constructingNewAddresses, 
+                suppressedAddresses="",
+                savingUpdatedXml,
+                task="";
             
             // Traduction des textes de la fenêtre de chargement
             switch (App.DisplayElements?.SettingsWindow?.AppLang)
@@ -85,7 +94,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "استخراج المعلومات...";
                     infosExtracted = "تم استخراج المعلومات من الملف.";
                     extractingDeviceReferences = "استخراج مراجع الأجهزة...";
-                    extractingDeviceInfo = "استخراج معلومات الأجهزة... (قد تستغرق هذه العملية وقتًا)";
+                    extractingDeviceInfo = "استخراج معلومات الأجهزة...\n(قد تستغرق هذه العملية وقتًا)";
                     infoAndReferencesExtracted = "تم استخراج المراجع والمعلومات الخاصة بالأجهزة.";
                     constructingNewAddresses = "بناء العناوين الجديدة للمجموعة...";
                     savingUpdatedXml = "جارٍ حفظ ملف XML المحدث...";
@@ -97,7 +106,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Извличане на информация...";
                     infosExtracted = "Информацията е извлечена от файла.";
                     extractingDeviceReferences = "Извличане на референции на устройства...";
-                    extractingDeviceInfo = "Извличане на информация за устройствата... (Тази стъпка може да отнеме време)";
+                    extractingDeviceInfo = "Извличане на информация за устройствата...\n(Тази стъпка може да отнеме време)";
                     infoAndReferencesExtracted = "Референциите и информацията за устройствата са извлечени.";
                     constructingNewAddresses = "Конструиране на нови групови адреси...";
                     savingUpdatedXml = "Запазване на актуализирания XML файл...";
@@ -109,7 +118,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extrahování informací...";
                     infosExtracted = "Informace byly extrahovány ze souboru.";
                     extractingDeviceReferences = "Extrahování odkazů na zařízení...";
-                    extractingDeviceInfo = "Extrahování informací o zařízeních... (Tato fáze může chvíli trvat)";
+                    extractingDeviceInfo = "Extrahování informací o zařízeních...\n(Tato fáze může chvíli trvat)";
                     infoAndReferencesExtracted = "Reference a informace o zařízeních byly extrahovány.";
                     constructingNewAddresses = "Vytváření nových skupinových adres...";
                     savingUpdatedXml = "Ukládání aktualizovaného souboru XML...";
@@ -121,7 +130,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Udvinder informationer...";
                     infosExtracted = "Oplysningerne er udvundet fra filen.";
                     extractingDeviceReferences = "Udvinder enhedsreferencer...";
-                    extractingDeviceInfo = "Udvinder enhedsoplysninger... (Denne proces kan tage noget tid)";
+                    extractingDeviceInfo = "Udvinder enhedsoplysninger...\n(Denne proces kan tage noget tid)";
                     infoAndReferencesExtracted = "Referencer og oplysninger om enheder er udvundet.";
                     constructingNewAddresses = "Opretter nye gruppeadresser...";
                     savingUpdatedXml = "Gemmer opdateret XML-fil...";
@@ -133,7 +142,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Informationen werden extrahiert...";
                     infosExtracted = "Informationen wurden aus der Datei extrahiert.";
                     extractingDeviceReferences = "Geräteverweise werden extrahiert...";
-                    extractingDeviceInfo = "Geräteinformationen werden extrahiert... (Dieser Schritt kann einige Zeit dauern)";
+                    extractingDeviceInfo = "Geräteinformationen werden extrahiert...\n(Dieser Schritt kann einige Zeit dauern)";
                     infoAndReferencesExtracted = "Geräteverweise und -informationen wurden extrahiert.";
                     constructingNewAddresses = "Neue Gruppenadressen werden erstellt...";
                     savingUpdatedXml = "Aktualisierte XML-Datei wird gespeichert...";
@@ -145,7 +154,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Εξαγωγή πληροφοριών...";
                     infosExtracted = "Οι πληροφορίες εξήχθησαν από το αρχείο.";
                     extractingDeviceReferences = "Εξαγωγή αναφορών συσκευών...";
-                    extractingDeviceInfo = "Εξαγωγή πληροφοριών συσκευών... (Αυτή η διαδικασία μπορεί να πάρει χρόνο)";
+                    extractingDeviceInfo = "Εξαγωγή πληροφοριών συσκευών...\n(Αυτή η διαδικασία μπορεί να πάρει χρόνο)";
                     infoAndReferencesExtracted = "Οι αναφορές και οι πληροφορίες για τις συσκευές εξήχθησαν.";
                     constructingNewAddresses = "Κατασκευή νέων διευθύνσεων ομάδας...";
                     savingUpdatedXml = "Αποθήκευση ενημερωμένου αρχείου XML...";
@@ -157,7 +166,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extracting information...";
                     infosExtracted = "Information extracted from the file.";
                     extractingDeviceReferences = "Extracting device references...";
-                    extractingDeviceInfo = "Extracting device information... (This step may take some time)";
+                    extractingDeviceInfo = "Extracting device information...\n(This step may take some time)";
                     infoAndReferencesExtracted = "Device references and information extracted.";
                     constructingNewAddresses = "Constructing new group addresses...";
                     savingUpdatedXml = "Saving updated XML file...";
@@ -169,7 +178,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extrayendo información...";
                     infosExtracted = "Información extraída del archivo.";
                     extractingDeviceReferences = "Extrayendo referencias de dispositivos...";
-                    extractingDeviceInfo = "Extrayendo información de los dispositivos... (Este paso puede tardar)";
+                    extractingDeviceInfo = "Extrayendo información de los dispositivos...\n(Este paso puede tardar)";
                     infoAndReferencesExtracted = "Referencias e información de los dispositivos extraídas.";
                     constructingNewAddresses = "Construyendo nuevas direcciones de grupo...";
                     savingUpdatedXml = "Guardando archivo XML actualizado...";
@@ -181,7 +190,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Teabe ekstraheerimine...";
                     infosExtracted = "Teave on failist ekstraheeritud.";
                     extractingDeviceReferences = "Seadme viidete ekstraheerimine...";
-                    extractingDeviceInfo = "Seadme teabe ekstraheerimine... (See etapp võib aega võtta)";
+                    extractingDeviceInfo = "Seadme teabe ekstraheerimine...\n(See etapp võib aega võtta)";
                     infoAndReferencesExtracted = "Seadme viited ja teave on ekstraheeritud.";
                     constructingNewAddresses = "Uute rühma aadresside koostamine...";
                     savingUpdatedXml = "Uuendatud XML-faili salvestamine...";
@@ -193,7 +202,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Tietojen purkaminen...";
                     infosExtracted = "Tiedot on purettu tiedostosta.";
                     extractingDeviceReferences = "Laitteiden viitteiden purkaminen...";
-                    extractingDeviceInfo = "Laitetietojen purkaminen... (Tämä vaihe voi kestää jonkin aikaa)";
+                    extractingDeviceInfo = "Laitetietojen purkaminen...\n(Tämä vaihe voi kestää jonkin aikaa)";
                     infoAndReferencesExtracted = "Laitteiden viitteet ja tiedot on purettu.";
                     constructingNewAddresses = "Luodaan uusia ryhmäosoitteita...";
                     savingUpdatedXml = "Tallennetaan päivitettyä XML-tiedostoa...";
@@ -205,7 +214,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Információk kinyerése...";
                     infosExtracted = "Az információk kinyerése megtörtént.";
                     extractingDeviceReferences = "Eszköz hivatkozások kinyerése...";
-                    extractingDeviceInfo = "Eszköz információk kinyerése... (Ez a lépés eltarthat egy ideig)";
+                    extractingDeviceInfo = "Eszköz információk kinyerése...\n(Ez a lépés eltarthat egy ideig)";
                     infoAndReferencesExtracted = "Az eszköz hivatkozások és információk kinyerése megtörtént.";
                     constructingNewAddresses = "Új csoport címek létrehozása...";
                     savingUpdatedXml = "A frissített XML-fájl mentése...";
@@ -217,7 +226,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Ekstraksi informasi...";
                     infosExtracted = "Informasi diekstraksi dari file.";
                     extractingDeviceReferences = "Ekstraksi referensi perangkat...";
-                    extractingDeviceInfo = "Ekstraksi informasi perangkat... (Langkah ini mungkin memakan waktu)";
+                    extractingDeviceInfo = "Ekstraksi informasi perangkat...\n(Langkah ini mungkin memakan waktu)";
                     infoAndReferencesExtracted = "Referensi dan informasi perangkat diekstraksi.";
                     constructingNewAddresses = "Membangun alamat grup baru...";
                     savingUpdatedXml = "Menyimpan file XML yang diperbarui...";
@@ -229,7 +238,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Estrazione delle informazioni...";
                     infosExtracted = "Informazioni estratte dal file.";
                     extractingDeviceReferences = "Estrazione dei riferimenti dei dispositivi...";
-                    extractingDeviceInfo = "Estrazione delle informazioni sui dispositivi... (Questa fase può richiedere tempo)";
+                    extractingDeviceInfo = "Estrazione delle informazioni sui dispositivi...\n(Questa fase può richiedere tempo)";
                     infoAndReferencesExtracted = "Riferimenti e informazioni sui dispositivi estratti.";
                     constructingNewAddresses = "Costruzione dei nuovi indirizzi di gruppo...";
                     savingUpdatedXml = "Salvataggio del file XML aggiornato...";
@@ -241,7 +250,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "情報を抽出しています...";
                     infosExtracted = "ファイルから情報が抽出されました。";
                     extractingDeviceReferences = "デバイスの参照を抽出しています...";
-                    extractingDeviceInfo = "デバイス情報を抽出しています... (このステップには時間がかかる場合があります)";
+                    extractingDeviceInfo = "デバイス情報を抽出しています...\n(このステップには時間がかかる場合があります)";
                     infoAndReferencesExtracted = "デバイスの参照および情報が抽出されました。";
                     constructingNewAddresses = "新しいグループアドレスを構築しています...";
                     savingUpdatedXml = "更新されたXMLファイルを保存しています...";
@@ -253,7 +262,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "정보를 추출 중...";
                     infosExtracted = "파일에서 정보가 추출되었습니다.";
                     extractingDeviceReferences = "디바이스 참조를 추출 중...";
-                    extractingDeviceInfo = "디바이스 정보를 추출 중... (이 단계는 시간이 걸릴 수 있습니다)";
+                    extractingDeviceInfo = "디바이스 정보를 추출 중...\n(이 단계는 시간이 걸릴 수 있습니다)";
                     infoAndReferencesExtracted = "디바이스 참조와 정보가 추출되었습니다.";
                     constructingNewAddresses = "새 그룹 주소를 구성 중...";
                     savingUpdatedXml = "업데이트된 XML 파일을 저장 중...";
@@ -265,7 +274,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Informācijas iegūšana...";
                     infosExtracted = "Informācija iegūta no faila.";
                     extractingDeviceReferences = "Iegūst ierīču atsauces...";
-                    extractingDeviceInfo = "Ierīču informācijas iegūšana... (Šis solis var aizņemt laiku)";
+                    extractingDeviceInfo = "Ierīču informācijas iegūšana...\n(Šis solis var aizņemt laiku)";
                     infoAndReferencesExtracted = "Ierīču atsauces un informācija iegūta.";
                     constructingNewAddresses = "Veido jaunās grupas adreses...";
                     savingUpdatedXml = "Saglabā atjaunināto XML failu...";
@@ -277,7 +286,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Ištraukiama informacija...";
                     infosExtracted = "Informacija ištraukta iš bylos.";
                     extractingDeviceReferences = "Ištraukiamos įrenginio nuorodos...";
-                    extractingDeviceInfo = "Ištraukiama informacija apie įrenginius... (Šis veiksmas gali užtrukti)";
+                    extractingDeviceInfo = "Ištraukiama informacija apie įrenginius...\n(Šis veiksmas gali užtrukti)";
                     infoAndReferencesExtracted = "Ištrauktos įrenginių nuorodos ir informacija.";
                     constructingNewAddresses = "Kuriami nauji grupės adresai...";
                     savingUpdatedXml = "Įrašoma atnaujinta XML byla...";
@@ -289,7 +298,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Henter informasjon...";
                     infosExtracted = "Informasjonen er hentet fra filen.";
                     extractingDeviceReferences = "Henter enhetsreferanser...";
-                    extractingDeviceInfo = "Henter enhetsinformasjon... (Dette trinnet kan ta tid)";
+                    extractingDeviceInfo = "Henter enhetsinformasjon...\n(Dette trinnet kan ta tid)";
                     infoAndReferencesExtracted = "Enhetsreferanser og informasjon er hentet.";
                     constructingNewAddresses = "Bygger nye gruppeadresser...";
                     savingUpdatedXml = "Lagrer oppdatert XML-fil...";
@@ -301,7 +310,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Informatie wordt geëxtraheerd...";
                     infosExtracted = "Informatie uit het bestand geëxtraheerd.";
                     extractingDeviceReferences = "Apparaatverwijzingen worden geëxtraheerd...";
-                    extractingDeviceInfo = "Apparaatinformatie wordt geëxtraheerd... (Deze stap kan enige tijd duren)";
+                    extractingDeviceInfo = "Apparaatinformatie wordt geëxtraheerd...\n(Deze stap kan enige tijd duren)";
                     infoAndReferencesExtracted = "Apparaatverwijzingen en -informatie geëxtraheerd.";
                     constructingNewAddresses = "Nieuwe groepsadressen worden aangemaakt...";
                     savingUpdatedXml = "Bijgewerkt XML-bestand opslaan...";
@@ -313,7 +322,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Wyodrębnianie informacji...";
                     infosExtracted = "Informacje wyodrębnione z pliku.";
                     extractingDeviceReferences = "Wyodrębnianie odniesień do urządzeń...";
-                    extractingDeviceInfo = "Wyodrębnianie informacji o urządzeniach... (Ten krok może potrwać)";
+                    extractingDeviceInfo = "Wyodrębnianie informacji o urządzeniach...\n(Ten krok może potrwać)";
                     infoAndReferencesExtracted = "Odniesienia do urządzeń i informacje wyodrębnione.";
                     constructingNewAddresses = "Tworzenie nowych adresów grupowych...";
                     savingUpdatedXml = "Zapisywanie zaktualizowanego pliku XML...";
@@ -325,7 +334,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extraindo informações...";
                     infosExtracted = "Informações extraídas do arquivo.";
                     extractingDeviceReferences = "Extraindo referências de dispositivos...";
-                    extractingDeviceInfo = "Extraindo informações dos dispositivos... (Este passo pode demorar)";
+                    extractingDeviceInfo = "Extraindo informações dos dispositivos...\n(Este passo pode demorar)";
                     infoAndReferencesExtracted = "Referências e informações dos dispositivos extraídas.";
                     constructingNewAddresses = "Construindo novos endereços de grupo...";
                     savingUpdatedXml = "Salvando arquivo XML atualizado...";
@@ -337,7 +346,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extragerea informațiilor...";
                     infosExtracted = "Informațiile au fost extrase din fișier.";
                     extractingDeviceReferences = "Se extrag referințele dispozitivelor...";
-                    extractingDeviceInfo = "Se extrag informațiile despre dispozitive... (Acest pas poate dura ceva timp)";
+                    extractingDeviceInfo = "Se extrag informațiile despre dispozitive...\n(Acest pas poate dura ceva timp)";
                     infoAndReferencesExtracted = "Referințele și informațiile despre dispozitive au fost extrase.";
                     constructingNewAddresses = "Se construiesc noile adrese de grup...";
                     savingUpdatedXml = "Se salvează fișierul XML actualizat...";
@@ -349,7 +358,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Извлечение информации...";
                     infosExtracted = "Информация извлечена из файла.";
                     extractingDeviceReferences = "Извлечение ссылок на устройства...";
-                    extractingDeviceInfo = "Извлечение информации об устройствах... (Этот шаг может занять некоторое время)";
+                    extractingDeviceInfo = "Извлечение информации об устройствах...\n(Этот шаг может занять некоторое время)";
                     infoAndReferencesExtracted = "Ссылки и информация об устройствах извлечены.";
                     constructingNewAddresses = "Построение новых групповых адресов...";
                     savingUpdatedXml = "Сохранение обновленного XML-файла...";
@@ -361,7 +370,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extrakcia informácií...";
                     infosExtracted = "Informácie boli extrahované zo súboru.";
                     extractingDeviceReferences = "Extrakcia referencií zariadení...";
-                    extractingDeviceInfo = "Extrakcia informácií o zariadeniach... (Tento krok môže chvíľu trvať)";
+                    extractingDeviceInfo = "Extrakcia informácií o zariadeniach...\n(Tento krok môže chvíľu trvať)";
                     infoAndReferencesExtracted = "Referencie a informácie o zariadeniach boli extrahované.";
                     constructingNewAddresses = "Vytváranie nových skupinových adries...";
                     savingUpdatedXml = "Ukladanie aktualizovaného súboru XML...";
@@ -373,7 +382,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Izvlečenje informacij...";
                     infosExtracted = "Informacije iz datoteke so izvlečene.";
                     extractingDeviceReferences = "Izvlečenje sklicev naprav...";
-                    extractingDeviceInfo = "Izvlečenje informacij o napravah... (Ta korak lahko traja nekaj časa)";
+                    extractingDeviceInfo = "Izvlečenje informacij o napravah...\n(Ta korak lahko traja nekaj časa)";
                     infoAndReferencesExtracted = "Sklici in informacije o napravah so izvlečeni.";
                     constructingNewAddresses = "Ustvarjanje novih skupinskih naslovov...";
                     savingUpdatedXml = "Shranjevanje posodobljene XML datoteke...";
@@ -385,7 +394,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extraherar information...";
                     infosExtracted = "Information extraherad från filen.";
                     extractingDeviceReferences = "Extraherar enhetsreferenser...";
-                    extractingDeviceInfo = "Extraherar enhetsinformation... (Detta steg kan ta tid)";
+                    extractingDeviceInfo = "Extraherar enhetsinformation...\n(Detta steg kan ta tid)";
                     infoAndReferencesExtracted = "Enhetsreferenser och information extraherad.";
                     constructingNewAddresses = "Bygger nya gruppadresser...";
                     savingUpdatedXml = "Sparar uppdaterad XML-fil...";
@@ -397,7 +406,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Bilgiler çıkarılıyor...";
                     infosExtracted = "Bilgiler dosyadan çıkarıldı.";
                     extractingDeviceReferences = "Cihaz referansları çıkarılıyor...";
-                    extractingDeviceInfo = "Cihaz bilgileri çıkarılıyor... (Bu adım biraz zaman alabilir)";
+                    extractingDeviceInfo = "Cihaz bilgileri çıkarılıyor...\n(Bu adım biraz zaman alabilir)";
                     infoAndReferencesExtracted = "Cihaz referansları ve bilgileri çıkarıldı.";
                     constructingNewAddresses = "Yeni grup adresleri oluşturuluyor...";
                     savingUpdatedXml = "Güncellenmiş XML dosyası kaydediliyor...";
@@ -409,7 +418,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Вилучення інформації...";
                     infosExtracted = "Інформація вилучена з файлу.";
                     extractingDeviceReferences = "Вилучення посилань на пристрої...";
-                    extractingDeviceInfo = "Вилучення інформації про пристрої... (Цей етап може зайняти деякий час)";
+                    extractingDeviceInfo = "Вилучення інформації про пристрої...\n(Цей етап може зайняти деякий час)";
                     infoAndReferencesExtracted = "Посилання та інформація про пристрої вилучені.";
                     constructingNewAddresses = "Створення нових групових адрес...";
                     savingUpdatedXml = "Збереження оновленого файлу XML...";
@@ -421,7 +430,7 @@ public class GroupAddressNameCorrector
                     extractingInfos = "提取信息...";
                     infosExtracted = "信息已从文件中提取。";
                     extractingDeviceReferences = "提取设备参考...";
-                    extractingDeviceInfo = "提取设备信息... (此步骤可能需要一些时间)";
+                    extractingDeviceInfo = "提取设备信息...\n(此步骤可能需要一些时间)";
                     infoAndReferencesExtracted = "设备参考和信息已提取。";
                     constructingNewAddresses = "正在构建新的组地址...";
                     savingUpdatedXml = "保存更新后的 XML 文件...";
@@ -433,10 +442,12 @@ public class GroupAddressNameCorrector
                     extractingInfos = "Extraction des informations...";
                     infosExtracted = "Informations extraites du fichier.";
                     extractingDeviceReferences = "Extraction des références des appareils...";
-                    extractingDeviceInfo = "Extraction des informations sur les appareils... (Cette étape peut prendre du temps)";
-                    infoAndReferencesExtracted = "Références et informations sur les appareils extraites.";
+                    extractingDeviceInfo = "Extraction des informations sur les appareils...\n(Cette étape peut prendre du temps)";
+                    infoAndReferencesExtracted = "Mise à jour des fichiers de deboggage...";
                     constructingNewAddresses = "Construction des nouvelles adresses de groupe...";
+                    suppressedAddresses = "Suppression des adresse non utilisées...";
                     savingUpdatedXml = "Sauvegarde du fichier XML mis à jour...";
+                    task = "Tâche";
                     break;
             }
             
@@ -603,7 +614,7 @@ public class GroupAddressNameCorrector
                 });
             }).ToList();
 
-            
+            App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 2/3");
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
             
@@ -613,6 +624,9 @@ public class GroupAddressNameCorrector
             {
                 App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
             }
+            
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity("Groupement des adresses...");
 
             // Group deviceRefs by GroupAddressRef
             var groupedDeviceRefs = deviceRefs.GroupBy(dr => dr.GroupAddressRef)
@@ -640,10 +654,13 @@ public class GroupAddressNameCorrector
             
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
-            
+
+            var totalGroup = groupedDeviceRefs.Count;
+            var countGroup = 1;
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
             {
+                App.DisplayElements?.LoadingWindow?.UpdateLogActivity(9, constructingNewAddresses + $" ({countGroup++}/{totalGroup})");
                 // Get the first rail-mounted device reference, if any
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
@@ -805,6 +822,8 @@ public class GroupAddressNameCorrector
             // Load the original XML file without any additional modifications
             XDocument? originalKnxDoc = App.Fm?.LoadKnxDocument(App.Fm.ZeroXmlPath);
             
+            App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
+            App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
             
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
@@ -812,11 +831,17 @@ public class GroupAddressNameCorrector
                 await using StreamWriter writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
                 await writer.WriteLineAsync("Deleted addresses :");
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
+                
+                var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
+                var countAddressesUnused = 1;
                 foreach (var groupAddress in allGroupAddresses)
                 {
+
                     var groupId = groupAddress.Attribute("Id")?.Value;
                     if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
                     {
+                        App.DisplayElements?.LoadingWindow?.UpdateLogActivity(10, suppressedAddresses + $" ({countAddressesUnused++}/{totalAddressesUnused})");
+
                         var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                         string msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
                         var ancestorgroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();

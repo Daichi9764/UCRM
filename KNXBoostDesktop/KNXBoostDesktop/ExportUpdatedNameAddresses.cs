@@ -228,19 +228,15 @@ class ExportUpdatedNameAddresses
 
                     // Langue par défaut (français)
                     default:
-                        exportingAddresses = "Exporting the new addresses...";
-                        buildingXMLStructure = "Building the XML structure...";
-                        savingUpdatedFile = "Saving the updated file...";
+                        exportingAddresses = "Export des nouvelles adresses...";
+                        buildingXMLStructure = "Construction de la structure du fichier XML...";
+                        savingUpdatedFile = "Enregistrement du fichier mis à jour...";
                         break;
                 }
 
                 
                 App.DisplayElements.LoadingWindow.MarkActivityComplete();
                 App.DisplayElements.LoadingWindow.LogActivity(exportingAddresses);
-                App.DisplayElements.LoadingWindow.MarkActivityComplete();
-                App.DisplayElements.LoadingWindow.LogActivity(buildingXMLStructure);
-                App.DisplayElements.LoadingWindow.MarkActivityComplete();
-                App.DisplayElements.LoadingWindow.LogActivity(savingUpdatedFile);
 
                 // Load the updated XML document
                 XDocument? knxDoc = App.Fm?.LoadKnxDocument(sourcePath);
@@ -271,6 +267,9 @@ class ExportUpdatedNameAddresses
                             .Reverse() // Reverse to maintain the hierarchical order
                             .ToList()
                     });
+
+                App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                App.DisplayElements.LoadingWindow.LogActivity(buildingXMLStructure);
 
                 // Group by ancestor GroupRange names and build the XML structure
                 foreach (var ga in groupAddresses)
@@ -325,6 +324,9 @@ class ExportUpdatedNameAddresses
                         
                     }
                 }
+
+                App.DisplayElements.LoadingWindow.MarkActivityComplete();
+                App.DisplayElements.LoadingWindow.LogActivity(savingUpdatedFile);
 
                 // Save to UpdatedGroupAddresses.xml
                 XDocument updatedExportDoc = new XDocument(
