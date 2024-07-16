@@ -3580,5 +3580,13 @@ namespace KNXBoostDesktop
                 DragMove();
             }
         }
+
+
+        public void ApplyScaling(double scale)
+        {
+            SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
+            Height *= scale;
+            Width *= scale;
+        }
     }
 }

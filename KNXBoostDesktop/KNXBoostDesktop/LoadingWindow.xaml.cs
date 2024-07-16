@@ -151,6 +151,13 @@ namespace KNXBoostDesktop
             ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#434343");
             ActivityLog.ItemContainerStyle = (Style)FindResource("DarkActivityStyle");
         }
+        
+        public void ApplyScaling(float scale)
+        {
+            LoadingWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
+            Height *= scale;
+            Width *= scale;
+        }
     }
 
     public class Activity : INotifyPropertyChanged
@@ -322,6 +329,5 @@ namespace KNXBoostDesktop
         {
             throw new NotImplementedException();
         }
-        
     }
 }

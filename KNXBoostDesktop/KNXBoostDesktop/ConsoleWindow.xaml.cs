@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace KNXBoostDesktop
@@ -84,6 +85,12 @@ namespace KNXBoostDesktop
             e.Cancel = true; // On annule la fermeture de la fenêtre
             this.Hide(); // On la cache à la place
             App.ConsoleAndLogWriteLine("Hiding console");
+        }
+
+
+        public void ApplyScaling(float scale)
+        {
+            ConsoleTextBox.FontSize *= scale;
         }
     }
 }

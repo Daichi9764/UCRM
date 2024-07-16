@@ -221,7 +221,7 @@
     
     
     <Border BorderBrush="#369226" 
-            BorderThickness="1" >
+            BorderThickness="1" x:Name="AddressRenameWindowBorder">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/> <!-- En-tête (header) -->

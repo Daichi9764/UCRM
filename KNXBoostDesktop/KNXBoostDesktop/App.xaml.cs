@@ -44,7 +44,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 328;
+        public static readonly int AppBuild = 329;
         
         
         // Gestion des logs
@@ -175,6 +175,9 @@ namespace KNXBoostDesktop
             
             // Appel au garbage collector pour nettoyer les variables issues 
             GC.Collect();
+
+            DisplayElements.MainWindow.ApplyScaling(1.2);
+            DisplayElements.SettingsWindow.ApplyScaling(1.2);
         }
 
         
@@ -444,6 +447,7 @@ namespace KNXBoostDesktop
         }
     }
 }
+
 
 
 
