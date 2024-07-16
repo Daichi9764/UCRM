@@ -56,7 +56,13 @@
     </mah:MetroWindow.TaskbarItemInfo>
 
     <mah:MetroWindow.Resources>
-        
+
+        <SolidColorBrush x:Key="BorderGray" Color="#D7D7D7"/>
+        <SolidColorBrush x:Key="ButtonBlue" Color="#4071B4"/>
+        <SolidColorBrush x:Key="ButtonBlueAccentuated" Color="#355e97"/>
+        <SolidColorBrush x:Key="ActivGreen" Color="#369026"/>
+        <SolidColorBrush x:Key="InactivGreen" Color="#4a9b3c"/>
+
         <!-- Import pour rétracter les boutons Charger et Exporter -->
         <local:WidthBelowThresholdConverter x:Key="WidthConverterCharger" Threshold="627" /> 
         <local:WidthBelowThresholdConverter x:Key="WidthConverterExport" Threshold="500" />
@@ -308,7 +314,7 @@
 
         <!-- Style pour le bouton Exporter -->
         <Style x:Key="ExportButton" TargetType="Button">
-            <Setter Property="Background" Value="#4071B4"/>
+            <Setter Property="Background" Value="{StaticResource ButtonBlue}"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="FontSize" Value="12"/>            
             <Setter Property="Height" Value="25"/>
@@ -357,10 +363,10 @@
                                 <Setter TargetName="btnBorder" Property="Background" Value="Gray"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                                <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource ButtonBlueAccentuated}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                                <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource ButtonBlueAccentuated}"/>
                             </Trigger>
                             <!-- Trigger when ActualWidth is below the threshold -->
                             <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterExport}}" Value="True">
@@ -368,7 +374,7 @@
                             </DataTrigger>
                             <!-- Default style when ActualWidth is above the threshold -->
                             <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterExport}}" Value="False">
-                                <Setter Property="Background" Value="#4071B4"/>
+                                <Setter Property="Background" Value="{StaticResource ButtonBlue}"/>
                                 <Setter Property="Foreground" Value="White"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
@@ -379,7 +385,7 @@
         
         <!-- Style pour le bouton Charger -->
         <Style x:Key="ChargerButton" TargetType="Button">
-            <Setter Property="Background" Value="#4071B4"/>
+            <Setter Property="Background" Value="{StaticResource ButtonBlue}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="12"/>            
             <Setter Property="Height" Value="25"/>
@@ -425,10 +431,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                                <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource ButtonBlueAccentuated}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="btnBorder" Property="Background" Value="#355e97"/>
+                                <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource ButtonBlueAccentuated}"/>
                             </Trigger>
                             <!-- Trigger when ActualWidth is below the threshold -->
                             <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterCharger}}" Value="True">
@@ -436,7 +442,7 @@
                             </DataTrigger>
                             <!-- Default style when ActualWidth is above the threshold -->
                             <DataTrigger Binding="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource WidthConverterCharger}}" Value="False">
-                                <Setter Property="Background" Value="#4071B4"/>
+                                <Setter Property="Background" Value="{StaticResource ButtonBlue}"/>
                                 <Setter Property="Foreground" Value="White"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
@@ -515,7 +521,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Foreground" Value="#D7D7D7" />
+            <Setter Property="Foreground" Value="{StaticResource BorderGray}" />
         </Style>
         
         <!-- Style pour les chevrons en mode DARK -->
@@ -535,12 +541,12 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Foreground" Value="#D7D7D7" />
+            <Setter Property="Foreground" Value="{StaticResource BorderGray}" />
         </Style>
         
     </mah:MetroWindow.Resources>
     
-    <Border BorderBrush="#369226" 
+    <Border BorderBrush="{StaticResource ActivGreen}" 
             BorderThickness="1" 
             Padding="10,5,10,10">
         
@@ -566,7 +572,7 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                         <Grid>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0">
-                                <Border x:Name="Recherche" BorderBrush="#D7D7D7" BorderThickness="1" CornerRadius="0" Background="White" Margin="-10,0,0,0" Padding="0" Height="25">
+                                <Border x:Name="Recherche" BorderBrush="{StaticResource BorderGray}" BorderThickness="1" CornerRadius="0" Background="White" Margin="-10,0,0,0" Padding="0" Height="25">
                                     <DockPanel>
                                         <!-- Image de loupe -->
                                         <Image Width="15" Height="15" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,5,0">
@@ -608,7 +614,7 @@
                                 Click="OpenParameters"
                                 Margin="0,0,10,0" 
                                 Background="White"
-                                BorderThickness="1" BorderBrush="#D7D7D7"
+                                BorderThickness="1" BorderBrush="{StaticResource BorderGray}"
                                 Padding="0"
                                 Style="{StaticResource SettingsButtonLight}">
 
@@ -663,7 +669,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Border x:Name="BorderTitrePanneauGauche" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1" />
+                        <Border x:Name="BorderTitrePanneauGauche" Grid.Row="0" BorderBrush="{StaticResource BorderGray}" BorderThickness="0,0,0,1" />
 
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
@@ -783,10 +789,10 @@
                     </Grid>
 
                     <!-- Bordure de contour Gauche/-->
-                    <Border Grid.Column="0" x:Name="BorderPanGauche" BorderBrush="#D7D7D7 " BorderThickness="1,1,0,1" Padding="10" CornerRadius="0"/>
+                    <Border Grid.Column="0" x:Name="BorderPanGauche" BorderBrush="{StaticResource BorderGray}" BorderThickness="1,1,0,1" Padding="10" CornerRadius="0"/>
 
                     <!-- Ajuster les largeurs de fenêtres -->
-                    <GridSplitter Grid.Column="1" x:Name="AjusteurPan" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#D7D7D7"/>
+                    <GridSplitter Grid.Column="1" x:Name="AjusteurPan" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource BorderGray}"/>
 
                     <!-- Adresses de Groupes Originales/-->
                     <Grid Grid.Column="2" >
@@ -797,7 +803,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Border x:Name="BorderTitrePanneauDroite" Grid.Row="0" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1"/>
+                        <Border x:Name="BorderTitrePanneauDroite" Grid.Row="0" BorderBrush="{StaticResource BorderGray}" BorderThickness="0,0,0,1"/>
 
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
@@ -913,7 +919,7 @@
                     </Grid>
 
                     <!-- Bordure de contour Droit/-->
-                    <Border Grid.Column="2" x:Name="BorderPanDroit" BorderBrush="#D7D7D7 " BorderThickness="0,1,1,1" CornerRadius="0"/>
+                    <Border Grid.Column="2" x:Name="BorderPanDroit" BorderBrush="{StaticResource BorderGray}" BorderThickness="0,1,1,1" CornerRadius="0"/>
                 </Grid>
             </Grid>
         
