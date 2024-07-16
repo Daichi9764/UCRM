@@ -80,7 +80,7 @@ namespace KNXBoostDesktop
                     Text = activity,
                     Background = "Transparent",
                     Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme
-                        ? "#000000" : "#FFFFFF",
+                        ? "#000000" : "#E3DED4",
                     StartTime = DateTime.Now,
                     IsInProgress = true
                 };
@@ -92,6 +92,18 @@ namespace KNXBoostDesktop
             });
         }
 
+        public void UpdateLogActivity(int index, string activity)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (index < 0 || index >= Activities.Count)
+                    return;
+
+                var existingActivity = Activities[index];
+                existingActivity.Text = activity;
+                ActivityLog.ScrollIntoView(existingActivity);
+            });
+        }
         
         /// <summary>
         /// Completes the current activity by updating the progress bar to show completion.
@@ -129,12 +141,14 @@ namespace KNXBoostDesktop
         public void SetLightMode()
         {
             MainGrid.Background = MainWindow.ConvertStringColor("#FFFFFF");
+            ProgressBar.BorderBrush = MainWindow.ConvertStringColor("#D7D7D7");
             TaskNameText.Foreground = MainWindow.ConvertStringColor("#000000");
             ActivityLog.Background = MainWindow.ConvertStringColor("#F5F5F5");
             ProgressBar.Background = MainWindow.ConvertStringColor("#FFFFFF");
             ActivityLog.Foreground = MainWindow.ConvertStringColor("#000000");
             ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#D7D7D7");
             ActivityLog.ItemContainerStyle = (Style)FindResource("LightActivityStyle");
+            TotalTime.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
         }
         
         
@@ -144,12 +158,14 @@ namespace KNXBoostDesktop
         public void SetDarKMode()
         {
             MainGrid.Background = MainWindow.ConvertStringColor("#313131");
-            TaskNameText.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
+            ProgressBar.BorderBrush = MainWindow.ConvertStringColor("#434343");
+            TaskNameText.Foreground = MainWindow.ConvertStringColor("#E3DED4");
             ActivityLog.Background = MainWindow.ConvertStringColor("#262626");
             ProgressBar.Background = MainWindow.ConvertStringColor("#262626");
-            ActivityLog.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
+            ActivityLog.Foreground = MainWindow.ConvertStringColor("#E3DED4");
             ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#434343");
             ActivityLog.ItemContainerStyle = (Style)FindResource("DarkActivityStyle");
+            TotalTime.Foreground = MainWindow.ConvertStringColor("#E3DED4");
         }
         
         public void ApplyScaling(float scale)

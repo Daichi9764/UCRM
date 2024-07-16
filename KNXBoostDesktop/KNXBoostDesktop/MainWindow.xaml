@@ -72,7 +72,7 @@
         
         <Style x:Key="TreeViewItemStyleDark" TargetType="{x:Type TreeViewItem}">
             <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#E3DED4"/>
             <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
             <EventSetter Event="Collapsed" Handler="TreeViewItem_Collapsed"/>
             
