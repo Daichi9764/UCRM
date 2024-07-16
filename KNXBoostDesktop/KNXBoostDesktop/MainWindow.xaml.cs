@@ -1381,7 +1381,7 @@ public partial class MainWindow
         }
     }
 
-    
+
     /// <summary>
     /// Recursively applies a specified style to a TreeViewItem and its child items.
     /// </summary>
@@ -1391,7 +1391,25 @@ public partial class MainWindow
     {
         item.Style = FindResource(style) as Style;
 
-        // Parcourir les enfants récursivement
+        // Ensure the TreeViewItem is expanded to generate child containers
+        item.IsExpanded = true;
+        item.UpdateLayout(); // Force update layout to generate child containers
+
+        item.ItemContainerGenerator.StatusChanged += (s, e) =>
+        {
+            if (item.ItemContainerGenerator.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            {
+                foreach (var subItem in item.Items)
+                {
+                    if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
+                    {
+                        ApplyStyleRecursive(subTreeViewItem, style);
+                    }
+                }
+            }
+        };
+
+        // Apply style to already generated child items
         foreach (var subItem in item.Items)
         {
             if (item.ItemContainerGenerator.ContainerFromItem(subItem) is TreeViewItem subTreeViewItem)
@@ -1400,14 +1418,14 @@ public partial class MainWindow
             }
         }
     }
-    
-    
-    /// <summary>
-    /// Converts a string representation of a color to a SolidColorBrush.
-    /// </summary>
-    /// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
-    /// <returns>A SolidColorBrush representing the converted color.</returns>
-    public static SolidColorBrush ConvertStringColor(string colorInput)
+
+
+/// <summary>
+/// Converts a string representation of a color to a SolidColorBrush.
+/// </summary>
+/// <param name="colorInput">The string representation of the color (e.g., "#RRGGBB" or "ColorName").</param>
+/// <returns>A SolidColorBrush representing the converted color.</returns>
+public static SolidColorBrush ConvertStringColor(string colorInput)
     {
         return new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorInput));
     }
