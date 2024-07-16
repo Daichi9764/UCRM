@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Collections.Concurrent;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
@@ -47,19 +48,17 @@ public class GroupAddressNameCorrector
     /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
     /// ComObject instance reference ID, ReadFlag found, and WriteFlag found.
     /// </summary>
-    private static Dictionary<string, string> _objectTypeCache = new();
+    private static ConcurrentDictionary<string, string> _objectTypeCache = new();
     
     /// <summary>
     /// Collection to memorize the rail-mounted status of devices based on product reference ID and Mxxxx directory.
     /// </summary>
-    private static Dictionary<string, bool> _isDeviceRailMountedCache = new();
+    private static ConcurrentDictionary<string, bool> _isDeviceRailMountedCache = new();
     
     /// <summary>
     /// Collection to memorize formatted hardware file names and Mxxxx directories based on hardware to program reference IDs.
     /// </summary>
-    private static Dictionary<string, (string HardwareFileName, string MxxxxDirectory)> _hardware2ProgramRefIdCache = new();
-
-
+    private static ConcurrentDictionary<string, (string HardwareFileName, string MxxxxDirectory)> _hardware2ProgramRefIdCache = new();
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -600,9 +599,7 @@ public class GroupAddressNameCorrector
                     g.ComObjectInstanceRefId,
                     g.ReadFlag,
                     g.WriteFlag,
-                    ObjectType = hardwareFileName != null && g.ComObjectInstanceRefId != null && mxxxxDirectory != null && g.IsFirstLink ?
-                        GetObjectType(hardwareFileName, mxxxxDirectory, g.ComObjectInstanceRefId, g.ReadFlag ?? string.Empty, g.WriteFlag ?? string.Empty) : 
-                        null
+                    ObjectType = GetObjectType(hardwareFileName ?? string.Empty, mxxxxDirectory ?? string.Empty, g.ComObjectInstanceRefId ?? string.Empty, g.ReadFlag ?? string.Empty, g.WriteFlag ?? string.Empty)
                 });
             }).ToList();
 
@@ -898,7 +895,7 @@ public class GroupAddressNameCorrector
         {
             return cacheResult;
         }
-
+        
         // Construct the full path to the Mxxxx directory
         string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
 

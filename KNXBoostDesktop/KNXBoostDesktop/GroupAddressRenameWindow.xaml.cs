@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.IO;
+using System.Windows.Media;
 
 
 namespace KNXBoostDesktop;
@@ -519,5 +520,14 @@ public partial class GroupAddressRenameWindow
             App.ConsoleAndLogWriteLine($"Error during reset: {ex.Message}");
             AfterTextBox.Text = SavedAddress;
         }
+    }
+    
+    
+    
+    public void ApplyScaling(float scale)
+    {
+        AddressRenameWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
+        Height *= scale;
+        Width *= scale;
     }
 }

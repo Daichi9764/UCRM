@@ -1,4 +1,7 @@
 # KNX Boost Desktop
+
+![image-removebg](https://github.com/user-attachments/assets/01381c9c-f27d-4318-8bc5-29131148f168)
+
 Ce projet vise à corriger les erreurs de construction dans les projets ETS en renommant automatiquement les champs de noms d'adresses de groupes selon une convention spécifiée. Cette approche améliore la clarté du projet et facilite la correction des erreurs. L'application inclut une fonctionnalité intégrée de traduction pour ces champs de noms, permettant une meilleure compréhension et une correction précise.
 ## Fonctionnalités
 * Renommage automatique des champs de noms d'adresses de groupes selon une convention définie.
