@@ -69,7 +69,7 @@
     </Window.Resources>
 
     <Grid>
-        <Border BorderBrush="#369226" BorderThickness="1.5">
+        <Border BorderBrush="#369226" BorderThickness="1.5" x:Name="LoadingWindowBorder">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="500">
                 <TextBlock x:Name="TaskNameText" Foreground="Black" Text="Initialisation..." FontSize="16" Margin="0,0,0,20" HorizontalAlignment="Center" />
                 <ProgressBar x:Name="ProgressBar" Width="450" Height="15" Margin="0,0,0,10" IsIndeterminate="True" HorizontalAlignment="Center"/>
