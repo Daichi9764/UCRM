@@ -638,13 +638,13 @@
         
         
         
-        <!-- Style pour onglet paramètres -->
-        <Style x:Key="CustomTabItemStyle" TargetType="TabItem">
+        <!-- Style pour onglets -->
+        <Style x:Key="LightOnglet" TargetType="TabItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Grid>
-                            <Border x:Name="Border" Background="White" BorderBrush="#D7D7D7" BorderThickness="1,1,1,0" CornerRadius="0" Padding="10,5">
+                            <Border x:Name="Border" Background="White" BorderBrush="#b8b8b8" BorderThickness="1,1,1,0" CornerRadius="0" Padding="10,5">
                                 <Grid>
 
                                     <ContentPresenter x:Name="ContentSite"
@@ -652,7 +652,6 @@
                                                       HorizontalAlignment="Center"
                                                       ContentSource="Header"
                                                       RecognizesAccessKey="True"/>
-                                    <!-- Ligne sous le bouton de l'onglet -->
                                 </Grid>
                             </Border>
                         </Grid>
@@ -674,6 +673,47 @@
                                 </MultiTrigger.Conditions>
                                 <Setter TargetName="Border" Property="Background" Value="#D3D3D3"/>
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#D3D3D3"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="DarkOnglet" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid>
+                            <Border x:Name="Border" Background="#262626" BorderBrush="#434343" BorderThickness="1,1,1,0" CornerRadius="0" Padding="10,5">
+                                <Grid>
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"
+                                                      ContentSource="Header"
+                                                      RecognizesAccessKey="True"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Panel.ZIndex" Value="1" />
+                                <Setter TargetName="Border" Property="Background" Value="#262626"/>
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#313131"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Border" Property="Background" Value="#404040"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#404040"/>
                             </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -746,10 +786,10 @@
                                <!-- Conteneur principal (corps de la fenêtre) -->
                                <Border x:Name="MainContentBorder" Grid.Column="1" Margin="10" BorderBrush="#D7D7D7" 
                                        BorderThickness="0">
-                                   <TabControl SelectionChanged="TabControl_SelectionChanged" 
-                                               BorderBrush="#D7D7D7" 
-                                               BorderThickness="1">
-                                       <TabItem x:Name="OngletParametresGeneraux" Style="{StaticResource CustomTabItemStyle}">
+                                   <TabControl x:Name="ControlOnglet" SelectionChanged="TabControl_SelectionChanged" 
+                                               BorderBrush="White" 
+                                               BorderThickness="2" Padding="-1.5,-1,-1,-1">
+                                       <TabItem x:Name="OngletParametresGeneraux" Style="{StaticResource LightOnglet}">
                                            
                                            <StackPanel x:Name="MainContentPanel" Background="White">
                                                <!-- Gestion de la traduction des adresses de groupe -->
@@ -897,8 +937,8 @@
                        
                                            </StackPanel>
                                        </TabItem>
-                                       <TabItem x:Name="OngletDebug" Style="{StaticResource CustomTabItemStyle}">
-                                           <StackPanel>
+                                       <TabItem x:Name="OngletDebug" Style="{StaticResource LightOnglet}">
+                                           <StackPanel x:Name="DebugPanel">
                                                <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,10" />
                        
@@ -910,11 +950,11 @@
                                                          Margin="10,5,0,10">
                                                </CheckBox>
                                                
-                                               <CheckBox x:Name="AddImportedFiles" Style="{StaticResource CheckboxLightThemeStyle}"
+                                               <CheckBox x:Name="AddImportedFilesCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
                                                          Margin="10,5,0,10" Checked="EnableIncludeAddress" Unchecked="DisableIncludeAddress">
                                                </CheckBox>
                                                
-                                               <CheckBox x:Name="IncludeAddressList" Style="{StaticResource CheckboxLightThemeStyle}"
+                                               <CheckBox x:Name="IncludeAddressListCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
                                                          Margin="10,5,0,10">
                                                </CheckBox>
                                                
@@ -992,16 +1032,30 @@
                                        </StackPanel>
                                    </Button>
                                    
+                                   <!-- Bouton pour créer l'archive de debug -->
                                    <Button x:Name="CreateArchiveDebugButton" Margin="25,0,0,0" Height="32" Style="{StaticResource BottomButtonLight}"
                                            Click="CreateDebugReport" Visibility="Collapsed">
                                        <StackPanel Orientation="Horizontal">
-                                           
+                                           <Image Width="16" Height="16" Margin="5,0,5,0" VerticalAlignment="Center">
+                                               <Image.Source>
+                                                   <DrawingImage>
+                                                      <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V200 H200 V0 H0 Z">
+                                                          <DrawingGroup Opacity="1">
+                                                            <DrawingGroup Opacity="1">
+                                                              <GeometryDrawing x:Name="DebugBrush1" Brush="#FF000000" Geometry="F1 M200,200z M0,0z M82.03,0C85.86,0.65 89.76,1.01 93.5,2.01 123.34,9.94 142.59,28.82 150.24,58.71 155.27,78.38 152,97.25 141.81,114.86 141.58,115.25 141.39,115.66 141.13,116.15 141.62,116.67 142.1,117.18 142.59,117.68 158.92,134.01 175.22,150.38 191.62,166.65 195.41,170.41 198.9,174.25 200,179.69 200,181.51 200,183.34 200,185.16 198.96,189.24 197.23,192.91 193.96,195.75 191.39,197.99 188.34,199.09 185.15,200 183.33,200 181.5,200 179.68,200 174.32,198.9 170.51,195.51 166.79,191.76 150.43,175.27 133.96,158.88 117.54,142.45 117.13,142.04 116.8,141.54 116.48,141.13 112.83,142.94 109.48,144.79 105.99,146.29 61.53,165.36 10.22,138 1.28000000000003,90.46 0.76,87.66 0.43,84.84 0,82.03 0,77.99 0,73.96 0,69.92 0.65,66.23 1.04,62.48 2,58.87 9.95,28.96 28.94,9.98 58.84,2.02 62.58,1.02 66.48,0.66 70.31,0 74.22,0 78.12,0 82.03,0z M76.33,11.72C41.02,11.54 11.89,40.54 11.73,76.02 11.57,111.34 40.55,140.46 76.03,140.63 111.36,140.79 140.48,111.81 140.64,76.33 140.78,40.98 111.84,11.9 76.33,11.72z M146.88,155.03C147.01,155.18 147.26,155.48 147.53,155.75 157.64,165.87 167.76,175.98 177.87,186.1 178.15,186.38 178.43,186.65 178.73,186.89 182.14,189.6 186.84,188.05 188,183.85 188.7,181.34 187.66,179.44 185.96,177.74 175.89,167.67 165.82,157.6 155.75,147.54 155.45,147.24 155.1,146.99 155,146.91 152.23,149.69 149.57,152.33 146.88,155.03z M138.2,145.96C140.78,143.38 143.44,140.74 145.92,138.26 141.95,134.3 137.89,130.24 134.03,126.38 131.48,128.88 128.81,131.51 126.26,134.02 130.19,137.95 134.22,141.98 138.2,145.96z" />
+                                                              <GeometryDrawing x:Name="DebugBrush2" Brush="#FF000000" Geometry="F1 M200,200z M0,0z M96.41,44.84C98.36,48.72 100.26,52.53 102.26,56.51 104.96,55.18 107.48,53.87 110.05,52.67 118.11,48.9 127.09,53.47 128.76,62.21 129.24,64.74 129,67.19 126.81,68.97 125,70.44 122.93,70.77 120.77,69.86 118.69,68.98 117.52,67.35 117.2,65.11 116.91,63.12 116.3,62.77 114.48,63.64 111.79,64.94 109.11,66.25 106.48,67.65 106.02,67.89 105.52,68.57 105.51,69.06 105.43,73.28 105.47,77.51 105.47,82.03 107.6,82.03 109.65,82.01 111.71,82.03 121.19,82.11 129.06,90.17 128.9,99.61 128.85,102.85 126.45,105.36 123.31,105.45 120.01,105.55 117.45,103.25 117.19,99.94 116.87,95.88 114.57,93.76 110.45,93.73 108.76,93.72 106.69,93.17 105.49,93.94 104.37,94.66 104.2,96.82 103.55,98.32 102.96,99.69 102.35,101.05 101.63,102.36 100.94,103.61 100.11,104.78 99.3,106.05 103.38,110.62 105.57,115.95 105.48,122.17 105.42,126.32 103.21,128.9 99.58,128.89 96.05,128.88 93.79,126.31 93.76,122.28 93.73,118.62 92.57,115.92 90.07,113.78 80.82,118.37 71.53,118.4 62.21,113.73 59.41,116.27 58.6,119.48 58.57,123.07 58.54,127.67 53.73,130.4 49.81,128.11 47.85,126.96 46.93,125.2 46.88,122.94 46.74,116.31 48.41,111.68 53.05,106.02 50.53,102.52 48.51,98.73 47.55,94.42 47.48,94.12 46.78,93.78 46.37,93.76 44.55,93.69 42.72,93.65 40.9,93.76 37.67,93.95 35.45,96.25 35.16,99.56 34.83,103.37 32.37,105.65 28.82,105.44 25.59,105.25 23.41,102.64 23.44,99 23.52,90.05 31.33,82.16 40.26,82.02 42.39,81.99 44.53,82.02 46.87,82.02 46.87,77.51 46.9,73.17 46.83,68.83 46.82,68.41 46.3,67.83 45.87,67.61 43.16,66.21 40.43,64.86 37.67,63.55 36.06,62.79 35.41,63.18 35.14,64.89 34.59,68.46 32.11,70.53 28.71,70.28 25.57,70.04 23.39,67.43 23.43,63.94 23.54,55.03 33,48.84 41.38,52.29 44.3,53.49 47.09,55.01 50.09,56.46 52.07,52.52 53.97,48.71 55.86,44.96 54.35,43.67 52.81,42.56 51.54,41.21 48.38,37.85 46.77,33.83 46.86,29.18 46.93,25.97 49.39,23.49 52.55,23.43 55.76,23.37 58.3,25.65 58.57,28.84 58.93,33.07 61.16,35.14 65.41,35.14 72.57,35.15 79.73,35.15 86.89,35.14 91.15,35.13 93.39,33.07 93.74,28.85 94.01,25.66 96.55,23.37 99.75,23.43 102.91,23.49 105.36,25.95 105.45,29.16 105.63,35.35 102.74,40.41 96.41,44.84z M82.15,70.39C82.15,81.76 82.15,92.96 82.15,104.4 88.25,101.81 92.16,97.6 93.33,91.24 93.83,88.52 93.71,85.68 93.75,82.89 93.81,78.75 93.77,74.61 93.77,70.39 89.8,70.39 86.05,70.39 82.15,70.39z M58.59,70.4C58.59,76.24 58.57,81.95 58.61,87.66 58.62,88.76 58.79,89.86 58.95,90.95 59.85,96.96 64.92,102.9 70.22,104.14 70.22,92.92 70.22,81.71 70.22,70.41 66.38,70.4 62.63,70.4 58.59,70.4z M62.33,58.48C71.71,58.48 80.72,58.48 90.01,58.48 88.12,54.7 86.35,51.11 84.5,47.56 84.31,47.19 83.59,46.91 83.11,46.9 78.49,46.85 73.87,46.85 69.24,46.9 68.76,46.91 68.04,47.19 67.85,47.56 65.99,51.11 64.23,54.7 62.33,58.48z" />
+                                                            </DrawingGroup>
+                                                          </DrawingGroup>
+                                                        </DrawingGroup>
+                                                      </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                               </Image.Source>
+                                           </Image>
                                            <TextBlock x:Name="CreateArchiveDebugText" FontWeight="Regular" VerticalAlignment="Center" FontFamily="Aptos" FontSize="16"
                                                       HorizontalAlignment="Center" Margin="5,0,5,0" />
                                        </StackPanel>
                                    </Button>
-                                   
-                                   
                                </StackPanel>
                                
                                <Canvas>

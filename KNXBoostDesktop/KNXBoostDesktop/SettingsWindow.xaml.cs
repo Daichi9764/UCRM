@@ -951,8 +951,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "قائمة التصحيح";
                     AddInfosOsCheckBox.Content = "تضمين معلومات نظام التشغيل";
                     AddInfosHardCheckBox.Content = "تضمين معلومات أجهزة الكمبيوتر";
-                    AddImportedFiles.Content = "تضمين الملفات المستوردة منذ الإطلاق";
-                    IncludeAddressList.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
+                    AddImportedFilesCheckBox.Content = "تضمين الملفات المستوردة منذ الإطلاق";
+                    IncludeAddressListCheckBox.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
                     CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
                     
                     OngletParametresGeneraux.Header = "الإعدادات العامة";
@@ -992,8 +992,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Меню за отстраняване на грешки";
                     AddInfosOsCheckBox.Content = "Включване на информация за операционната система";
                     AddInfosHardCheckBox.Content = "Включване на информация за хардуера";
-                    AddImportedFiles.Content = "Включване на импортираните файлове от стартиране";
-                    IncludeAddressList.Content = "Включване на списъка с изтрити адреси";
+                    AddImportedFilesCheckBox.Content = "Включване на импортираните файлове от стартиране";
+                    IncludeAddressListCheckBox.Content = "Включване на списъка с изтрити адреси";
                     CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
                     
                     OngletParametresGeneraux.Header = "Общи настройки";
@@ -1033,8 +1033,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Ladicí nabídka";
                     AddInfosOsCheckBox.Content = "Zahrnout informace o operačním systému";
                     AddInfosHardCheckBox.Content = "Zahrnout informace o hardwaru";
-                    AddImportedFiles.Content = "Zahrnout importované soubory od spuštění";
-                    IncludeAddressList.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
+                    AddImportedFilesCheckBox.Content = "Zahrnout importované soubory od spuštění";
+                    IncludeAddressListCheckBox.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
                     CreateArchiveDebugText.Text = "Vytvořit ladicí soubor";
                     
                     OngletParametresGeneraux.Header = "Obecná nastavení";
@@ -1074,8 +1074,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Fejlfindingsmenu";
                     AddInfosOsCheckBox.Content = "Inkluder oplysninger om operativsystemet";
                     AddInfosHardCheckBox.Content = "Inkluder hardwareoplysninger";
-                    AddImportedFiles.Content = "Inkluder importerede filer siden opstart";
-                    IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i projekter";
+                    AddImportedFilesCheckBox.Content = "Inkluder importerede filer siden opstart";
+                    IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i projekter";
                     CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
                     
                     OngletParametresGeneraux.Header = "Generelle indstillinger";
@@ -1115,15 +1115,15 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Debug-Menü";
                     AddInfosOsCheckBox.Content = "Betriebssysteminformationen einbeziehen";
                     AddInfosHardCheckBox.Content = "Hardwareinformationen einbeziehen";
-                    AddImportedFiles.Content = "Seit dem Start importierte Dateien einbeziehen";
-                    IncludeAddressList.Content = "Liste der gelöschten Gruppenadressen in Projekten einbeziehen";
+                    AddImportedFilesCheckBox.Content = "Seit dem Start importierte Dateien einbeziehen";
+                    IncludeAddressListCheckBox.Content = "Liste der gelöschten Gruppenadressen in Projekten einbeziehen";
                     CreateArchiveDebugText.Text = "Debug-Datei erstellen";
                     
                     MenuDebug.Text = "Μενού αποσφαλμάτωσης";
                     AddInfosOsCheckBox.Content = "Συμπερίληψη πληροφοριών λειτουργικού συστήματος";
                     AddInfosHardCheckBox.Content = "Συμπερίληψη πληροφοριών υλικού υπολογιστή";
-                    AddImportedFiles.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
-                    IncludeAddressList.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
+                    AddImportedFilesCheckBox.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
+                    IncludeAddressListCheckBox.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
                     CreateArchiveDebugText.Text = "Δημιουργία αρχείου αποσφαλμάτωσης";
                     
                     OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
@@ -1197,8 +1197,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Debug Menu";
                     AddInfosOsCheckBox.Content = "Include OS information";
                     AddInfosHardCheckBox.Content = "Include hardware information";
-                    AddImportedFiles.Content = "Include files imported since launch";
-                    IncludeAddressList.Content = "Include list of deleted group addresses in projects";
+                    AddImportedFilesCheckBox.Content = "Include files imported since launch";
+                    IncludeAddressListCheckBox.Content = "Include list of deleted group addresses in projects";
                     CreateArchiveDebugText.Text = "Create debug file";
                     
                     OngletParametresGeneraux.Header = "General Settings";
@@ -1238,8 +1238,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menú de depuración";
                     AddInfosOsCheckBox.Content = "Incluir información del sistema operativo";
                     AddInfosHardCheckBox.Content = "Incluir información de hardware";
-                    AddImportedFiles.Content = "Incluir archivos importados desde el inicio";
-                    IncludeAddressList.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
+                    AddImportedFilesCheckBox.Content = "Incluir archivos importados desde el inicio";
+                    IncludeAddressListCheckBox.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
                     CreateArchiveDebugText.Text = "Crear archivo de depuración";
                     
                     OngletParametresGeneraux.Header = "Configuración general";
@@ -1279,8 +1279,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Silumisvalik";
                     AddInfosOsCheckBox.Content = "Kaasa operatsioonisüsteemi teave";
                     AddInfosHardCheckBox.Content = "Kaasa riistvara teave";
-                    AddImportedFiles.Content = "Kaasa imporditud failid käivitamisest alates";
-                    IncludeAddressList.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
+                    AddImportedFilesCheckBox.Content = "Kaasa imporditud failid käivitamisest alates";
+                    IncludeAddressListCheckBox.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
                     CreateArchiveDebugText.Text = "Loo silumisfail";
                     
                     OngletParametresGeneraux.Header = "Üldised seaded";
@@ -1320,8 +1320,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Vianmääritysvalikko";
                     AddInfosOsCheckBox.Content = "Sisällytä käyttöjärjestelmän tiedot";
                     AddInfosHardCheckBox.Content = "Sisällytä laitteistotiedot";
-                    AddImportedFiles.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
-                    IncludeAddressList.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
+                    AddImportedFilesCheckBox.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
+                    IncludeAddressListCheckBox.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
                     CreateArchiveDebugText.Text = "Luo vianmääritystiedosto";
                     
                     OngletParametresGeneraux.Header = "Yleiset asetukset";
@@ -1361,8 +1361,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Hibakeresési menü";
                     AddInfosOsCheckBox.Content = "Tartalmazza az operációs rendszer adatait";
                     AddInfosHardCheckBox.Content = "Tartalmazza a hardveradatokat";
-                    AddImportedFiles.Content = "Tartalmazza az indítás óta importált fájlokat";
-                    IncludeAddressList.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
+                    AddImportedFilesCheckBox.Content = "Tartalmazza az indítás óta importált fájlokat";
+                    IncludeAddressListCheckBox.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
                     CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
                     
                     OngletParametresGeneraux.Header = "Általános beállítások";
@@ -1402,8 +1402,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menu Debug";
                     AddInfosOsCheckBox.Content = "Sertakan informasi OS";
                     AddInfosHardCheckBox.Content = "Sertakan informasi hardware";
-                    AddImportedFiles.Content = "Sertakan file yang diimpor sejak peluncuran";
-                    IncludeAddressList.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
+                    AddImportedFilesCheckBox.Content = "Sertakan file yang diimpor sejak peluncuran";
+                    IncludeAddressListCheckBox.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
                     CreateArchiveDebugText.Text = "Buat file debug";
                     
                     OngletParametresGeneraux.Header = "Pengaturan umum";
@@ -1443,8 +1443,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menu di debug";
                     AddInfosOsCheckBox.Content = "Includi informazioni sul sistema operativo";
                     AddInfosHardCheckBox.Content = "Includi informazioni sull'hardware";
-                    AddImportedFiles.Content = "Includi file importati dal lancio";
-                    IncludeAddressList.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
+                    AddImportedFilesCheckBox.Content = "Includi file importati dal lancio";
+                    IncludeAddressListCheckBox.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
                     CreateArchiveDebugText.Text = "Crea file di debug";
                     
                     OngletParametresGeneraux.Header = "Impostazioni generali";
@@ -1484,8 +1484,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "デバッグメニュー";
                     AddInfosOsCheckBox.Content = "OS情報を含む";
                     AddInfosHardCheckBox.Content = "ハードウェア情報を含む";
-                    AddImportedFiles.Content = "起動以降にインポートされたファイルを含む";
-                    IncludeAddressList.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
+                    AddImportedFilesCheckBox.Content = "起動以降にインポートされたファイルを含む";
+                    IncludeAddressListCheckBox.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
                     CreateArchiveDebugText.Text = "デバッグファイルを作成";
                     
                     OngletParametresGeneraux.Header = "一般設定";
@@ -1525,8 +1525,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "디버그 메뉴";
                     AddInfosOsCheckBox.Content = "운영 체제 정보를 포함";
                     AddInfosHardCheckBox.Content = "하드웨어 정보를 포함";
-                    AddImportedFiles.Content = "실행 후 가져온 파일 포함";
-                    IncludeAddressList.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
+                    AddImportedFilesCheckBox.Content = "실행 후 가져온 파일 포함";
+                    IncludeAddressListCheckBox.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
                     CreateArchiveDebugText.Text = "디버그 파일 생성";
                     
                     OngletParametresGeneraux.Header = "일반 설정";
@@ -1566,8 +1566,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Atkļūdošanas izvēlne";
                     AddInfosOsCheckBox.Content = "Iekļaut OS informāciju";
                     AddInfosHardCheckBox.Content = "Iekļaut aparatūras informāciju";
-                    AddImportedFiles.Content = "Iekļaut kopš palaišanas importētos failus";
-                    IncludeAddressList.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
+                    AddImportedFilesCheckBox.Content = "Iekļaut kopš palaišanas importētos failus";
+                    IncludeAddressListCheckBox.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
                     CreateArchiveDebugText.Text = "Izveidot atkļūdošanas failu";
                     
                     OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
@@ -1607,8 +1607,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Derinimo meniu";
                     AddInfosOsCheckBox.Content = "Įtraukti OS informaciją";
                     AddInfosHardCheckBox.Content = "Įtraukti aparatūros informaciją";
-                    AddImportedFiles.Content = "Įtraukti nuo paleidimo importuotus failus";
-                    IncludeAddressList.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
+                    AddImportedFilesCheckBox.Content = "Įtraukti nuo paleidimo importuotus failus";
+                    IncludeAddressListCheckBox.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
                     CreateArchiveDebugText.Text = "Sukurti derinimo failą";
                     
                     OngletParametresGeneraux.Header = "Bendrieji nustatymai";
@@ -1648,8 +1648,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Feilsøkingsmeny";
                     AddInfosOsCheckBox.Content = "Inkluder OS-informasjon";
                     AddInfosHardCheckBox.Content = "Inkluder maskinvareinformasjon";
-                    AddImportedFiles.Content = "Inkluder filer importert siden oppstart";
-                    IncludeAddressList.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
+                    AddImportedFilesCheckBox.Content = "Inkluder filer importert siden oppstart";
+                    IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
                     CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
                     
                     OngletParametresGeneraux.Header = "Generelle innstillinger";
@@ -1689,8 +1689,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Debug-menu";
                     AddInfosOsCheckBox.Content = "OS-informatie opnemen";
                     AddInfosHardCheckBox.Content = "Hardware-informatie opnemen";
-                    AddImportedFiles.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
-                    IncludeAddressList.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
+                    AddImportedFilesCheckBox.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
+                    IncludeAddressListCheckBox.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
                     CreateArchiveDebugText.Text = "Maak een debug-bestand";
                     
                     OngletParametresGeneraux.Header = "Algemene instellingen";
@@ -1730,8 +1730,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menu debugowania";
                     AddInfosOsCheckBox.Content = "Uwzględnij informacje o systemie operacyjnym";
                     AddInfosHardCheckBox.Content = "Uwzględnij informacje o sprzęcie";
-                    AddImportedFiles.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
-                    IncludeAddressList.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
+                    AddImportedFilesCheckBox.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
+                    IncludeAddressListCheckBox.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
                     CreateArchiveDebugText.Text = "Utwórz plik debugowania";
                     
                     OngletParametresGeneraux.Header = "Ustawienia ogólne";
@@ -1771,8 +1771,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menu de depuração";
                     AddInfosOsCheckBox.Content = "Incluir informações do sistema operacional";
                     AddInfosHardCheckBox.Content = "Incluir informações de hardware";
-                    AddImportedFiles.Content = "Incluir arquivos importados desde o lançamento";
-                    IncludeAddressList.Content = "Incluir lista de endereços de grupo excluídos em projetos";
+                    AddImportedFilesCheckBox.Content = "Incluir arquivos importados desde o lançamento";
+                    IncludeAddressListCheckBox.Content = "Incluir lista de endereços de grupo excluídos em projetos";
                     CreateArchiveDebugText.Text = "Criar arquivo de depuração";
                     
                     OngletParametresGeneraux.Header = "Configurações gerais";
@@ -1812,8 +1812,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Meniu depanare";
                     AddInfosOsCheckBox.Content = "Includeți informații despre sistemul de operare";
                     AddInfosHardCheckBox.Content = "Includeți informații despre hardware";
-                    AddImportedFiles.Content = "Includeți fișierele importate de la lansare";
-                    IncludeAddressList.Content = "Includeți lista adreselor de grup șterse în proiecte";
+                    AddImportedFilesCheckBox.Content = "Includeți fișierele importate de la lansare";
+                    IncludeAddressListCheckBox.Content = "Includeți lista adreselor de grup șterse în proiecte";
                     CreateArchiveDebugText.Text = "Creați fișierul de depanare";
                     
                     OngletParametresGeneraux.Header = "Setări generale";
@@ -1853,8 +1853,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Ladiace menu";
                     AddInfosOsCheckBox.Content = "Zahrnúť informácie o operačnom systéme";
                     AddInfosHardCheckBox.Content = "Zahrnúť informácie o hardvéri";
-                    AddImportedFiles.Content = "Zahrnúť súbory importované od spustenia";
-                    IncludeAddressList.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
+                    AddImportedFilesCheckBox.Content = "Zahrnúť súbory importované od spustenia";
+                    IncludeAddressListCheckBox.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
                     CreateArchiveDebugText.Text = "Vytvoriť súbor na ladenie";
                     
                     OngletParametresGeneraux.Header = "Všeobecné nastavenia";
@@ -1894,8 +1894,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Meni za odpravljanje napak";
                     AddInfosOsCheckBox.Content = "Vključi informacije o operacijskem sistemu";
                     AddInfosHardCheckBox.Content = "Vključi informacije o strojni opremi";
-                    AddImportedFiles.Content = "Vključi uvožene datoteke od zagona";
-                    IncludeAddressList.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
+                    AddImportedFilesCheckBox.Content = "Vključi uvožene datoteke od zagona";
+                    IncludeAddressListCheckBox.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
                     CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
                     
                     OngletParametresGeneraux.Header = "Splošne nastavitve";
@@ -1935,8 +1935,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Felsökningsmeny";
                     AddInfosOsCheckBox.Content = "Inkludera OS-information";
                     AddInfosHardCheckBox.Content = "Inkludera hårdvaruinformation";
-                    AddImportedFiles.Content = "Inkludera importerade filer sedan start";
-                    IncludeAddressList.Content = "Inkludera lista över raderade gruppadresser i projekt";
+                    AddImportedFilesCheckBox.Content = "Inkludera importerade filer sedan start";
+                    IncludeAddressListCheckBox.Content = "Inkludera lista över raderade gruppadresser i projekt";
                     CreateArchiveDebugText.Text = "Skapa felsökningsfil";
                     
                     OngletParametresGeneraux.Header = "Allmänna inställningar";
@@ -1976,8 +1976,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Hata Ayıklama Menüsü";
                     AddInfosOsCheckBox.Content = "OS bilgilerini ekle";
                     AddInfosHardCheckBox.Content = "Donanım bilgilerini ekle";
-                    AddImportedFiles.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
-                    IncludeAddressList.Content = "Projelerde silinen grup adresleri listesini ekle";
+                    AddImportedFilesCheckBox.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
+                    IncludeAddressListCheckBox.Content = "Projelerde silinen grup adresleri listesini ekle";
                     CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
                     
                     OngletParametresGeneraux.Header = "Genel Ayarlar";
@@ -2017,8 +2017,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Меню налагодження";
                     AddInfosOsCheckBox.Content = "Включити інформацію про ОС";
                     AddInfosHardCheckBox.Content = "Включити інформацію про апаратне забезпечення";
-                    AddImportedFiles.Content = "Включити файли, імпортовані з моменту запуску";
-                    IncludeAddressList.Content = "Включити список видалених групових адрес у проектах";
+                    AddImportedFilesCheckBox.Content = "Включити файли, імпортовані з моменту запуску";
+                    IncludeAddressListCheckBox.Content = "Включити список видалених групових адрес у проектах";
                     CreateArchiveDebugText.Text = "Створити файл налагодження";
                     
                     OngletParametresGeneraux.Header = "Загальні налаштування";
@@ -2058,8 +2058,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Меню отладки";
                     AddInfosOsCheckBox.Content = "Включить информацию о ОС";
                     AddInfosHardCheckBox.Content = "Включить информацию о оборудовании";
-                    AddImportedFiles.Content = "Включить файлы, импортированные с момента запуска";
-                    IncludeAddressList.Content = "Включить список удаленных групповых адресов в проектах";
+                    AddImportedFilesCheckBox.Content = "Включить файлы, импортированные с момента запуска";
+                    IncludeAddressListCheckBox.Content = "Включить список удаленных групповых адресов в проектах";
                     CreateArchiveDebugText.Text = "Создать файл отладки";
                     
                     OngletParametresGeneraux.Header = "Общие настройки";
@@ -2099,8 +2099,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "调试菜单";
                     AddInfosOsCheckBox.Content = "包括操作系统信息";
                     AddInfosHardCheckBox.Content = "包括硬件信息";
-                    AddImportedFiles.Content = "包括启动以来导入的文件";
-                    IncludeAddressList.Content = "包括项目中已删除的组地址列表";
+                    AddImportedFilesCheckBox.Content = "包括启动以来导入的文件";
+                    IncludeAddressListCheckBox.Content = "包括项目中已删除的组地址列表";
                     CreateArchiveDebugText.Text = "创建调试文件";
                     
                     OngletParametresGeneraux.Header = "常规设置";
@@ -2137,8 +2137,8 @@ namespace KNXBoostDesktop
                     MenuDebug.Text = "Menu de deboggage";
                     AddInfosOsCheckBox.Content = "Inclure les informations sur le système d'exploitation";
                     AddInfosHardCheckBox.Content = "Inclure les informations sur le matériel de l'ordinateur";
-                    AddImportedFiles.Content = "Inclure les fichiers des projets importés depuis le lancement";
-                    IncludeAddressList.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
+                    AddImportedFilesCheckBox.Content = "Inclure les fichiers des projets importés depuis le lancement";
+                    IncludeAddressListCheckBox.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
                     CreateArchiveDebugText.Text = "Créer le fichier de deboggage";
 
@@ -2175,8 +2175,11 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
-                
-                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
+
+                OngletParametresGeneraux.Style = (Style)FindResource("LightOnglet");
+                OngletDebug.Style = (Style)FindResource("LightOnglet");
+                IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             }
             else // Sinon, on met le thème sombre
@@ -2195,8 +2198,11 @@ namespace KNXBoostDesktop
                 AppLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
-                
-                IncludeAddressList.Foreground = (bool)AddImportedFiles.IsChecked! ? 
+                CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
+
+                OngletParametresGeneraux.Style = (Style)FindResource("DarkOnglet");
+                OngletDebug.Style = (Style)FindResource("DarkOnglet");
+                IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
 
             }
@@ -2244,8 +2250,28 @@ namespace KNXBoostDesktop
             CancelButtonText.Foreground = textColorBrush;
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
+            CreateArchiveDebugText.Foreground = textColorBrush;
+            
+            
+            // Menu debug
+            ControlOnglet.BorderBrush = borderBrush;
+            DebugPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            AddInfosOsCheckBox.Style = checkboxStyle;
+            AddInfosHardCheckBox.Style = checkboxStyle;
+            AddImportedFilesCheckBox.Style = checkboxStyle;
+            IncludeAddressListCheckBox.Style = checkboxStyle;
+            AddInfosOsCheckBox.Foreground = textColorBrush;
+            AddInfosHardCheckBox.Foreground = textColorBrush;
+            AddImportedFilesCheckBox.Foreground = textColorBrush;
+            IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
+            
+            OngletParametresGeneraux.Foreground = textColorBrush;
+            OngletDebug.Foreground = textColorBrush;
+            DebugBrush1.Brush = textColorBrush;
+            DebugBrush2.Brush = textColorBrush;
 
-            IncludeAddressList.IsEnabled = (bool)AddImportedFiles.IsChecked!;
+            IncludeAddressListCheckBox.IsEnabled = (bool)AddImportedFilesCheckBox.IsChecked!;
+            
             
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
@@ -2695,30 +2721,30 @@ namespace KNXBoostDesktop
 
         
         /// <summary>
-        /// Enables the <see cref="IncludeAddressList"/> control and sets its foreground color based on the theme.
+        /// Enables the <see cref="IncludeAddressListCheckBox"/> control and sets its foreground color based on the theme.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The event data.</param>
         private void EnableIncludeAddress(object sender, RoutedEventArgs e)
         {
-            IncludeAddressList.IsEnabled = true;
+            IncludeAddressListCheckBox.IsEnabled = true;
 
-            IncludeAddressList.Foreground = EnableLightTheme ? 
+            IncludeAddressListCheckBox.Foreground = EnableLightTheme ? 
                 new SolidColorBrush(Colors.Black) : MainWindow.ConvertStringColor("#E3DED4");
         }
 
         
         /// <summary>
-        /// Disables the <see cref="IncludeAddressList"/> control, unchecks it, and sets its foreground color based on the theme.
+        /// Disables the <see cref="IncludeAddressListCheckBox"/> control, unchecks it, and sets its foreground color based on the theme.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The event data.</param>
         private void DisableIncludeAddress(object sender, RoutedEventArgs e)
         {
-            IncludeAddressList.IsEnabled = false;
-            IncludeAddressList.IsChecked = false;
+            IncludeAddressListCheckBox.IsEnabled = false;
+            IncludeAddressListCheckBox.IsChecked = false;
 
-            IncludeAddressList.Foreground = EnableLightTheme ? 
+            IncludeAddressListCheckBox.Foreground = EnableLightTheme ? 
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
         }
 
@@ -2730,20 +2756,22 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is not TabControl) return;
-            var selectedTab = (((TabControl)sender).SelectedItem as TabItem)!;
-            if (selectedTab.Header != null && selectedTab.Header.ToString() == "Debug")
+            if (e.Source is TabControl)
             {
-                SaveButton.Visibility = Visibility.Collapsed;
-                CancelButton.Visibility = Visibility.Collapsed;
-                CreateArchiveDebugButton.Visibility = Visibility.Visible;
-            }
-            else if (selectedTab.Header != null &&
-                     selectedTab.Header.ToString() == "Paramètres généraux")
-            {
-                SaveButton.Visibility = Visibility.Visible;
-                CancelButton.Visibility = Visibility.Visible;
-                CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                TabItem selectedTab = (sender as TabControl)?.SelectedItem as TabItem;
+                if (selectedTab is { Header: not null } && selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header)
+                {
+                    SaveButton.Visibility = Visibility.Visible;
+                    CancelButton.Visibility = Visibility.Visible;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                }
+                else if (selectedTab is { Header: not null } && selectedTab.Header.ToString() == (string?)OngletDebug.Header)
+                {
+                    SaveButton.Visibility = Visibility.Collapsed;
+                    CancelButton.Visibility = Visibility.Collapsed;
+                    CreateArchiveDebugButton.Visibility = Visibility.Visible;
+                }
+                
             }
         }
         
@@ -2757,8 +2785,8 @@ namespace KNXBoostDesktop
         {
             var includeOsInfo = AddInfosOsCheckBox.IsChecked;
             var includeHardwareInfo = AddInfosHardCheckBox.IsChecked;
-            var includeImportedProjects = AddImportedFiles.IsChecked;
-            var includeRemovedGroupAddressList = (bool)IncludeAddressList.IsChecked! && (bool)AddImportedFiles.IsChecked!;
+            var includeImportedProjects = AddImportedFilesCheckBox.IsChecked;
+            var includeRemovedGroupAddressList = (bool)IncludeAddressListCheckBox.IsChecked! && (bool)AddImportedFilesCheckBox.IsChecked!;
             
             ProjectFileManager.CreateDebugArchive((bool)includeOsInfo!, (bool)includeHardwareInfo!, (bool)includeImportedProjects!, includeRemovedGroupAddressList!);
         }
