@@ -406,8 +406,77 @@ public partial class MainWindow
                 TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
                 break;
         }
-
-        Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+        
+        if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
+        {
+            if (App.DisplayElements == null) return;
+            App.DisplayElements!.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
+                {
+                    // Arabe
+                    "AR" => $"المشروع المستورد: {App.Fm?.ProjectName}",
+                    // Bulgare
+                    "BG" => $"Импортиран проект: {App.Fm?.ProjectName}",
+                    // Tchèque
+                    "CS" => $"Importovaný projekt: {App.Fm?.ProjectName}",
+                    // Danois
+                    "DA" => $"Importerede projekt: {App.Fm?.ProjectName}",
+                    // Allemand
+                    "DE" => $"Importiertes Projekt: {App.Fm?.ProjectName}",
+                    // Grec
+                    "EL" => $"Εισαγόμενο έργο: {App.Fm?.ProjectName}",
+                    // Anglais
+                    "EN" => $"Imported Project: {App.Fm?.ProjectName}",
+                    // Espagnol
+                    "ES" => $"Proyecto importado: {App.Fm?.ProjectName}",
+                    // Estonien
+                    "ET" => $"Imporditud projekt: {App.Fm?.ProjectName}",
+                    // Finnois
+                    "FI" => $"Tuotu projekti: {App.Fm?.ProjectName}",
+                    // Hongrois
+                    "HU" => $"Importált projekt: {App.Fm?.ProjectName}",
+                    // Indonésien
+                    "ID" => $"Proyek yang diimpor: {App.Fm?.ProjectName}",
+                    // Italien
+                    "IT" => $"Progetto importato: {App.Fm?.ProjectName}",
+                    // Japonais
+                    "JA" => $"インポートされたプロジェクト: {App.Fm?.ProjectName}",
+                    // Coréen
+                    "KO" => $"가져온 프로젝트: {App.Fm?.ProjectName}",
+                    // Letton
+                    "LV" => $"Importēts projekts: {App.Fm?.ProjectName}",
+                    // Lituanien
+                    "LT" => $"Importuotas projektas: {App.Fm?.ProjectName}",
+                    // Norvégien
+                    "NB" => $"Importert prosjekt: {App.Fm?.ProjectName}",
+                    // Néerlandais
+                    "NL" => $"Geïmporteerd project: {App.Fm?.ProjectName}",
+                    // Polonais
+                    "PL" => $"Zaimportowany projekt: {App.Fm?.ProjectName}",
+                    // Portugais
+                    "PT" => $"Projeto importado: {App.Fm?.ProjectName}",
+                    // Roumain
+                    "RO" => $"Proiect importat: {App.Fm?.ProjectName}",
+                    // Russe
+                    "RU" => $"Импортированный проект: {App.Fm?.ProjectName}",
+                    // Slovaque
+                    "SK" => $"Importovaný projekt: {App.Fm?.ProjectName}",
+                    // Slovène
+                    "SL" => $"Uvožen projekt: {App.Fm?.ProjectName}",
+                    // Suédois
+                    "SV" => $"Importerade projekt: {App.Fm?.ProjectName}",
+                    // Turc
+                    "TR" => $"İçe aktarılan proje: {App.Fm?.ProjectName}",
+                    // Ukrainien
+                    "UK" => $"Імпортований проект: {App.Fm?.ProjectName}",
+                    // Chinois simplifié
+                    "ZH" => $"导入项目: {App.Fm?.ProjectName}",
+                    // Cas par défaut (français)
+                    _ => $"Projet importé : {App.Fm?.ProjectName}"
+                };
+        }
+        else
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
         {
             // Arabe
             "AR" => "في انتظار فتح مشروع...",
@@ -470,7 +539,7 @@ public partial class MainWindow
             // Cas par défaut (français)
             _ => "En attente de l'ouverture d'un projet..."
         };
-
+        }
         
         string panelTextColor;
         
