@@ -1469,7 +1469,7 @@ namespace KNXBoostDesktop
                 return;
             }
 
-            var debugArchiveName = "";
+            string debugArchiveName;
 
             try
             {
