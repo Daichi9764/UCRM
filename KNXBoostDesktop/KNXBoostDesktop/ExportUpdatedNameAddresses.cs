@@ -239,7 +239,7 @@ class ExportUpdatedNameAddresses
                 App.DisplayElements.LoadingWindow.LogActivity(exportingAddresses);
 
                 // Load the updated XML document
-                XDocument? knxDoc = App.Fm?.LoadKnxDocument(sourcePath);
+                XDocument? knxDoc = App.Fm?.LoadXmlDocument(sourcePath);
 
                 // Namespace for GroupAddress-Export
                 XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";

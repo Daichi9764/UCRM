@@ -869,7 +869,7 @@ namespace KNXBoostDesktop
         /// <item>Logs an error message and returns null if an exception is thrown.</item>
         /// </list>
         /// </remarks>
-        public XDocument? LoadKnxDocument(string path)
+        public XDocument? LoadXmlDocument(string path)
         {
             try
             {
