@@ -83,6 +83,8 @@ namespace KNXBoostDesktop
         /// </summary>
         public SettingsWindow()
         {
+            InitializeComponent(); // Initialisation de la fenêtre de paramétrage
+            
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
             // la lecture du fichier settings. Cela permet d'éviter un crash si le fichier 
             EnableDeeplTranslation = false;
@@ -750,7 +752,7 @@ namespace KNXBoostDesktop
                         case "window scale factor":
                             try
                             {
-                                AppScaleFactor = Convert.ToInt32(value);
+                                AppScaleFactor = Convert.ToInt32(value) > 300 || Convert.ToInt32(value) < 50 ? 100 : Convert.ToInt32(value);
                                 ApplyScaling(AppScaleFactor/100f - 0.2f);
                             }
                             catch (Exception)
@@ -780,8 +782,6 @@ namespace KNXBoostDesktop
                 reader?.Close(); // Fermeture du stream de lecture
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
-            
-            InitializeComponent(); // Initialisation de la fenêtre de paramétrage
 
             AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion.ToString(CultureInfo.InvariantCulture)} (build {App.AppBuild})";
 
@@ -3614,7 +3614,7 @@ namespace KNXBoostDesktop
         }
 
 
-        public void ApplyScaling(double scale)
+        private void ApplyScaling(double scale)
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
