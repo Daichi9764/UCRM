@@ -86,5 +86,11 @@ namespace KNXBoostDesktop
             this.Hide(); // On la cache à la place
             App.ConsoleAndLogWriteLine("Hiding console");
         }
+
+
+        public void ApplyScaling(float scale)
+        {
+            ConsoleTextBox.FontSize *= scale;
+        }
     }
 }
