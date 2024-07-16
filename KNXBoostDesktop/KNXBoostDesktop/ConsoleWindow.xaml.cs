@@ -90,7 +90,7 @@ namespace KNXBoostDesktop
 
         public void ApplyScaling(float scale)
         {
-            ConsoleTextBox.FontSize *= scale;
+            ConsoleTextBox.FontSize = 15 * scale;
         }
     }
 }

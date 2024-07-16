@@ -29,6 +29,8 @@ namespace KNXBoostDesktop
 
             Activities = new ObservableCollection<Activity>();
             ActivityLog.ItemsSource = Activities;
+            
+            ApplyScaling(App.DisplayElements!.SettingsWindow!.AppScaleFactor/100f);
         }
 
         

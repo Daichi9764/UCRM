@@ -527,7 +527,7 @@ public partial class GroupAddressRenameWindow
     public void ApplyScaling(float scale)
     {
         AddressRenameWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
-        Height *= scale;
-        Width *= scale;
+        Height = 275 * scale;
+        Width = 500 * scale;
     }
 }
