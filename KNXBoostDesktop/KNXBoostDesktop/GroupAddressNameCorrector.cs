@@ -57,7 +57,7 @@ public class GroupAddressNameCorrector
     /// <summary>
     /// Collection to memorize formatted hardware file names and Mxxxx directories based on hardware to program reference IDs.
     /// </summary>
-    private static Dictionary<string, (string HardwareFileName, string MxxxxDirectory)> hardware2ProgramRefIdCache = new();
+    private static Dictionary<string, (string HardwareFileName, string MxxxxDirectory)> _hardware2ProgramRefIdCache = new();
 
 
     
@@ -1036,7 +1036,7 @@ public class GroupAddressNameCorrector
     private static (string HardwareFileName, string MxxxxDirectory) FormatHardware2ProgramRefId(string hardware2ProgramRefId)
     {
         // Check if the result is already in the cache
-        if (hardware2ProgramRefIdCache.TryGetValue(hardware2ProgramRefId, out var cachedResult))
+        if (_hardware2ProgramRefIdCache.TryGetValue(hardware2ProgramRefId, out var cachedResult))
         {
             return cachedResult;
         }
@@ -1059,7 +1059,7 @@ public class GroupAddressNameCorrector
             var result = (hardwareFileName, mxxxxDirectory);
 
             // Store the result in the cache before returning
-            hardware2ProgramRefIdCache[hardware2ProgramRefId] = result;
+            _hardware2ProgramRefIdCache[hardware2ProgramRefId] = result;
             return result;
         }
         catch (ArgumentNullException ex)
@@ -1762,7 +1762,7 @@ public class GroupAddressNameCorrector
         var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
         // Check for the presence of "cmd" and "ie" in the list of words
-        bool containsCmd = words.Contains("cmd");
+        bool containsCmd = words.Contains("cmd") || words.Contains("cde");
         bool containsIe = words.Contains("ie");
 
         if (containsCmd && !containsIe)
