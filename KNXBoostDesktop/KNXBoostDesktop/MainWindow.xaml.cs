@@ -52,13 +52,13 @@ public partial class MainWindow
     /// </summary>
     private bool _isTreeViewExpanded;
 
-    
-    
-    
+
+
+
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// Sets up the render mode, data context, window icon, and updates the window contents.
@@ -432,8 +432,8 @@ public partial class MainWindow
             BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
             BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
 
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyle2");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyle2");
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
         }
         else
         {
@@ -1547,7 +1547,6 @@ public partial class MainWindow
         var treeNode = CreateTreeViewItemFromXmlNode(xmlNode, level, index);
 
         parentItems.Add(treeNode);
-
         // Parcourir récursivement les enfants
         int childIndex = 0;
         foreach (XmlNode childNode in xmlNode.ChildNodes)
@@ -1587,7 +1586,15 @@ public partial class MainWindow
             Source = drawingImage
         };
 
-        var text = new TextBlock { Text = ((XmlElement)xmlNode).GetAttribute("Name") };
+
+        var text = new TextBlock
+        {
+            Text = ((XmlElement)xmlNode).GetAttribute("Name"),
+            FontSize = 12
+
+        };
+
+      
 
         stack.Children.Add(icon);
         stack.Children.Add(text);
@@ -1600,7 +1607,7 @@ public partial class MainWindow
 
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
         {
-            treeNode.Style = (Style)FindResource("TreeViewItemStyle2");
+            treeNode.Style = (Style)FindResource("TreeViewItemStyleLight");
         }
         else
         {
