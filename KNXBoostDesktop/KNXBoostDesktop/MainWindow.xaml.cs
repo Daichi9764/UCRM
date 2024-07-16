@@ -1199,7 +1199,7 @@ public partial class MainWindow
             Dispatcher.Invoke(() =>
             {
                 TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
-                //App.DisplayElements?.LoadingWindow?.CloseAfterDelay(2000).ConfigureAwait(false);
+                App.DisplayElements?.LoadingWindow?.CloseAfterDelay(2000).ConfigureAwait(false);
             });
         }
     }
