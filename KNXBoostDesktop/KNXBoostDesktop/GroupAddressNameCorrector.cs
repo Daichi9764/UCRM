@@ -949,6 +949,7 @@ public class GroupAddressNameCorrector
                 // Check if the hardware file exists
                 if (!File.Exists(filePath))
                 {
+                    App.ConsoleAndLogWriteLine($"File not found: {filePath}");
                     string newFilePath = Path.Combine(mxxxxDirectoryPath,FormatNewFileName(comObjectInstanceRefId, hardwareFileName));
 
                     if (!File.Exists(newFilePath))
