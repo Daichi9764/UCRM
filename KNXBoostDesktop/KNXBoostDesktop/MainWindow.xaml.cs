@@ -98,9 +98,270 @@ public partial class MainWindow
 
     
     /// <summary>
-    /// Updates the contents of the window, including theme and language.
+    /// Updates the contents of the window, including theme, scaling, title and language.
     /// </summary>
     public void UpdateWindowContents()
+    {
+        // Traduction de la fenêtre principale
+        TranslateWindowContents();
+
+        // Modifie le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
+        SetWindowTitleToCurrentProject();
+        
+        // Applique le thème clair/sombre à la fenêtre
+        ApplyCurrentApplicationTheme();
+
+        // Application de la mise à l'échelle de la fenêtre
+        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        {
+            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+        }
+        
+        const string filePath = "./runData.csv";
+        LoadLoadingTimesFromCsv(filePath);
+    }
+
+
+    // Fonction pour appliquer le thème clair ou sombre
+    /// <summary>
+    /// Applies the current application theme based on the user's settings.
+    /// Adjusts various UI element colors and styles to match either a light or dark theme.
+    /// </summary>
+    private void ApplyCurrentApplicationTheme()
+    {
+        string panelTextColor;
+        
+        string settingsButtonColor;
+        string logoColor;
+        string borderColor;
+        string borderPanelColor;
+        
+        string panelBackgroundColor;
+        string backgroundColor;
+        
+            
+        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
+        {
+            panelTextColor = "#000000";
+            panelBackgroundColor = "#FFFFFF";
+            backgroundColor = "#F5F5F5";
+
+            settingsButtonColor = "#FFFFFF";
+            logoColor = "#000000";
+            borderColor = "#D7D7D7";
+
+            borderPanelColor = "#D7D7D7";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
+        }
+        else
+        {
+            backgroundColor = "#313131";
+            panelBackgroundColor = "#262626";
+
+            panelTextColor = "#E3DED4";
+            
+            settingsButtonColor = "#262626";
+            logoColor = "#E3DED4";
+            borderColor = "#434343";
+
+            borderPanelColor = "#525252";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
+        }
+        
+        // Panneaux et arrière-plan
+        MainGrid.Background = ConvertStringColor(backgroundColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        
+        // Bouton paramètre
+        BrushSettings1.Brush = ConvertStringColor(logoColor);
+        BrushSettings2.Brush = ConvertStringColor(logoColor);
+        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
+        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
+        
+        // Recherche
+        Recherche.BorderBrush = ConvertStringColor(borderColor);
+        Recherche.Background = ConvertStringColor(panelBackgroundColor);
+        LogoRecherche.Brush = ConvertStringColor(logoColor);
+        
+        // Panel
+        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
+        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
+        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
+        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
+        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
+        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
+        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
+    }
+
+
+    // Fonction modifiant le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
+    /// <summary>
+    /// Sets the window title to the name of the current project in the appropriate language.
+    /// If no project is loaded, sets a waiting message as the window title in the appropriate language.
+    /// </summary>
+    private void SetWindowTitleToCurrentProject()
+    {
+        if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
+        {
+            if (App.DisplayElements == null) return;
+            App.DisplayElements.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => $"المشروع المستورد: {App.Fm.ProjectName}",
+                // Bulgare
+                "BG" => $"Импортиран проект: {App.Fm.ProjectName}",
+                // Tchèque
+                "CS" => $"Importovaný projekt: {App.Fm.ProjectName}",
+                // Danois
+                "DA" => $"Importerede projekt: {App.Fm.ProjectName}",
+                // Allemand
+                "DE" => $"Importiertes Projekt: {App.Fm.ProjectName}",
+                // Grec
+                "EL" => $"Εισαγόμενο έργο: {App.Fm.ProjectName}",
+                // Anglais
+                "EN" => $"Imported Project: {App.Fm.ProjectName}",
+                // Espagnol
+                "ES" => $"Proyecto importado: {App.Fm.ProjectName}",
+                // Estonien
+                "ET" => $"Imporditud projekt: {App.Fm.ProjectName}",
+                // Finnois
+                "FI" => $"Tuotu projekti: {App.Fm.ProjectName}",
+                // Hongrois
+                "HU" => $"Importált projekt: {App.Fm.ProjectName}",
+                // Indonésien
+                "ID" => $"Proyek yang diimpor: {App.Fm.ProjectName}",
+                // Italien
+                "IT" => $"Progetto importato: {App.Fm.ProjectName}",
+                // Japonais
+                "JA" => $"インポートされたプロジェクト: {App.Fm.ProjectName}",
+                // Coréen
+                "KO" => $"가져온 프로젝트: {App.Fm.ProjectName}",
+                // Letton
+                "LV" => $"Importēts projekts: {App.Fm.ProjectName}",
+                // Lituanien
+                "LT" => $"Importuotas projektas: {App.Fm.ProjectName}",
+                // Norvégien
+                "NB" => $"Importert prosjekt: {App.Fm.ProjectName}",
+                // Néerlandais
+                "NL" => $"Geïmporteerd project: {App.Fm.ProjectName}",
+                // Polonais
+                "PL" => $"Zaimportowany projekt: {App.Fm.ProjectName}",
+                // Portugais
+                "PT" => $"Projeto importado: {App.Fm.ProjectName}",
+                // Roumain
+                "RO" => $"Proiect importat: {App.Fm.ProjectName}",
+                // Russe
+                "RU" => $"Импортированный проект: {App.Fm.ProjectName}",
+                // Slovaque
+                "SK" => $"Importovaný projekt: {App.Fm.ProjectName}",
+                // Slovène
+                "SL" => $"Uvožen projekt: {App.Fm.ProjectName}",
+                // Suédois
+                "SV" => $"Importerade projekt: {App.Fm.ProjectName}",
+                // Turc
+                "TR" => $"İçe aktarılan proje: {App.Fm.ProjectName}",
+                // Ukrainien
+                "UK" => $"Імпортований проект: {App.Fm.ProjectName}",
+                // Chinois simplifié
+                "ZH" => $"导入项目: {App.Fm.ProjectName}",
+                // Cas par défaut (français)
+                _ => $"Projet importé : {App.Fm.ProjectName}"
+            };
+        }
+        else
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "في انتظار فتح مشروع...",
+                // Bulgare
+                "BG" => "Изчакване за отваряне на проект...",
+                // Tchèque
+                "CS" => "Čekání na otevření projektu...",
+                // Danois
+                "DA" => "Venter på at åbne et projekt...",
+                // Allemand
+                "DE" => "Warten auf das Öffnen eines Projekts...",
+                // Grec
+                "EL" => "Αναμονή για άνοιγμα έργου...",
+                // Anglais
+                "EN" => "Waiting for a project to open...",
+                // Espagnol
+                "ES" => "Esperando a que se abra un proyecto...",
+                // Estonien
+                "ET" => "Ootab projekti avamist...",
+                // Finnois
+                "FI" => "Odotetaan projektin avaamista...",
+                // Hongrois
+                "HU" => "Projekt megnyitására várva...",
+                // Indonésien
+                "ID" => "Menunggu proyek dibuka...",
+                // Italien
+                "IT" => "In attesa dell'apertura di un progetto...",
+                // Japonais
+                "JA" => "プロジェクトのオープンを待っています...",
+                // Coréen
+                "KO" => "프로젝트 열기를 기다리는 중...",
+                // Letton
+                "LV" => "Gaida projekta atvēršanu...",
+                // Lituanien
+                "LT" => "Laukiama projekto atidarymo...",
+                // Norvégien
+                "NB" => "Venter på å åpne et prosjekt...",
+                // Néerlandais
+                "NL" => "Wachten op het openen van een project...",
+                // Polonais
+                "PL" => "Oczekiwanie na otwarcie projektu...",
+                // Portugais
+                "PT" => "Aguardando a abertura de um projeto...",
+                // Roumain
+                "RO" => "Așteptarea deschiderii unui proiect...",
+                // Russe
+                "RU" => "Ожидание открытия проекта...",
+                // Slovaque
+                "SK" => "Čaká sa na otvorenie projektu...",
+                // Slovène
+                "SL" => "Čakam na odprtje projekta...",
+                // Suédois
+                "SV" => "Väntar på att öppna ett projekt...",
+                // Turc
+                "TR" => "Projenin açılması bekleniyor...",
+                // Ukrainien
+                "UK" => "Очікування відкриття проекту...",
+                // Chinois simplifié
+                "ZH" => "等待项目打开...",
+                // Cas par défaut (français)
+                _ => "En attente de l'ouverture d'un projet..."
+            };
+        }
+    }
+
+
+    // Fonction pour traduire les textes contenus dans la fenêtre
+    /// <summary>
+    /// Translates the text contents of the main window's user interface elements based on the application's current language setting.
+    /// Updates various UI components with translations appropriate to the selected language.
+    /// </summary>
+    private void TranslateWindowContents()
     {
         // Traduction de la fenêtre principale
         switch (App.DisplayElements?.SettingsWindow?.AppLang)
@@ -405,232 +666,7 @@ public partial class MainWindow
                 TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
                 break;
         }
-        
-        if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
-        {
-            if (App.DisplayElements == null) return;
-            App.DisplayElements.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
-                {
-                    // Arabe
-                    "AR" => $"المشروع المستورد: {App.Fm.ProjectName}",
-                    // Bulgare
-                    "BG" => $"Импортиран проект: {App.Fm.ProjectName}",
-                    // Tchèque
-                    "CS" => $"Importovaný projekt: {App.Fm.ProjectName}",
-                    // Danois
-                    "DA" => $"Importerede projekt: {App.Fm.ProjectName}",
-                    // Allemand
-                    "DE" => $"Importiertes Projekt: {App.Fm.ProjectName}",
-                    // Grec
-                    "EL" => $"Εισαγόμενο έργο: {App.Fm.ProjectName}",
-                    // Anglais
-                    "EN" => $"Imported Project: {App.Fm.ProjectName}",
-                    // Espagnol
-                    "ES" => $"Proyecto importado: {App.Fm.ProjectName}",
-                    // Estonien
-                    "ET" => $"Imporditud projekt: {App.Fm.ProjectName}",
-                    // Finnois
-                    "FI" => $"Tuotu projekti: {App.Fm.ProjectName}",
-                    // Hongrois
-                    "HU" => $"Importált projekt: {App.Fm.ProjectName}",
-                    // Indonésien
-                    "ID" => $"Proyek yang diimpor: {App.Fm.ProjectName}",
-                    // Italien
-                    "IT" => $"Progetto importato: {App.Fm.ProjectName}",
-                    // Japonais
-                    "JA" => $"インポートされたプロジェクト: {App.Fm.ProjectName}",
-                    // Coréen
-                    "KO" => $"가져온 프로젝트: {App.Fm.ProjectName}",
-                    // Letton
-                    "LV" => $"Importēts projekts: {App.Fm.ProjectName}",
-                    // Lituanien
-                    "LT" => $"Importuotas projektas: {App.Fm.ProjectName}",
-                    // Norvégien
-                    "NB" => $"Importert prosjekt: {App.Fm.ProjectName}",
-                    // Néerlandais
-                    "NL" => $"Geïmporteerd project: {App.Fm.ProjectName}",
-                    // Polonais
-                    "PL" => $"Zaimportowany projekt: {App.Fm.ProjectName}",
-                    // Portugais
-                    "PT" => $"Projeto importado: {App.Fm.ProjectName}",
-                    // Roumain
-                    "RO" => $"Proiect importat: {App.Fm.ProjectName}",
-                    // Russe
-                    "RU" => $"Импортированный проект: {App.Fm.ProjectName}",
-                    // Slovaque
-                    "SK" => $"Importovaný projekt: {App.Fm.ProjectName}",
-                    // Slovène
-                    "SL" => $"Uvožen projekt: {App.Fm.ProjectName}",
-                    // Suédois
-                    "SV" => $"Importerade projekt: {App.Fm.ProjectName}",
-                    // Turc
-                    "TR" => $"İçe aktarılan proje: {App.Fm.ProjectName}",
-                    // Ukrainien
-                    "UK" => $"Імпортований проект: {App.Fm.ProjectName}",
-                    // Chinois simplifié
-                    "ZH" => $"导入项目: {App.Fm.ProjectName}",
-                    // Cas par défaut (français)
-                    _ => $"Projet importé : {App.Fm.ProjectName}"
-                };
-        }
-        else
-        {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
-        {
-            // Arabe
-            "AR" => "في انتظار فتح مشروع...",
-            // Bulgare
-            "BG" => "Изчакване за отваряне на проект...",
-            // Tchèque
-            "CS" => "Čekání na otevření projektu...",
-            // Danois
-            "DA" => "Venter på at åbne et projekt...",
-            // Allemand
-            "DE" => "Warten auf das Öffnen eines Projekts...",
-            // Grec
-            "EL" => "Αναμονή για άνοιγμα έργου...",
-            // Anglais
-            "EN" => "Waiting for a project to open...",
-            // Espagnol
-            "ES" => "Esperando a que se abra un proyecto...",
-            // Estonien
-            "ET" => "Ootab projekti avamist...",
-            // Finnois
-            "FI" => "Odotetaan projektin avaamista...",
-            // Hongrois
-            "HU" => "Projekt megnyitására várva...",
-            // Indonésien
-            "ID" => "Menunggu proyek dibuka...",
-            // Italien
-            "IT" => "In attesa dell'apertura di un progetto...",
-            // Japonais
-            "JA" => "プロジェクトのオープンを待っています...",
-            // Coréen
-            "KO" => "프로젝트 열기를 기다리는 중...",
-            // Letton
-            "LV" => "Gaida projekta atvēršanu...",
-            // Lituanien
-            "LT" => "Laukiama projekto atidarymo...",
-            // Norvégien
-            "NB" => "Venter på å åpne et prosjekt...",
-            // Néerlandais
-            "NL" => "Wachten op het openen van een project...",
-            // Polonais
-            "PL" => "Oczekiwanie na otwarcie projektu...",
-            // Portugais
-            "PT" => "Aguardando a abertura de um projeto...",
-            // Roumain
-            "RO" => "Așteptarea deschiderii unui proiect...",
-            // Russe
-            "RU" => "Ожидание открытия проекта...",
-            // Slovaque
-            "SK" => "Čaká sa na otvorenie projektu...",
-            // Slovène
-            "SL" => "Čakam na odprtje projekta...",
-            // Suédois
-            "SV" => "Väntar på att öppna ett projekt...",
-            // Turc
-            "TR" => "Projenin açılması bekleniyor...",
-            // Ukrainien
-            "UK" => "Очікування відкриття проекту...",
-            // Chinois simplifié
-            "ZH" => "等待项目打开...",
-            // Cas par défaut (français)
-            _ => "En attente de l'ouverture d'un projet..."
-        };
-        }
-        
-        string panelTextColor;
-        
-        string settingsButtonColor;
-        string logoColor;
-        string borderColor;
-        string borderPanelColor;
-        
-        string panelBackgroundColor;
-        string backgroundColor;
-        
-            
-        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
-        {
-            panelTextColor = "#000000";
-            panelBackgroundColor = "#FFFFFF";
-            backgroundColor = "#F5F5F5";
-
-            settingsButtonColor = "#FFFFFF";
-            logoColor = "#000000";
-            borderColor = "#D7D7D7";
-
-            borderPanelColor = "#D7D7D7";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
-        }
-        else
-        {
-            backgroundColor = "#313131";
-            panelBackgroundColor = "#262626";
-
-            panelTextColor = "#E3DED4";
-            
-            settingsButtonColor = "#262626";
-            logoColor = "#E3DED4";
-            borderColor = "#434343";
-
-            borderPanelColor = "#525252";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
-        }
-        
-        // Panneaux et arrière-plan
-        MainGrid.Background = ConvertStringColor(backgroundColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        
-        // Bouton paramètre
-        BrushSettings1.Brush = ConvertStringColor(logoColor);
-        BrushSettings2.Brush = ConvertStringColor(logoColor);
-        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
-        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
-        
-        // Recherche
-        Recherche.BorderBrush = ConvertStringColor(borderColor);
-        Recherche.Background = ConvertStringColor(panelBackgroundColor);
-        LogoRecherche.Brush = ConvertStringColor(logoColor);
-        
-        // Panel
-        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
-        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
-        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
-        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
-        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
-        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
-        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
-
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
-        {
-            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
-        }
-        
-        const string filePath = "./runData.csv";
-        LoadLoadingTimesFromCsv(filePath);
-    }   
-    
+    }
     
     
     //--------------------- Gestion des boutons -----------------------------------------------------//
@@ -981,6 +1017,10 @@ public partial class MainWindow
         }
     }
 
+    
+    /// <summary>
+    /// Asynchronously reloads the current project, displaying a loading window with real-time elapsed time updates.
+    /// </summary>
     public async void ReloadProject()
     {
         App.ConsoleAndLogWriteLine("Reaload");
@@ -1030,6 +1070,7 @@ public partial class MainWindow
             ViewModel.IsProjectImported = true;
 
     }
+    
 
     /// <summary>
     /// Handles the click event for the Open Console button.
@@ -1051,6 +1092,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Saves loading times to a CSV file.
     /// </summary>
@@ -1074,6 +1116,7 @@ public partial class MainWindow
         }
     }
 
+    
     /// <summary>
     /// Loads loading time entries from a CSV file located at the specified file path.
     /// </summary>
@@ -2817,8 +2860,7 @@ public partial class MainWindow
     /// <returns>The path of the TreeViewItem as a string, or null if the path cannot be determined.</returns>
     private static string? GetItemPath(TreeViewItem item)
     {
-        var path = item.Tag as string;
-        if (path == null)
+        if (item.Tag is not string path)
         {
             return null;
         }
