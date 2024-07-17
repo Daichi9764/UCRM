@@ -65,6 +65,9 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
+    public static int totalDevices;
+    public static int totalAddresses;
+    public static int totalDeletedAddresses;
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -520,15 +523,17 @@ public class GroupAddressNameCorrector
                     };
                 })
                 .ToList();
-
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
+
+            totalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
             {
+                totalDevices += loc.DeviceRefs.Count;
                 string message = string.Empty;
                 if (loc.DistributionBoardName != string.Empty)
                 {
@@ -661,6 +666,7 @@ public class GroupAddressNameCorrector
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
+            totalAddresses = groupedDeviceRefs.Count;
             var totalGroup = groupedDeviceRefs.Count;
             var countGroup = 1;
             // Construct the new name of the group address by iterating through each group of device references
@@ -838,6 +844,7 @@ public class GroupAddressNameCorrector
                 await writer.WriteLineAsync("Deleted addresses :");
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 
+                totalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var countAddressesUnused = 1;
                 foreach (var groupAddress in allGroupAddresses)

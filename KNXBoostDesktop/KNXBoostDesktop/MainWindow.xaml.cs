@@ -626,6 +626,9 @@ public partial class MainWindow
         {
             ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
         }
+        
+        const string filePath = "./runData.csv";
+        LoadLoadingTimesFromCsv(filePath);
     }   
     
     
@@ -791,25 +794,23 @@ public partial class MainWindow
             // Créer et configurer la LoadingWindow
             App.DisplayElements!.LoadingWindow = new LoadingWindow
             {
-                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+                Owner = this
             };
             
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-// Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
             var updateTask = Task.Run(async () =>
             {
                 while (stopwatch.IsRunning)
                 {
-                    TimeSpan elapsedTime = stopwatch.Elapsed;
-                    // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
+                    var elapsedTime = stopwatch.Elapsed;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         App.DisplayElements.LoadingWindow.TotalTime.Text =
                             $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
                     });
-                    await Task.Delay(100); // Met à jour toutes les 100ms
+                    await Task.Delay(100); 
                 }
             });
             
@@ -820,16 +821,32 @@ public partial class MainWindow
             stopwatch.Stop();
             TimeSpan finalElapsedTime = stopwatch.Elapsed;
 
-            // Mise à jour finale de l'affichage
             Application.Current.Dispatcher.Invoke(() =>
             {
                 App.DisplayElements.LoadingWindow.TotalTime.Text =
                     $"Temps total : {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}";
             });
 
+            const string filePath = "./runData.csv";
+            var loadingTimes = LoadLoadingTimesFromCsv(filePath);
+            loadingTimes?.Add(new LoadingTimeEntry
+            {
+                ProjectName = App.Fm.ProjectName,
+                AddressCount = GroupAddressNameCorrector.totalAddresses,
+                DeviceCount = GroupAddressNameCorrector.totalDevices,
+                IsDeleted = App.DisplayElements.SettingsWindow != null &&
+                            (bool)App.DisplayElements.SettingsWindow.RemoveUnusedAddressesCheckBox.IsChecked!,
+                DeletedAddresses = GroupAddressNameCorrector.totalDeletedAddresses,
+                IsTranslated = App.DisplayElements.SettingsWindow != null && 
+                               (bool)App.DisplayElements.SettingsWindow.EnableTranslationCheckBox.IsChecked!,
+                TotalLoadingTime = finalElapsedTime
+            });
+
             // Attend la fin de la tâche de mise à jour (au cas où elle serait encore en cours)
             await updateTask;
-
+            
+            SaveLoadingTimesAsCsv(filePath, loadingTimes);
+            //LoadLoadingTimesFromCsv(filePath);
             ViewModel.IsProjectImported = true;
         }
         else
@@ -858,7 +875,473 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
+
+    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    {
+        using var writer = new StreamWriter(filePath);
+        writer.WriteLine("ProjectName,AddressCount,DeviceCount,IsDeleted?,DeletedAddresses,IsTranslated?,TotalLoadingTime");
+        if (loadingTimes == null) return;
+            
+        foreach (var entry in loadingTimes)
+        {
+            writer.WriteLine($"{App.Fm?.ProjectName}," +
+                             $"{entry.AddressCount}," +
+                             $"{entry.DeviceCount}," +
+                             $"{entry.IsDeleted}," +
+                             $"{entry.DeletedAddresses}," +
+                             $"{entry.IsTranslated}," +
+                             $"{(int)entry.TotalLoadingTime.TotalMinutes:D2}:{entry.TotalLoadingTime.Seconds:D2}");
+        }
+    }
+
+    private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
+    {
+        var loadingTimes = new List<LoadingTimeEntry>();
         
+        try
+        {
+            // Si le fichier de paramétrage n'existe pas, on le crée
+            // Note : comme File.Create ouvre un stream vers le fichier à la création, on le ferme directement avec Close().
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+            }
+        }
+        // Si le programme n'a pas accès en écriture pour créer le fichier
+        catch (UnauthorizedAccessException)
+        {
+            // Définir les variables pour le texte du message et le titre du MessageBox
+            var messageBoxText = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "خطأ: تعذر الوصول إلى ملف البيانات. يرجى التحقق من أنه ليس للقراءة فقط وحاول مرة أخرى، أو قم بتشغيل البرنامج كمسؤول.\nرمز الخطأ: 10",
+                // Bulgare
+                "BG" => "Грешка: Не може да се получи достъп до файла с данни. Моля, проверете дали файлът не е само за четене и опитайте отново, или стартирайте програмата като администратор.\nКод за грешка: 10",
+                // Tchèque
+                "CS" => "Chyba: Nelze získat přístup k datovému souboru. Zkontrolujte, zda není pouze ke čtení, a zkuste to znovu, nebo spusťte program jako správce.\nChybový kód: 10",
+                // Danois
+                "DA" => "Fejl: Kan ikke få adgang til datafilen. Kontroller venligst, at filen ikke er skrivebeskyttet, og prøv igen, eller start programmet som administrator.\nFejlkode: 10",
+                // Allemand
+                "DE" => "Fehler: Zugriff auf die Datendatei nicht möglich. Bitte überprüfen Sie, ob die Datei schreibgeschützt ist, und versuchen Sie es erneut, oder starten Sie das Programm als Administrator.\nFehlercode: 10",
+                // Grec
+                "EL" => "Σφάλμα: δεν είναι δυνατή η πρόσβαση στο αρχείο δεδομένων. Παρακαλώ ελέγξτε αν δεν είναι μόνο για ανάγνωση και προσπαθήστε ξανά, ή ξεκινήστε το πρόγραμμα ως διαχειριστής.\nΚωδικός σφάλματος: 10",
+                // Anglais
+                "EN" => "Error: Unable to access the data file. Please check if it is read-only and try again, or run the program as an administrator.\nError Code: 10",
+                // Espagnol
+                "ES" => "Error: No se puede acceder al archivo de datos. Por favor, verifique si el archivo es de solo lectura y vuelva a intentarlo, o ejecute el programa como administrador.\nCódigo de error: 10",
+                // Estonien
+                "ET" => "Viga: ei saa andmefailile juurde pääseda. Kontrollige, kas fail on ainult lugemiseks ja proovige uuesti või käivitage programm administraatorina.\nVeakood: 10",
+                // Finnois
+                "FI" => "Virhe: Data tiedostoon ei pääse käsiksi. Tarkista, ettei tiedosto ole vain luku -tilassa, ja yritä uudelleen tai käynnistä ohjelma järjestelmänvalvojana.\nVirhekoodi: 10",
+                // Hongrois
+                "HU" => "Hiba: Nem lehet hozzáférni az adatfájlhoz. Kérjük, ellenőrizze, hogy a fájl nem csak olvasásra van-e beállítva, és próbálja újra, vagy futtassa a programot rendszergazdai jogosultságokkal.\nHibakód: 10",
+                // Indonésien
+                "ID" => "Kesalahan: tidak dapat mengakses file data. Silakan periksa apakah file tersebut hanya-baca dan coba lagi, atau jalankan program sebagai administrator.\nKode kesalahan: 10",
+                // Italien
+                "IT" => "Errore: impossibile accedere al file dei dati. Verifica se il file è solo in lettura e riprova, oppure avvia il programma come amministratore.\nCodice errore: 10",
+                // Japonais
+                "JA" => "エラー: データファイルにアクセスできません。ファイルが読み取り専用でないか確認し、再試行するか、管理者としてプログラムを実行してください。\nエラーコード: 10",
+                // Coréen
+                "KO" => "오류: 데이터 파일에 액세스할 수 없습니다. 파일이 읽기 전용인지 확인하고 다시 시도하거나 관리자로 프로그램을 실행하세요.\n오류 코드: 10",
+                // Letton
+                "LV" => "Kļūda: nevar piekļūt datu failam. Lūdzu, pārbaudiet, vai fails nav tikai lasāms, un mēģiniet vēlreiz vai palaidiet programmu kā administrators.\nKļūdas kods: 10",
+                // Lituanien
+                "LT" => "Klaida: negalima prieiti prie duomenų failo. Patikrinkite, ar failas nėra tik skaitymui ir bandykite dar kartą arba paleiskite programą kaip administratorius.\nKlaidos kodas: 10",
+                // Norvégien
+                "NB" => "Feil: Kan ikke få tilgang til datafilen. Sjekk om filen er skrivebeskyttet og prøv igjen, eller kjør programmet som administrator.\nFeilkode: 10",
+                // Néerlandais
+                "NL" => "Fout: kan geen toegang krijgen tot het databestand. Controleer of het bestand alleen-lezen is en probeer het opnieuw, of voer het programma uit als administrator.\nFoutcode: 10",
+                // Polonais
+                "PL" => "Błąd: Nie można uzyskać dostępu do pliku danych. Sprawdź, czy plik nie jest tylko do odczytu, a następnie spróbuj ponownie lub uruchom program jako administrator.\nKod błędu: 10",
+                // Portugais
+                "PT" => "Erro: não foi possível acessar o arquivo de dados. Verifique se o arquivo é somente leitura e tente novamente, ou execute o programa como administrador.\nCódigo de erro: 10",
+                // Roumain
+                "RO" => "Eroare: Nu se poate accesa fișierul de date. Vă rugăm să verificați dacă fișierul este numai pentru citire și să încercați din nou sau să rulați programul ca administrator.\nCod eroare: 10",
+                // Russe
+                "RU" => "Ошибка: невозможно получить доступ к файлу данных. Проверьте, не является ли файл только для чтения, и попробуйте снова, или запустите программу от имени администратора.\nКод ошибки: 10",
+                // Slovaque
+                "SK" => "Chyba: nemožno získať prístup k dátovému súboru. Skontrolujte, či nie je súbor iba na čítanie, a skúste to znova, alebo spustite program ako správca.\nChybový kód: 10",
+                // Slovène
+                "SL" => "Napaka: dostop do podatkovne datoteke ni mogoč. Preverite, ali je datoteka samo za branje, in poskusite znova, ali zaženite program kot skrbnik.\nKoda napake: 10",
+                // Suédois
+                "SV" => "Fel: Kan inte komma åt datafilen. Kontrollera om filen är skrivskyddad och försök igen, eller kör programmet som administratör.\nFelkod: 10",
+                // Turc
+                "TR" => "Hata: Veri dosyasına erişilemiyor. Dosyanın salt okunur olup olmadığını kontrol edin ve tekrar deneyin veya programı yönetici olarak çalıştırın.\nHata Kodu: 10",
+                // Ukrainien
+                "UK" => "Помилка: неможливо отримати доступ до файлу даних. Будь ласка, перевірте, чи не є файл тільки для читання, і спробуйте ще раз або запустіть програму від імені адміністратора.\nКод помилки: 10",
+                // Chinois simplifié
+                "ZH" => "错误: 无法访问数据文件。请检查文件是否为只读，并重试，或者以管理员身份运行程序。\n错误代码: 10",
+                // Cas par défaut (français)
+                _ => "Erreur: impossible d'accéder au fichier de données. Veuillez vérifier qu'il n'est pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 10"
+            };
+
+
+            var caption = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "خطأ",
+                // Bulgare
+                "BG" => "Грешка",
+                // Tchèque
+                "CS" => "Chyba",
+                // Danois
+                "DA" => "Fejl",
+                // Allemand
+                "DE" => "Fehler",
+                // Grec
+                "EL" => "Σφάλμα",
+                // Anglais
+                "EN" => "Error",
+                // Espagnol
+                "ES" => "Error",
+                // Estonien
+                "ET" => "Viga",
+                // Finnois
+                "FI" => "Virhe",
+                // Hongrois
+                "HU" => "Hiba",
+                // Indonésien
+                "ID" => "Kesalahan",
+                // Italien
+                "IT" => "Errore",
+                // Japonais
+                "JA" => "エラー",
+                // Coréen
+                "KO" => "오류",
+                // Letton
+                "LV" => "Kļūda",
+                // Lituanien
+                "LT" => "Klaida",
+                // Norvégien
+                "NB" => "Feil",
+                // Néerlandais
+                "NL" => "Fout",
+                // Polonais
+                "PL" => "Błąd",
+                // Portugais
+                "PT" => "Erro",
+                // Roumain
+                "RO" => "Eroare",
+                // Russe
+                "RU" => "Ошибка",
+                // Slovaque
+                "SK" => "Chyba",
+                // Slovène
+                "SL" => "Napaka",
+                // Suédois
+                "SV" => "Fel",
+                // Turc
+                "TR" => "Hata",
+                // Ukrainien
+                "UK" => "Помилка",
+                // Chinois simplifié
+                "ZH" => "错误",
+                // Cas par défaut (français)
+                _ => "Erreur"
+            };
+
+            // Afficher le MessageBox avec les traductions appropriées
+            MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Application.Current.Shutdown(1);
+        }
+        // Si la longueur du path est incorrecte ou que des caractères non supportés sont présents
+        catch (ArgumentException)
+        {
+            // Traductions des messages d'erreur et du titre en fonction de la langue
+            var errorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => "خطأ",
+                "BG" => "Грешка",
+                "CS" => "Chyba",
+                "DA" => "Fejl",
+                "DE" => "Fehler",
+                "EL" => "Σφάλμα",
+                "EN" => "Error",
+                "ES" => "Error",
+                "ET" => "Viga",
+                "FI" => "Virhe",
+                "HU" => "Hiba",
+                "ID" => "Kesalahan",
+                "IT" => "Errore",
+                "JA" => "エラー",
+                "KO" => "오류",
+                "LV" => "Kļūda",
+                "LT" => "Klaida",
+                "NB" => "Feil",
+                "NL" => "Fout",
+                "PL" => "Błąd",
+                "PT" => "Erro",
+                "RO" => "Eroare",
+                "RU" => "Ошибка",
+                "SK" => "Chyba",
+                "SL" => "Napaka",
+                "SV" => "Fel",
+                "TR" => "Hata",
+                "UK" => "Помилка",
+                "ZH" => "错误",
+                _ => "Erreur"
+            };
+
+            var errorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => $"خطأ: هناك أحرف غير مدعومة في مسار ملف البيانات ({filePath}). تعذر الوصول إلى الملف.\nرمز الخطأ: 20",
+                "BG" => $"Грешка: Съдържа неразрешени символи в пътя на файла с данни ({filePath}). Невъзможно е да се достъпи до файла.\nКод на грешката: 20",
+                "CS" => $"Chyba: V cestě k datovému souboru ({filePath}) jsou přítomny nepodporované znaky. Nelze přistupovat k souboru.\nKód chyby: 20",
+                "DA" => $"Fejl: Ugyldige tegn findes i stien til datafilen ({filePath}). Kan ikke få adgang til filen.\nFejlkode: 20",
+                "DE" => $"Fehler: Im Pfad zur Datendatei ({filePath}) sind nicht unterstützte Zeichen vorhanden. Auf die Datei kann nicht zugegriffen werden.\nFehlercode: 20",
+                "EL" => $"Σφάλμα: Υπάρχουν μη υποστηριγμένοι χαρακτήρες στη διαδρομή του αρχείου δεδομένων ({filePath}). Δεν είναι δυνατή η πρόσβαση στο αρχείο.\nΚωδικός σφάλματος: 20",
+                "EN" => $"Error: Unsupported characters are present in the data file path ({filePath}). Unable to access the file.\nError code: 20",
+                "ES" => $"Error: Hay caracteres no admitidos en la ruta del archivo de datos ({filePath}). No se puede acceder al archivo.\nCódigo de error: 20",
+                "ET" => $"Viga: Andmefaili tee ({filePath}) sisaldab toetamatuid märke. Failile ei ole võimalik juurde pääseda.\nVigakood: 20",
+                "FI" => $"Virhe: Tiedoston polussa ({filePath}) on tukemattomia merkkejä. Tiedostoon ei voi käyttää.\nVirhekoodi: 20",
+                "HU" => $"Hiba: Az adatfájl elérési útvonalán ({filePath}) nem támogatott karakterek találhatók. A fájlhoz nem lehet hozzáférni.\nHibakód: 20",
+                "ID" => $"Kesalahan: Karakter yang tidak didukung ada di jalur file data ({filePath}). Tidak dapat mengakses file.\nKode kesalahan: 20",
+                "IT" => $"Errore: Sono presenti caratteri non supportati nel percorso del file di dati ({filePath}). Impossibile accedere al file.\nCodice errore: 20",
+                "JA" => $"エラー: データファイルのパス ({filePath}) にサポートされていない文字が含まれています。ファイルにアクセスできません。\nエラーコード: 20",
+                "KO" => $"오류: 데이터 파일 경로 ({filePath})에 지원되지 않는 문자가 포함되어 있습니다. 파일에 접근할 수 없습니다.\n오류 코드: 20",
+                "LV" => $"Kļūda: Datu faila ceļā ({filePath}) ir neatbalstīti rakstzīmes. Nevar piekļūt failam.\nKļūdas kods: 20",
+                "LT" => $"Klaida: Nustatymų failo kelias ({filePath}) turi nepalaikomų simbolių. Nepavyksta pasiekti failo.\nKlaidos kodas: 20",
+                "NB" => $"Feil: Det finnes ikke-støttede tegn i stien til datafilen ({filePath}). Kan ikke få tilgang til filen.\nFeilkode: 20",
+                "NL" => $"Fout: Onondersteunde tekens zijn aanwezig in het pad naar het databestand ({filePath}). Kan niet toegang krijgen tot het bestand.\nFoutcode: 20",
+                "PL" => $"Błąd: W ścieżce pliku danych ({filePath}) znajdują się nieobsługiwane znaki. Nie można uzyskać dostępu do pliku.\nKod błędu: 20",
+                "PT" => $"Erro: Caracteres não suportados estão presentes no caminho do arquivo de dados ({filePath}). Não é possível acessar o arquivo.\nCódigo de erro: 20",
+                "RO" => $"Eroare: Caracterelor nesuportate sunt prezente în calea fișierului de date ({filePath}). Nu se poate accesa fișierul.\nCod eroare: 20",
+                "RU" => $"Ошибка: В пути к файлу данных ({filePath}) присутствуют неподдерживаемые символы. Невозможно получить доступ к файлу.\nКод ошибки: 20",
+                "SK" => $"Chyba: V ceste k súboru údajov ({filePath}) sú prítomné nepodporované znaky. Nie je možné pristupovať k súboru.\nKód chyby: 20",
+                "SL" => $"Napaka: V poti do podatkovne datoteke ({filePath}) so prisotne nepodprte znake. Do datoteke ni mogoče dostopati.\nKoda napake: 20",
+                "SV" => $"Fel: I datafilens sökväg ({filePath}) finns tecken som inte stöds. Kan inte komma åt filen.\nFelkod: 20",
+                "TR" => $"Hata: Veri dosyası yolunda ({filePath}) desteklenmeyen karakterler bulunuyor. Dosyaya erişilemiyor.\nHata kodu: 20",
+                "UK" => $"Помилка: У шляху до файлу даних ({filePath}) є непідтримувані символи. Не вдалося отримати доступ до файлу.\nКод помилки: 20",
+                "ZH" => $"错误: 配置文件路径 ({filePath}) 中存在不支持的字符。无法访问文件。\n错误代码: 20",
+                _ => $"Erreur: des caractères non supportés sont présents dans le chemin d'accès du fichier de données ({filePath}). Impossible d'accéder au fichier.\nCode erreur: 20"
+            };
+
+
+            // Affichage de la MessageBox avec le titre et le message traduits
+            MessageBox.Show(errorMessage, errorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Application.Current.Shutdown(2);
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            // Traductions du titre et du message d'erreur en fonction de la langue
+            var ioErrorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => "خطأ",
+                "BG" => "Грешка",
+                "CS" => "Chyba",
+                "DA" => "Fejl",
+                "DE" => "Fehler",
+                "EL" => "Σφάλμα",
+                "EN" => "Error",
+                "ES" => "Error",
+                "ET" => "Viga",
+                "FI" => "Virhe",
+                "HU" => "Hiba",
+                "ID" => "Kesalahan",
+                "IT" => "Errore",
+                "JA" => "エラー",
+                "KO" => "오류",
+                "LV" => "Kļūda",
+                "LT" => "Klaida",
+                "NB" => "Feil",
+                "NL" => "Fout",
+                "PL" => "Błąd",
+                "PT" => "Erro",
+                "RO" => "Eroare",
+                "RU" => "Ошибка",
+                "SK" => "Chyba",
+                "SL" => "Napaka",
+                "SV" => "Fel",
+                "TR" => "Hata",
+                "UK" => "Помилка",
+                "ZH" => "错误",
+                _ => "Erreur"
+            };
+
+            var ioErrorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => $"خطأ: خطأ في الإدخال/الإخراج عند فتح ملف البيانات.\nرمز الخطأ: 30",
+                "BG" => "Грешка: Грешка при четене/запис на файла с данни.\nКод на грешката: 30",
+                "CS" => "Chyba: Chyba I/O při otevírání souboru s daty.\nKód chyby: 30",
+                "DA" => "Fejl: I/O-fejl ved åbning af datafilen.\nFejlkode: 30",
+                "DE" => "Fehler: I/O-Fehler beim Öffnen der Datendatei.\nFehlercode: 30",
+                "EL" => "Σφάλμα: Σφάλμα I/O κατά το άνοιγμα του αρχείου δεδομένων.\nΚωδικός σφάλματος: 30",
+                "EN" => "Error: I/O error while opening the data file.\nError code: 30",
+                "ES" => "Error: Error de I/O al abrir el archivo de datos.\nCódigo de error: 30",
+                "ET" => "Viga: I/O viga andmefaili avamisel.\nVigakood: 30",
+                "FI" => "Virhe: I/O-virhe data tiedoston avaamisessa.\nVirhekoodi: 30",
+                "HU" => "Hiba: I/O hiba az adatfájl megnyitásakor.\nHibakód: 30",
+                "ID" => "Kesalahan: Kesalahan I/O saat membuka file data.\nKode kesalahan: 30",
+                "IT" => "Errore: Errore I/O durante l'apertura del file di dati.\nCodice errore: 30",
+                "JA" => "エラー: データファイルのオープン時にI/Oエラーが発生しました。\nエラーコード: 30",
+                "KO" => "오류: 데이터 파일 열기 중 I/O 오류가 발생했습니다.\n오류 코드: 30",
+                "LV" => "Kļūda: I/O kļūda atverot datu failu.\nKļūdas kods: 30",
+                "LT" => "Klaida: I/O klaida atidarant duomenų failą.\nKlaidos kodas: 30",
+                "NB" => "Feil: I/O-feil ved åpning av datafilen.\nFeilkode: 30",
+                "NL" => "Fout: I/O-fout bij het openen van het databestand.\nFoutcode: 30",
+                "PL" => "Błąd: Błąd I/O podczas otwierania pliku danych.\nKod błędu: 30",
+                "PT" => "Erro: Erro de I/O ao abrir o arquivo de dados.\nCódigo de erro: 30",
+                "RO" => "Eroare: Eroare I/O la deschiderea fișierului de date.\nCod eroare: 30",
+                "RU" => "Ошибка: Ошибка ввода/вывода при открытии файла данных.\nКод ошибки: 30",
+                "SK" => "Chyba: Chyba I/O pri otváraní súboru údajov.\nKód chyby: 30",
+                "SL" => "Napaka: Napaka I/O pri odpiranju podatkovne datoteke.\nKoda napake: 30",
+                "SV" => "Fel: I/O-fel vid öppning av datafilen.\nFelkod: 30",
+                "TR" => "Hata: Veri dosyasını açarken I/O hatası oluştu.\nHata kodu: 30",
+                "UK" => "Помилка: Помилка вводу/виводу під час відкриття файлу даних.\nКод помилки: 30",
+                "ZH" => "错误: 打开数据文件时发生I/O错误。\n错误代码: 30",
+                _ => "Erreur: Erreur I/O lors de l'ouverture du fichier de données.\nCode erreur: 30"
+            };
+
+
+            // Affichage de la MessageBox avec le titre et le message traduits
+            MessageBox.Show(ioErrorMessage, ioErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Application.Current.Shutdown(3);
+        }
+        
+        StreamReader? reader = null;
+        
+        try
+        {
+            // Création du stream
+            reader = new StreamReader(filePath);
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            // Traductions du titre et du message d'erreur en fonction de la langue
+            var ioErrorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => "خطأ",
+                "BG" => "Грешка",
+                "CS" => "Chyba",
+                "DA" => "Fejl",
+                "DE" => "Fehler",
+                "EL" => "Σφάλμα",
+                "EN" => "Error",
+                "ES" => "Error",
+                "ET" => "Viga",
+                "FI" => "Virhe",
+                "HU" => "Hiba",
+                "ID" => "Kesalahan",
+                "IT" => "Errore",
+                "JA" => "エラー",
+                "KO" => "오류",
+                "LV" => "Kļūda",
+                "LT" => "Klaida",
+                "NB" => "Feil",
+                "NL" => "Fout",
+                "PL" => "Błąd",
+                "PT" => "Erro",
+                "RO" => "Eroare",
+                "RU" => "Ошибка",
+                "SK" => "Chyba",
+                "SL" => "Napaka",
+                "SV" => "Fel",
+                "TR" => "Hata",
+                "UK" => "Помилка",
+                "ZH" => "错误",
+                _ => "Erreur"
+            };
+
+            var ioErrorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                "AR" => $"خطأ: خطأ في الإدخال/الإخراج عند فتح ملف الإعدادات.\nرمز الخطأ: 3",
+                "BG" => "Грешка: Грешка при четене/запис на файла с настройки.\nКод на грешката: 3",
+                "CS" => "Chyba: Chyba I/O při otevírání souboru nastavení.\nKód chyby: 3",
+                "DA" => "Fejl: I/O-fejl ved åbning af konfigurationsfilen.\nFejlkode: 3",
+                "DE" => "Fehler: I/O-Fehler beim Öffnen der Einstellungsdatei.\nFehlercode: 3",
+                "EL" => "Σφάλμα: Σφάλμα I/O κατά το άνοιγμα του αρχείου ρυθμίσεων.\nΚωδικός σφάλματος: 3",
+                "EN" => "Error: I/O error while opening the settings file.\nError code: 3",
+                "ES" => "Error: Error de I/O al abrir el archivo de configuración.\nCódigo de error: 3",
+                "ET" => "Viga: I/O viga seadistusfaili avamisel.\nVigakood: 3",
+                "FI" => "Virhe: I/O-virhe asetustiedoston avaamisessa.\nVirhekoodi: 3",
+                "HU" => "Hiba: I/O hiba a beállítási fájl megnyitásakor.\nHibakód: 3",
+                "ID" => "Kesalahan: Kesalahan I/O saat membuka file pengaturan.\nKode kesalahan: 3",
+                "IT" => "Errore: Errore I/O durante l'apertura del file di configurazione.\nCodice errore: 3",
+                "JA" => "エラー: 設定ファイルのオープン時にI/Oエラーが発生しました。\nエラーコード: 3",
+                "KO" => "오류: 설정 파일 열기 중 I/O 오류가 발생했습니다.\n오류 코드: 3",
+                "LV" => "Kļūda: I/O kļūda atverot iestatījumu failu.\nKļūdas kods: 3",
+                "LT" => "Klaida: I/O klaida atidarant nustatymų failą.\nKlaidos kodas: 3",
+                "NB" => "Feil: I/O-feil ved åpning av innstillingsfilen.\nFeilkode: 3",
+                "NL" => "Fout: I/O-fout bij het openen van het instellingenbestand.\nFoutcode: 3",
+                "PL" => "Błąd: Błąd I/O podczas otwierania pliku konfiguracyjnego.\nKod błędu: 3",
+                "PT" => "Erro: Erro de I/O ao abrir o arquivo de configuração.\nCódigo de erro: 3",
+                "RO" => "Eroare: Eroare I/O la deschiderea fișierului de configurare.\nCod eroare: 3",
+                "RU" => "Ошибка: Ошибка ввода/вывода при открытии файла настроек.\nКод ошибки: 3",
+                "SK" => "Chyba: Chyba I/O pri otváraní súboru nastavení.\nKód chyby: 3",
+                "SL" => "Napaka: Napaka I/O pri odpiranju konfiguracijske datoteke.\nKoda napake: 3",
+                "SV" => "Fel: I/O-fel vid öppning av inställningsfilen.\nFelkod: 3",
+                "TR" => "Hata: Ayar dosyasını açarken I/O hatası oluştu.\nHata kodu: 3",
+                "UK" => "Помилка: Помилка вводу/виводу під час відкриття файлу налаштувань.\nКод помилки: 3",
+                "ZH" => "错误: 打开设置文件时发生I/O错误。\n错误代码: 3",
+                _ => "Erreur: Erreur I/O lors de l'ouverture du fichier de paramétrage.\nCode erreur: 3"
+            };
+
+            // Affichage de la MessageBox avec le titre et le message traduits
+            MessageBox.Show(ioErrorMessage, ioErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Application.Current.Shutdown(3);
+        }
+
+        try
+        {            
+            var headerLine = reader?.ReadLine();
+            while (reader?.ReadLine() is { } line)
+            {
+                // Vérifier si la ligne est vide ou seulement composée d'espaces
+                if (string.IsNullOrWhiteSpace(line)) continue; // Ignorer les lignes vides
+                
+                var parts = line.Split(',');
+                if (parts.Length < 7) continue;
+
+                var projectName = parts[0];
+                var addressCount = int.Parse(parts[1]);
+                var deviceCount = int.Parse(parts[2]);
+                var isDeleted = bool.Parse(parts[3]);
+                var deletedAddresses = int.Parse(parts[4]);
+                var isTranslated = bool.Parse(parts[5]);
+                var timeParts = parts[6].Split(':');
+                var minutes = int.Parse(timeParts[0]);
+                var seconds = int.Parse(timeParts[1]);
+                var totalLoadingTime = new TimeSpan(0, minutes, seconds);
+
+                loadingTimes.Add(new LoadingTimeEntry
+                {
+                    ProjectName = projectName,
+                    AddressCount = addressCount,
+                    DeviceCount = deviceCount,
+                    IsDeleted = isDeleted,
+                    DeletedAddresses = deletedAddresses,
+                    IsTranslated = isTranslated,
+                    TotalLoadingTime = totalLoadingTime
+                });
+            }
+            var allLines = File.ReadAllLines(filePath).ToList();
+            
+
+        }
+        catch (OutOfMemoryException)
+        {
+            App.ConsoleAndLogWriteLine("Error: The program does not have sufficient memory to run. Please try closing a few applications before trying again.");
+            return null;
+        }
+        // Aucune idée de la raison
+        catch (IOException)
+        {
+            App.ConsoleAndLogWriteLine("Error: An I/O error occured while reading the data file.");
+            return null;
+        }
+        finally
+        {
+            reader?.Close(); // Fermeture du stream de lecture
+        }
+        return loadingTimes;
+    }
+    
     
     /// <summary>
     /// Handles the button click event to export the updated project file to a selected destination.
@@ -1313,7 +1796,6 @@ public partial class MainWindow
                                 .ConfigureAwait(false);
                         }
 
-                        App.DisplayElements.LoadingWindow?.UpdateTaskName($"{task} 3/4");
                     }
 
                     await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",

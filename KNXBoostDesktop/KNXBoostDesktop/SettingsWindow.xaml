@@ -744,8 +744,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        
         
     </Window.Resources>
 
@@ -1099,6 +1097,7 @@
                                            </StackPanel>
                                            
                                        </TabItem>
+                                       
                                        <TabItem x:Name="OngletInformations" Style="{StaticResource LightOnglet}">
                                            <StackPanel x:Name="InformationsPanel" Background="#262626">
                                                <TextBlock x:Name="InformationsText" Text="text" TextAlignment="Center"
