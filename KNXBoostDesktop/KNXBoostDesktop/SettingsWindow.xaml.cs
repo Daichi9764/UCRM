@@ -753,7 +753,14 @@ namespace KNXBoostDesktop
                             try
                             {
                                 AppScaleFactor = Convert.ToInt32(value) > 300 || Convert.ToInt32(value) < 50 ? 100 : Convert.ToInt32(value);
-                                ApplyScaling(AppScaleFactor/100f - 0.2f);
+                                if (AppScaleFactor <= 100)
+                                {
+                                    ApplyScaling(AppScaleFactor/100f - 0.1f);
+                                }
+                                else
+                                {
+                                    ApplyScaling(AppScaleFactor/100f - 0.2f);
+                                }
                             }
                             catch (Exception)
                             {
@@ -2488,7 +2495,14 @@ namespace KNXBoostDesktop
             
             // Mise à jour de l'échelle de toutes les fenêtres
             var scaleFactor = AppScaleFactor / 100f;
-            ApplyScaling(scaleFactor-0.2f);
+            if (scaleFactor <= 1f)
+            {
+                ApplyScaling(scaleFactor-0.1f);
+            }
+            else
+            {
+                ApplyScaling(scaleFactor-0.2f);
+            }
             App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor-0.2f);
@@ -3634,7 +3648,7 @@ namespace KNXBoostDesktop
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
-            Height = 700 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 700 * scale;
+            Height = 725 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 725 * scale;
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }
