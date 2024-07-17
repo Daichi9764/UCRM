@@ -34,7 +34,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Cache for storing previously translated strings
         /// </summary>
-        private Dictionary<string, string> _translationCache = new Dictionary<string, string>();
+        private Dictionary<string, string> _translationCache = new();
 
        
         

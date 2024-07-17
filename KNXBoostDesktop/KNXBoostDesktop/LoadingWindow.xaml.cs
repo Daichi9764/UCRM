@@ -150,7 +150,7 @@ namespace KNXBoostDesktop
             ActivityLog.Foreground = MainWindow.ConvertStringColor("#000000");
             ActivityLog.BorderBrush = MainWindow.ConvertStringColor("#D7D7D7");
             ActivityLog.ItemContainerStyle = (Style)FindResource("LightActivityStyle");
-            TotalTime.Foreground = MainWindow.ConvertStringColor("#FFFFFF");
+            TotalTime.Foreground = MainWindow.ConvertStringColor("#000000");
         }
         
         

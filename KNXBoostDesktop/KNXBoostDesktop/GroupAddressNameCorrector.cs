@@ -65,6 +65,9 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
+    public static int totalDevices;
+    public static int totalAddresses;
+    public static int totalDeletedAddresses;
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -520,15 +523,17 @@ public class GroupAddressNameCorrector
                     };
                 })
                 .ToList();
-
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
+
+            totalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
             {
+                totalDevices += loc.DeviceRefs.Count;
                 string message = string.Empty;
                 if (loc.DistributionBoardName != string.Empty)
                 {
@@ -661,8 +666,10 @@ public class GroupAddressNameCorrector
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
+            totalAddresses = groupedDeviceRefs.Count;
             var totalGroup = groupedDeviceRefs.Count;
             var countGroup = 1;
+            
             // Construct the new name of the group address by iterating through each group of device references
             foreach (var gdr in groupedDeviceRefs)
             {
@@ -672,156 +679,84 @@ public class GroupAddressNameCorrector
                 // Get the first device reference with a non-empty ObjectType, if any
                 var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
                 // Get the first non-rail-mounted device reference, if any
-                var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
-                
-                if (deviceNotRailMounted != null)
+                //var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
+
+                var deviceUsed = deviceRailMounted;
+                if (deviceUsed == null && deviceRefObjectType != null)
                 {
-                    // Find the GroupAddress element that matches the device's GroupAddressRef
-                    var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
-                        .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceNotRailMounted.GroupAddressRef) == true);
-
-                    if (groupAddressElement == null)
-                    {
-                        App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted.GroupAddressRef}");
-                        continue; 
-                    }
-
-                    App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
-                    var nameAttr = groupAddressElement.Attribute("Name");
-
-                    if (nameAttr == null)
-                    {
-                        App.ConsoleAndLogWriteLine($"No group address name found for  {groupAddressElement}");
-                        continue; 
-                    }
-                        
-                    // Get the location information for the device reference
-                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceNotRailMounted.DeviceInstanceId));
-                    string deviceLocated = deviceNotRailMounted.DeviceInstanceId ?? string.Empty;
-
-                    // If no location found, search on the other devices
-                    if (location == null)
-                    {
-                        bool locationFound = false;
-
-                        foreach (var device in gdr.Devices)
-                        {
-                            // Check if a location has been found
-                            if (locationFound)
-                            {
-                                break; 
-                            }
-
-                            // To not look again in deviceNotRailMounted
-                            if (device == deviceNotRailMounted)
-                            {
-                                continue; // Pass if it's deviceNotRailMounted
-                            }
-
-                            location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
-                            if (location != null)
-                            {
-                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
-                                locationFound = true; 
-                            }
-                        }
-                    }
-                    
-                    string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
-                    
-                    // Determine the nameObjectType based on the available device references
-                    string nameObjectType =
-                        DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
-
-                    string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
-                    
-                    // Construct the new name by combining the object type, function, and location
-                    var newName = nameObjectType + nameFunction + nameLocation;
-                    App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
-                    App.ConsoleAndLogWriteLine($"New Name: {newName}");
-                    nameAttr.Value = newName;  // Update the GroupAddress element's name
-
-                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
-                    {
-                        // Mark the address as renamed
-                        renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
-                    }
-                    
-                   
+                    deviceUsed = deviceRefObjectType;
                 }
-                else if (deviceRailMounted != null)
+                else if (deviceUsed == null)
                 {
-                    // Find the GroupAddress element that matches the device's GroupAddressRef
-                    var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
-                        .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceRailMounted.GroupAddressRef) == true);
+                    deviceUsed = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
+                }
+                
+                // Find the GroupAddress element that matches the device's GroupAddressRef
+                var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
+                    .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceUsed?.GroupAddressRef) == true);
 
-                    if (groupAddressElement == null)
+                if (groupAddressElement == null)
+                {
+                    App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceUsed?.GroupAddressRef}");
+                    continue; 
+                }
+
+                App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
+                var nameAttr = groupAddressElement.Attribute("Name");
+
+                if (nameAttr == null)
+                {
+                    App.ConsoleAndLogWriteLine($"No group address name found for  {groupAddressElement}");
+                    continue; 
+                }
+
+                var nameAttrWords = nameAttr.Value.Split(new []{ ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
+                var location = locationInfo
+                    .FirstOrDefault(loc => loc.DeviceRefs
+                        .Any(deviceRef => gdr.Devices
+                            .Any(dr => dr.IsDeviceRailMounted == false && dr.DeviceInstanceId == deviceRef)));
+                string deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
+                
+                // Parcourir toutes les localisations liées à un device pour trouver une correspondance avec nameAttr
+                foreach (var device in gdr.Devices)
+                {
+                    var templocation = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
+                    if (nameAttrWords.Any(word => templocation != null && word.Equals(templocation.RoomName, StringComparison.OrdinalIgnoreCase)))
                     {
-                        App.ConsoleAndLogWriteLine($"No GroupAddress element found for GroupAddressRef: {deviceNotRailMounted?.GroupAddressRef}");
-                        continue; 
+                        location = templocation;
+                        deviceLocated = device.DeviceInstanceId ?? string.Empty;
+                        break;
                     }
-                    
-                    App.ConsoleAndLogWriteLine($"Matching Group Address ID: {groupAddressElement.Attribute("Id")?.Value}");
-                    var nameAttr = groupAddressElement.Attribute("Name");
-                    
-                    if (nameAttr == null)
-                    {
-                        App.ConsoleAndLogWriteLine($"No group address name found for  {groupAddressElement}");
-                        continue; 
-                    }
-                    
-                    // Get the location information for the device reference
-                    var location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(deviceRailMounted.DeviceInstanceId));
-                    string deviceLocated = deviceRailMounted.DeviceInstanceId ?? string.Empty ;
-                    
-                    // If no location found, search on the other devices
-                    if (location == null)
-                    {
-                        bool locationFound = false;
+                }
 
-                        foreach (var device in gdr.Devices)
-                        {
-                            // Check if a location has been found
-                            if (locationFound)
-                            {
-                                break; 
-                            }
+                if (location == null)
+                {
+                    location = locationInfo
+                        .FirstOrDefault(loc => loc.DeviceRefs
+                            .Any(deviceRef => gdr.Devices
+                                .Any(dr => dr.IsDeviceRailMounted == true && dr.DeviceInstanceId == deviceRef)));
+                    deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
 
-                            // To not look again in deviceRailMounted
-                            if (device == deviceRailMounted)
-                            {
-                                continue; // Pass if it's deviceRailMounted
-                            }
-
-                            location = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
-                            if (location != null)
-                            {
-                                deviceLocated = device.DeviceInstanceId ?? string.Empty;
-                                locationFound = true; 
-                            }
-                        }
-                    }
-
-                    string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
-                                                
-                    // Determine the nameObjectType based on the available device references
-                    string nameObjectType = DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
-                            
-                    string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
-
-                    // Construct the new name by combining the object type, function, and location
-                    var newName = nameObjectType + nameFunction + nameLocation;
-                    App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
-                    App.ConsoleAndLogWriteLine($"New Name: {newName}");
-                    nameAttr.Value = newName; // Update the GroupAddress element's name
-
-                    if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
-                    {
-                        // Mark the address as renamed
-                        renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
-                    }
+                }
                     
+                string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
                     
+                // Determine the nameObjectType based on the available device references
+                string nameObjectType =
+                    DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
+
+                string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
+                    
+                // Construct the new name by combining the object type, function, and location
+                var newName = nameObjectType + nameFunction + nameLocation;
+                App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
+                App.ConsoleAndLogWriteLine($"New Name: {newName}");
+                nameAttr.Value = newName;  // Update the GroupAddress element's name
+
+                if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
+                {
+                    // Mark the address as renamed
+                    renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
                 }
             }
             
@@ -838,6 +773,7 @@ public class GroupAddressNameCorrector
                 await writer.WriteLineAsync("Deleted addresses :");
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 
+                totalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var countAddressesUnused = 1;
                 foreach (var groupAddress in allGroupAddresses)
@@ -1821,7 +1757,7 @@ public class GroupAddressNameCorrector
             {
                 containsDigit = true;
             }
-            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+')
+            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+' && c != '-')
             {
                 return (false, lastWord);
             }
