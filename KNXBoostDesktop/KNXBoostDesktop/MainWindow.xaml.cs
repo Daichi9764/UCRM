@@ -876,6 +876,11 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// Saves loading times to a CSV file.
+    /// </summary>
+    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
+    /// <param name="loadingTimes">The list of loading time entries to save.</param>
     private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
     {
         using var writer = new StreamWriter(filePath);
@@ -894,6 +899,11 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// Loads loading time entries from a CSV file located at the specified file path.
+    /// </summary>
+    /// <param name="filePath">The file path of the CSV file.</param>
+    /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
     private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
     {
         var loadingTimes = new List<LoadingTimeEntry>();
