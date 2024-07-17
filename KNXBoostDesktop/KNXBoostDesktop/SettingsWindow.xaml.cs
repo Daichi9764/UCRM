@@ -26,51 +26,52 @@ namespace KNXBoostDesktop
         /// Gets or sets a value indicating whether DeepL translation is enabled.
         /// </summary>
         public bool EnableDeeplTranslation { get; private set; } // Activation ou non de la traduction deepL
-        
+
         /// <summary>
         /// Gets or sets the DeepL API key used for accessing the DeepL translation service. Warning: the key is not
         /// stored in memory using plain text. It is encrypted to improve safety.
         /// </summary>
         public byte[] DeeplKey { get; private set; } // Clé API DeepL
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether automatic detection of the source language by DeepL is enabled.
         /// </summary>
         public bool EnableAutomaticSourceLangDetection { get; private set; } // Activation ou non de la détection automatique de la langue par DeepL
-        
+
         /// <summary>
         /// Gets or sets the source language for translating group addresses.
         /// </summary>
         public string TranslationSourceLang { get; private set; } // Langue de source pour la traduction des adresses de groupe
-        
+
         /// <summary>
         /// Gets or sets the destination language for translating group addresses.
         /// </summary>
         public string TranslationDestinationLang { get; private set; } // Langue de destination pour la traduction des adresses de groupe
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether the feature to clean up unused group addresses is enabled.
         /// </summary>
         public bool RemoveUnusedGroupAddresses { get; private set; } // Activation ou non de la fonctionnalité de nettoyage des adresses de groupe
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether the light theme is enabled for the application.
         /// </summary>
         public bool EnableLightTheme { get; private set; } // Thème de l'application (sombre/clair)
-        
+
         /// <summary>
         /// Gets or sets the application language, with French as the default.
         /// </summary>
         public string AppLang { get; private set; } // Langue de l'application (français par défaut)
-        
-        
+
+
         /// <summary>
         ///  Gets or sets the scale factor for the content of every window of the application
         /// </summary>
         public int AppScaleFactor { get; private set; } // Facteur d'échelle pour les fenêtres de l'application
-        
-        
-        
+
+
+
+
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
         ------------------------------------------------------------------------------------------------ */
@@ -84,7 +85,7 @@ namespace KNXBoostDesktop
         public SettingsWindow()
         {
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
-            
+
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
             // la lecture du fichier settings. Cela permet d'éviter un crash si le fichier 
             EnableDeeplTranslation = false;
@@ -97,8 +98,16 @@ namespace KNXBoostDesktop
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
 
+            // Ajoutez des gestionnaires d'événements pour suivre les changements d'état des checkboxes
+            RemoveUnusedAddressesCheckBox.Checked += CheckBox_CheckedChanged;
+            RemoveUnusedAddressesCheckBox.Unchecked += CheckBox_CheckedChanged;
+            EnableTranslationCheckBox.Checked += CheckBox_CheckedChanged;
+            EnableTranslationCheckBox.Unchecked += CheckBox_CheckedChanged;
+
+
+
             const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
-            
+
             // Si le fichier contenant la main key n'existe pas
             if (!File.Exists("./emk"))
             {
@@ -262,7 +271,7 @@ namespace KNXBoostDesktop
 
                     // Le thème appliqué par défaut est le même que celui de windows
                     EnableLightTheme = DetectWindowsTheme();
-                    
+
                     // La langue de l'application appliquée est la même que celle de windows
                     AppLang = DetectWindowsLanguage();
                 }
@@ -561,7 +570,7 @@ namespace KNXBoostDesktop
 
             // Déclaration du stream pour la lecture du fichier appSettings, initialement null
             StreamReader? reader = null;
-            
+
             try
             {
                 // Création du stream
@@ -657,7 +666,7 @@ namespace KNXBoostDesktop
                         "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
                         "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
                     };
-                    
+
                     // On coupe la ligne en deux morceaux : la partie avant le ' : ' qui contient le type de paramètre contenu dans la ligne,
                     // la partie après qui contient la valeur du paramètre
                     var parts = line.Split(':');
@@ -698,7 +707,7 @@ namespace KNXBoostDesktop
                                                            $"Restoring default value.");
                             }
                             break;
-                        
+
                         case "enable automatic source lang detection for translation":
                             try
                             {
@@ -718,7 +727,7 @@ namespace KNXBoostDesktop
                             // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             TranslationSourceLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
-                        
+
                         case "destination translation lang":
                             // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             TranslationDestinationLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
@@ -748,7 +757,7 @@ namespace KNXBoostDesktop
                             // Vérifier si value est un code de langue valide, si elle est valide, on assigne la valeur, sinon on met la langue par défaut
                             AppLang = validLanguageCodes.Contains(value.ToUpper()) ? value : "FR";
                             break;
-                        
+
                         case "window scale factor":
                             try
                             {
@@ -766,7 +775,7 @@ namespace KNXBoostDesktop
                             {
                                 App.ConsoleAndLogWriteLine("Error: Could not parse the integer value of the window scale factor. Restoring default value (100%).");
                             }
-                            
+
                             break;
                     }
                 }
@@ -794,8 +803,8 @@ namespace KNXBoostDesktop
 
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
         }
-        
-        
+
+
         // Fonction s'exécutant à la fermeture de la fenêtre de paramètres
         /// <summary>
         /// Handles the settings window closing event by canceling the closure, restoring previous settings, and hiding the window.
@@ -816,7 +825,7 @@ namespace KNXBoostDesktop
         {
             // Création du stream d'écriture du fichier appSettings
             var writer = new StreamWriter("./appSettings");
-            
+
             // Ecriture de toutes les lignes du fichier
             try
             {
@@ -835,10 +844,10 @@ namespace KNXBoostDesktop
 
                 writer.Write("source translation lang : ");
                 writer.WriteLine(TranslationSourceLang);
-                
+
                 writer.Write("enable automatic source lang detection for translation : ");
                 writer.WriteLine(EnableAutomaticSourceLangDetection);
-                
+
                 writer.Write("destination translation lang : ");
                 writer.WriteLine(TranslationDestinationLang);
 
@@ -850,7 +859,7 @@ namespace KNXBoostDesktop
 
                 writer.Write("application language : ");
                 writer.WriteLine(AppLang);
-                
+
                 writer.Write("window scale factor : ");
                 writer.WriteLine(AppScaleFactor);
 
@@ -884,7 +893,7 @@ namespace KNXBoostDesktop
             }
         }
 
-        
+
         // Fonction permettant de mettre à jour les champs dans la fenêtre de paramétrage
         /// <summary>
         /// Updates the contents (texts, textboxes, checkboxes, ...) of the settingswindow accordingly to the application settings.
@@ -892,8 +901,8 @@ namespace KNXBoostDesktop
         private void UpdateWindowContents(bool isClosing = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
-            
-            if ((File.Exists("./emk"))&&(!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+
+            if ((File.Exists("./emk")) && (!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -911,11 +920,11 @@ namespace KNXBoostDesktop
                     break; // Si on a trouvé la langue, on peut quitter la boucle
                 }
             }
-            
+
             if (TranslationSourceLang != "FR")
             {
                 FrSourceTranslationComboBoxItem.IsSelected = (TranslationSourceLang == "FR"); // Sélection/Désélection
-                
+
                 // Sélection du langage source de traduction
                 foreach (ComboBoxItem item in TranslationSourceLanguageComboBox.Items) // Parcours de toutes les possibilités de langue
                 {
@@ -924,7 +933,7 @@ namespace KNXBoostDesktop
                     break; // Si on a trouvé la langue, on peut quitter la boucle
                 }
             }
-            
+
             if (AppLang != "FR")
             {
                 FrAppLanguageComboBoxItem.IsSelected = (AppLang == "FR"); // Sélection/Désélection
@@ -943,10 +952,10 @@ namespace KNXBoostDesktop
             // Sélection du thème clair ou sombre
             LightThemeComboBoxItem.IsSelected = EnableLightTheme;
             DarkThemeComboBoxItem.IsSelected = !EnableLightTheme;
-            
+
             // Mise à jour du slider
             ScaleSlider.Value = AppScaleFactor;
-            
+
             // Traduction du menu settings
             switch (AppLang)
             {
@@ -960,11 +969,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(انقر هنا للحصول على مفتاح مجانًا)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ar/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "تمكين الكشف التلقائي عن اللغة للترجمة";
                     TranslationSourceLanguageComboBoxText.Text = "لغة المصدر للترجمة:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "لغة الوجهة للترجمة:";
 
                     GroupAddressManagementTitle.Text = "إدارة عناوين المجموعة";
@@ -979,14 +988,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "حفظ";
                     CancelButtonText.Text = "إلغاء";
-                    
+                    SaveAndApplyButtonText.Text = "تطبيق";
+
+
                     MenuDebug.Text = "قائمة التصحيح";
                     AddInfosOsCheckBox.Content = "تضمين معلومات نظام التشغيل";
                     AddInfosHardCheckBox.Content = "تضمين معلومات أجهزة الكمبيوتر";
                     AddImportedFilesCheckBox.Content = "تضمين الملفات المستوردة منذ الإطلاق";
                     IncludeAddressListCheckBox.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
                     CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
-                    
+
                     OngletParametresGeneraux.Header = "الإعدادات العامة";
                     OngletDebug.Header = "تصحيح الأخطاء";
                     
@@ -1013,11 +1024,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Кликнете тук за безплатен ключ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Активиране на автоматичното разпознаване на езика за превод";
                     TranslationSourceLanguageComboBoxText.Text = "Изходен език за превод:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Целеви език за превод:";
 
                     GroupAddressManagementTitle.Text = "Управление на групови адреси";
@@ -1032,14 +1043,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Запази";
                     CancelButtonText.Text = "Отмени";
-                    
+                    SaveAndApplyButtonText.Text = "Приложи";
+
+
                     MenuDebug.Text = "Меню за отстраняване на грешки";
                     AddInfosOsCheckBox.Content = "Включване на информация за операционната система";
                     AddInfosHardCheckBox.Content = "Включване на информация за хардуера";
                     AddImportedFilesCheckBox.Content = "Включване на импортираните файлове от стартиране";
                     IncludeAddressListCheckBox.Content = "Включване на списъка с изтрити адреси";
                     CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
-                    
+
                     OngletParametresGeneraux.Header = "Общи настройки";
                     OngletDebug.Header = "Отстраняване на грешки";
                     
@@ -1066,11 +1079,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikněte sem a získejte klíč zdarma)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/cs/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Povolit automatickou detekci jazyka pro překlad";
                     TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk překladu:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Cílový jazyk překladu:";
 
                     GroupAddressManagementTitle.Text = "Správa skupinových adres";
@@ -1085,14 +1098,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložit";
                     CancelButtonText.Text = "Zrušit";
-                    
+                    SaveAndApplyButtonText.Text = "Použít";
+
+
                     MenuDebug.Text = "Ladicí nabídka";
                     AddInfosOsCheckBox.Content = "Zahrnout informace o operačním systému";
                     AddInfosHardCheckBox.Content = "Zahrnout informace o hardwaru";
                     AddImportedFilesCheckBox.Content = "Zahrnout importované soubory od spuštění";
                     IncludeAddressListCheckBox.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
                     CreateArchiveDebugText.Text = "Vytvořit ladicí soubor";
-                    
+
                     OngletParametresGeneraux.Header = "Obecná nastavení";
                     OngletDebug.Header = "Ladění";
                     
@@ -1119,11 +1134,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik her for at få en gratis nøgle)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktiver automatisk sprogdetektion til oversættelse";
                     TranslationSourceLanguageComboBoxText.Text = "Kildesprog for oversættelse:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Målsprog for oversættelse:";
 
                     GroupAddressManagementTitle.Text = "Administration af gruppeadresser";
@@ -1138,14 +1153,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Gem";
                     CancelButtonText.Text = "Annuller";
-                    
+                    SaveAndApplyButtonText.Text = "Anvend";
+
+
                     MenuDebug.Text = "Fejlfindingsmenu";
                     AddInfosOsCheckBox.Content = "Inkluder oplysninger om operativsystemet";
                     AddInfosHardCheckBox.Content = "Inkluder hardwareoplysninger";
                     AddImportedFilesCheckBox.Content = "Inkluder importerede filer siden opstart";
                     IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i projekter";
                     CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
-                    
+
                     OngletParametresGeneraux.Header = "Generelle indstillinger";
                     OngletDebug.Header = "Fejlfinding";
                     
@@ -1172,11 +1189,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Hier klicken, um einen kostenlosen Schlüssel zu erhalten)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/de/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Automatische Spracherkennung für Übersetzungen aktivieren";
                     TranslationSourceLanguageComboBoxText.Text = "Quellsprache der Übersetzung:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Zielsprache der Übersetzung:";
 
                     GroupAddressManagementTitle.Text = "Verwaltung von Gruppenadressen";
@@ -1191,21 +1208,23 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Speichern";
                     CancelButtonText.Text = "Abbrechen";
-                    
+                    SaveAndApplyButtonText.Text = "Anwenden";
+
+
                     MenuDebug.Text = "Debug-Menü";
                     AddInfosOsCheckBox.Content = "Betriebssysteminformationen einbeziehen";
                     AddInfosHardCheckBox.Content = "Hardwareinformationen einbeziehen";
                     AddImportedFilesCheckBox.Content = "Seit dem Start importierte Dateien einbeziehen";
                     IncludeAddressListCheckBox.Content = "Liste der gelöschten Gruppenadressen in Projekten einbeziehen";
                     CreateArchiveDebugText.Text = "Debug-Datei erstellen";
-                    
+
                     MenuDebug.Text = "Μενού αποσφαλμάτωσης";
                     AddInfosOsCheckBox.Content = "Συμπερίληψη πληροφοριών λειτουργικού συστήματος";
                     AddInfosHardCheckBox.Content = "Συμπερίληψη πληροφοριών υλικού υπολογιστή";
                     AddImportedFilesCheckBox.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
                     IncludeAddressListCheckBox.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
                     CreateArchiveDebugText.Text = "Δημιουργία αρχείου αποσφαλμάτωσης";
-                    
+
                     OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
                     OngletDebug.Header = "Fehlerbehebung";
                     
@@ -1232,11 +1251,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να αποκτήσετε ένα δωρεάν κλειδί)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Ενεργοποίηση αυτόματης ανίχνευσης γλώσσας για μετάφραση";
                     TranslationSourceLanguageComboBoxText.Text = "Γλώσσα προέλευσης για μετάφραση:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Γλώσσα προορισμού για μετάφραση:";
 
                     GroupAddressManagementTitle.Text = "Διαχείριση διευθύνσεων ομάδας";
@@ -1251,7 +1270,9 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Αποθήκευση";
                     CancelButtonText.Text = "Ακύρωση";
-                    
+                    SaveAndApplyButtonText.Text = "Εφαρμογή";
+
+
                     OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
                     OngletDebug.Header = "Αποσφαλμάτωση";
                     
@@ -1278,11 +1299,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Click here to get a free key)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Enable automatic language detection for translation";
                     TranslationSourceLanguageComboBoxText.Text = "Source language for translation:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Target language for translation:";
 
                     GroupAddressManagementTitle.Text = "Group Address Management";
@@ -1297,14 +1318,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Save";
                     CancelButtonText.Text = "Cancel";
-                    
+                    SaveAndApplyButtonText.Text = "Apply";
+
+
                     MenuDebug.Text = "Debug Menu";
                     AddInfosOsCheckBox.Content = "Include OS information";
                     AddInfosHardCheckBox.Content = "Include hardware information";
                     AddImportedFilesCheckBox.Content = "Include files imported since launch";
                     IncludeAddressListCheckBox.Content = "Include list of deleted group addresses in projects";
                     CreateArchiveDebugText.Text = "Create debug file";
-                    
+
                     OngletParametresGeneraux.Header = "General Settings";
                     OngletDebug.Header = "Debugging";
                     
@@ -1331,11 +1354,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratis)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/es/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Habilitar detección automática de idioma para la traducción";
                     TranslationSourceLanguageComboBoxText.Text = "Idioma de origen para la traducción:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para la traducción:";
 
                     GroupAddressManagementTitle.Text = "Gestión de direcciones de grupo";
@@ -1350,14 +1373,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Guardar";
                     CancelButtonText.Text = "Cancelar";
-                    
+                    SaveAndApplyButtonText.Text = "Aplicar";
+
+
                     MenuDebug.Text = "Menú de depuración";
                     AddInfosOsCheckBox.Content = "Incluir información del sistema operativo";
                     AddInfosHardCheckBox.Content = "Incluir información de hardware";
                     AddImportedFilesCheckBox.Content = "Incluir archivos importados desde el inicio";
                     IncludeAddressListCheckBox.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
                     CreateArchiveDebugText.Text = "Crear archivo de depuración";
-                    
+
                     OngletParametresGeneraux.Header = "Configuración general";
                     OngletDebug.Header = "Depuración";
                     
@@ -1384,11 +1409,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikkige siia, et saada tasuta võti)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Luba tõlke jaoks automaatne keele tuvastamine";
                     TranslationSourceLanguageComboBoxText.Text = "Tõlke lähtekeel:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Tõlke sihtkeel:";
 
                     GroupAddressManagementTitle.Text = "Grupi aadresside haldamine";
@@ -1403,14 +1428,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvesta";
                     CancelButtonText.Text = "Tühista";
-                    
+                    SaveAndApplyButtonText.Text = "Rakenda";
+
+
                     MenuDebug.Text = "Silumisvalik";
                     AddInfosOsCheckBox.Content = "Kaasa operatsioonisüsteemi teave";
                     AddInfosHardCheckBox.Content = "Kaasa riistvara teave";
                     AddImportedFilesCheckBox.Content = "Kaasa imporditud failid käivitamisest alates";
                     IncludeAddressListCheckBox.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
                     CreateArchiveDebugText.Text = "Loo silumisfail";
-                    
+
                     OngletParametresGeneraux.Header = "Üldised seaded";
                     OngletDebug.Header = "Silmamine";
                     
@@ -1437,11 +1464,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Napsauta tästä saadaksesi ilmaisen avaimen)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Ota kielen automaattinen tunnistus käyttöön käännöstä varten";
                     TranslationSourceLanguageComboBoxText.Text = "Käännöksen lähdekieli:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Käännöksen kohdekieli:";
 
                     GroupAddressManagementTitle.Text = "Ryhmäosoitteiden hallinta";
@@ -1456,14 +1483,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Tallenna";
                     CancelButtonText.Text = "Peruuta";
-                    
+                    SaveAndApplyButtonText.Text = "Käytä";
+
+
                     MenuDebug.Text = "Vianmääritysvalikko";
                     AddInfosOsCheckBox.Content = "Sisällytä käyttöjärjestelmän tiedot";
                     AddInfosHardCheckBox.Content = "Sisällytä laitteistotiedot";
                     AddImportedFilesCheckBox.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
                     IncludeAddressListCheckBox.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
                     CreateArchiveDebugText.Text = "Luo vianmääritystiedosto";
-                    
+
                     OngletParametresGeneraux.Header = "Yleiset asetukset";
                     OngletDebug.Header = "Vianmääritys";
                     
@@ -1490,11 +1519,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kattintson ide, hogy ingyenes kulcsot szerezzen)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Automatikus nyelvfelismerés engedélyezése a fordításhoz";
                     TranslationSourceLanguageComboBoxText.Text = "Forrásnyelv a fordításhoz:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Cél nyelv a fordításhoz:";
 
                     GroupAddressManagementTitle.Text = "Csoportcím kezelés";
@@ -1509,14 +1538,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Mentés";
                     CancelButtonText.Text = "Mégse";
-                    
+                    SaveAndApplyButtonText.Text = "Alkalmaz";
+
+
                     MenuDebug.Text = "Hibakeresési menü";
                     AddInfosOsCheckBox.Content = "Tartalmazza az operációs rendszer adatait";
                     AddInfosHardCheckBox.Content = "Tartalmazza a hardveradatokat";
                     AddImportedFilesCheckBox.Content = "Tartalmazza az indítás óta importált fájlokat";
                     IncludeAddressListCheckBox.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
                     CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
-                    
+
                     OngletParametresGeneraux.Header = "Általános beállítások";
                     OngletDebug.Header = "Hibakeresés";
                     
@@ -1543,11 +1574,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik di sini untuk mendapatkan kunci gratis)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/id/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktifkan deteksi bahasa otomatis untuk terjemahan";
                     TranslationSourceLanguageComboBoxText.Text = "Bahasa sumber untuk terjemahan:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Bahasa tujuan untuk terjemahan:";
 
                     GroupAddressManagementTitle.Text = "Manajemen Alamat Grup";
@@ -1562,14 +1593,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Simpan";
                     CancelButtonText.Text = "Batal";
-                    
+                    SaveAndApplyButtonText.Text = "Terapkan";
+
+
                     MenuDebug.Text = "Menu Debug";
                     AddInfosOsCheckBox.Content = "Sertakan informasi OS";
                     AddInfosHardCheckBox.Content = "Sertakan informasi hardware";
                     AddImportedFilesCheckBox.Content = "Sertakan file yang diimpor sejak peluncuran";
                     IncludeAddressListCheckBox.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
                     CreateArchiveDebugText.Text = "Buat file debug";
-                    
+
                     OngletParametresGeneraux.Header = "Pengaturan umum";
                     OngletDebug.Header = "Debugging";
                     
@@ -1596,11 +1629,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Fai clic qui per ottenere una chiave gratuita)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/it/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Abilita rilevamento automatico della lingua per la traduzione";
                     TranslationSourceLanguageComboBoxText.Text = "Lingua di origine per la traduzione:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Lingua di destinazione per la traduzione:";
 
                     GroupAddressManagementTitle.Text = "Gestione degli indirizzi di gruppo";
@@ -1615,14 +1648,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salva";
                     CancelButtonText.Text = "Annulla";
-                    
+                    SaveAndApplyButtonText.Text = "Applica";
+
+
                     MenuDebug.Text = "Menu di debug";
                     AddInfosOsCheckBox.Content = "Includi informazioni sul sistema operativo";
                     AddInfosHardCheckBox.Content = "Includi informazioni sull'hardware";
                     AddImportedFilesCheckBox.Content = "Includi file importati dal lancio";
                     IncludeAddressListCheckBox.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
                     CreateArchiveDebugText.Text = "Crea file di debug";
-                    
+
                     OngletParametresGeneraux.Header = "Impostazioni generali";
                     OngletDebug.Header = "Debug";
                     
@@ -1649,11 +1684,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(ここをクリックして無料のキーを取得)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ja/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "翻訳のための自動言語検出を有効にする";
                     TranslationSourceLanguageComboBoxText.Text = "翻訳のソース言語:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "翻訳のターゲット言語:";
 
                     GroupAddressManagementTitle.Text = "グループアドレス管理";
@@ -1668,14 +1703,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "キャンセル";
-                    
+                    SaveAndApplyButtonText.Text = "適用";
+
+
                     MenuDebug.Text = "デバッグメニュー";
                     AddInfosOsCheckBox.Content = "OS情報を含む";
                     AddInfosHardCheckBox.Content = "ハードウェア情報を含む";
                     AddImportedFilesCheckBox.Content = "起動以降にインポートされたファイルを含む";
                     IncludeAddressListCheckBox.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
                     CreateArchiveDebugText.Text = "デバッグファイルを作成";
-                    
+
                     OngletParametresGeneraux.Header = "一般設定";
                     OngletDebug.Header = "デバッグ";
                     
@@ -1702,11 +1739,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(무료 키를 받으려면 여기를 클릭하세요)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ko/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "번역을 위한 자동 언어 감지 활성화";
                     TranslationSourceLanguageComboBoxText.Text = "번역 소스 언어:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "번역 대상 언어:";
 
                     GroupAddressManagementTitle.Text = "그룹 주소 관리";
@@ -1721,14 +1758,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "저장";
                     CancelButtonText.Text = "취소";
-                    
+                    SaveAndApplyButtonText.Text = "적용";
+
+
                     MenuDebug.Text = "디버그 메뉴";
                     AddInfosOsCheckBox.Content = "운영 체제 정보를 포함";
                     AddInfosHardCheckBox.Content = "하드웨어 정보를 포함";
                     AddImportedFilesCheckBox.Content = "실행 후 가져온 파일 포함";
                     IncludeAddressListCheckBox.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
                     CreateArchiveDebugText.Text = "디버그 파일 생성";
-                    
+
                     OngletParametresGeneraux.Header = "일반 설정";
                     OngletDebug.Header = "디버깅";
                     
@@ -1755,11 +1794,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai iegūtu bezmaksas atslēgu)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Iespējot automātisku valodas noteikšanu tulkošanai";
                     TranslationSourceLanguageComboBoxText.Text = "Tulkojuma avota valoda:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Tulkojuma mērķa valoda:";
 
                     GroupAddressManagementTitle.Text = "Grupas adreses pārvaldība";
@@ -1774,14 +1813,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Saglabāt";
                     CancelButtonText.Text = "Atcelt";
-                    
+                    SaveAndApplyButtonText.Text = "Taikyti";
+
+
                     MenuDebug.Text = "Atkļūdošanas izvēlne";
                     AddInfosOsCheckBox.Content = "Iekļaut OS informāciju";
                     AddInfosHardCheckBox.Content = "Iekļaut aparatūras informāciju";
                     AddImportedFilesCheckBox.Content = "Iekļaut kopš palaišanas importētos failus";
                     IncludeAddressListCheckBox.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
                     CreateArchiveDebugText.Text = "Izveidot atkļūdošanas failu";
-                    
+
                     OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
                     OngletDebug.Header = "Atkļūdošana";
                     
@@ -1808,11 +1849,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Spustelėkite čia, kad gautumėte nemokamą raktą)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Įjungti automatinį kalbos aptikimą vertimui";
                     TranslationSourceLanguageComboBoxText.Text = "Vertimo šaltinio kalba:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Vertimo tikslinė kalba:";
 
                     GroupAddressManagementTitle.Text = "Grupės adresų valdymas";
@@ -1827,14 +1868,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Išsaugoti";
                     CancelButtonText.Text = "Atšaukti";
-                    
+                    SaveAndApplyButtonText.Text = "Taikyti";
+
+
                     MenuDebug.Text = "Derinimo meniu";
                     AddInfosOsCheckBox.Content = "Įtraukti OS informaciją";
                     AddInfosHardCheckBox.Content = "Įtraukti aparatūros informaciją";
                     AddImportedFilesCheckBox.Content = "Įtraukti nuo paleidimo importuotus failus";
                     IncludeAddressListCheckBox.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
                     CreateArchiveDebugText.Text = "Sukurti derinimo failą";
-                    
+
                     OngletParametresGeneraux.Header = "Bendrieji nustatymai";
                     OngletDebug.Header = "Derinimas";
                     
@@ -1861,11 +1904,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktiver automatisk språkgjenkjenning for oversettelse";
                     TranslationSourceLanguageComboBoxText.Text = "Kildespråk for oversettelse:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Målspråk for oversettelse:";
 
                     GroupAddressManagementTitle.Text = "Administrasjon av gruppeadresser";
@@ -1880,14 +1923,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Lagre";
                     CancelButtonText.Text = "Avbryt";
-                    
+                    SaveAndApplyButtonText.Text = "Bruk";
+
+
                     MenuDebug.Text = "Feilsøkingsmeny";
                     AddInfosOsCheckBox.Content = "Inkluder OS-informasjon";
                     AddInfosHardCheckBox.Content = "Inkluder maskinvareinformasjon";
                     AddImportedFilesCheckBox.Content = "Inkluder filer importert siden oppstart";
                     IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
                     CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
-                    
+
                     OngletParametresGeneraux.Header = "Generelle innstillinger";
                     OngletDebug.Header = "Feilsøking";
                     
@@ -1914,11 +1959,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik hier om een gratis sleutel te krijgen)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/nl/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Automatische taalherkenning voor vertaling inschakelen";
                     TranslationSourceLanguageComboBoxText.Text = "Bron taal voor vertaling:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Doeltaal voor vertaling:";
 
                     GroupAddressManagementTitle.Text = "Groepsadresbeheer";
@@ -1933,14 +1978,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
-                    
+                    SaveAndApplyButtonText.Text = "Toepassen";
+
+
                     MenuDebug.Text = "Debug-menu";
                     AddInfosOsCheckBox.Content = "OS-informatie opnemen";
                     AddInfosHardCheckBox.Content = "Hardware-informatie opnemen";
                     AddImportedFilesCheckBox.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
                     IncludeAddressListCheckBox.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
                     CreateArchiveDebugText.Text = "Maak een debug-bestand";
-                    
+
                     OngletParametresGeneraux.Header = "Algemene instellingen";
                     OngletDebug.Header = "Foutopsporing";
                     
@@ -1967,11 +2014,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknij tutaj, aby uzyskać darmowy klucz)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pl/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Włącz automatyczne wykrywanie języka do tłumaczenia";
                     TranslationSourceLanguageComboBoxText.Text = "Język źródłowy do tłumaczenia:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Język docelowy do tłumaczenia:";
 
                     GroupAddressManagementTitle.Text = "Zarządzanie adresami grup";
@@ -1986,14 +2033,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Zapisz";
                     CancelButtonText.Text = "Anuluj";
-                    
+                    SaveAndApplyButtonText.Text = "Zastosuj";
+
+
                     MenuDebug.Text = "Menu debugowania";
                     AddInfosOsCheckBox.Content = "Uwzględnij informacje o systemie operacyjnym";
                     AddInfosHardCheckBox.Content = "Uwzględnij informacje o sprzęcie";
                     AddImportedFilesCheckBox.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
                     IncludeAddressListCheckBox.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
                     CreateArchiveDebugText.Text = "Utwórz plik debugowania";
-                    
+
                     OngletParametresGeneraux.Header = "Ustawienia ogólne";
                     OngletDebug.Header = "Debugowanie";
                     
@@ -2020,11 +2069,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Clique aqui para obter uma chave gratuita)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/pt/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Ativar detecção automática de idioma para tradução";
                     TranslationSourceLanguageComboBoxText.Text = "Idioma de origem para tradução:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para tradução:";
 
                     GroupAddressManagementTitle.Text = "Gerenciamento de endereços de grupo";
@@ -2039,14 +2088,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvar";
                     CancelButtonText.Text = "Cancelar";
-                    
+                    SaveAndApplyButtonText.Text = "Aplicar";
+
+
                     MenuDebug.Text = "Menu de depuração";
                     AddInfosOsCheckBox.Content = "Incluir informações do sistema operacional";
                     AddInfosHardCheckBox.Content = "Incluir informações de hardware";
                     AddImportedFilesCheckBox.Content = "Incluir arquivos importados desde o lançamento";
                     IncludeAddressListCheckBox.Content = "Incluir lista de endereços de grupo excluídos em projetos";
                     CreateArchiveDebugText.Text = "Criar arquivo de depuração";
-                    
+
                     OngletParametresGeneraux.Header = "Configurações gerais";
                     OngletDebug.Header = "Depuração";
                     
@@ -2073,11 +2124,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuită)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Activează detectarea automată a limbii pentru traducere";
                     TranslationSourceLanguageComboBoxText.Text = "Limbă sursă pentru traducere:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Limbă destinație pentru traducere:";
 
                     GroupAddressManagementTitle.Text = "Gestionarea adreselor de grup";
@@ -2092,14 +2143,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvează";
                     CancelButtonText.Text = "Anulează";
-                    
+                    SaveAndApplyButtonText.Text = "Aplică";
+
+
                     MenuDebug.Text = "Meniu depanare";
                     AddInfosOsCheckBox.Content = "Includeți informații despre sistemul de operare";
                     AddInfosHardCheckBox.Content = "Includeți informații despre hardware";
                     AddImportedFilesCheckBox.Content = "Includeți fișierele importate de la lansare";
                     IncludeAddressListCheckBox.Content = "Includeți lista adreselor de grup șterse în proiecte";
                     CreateArchiveDebugText.Text = "Creați fișierul de depanare";
-                    
+
                     OngletParametresGeneraux.Header = "Setări generale";
                     OngletDebug.Header = "Depanare";
                     
@@ -2126,11 +2179,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknutím sem získate bezplatný kľúč)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Povoliť automatické rozpoznávanie jazyka pre preklad";
                     TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk pre preklad:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Cieľový jazyk pre preklad:";
 
                     GroupAddressManagementTitle.Text = "Správa skupinových adries";
@@ -2145,14 +2198,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložiť";
                     CancelButtonText.Text = "Zrušiť";
-                    
+                    SaveAndApplyButtonText.Text = "Použiť";
+
+
                     MenuDebug.Text = "Ladiace menu";
                     AddInfosOsCheckBox.Content = "Zahrnúť informácie o operačnom systéme";
                     AddInfosHardCheckBox.Content = "Zahrnúť informácie o hardvéri";
                     AddImportedFilesCheckBox.Content = "Zahrnúť súbory importované od spustenia";
                     IncludeAddressListCheckBox.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
                     CreateArchiveDebugText.Text = "Vytvoriť súbor na ladenie";
-                    
+
                     OngletParametresGeneraux.Header = "Všeobecné nastavenia";
                     OngletDebug.Header = "Ladenie";
                     
@@ -2179,11 +2234,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačen ključ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Omogoči samodejno zaznavanje jezika za prevajanje";
                     TranslationSourceLanguageComboBoxText.Text = "Izvorni jezik za prevod:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Ciljni jezik za prevod:";
 
                     GroupAddressManagementTitle.Text = "Upravljanje naslovov skupine";
@@ -2198,14 +2253,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Shrani";
                     CancelButtonText.Text = "Prekliči";
-                    
+                    SaveAndApplyButtonText.Text = "Uporabi";
+
+
                     MenuDebug.Text = "Meni za odpravljanje napak";
                     AddInfosOsCheckBox.Content = "Vključi informacije o operacijskem sistemu";
                     AddInfosHardCheckBox.Content = "Vključi informacije o strojni opremi";
                     AddImportedFilesCheckBox.Content = "Vključi uvožene datoteke od zagona";
                     IncludeAddressListCheckBox.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
                     CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
-                    
+
                     OngletParametresGeneraux.Header = "Splošne nastavitve";
                     OngletDebug.Header = "Odpravljanje napak";
                     
@@ -2232,11 +2289,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klicka här för att få en gratis nyckel)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/sv/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktivera automatisk språkigenkänning för översättning";
                     TranslationSourceLanguageComboBoxText.Text = "Källspråk för översättning:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Målspråk för översättning:";
 
                     GroupAddressManagementTitle.Text = "Hantera gruppadresser";
@@ -2251,14 +2308,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Spara";
                     CancelButtonText.Text = "Avbryt";
-                    
+                    SaveAndApplyButtonText.Text = "Tillämpa";
+
+
                     MenuDebug.Text = "Felsökningsmeny";
                     AddInfosOsCheckBox.Content = "Inkludera OS-information";
                     AddInfosHardCheckBox.Content = "Inkludera hårdvaruinformation";
                     AddImportedFilesCheckBox.Content = "Inkludera importerade filer sedan start";
                     IncludeAddressListCheckBox.Content = "Inkludera lista över raderade gruppadresser i projekt";
                     CreateArchiveDebugText.Text = "Skapa felsökningsfil";
-                    
+
                     OngletParametresGeneraux.Header = "Allmänna inställningar";
                     OngletDebug.Header = "Felsökning";
                     
@@ -2285,11 +2344,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Ücretsiz anahtar almak için buraya tıklayın)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/tr/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Çeviri için otomatik dil algılamayı etkinleştir";
                     TranslationSourceLanguageComboBoxText.Text = "Çeviri için kaynak dil:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Çeviri için hedef dil:";
 
                     GroupAddressManagementTitle.Text = "Grup adres yönetimi";
@@ -2304,14 +2363,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Kaydet";
                     CancelButtonText.Text = "İptal";
-                    
+                    SaveAndApplyButtonText.Text = "Uygula";
+
+
                     MenuDebug.Text = "Hata Ayıklama Menüsü";
                     AddInfosOsCheckBox.Content = "OS bilgilerini ekle";
                     AddInfosHardCheckBox.Content = "Donanım bilgilerini ekle";
                     AddImportedFilesCheckBox.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
                     IncludeAddressListCheckBox.Content = "Projelerde silinen grup adresleri listesini ekle";
                     CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
-                    
+
                     OngletParametresGeneraux.Header = "Genel Ayarlar";
                     OngletDebug.Header = "Hata Ayıklama";
                     
@@ -2338,11 +2399,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Натисніть тут, щоб отримати безкоштовний ключ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/uk/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Увімкнути автоматичне визначення мови для перекладу";
                     TranslationSourceLanguageComboBoxText.Text = "Мова джерела для перекладу:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Мова призначення для перекладу:";
 
                     GroupAddressManagementTitle.Text = "Управління адресами групи";
@@ -2357,14 +2418,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
-                    
+                    SaveAndApplyButtonText.Text = "Застосувати";
+
+
                     MenuDebug.Text = "Меню налагодження";
                     AddInfosOsCheckBox.Content = "Включити інформацію про ОС";
                     AddInfosHardCheckBox.Content = "Включити інформацію про апаратне забезпечення";
                     AddImportedFilesCheckBox.Content = "Включити файли, імпортовані з моменту запуску";
                     IncludeAddressListCheckBox.Content = "Включити список видалених групових адрес у проектах";
                     CreateArchiveDebugText.Text = "Створити файл налагодження";
-                    
+
                     OngletParametresGeneraux.Header = "Загальні налаштування";
                     OngletDebug.Header = "Відлагодження";
                     
@@ -2380,7 +2443,7 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nРеалізація: 06/2024 - 07/2024";
                     break;
-                
+
                 // Russe
                 case "RU":
                     SettingsWindowTopTitle.Text = "Настройки";
@@ -2391,11 +2454,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ru/pro-api");
-    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Включить автоматическое определение языка для перевода";
                     TranslationSourceLanguageComboBoxText.Text = "Исходный язык для перевода:";
-    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Язык назначения для перевода:";
 
                     GroupAddressManagementTitle.Text = "Управление адресами групп";
@@ -2410,14 +2473,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Сохранить";
                     CancelButtonText.Text = "Отменить";
-                    
+                    SaveAndApplyButtonText.Text = "Применить";
+
+
                     MenuDebug.Text = "Меню отладки";
                     AddInfosOsCheckBox.Content = "Включить информацию о ОС";
                     AddInfosHardCheckBox.Content = "Включить информацию о оборудовании";
                     AddImportedFilesCheckBox.Content = "Включить файлы, импортированные с момента запуска";
                     IncludeAddressListCheckBox.Content = "Включить список удаленных групповых адресов в проектах";
                     CreateArchiveDebugText.Text = "Создать файл отладки";
-                    
+
                     OngletParametresGeneraux.Header = "Общие настройки";
                     OngletDebug.Header = "Отладка";
                     
@@ -2444,11 +2509,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(点击这里获取免费密钥)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/zh/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "启用自动语言检测进行翻译";
                     TranslationSourceLanguageComboBoxText.Text = "翻译源语言：";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "翻译目标语言：";
 
                     GroupAddressManagementTitle.Text = "组地址管理";
@@ -2463,14 +2528,16 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
-                    
+                    SaveAndApplyButtonText.Text = "应用";
+
+
                     MenuDebug.Text = "调试菜单";
                     AddInfosOsCheckBox.Content = "包括操作系统信息";
                     AddInfosHardCheckBox.Content = "包括硬件信息";
                     AddImportedFilesCheckBox.Content = "包括启动以来导入的文件";
                     IncludeAddressListCheckBox.Content = "包括项目中已删除的组地址列表";
                     CreateArchiveDebugText.Text = "创建调试文件";
-                    
+
                     OngletParametresGeneraux.Header = "常规设置";
                     OngletDebug.Header = "调试";
                     
@@ -2487,9 +2554,9 @@ namespace KNXBoostDesktop
                                             $"\n实现：06/2024 - 07/2024";
                     break;
 
-	            // Langue par défaut (français)
+                // Langue par défaut (français)
                 default:
-		            SettingsWindowTopTitle.Text = "Paramètres";
+                    SettingsWindowTopTitle.Text = "Paramètres";
                     TranslationTitle.Text = "Traduction";
                     EnableTranslationCheckBox.Content = "Activer la traduction";
                     DeeplApiKeyText.Text = "Clé API DeepL :";
@@ -2497,11 +2564,11 @@ namespace KNXBoostDesktop
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Cliquez ici pour obtenir une clé gratuitement)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/fr/pro-api");
-                    
+
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Activer la détection automatique de la langue pour la traduction";
                     TranslationSourceLanguageComboBoxText.Text = "Langue source de la traduction:";
-                    
+
                     TranslationDestinationLanguageComboBoxText.Text = "Langue de destination de la traduction:";
 
                     GroupAddressManagementTitle.Text = "Gestion des adresses de groupe";
@@ -2513,7 +2580,7 @@ namespace KNXBoostDesktop
                     DarkThemeComboBoxItem.Content = "Sombre";
 
                     AppLanguageTextBlock.Text = "Langue de l'application:";
-                    
+
                     MenuDebug.Text = "Menu de débogage";
                     AddInfosOsCheckBox.Content = "Inclure les informations sur le système d'exploitation";
                     AddInfosHardCheckBox.Content = "Inclure les informations sur le matériel de l'ordinateur";
@@ -2540,7 +2607,7 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
-                    
+
                     break;
             }
 
@@ -2552,7 +2619,7 @@ namespace KNXBoostDesktop
 
             var checkboxStyle = (Style)FindResource("CheckboxLightThemeStyle");
             Brush borderBrush;
-            
+
             if (EnableLightTheme) // Si le thème clair est actif,
             {
                 textColor = "#000000";
@@ -2561,7 +2628,7 @@ namespace KNXBoostDesktop
                 pathColor = "#D7D7D7";
                 textboxBackgroundColor = "#FFFFFF";
                 borderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#b8b8b8"));
-                
+
                 TranslationSourceLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 ThemeComboBox.Style = (Style)FindResource("LightComboBoxStyle");
@@ -2586,7 +2653,7 @@ namespace KNXBoostDesktop
                 textboxBackgroundColor = "#262626";
                 checkboxStyle = (Style)FindResource("CheckboxDarkThemeStyle");
                 borderBrush = (Brush)FindResource("DarkThemeCheckBoxBorderBrush");
-                
+
                 TranslationSourceLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 ThemeComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
@@ -2603,19 +2670,19 @@ namespace KNXBoostDesktop
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
 
             }
-            
+
             // Définition des brush pour les divers éléments
             var textColorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textColor));
-            
+
             // Arrière plan de la fenêtre
             Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
-            
+
             // En-tête de la fenêtre
             SettingsIconPath1.Brush = textColorBrush;
             SettingsIconPath2.Brush = textColorBrush;
             SettingsWindowTopTitle.Foreground = textColorBrush;
             HeaderPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
-                
+
             // Corps de la fenêtre
             MainContentBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
             MainContentPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
@@ -2639,7 +2706,7 @@ namespace KNXBoostDesktop
             DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
             DeeplApiKeyTextBox.BorderBrush = borderBrush;
             DeeplApiKeyTextBox.Foreground = textColorBrush;
-                
+
             // Pied de page avec les boutons save et cancel
             SettingsWindowFooter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             FooterPath.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
@@ -2648,8 +2715,8 @@ namespace KNXBoostDesktop
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
             CreateArchiveDebugText.Foreground = textColorBrush;
-            
-            
+
+
             // Menu debug
             ControlOnglet.BorderBrush = borderBrush;
             DebugPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
@@ -2662,7 +2729,7 @@ namespace KNXBoostDesktop
             AddInfosHardCheckBox.Foreground = textColorBrush;
             AddImportedFilesCheckBox.Foreground = textColorBrush;
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
-            
+
             OngletParametresGeneraux.Foreground = textColorBrush;
             OngletDebug.Foreground = textColorBrush;
             DebugBrush1.Brush = textColorBrush;
@@ -2671,33 +2738,33 @@ namespace KNXBoostDesktop
             InformationsText.Foreground = EnableLightTheme ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
 
             IncludeAddressListCheckBox.IsEnabled = (bool)AddImportedFilesCheckBox.IsChecked!;
-            
-            
+
+
             foreach (ComboBoxItem item in TranslationLanguageDestinationComboBox.Items)
             {
                 item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
                 item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
             }
-            
+
             foreach (ComboBoxItem item in ThemeComboBox.Items)
             {
                 item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
-                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
             }
-            
+
             foreach (ComboBoxItem item in AppLanguageComboBox.Items)
             {
                 item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
-                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
             }
-            
+
             foreach (ComboBoxItem item in TranslationSourceLanguageComboBox.Items)
             {
                 item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
-                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor)); 
+                item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
             }
-            
-              
+
+
             if (!EnableDeeplTranslation)
             {
                 DeeplApiKeyTextBox.IsEnabled = false;
@@ -2705,6 +2772,7 @@ namespace KNXBoostDesktop
                 TranslationSourceLanguageComboBox.IsEnabled = false;
                 TranslationLanguageDestinationComboBox.IsEnabled = false;
                 Hyperlink.IsEnabled = false;
+
 
                 if (EnableLightTheme)
                 {
@@ -2729,12 +2797,12 @@ namespace KNXBoostDesktop
                     TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush(Colors.DimGray);
                     TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.DimGray);
                 }
-                
+
             }
-            
+
         }
-        
-        
+
+
         // Fonction permettant de détecter le thème de windows (clair/sombre)
         /// <summary>
         /// Detects the current Windows theme (light or dark).
@@ -2752,10 +2820,10 @@ namespace KNXBoostDesktop
                 using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
                 {
                     var registryValue = key?.GetValue("AppsUseLightTheme");
-                    
+
                     if (registryValue is int value)
                     {
-                        return value == 1; 
+                        return value == 1;
                     }
                 }
             }
@@ -2791,7 +2859,7 @@ namespace KNXBoostDesktop
                 using (var key = Registry.CurrentUser.OpenSubKey(@"Control Panel\International"))
                 {
                     var registryValue = key?.GetValue("LocaleName");
-                    
+
                     if (registryValue != null)
                     {
                         // Créer un HashSet avec tous les codes de langue pris en charge par la traduction de l'application
@@ -2801,7 +2869,7 @@ namespace KNXBoostDesktop
                             "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL",
                             "PT", "RO", "RU", "SK", "SL", "SV", "TR", "UK", "ZH", "FR"
                         };
-                    
+
                         var localeName = registryValue.ToString();
 
                         // Extraire les deux premières lettres de localeName pour obtenir le code de langue
@@ -2837,19 +2905,19 @@ namespace KNXBoostDesktop
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-            EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
+            EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
-            RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
+            RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            AppScaleFactor = (int) ScaleSlider.Value;
-            
+            AppScaleFactor = (int)ScaleSlider.Value;
+
             // Mise à jour éventuellement du contenu pour update la langue du menu
             UpdateWindowContents();
-            
+
             // Mise à jour de l'échelle de toutes les fenêtres
             var scaleFactor = AppScaleFactor / 100f;
             if (scaleFactor <= 1f)
@@ -2862,21 +2930,21 @@ namespace KNXBoostDesktop
             }
             App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor-0.2f);
-            
+            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+
             // Mise à jour de la fenêtre de renommage des adresses de groupe
             App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
-            
+
             // Mise à jour de la fenêtre principale
             App.DisplayElements?.MainWindow.UpdateWindowContents();
-            
+
             // Si on a activé la traduction deepl
             if (EnableDeeplTranslation)
             {
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
                 GroupAddressNameCorrector.ValidDeeplKey = isValid;
-                
+
                 // Si la clé est incorrecte
                 if (!GroupAddressNameCorrector.ValidDeeplKey)
                 {
@@ -2947,25 +3015,187 @@ namespace KNXBoostDesktop
 
                     // Message d'erreur
                     MessageBox.Show($"{errorMessage}", warningMessage, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    
+
                     // Décochage de la traduction deepL dans la fenêtre
                     EnableDeeplTranslation = false;
-                    
+
                     // Mise à jour de la case cochable
                     UpdateWindowContents();
                 }
             }
-            
+
             // Sauvegarde des paramètres dans le fichier appSettings
             App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
             SaveSettings();
             App.ConsoleAndLogWriteLine("Settings saved successfully");
-            
+
             // Masquage de la fenêtre de paramètres
             Hide();
+            CheckBox_CheckedChanged(sender,e);
         }
 
-        
+        private void SaveAndApplyButtonClick(object sender, RoutedEventArgs e)
+        {
+            // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
+            EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
+            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
+            TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
+            RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
+            EnableLightTheme = LightThemeComboBoxItem.IsSelected;
+            AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
+            AppScaleFactor = (int)ScaleSlider.Value;
+
+            // Mise à jour éventuellement du contenu pour update la langue du menu
+            UpdateWindowContents();
+
+            // Mise à jour de l'échelle de toutes les fenêtres
+            var scaleFactor = AppScaleFactor / 100f;
+            ApplyScaling(scaleFactor - 0.2f);
+            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
+
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
+
+            // Si on a activé la traduction deepl
+            if (EnableDeeplTranslation)
+            {
+                // On vérifie la validité de la clé API
+                var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
+                GroupAddressNameCorrector.ValidDeeplKey = isValid;
+
+                // Si la clé est incorrecte
+                if (!GroupAddressNameCorrector.ValidDeeplKey)
+                {
+                    // Traduction de l'en-tête de la fenêtre d'avertissement
+                    var warningMessage = AppLang switch
+                    {
+                        // Arabe
+                        "AR" => "تحذير",
+                        // Bulgare
+                        "BG" => "Предупреждение",
+                        // Tchèque
+                        "CS" => "Varování",
+                        // Danois
+                        "DA" => "Advarsel",
+                        // Allemand
+                        "DE" => "Warnung",
+                        // Grec
+                        "EL" => "Προειδοποίηση",
+                        // Anglais
+                        "EN" => "Warning",
+                        // Espagnol
+                        "ES" => "Advertencia",
+                        // Estonien
+                        "ET" => "Hoiatus",
+                        // Finnois
+                        "FI" => "Varoitus",
+                        // Hongrois
+                        "HU" => "Figyelmeztetés",
+                        // Indonésien
+                        "ID" => "Peringatan",
+                        // Italien
+                        "IT" => "Avvertimento",
+                        // Japonais
+                        "JA" => "警告",
+                        // Coréen
+                        "KO" => "경고",
+                        // Letton
+                        "LV" => "Brīdinājums",
+                        // Lituanien
+                        "LT" => "Įspėjimas",
+                        // Norvégien
+                        "NB" => "Advarsel",
+                        // Néerlandais
+                        "NL" => "Waarschuwing",
+                        // Polonais
+                        "PL" => "Ostrzeżenie",
+                        // Portugais
+                        "PT" => "Aviso",
+                        // Roumain
+                        "RO" => "Avertizare",
+                        // Russe
+                        "RU" => "Предупреждение",
+                        // Slovaque
+                        "SK" => "Upozornenie",
+                        // Slovène
+                        "SL" => "Opozorilo",
+                        // Suédois
+                        "SV" => "Varning",
+                        // Turc
+                        "TR" => "Uyarı",
+                        // Ukrainien
+                        "UK" => "Попередження",
+                        // Chinois simplifié
+                        "ZH" => "警告",
+                        // Cas par défaut (français)
+                        _ => "Avertissement"
+                    };
+
+                    // Message d'erreur
+                    MessageBox.Show($"{errorMessage}", warningMessage, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    // Décochage de la traduction deepL dans la fenêtre
+                    EnableDeeplTranslation = false;
+
+                    // Mise à jour de la case cochable
+                    UpdateWindowContents();
+                }
+            }
+
+            // Sauvegarde des paramètres dans le fichier appSettings
+            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
+            SaveSettings();
+            App.ConsoleAndLogWriteLine("Settings saved successfully");
+
+            // Masquage de la fenêtre de paramètres
+            Hide();
+            CheckBox_CheckedChanged(sender, e);
+
+            // Obtenez l'instance de MainWindow
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null)
+            {
+                // Appelez la méthode asynchrone
+                mainWindow.ReloadProject();
+            }
+        }
+
+
+        private void CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if ((RemoveUnusedAddressesCheckBox.IsChecked != RemoveUnusedGroupAddresses  || EnableTranslationCheckBox.IsChecked != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != "" ))
+            {
+                SaveAndApplyButton.Visibility = Visibility.Visible;
+
+                CancelButton2.Visibility = Visibility.Visible;
+                SaveButton2.Visibility = Visibility.Visible;
+                CancelButton.Visibility = Visibility.Collapsed;
+                SaveButton.Visibility = Visibility.Collapsed ;
+                BordureSave.Visibility = Visibility.Visible;
+                BordureSave2.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                SaveAndApplyButton.Visibility = Visibility.Collapsed;
+                CancelButton2.Visibility = Visibility.Collapsed;
+                SaveButton2.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Visible;
+                SaveButton.Visibility = Visibility.Visible;
+                BordureSave.Visibility = Visibility.Hidden;
+                BordureSave2.Visibility = Visibility.Visible;
+            }
+        }
+
+
         // Fonction s'exécutant lors du clic sur le bouton annuler
         /// <summary>
         /// Handles the cancel button click event by restoring previous settings and hiding the settings window.
@@ -2978,7 +3208,7 @@ namespace KNXBoostDesktop
             Hide(); // Masquage de la fenêtre de paramétrage
         }
 
-        
+
         // ----- GESTION DE DES CASES A COCHER -----
         // Fonction s'activant quand on coche l'activation de la traduction DeepL
         /// <summary>
@@ -2996,8 +3226,8 @@ namespace KNXBoostDesktop
             TranslationLanguageDestinationComboBox.IsEnabled = true;
             // On affiche le checkmark de la détection automatique de la langue source de la traduction
             EnableAutomaticTranslationLangDetectionCheckbox.IsEnabled = true;
-            
-            TranslationSourceLanguageComboBox.IsEnabled = (!EnableAutomaticSourceLangDetection)||(bool)(!EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!);
+
+            TranslationSourceLanguageComboBox.IsEnabled = (!EnableAutomaticSourceLangDetection) || (bool)(!EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!);
 
             if (EnableLightTheme)
             {
@@ -3013,7 +3243,7 @@ namespace KNXBoostDesktop
                 TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.Black);
 
                 EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.Black);
-                
+
                 if (TranslationSourceLanguageComboBox.IsEnabled)
                 {
                     //TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Green"));
@@ -3031,10 +3261,10 @@ namespace KNXBoostDesktop
             {
                 Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
 
-                DeeplApiKeyText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4")); 
+                DeeplApiKeyText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
                 DeeplApiKeyTextBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
                 DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#333333"));
-                
+
                 TranslationLanguageDestinationComboBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
                 TranslationDestinationLanguageComboBoxText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3DED4"));
 
@@ -3059,7 +3289,7 @@ namespace KNXBoostDesktop
 
         }
 
-        
+
         // Fonction s'activant quand on décoche l'activation de la traduction DeepL
         /// <summary>
         /// Handles the event triggered when the DeepL translation feature is disabled by hiding related UI elements and adjusting the window size.
@@ -3109,8 +3339,8 @@ namespace KNXBoostDesktop
                 EnableAutomaticTranslationLangDetectionCheckbox.Foreground = new SolidColorBrush(Colors.DimGray);
             }
         }
-        
-        
+
+
         // Fonction s'activant quand on coche l'activation de la traduction DeepL
         /// <summary>
         /// Handles the event triggered when automatic translation language detection is enabled by hiding the source language selection UI elements and adjusting the window size.
@@ -3134,7 +3364,7 @@ namespace KNXBoostDesktop
             }
         }
 
-        
+
         /// <summary>
         /// Enables the <see cref="IncludeAddressListCheckBox"/> control and sets its foreground color based on the theme.
         /// </summary>
@@ -3144,11 +3374,11 @@ namespace KNXBoostDesktop
         {
             IncludeAddressListCheckBox.IsEnabled = true;
 
-            IncludeAddressListCheckBox.Foreground = EnableLightTheme ? 
+            IncludeAddressListCheckBox.Foreground = EnableLightTheme ?
                 new SolidColorBrush(Colors.Black) : MainWindow.ConvertStringColor("#E3DED4");
         }
 
-        
+
         /// <summary>
         /// Disables the <see cref="IncludeAddressListCheckBox"/> control, unchecks it, and sets its foreground color based on the theme.
         /// </summary>
@@ -3159,11 +3389,11 @@ namespace KNXBoostDesktop
             IncludeAddressListCheckBox.IsEnabled = false;
             IncludeAddressListCheckBox.IsChecked = false;
 
-            IncludeAddressListCheckBox.Foreground = EnableLightTheme ? 
+            IncludeAddressListCheckBox.Foreground = EnableLightTheme ?
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
         }
 
-        
+
         /// <summary>
         /// Handles the <see cref="TabControl.SelectionChanged"/> event to adjust the visibility of buttons based on the selected tab.
         /// </summary>
@@ -3172,18 +3402,25 @@ namespace KNXBoostDesktop
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is not TabControl) return;
-            
+
             var selectedTab = (sender as TabControl)?.SelectedItem as TabItem;
             switch (selectedTab)
             {
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header:
-                    SaveButton.Visibility = Visibility.Visible;
-                    CancelButton.Visibility = Visibility.Visible;
+                    CheckBox_CheckedChanged(sender, e);
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletDebug.Header:
-                    SaveButton.Visibility = Visibility.Collapsed;
+                    SaveAndApplyButton.Visibility = Visibility.Collapsed;
+                    CancelButton2.Visibility = Visibility.Collapsed;
+                    SaveButton2.Visibility = Visibility.Collapsed;
                     CancelButton.Visibility = Visibility.Collapsed;
+                    SaveButton.Visibility = Visibility.Collapsed;
+                    BordureSave.Visibility = Visibility.Hidden;
+                    BordureSave2.Visibility = Visibility.Hidden;
+
+
+
                     CreateArchiveDebugButton.Visibility = Visibility.Visible;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletInformations.Header:
@@ -3193,8 +3430,8 @@ namespace KNXBoostDesktop
                     break;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Creates a debug report based on the state of various checkboxes and the include address list.
         /// </summary>
@@ -3206,11 +3443,11 @@ namespace KNXBoostDesktop
             var includeHardwareInfo = AddInfosHardCheckBox.IsChecked;
             var includeImportedProjects = AddImportedFilesCheckBox.IsChecked;
             var includeRemovedGroupAddressList = (bool)IncludeAddressListCheckBox.IsChecked! && (bool)AddImportedFilesCheckBox.IsChecked!;
-            
+
             ProjectFileManager.CreateDebugArchive((bool)includeOsInfo!, (bool)includeHardwareInfo!, (bool)includeImportedProjects!, includeRemovedGroupAddressList!);
         }
 
-        
+
         // Fonction s'activant quand on décoche l'activation de la traduction DeepL
         /// <summary>
         /// Handles the event triggered when automatic translation language detection is disabled by showing the source language selection UI elements and adjusting the window size.
@@ -3221,7 +3458,7 @@ namespace KNXBoostDesktop
         {
             // On affiche le menu déroulant de sélection de la langue de traduction
             TranslationSourceLanguageComboBox.IsEnabled = true;
-            
+
             if (EnableLightTheme)
             {
                 TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.Black);
@@ -3232,10 +3469,10 @@ namespace KNXBoostDesktop
                 TranslationSourceLanguageComboBox.Foreground = new SolidColorBrush(Colors.White);
                 TranslationSourceLanguageComboBoxText.Foreground = new SolidColorBrush(Colors.White);
             }
-            
+
         }
-        
-        
+
+
         // ----- GESTION DE L'ENCRYPTION -----
         // Fonction permettant d'encrypter un string donné avec une clé et un iv créés dynamiquement
         // Attention : cette fonction permet de stocker UN SEUL string (ici la clé deepL) à la fois. Si vous encryptez un autre string,
@@ -3288,7 +3525,7 @@ namespace KNXBoostDesktop
                                 // Cryptage de la donnée depuis le stream
                                 swEncrypt.Write(plainText);
                             }
-                            
+
                             // Renvoi de la donnée encryptée sous forme d'un tableau d'octets
                             return msEncrypt.ToArray();
                         }
@@ -3304,7 +3541,7 @@ namespace KNXBoostDesktop
                 catch (IOException)
                 {
                     return Convert.FromBase64String(""); // On retourne un tableau d'octets vide
-                } 
+                }
                 // Si le writer est fermé, ou son buffer est plein
                 catch (ObjectDisposedException)
                 {
@@ -3320,7 +3557,7 @@ namespace KNXBoostDesktop
             }
         }
 
-        
+
         // Fonction permettant de décrypter un string donné à partir de la clé et de l'iv chiffrés
         /// <summary>
         /// Decrypts the provided byte array using encrypted AES key and IV stored in the application files, and returns the decrypted string.
@@ -3364,7 +3601,7 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"Error: no authorization to read 'ei' and 'ek' files. " +
                                            $"Encryption keys could not be retrieved. Please try again or try running the program in administrator mode.");
             }
-            
+
 
             // Déchiffrer les clés et IV avec la clé principale
             var decryptedKey = DecryptKeyOrIv(encryptedKey);
@@ -3435,8 +3672,8 @@ namespace KNXBoostDesktop
                 return "";
             }
         }
-        
-        
+
+
         // Fonction permettant d'encrypter et de stocker dans un fichier la clé principale de chiffrement
         /// <summary>
         /// Encrypts the provided main encryption key using DPAPI and stores it in a file.
@@ -3447,7 +3684,7 @@ namespace KNXBoostDesktop
         private static void EncryptAndStoreMainKey(byte[] mainkey)
         {
             byte[] encryptedMainKeyBytes;
-            
+
             try
             {
                 // Utilisation de la DPAPI pour encrypter la clé en fonction de l'ordinateur et de la session Windows
@@ -3511,7 +3748,7 @@ namespace KNXBoostDesktop
             }
         }
 
-        
+
         // Fonction permettant de récupérer la clé principale chiffrée et de la déchiffrer
         /// <summary>
         /// Retrieves the encrypted main encryption key from a file, decrypts it using DPAPI, and returns it as a base64-encoded string.
@@ -3559,7 +3796,7 @@ namespace KNXBoostDesktop
             }
 
             byte[] mainKeyBytes;
-            
+
             try
             {
                 // Utilisation de DPAPI pour décrypter la clé
@@ -3588,12 +3825,12 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine("Error: the program ran out of RAM while decrypting the main key. Could not decrypt it.");
                 return "";
             }
-            
+
             // Conversion en un string
             return Convert.ToBase64String(mainKeyBytes);
         }
-        
-        
+
+
         // Fonction permettant d'encrypter la clé ou l'iv à partir de la clé principale de chiffrement
         /// <summary>
         /// Encrypts a given key or IV using the main encryption key retrieved from the file. 
@@ -3610,12 +3847,12 @@ namespace KNXBoostDesktop
                 {
                     EncryptAndStoreMainKey(Convert.FromBase64String(GenerateRandomKey(32)));
                 }
-                
+
                 aesAlg.Key = Convert.FromBase64String(RetrieveAndDecryptMainKey());
                 aesAlg.IV = new byte[16]; // IV de 16 octets rempli de zéros
 
                 var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-                
+
                 try
                 {
                     using (var msEncrypt = new MemoryStream())
@@ -3640,7 +3877,7 @@ namespace KNXBoostDesktop
                 catch (IOException)
                 {
                     return ""; // On retourne un string vide
-                } 
+                }
                 // Si le writer est fermé, ou son buffer est plein
                 catch (ObjectDisposedException)
                 {
@@ -3656,7 +3893,7 @@ namespace KNXBoostDesktop
             }
         }
 
-        
+
         // Fonction permettant de décrypter la clé ou l'iv à partir de la clé principale de chiffrement
         /// <summary>
         /// Decrypts a given base64-encoded encrypted key or IV using the main encryption key retrieved from the file.
@@ -3876,8 +4113,8 @@ namespace KNXBoostDesktop
                 }
             }
         }
-        
-        
+
+
         // Fonction permettant de générer des clés aléatoires
         /// <summary>
         /// Generates a random key consisting of alphanumeric characters based on the specified length.
@@ -3888,11 +4125,11 @@ namespace KNXBoostDesktop
         private static string GenerateRandomKey(int length)
         {
             // Tableau contenant tous les caractères admissibles dans une clé de cryptage
-            var chars ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
+            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
             // Si la longueur est de 0 ou moins, on retourne un string vide
             if (length <= 0) return "";
-            
+
             var result = new StringBuilder(length);
             var random = new Random();
 
@@ -3906,8 +4143,8 @@ namespace KNXBoostDesktop
             // Renvoi de la clé générée sous forme de string
             return result.ToString();
         }
-        
-        
+
+
         // ----- GESTION DES LIENS HYPERTEXTE -----
         // Fonction gérant le clic sur un lien hypertexte
         /// <summary>
@@ -3937,11 +4174,11 @@ namespace KNXBoostDesktop
             {
                 App.ConsoleAndLogWriteLine("Error: cannot redirect to the clicked link.");
             }
-            
+
             e.Handled = true;
         }
 
-        
+
         // ----- GESTION DES INPUTS CLAVIER/SOURIS -----
         // Fonction permettant d'effectuer des actions quand une touche spécifique du clavier est appuyée
         /// <summary>
@@ -3959,32 +4196,32 @@ namespace KNXBoostDesktop
                     UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
                     Hide(); // Masquage de la fenêtre de paramétrage
                     break;
-                
+
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
                 case Key.Enter:
                     // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-                    EnableDeeplTranslation = (bool) EnableTranslationCheckBox.IsChecked!;
+                    EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
                     DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
                     TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-                    RemoveUnusedGroupAddresses = (bool) RemoveUnusedAddressesCheckBox.IsChecked!;
+                    RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
                     EnableLightTheme = LightThemeComboBoxItem.IsSelected;
                     AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            
+
                     // Sauvegarde des paramètres dans le fichier appSettings
                     App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
                     SaveSettings();
                     App.ConsoleAndLogWriteLine("Settings saved successfully");
-            
+
                     // Mise à jour éventuellement du contenu pour update la langue du menu
                     UpdateWindowContents();
-            
+
                     // Masquage de la fenêtre de paramètres
                     Hide();
                     break;
             }
         }
-        
-        
+
+
         // Fonction gérant le clic sur l'en-tête de la fenêtre de paramètres, de manière que l'on puisse
         // déplacer la fenêtre avec la souris.
         /// <summary>
@@ -4010,3 +4247,4 @@ namespace KNXBoostDesktop
         }
     }
 }
+

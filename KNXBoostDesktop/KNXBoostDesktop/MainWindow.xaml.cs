@@ -980,8 +980,57 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
     }
-    
-    
+
+    public async void ReloadProject()
+    {
+        App.ConsoleAndLogWriteLine("Reaload");
+
+            // Créer et configurer la LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            {
+                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+            };
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            // Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
+            var updateTask = Task.Run(async () =>
+            {
+                while (stopwatch.IsRunning)
+                {
+                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        App.DisplayElements.LoadingWindow.TotalTime.Text =
+                            $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
+                    });
+                    await Task.Delay(100); // Met à jour toutes les 100ms
+                }
+            });
+
+            ShowOverlay();
+            await ExecuteLongRunningTask();
+            HideOverlay();
+
+            stopwatch.Stop();
+            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+
+            // Mise à jour finale de l'affichage
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                App.DisplayElements.LoadingWindow.TotalTime.Text =
+                    $"Temps total : {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}";
+            });
+
+            // Attend la fin de la tâche de mise à jour (au cas où elle serait encore en cours)
+            await updateTask;
+
+            ViewModel.IsProjectImported = true;
+
+    }
+
     /// <summary>
     /// Handles the click event for the Open Console button.
     /// Opens the console window and ensures it scrolls to the bottom to display the latest messages.
@@ -1674,6 +1723,7 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
+
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {
