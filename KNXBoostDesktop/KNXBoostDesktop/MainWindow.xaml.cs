@@ -24,21 +24,6 @@ public partial class MainWindow
     ------------------------------------------------------------------------------------------------ */
 
     /// <summary>
-    ///  Path to the original 0.xml file
-    /// </summary>
-    private string _xmlFilePath1 = "";
-
-    /// <summary>
-    ///  Path to the modified 0.xml file
-    /// </summary>
-    private string _xmlFilePath2 = "";
-
-    /// <summary>
-    ///  Path to the history file for the group address rename window
-    /// </summary>
-    private string _xmlRenameFilePath = "";
-
-    /// <summary>
     ///  Texte "Rechercher ..." de la barre de recherche. A SUPPRIMER DES QUE POSSIBLE /!\
     /// </summary>
     private string _searchTextTranslate = "";
@@ -1516,7 +1501,8 @@ public partial class MainWindow
         }
 
         try
-        {            
+        {
+            var unused = reader?.ReadLine();
             while (reader?.ReadLine() is { } line)
             {
                 // Vérifier si la ligne est vide ou seulement composée d'espaces
@@ -2003,10 +1989,6 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
                     await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
 
-                    _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
-                    _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
-                    _xmlRenameFilePath = App.Fm.ProjectFolderPath + "RenamedAddressesHistory.xml";
-
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -2132,7 +2114,7 @@ public partial class MainWindow
         var originalAddress = correspondingTextBlock.Text;
         var editedAddress = textBlock.Text;
 
-        var result = App.DisplayElements?.ShowGroupAddressRenameWindow(originalAddress, editedAddress, _xmlRenameFilePath);
+        var result = App.DisplayElements?.ShowGroupAddressRenameWindow(originalAddress, editedAddress, App.Fm?.ProjectFolderPath + "RenamedAddressesHistory.xml");
                                 
         if (result != true) return;
         
@@ -2140,10 +2122,10 @@ public partial class MainWindow
         textBlock.Text = newAddress;
         
         //Sauvegarder les modfications
-        SaveModifiedAdress(_xmlRenameFilePath, editedAddress, newAddress, originalAddress);
+        SaveModifiedAdress(App.Fm?.ProjectFolderPath + "RenamedAddressesHistory.xml", editedAddress, newAddress, originalAddress);
 
         // Renommer l'adresse dans le fichier XML
-        RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
+        RenameAddressInXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml", editedAddress, newAddress);
     }
 
     
@@ -2217,7 +2199,7 @@ public partial class MainWindow
         try
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(_xmlFilePath2);
+            xmlDoc.Load(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml");
 
             // Déclaration d'un gestionnaire de noms pour l'espace de noms par défaut
             var nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
@@ -2318,8 +2300,8 @@ public partial class MainWindow
     /// </summary>
     private async Task LoadXmlFiles()
     {
-        await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
-        await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
+        await LoadXmlFile($"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml", TreeViewGauche);
+        await LoadXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml", TreeViewDroite);
 
         TreeViewGauche.SelectedItemChanged += TreeViewGauche_SelectedItemChanged;
         TreeViewDroite.SelectedItemChanged += TreeViewDroite_SelectedItemChanged;
