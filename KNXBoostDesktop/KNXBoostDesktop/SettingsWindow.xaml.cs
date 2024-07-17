@@ -753,7 +753,14 @@ namespace KNXBoostDesktop
                             try
                             {
                                 AppScaleFactor = Convert.ToInt32(value) > 300 || Convert.ToInt32(value) < 50 ? 100 : Convert.ToInt32(value);
-                                ApplyScaling(AppScaleFactor/100f - 0.2f);
+                                if (AppScaleFactor <= 100)
+                                {
+                                    ApplyScaling(AppScaleFactor/100f - 0.1f);
+                                }
+                                else
+                                {
+                                    ApplyScaling(AppScaleFactor/100f - 0.2f);
+                                }
                             }
                             catch (Exception)
                             {
@@ -982,6 +989,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "الإعدادات العامة";
                     OngletDebug.Header = "تصحيح الأخطاء";
+                    
+                    OngletInformations.Header = "معلومات";
+                    InformationsText.Text = "{App.AppName}" +
+                   $"\nالإصدار {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                   $"\nالبناء {App.AppBuild}" +
+                   $"\n" +
+                   $"\nتم إنشاء التطبيق كجزء من تدريب هندسي بواسطة" +
+                   $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
+                   $"\n" +
+                   $"\nشراكة بين المعهد الوطني للعلوم التطبيقية (INSA) في تولوز واتحاد Cépière Robert Monnier (UCRM)." +
+                   $"\n" +
+                   $"\nالتنفيذ: 06/2024 - 07/2024";
                     break;
 
                 // Bulgare
@@ -1023,6 +1042,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Общи настройки";
                     OngletDebug.Header = "Отстраняване на грешки";
+                    
+                    OngletInformations.Header = "Информация";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nВерсия {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nСборка {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nПриложението е създадено като част от инженерно стаж от" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nПартньорство между Националния институт за приложни науки (INSA) в Тулуза и Съюза Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nИзпълнение: 06/2024 - 07/2024";
                     break;
 
                 // Tchèque
@@ -1064,6 +1095,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Obecná nastavení";
                     OngletDebug.Header = "Ladění";
+                    
+                    OngletInformations.Header = "Informace";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVerze {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nSestavení {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplikace byla vytvořena jako součást inženýrské stáže" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerství mezi Národním ústavem aplikovaných věd (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealizace: 06/2024 - 07/2024";
                     break;
 
                 // Danois
@@ -1105,6 +1148,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Generelle indstillinger";
                     OngletDebug.Header = "Fejlfinding";
+                    
+                    OngletInformations.Header = "Information";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBuild {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplikationen er lavet som en del af et ingeniørpraktik af" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerskab mellem Institut National des Sciences Appliquées (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nUdførelse: 06/2024 - 07/2024";
                     break;
 
                 // Allemand
@@ -1153,6 +1208,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
                     OngletDebug.Header = "Fehlerbehebung";
+                    
+                    OngletInformations.Header = "Informationen";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBuild {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nDie Anwendung wurde im Rahmen eines Ingenieurpraktikums erstellt von" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerschaft zwischen dem Institut National des Sciences Appliquées (INSA) in Toulouse und der Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nDurchführung: 06/2024 - 07/2024";
                     break;
 
                 // Grec
@@ -1187,6 +1254,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
                     OngletDebug.Header = "Αποσφαλμάτωση";
+                    
+                    OngletInformations.Header = "Πληροφορίες";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nΈκδοση {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nΚατασκευή {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nΗ εφαρμογή δημιουργήθηκε ως μέρος μιας μηχανικής πρακτικής άσκησης από" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nΣυνεργασία μεταξύ του Εθνικού Ινστιτούτου Εφαρμοσμένων Επιστημών (INSA) της Τουλούζης και της Ένωσης Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nΥλοποίηση: 06/2024 - 07/2024";
                     break;
 
                 // Anglais
@@ -1228,6 +1307,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "General Settings";
                     OngletDebug.Header = "Debugging";
+                    
+                    OngletInformations.Header = "Information";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBuild {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplication developed as part of an engineering internship by" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnership between the National Institute of Applied Sciences (INSA) in Toulouse and the Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealization: 06/2024 - 07/2024";
                     break;
 
                 // Espagnol
@@ -1269,6 +1360,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Configuración general";
                     OngletDebug.Header = "Depuración";
+                    
+                    OngletInformations.Header = "Información";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersión {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nCompilación {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplicación desarrollada como parte de una pasantía de ingeniería por" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nColaboración entre el Instituto Nacional de Ciencias Aplicadas (INSA) de Toulouse y la Unión Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealización: 06/2024 - 07/2024";
                     break;
 
                 // Estonien
@@ -1310,6 +1413,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Üldised seaded";
                     OngletDebug.Header = "Silmamine";
+                    
+                    OngletInformations.Header = "Teave";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersioon {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nEhitama {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nRakendus loodi osana inseneripraktikast" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerlus Toulouse'i Riikliku Rakendusteaduste Instituudi (INSA) ja Union Cépière Robert Monnier (UCRM) vahel." +
+                                            $"\n" +
+                                            $"\nTeostamine: 06/2024 - 07/2024";
                     break;
 
                 // Finnois
@@ -1351,6 +1466,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Yleiset asetukset";
                     OngletDebug.Header = "Vianmääritys";
+                    
+                    OngletInformations.Header = "Tiedot";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersio {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nRakenne {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nSovellus kehitettiin osana insinööriharjoittelua" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nYhteistyö Toulouse'n Kansallisen Soveltavan Tieteen Instituutin (INSA) ja Union Cépière Robert Monnier (UCRM) välillä." +
+                                            $"\n" +
+                                            $"\nToteutus: 06/2024 - 07/2024";
                     break;
 
                 // Hongrois
@@ -1392,6 +1519,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Általános beállítások";
                     OngletDebug.Header = "Hibakeresés";
+                    
+                    OngletInformations.Header = "Információ";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVerzió {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nÉpítés {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAz alkalmazást egy mérnöki gyakorlat részeként hozták létre" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerség a Toulouse-i Nemzeti Alkalmazott Tudományok Intézete (INSA) és a Union Cépière Robert Monnier (UCRM) között." +
+                                            $"\n" +
+                                            $"\nMegvalósítás: 06/2024 - 07/2024";
                     break;
 
                 // Indonésien
@@ -1433,6 +1572,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Pengaturan umum";
                     OngletDebug.Header = "Debugging";
+                    
+                    OngletInformations.Header = "Informasi";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersi {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBangun {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplikasi dikembangkan sebagai bagian dari magang teknik oleh" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nKemitraan antara Institut Nasional Ilmu Terapan (INSA) di Toulouse dan Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealisasi: 06/2024 - 07/2024";
                     break;
 
                 // Italien
@@ -1474,6 +1625,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Impostazioni generali";
                     OngletDebug.Header = "Debug";
+                    
+                    OngletInformations.Header = "Informazioni";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersione {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBuild {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplicazione sviluppata come parte di uno stage di ingegneria da" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartenariato tra l'Istituto Nazionale di Scienze Applicate (INSA) di Tolosa e l'Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealizzazione: 06/2024 - 07/2024";
                     break;
 
                 // Japonais
@@ -1515,6 +1678,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "一般設定";
                     OngletDebug.Header = "デバッグ";
+                    
+                    OngletInformations.Header = "情報";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nバージョン {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nビルド {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nアプリケーションは、エンジニアリング インターンシップの一環として作成されました" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE、および Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nトゥールーズ国立応用科学研究所 (INSA) と Union Cépière Robert Monnier (UCRM) の間のパートナーシップ。" +
+                                            $"\n" +
+                                            $"\n実現：06/2024 - 07/2024";
                     break;
 
                 // Coréen
@@ -1556,6 +1731,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "일반 설정";
                     OngletDebug.Header = "디버깅";
+                    
+                    OngletInformations.Header = "정보";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\n버전 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\n빌드 {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\n애플리케이션은 엔지니어링 인턴십의 일환으로 제작되었습니다" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 및 Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\n툴루즈 국립응용과학원(INSA)과 Union Cépière Robert Monnier(UCRM) 간의 파트너십." +
+                                            $"\n" +
+                                            $"\n실현: 06/2024 - 07/2024";
                     break;
 
                 // Letton
@@ -1597,6 +1784,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
                     OngletDebug.Header = "Atkļūdošana";
+                    
+                    OngletInformations.Header = "Informācija";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nIzveidot {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nLietojumprogramma izstrādāta kā inženierprakses daļa" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerība starp Tulūzas Nacionālo lietišķo zinātņu institūtu (INSA) un Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nIzpilde: 06/2024 - 07/2024";
                     break;
 
                 // Lituanien
@@ -1638,6 +1837,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Bendrieji nustatymai";
                     OngletDebug.Header = "Derinimas";
+                    
+                    OngletInformations.Header = "Informacija";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nSukurti {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nPrograma sukurta kaip inžinerinės praktikos dalis" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerystė tarp Nacionalinio taikomųjų mokslų instituto (INSA) Tulūzoje ir Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nĮgyvendinimas: 06/2024 - 07/2024";
                     break;
 
                 // Norvégien
@@ -1679,6 +1890,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Generelle innstillinger";
                     OngletDebug.Header = "Feilsøking";
+                    
+                    OngletInformations.Header = "Informasjon";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersjon {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBygg {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplikasjonen er laget som en del av et ingeniørpraktikum av" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerskap mellom det nasjonale instituttet for anvendt vitenskap (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nGjennomføring: 06/2024 - 07/2024";
                     break;
 
                 // Néerlandais
@@ -1720,6 +1943,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Algemene instellingen";
                     OngletDebug.Header = "Foutopsporing";
+                    
+                    OngletInformations.Header = "Informatie";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersie {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBuild {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplicatie ontwikkeld als onderdeel van een ingenieursstage door" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerschap tussen het Nationaal Instituut voor Toegepaste Wetenschappen (INSA) in Toulouse en de Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealisatie: 06/2024 - 07/2024";
                     break;
 
                 // Polonais
@@ -1761,6 +1996,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Ustawienia ogólne";
                     OngletDebug.Header = "Debugowanie";
+                    
+                    OngletInformations.Header = "Informacje";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nWersja {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nKompilacja {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplikacja stworzona w ramach praktyki inżynierskiej przez" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerstwo między Narodowym Instytutem Nauk Stosowanych (INSA) w Tuluzie a Związkiem Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealizacja: 06/2024 - 07/2024";
                     break;
 
                 // Portugais
@@ -1802,6 +2049,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Configurações gerais";
                     OngletDebug.Header = "Depuração";
+                    
+                    OngletInformations.Header = "Informações";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersão {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nCompilar {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplicação desenvolvida como parte de um estágio de engenharia por" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nParceria entre o Instituto Nacional de Ciências Aplicadas (INSA) em Toulouse e a Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealização: 06/2024 - 07/2024";
                     break;
 
                 // Roumain
@@ -1843,6 +2102,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Setări generale";
                     OngletDebug.Header = "Depanare";
+                    
+                    OngletInformations.Header = "Informații";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersiune {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nConstrui {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplicația a fost creată ca parte a unui stagiu de inginerie de către" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nParteneriat între Institutul Național de Științe Aplicate (INSA) din Toulouse și Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealizare: 06/2024 - 07/2024";
                     break;
 
                 // Slovaque
@@ -1884,6 +2155,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Všeobecné nastavenia";
                     OngletDebug.Header = "Ladenie";
+                    
+                    OngletInformations.Header = "Informácie";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVerzia {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nZostaviť {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplikácia bola vytvorená ako súčasť inžinierskej stáže" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerstvo medzi Národným inštitútom aplikovaných vied (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nRealizácia: 06/2024 - 07/2024";
                     break;
 
                 // Slovène
@@ -1925,6 +2208,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Splošne nastavitve";
                     OngletDebug.Header = "Odpravljanje napak";
+                    
+                    OngletInformations.Header = "Informacije";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nRazličica {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nZgraditi {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nAplikacija je bila ustvarjena kot del inženirske prakse" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerstvo med Nacionalnim inštitutom za uporabne znanosti (INSA) v Toulousu in Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nIzvedba: 06/2024 - 07/2024";
                     break;
 
                 // Suédois
@@ -1966,6 +2261,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Allmänna inställningar";
                     OngletDebug.Header = "Felsökning";
+                    
+                    OngletInformations.Header = "Information";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nBygg {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nApplikationen utvecklades som en del av en ingenjörspraktik av" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nPartnerskap mellan National Institute of Applied Sciences (INSA) i Toulouse och Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nGenomförande: 06/2024 - 07/2024";
                     break;
 
                 // Turc
@@ -2007,6 +2314,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Genel Ayarlar";
                     OngletDebug.Header = "Hata Ayıklama";
+                    
+                    OngletInformations.Header = "Bilgi";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nSürüm {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nDerleme {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nUygulama, bir mühendislik stajının parçası olarak geliştirildi" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES tarafından" +
+                                            $"\n" +
+                                            $"\nToulouse Ulusal Uygulamalı Bilimler Enstitüsü (INSA) ve Union Cépière Robert Monnier (UCRM) arasındaki ortaklık." +
+                                            $"\n" +
+                                            $"\nGerçekleşme: 06/2024 - 07/2024";
                     break;
 
                 // Ukrainien
@@ -2048,6 +2367,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Загальні налаштування";
                     OngletDebug.Header = "Відлагодження";
+                    
+                    OngletInformations.Header = "Інформація";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nВерсія {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nЗбірка {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nДодаток розроблено в рамках інженерного стажування" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nПартнерство між Національним інститутом прикладних наук (INSA) у Тулузі та Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nРеалізація: 06/2024 - 07/2024";
                     break;
                 
                 // Russe
@@ -2089,6 +2420,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "Общие настройки";
                     OngletDebug.Header = "Отладка";
+                    
+                    OngletInformations.Header = "Информация";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nВерсия {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nСборка {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nПриложение разработано в рамках инженерной стажировки" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nПартнерство между Национальным институтом прикладных наук (INSA) в Тулузе и Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nРеализация: 06/2024 - 07/2024";
                     break;
 
                 // Chinois simplifié
@@ -2130,6 +2473,18 @@ namespace KNXBoostDesktop
                     
                     OngletParametresGeneraux.Header = "常规设置";
                     OngletDebug.Header = "调试";
+                    
+                    OngletInformations.Header = "信息";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\n版本 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\n构建 {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\n该应用程序是作为工程实习的一部分开发的，由" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\n图卢兹国家应用科学学院 (INSA) 和 Union Cépière Robert Monnier (UCRM) 之间的合作伙伴关系。" +
+                                            $"\n" +
+                                            $"\n实现：06/2024 - 07/2024";
                     break;
 
 	            // Langue par défaut (français)
@@ -2172,7 +2527,16 @@ namespace KNXBoostDesktop
                     
                     OngletInformations.Header = "Informations";
                     InformationsText.Text =
-                        "Application réalisée par\n\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES\n\nPartenariat entre l'INSA de Toulouse et l'UCRM.";
+                        $"{App.AppName}" +
+                        $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nApplication réalisée dans le cadre d'un stage d'ingénierie par" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPartenariat entre l'Institut National des Sciences Appliquées (INSA) de Toulouse et l'Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRéalisation: 06/2024 - 07/2024";
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -2488,7 +2852,14 @@ namespace KNXBoostDesktop
             
             // Mise à jour de l'échelle de toutes les fenêtres
             var scaleFactor = AppScaleFactor / 100f;
-            ApplyScaling(scaleFactor-0.2f);
+            if (scaleFactor <= 1f)
+            {
+                ApplyScaling(scaleFactor-0.1f);
+            }
+            else
+            {
+                ApplyScaling(scaleFactor-0.2f);
+            }
             App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor-0.2f);
@@ -3634,7 +4005,7 @@ namespace KNXBoostDesktop
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
-            Height = 700 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 700 * scale;
+            Height = 725 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 725 * scale;
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }
