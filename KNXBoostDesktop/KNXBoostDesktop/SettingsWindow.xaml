@@ -1101,11 +1101,13 @@
                                        </TabItem>
                                        <TabItem x:Name="OngletInformations" Style="{StaticResource LightOnglet}">
                                            <StackPanel x:Name="InformationsPanel" Background="#262626">
-                                               <TextBlock x:Name="InformationsText" Text="text" TextAlignment="Center"
-                                                          Background="Transparent" TextWrapping="Wrap" Padding="10"
-                                                          Margin="0,180,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                               <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                   <TextBlock x:Name="InformationsText" Text="text" TextAlignment="Center"
+                                                              Background="Transparent" TextWrapping="Wrap" Padding="10"
+                                                              Margin="0,180,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                    
-                                               </TextBlock>
+                                                   </TextBlock>
+                                               </ScrollViewer>
                                            </StackPanel>
                                        </TabItem>
                                    </TabControl>
