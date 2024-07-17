@@ -87,375 +87,434 @@ public class GroupAddressNameCorrector
                 extractingDeviceInfo, 
                 infoAndReferencesExtracted, 
                 constructingNewAddresses, 
-                suppressedAddresses="",
+                suppressedAddresses,
                 savingUpdatedXml,
-                task="";
+                task;
             
             // Traduction des textes de la fenêtre de chargement
-            switch (App.DisplayElements?.SettingsWindow?.AppLang)
-            {
-                // Arabe
-                case "AR":
-                    loadXml = "جارٍ تحميل ملف XML...";
-                    extractingInfos = "استخراج المعلومات...";
-                    infosExtracted = "تم استخراج المعلومات من الملف.";
-                    extractingDeviceReferences = "استخراج مراجع الأجهزة...";
-                    extractingDeviceInfo = "استخراج معلومات الأجهزة...\n(قد تستغرق هذه العملية وقتًا)";
-                    infoAndReferencesExtracted = "تم استخراج المراجع والمعلومات الخاصة بالأجهزة.";
-                    constructingNewAddresses = "بناء العناوين الجديدة للمجموعة...";
-                    savingUpdatedXml = "جارٍ حفظ ملف XML المحدث...";
-                    break;
+                switch (App.DisplayElements?.SettingsWindow?.AppLang)
+                {
+                    // Arabe
+                    case "AR":
+                        loadXml = "جارٍ تحميل ملف XML...";
+                        extractingInfos = "جارٍ استخراج المعلومات...";
+                        infosExtracted = "تم استخراج المعلومات من الملف.";
+                        extractingDeviceReferences = "جارٍ استخراج مراجع الأجهزة...";
+                        extractingDeviceInfo = "جارٍ استخراج المعلومات عن الأجهزة...\n(قد تستغرق هذه العملية وقتًا)";
+                        infoAndReferencesExtracted = "جارٍ تحديث ملفات التصحيح...";
+                        constructingNewAddresses = "جارٍ إنشاء عناوين المجموعة الجديدة...";
+                        suppressedAddresses = "جارٍ حذف العناوين غير المستخدمة...";
+                        savingUpdatedXml = "جارٍ حفظ ملف XML المحدث...";
+                        task = "مهمة";
+                        break;
 
-                // Bulgare
-                case "BG":
-                    loadXml = "Зареждане на XML файл...";
-                    extractingInfos = "Извличане на информация...";
-                    infosExtracted = "Информацията е извлечена от файла.";
-                    extractingDeviceReferences = "Извличане на референции на устройства...";
-                    extractingDeviceInfo = "Извличане на информация за устройствата...\n(Тази стъпка може да отнеме време)";
-                    infoAndReferencesExtracted = "Референциите и информацията за устройствата са извлечени.";
-                    constructingNewAddresses = "Конструиране на нови групови адреси...";
-                    savingUpdatedXml = "Запазване на актуализирания XML файл...";
-                    break;
+                    // Bulgare
+                    case "BG":
+                        loadXml = "Зареждане на XML файл...";
+                        extractingInfos = "Извличане на информация...";
+                        infosExtracted = "Информацията е извлечена от файла.";
+                        extractingDeviceReferences = "Извличане на референции на устройствата...";
+                        extractingDeviceInfo = "Извличане на информация за устройствата...\n(Тази стъпка може да отнеме време)";
+                        infoAndReferencesExtracted = "Актуализиране на отладъчните файлове...";
+                        constructingNewAddresses = "Създаване на нови групови адреси...";
+                        suppressedAddresses = "Премахване на неизползваните адреси...";
+                        savingUpdatedXml = "Запазване на актуализирания XML файл...";
+                        task = "Задача";
+                        break;
 
-                // Tchèque
-                case "CS":
-                    loadXml = "Načítání souboru XML...";
-                    extractingInfos = "Extrahování informací...";
-                    infosExtracted = "Informace byly extrahovány ze souboru.";
-                    extractingDeviceReferences = "Extrahování odkazů na zařízení...";
-                    extractingDeviceInfo = "Extrahování informací o zařízeních...\n(Tato fáze může chvíli trvat)";
-                    infoAndReferencesExtracted = "Reference a informace o zařízeních byly extrahovány.";
-                    constructingNewAddresses = "Vytváření nových skupinových adres...";
-                    savingUpdatedXml = "Ukládání aktualizovaného souboru XML...";
-                    break;
+                    // Tchèque
+                    case "CS":
+                        loadXml = "Načítání souboru XML...";
+                        extractingInfos = "Extrahování informací...";
+                        infosExtracted = "Informace byly extrahovány ze souboru.";
+                        extractingDeviceReferences = "Extrahování referencí zařízení...";
+                        extractingDeviceInfo = "Extrahování informací o zařízeních...\n(Tato fáze může trvat delší dobu)";
+                        infoAndReferencesExtracted = "Aktualizace ladicích souborů...";
+                        constructingNewAddresses = "Vytváření nových skupinových adres...";
+                        suppressedAddresses = "Odstranění nepoužitých adres...";
+                        savingUpdatedXml = "Ukládání aktualizovaného souboru XML...";
+                        task = "Úkol";
+                        break;
 
-                // Danois
-                case "DA":
-                    loadXml = "Indlæser XML-fil...";
-                    extractingInfos = "Udvinder informationer...";
-                    infosExtracted = "Oplysningerne er udvundet fra filen.";
-                    extractingDeviceReferences = "Udvinder enhedsreferencer...";
-                    extractingDeviceInfo = "Udvinder enhedsoplysninger...\n(Denne proces kan tage noget tid)";
-                    infoAndReferencesExtracted = "Referencer og oplysninger om enheder er udvundet.";
-                    constructingNewAddresses = "Opretter nye gruppeadresser...";
-                    savingUpdatedXml = "Gemmer opdateret XML-fil...";
-                    break;
+                    // Danois
+                    case "DA":
+                        loadXml = "Indlæser XML-fil...";
+                        extractingInfos = "Udpakning af oplysninger...";
+                        infosExtracted = "Oplysningerne er udtrukket fra filen.";
+                        extractingDeviceReferences = "Udpakning af enhedsreferencer...";
+                        extractingDeviceInfo = "Udpakning af oplysninger om enheder...\n(Denne fase kan tage tid)";
+                        infoAndReferencesExtracted = "Opdatering af fejlfinding filer...";
+                        constructingNewAddresses = "Oprettelse af nye gruppeadresser...";
+                        suppressedAddresses = "Fjernelse af ubrugte adresser...";
+                        savingUpdatedXml = "Gemmer den opdaterede XML-fil...";
+                        task = "Opgave";
+                        break;
 
-                // Allemand
-                case "DE":
-                    loadXml = "XML-Datei wird geladen...";
-                    extractingInfos = "Informationen werden extrahiert...";
-                    infosExtracted = "Informationen wurden aus der Datei extrahiert.";
-                    extractingDeviceReferences = "Geräteverweise werden extrahiert...";
-                    extractingDeviceInfo = "Geräteinformationen werden extrahiert...\n(Dieser Schritt kann einige Zeit dauern)";
-                    infoAndReferencesExtracted = "Geräteverweise und -informationen wurden extrahiert.";
-                    constructingNewAddresses = "Neue Gruppenadressen werden erstellt...";
-                    savingUpdatedXml = "Aktualisierte XML-Datei wird gespeichert...";
-                    break;
+                    // Allemand
+                    case "DE":
+                        loadXml = "Laden der XML-Datei...";
+                        extractingInfos = "Extrahieren von Informationen...";
+                        infosExtracted = "Informationen aus der Datei extrahiert.";
+                        extractingDeviceReferences = "Extrahieren der Geräteverweise...";
+                        extractingDeviceInfo = "Extrahieren von Geräteinformationen...\n(Dieser Vorgang kann einige Zeit dauern)";
+                        infoAndReferencesExtracted = "Aktualisieren der Debug-Dateien...";
+                        constructingNewAddresses = "Erstellen neuer Gruppenadressen...";
+                        suppressedAddresses = "Entfernen nicht verwendeter Adressen...";
+                        savingUpdatedXml = "Speichern der aktualisierten XML-Datei...";
+                        task = "Aufgabe";
+                        break;
 
-                // Grec
-                case "EL":
-                    loadXml = "Φόρτωση αρχείου XML...";
-                    extractingInfos = "Εξαγωγή πληροφοριών...";
-                    infosExtracted = "Οι πληροφορίες εξήχθησαν από το αρχείο.";
-                    extractingDeviceReferences = "Εξαγωγή αναφορών συσκευών...";
-                    extractingDeviceInfo = "Εξαγωγή πληροφοριών συσκευών...\n(Αυτή η διαδικασία μπορεί να πάρει χρόνο)";
-                    infoAndReferencesExtracted = "Οι αναφορές και οι πληροφορίες για τις συσκευές εξήχθησαν.";
-                    constructingNewAddresses = "Κατασκευή νέων διευθύνσεων ομάδας...";
-                    savingUpdatedXml = "Αποθήκευση ενημερωμένου αρχείου XML...";
-                    break;
+                    // Grec
+                    case "EL":
+                        loadXml = "Φόρτωση αρχείου XML...";
+                        extractingInfos = "Εξαγωγή πληροφοριών...";
+                        infosExtracted = "Οι πληροφορίες εξήχθησαν από το αρχείο.";
+                        extractingDeviceReferences = "Εξαγωγή αναφορών συσκευών...";
+                        extractingDeviceInfo = "Εξαγωγή πληροφοριών για τις συσκευές...\n(Αυτή η φάση μπορεί να διαρκέσει αρκετή ώρα)";
+                        infoAndReferencesExtracted = "Ενημέρωση αρχείων αποσφαλμάτωσης...";
+                        constructingNewAddresses = "Δημιουργία νέων ομαδικών διευθύνσεων...";
+                        suppressedAddresses = "Κατάργηση μη χρησιμοποιούμενων διευθύνσεων...";
+                        savingUpdatedXml = "Αποθήκευση ενημερωμένου αρχείου XML...";
+                        task = "Εργασία";
+                        break;
 
-                // Anglais
-                case "EN":
-                    loadXml = "Loading XML file...";
-                    extractingInfos = "Extracting information...";
-                    infosExtracted = "Information extracted from the file.";
-                    extractingDeviceReferences = "Extracting device references...";
-                    extractingDeviceInfo = "Extracting device information...\n(This step may take some time)";
-                    infoAndReferencesExtracted = "Device references and information extracted.";
-                    constructingNewAddresses = "Constructing new group addresses...";
-                    savingUpdatedXml = "Saving updated XML file...";
-                    break;
+                    // Anglais
+                    case "EN":
+                        loadXml = "Loading XML file...";
+                        extractingInfos = "Extracting information...";
+                        infosExtracted = "Information extracted from the file.";
+                        extractingDeviceReferences = "Extracting device references...";
+                        extractingDeviceInfo = "Extracting device information...\n(This step may take some time)";
+                        infoAndReferencesExtracted = "Updating debug files...";
+                        constructingNewAddresses = "Constructing new group addresses...";
+                        suppressedAddresses = "Removing unused addresses...";
+                        savingUpdatedXml = "Saving updated XML file...";
+                        task = "Task";
+                        break;
 
-                // Espagnol
-                case "ES":
-                    loadXml = "Cargando archivo XML...";
-                    extractingInfos = "Extrayendo información...";
-                    infosExtracted = "Información extraída del archivo.";
-                    extractingDeviceReferences = "Extrayendo referencias de dispositivos...";
-                    extractingDeviceInfo = "Extrayendo información de los dispositivos...\n(Este paso puede tardar)";
-                    infoAndReferencesExtracted = "Referencias e información de los dispositivos extraídas.";
-                    constructingNewAddresses = "Construyendo nuevas direcciones de grupo...";
-                    savingUpdatedXml = "Guardando archivo XML actualizado...";
-                    break;
+                    // Espagnol
+                    case "ES":
+                        loadXml = "Cargando archivo XML...";
+                        extractingInfos = "Extrayendo información...";
+                        infosExtracted = "Información extraída del archivo.";
+                        extractingDeviceReferences = "Extrayendo referencias de dispositivos...";
+                        extractingDeviceInfo = "Extrayendo información de los dispositivos...\n(Este paso puede tardar un tiempo)";
+                        infoAndReferencesExtracted = "Actualizando archivos de depuración...";
+                        constructingNewAddresses = "Construyendo nuevas direcciones de grupo...";
+                        suppressedAddresses = "Eliminando direcciones no utilizadas...";
+                        savingUpdatedXml = "Guardando el archivo XML actualizado...";
+                        task = "Tarea";
+                        break;
 
-                // Estonien
-                case "ET":
-                    loadXml = "Laadib XML-faili...";
-                    extractingInfos = "Teabe ekstraheerimine...";
-                    infosExtracted = "Teave on failist ekstraheeritud.";
-                    extractingDeviceReferences = "Seadme viidete ekstraheerimine...";
-                    extractingDeviceInfo = "Seadme teabe ekstraheerimine...\n(See etapp võib aega võtta)";
-                    infoAndReferencesExtracted = "Seadme viited ja teave on ekstraheeritud.";
-                    constructingNewAddresses = "Uute rühma aadresside koostamine...";
-                    savingUpdatedXml = "Uuendatud XML-faili salvestamine...";
-                    break;
+                    // Estonien
+                    case "ET":
+                        loadXml = "XML-faili laadimine...";
+                        extractingInfos = "Teabe ekstraheerimine...";
+                        infosExtracted = "Teave on failist ekstraheeritud.";
+                        extractingDeviceReferences = "Seadme viidete ekstraheerimine...";
+                        extractingDeviceInfo = "Seadme teabe ekstraheerimine...\n(See etapp võib võtta aega)";
+                        infoAndReferencesExtracted = "Silumisfailide värskendamine...";
+                        constructingNewAddresses = "Uute rühma aadresside koostamine...";
+                        suppressedAddresses = "Kasutamata aadresside eemaldamine...";
+                        savingUpdatedXml = "Värskendatud XML-faili salvestamine...";
+                        task = "Ülesanne";
+                        break;
 
-                // Finnois
-                case "FI":
-                    loadXml = "Ladataan XML-tiedostoa...";
-                    extractingInfos = "Tietojen purkaminen...";
-                    infosExtracted = "Tiedot on purettu tiedostosta.";
-                    extractingDeviceReferences = "Laitteiden viitteiden purkaminen...";
-                    extractingDeviceInfo = "Laitetietojen purkaminen...\n(Tämä vaihe voi kestää jonkin aikaa)";
-                    infoAndReferencesExtracted = "Laitteiden viitteet ja tiedot on purettu.";
-                    constructingNewAddresses = "Luodaan uusia ryhmäosoitteita...";
-                    savingUpdatedXml = "Tallennetaan päivitettyä XML-tiedostoa...";
-                    break;
+                    // Finnois
+                    case "FI":
+                        loadXml = "Ladataan XML-tiedostoa...";
+                        extractingInfos = "Tietojen purkaminen...";
+                        infosExtracted = "Tiedot on purettu tiedostosta.";
+                        extractingDeviceReferences = "Laitteiden viitteiden purkaminen...";
+                        extractingDeviceInfo = "Laitteiden tietojen purkaminen...\n(Tämä vaihe voi kestää jonkin aikaa)";
+                        infoAndReferencesExtracted = "Vianmääritystiedostojen päivittäminen...";
+                        constructingNewAddresses = "Uusien ryhmäosoitteiden luominen...";
+                        suppressedAddresses = "Käyttämättömien osoitteiden poistaminen...";
+                        savingUpdatedXml = "Päivitetyn XML-tiedoston tallentaminen...";
+                        task = "Tehtävä";
+                        break;
 
-                // Hongrois
-                case "HU":
-                    loadXml = "XML-fájl betöltése...";
-                    extractingInfos = "Információk kinyerése...";
-                    infosExtracted = "Az információk kinyerése megtörtént.";
-                    extractingDeviceReferences = "Eszköz hivatkozások kinyerése...";
-                    extractingDeviceInfo = "Eszköz információk kinyerése...\n(Ez a lépés eltarthat egy ideig)";
-                    infoAndReferencesExtracted = "Az eszköz hivatkozások és információk kinyerése megtörtént.";
-                    constructingNewAddresses = "Új csoport címek létrehozása...";
-                    savingUpdatedXml = "A frissített XML-fájl mentése...";
-                    break;
+                    // Hongrois
+                    case "HU":
+                        loadXml = "XML fájl betöltése...";
+                        extractingInfos = "Információk kinyerése...";
+                        infosExtracted = "Az információk ki lettek nyerve a fájlból.";
+                        extractingDeviceReferences = "Eszköz hivatkozások kinyerése...";
+                        extractingDeviceInfo = "Eszköz információk kinyerése...\n(Ez a lépés eltarthat egy ideig)";
+                        infoAndReferencesExtracted = "Hibakeresési fájlok frissítése...";
+                        constructingNewAddresses = "Új csoportcímek létrehozása...";
+                        suppressedAddresses = "Nem használt címek eltávolítása...";
+                        savingUpdatedXml = "Frissített XML fájl mentése...";
+                        task = "Feladat";
+                        break;
 
-                // Indonésien
-                case "ID":
-                    loadXml = "Memuat file XML...";
-                    extractingInfos = "Ekstraksi informasi...";
-                    infosExtracted = "Informasi diekstraksi dari file.";
-                    extractingDeviceReferences = "Ekstraksi referensi perangkat...";
-                    extractingDeviceInfo = "Ekstraksi informasi perangkat...\n(Langkah ini mungkin memakan waktu)";
-                    infoAndReferencesExtracted = "Referensi dan informasi perangkat diekstraksi.";
-                    constructingNewAddresses = "Membangun alamat grup baru...";
-                    savingUpdatedXml = "Menyimpan file XML yang diperbarui...";
-                    break;
+                    // Indonésien
+                    case "ID":
+                        loadXml = "Memuat file XML...";
+                        extractingInfos = "Mengekstrak informasi...";
+                        infosExtracted = "Informasi telah diekstrak dari file.";
+                        extractingDeviceReferences = "Mengekstrak referensi perangkat...";
+                        extractingDeviceInfo = "Mengekstrak informasi perangkat...\n(Langkah ini mungkin memakan waktu)";
+                        infoAndReferencesExtracted = "Memperbarui file debug...";
+                        constructingNewAddresses = "Membangun alamat grup baru...";
+                        suppressedAddresses = "Menghapus alamat yang tidak digunakan...";
+                        savingUpdatedXml = "Menyimpan file XML yang diperbarui...";
+                        task = "Tugas";
+                        break;
 
-                // Italien
-                case "IT":
-                    loadXml = "Caricamento del file XML...";
-                    extractingInfos = "Estrazione delle informazioni...";
-                    infosExtracted = "Informazioni estratte dal file.";
-                    extractingDeviceReferences = "Estrazione dei riferimenti dei dispositivi...";
-                    extractingDeviceInfo = "Estrazione delle informazioni sui dispositivi...\n(Questa fase può richiedere tempo)";
-                    infoAndReferencesExtracted = "Riferimenti e informazioni sui dispositivi estratti.";
-                    constructingNewAddresses = "Costruzione dei nuovi indirizzi di gruppo...";
-                    savingUpdatedXml = "Salvataggio del file XML aggiornato...";
-                    break;
+                    // Italien
+                    case "IT":
+                        loadXml = "Caricamento del file XML...";
+                        extractingInfos = "Estrazione delle informazioni...";
+                        infosExtracted = "Informazioni estratte dal file.";
+                        extractingDeviceReferences = "Estrazione dei riferimenti dei dispositivi...";
+                        extractingDeviceInfo = "Estrazione delle informazioni sui dispositivi...\n(Questa fase può richiedere del tempo)";
+                        infoAndReferencesExtracted = "Aggiornamento dei file di debug...";
+                        constructingNewAddresses = "Costruzione di nuovi indirizzi di gruppo...";
+                        suppressedAddresses = "Rimozione degli indirizzi non utilizzati...";
+                        savingUpdatedXml = "Salvataggio del file XML aggiornato...";
+                        task = "Compito";
+                        break;
 
-                // Japonais
-                case "JA":
-                    loadXml = "XMLファイルを読み込んでいます...";
-                    extractingInfos = "情報を抽出しています...";
-                    infosExtracted = "ファイルから情報が抽出されました。";
-                    extractingDeviceReferences = "デバイスの参照を抽出しています...";
-                    extractingDeviceInfo = "デバイス情報を抽出しています...\n(このステップには時間がかかる場合があります)";
-                    infoAndReferencesExtracted = "デバイスの参照および情報が抽出されました。";
-                    constructingNewAddresses = "新しいグループアドレスを構築しています...";
-                    savingUpdatedXml = "更新されたXMLファイルを保存しています...";
-                    break;
+                    // Japonais
+                    case "JA":
+                        loadXml = "XMLファイルを読み込んでいます...";
+                        extractingInfos = "情報を抽出しています...";
+                        infosExtracted = "ファイルから情報を抽出しました。";
+                        extractingDeviceReferences = "デバイスの参照を抽出しています...";
+                        extractingDeviceInfo = "デバイス情報を抽出しています...\n(このステップには時間がかかる場合があります)";
+                        infoAndReferencesExtracted = "デバッグファイルを更新しています...";
+                        constructingNewAddresses = "新しいグループアドレスを構築しています...";
+                        suppressedAddresses = "未使用のアドレスを削除しています...";
+                        savingUpdatedXml = "更新されたXMLファイルを保存しています...";
+                        task = "タスク";
+                        break;
 
-                // Coréen
-                case "KO":
-                    loadXml = "XML 파일을 로드 중...";
-                    extractingInfos = "정보를 추출 중...";
-                    infosExtracted = "파일에서 정보가 추출되었습니다.";
-                    extractingDeviceReferences = "디바이스 참조를 추출 중...";
-                    extractingDeviceInfo = "디바이스 정보를 추출 중...\n(이 단계는 시간이 걸릴 수 있습니다)";
-                    infoAndReferencesExtracted = "디바이스 참조와 정보가 추출되었습니다.";
-                    constructingNewAddresses = "새 그룹 주소를 구성 중...";
-                    savingUpdatedXml = "업데이트된 XML 파일을 저장 중...";
-                    break;
+                    // Coréen
+                    case "KO":
+                        loadXml = "XML 파일 로드 중...";
+                        extractingInfos = "정보 추출 중...";
+                        infosExtracted = "파일에서 정보가 추출되었습니다.";
+                        extractingDeviceReferences = "장치 참조 추출 중...";
+                        extractingDeviceInfo = "장치 정보 추출 중...\n(이 단계는 시간이 걸릴 수 있습니다)";
+                        infoAndReferencesExtracted = "디버그 파일 업데이트 중...";
+                        constructingNewAddresses = "새 그룹 주소 생성 중...";
+                        suppressedAddresses = "사용되지 않는 주소 제거 중...";
+                        savingUpdatedXml = "업데이트된 XML 파일 저장 중...";
+                        task = "작업";
+                        break;
 
-                // Letton
-                case "LV":
-                    loadXml = "Ielādē XML failu...";
-                    extractingInfos = "Informācijas iegūšana...";
-                    infosExtracted = "Informācija iegūta no faila.";
-                    extractingDeviceReferences = "Iegūst ierīču atsauces...";
-                    extractingDeviceInfo = "Ierīču informācijas iegūšana...\n(Šis solis var aizņemt laiku)";
-                    infoAndReferencesExtracted = "Ierīču atsauces un informācija iegūta.";
-                    constructingNewAddresses = "Veido jaunās grupas adreses...";
-                    savingUpdatedXml = "Saglabā atjaunināto XML failu...";
-                    break;
+                    // Letton
+                    case "LV":
+                        loadXml = "Ielādē XML failu...";
+                        extractingInfos = "Izvelk informāciju...";
+                        infosExtracted = "Informācija ir izvilkta no faila.";
+                        extractingDeviceReferences = "Izvelk ierīču atsauces...";
+                        extractingDeviceInfo = "Izvelk informāciju par ierīcēm...\n(Šis posms var aizņemt kādu laiku)";
+                        infoAndReferencesExtracted = "Atjaunina atkļūdošanas failus...";
+                        constructingNewAddresses = "Izveido jaunas grupas adreses...";
+                        suppressedAddresses = "Noņem neizmantotās adreses...";
+                        savingUpdatedXml = "Saglabā atjaunināto XML failu...";
+                        task = "Uzdevums";
+                        break;
 
-                // Lituanien
-                case "LT":
-                    loadXml = "Įkeliama XML byla...";
-                    extractingInfos = "Ištraukiama informacija...";
-                    infosExtracted = "Informacija ištraukta iš bylos.";
-                    extractingDeviceReferences = "Ištraukiamos įrenginio nuorodos...";
-                    extractingDeviceInfo = "Ištraukiama informacija apie įrenginius...\n(Šis veiksmas gali užtrukti)";
-                    infoAndReferencesExtracted = "Ištrauktos įrenginių nuorodos ir informacija.";
-                    constructingNewAddresses = "Kuriami nauji grupės adresai...";
-                    savingUpdatedXml = "Įrašoma atnaujinta XML byla...";
-                    break;
+                    // Lituanien
+                    case "LT":
+                        loadXml = "Įkeliama XML byla...";
+                        extractingInfos = "Išgaunama informacija...";
+                        infosExtracted = "Informacija išgauta iš bylos.";
+                        extractingDeviceReferences = "Išgaunamos įrenginių nuorodos...";
+                        extractingDeviceInfo = "Išgaunama įrenginių informacija...\n(Šis etapas gali užtrukti)";
+                        infoAndReferencesExtracted = "Atnaujinami derinimo failai...";
+                        constructingNewAddresses = "Kuriami nauji grupės adresai...";
+                        suppressedAddresses = "Šalinami nenaudojami adresai...";
+                        savingUpdatedXml = "Išsaugoma atnaujinta XML byla...";
+                        task = "Užduotis";
+                        break;
 
-                // Norvégien
-                case "NB":
-                    loadXml = "Laster inn XML-fil...";
-                    extractingInfos = "Henter informasjon...";
-                    infosExtracted = "Informasjonen er hentet fra filen.";
-                    extractingDeviceReferences = "Henter enhetsreferanser...";
-                    extractingDeviceInfo = "Henter enhetsinformasjon...\n(Dette trinnet kan ta tid)";
-                    infoAndReferencesExtracted = "Enhetsreferanser og informasjon er hentet.";
-                    constructingNewAddresses = "Bygger nye gruppeadresser...";
-                    savingUpdatedXml = "Lagrer oppdatert XML-fil...";
-                    break;
+                    // Norvégien
+                    case "NB":
+                        loadXml = "Laster inn XML-fil...";
+                        extractingInfos = "Uthenter informasjon...";
+                        infosExtracted = "Informasjonen er hentet fra filen.";
+                        extractingDeviceReferences = "Uthenter enhetsreferanser...";
+                        extractingDeviceInfo = "Uthenter informasjon om enheter...\n(Denne prosessen kan ta tid)";
+                        infoAndReferencesExtracted = "Oppdaterer feilsøkingsfiler...";
+                        constructingNewAddresses = "Oppretter nye gruppeadresser...";
+                        suppressedAddresses = "Fjerner ubrukte adresser...";
+                        savingUpdatedXml = "Lagrer oppdatert XML-fil...";
+                        task = "Oppgave";
+                        break;
 
-                // Néerlandais
-                case "NL":
-                    loadXml = "XML-bestand laden...";
-                    extractingInfos = "Informatie wordt geëxtraheerd...";
-                    infosExtracted = "Informatie uit het bestand geëxtraheerd.";
-                    extractingDeviceReferences = "Apparaatverwijzingen worden geëxtraheerd...";
-                    extractingDeviceInfo = "Apparaatinformatie wordt geëxtraheerd...\n(Deze stap kan enige tijd duren)";
-                    infoAndReferencesExtracted = "Apparaatverwijzingen en -informatie geëxtraheerd.";
-                    constructingNewAddresses = "Nieuwe groepsadressen worden aangemaakt...";
-                    savingUpdatedXml = "Bijgewerkt XML-bestand opslaan...";
-                    break;
+                    // Néerlandais
+                    case "NL":
+                        loadXml = "XML-bestand laden...";
+                        extractingInfos = "Informatie extraheren...";
+                        infosExtracted = "Informatie is uit het bestand gehaald.";
+                        extractingDeviceReferences = "Apparaatverwijzingen extraheren...";
+                        extractingDeviceInfo = "Apparaatinformatie extraheren...\n(Dit kan enige tijd duren)";
+                        infoAndReferencesExtracted = "Debug-bestanden bijwerken...";
+                        constructingNewAddresses = "Nieuwe groepsadressen construeren...";
+                        suppressedAddresses = "Niet-gebruikte adressen verwijderen...";
+                        savingUpdatedXml = "Bijgewerkt XML-bestand opslaan...";
+                        task = "Taak";
+                        break;
 
-                // Polonais
-                case "PL":
-                    loadXml = "Ładowanie pliku XML...";
-                    extractingInfos = "Wyodrębnianie informacji...";
-                    infosExtracted = "Informacje wyodrębnione z pliku.";
-                    extractingDeviceReferences = "Wyodrębnianie odniesień do urządzeń...";
-                    extractingDeviceInfo = "Wyodrębnianie informacji o urządzeniach...\n(Ten krok może potrwać)";
-                    infoAndReferencesExtracted = "Odniesienia do urządzeń i informacje wyodrębnione.";
-                    constructingNewAddresses = "Tworzenie nowych adresów grupowych...";
-                    savingUpdatedXml = "Zapisywanie zaktualizowanego pliku XML...";
-                    break;
+                    // Polonais
+                    case "PL":
+                        loadXml = "Ładowanie pliku XML...";
+                        extractingInfos = "Wydobywanie informacji...";
+                        infosExtracted = "Informacje wyodrębnione z pliku.";
+                        extractingDeviceReferences = "Wydobywanie referencji urządzeń...";
+                        extractingDeviceInfo = "Wydobywanie informacji o urządzeniach...\n(Ten krok może zająć trochę czasu)";
+                        infoAndReferencesExtracted = "Aktualizowanie plików debugowania...";
+                        constructingNewAddresses = "Tworzenie nowych adresów grupowych...";
+                        suppressedAddresses = "Usuwanie nieużywanych adresów...";
+                        savingUpdatedXml = "Zapisywanie zaktualizowanego pliku XML...";
+                        task = "Zadanie";
+                        break;
 
-                // Portugais
-                case "PT":
-                    loadXml = "Carregando arquivo XML...";
-                    extractingInfos = "Extraindo informações...";
-                    infosExtracted = "Informações extraídas do arquivo.";
-                    extractingDeviceReferences = "Extraindo referências de dispositivos...";
-                    extractingDeviceInfo = "Extraindo informações dos dispositivos...\n(Este passo pode demorar)";
-                    infoAndReferencesExtracted = "Referências e informações dos dispositivos extraídas.";
-                    constructingNewAddresses = "Construindo novos endereços de grupo...";
-                    savingUpdatedXml = "Salvando arquivo XML atualizado...";
-                    break;
+                    // Portugais
+                    case "PT":
+                        loadXml = "Carregando arquivo XML...";
+                        extractingInfos = "Extraindo informações...";
+                        infosExtracted = "Informações extraídas do arquivo.";
+                        extractingDeviceReferences = "Extraindo referências de dispositivos...";
+                        extractingDeviceInfo = "Extraindo informações dos dispositivos...\n(Esta etapa pode demorar)";
+                        infoAndReferencesExtracted = "Atualizando arquivos de depuração...";
+                        constructingNewAddresses = "Construindo novos endereços de grupo...";
+                        suppressedAddresses = "Removendo endereços não utilizados...";
+                        savingUpdatedXml = "Salvando arquivo XML atualizado...";
+                        task = "Tarefa";
+                        break;
 
-                // Roumain
-                case "RO":
-                    loadXml = "Se încarcă fișierul XML...";
-                    extractingInfos = "Extragerea informațiilor...";
-                    infosExtracted = "Informațiile au fost extrase din fișier.";
-                    extractingDeviceReferences = "Se extrag referințele dispozitivelor...";
-                    extractingDeviceInfo = "Se extrag informațiile despre dispozitive...\n(Acest pas poate dura ceva timp)";
-                    infoAndReferencesExtracted = "Referințele și informațiile despre dispozitive au fost extrase.";
-                    constructingNewAddresses = "Se construiesc noile adrese de grup...";
-                    savingUpdatedXml = "Se salvează fișierul XML actualizat...";
-                    break;
+                    // Roumain
+                    case "RO":
+                        loadXml = "Se încarcă fișierul XML...";
+                        extractingInfos = "Se extrag informațiile...";
+                        infosExtracted = "Informațiile au fost extrase din fișier.";
+                        extractingDeviceReferences = "Se extrag referințele dispozitivelor...";
+                        extractingDeviceInfo = "Se extrag informațiile dispozitivelor...\n(Această etapă poate dura ceva timp)";
+                        infoAndReferencesExtracted = "Se actualizează fișierele de depanare...";
+                        constructingNewAddresses = "Se construiesc noile adrese de grup...";
+                        suppressedAddresses = "Se elimină adresele neutilizate...";
+                        savingUpdatedXml = "Se salvează fișierul XML actualizat...";
+                        task = "Sarcină";
+                        break;
 
-                // Russe
-                case "RU":
-                    loadXml = "Загрузка файла XML...";
-                    extractingInfos = "Извлечение информации...";
-                    infosExtracted = "Информация извлечена из файла.";
-                    extractingDeviceReferences = "Извлечение ссылок на устройства...";
-                    extractingDeviceInfo = "Извлечение информации об устройствах...\n(Этот шаг может занять некоторое время)";
-                    infoAndReferencesExtracted = "Ссылки и информация об устройствах извлечены.";
-                    constructingNewAddresses = "Построение новых групповых адресов...";
-                    savingUpdatedXml = "Сохранение обновленного XML-файла...";
-                    break;
+                    // Russe
+                    case "RU":
+                        loadXml = "Загрузка XML файла...";
+                        extractingInfos = "Извлечение информации...";
+                        infosExtracted = "Информация извлечена из файла.";
+                        extractingDeviceReferences = "Извлечение ссылок на устройства...";
+                        extractingDeviceInfo = "Извлечение информации об устройствах...\n(Этот процесс может занять некоторое время)";
+                        infoAndReferencesExtracted = "Обновление отладочных файлов...";
+                        constructingNewAddresses = "Создание новых групповых адресов...";
+                        suppressedAddresses = "Удаление неиспользуемых адресов...";
+                        savingUpdatedXml = "Сохранение обновленного XML файла...";
+                        task = "Задача";
+                        break;
 
-                // Slovaque
-                case "SK":
-                    loadXml = "Načítava sa súbor XML...";
-                    extractingInfos = "Extrakcia informácií...";
-                    infosExtracted = "Informácie boli extrahované zo súboru.";
-                    extractingDeviceReferences = "Extrakcia referencií zariadení...";
-                    extractingDeviceInfo = "Extrakcia informácií o zariadeniach...\n(Tento krok môže chvíľu trvať)";
-                    infoAndReferencesExtracted = "Referencie a informácie o zariadeniach boli extrahované.";
-                    constructingNewAddresses = "Vytváranie nových skupinových adries...";
-                    savingUpdatedXml = "Ukladanie aktualizovaného súboru XML...";
-                    break;
+                    // Slovaque
+                    case "SK":
+                        loadXml = "Načítava sa XML súbor...";
+                        extractingInfos = "Extrahujú sa informácie...";
+                        infosExtracted = "Informácie boli extrahované zo súboru.";
+                        extractingDeviceReferences = "Extrahujú sa referencie zariadení...";
+                        extractingDeviceInfo = "Extrahujú sa informácie o zariadeniach...\n(Tento krok môže trvať dlhšie)";
+                        infoAndReferencesExtracted = "Aktualizujú sa súbory na ladenie...";
+                        constructingNewAddresses = "Vytvárajú sa nové skupinové adresy...";
+                        suppressedAddresses = "Odstraňujú sa nepoužívané adresy...";
+                        savingUpdatedXml = "Ukladá sa aktualizovaný XML súbor...";
+                        task = "Úloha";
+                        break;
 
-                // Slovène
-                case "SL":
-                    loadXml = "Nalaganje XML datoteke...";
-                    extractingInfos = "Izvlečenje informacij...";
-                    infosExtracted = "Informacije iz datoteke so izvlečene.";
-                    extractingDeviceReferences = "Izvlečenje sklicev naprav...";
-                    extractingDeviceInfo = "Izvlečenje informacij o napravah...\n(Ta korak lahko traja nekaj časa)";
-                    infoAndReferencesExtracted = "Sklici in informacije o napravah so izvlečeni.";
-                    constructingNewAddresses = "Ustvarjanje novih skupinskih naslovov...";
-                    savingUpdatedXml = "Shranjevanje posodobljene XML datoteke...";
-                    break;
+                    // Slovène
+                    case "SL":
+                        loadXml = "Nalaganje XML datoteke...";
+                        extractingInfos = "Izvlečenje informacij...";
+                        infosExtracted = "Informacije so izvlečene iz datoteke.";
+                        extractingDeviceReferences = "Izvlečenje referenc naprav...";
+                        extractingDeviceInfo = "Izvlečenje informacij o napravah...\n(Ta postopek lahko traja nekaj časa)";
+                        infoAndReferencesExtracted = "Posodabljanje datotek za odpravljanje napak...";
+                        constructingNewAddresses = "Ustvarjanje novih skupinskih naslovov...";
+                        suppressedAddresses = "Odstranjevanje neuporabljenih naslovov...";
+                        savingUpdatedXml = "Shranjevanje posodobljene XML datoteke...";
+                        task = "Naloga";
+                        break;
 
-                // Suédois
-                case "SV":
-                    loadXml = "Laddar XML-fil...";
-                    extractingInfos = "Extraherar information...";
-                    infosExtracted = "Information extraherad från filen.";
-                    extractingDeviceReferences = "Extraherar enhetsreferenser...";
-                    extractingDeviceInfo = "Extraherar enhetsinformation...\n(Detta steg kan ta tid)";
-                    infoAndReferencesExtracted = "Enhetsreferenser och information extraherad.";
-                    constructingNewAddresses = "Bygger nya gruppadresser...";
-                    savingUpdatedXml = "Sparar uppdaterad XML-fil...";
-                    break;
+                    // Suédois
+                    case "SV":
+                        loadXml = "Laddar XML-fil...";
+                        extractingInfos = "Extraherar information...";
+                        infosExtracted = "Informationen har extraherats från filen.";
+                        extractingDeviceReferences = "Extraherar enhetsreferenser...";
+                        extractingDeviceInfo = "Extraherar enhetsinformation...\n(Detta steg kan ta tid)";
+                        infoAndReferencesExtracted = "Uppdaterar felsökningsfiler...";
+                        constructingNewAddresses = "Konstruerar nya gruppadresser...";
+                        suppressedAddresses = "Tar bort oanvända adresser...";
+                        savingUpdatedXml = "Sparar uppdaterad XML-fil...";
+                        task = "Uppgift";
+                        break;
 
-                // Turc
-                case "TR":
-                    loadXml = "XML dosyası yükleniyor...";
-                    extractingInfos = "Bilgiler çıkarılıyor...";
-                    infosExtracted = "Bilgiler dosyadan çıkarıldı.";
-                    extractingDeviceReferences = "Cihaz referansları çıkarılıyor...";
-                    extractingDeviceInfo = "Cihaz bilgileri çıkarılıyor...\n(Bu adım biraz zaman alabilir)";
-                    infoAndReferencesExtracted = "Cihaz referansları ve bilgileri çıkarıldı.";
-                    constructingNewAddresses = "Yeni grup adresleri oluşturuluyor...";
-                    savingUpdatedXml = "Güncellenmiş XML dosyası kaydediliyor...";
-                    break;
+                    // Turc
+                    case "TR":
+                        loadXml = "XML dosyası yükleniyor...";
+                        extractingInfos = "Bilgiler çıkarılıyor...";
+                        infosExtracted = "Bilgiler dosyadan çıkarıldı.";
+                        extractingDeviceReferences = "Cihaz referansları çıkarılıyor...";
+                        extractingDeviceInfo = "Cihaz bilgileri çıkarılıyor...\n(Bu adım zaman alabilir)";
+                        infoAndReferencesExtracted = "Hata ayıklama dosyaları güncelleniyor...";
+                        constructingNewAddresses = "Yeni grup adresleri oluşturuluyor...";
+                        suppressedAddresses = "Kullanılmayan adresler kaldırılıyor...";
+                        savingUpdatedXml = "Güncellenmiş XML dosyası kaydediliyor...";
+                        task = "Görev";
+                        break;
 
-                // Ukrainien
-                case "UK":
-                    loadXml = "Завантаження файлу XML...";
-                    extractingInfos = "Вилучення інформації...";
-                    infosExtracted = "Інформація вилучена з файлу.";
-                    extractingDeviceReferences = "Вилучення посилань на пристрої...";
-                    extractingDeviceInfo = "Вилучення інформації про пристрої...\n(Цей етап може зайняти деякий час)";
-                    infoAndReferencesExtracted = "Посилання та інформація про пристрої вилучені.";
-                    constructingNewAddresses = "Створення нових групових адрес...";
-                    savingUpdatedXml = "Збереження оновленого файлу XML...";
-                    break;
+                    // Ukrainien
+                    case "UK":
+                        loadXml = "Завантаження файлу XML...";
+                        extractingInfos = "Витяг інформації...";
+                        infosExtracted = "Інформація витягнута з файлу.";
+                        extractingDeviceReferences = "Витяг посилань на пристрої...";
+                        extractingDeviceInfo = "Витяг інформації про пристрої...\n(Цей крок може зайняти деякий час)";
+                        infoAndReferencesExtracted = "Оновлення файлів налагодження...";
+                        constructingNewAddresses = "Створення нових групових адрес...";
+                        suppressedAddresses = "Видалення невикористаних адрес...";
+                        savingUpdatedXml = "Збереження оновленого файлу XML...";
+                        task = "Завдання";
+                        break;
 
-                // Chinois simplifié
-                case "ZH":
-                    loadXml = "正在加载 XML 文件...";
-                    extractingInfos = "提取信息...";
-                    infosExtracted = "信息已从文件中提取。";
-                    extractingDeviceReferences = "提取设备参考...";
-                    extractingDeviceInfo = "提取设备信息...\n(此步骤可能需要一些时间)";
-                    infoAndReferencesExtracted = "设备参考和信息已提取。";
-                    constructingNewAddresses = "正在构建新的组地址...";
-                    savingUpdatedXml = "保存更新后的 XML 文件...";
-                    break;
+                    // Chinois simplifié
+                    case "ZH":
+                        loadXml = "加载 XML 文件...";
+                        extractingInfos = "提取信息...";
+                        infosExtracted = "信息已从文件中提取。";
+                        extractingDeviceReferences = "提取设备参考...";
+                        extractingDeviceInfo = "提取设备信息...\n（此步骤可能需要一些时间）";
+                        infoAndReferencesExtracted = "更新调试文件...";
+                        constructingNewAddresses = "构建新的组地址...";
+                        suppressedAddresses = "删除未使用的地址...";
+                        savingUpdatedXml = "保存更新的 XML 文件...";
+                        task = "任务";
+                        break;
 
-                // Langue par défaut (français)
-                default:
-                    loadXml = "Chargement du fichier XML...";
-                    extractingInfos = "Extraction des informations...";
-                    infosExtracted = "Informations extraites du fichier.";
-                    extractingDeviceReferences = "Extraction des références des appareils...";
-                    extractingDeviceInfo = "Extraction des informations sur les appareils...\n(Cette étape peut prendre du temps)";
-                    infoAndReferencesExtracted = "Mise à jour des fichiers de deboggage...";
-                    constructingNewAddresses = "Construction des nouvelles adresses de groupe...";
-                    suppressedAddresses = "Suppression des adresse non utilisées...";
-                    savingUpdatedXml = "Sauvegarde du fichier XML mis à jour...";
-                    task = "Tâche";
-                    break;
-            }
+                    // Langue par défaut (français)
+                    default:
+                        loadXml = "Chargement du fichier XML...";
+                        extractingInfos = "Extraction des informations...";
+                        infosExtracted = "Informations extraites du fichier.";
+                        extractingDeviceReferences = "Extraction des références des appareils...";
+                        extractingDeviceInfo = "Extraction des informations sur les appareils...\n(Cette étape peut prendre du temps)";
+                        infoAndReferencesExtracted = "Mise à jour des fichiers de deboggage...";
+                        constructingNewAddresses = "Construction des nouvelles adresses de groupe...";
+                        suppressedAddresses = "Suppression des adresses non utilisées...";
+                        savingUpdatedXml = "Sauvegarde du fichier XML mis à jour...";
+                        task = "Tâche";
+                        break;
+                }
+
             
             
             //Define the project path
@@ -632,7 +691,72 @@ public class GroupAddressNameCorrector
             }
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
-            App.DisplayElements?.LoadingWindow?.LogActivity("Groupement des adresses...");
+            
+            var groupingAdresses = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "تجميع المعلومات حول عناوين المجموعة...",
+                // Bulgare
+                "BG" => "Групиране на информация за груповите адреси...",
+                // Tchèque
+                "CS" => "Skupinové informace o adresách...",
+                // Danois
+                "DA" => "Gruppering af oplysninger om gruppeadresser...",
+                // Allemand
+                "DE" => "Zusammenfassung von Informationen zu Gruppenadressen...",
+                // Grec
+                "EL" => "Ομαδοποίηση πληροφοριών σχετικά με τις διευθύνσεις ομάδας...",
+                // Anglais
+                "EN" => "Grouping information about group addresses...",
+                // Espagnol
+                "ES" => "Agrupando información sobre direcciones de grupo...",
+                // Estonien
+                "ET" => "Grupiaadresside teabe koondamine...",
+                // Finnois
+                "FI" => "Ryhmäosoitteiden tietojen ryhmittely...",
+                // Hongrois
+                "HU" => "Csoportcímekre vonatkozó információk csoportosítása...",
+                // Indonésien
+                "ID" => "Mengelompokkan informasi tentang alamat grup...",
+                // Italien
+                "IT" => "Raggruppamento delle informazioni sugli indirizzi di gruppo...",
+                // Japonais
+                "JA" => "グループアドレスに関する情報をグループ化しています...",
+                // Coréen
+                "KO" => "그룹 주소에 대한 정보 그룹화 중...",
+                // Letton
+                "LV" => "Grupas adrešu informācijas grupēšana...",
+                // Lituanien
+                "LT" => "Grupės adresų informacijos grupavimas...",
+                // Norvégien
+                "NB" => "Gruppering av informasjon om gruppeadresser...",
+                // Néerlandais
+                "NL" => "Groeperen van informatie over groepsadressen...",
+                // Polonais
+                "PL" => "Grupowanie informacji o adresach grupowych...",
+                // Portugais
+                "PT" => "Agrupando informações sobre endereços de grupo...",
+                // Roumain
+                "RO" => "Gruparea informațiilor despre adresele de grup...",
+                // Russe
+                "RU" => "Группировка информации о групповых адресах...",
+                // Slovaque
+                "SK" => "Zoskupovanie informácií o skupinových adresách...",
+                // Slovène
+                "SL" => "Združevanje informacij o skupinskih naslovih...",
+                // Suédois
+                "SV" => "Grupperar information om gruppadresser...",
+                // Turc
+                "TR" => "Grup adresleri hakkında bilgi gruplandırma...",
+                // Ukrainien
+                "UK" => "Групування інформації про групові адреси...",
+                // Chinois simplifié
+                "ZH" => "正在整理组地址信息...",
+                // Cas par défaut (français)
+                _ => "Regroupement des informations sur les adresses de groupe..."
+            };
+            
+            App.DisplayElements?.LoadingWindow?.LogActivity(groupingAdresses);
 
             // Group deviceRefs by GroupAddressRef
             var groupedDeviceRefs = deviceRefs.GroupBy(dr => dr.GroupAddressRef)
