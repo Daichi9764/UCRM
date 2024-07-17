@@ -2169,6 +2169,10 @@ namespace KNXBoostDesktop
 
                     OngletParametresGeneraux.Header = "Paramètres généraux";
                     OngletDebug.Header = "Débogage";
+                    
+                    OngletInformations.Header = "Informations";
+                    InformationsText.Text =
+                        "Application réalisée par\n\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES\n\nPartenariat entre l'INSA de Toulouse et l'UCRM.";
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -2198,12 +2202,14 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 ThemeComboBox.Style = (Style)FindResource("LightComboBoxStyle");
                 AppLanguageComboBox.Style = (Style)FindResource("LightComboBoxStyle");
+                ScaleSlider.Style = (Style)FindResource("LightSlider");
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
 
                 OngletParametresGeneraux.Style = (Style)FindResource("LightOnglet");
                 OngletDebug.Style = (Style)FindResource("LightOnglet");
+                OngletInformations.Style = (Style)FindResource("LightOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             }
@@ -2221,12 +2227,14 @@ namespace KNXBoostDesktop
                 TranslationLanguageDestinationComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 ThemeComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
                 AppLanguageComboBox.Style = (Style)FindResource("DarkComboBoxStyle");
+                ScaleSlider.Style = (Style)FindResource("DarkSlider");
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
 
                 OngletParametresGeneraux.Style = (Style)FindResource("DarkOnglet");
                 OngletDebug.Style = (Style)FindResource("DarkOnglet");
+                OngletInformations.Style = (Style)FindResource("DarkOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
 
@@ -2281,6 +2289,7 @@ namespace KNXBoostDesktop
             // Menu debug
             ControlOnglet.BorderBrush = borderBrush;
             DebugPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            InformationsPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             AddInfosOsCheckBox.Style = checkboxStyle;
             AddInfosHardCheckBox.Style = checkboxStyle;
             AddImportedFilesCheckBox.Style = checkboxStyle;
@@ -2294,6 +2303,8 @@ namespace KNXBoostDesktop
             OngletDebug.Foreground = textColorBrush;
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;
+            OngletInformations.Foreground = textColorBrush;
+            InformationsText.Foreground = EnableLightTheme ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
 
             IncludeAddressListCheckBox.IsEnabled = (bool)AddImportedFilesCheckBox.IsChecked!;
             
@@ -2803,6 +2814,11 @@ namespace KNXBoostDesktop
                     SaveButton.Visibility = Visibility.Collapsed;
                     CancelButton.Visibility = Visibility.Collapsed;
                     CreateArchiveDebugButton.Visibility = Visibility.Visible;
+                    break;
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletInformations.Header:
+                    SaveButton.Visibility = Visibility.Collapsed;
+                    CancelButton.Visibility = Visibility.Hidden;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
             }
         }
