@@ -833,7 +833,7 @@ public partial class MainWindow
                 Owner = this
             };
             
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             // Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
@@ -919,7 +919,7 @@ public partial class MainWindow
             HideOverlay();
             
             stopwatch.Stop();
-            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+            var finalElapsedTime = stopwatch.Elapsed;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -1517,7 +1517,6 @@ public partial class MainWindow
 
         try
         {            
-            var headerLine = reader?.ReadLine();
             while (reader?.ReadLine() is { } line)
             {
                 // Vérifier si la ligne est vide ou seulement composée d'espaces
@@ -1548,7 +1547,6 @@ public partial class MainWindow
                     TotalLoadingTime = totalLoadingTime
                 });
             }
-            var allLines = File.ReadAllLines(filePath).ToList();
             
 
         }
