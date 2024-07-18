@@ -506,7 +506,7 @@
 
         <!-- Style pour le bouton reload -->
         <Style x:Key="ReloadButton" TargetType="Button">
-            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Background" Value="{StaticResource ActivGreen}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -520,7 +520,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="red"/>
+                                <Setter Property="Background" Value="{StaticResource InactivGreen}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
