@@ -791,7 +791,7 @@ namespace KNXBoostDesktop
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
             
-            UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
+            UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
         }
 
 
@@ -888,11 +888,11 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Updates the contents (texts, textboxes, checkboxes, ...) of the settingswindow accordingly to the application settings.
         /// </summary>
-        private void UpdateWindowContents(bool isClosing = false)
+        private void UpdateWindowContents(bool isClosing = false, bool langChanged = false, bool themeChanged = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
 
-            if ((File.Exists("./emk")) && (!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+            if (File.Exists("./emk") && !isClosing) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -947,10 +947,10 @@ namespace KNXBoostDesktop
             ScaleSlider.Value = AppScaleFactor;
 
             // Traduction du menu settings
-            TranslateWindowContents();
-
+            if (langChanged) TranslateWindowContents();
+            
             // Application du thème
-            ApplyThemeToWindow();
+            if (themeChanged) ApplyThemeToWindow();
         }
 
 
@@ -3079,7 +3079,6 @@ namespace KNXBoostDesktop
             
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
@@ -3088,37 +3087,16 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
 
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-
-            // Si on a modifié l'échelle dans les paramètres
-            if (AppScaleFactor != previousAppScaleFactor)
+            var deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
+            
+            // Si on a activé la traduction deepl et que la clé a changé
+            if (EnableDeeplTranslation && deeplKeyChanged)
             {
-                App.ConsoleAndLogWriteLine("On check la clé");
-                // Mise à jour de l'échelle de toutes les fenêtres
-                var scaleFactor = AppScaleFactor / 100f;
-                if (scaleFactor <= 1f)
-                {
-                    ApplyScaling(scaleFactor-0.1f);
-                }
-                else
-                {
-                    ApplyScaling(scaleFactor-0.2f);
-                }
-                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
-            }
-
-            // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
-
-            // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents();
-
-            // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation && DeeplKey != previousDeepLKey)
-            {
+                App.ConsoleAndLogWriteLine("Clé a changé");
+                
+                // On récupère la nouvelle clé et on l'encrypte
+                DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
+                
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
                 GroupAddressNameCorrector.ValidDeeplKey = isValid;
@@ -3201,35 +3179,58 @@ namespace KNXBoostDesktop
                     UpdateWindowContents();
                 }
             }
-
-            App.ConsoleAndLogWriteLine($"{previousEnableDeeplTranslation == EnableDeeplTranslation && 
-                                          previousTranslationDestinationLang == TranslationDestinationLang &&
-                                          previousTranslationSourceLang == TranslationSourceLang &&
-                                          previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
-                                          previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
-                                          previousEnableLightTheme == EnableLightTheme &&
-                                          previousAppLang == AppLang &&
-                                          previousAppScaleFactor == AppScaleFactor &&
-                                          previousDeepLKey == DeeplKey}");
             
-            if (previousEnableDeeplTranslation == EnableDeeplTranslation && 
-                previousTranslationDestinationLang == TranslationDestinationLang &&
-                previousTranslationSourceLang == TranslationSourceLang &&
-                previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
-                previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
-                previousEnableLightTheme == EnableLightTheme &&
-                previousAppLang == AppLang &&
-                previousAppScaleFactor == AppScaleFactor &&
-                previousDeepLKey == DeeplKey)
+            // Si on a changé un des paramètres, on les sauvegarde. Sinon, inutile de réécrire le fichier.
+            if (previousEnableDeeplTranslation != EnableDeeplTranslation || 
+                previousTranslationDestinationLang != TranslationDestinationLang ||
+                previousTranslationSourceLang != TranslationSourceLang ||
+                previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection ||
+                previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
+                previousEnableLightTheme != EnableLightTheme ||
+                previousAppLang != AppLang ||
+                previousAppScaleFactor != AppScaleFactor ||
+                deeplKeyChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
             }
+            else
+            {
+                App.ConsoleAndLogWriteLine("Rien n'a changé on a pas save les paramètres");
+            }
+            
+            // Mise à jour éventuellement du contenu pour update la langue du menu
+            UpdateWindowContents(false, previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme);
+
+            // Si on a modifié l'échelle dans les paramètres
+            if (AppScaleFactor != previousAppScaleFactor)
+            {
+                App.ConsoleAndLogWriteLine("On check la clé");
+                // Mise à jour de l'échelle de toutes les fenêtres
+                var scaleFactor = AppScaleFactor / 100f;
+                if (scaleFactor <= 1f)
+                {
+                    ApplyScaling(scaleFactor-0.1f);
+                }
+                else
+                {
+                    ApplyScaling(scaleFactor-0.2f);
+                }
+                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+            }
+
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents(previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
+
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             // Masquage de la fenêtre de paramètres
-            Hide();       
+            Hide();
         }
 
 
@@ -3241,7 +3242,7 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+            UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
             Hide(); // Masquage de la fenêtre de paramétrage
         }
 
@@ -4225,30 +4226,13 @@ namespace KNXBoostDesktop
             {
                 // Si on appuie sur échap, on ferme la fenêtre et on annule les modifications
                 case Key.Escape:
-                    UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+                    UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
                     Hide(); // Masquage de la fenêtre de paramétrage
                     break;
 
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
                 case Key.Enter:
-                    // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-                    EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-                    DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-                    TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-                    RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
-                    EnableLightTheme = LightThemeComboBoxItem.IsSelected;
-                    AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-
-                    // Sauvegarde des paramètres dans le fichier appSettings
-                    App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-                    SaveSettings();
-                    App.ConsoleAndLogWriteLine("Settings saved successfully");
-
-                    // Mise à jour éventuellement du contenu pour update la langue du menu
-                    UpdateWindowContents();
-
-                    // Masquage de la fenêtre de paramètres
-                    Hide();
+                    SaveButtonClick(null, null);
                     break;
             }
         }

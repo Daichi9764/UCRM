@@ -60,7 +60,7 @@ public partial class MainWindow
         Uri iconUri = new ("pack://application:,,,/resources/IconApp.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
-        UpdateWindowContents();
+        UpdateWindowContents(true, true, true);
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -85,21 +85,24 @@ public partial class MainWindow
     /// <summary>
     /// Updates the contents of the window, including theme, scaling, title and language.
     /// </summary>
-    public void UpdateWindowContents()
+    public void UpdateWindowContents(bool langChanged = false, bool themeChanged = false, bool scaleChanged = false)
     {
         // Traduction de la fenêtre principale
-        TranslateWindowContents();
+        if (langChanged) TranslateWindowContents();
 
         // Modifie le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
         SetWindowTitleToCurrentProject();
         
         // Applique le thème clair/sombre à la fenêtre
-        ApplyCurrentApplicationTheme();
+        if (themeChanged) ApplyCurrentApplicationTheme();
 
-        // Application de la mise à l'échelle de la fenêtre
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        if (scaleChanged)
         {
-            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            // Application de la mise à l'échelle de la fenêtre
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+            {
+                ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            }
         }
         
         const string filePath = "./runData.csv";
