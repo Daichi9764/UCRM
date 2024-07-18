@@ -1315,7 +1315,7 @@ public partial class MainWindow
             {
                 foreach (var entry in loadingTimes)
                 {
-                    writer.WriteLine($"{App.Fm?.ProjectName}," +
+                    writer.WriteLine($"{entry.ProjectName}," +
                                      $"{entry.AddressCount}," +
                                      $"{entry.DeviceCount}," +
                                      $"{entry.IsDeleted}," +
