@@ -3053,19 +3053,7 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            //Faire apparaitre le bouton Reload
-            if ((RemoveUnusedAddressesCheckBox.IsChecked != RemoveUnusedGroupAddresses || EnableTranslationCheckBox.IsChecked != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
-            {
-                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-
-                if (mainWindow != null)
-                {
-                    mainWindow.ButtonReload.Visibility = Visibility.Visible;
-                }
-
-            }
-
-
+            
             // Sauvegarde des anciens paramètres
             var previousEnableDeeplTranslation = EnableDeeplTranslation;
             var previousTranslationDestinationLang = TranslationDestinationLang;
@@ -3226,6 +3214,13 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
+            }
+
+            //Faire apparaitre le bouton Reload
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
+            {
+                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+                if (mainWindow != null) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
 
             // Masquage de la fenêtre de paramètres
