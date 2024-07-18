@@ -3216,7 +3216,7 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
             }
 
-            //Faire apparaitre le bouton Reload
+            //Faire apparaitre le bouton Reload 
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
             {
                 MainWindow mainWindow = Application.Current.MainWindow as MainWindow;

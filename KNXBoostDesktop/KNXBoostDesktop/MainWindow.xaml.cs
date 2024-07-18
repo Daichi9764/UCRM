@@ -138,8 +138,6 @@ public partial class MainWindow
             borderPanelColor = "#D7D7D7";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
 
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
@@ -158,14 +156,13 @@ public partial class MainWindow
             borderPanelColor = "#525252";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
-
+            
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
         }
         
         // Panneaux et arrière-plan
+        
         MainGrid.Background = ConvertStringColor(backgroundColor);
         ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
         ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
@@ -182,6 +179,7 @@ public partial class MainWindow
         LogoRecherche.Brush = ConvertStringColor(logoColor);
         
         // Panel
+        
         TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
         TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
         ChevronPanGauche.Brush = ConvertStringColor(logoColor);
@@ -2294,7 +2292,6 @@ public partial class MainWindow
         item.Style = FindResource(style) as Style;
 
         // Ensure the TreeViewItem is expanded to generate child containers
-        item.IsExpanded = true;
         item.UpdateLayout(); // Force update layout to generate child containers
 
         item.ItemContainerGenerator.StatusChanged += (_, _) =>
@@ -2660,8 +2657,10 @@ public partial class MainWindow
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
-    
-    
+
+
+
+
     /// <summary>
     /// Handles the PreviewKeyDown event of the search TextBox to move focus away and handle specific key presses (Enter or Escape).
     /// </summary>
