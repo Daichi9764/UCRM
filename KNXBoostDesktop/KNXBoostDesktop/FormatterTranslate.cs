@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using DeepL;
 using DeepL.Model;
-using System.Threading.Tasks;
 
 namespace KNXBoostDesktop
 {
@@ -21,15 +20,15 @@ namespace KNXBoostDesktop
         ------------------------------------------------------------------------------------------------ */
         /// <summary>
         /// Represents the destination language code used for translation. The value is retrieved from the application's settings,
-        /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationDestinationLang"/>.
+        /// specifically from <see cref="SettingsWindow.TranslationDestinationLang"/>.
         /// </summary>
         private string _destLanguage = App.DisplayElements?.SettingsWindow?.TranslationDestinationLang ?? string.Empty;
         
         /// <summary>
         /// Represents the source language code used for translation. The value is retrieved from the application's settings,
-        /// specifically from <see cref="App.DisplayElements.SettingsWindow.TranslationSourceLang"/>.
+        /// specifically from <see cref="SettingsWindow.TranslationSourceLang"/>.
         /// </summary>
-        private string _sourceLanguage = App.DisplayElements?.SettingsWindow?.TranslationSourceLang ?? string.Empty;
+        private readonly string _sourceLanguage = App.DisplayElements?.SettingsWindow?.TranslationSourceLang ?? string.Empty;
 
         /// <summary>
         /// Cache for storing previously translated strings
@@ -182,11 +181,11 @@ namespace KNXBoostDesktop
                 TextResult translatedText;
                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableAutomaticSourceLangDetection)
                 {
-                    translatedText = await GroupAddressNameCorrector.Translator.TranslateTextAsync(input, null, _destLanguage);
+                    translatedText = await GroupAddressNameCorrector.Translator?.TranslateTextAsync(input, null, _destLanguage)!;
                 }
                 else
                 {
-                    translatedText = await GroupAddressNameCorrector.Translator.TranslateTextAsync(input, _sourceLanguage, _destLanguage);
+                    translatedText = await GroupAddressNameCorrector.Translator?.TranslateTextAsync(input, _sourceLanguage, _destLanguage)!;
                 }
 
                 return translatedText.Text;

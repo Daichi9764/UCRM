@@ -1097,13 +1097,13 @@ public partial class MainWindow
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
         string sourceFilePath ;
-        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+        if (App.DisplayElements!.SettingsWindow!.RemoveUnusedGroupAddresses)
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
         }
         else
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml";
         }
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
@@ -1117,7 +1117,7 @@ public partial class MainWindow
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Title = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
@@ -1182,7 +1182,7 @@ public partial class MainWindow
             },
             FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
-            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Filter = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "ملفات XML|*.xml|كل الملفات|*.*",

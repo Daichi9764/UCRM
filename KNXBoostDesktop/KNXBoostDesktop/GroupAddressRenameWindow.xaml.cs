@@ -28,7 +28,7 @@ public partial class GroupAddressRenameWindow
     public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
     public string SavedAddress { get; private set; } // Adresse issue du logiciel sauvegardée pour reset
 
-    private string xmlRenameFilePath = "";
+    private string _xmlRenameFilePath = "";
 
 
 
@@ -435,9 +435,9 @@ public partial class GroupAddressRenameWindow
         SavedAddress = addressModifiée; 
     }
 
-    public void SetPath(string _xmlRenameFilePath)
+    public void SetPath(string xmlRenameFilePath)
     {
-        xmlRenameFilePath = _xmlRenameFilePath;
+        this._xmlRenameFilePath = xmlRenameFilePath;
     }
 
 
@@ -495,7 +495,7 @@ public partial class GroupAddressRenameWindow
     {
         try
         {
-            var path = xmlRenameFilePath; // Remplacez par le chemin réel de votre fichier XML
+            var path = _xmlRenameFilePath; // Remplacez par le chemin réel de votre fichier XML
 
             // Vérifier si le fichier existe
             if (!File.Exists(path))

@@ -1,15 +1,13 @@
-using System.IO;
-
 namespace KNXBoostDesktop;
 
 public class LoadingTimeEntry
 {
-    public string ProjectName { get; set; }
-    public int AddressCount { get; set; }
-    public int DeviceCount { get; set; }
-    public bool IsDeleted { get; set; }
-    public int DeletedAddresses { get; set; }
-    public bool IsTranslated { get; set; }
-    public TimeSpan TotalLoadingTime { get; set; }
+    public string ProjectName { get; init; } = null!;
+    public int AddressCount { get; init; }
+    public int DeviceCount { get; init; }
+    public bool IsDeleted { get; init; }
+    public int DeletedAddresses { get; init; }
+    public bool IsTranslated { get; init; }
+    public TimeSpan TotalLoadingTime { get; init; }
 
 }
