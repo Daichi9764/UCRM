@@ -957,6 +957,19 @@ namespace KNXBoostDesktop
             ScaleSlider.Value = AppScaleFactor;
 
             // Traduction du menu settings
+            TranslateWindowContents();
+
+            // Application du thème
+            ApplyThemeToWindow();
+        }
+
+
+        // Fonction traduisant tous les textes de la fenêtre paramètres
+        /// <summary>
+        /// This function translates all the texts contained in the setting window to the application language
+        /// </summary>
+        private void TranslateWindowContents()
+        {
             switch (AppLang)
             {
                 // Arabe
@@ -2610,7 +2623,15 @@ namespace KNXBoostDesktop
 
                     break;
             }
+        }
 
+
+        // Fonction qui applique le thème au contenu de la fenêtre
+        /// <summary>
+        /// This functions applies the light/dark theme to the settings window
+        /// </summary>
+        private void ApplyThemeToWindow()
+        {
             string textColor;
             string darkBackgroundColor;
             string deepDarkBackgroundColor;
@@ -2799,7 +2820,6 @@ namespace KNXBoostDesktop
                 }
 
             }
-
         }
 
 

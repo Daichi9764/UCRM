@@ -24,21 +24,6 @@ public partial class MainWindow
     ------------------------------------------------------------------------------------------------ */
 
     /// <summary>
-    ///  Path to the original 0.xml file
-    /// </summary>
-    private string _xmlFilePath1 = "";
-
-    /// <summary>
-    ///  Path to the modified 0.xml file
-    /// </summary>
-    private string _xmlFilePath2 = "";
-
-    /// <summary>
-    ///  Path to the history file for the group address rename window
-    /// </summary>
-    private string _xmlRenameFilePath = "";
-
-    /// <summary>
     ///  Texte "Rechercher ..." de la barre de recherche. A SUPPRIMER DES QUE POSSIBLE /!\
     /// </summary>
     private string _searchTextTranslate = "";
@@ -98,9 +83,270 @@ public partial class MainWindow
 
     
     /// <summary>
-    /// Updates the contents of the window, including theme and language.
+    /// Updates the contents of the window, including theme, scaling, title and language.
     /// </summary>
     public void UpdateWindowContents()
+    {
+        // Traduction de la fenêtre principale
+        TranslateWindowContents();
+
+        // Modifie le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
+        SetWindowTitleToCurrentProject();
+        
+        // Applique le thème clair/sombre à la fenêtre
+        ApplyCurrentApplicationTheme();
+
+        // Application de la mise à l'échelle de la fenêtre
+        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        {
+            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+        }
+        
+        const string filePath = "./runData.csv";
+        LoadLoadingTimesFromCsv(filePath);
+    }
+
+
+    // Fonction pour appliquer le thème clair ou sombre
+    /// <summary>
+    /// Applies the current application theme based on the user's settings.
+    /// Adjusts various UI element colors and styles to match either a light or dark theme.
+    /// </summary>
+    private void ApplyCurrentApplicationTheme()
+    {
+        string panelTextColor;
+        
+        string settingsButtonColor;
+        string logoColor;
+        string borderColor;
+        string borderPanelColor;
+        
+        string panelBackgroundColor;
+        string backgroundColor;
+        
+            
+        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
+        {
+            panelTextColor = "#000000";
+            panelBackgroundColor = "#FFFFFF";
+            backgroundColor = "#F5F5F5";
+
+            settingsButtonColor = "#FFFFFF";
+            logoColor = "#000000";
+            borderColor = "#D7D7D7";
+
+            borderPanelColor = "#D7D7D7";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
+        }
+        else
+        {
+            backgroundColor = "#313131";
+            panelBackgroundColor = "#262626";
+
+            panelTextColor = "#E3DED4";
+            
+            settingsButtonColor = "#262626";
+            logoColor = "#E3DED4";
+            borderColor = "#434343";
+
+            borderPanelColor = "#525252";
+            
+            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
+            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
+            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
+        }
+        
+        // Panneaux et arrière-plan
+        MainGrid.Background = ConvertStringColor(backgroundColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        
+        // Bouton paramètre
+        BrushSettings1.Brush = ConvertStringColor(logoColor);
+        BrushSettings2.Brush = ConvertStringColor(logoColor);
+        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
+        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
+        
+        // Recherche
+        Recherche.BorderBrush = ConvertStringColor(borderColor);
+        Recherche.Background = ConvertStringColor(panelBackgroundColor);
+        LogoRecherche.Brush = ConvertStringColor(logoColor);
+        
+        // Panel
+        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
+        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
+        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
+        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
+        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
+        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
+        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
+        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
+        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
+        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
+        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
+    }
+
+
+    // Fonction modifiant le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
+    /// <summary>
+    /// Sets the window title to the name of the current project in the appropriate language.
+    /// If no project is loaded, sets a waiting message as the window title in the appropriate language.
+    /// </summary>
+    private void SetWindowTitleToCurrentProject()
+    {
+        if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
+        {
+            if (App.DisplayElements == null) return;
+            App.DisplayElements.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => $"المشروع المستورد: {App.Fm.ProjectName}",
+                // Bulgare
+                "BG" => $"Импортиран проект: {App.Fm.ProjectName}",
+                // Tchèque
+                "CS" => $"Importovaný projekt: {App.Fm.ProjectName}",
+                // Danois
+                "DA" => $"Importerede projekt: {App.Fm.ProjectName}",
+                // Allemand
+                "DE" => $"Importiertes Projekt: {App.Fm.ProjectName}",
+                // Grec
+                "EL" => $"Εισαγόμενο έργο: {App.Fm.ProjectName}",
+                // Anglais
+                "EN" => $"Imported Project: {App.Fm.ProjectName}",
+                // Espagnol
+                "ES" => $"Proyecto importado: {App.Fm.ProjectName}",
+                // Estonien
+                "ET" => $"Imporditud projekt: {App.Fm.ProjectName}",
+                // Finnois
+                "FI" => $"Tuotu projekti: {App.Fm.ProjectName}",
+                // Hongrois
+                "HU" => $"Importált projekt: {App.Fm.ProjectName}",
+                // Indonésien
+                "ID" => $"Proyek yang diimpor: {App.Fm.ProjectName}",
+                // Italien
+                "IT" => $"Progetto importato: {App.Fm.ProjectName}",
+                // Japonais
+                "JA" => $"インポートされたプロジェクト: {App.Fm.ProjectName}",
+                // Coréen
+                "KO" => $"가져온 프로젝트: {App.Fm.ProjectName}",
+                // Letton
+                "LV" => $"Importēts projekts: {App.Fm.ProjectName}",
+                // Lituanien
+                "LT" => $"Importuotas projektas: {App.Fm.ProjectName}",
+                // Norvégien
+                "NB" => $"Importert prosjekt: {App.Fm.ProjectName}",
+                // Néerlandais
+                "NL" => $"Geïmporteerd project: {App.Fm.ProjectName}",
+                // Polonais
+                "PL" => $"Zaimportowany projekt: {App.Fm.ProjectName}",
+                // Portugais
+                "PT" => $"Projeto importado: {App.Fm.ProjectName}",
+                // Roumain
+                "RO" => $"Proiect importat: {App.Fm.ProjectName}",
+                // Russe
+                "RU" => $"Импортированный проект: {App.Fm.ProjectName}",
+                // Slovaque
+                "SK" => $"Importovaný projekt: {App.Fm.ProjectName}",
+                // Slovène
+                "SL" => $"Uvožen projekt: {App.Fm.ProjectName}",
+                // Suédois
+                "SV" => $"Importerade projekt: {App.Fm.ProjectName}",
+                // Turc
+                "TR" => $"İçe aktarılan proje: {App.Fm.ProjectName}",
+                // Ukrainien
+                "UK" => $"Імпортований проект: {App.Fm.ProjectName}",
+                // Chinois simplifié
+                "ZH" => $"导入项目: {App.Fm.ProjectName}",
+                // Cas par défaut (français)
+                _ => $"Projet importé : {App.Fm.ProjectName}"
+            };
+        }
+        else
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "في انتظار فتح مشروع...",
+                // Bulgare
+                "BG" => "Изчакване за отваряне на проект...",
+                // Tchèque
+                "CS" => "Čekání na otevření projektu...",
+                // Danois
+                "DA" => "Venter på at åbne et projekt...",
+                // Allemand
+                "DE" => "Warten auf das Öffnen eines Projekts...",
+                // Grec
+                "EL" => "Αναμονή για άνοιγμα έργου...",
+                // Anglais
+                "EN" => "Waiting for a project to open...",
+                // Espagnol
+                "ES" => "Esperando a que se abra un proyecto...",
+                // Estonien
+                "ET" => "Ootab projekti avamist...",
+                // Finnois
+                "FI" => "Odotetaan projektin avaamista...",
+                // Hongrois
+                "HU" => "Projekt megnyitására várva...",
+                // Indonésien
+                "ID" => "Menunggu proyek dibuka...",
+                // Italien
+                "IT" => "In attesa dell'apertura di un progetto...",
+                // Japonais
+                "JA" => "プロジェクトのオープンを待っています...",
+                // Coréen
+                "KO" => "프로젝트 열기를 기다리는 중...",
+                // Letton
+                "LV" => "Gaida projekta atvēršanu...",
+                // Lituanien
+                "LT" => "Laukiama projekto atidarymo...",
+                // Norvégien
+                "NB" => "Venter på å åpne et prosjekt...",
+                // Néerlandais
+                "NL" => "Wachten op het openen van een project...",
+                // Polonais
+                "PL" => "Oczekiwanie na otwarcie projektu...",
+                // Portugais
+                "PT" => "Aguardando a abertura de um projeto...",
+                // Roumain
+                "RO" => "Așteptarea deschiderii unui proiect...",
+                // Russe
+                "RU" => "Ожидание открытия проекта...",
+                // Slovaque
+                "SK" => "Čaká sa na otvorenie projektu...",
+                // Slovène
+                "SL" => "Čakam na odprtje projekta...",
+                // Suédois
+                "SV" => "Väntar på att öppna ett projekt...",
+                // Turc
+                "TR" => "Projenin açılması bekleniyor...",
+                // Ukrainien
+                "UK" => "Очікування відкриття проекту...",
+                // Chinois simplifié
+                "ZH" => "等待项目打开...",
+                // Cas par défaut (français)
+                _ => "En attente de l'ouverture d'un projet..."
+            };
+        }
+    }
+
+
+    // Fonction pour traduire les textes contenus dans la fenêtre
+    /// <summary>
+    /// Translates the text contents of the main window's user interface elements based on the application's current language setting.
+    /// Updates various UI components with translations appropriate to the selected language.
+    /// </summary>
+    private void TranslateWindowContents()
     {
         // Traduction de la fenêtre principale
         switch (App.DisplayElements?.SettingsWindow?.AppLang)
@@ -405,232 +651,7 @@ public partial class MainWindow
                 TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
                 break;
         }
-        
-        if (!string.IsNullOrEmpty(App.Fm?.ProjectName))
-        {
-            if (App.DisplayElements == null) return;
-            App.DisplayElements.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
-                {
-                    // Arabe
-                    "AR" => $"المشروع المستورد: {App.Fm.ProjectName}",
-                    // Bulgare
-                    "BG" => $"Импортиран проект: {App.Fm.ProjectName}",
-                    // Tchèque
-                    "CS" => $"Importovaný projekt: {App.Fm.ProjectName}",
-                    // Danois
-                    "DA" => $"Importerede projekt: {App.Fm.ProjectName}",
-                    // Allemand
-                    "DE" => $"Importiertes Projekt: {App.Fm.ProjectName}",
-                    // Grec
-                    "EL" => $"Εισαγόμενο έργο: {App.Fm.ProjectName}",
-                    // Anglais
-                    "EN" => $"Imported Project: {App.Fm.ProjectName}",
-                    // Espagnol
-                    "ES" => $"Proyecto importado: {App.Fm.ProjectName}",
-                    // Estonien
-                    "ET" => $"Imporditud projekt: {App.Fm.ProjectName}",
-                    // Finnois
-                    "FI" => $"Tuotu projekti: {App.Fm.ProjectName}",
-                    // Hongrois
-                    "HU" => $"Importált projekt: {App.Fm.ProjectName}",
-                    // Indonésien
-                    "ID" => $"Proyek yang diimpor: {App.Fm.ProjectName}",
-                    // Italien
-                    "IT" => $"Progetto importato: {App.Fm.ProjectName}",
-                    // Japonais
-                    "JA" => $"インポートされたプロジェクト: {App.Fm.ProjectName}",
-                    // Coréen
-                    "KO" => $"가져온 프로젝트: {App.Fm.ProjectName}",
-                    // Letton
-                    "LV" => $"Importēts projekts: {App.Fm.ProjectName}",
-                    // Lituanien
-                    "LT" => $"Importuotas projektas: {App.Fm.ProjectName}",
-                    // Norvégien
-                    "NB" => $"Importert prosjekt: {App.Fm.ProjectName}",
-                    // Néerlandais
-                    "NL" => $"Geïmporteerd project: {App.Fm.ProjectName}",
-                    // Polonais
-                    "PL" => $"Zaimportowany projekt: {App.Fm.ProjectName}",
-                    // Portugais
-                    "PT" => $"Projeto importado: {App.Fm.ProjectName}",
-                    // Roumain
-                    "RO" => $"Proiect importat: {App.Fm.ProjectName}",
-                    // Russe
-                    "RU" => $"Импортированный проект: {App.Fm.ProjectName}",
-                    // Slovaque
-                    "SK" => $"Importovaný projekt: {App.Fm.ProjectName}",
-                    // Slovène
-                    "SL" => $"Uvožen projekt: {App.Fm.ProjectName}",
-                    // Suédois
-                    "SV" => $"Importerade projekt: {App.Fm.ProjectName}",
-                    // Turc
-                    "TR" => $"İçe aktarılan proje: {App.Fm.ProjectName}",
-                    // Ukrainien
-                    "UK" => $"Імпортований проект: {App.Fm.ProjectName}",
-                    // Chinois simplifié
-                    "ZH" => $"导入项目: {App.Fm.ProjectName}",
-                    // Cas par défaut (français)
-                    _ => $"Projet importé : {App.Fm.ProjectName}"
-                };
-        }
-        else
-        {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
-        {
-            // Arabe
-            "AR" => "في انتظار فتح مشروع...",
-            // Bulgare
-            "BG" => "Изчакване за отваряне на проект...",
-            // Tchèque
-            "CS" => "Čekání na otevření projektu...",
-            // Danois
-            "DA" => "Venter på at åbne et projekt...",
-            // Allemand
-            "DE" => "Warten auf das Öffnen eines Projekts...",
-            // Grec
-            "EL" => "Αναμονή για άνοιγμα έργου...",
-            // Anglais
-            "EN" => "Waiting for a project to open...",
-            // Espagnol
-            "ES" => "Esperando a que se abra un proyecto...",
-            // Estonien
-            "ET" => "Ootab projekti avamist...",
-            // Finnois
-            "FI" => "Odotetaan projektin avaamista...",
-            // Hongrois
-            "HU" => "Projekt megnyitására várva...",
-            // Indonésien
-            "ID" => "Menunggu proyek dibuka...",
-            // Italien
-            "IT" => "In attesa dell'apertura di un progetto...",
-            // Japonais
-            "JA" => "プロジェクトのオープンを待っています...",
-            // Coréen
-            "KO" => "프로젝트 열기를 기다리는 중...",
-            // Letton
-            "LV" => "Gaida projekta atvēršanu...",
-            // Lituanien
-            "LT" => "Laukiama projekto atidarymo...",
-            // Norvégien
-            "NB" => "Venter på å åpne et prosjekt...",
-            // Néerlandais
-            "NL" => "Wachten op het openen van een project...",
-            // Polonais
-            "PL" => "Oczekiwanie na otwarcie projektu...",
-            // Portugais
-            "PT" => "Aguardando a abertura de um projeto...",
-            // Roumain
-            "RO" => "Așteptarea deschiderii unui proiect...",
-            // Russe
-            "RU" => "Ожидание открытия проекта...",
-            // Slovaque
-            "SK" => "Čaká sa na otvorenie projektu...",
-            // Slovène
-            "SL" => "Čakam na odprtje projekta...",
-            // Suédois
-            "SV" => "Väntar på att öppna ett projekt...",
-            // Turc
-            "TR" => "Projenin açılması bekleniyor...",
-            // Ukrainien
-            "UK" => "Очікування відкриття проекту...",
-            // Chinois simplifié
-            "ZH" => "等待项目打开...",
-            // Cas par défaut (français)
-            _ => "En attente de l'ouverture d'un projet..."
-        };
-        }
-        
-        string panelTextColor;
-        
-        string settingsButtonColor;
-        string logoColor;
-        string borderColor;
-        string borderPanelColor;
-        
-        string panelBackgroundColor;
-        string backgroundColor;
-        
-            
-        if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
-        {
-            panelTextColor = "#000000";
-            panelBackgroundColor = "#FFFFFF";
-            backgroundColor = "#F5F5F5";
-
-            settingsButtonColor = "#FFFFFF";
-            logoColor = "#000000";
-            borderColor = "#D7D7D7";
-
-            borderPanelColor = "#D7D7D7";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
-        }
-        else
-        {
-            backgroundColor = "#313131";
-            panelBackgroundColor = "#262626";
-
-            panelTextColor = "#E3DED4";
-            
-            settingsButtonColor = "#262626";
-            logoColor = "#E3DED4";
-            borderColor = "#434343";
-
-            borderPanelColor = "#525252";
-            
-            ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
-
-            ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
-            ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
-        }
-        
-        // Panneaux et arrière-plan
-        MainGrid.Background = ConvertStringColor(backgroundColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        
-        // Bouton paramètre
-        BrushSettings1.Brush = ConvertStringColor(logoColor);
-        BrushSettings2.Brush = ConvertStringColor(logoColor);
-        ButtonSettings.Background = ConvertStringColor(settingsButtonColor);
-        ButtonSettings.BorderBrush = ConvertStringColor(borderColor);
-        
-        // Recherche
-        Recherche.BorderBrush = ConvertStringColor(borderColor);
-        Recherche.Background = ConvertStringColor(panelBackgroundColor);
-        LogoRecherche.Brush = ConvertStringColor(logoColor);
-        
-        // Panel
-        TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
-        TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
-        ChevronPanGauche.Brush = ConvertStringColor(logoColor);
-        ChevronPanDroite.Brush = ConvertStringColor(logoColor);
-        ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
-        ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
-        TreeViewGauche.Foreground = ConvertStringColor(panelTextColor);
-        TreeViewDroite.Foreground = ConvertStringColor(panelTextColor);
-        BorderPanGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderPanDroit.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauGauche.BorderBrush = ConvertStringColor(borderPanelColor);
-        BorderTitrePanneauDroite.BorderBrush = ConvertStringColor(borderPanelColor);
-        AjusteurPan.Background = ConvertStringColor(borderPanelColor);
-
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
-        {
-            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
-        }
-        
-        const string filePath = "./runData.csv";
-        LoadLoadingTimesFromCsv(filePath);
-    }   
-    
+    }
     
     
     //--------------------- Gestion des boutons -----------------------------------------------------//
@@ -797,9 +818,10 @@ public partial class MainWindow
                 Owner = this
             };
             
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            // Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
             var updateTask = Task.Run(async () =>
             {
                 while (stopwatch.IsRunning)
@@ -807,8 +829,71 @@ public partial class MainWindow
                     var elapsedTime = stopwatch.Elapsed;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        App.DisplayElements.LoadingWindow.TotalTime.Text =
-                            $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
+                        App.DisplayElements.LoadingWindow.TotalTime.Text = 
+                        App.DisplayElements.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => $"الوقت الإجمالي: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Bulgare
+                            "BG" => $"Общо време: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Tchèque
+                            "CS" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Danois
+                            "DA" => $"Samlet tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Allemand
+                            "DE" => $"Gesamtzeit: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Grec
+                            "EL" => $"Συνολικός χρόνος: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Anglais
+                            "EN" => $"Total time: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Espagnol
+                            "ES" => $"Tiempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Estonien
+                            "ET" => $"Koguaeg: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Finnois
+                            "FI" => $"Kokonaisaika: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Hongrois
+                            "HU" => $"Összes idő: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Indonésien
+                            "ID" => $"Total waktu: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Italien
+                            "IT" => $"Tempo totale: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Japonais
+                            "JA" => $"総時間: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Coréen
+                            "KO" => $"총 시간: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Letton
+                            "LV" => $"Kopējais laiks: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Lituanien
+                            "LT" => $"Bendras laikas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Norvégien
+                            "NB" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Néerlandais
+                            "NL" => $"Totale tijd: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Polonais
+                            "PL" => $"Całkowity czas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Portugais
+                            "PT" => $"Tempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Roumain
+                            "RO" => $"Timp total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Russe
+                            "RU" => $"Общее время: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovaque
+                            "SK" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovène
+                            "SL" => $"Skupni čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Suédois
+                            "SV" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Turc
+                            "TR" => $"Toplam süre: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Ukrainien
+                            "UK" => $"Загальний час: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Chinois simplifié
+                            "ZH" => $"总时间: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Cas par défaut (français)
+                            _ => $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}"
+                        };
+
                     });
                     await Task.Delay(100); 
                 }
@@ -819,12 +904,74 @@ public partial class MainWindow
             HideOverlay();
             
             stopwatch.Stop();
-            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+            var finalElapsedTime = stopwatch.Elapsed;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                App.DisplayElements.LoadingWindow.TotalTime.Text =
-                    $"Temps total : {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}";
+                App.DisplayElements.LoadingWindow.TotalTime.Text = 
+                        App.DisplayElements.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => $"الوقت الإجمالي: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Bulgare
+                            "BG" => $"Общо време: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Tchèque
+                            "CS" => $"Celkový čas: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Danois
+                            "DA" => $"Samlet tid: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Allemand
+                            "DE" => $"Gesamtzeit: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Grec
+                            "EL" => $"Συνολικός χρόνος: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Anglais
+                            "EN" => $"Total time: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Espagnol
+                            "ES" => $"Tiempo total: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Estonien
+                            "ET" => $"Koguaeg: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Finnois
+                            "FI" => $"Kokonaisaika: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Hongrois
+                            "HU" => $"Összes idő: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Indonésien
+                            "ID" => $"Total waktu: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Italien
+                            "IT" => $"Tempo totale: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Japonais
+                            "JA" => $"総時間: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Coréen
+                            "KO" => $"총 시간: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Letton
+                            "LV" => $"Kopējais laiks: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Lituanien
+                            "LT" => $"Bendras laikas: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Norvégien
+                            "NB" => $"Total tid: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Néerlandais
+                            "NL" => $"Totale tijd: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Polonais
+                            "PL" => $"Całkowity czas: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Portugais
+                            "PT" => $"Tempo total: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Roumain
+                            "RO" => $"Timp total: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Russe
+                            "RU" => $"Общее время: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Slovaque
+                            "SK" => $"Celkový čas: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Slovène
+                            "SL" => $"Skupni čas: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Suédois
+                            "SV" => $"Total tid: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Turc
+                            "TR" => $"Toplam süre: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Ukrainien
+                            "UK" => $"Загальний час: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Chinois simplifié
+                            "ZH" => $"总时间: {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}",
+                            // Cas par défaut (français)
+                            _ => $"Temps total : {(int)finalElapsedTime.TotalMinutes:D2}:{finalElapsedTime.Seconds:D2}"
+                        };
             });
 
             const string filePath = "./runData.csv";
@@ -854,7 +1001,10 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine("User aborted the file selection operation");
         }
     }
-
+    
+    /// <summary>
+    /// Asynchronously reloads the current project, displaying a loading window with real-time elapsed time updates.
+    /// </summary>
     public async void ReloadProject(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Reaload");
@@ -904,6 +1054,7 @@ public partial class MainWindow
             ViewModel.IsProjectImported = true;
 
     }
+    
 
     /// <summary>
     /// Handles the click event for the Open Console button.
@@ -924,30 +1075,264 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
-
+    
+    
     /// <summary>
-    /// Saves loading times to a CSV file.
+    /// Handles the button click event to export the updated project file to a selected destination.
+    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
+    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
     /// </summary>
-    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
-    /// <param name="loadingTimes">The list of loading time entries to save.</param>
-    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        using var writer = new StreamWriter(filePath);
-        writer.WriteLine("ProjectName,AddressCount,DeviceCount,IsDeleted?,DeletedAddresses,IsTranslated?,TotalLoadingTime");
-        if (loadingTimes == null) return;
-            
-        foreach (var entry in loadingTimes)
+        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
+        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
+        
+        // Vérifier si le fichier source existe
+        if (!File.Exists(sourceFilePath))
         {
-            writer.WriteLine($"{App.Fm?.ProjectName}," +
-                             $"{entry.AddressCount}," +
-                             $"{entry.DeviceCount}," +
-                             $"{entry.IsDeleted}," +
-                             $"{entry.DeletedAddresses}," +
-                             $"{entry.IsTranslated}," +
-                             $"{(int)entry.TotalLoadingTime.TotalMinutes:D2}:{entry.TotalLoadingTime.Seconds:D2}");
+            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
+            return;
+        }
+
+        // Initialiser et configurer le SaveFileDialog
+        SaveFileDialog saveFileDialog = new()
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
+                // Bulgare
+                "BG" => "Запазване на актуализирания файл с адреси на групи като...",
+                // Tchèque
+                "CS" => "Uložit aktualizovaný soubor skupinových adres jako...",
+                // Danois
+                "DA" => "Gem den opdaterede gruppeadressedatafil som...",
+                // Allemand
+                "DE" => "Aktualisierte Gruppenadressdatei speichern unter...",
+                // Grec
+                "EL" => "Αποθήκευση του ενημερωμένου αρχείου διευθύνσεων ομάδας ως...",
+                // Anglais
+                "EN" => "Save updated group address file as...",
+                // Espagnol
+                "ES" => "Guardar archivo de direcciones de grupo actualizado como...",
+                // Estonien
+                "ET" => "Salvesta värskendatud rühma aadresside fail nimega...",
+                // Finnois
+                "FI" => "Tallenna päivitetty ryhmäosoitetiedosto nimellä...",
+                // Hongrois
+                "HU" => "Mentse a frissített csoportcím fájlt másként...",
+                // Indonésien
+                "ID" => "Simpan file alamat grup yang diperbarui sebagai...",
+                // Italien
+                "IT" => "Salva il file degli indirizzi del gruppo aggiornato come...",
+                // Japonais
+                "JA" => "更新されたグループアドレスファイルを名前を付けて保存...",
+                // Coréen
+                "KO" => "업데이트된 그룹 주소 파일을 다음 이름으로 저장...",
+                // Letton
+                "LV" => "Saglabāt atjaunināto grupas adrešu failu kā...",
+                // Lituanien
+                "LT" => "Išsaugoti atnaujintą grupės adresų failą kaip...",
+                // Norvégien
+                "NB" => "Lagre oppdatert gruppeadressefil som...",
+                // Néerlandais
+                "NL" => "Bijgewerkt groepsadresbestand opslaan als...",
+                // Polonais
+                "PL" => "Zapisz zaktualizowany plik adresów grupowych jako...",
+                // Portugais
+                "PT" => "Salvar arquivo de endereços de grupo atualizado como...",
+                // Roumain
+                "RO" => "Salvează fișierul actualizat de adrese de grup ca...",
+                // Russe
+                "RU" => "Сохранить обновленный файл адресов группы как...",
+                // Slovaque
+                "SK" => "Uložiť aktualizovaný súbor skupinových adries ako...",
+                // Slovène
+                "SL" => "Shrani posodobljeno datoteko skupinskih naslovov kot...",
+                // Suédois
+                "SV" => "Spara uppdaterad gruppadressfil som...",
+                // Turc
+                "TR" => "Güncellenmiş grup adres dosyasını farklı kaydet...",
+                // Ukrainien
+                "UK" => "Зберегти оновлений файл групових адрес як...",
+                // Chinois simplifié
+                "ZH" => "将更新的组地址文件另存为...",
+                // Cas par défaut (français)
+                _ => "Enregistrer le fichier d'adresses de groupe modifiées sous..."
+            },
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
+            DefaultExt = ".xml", // Extension par défaut
+            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
+                // Bulgare
+                "BG" => "XML файлове|*.xml|Всички файлове|*.*",
+                // Tchèque
+                "CS" => "XML soubory|*.xml|Všechny soubory|*.*",
+                // Danois
+                "DA" => "XML-filer|*.xml|Alle filer|*.*",
+                // Allemand
+                "DE" => "XML-Dateien|*.xml|Alle Dateien|*.*",
+                // Grec
+                "EL" => "Αρχεία XML|*.xml|Όλα τα αρχεία|*.*",
+                // Anglais
+                "EN" => "XML Files|*.xml|All Files|*.*",
+                // Espagnol
+                "ES" => "Archivos XML|*.xml|Todos los archivos|*.*",
+                // Estonien
+                "ET" => "XML-failid|*.xml|Kõik failid|*.*",
+                // Finnois
+                "FI" => "XML-tiedostot|*.xml|Kaikki tiedostot|*.*",
+                // Hongrois
+                "HU" => "XML fájlok|*.xml|Minden fájl|*.*",
+                // Indonésien
+                "ID" => "File XML|*.xml|Semua file|*.*",
+                // Italien
+                "IT" => "File XML|*.xml|Tutti i file|*.*",
+                // Japonais
+                "JA" => "XMLファイル|*.xml|すべてのファイル|*.*",
+                // Coréen
+                "KO" => "XML 파일|*.xml|모든 파일|*.*",
+                // Letton
+                "LV" => "XML faili|*.xml|Visi faili|*.*",
+                // Lituanien
+                "LT" => "XML failai|*.xml|Visi failai|*.*",
+                // Norvégien
+                "NB" => "XML-filer|*.xml|Alle filer|*.*",
+                // Néerlandais
+                "NL" => "XML-bestanden|*.xml|Alle bestanden|*.*",
+                // Polonais
+                "PL" => "Pliki XML|*.xml|Wszystkie pliki|*.*",
+                // Portugais
+                "PT" => "Arquivos XML|*.xml|Todos os arquivos|*.*",
+                // Roumain
+                "RO" => "Fișiere XML|*.xml|Toate fișierele|*.*",
+                // Russe
+                "RU" => "XML-файлы|*.xml|Все файлы|*.*",
+                // Slovaque
+                "SK" => "XML súbory|*.xml|Všetky súbory|*.*",
+                // Slovène
+                "SL" => "XML datoteke|*.xml|Vse datoteke|*.*",
+                // Suédois
+                "SV" => "XML-filer|*.xml|Alla filer|*.*",
+                // Turc
+                "TR" => "XML Dosyaları|*.xml|Tüm Dosyalar|*.*",
+                // Ukrainien
+                "UK" => "XML-файли|*.xml|Всі файли|*.*",
+                // Chinois simplifié
+                "ZH" => "XML 文件|*.xml|所有文件|*.*",
+                // Cas par défaut (français)
+                _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
+            }
+
+        };
+
+        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
+        var result = saveFileDialog.ShowDialog();
+
+        if (result != true) return;
+        // Chemin du fichier sélectionné par l'utilisateur
+        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
+
+        try
+        {
+            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+            File.Copy(sourceFilePath, saveFileDialog.FileName, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
+        }
+        catch (Exception ex)
+        {
+            // Gérer les exceptions et afficher un message d'erreur
+            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
         }
     }
 
+    
+    /// <summary>
+    /// Handles the closing event of the main window by shutting down the application.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ClosingMainWindow(object sender, CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
+    
+
+    /// <summary>
+    /// Handles the button click event to open the application settings window.
+    /// Checks if the settings window is already open and brings it to the front if so,
+    /// otherwise, displays the settings window.
+    /// Clears keyboard focus from the button after opening the settings window.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (typically the button).</param>
+    /// <param name="e">The event data.</param>
+    private void OpenParameters(object sender, RoutedEventArgs e)
+    {
+
+        // Vérifie si la fenêtre de paramètres est déjà ouverte
+        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
+        {
+            // Si la fenêtre est déjà ouverte, la met au premier plan
+            App.DisplayElements.SettingsWindow.Activate();
+            App.DisplayElements.SettingsWindow.Focus();
+        }
+        else
+        {
+            // Sinon, affiche la fenêtre de paramètres
+            App.DisplayElements.ShowSettingsWindow();
+        }
+
+        Keyboard.ClearFocus(); // On désélectionne le bouton paramètres dans mainwindow
+    }
+
+    
+    //--------------------- Gestion des data de performances -----------------------------------------------------//
+    /// <summary>
+    /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
+    /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
+    /// </summary>
+    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
+    /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
+    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    {
+        // Écriture des nouvelles lignes dans le fichier CSV
+        using (var writer = new StreamWriter(filePath))
+        {
+            writer.WriteLine("ProjectName,AddressCount,DeviceCount,IsDeleted?,DeletedAddresses,IsTranslated?,TotalLoadingTime");
+            if (loadingTimes != null)
+            {
+                foreach (var entry in loadingTimes)
+                {
+                    writer.WriteLine($"{App.Fm?.ProjectName}," +
+                                     $"{entry.AddressCount}," +
+                                     $"{entry.DeviceCount}," +
+                                     $"{entry.IsDeleted}," +
+                                     $"{entry.DeletedAddresses}," +
+                                     $"{entry.IsTranslated}," +
+                                     $"{(int)entry.TotalLoadingTime.TotalMinutes:D2}:{entry.TotalLoadingTime.Seconds:D2}");
+                }
+            }
+        }
+
+        // Relire le contenu du fichier CSV
+        var lines = new List<string>(File.ReadAllLines(filePath));
+
+        // Vérifier et supprimer les lignes en trop
+        const int maxLines = 50;
+        if (lines.Count > maxLines + 1) // +1 pour inclure l'en-tête
+        {
+            // Supprimer les lignes les plus anciennes
+            lines.RemoveRange(1, lines.Count - maxLines - 1); // Laisser l'en-tête intact
+        }
+
+        // Écrire les lignes restantes dans le fichier CSV
+        File.WriteAllLines(filePath, lines);
+    }
+    
     /// <summary>
     /// Loads loading time entries from a CSV file located at the specified file path.
     /// </summary>
@@ -1348,7 +1733,7 @@ public partial class MainWindow
 
         try
         {            
-            var headerLine = reader?.ReadLine();
+            var unused = reader?.ReadLine();
             while (reader?.ReadLine() is { } line)
             {
                 // Vérifier si la ligne est vide ou seulement composée d'espaces
@@ -1379,7 +1764,6 @@ public partial class MainWindow
                     TotalLoadingTime = totalLoadingTime
                 });
             }
-            var allLines = File.ReadAllLines(filePath).ToList();
             
 
         }
@@ -1400,220 +1784,6 @@ public partial class MainWindow
         }
         return loadingTimes;
     }
-    
-    
-    /// <summary>
-    /// Handles the button click event to export the updated project file to a selected destination.
-    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
-    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
-    {
-        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
-        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
-        
-        // Vérifier si le fichier source existe
-        if (!File.Exists(sourceFilePath))
-        {
-            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
-            return;
-        }
-
-        // Initialiser et configurer le SaveFileDialog
-        SaveFileDialog saveFileDialog = new()
-        {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
-            {
-                // Arabe
-                "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
-                // Bulgare
-                "BG" => "Запазване на актуализирания файл с адреси на групи като...",
-                // Tchèque
-                "CS" => "Uložit aktualizovaný soubor skupinových adres jako...",
-                // Danois
-                "DA" => "Gem den opdaterede gruppeadressedatafil som...",
-                // Allemand
-                "DE" => "Aktualisierte Gruppenadressdatei speichern unter...",
-                // Grec
-                "EL" => "Αποθήκευση του ενημερωμένου αρχείου διευθύνσεων ομάδας ως...",
-                // Anglais
-                "EN" => "Save updated group address file as...",
-                // Espagnol
-                "ES" => "Guardar archivo de direcciones de grupo actualizado como...",
-                // Estonien
-                "ET" => "Salvesta värskendatud rühma aadresside fail nimega...",
-                // Finnois
-                "FI" => "Tallenna päivitetty ryhmäosoitetiedosto nimellä...",
-                // Hongrois
-                "HU" => "Mentse a frissített csoportcím fájlt másként...",
-                // Indonésien
-                "ID" => "Simpan file alamat grup yang diperbarui sebagai...",
-                // Italien
-                "IT" => "Salva il file degli indirizzi del gruppo aggiornato come...",
-                // Japonais
-                "JA" => "更新されたグループアドレスファイルを名前を付けて保存...",
-                // Coréen
-                "KO" => "업데이트된 그룹 주소 파일을 다음 이름으로 저장...",
-                // Letton
-                "LV" => "Saglabāt atjaunināto grupas adrešu failu kā...",
-                // Lituanien
-                "LT" => "Išsaugoti atnaujintą grupės adresų failą kaip...",
-                // Norvégien
-                "NB" => "Lagre oppdatert gruppeadressefil som...",
-                // Néerlandais
-                "NL" => "Bijgewerkt groepsadresbestand opslaan als...",
-                // Polonais
-                "PL" => "Zapisz zaktualizowany plik adresów grupowych jako...",
-                // Portugais
-                "PT" => "Salvar arquivo de endereços de grupo atualizado como...",
-                // Roumain
-                "RO" => "Salvează fișierul actualizat de adrese de grup ca...",
-                // Russe
-                "RU" => "Сохранить обновленный файл адресов группы как...",
-                // Slovaque
-                "SK" => "Uložiť aktualizovaný súbor skupinových adries ako...",
-                // Slovène
-                "SL" => "Shrani posodobljeno datoteko skupinskih naslovov kot...",
-                // Suédois
-                "SV" => "Spara uppdaterad gruppadressfil som...",
-                // Turc
-                "TR" => "Güncellenmiş grup adres dosyasını farklı kaydet...",
-                // Ukrainien
-                "UK" => "Зберегти оновлений файл групових адрес як...",
-                // Chinois simplifié
-                "ZH" => "将更新的组地址文件另存为...",
-                // Cas par défaut (français)
-                _ => "Enregistrer le fichier d'adresses de groupe modifiées sous..."
-            },
-            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
-            DefaultExt = ".xml", // Extension par défaut
-            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
-            {
-                // Arabe
-                "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
-                // Bulgare
-                "BG" => "XML файлове|*.xml|Всички файлове|*.*",
-                // Tchèque
-                "CS" => "XML soubory|*.xml|Všechny soubory|*.*",
-                // Danois
-                "DA" => "XML-filer|*.xml|Alle filer|*.*",
-                // Allemand
-                "DE" => "XML-Dateien|*.xml|Alle Dateien|*.*",
-                // Grec
-                "EL" => "Αρχεία XML|*.xml|Όλα τα αρχεία|*.*",
-                // Anglais
-                "EN" => "XML Files|*.xml|All Files|*.*",
-                // Espagnol
-                "ES" => "Archivos XML|*.xml|Todos los archivos|*.*",
-                // Estonien
-                "ET" => "XML-failid|*.xml|Kõik failid|*.*",
-                // Finnois
-                "FI" => "XML-tiedostot|*.xml|Kaikki tiedostot|*.*",
-                // Hongrois
-                "HU" => "XML fájlok|*.xml|Minden fájl|*.*",
-                // Indonésien
-                "ID" => "File XML|*.xml|Semua file|*.*",
-                // Italien
-                "IT" => "File XML|*.xml|Tutti i file|*.*",
-                // Japonais
-                "JA" => "XMLファイル|*.xml|すべてのファイル|*.*",
-                // Coréen
-                "KO" => "XML 파일|*.xml|모든 파일|*.*",
-                // Letton
-                "LV" => "XML faili|*.xml|Visi faili|*.*",
-                // Lituanien
-                "LT" => "XML failai|*.xml|Visi failai|*.*",
-                // Norvégien
-                "NB" => "XML-filer|*.xml|Alle filer|*.*",
-                // Néerlandais
-                "NL" => "XML-bestanden|*.xml|Alle bestanden|*.*",
-                // Polonais
-                "PL" => "Pliki XML|*.xml|Wszystkie pliki|*.*",
-                // Portugais
-                "PT" => "Arquivos XML|*.xml|Todos os arquivos|*.*",
-                // Roumain
-                "RO" => "Fișiere XML|*.xml|Toate fișierele|*.*",
-                // Russe
-                "RU" => "XML-файлы|*.xml|Все файлы|*.*",
-                // Slovaque
-                "SK" => "XML súbory|*.xml|Všetky súbory|*.*",
-                // Slovène
-                "SL" => "XML datoteke|*.xml|Vse datoteke|*.*",
-                // Suédois
-                "SV" => "XML-filer|*.xml|Alla filer|*.*",
-                // Turc
-                "TR" => "XML Dosyaları|*.xml|Tüm Dosyalar|*.*",
-                // Ukrainien
-                "UK" => "XML-файли|*.xml|Всі файли|*.*",
-                // Chinois simplifié
-                "ZH" => "XML 文件|*.xml|所有文件|*.*",
-                // Cas par défaut (français)
-                _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
-            }
-
-        };
-
-        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
-        var result = saveFileDialog.ShowDialog();
-
-        if (result != true) return;
-        // Chemin du fichier sélectionné par l'utilisateur
-        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
-
-        try
-        {
-            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
-            File.Copy(sourceFilePath, saveFileDialog.FileName, true);
-            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
-        }
-        catch (Exception ex)
-        {
-            // Gérer les exceptions et afficher un message d'erreur
-            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
-        }
-    }
-
-    
-    /// <summary>
-    /// Handles the closing event of the main window by shutting down the application.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ClosingMainWindow(object sender, CancelEventArgs e)
-    {
-        Application.Current.Shutdown();
-    }
-    
-
-    /// <summary>
-    /// Handles the button click event to open the application settings window.
-    /// Checks if the settings window is already open and brings it to the front if so,
-    /// otherwise, displays the settings window.
-    /// Clears keyboard focus from the button after opening the settings window.
-    /// </summary>
-    /// <param name="sender">The object that raised the event (typically the button).</param>
-    /// <param name="e">The event data.</param>
-    private void OpenParameters(object sender, RoutedEventArgs e)
-    {
-
-        // Vérifie si la fenêtre de paramètres est déjà ouverte
-        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
-        {
-            // Si la fenêtre est déjà ouverte, la met au premier plan
-            App.DisplayElements.SettingsWindow.Activate();
-            App.DisplayElements.SettingsWindow.Focus();
-        }
-        else
-        {
-            // Sinon, affiche la fenêtre de paramètres
-            App.DisplayElements.ShowSettingsWindow();
-        }
-
-        Keyboard.ClearFocus(); // On désélectionne le bouton paramètres dans mainwindow
-    }
-
     
     
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
@@ -1836,10 +2006,6 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
                     await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
 
-                    _xmlFilePath1 = $"{App.Fm.ProjectFolderPath}/GroupAddresses.xml";
-                    _xmlFilePath2 = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
-                    _xmlRenameFilePath = App.Fm.ProjectFolderPath + "RenamedAddressesHistory.xml";
-
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -1965,7 +2131,7 @@ public partial class MainWindow
         var originalAddress = correspondingTextBlock.Text;
         var editedAddress = textBlock.Text;
 
-        var result = App.DisplayElements?.ShowGroupAddressRenameWindow(originalAddress, editedAddress, _xmlRenameFilePath);
+        var result = App.DisplayElements?.ShowGroupAddressRenameWindow(originalAddress, editedAddress, App.Fm?.ProjectFolderPath + "RenamedAddressesHistory.xml");
                                 
         if (result != true) return;
         
@@ -1973,10 +2139,10 @@ public partial class MainWindow
         textBlock.Text = newAddress;
         
         //Sauvegarder les modfications
-        SaveModifiedAdress(_xmlRenameFilePath, editedAddress, newAddress, originalAddress);
+        SaveModifiedAdress(App.Fm?.ProjectFolderPath + "RenamedAddressesHistory.xml", editedAddress, newAddress, originalAddress);
 
         // Renommer l'adresse dans le fichier XML
-        RenameAddressInXmlFile(_xmlFilePath2, editedAddress, newAddress);
+        RenameAddressInXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml", editedAddress, newAddress);
     }
 
     
@@ -2050,7 +2216,7 @@ public partial class MainWindow
         try
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(_xmlFilePath2);
+            xmlDoc.Load(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml");
 
             // Déclaration d'un gestionnaire de noms pour l'espace de noms par défaut
             var nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
@@ -2151,8 +2317,8 @@ public partial class MainWindow
     /// </summary>
     private async Task LoadXmlFiles()
     {
-        await LoadXmlFile(_xmlFilePath1, TreeViewGauche);
-        await LoadXmlFile(_xmlFilePath2, TreeViewDroite);
+        await LoadXmlFile($"{App.Fm?.ProjectFolderPath}/GroupAddresses.xml", TreeViewGauche);
+        await LoadXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml", TreeViewDroite);
 
         TreeViewGauche.SelectedItemChanged += TreeViewGauche_SelectedItemChanged;
         TreeViewDroite.SelectedItemChanged += TreeViewDroite_SelectedItemChanged;
@@ -2691,8 +2857,7 @@ public partial class MainWindow
     /// <returns>The path of the TreeViewItem as a string, or null if the path cannot be determined.</returns>
     private static string? GetItemPath(TreeViewItem item)
     {
-        var path = item.Tag as string;
-        if (path == null)
+        if (item.Tag is not string path)
         {
             return null;
         }

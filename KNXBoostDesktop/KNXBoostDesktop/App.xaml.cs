@@ -44,7 +44,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 338;
+        public static readonly int AppBuild = 339;
         
         
         // Gestion des logs
@@ -140,9 +140,10 @@ namespace KNXBoostDesktop
             // Mise a jour de la fenetre de renommage des adresses de groupe
             DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
 
-            // Mise a jour de la fenetre principale
+            // Mise a jour de la fenetre principale (titre, langue, thème, ...)
             DisplayElements.MainWindow.UpdateWindowContents();
 
+            // Affichage de la fenêtre principale
             DisplayElements.ShowMainWindow();
 
 
@@ -167,7 +168,59 @@ namespace KNXBoostDesktop
             if ((Directory.Exists("./logs")) && (Directory.GetFiles("./logs", "*.txt").Length == 1) &&
                 (Directory.GetFiles("./logs", "*.zip").Length == 0))
             {
-                var messageBoxText = DisplayElements.SettingsWindow!.AppLang switch
+                ShowInitialInformation();
+            }
+            
+            // Appel au garbage collector pour nettoyer les variables issues 
+            GC.Collect();
+        }
+
+        
+        
+        // Fonction s'executant lorsque l'on ferme l'application
+        /// <summary>
+        /// Executes when the application is closing.
+        /// <para>
+        /// This method performs the following tasks:
+        /// <list type="bullet">
+        ///     <item>
+        ///         Logs the start of the application closing process.
+        ///     </item>
+        ///     <item>
+        ///         Calls the base class implementation of <see cref="OnExit"/> to ensure proper shutdown behavior.
+        ///     </item>
+        ///     <item>
+        ///         Logs the successful closure of the application.
+        ///     </item>
+        ///     <item>
+        ///         Closes the log file stream if it is open, to ensure all log entries are properly written.
+        ///     </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="e">An instance of <see cref="ExitEventArgs"/> that contains the event data.</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            ConsoleAndLogWriteLine("-----------------------------------------------------------");
+            ConsoleAndLogWriteLine($"CLOSING {AppName.ToUpper()} APP...");
+            
+            base.OnExit(e);
+            
+            ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
+            _writer?.Close(); // Fermeture du stream d'ecriture des logs
+        }
+
+
+
+        // Fonction pour afficher le message d'avertissement au premier lancement de l'application
+        /// <summary>
+        /// Displays an informational message box to the user regarding the importance of 
+        /// well-structured project data when importing a KNX project into KNX Boost Desktop.
+        /// The message and caption are localized based on the application's language settings.
+        /// </summary>
+        private static void ShowInitialInformation()
+        {
+            var messageBoxText = DisplayElements?.SettingsWindow!.AppLang switch
                 {
                     // Arabe
                     "AR" => "عند استيراد مشروع KNX إلى KNX Boost Desktop، يرجى ملاحظة أن الدقة في تصحيح عناوين المجموعة تعتمد بشكل كبير على جودة وهيكلية بيانات المشروع. إذا كان مشروع KNX غير منظم بشكل جيد أو يفتقر إلى المعلومات الأساسية، فقد لا يتمكن البرنامج من تصحيح عناوين المجموعة بطريقة مناسبة وموثوقة تمامًا. تأكد من أن مشروعك منظم جيدًا للحصول على أفضل النتائج.",
@@ -231,7 +284,7 @@ namespace KNXBoostDesktop
                     _ => "Lors de l'importation d'un projet KNX dans KNX Boost Desktop, veuillez noter que la précision dans la correction des adresses de groupe dépend fortement de la qualité et de la structuration des données du projet. Si le projet KNX est mal structuré ou manque d'informations essentielles, le logiciel pourrait ne pas être en mesure de corriger les adresses de groupe de manière entièrement pertinente et fiable. Assurez-vous que votre projet est bien structuré pour obtenir les meilleurs résultats."
                 };
 
-                var caption = DisplayElements.SettingsWindow!.AppLang switch
+                var caption = DisplayElements?.SettingsWindow!.AppLang switch
                 {
                     // Arabe
                     "AR" => "معلومة هامة",
@@ -296,46 +349,6 @@ namespace KNXBoostDesktop
                 };
 
                 MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Information);
-
-            }
-            
-            // Appel au garbage collector pour nettoyer les variables issues 
-            GC.Collect();
-        }
-
-        
-        
-        // Fonction s'executant lorsque l'on ferme l'application
-        /// <summary>
-        /// Executes when the application is closing.
-        /// <para>
-        /// This method performs the following tasks:
-        /// <list type="bullet">
-        ///     <item>
-        ///         Logs the start of the application closing process.
-        ///     </item>
-        ///     <item>
-        ///         Calls the base class implementation of <see cref="OnExit"/> to ensure proper shutdown behavior.
-        ///     </item>
-        ///     <item>
-        ///         Logs the successful closure of the application.
-        ///     </item>
-        ///     <item>
-        ///         Closes the log file stream if it is open, to ensure all log entries are properly written.
-        ///     </item>
-        /// </list>
-        /// </para>
-        /// </summary>
-        /// <param name="e">An instance of <see cref="ExitEventArgs"/> that contains the event data.</param>
-        protected override void OnExit(ExitEventArgs e)
-        {
-            ConsoleAndLogWriteLine("-----------------------------------------------------------");
-            ConsoleAndLogWriteLine($"CLOSING {AppName.ToUpper()} APP...");
-            
-            base.OnExit(e);
-            
-            ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP CLOSED !");
-            _writer?.Close(); // Fermeture du stream d'ecriture des logs
         }
 
         
@@ -570,6 +583,7 @@ namespace KNXBoostDesktop
         }
     }
 }
+
 
 
 
