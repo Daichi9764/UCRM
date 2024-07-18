@@ -60,7 +60,7 @@ public partial class MainWindow
         Uri iconUri = new ("pack://application:,,,/resources/IconApp.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
-        UpdateWindowContents();
+        UpdateWindowContents(true, true, true);
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -85,21 +85,24 @@ public partial class MainWindow
     /// <summary>
     /// Updates the contents of the window, including theme, scaling, title and language.
     /// </summary>
-    public void UpdateWindowContents()
+    public void UpdateWindowContents(bool langChanged = false, bool themeChanged = false, bool scaleChanged = false)
     {
         // Traduction de la fenêtre principale
-        TranslateWindowContents();
+        if (langChanged) TranslateWindowContents();
 
         // Modifie le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
         SetWindowTitleToCurrentProject();
         
         // Applique le thème clair/sombre à la fenêtre
-        ApplyCurrentApplicationTheme();
+        if (themeChanged) ApplyCurrentApplicationTheme();
 
-        // Application de la mise à l'échelle de la fenêtre
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        if (scaleChanged)
         {
-            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            // Application de la mise à l'échelle de la fenêtre
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+            {
+                ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            }
         }
         
         const string filePath = "./runData.csv";
@@ -665,6 +668,9 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
+        //Cacher le bouton de Reload
+        ButtonReload.Visibility = Visibility.Hidden;
+        
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
@@ -1007,6 +1013,9 @@ public partial class MainWindow
     /// </summary>
     public async void ReloadProject(object sender, RoutedEventArgs e)
     {
+        //Cacher le bouton de Reload
+        ButtonReload.Visibility = Visibility.Hidden;
+
         App.ConsoleAndLogWriteLine("Reaload");
 
             // Créer et configurer la LoadingWindow
@@ -1054,6 +1063,7 @@ public partial class MainWindow
             ViewModel.IsProjectImported = true;
 
     }
+
     
 
     /// <summary>
@@ -1280,7 +1290,7 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-
+        
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {
@@ -1315,7 +1325,7 @@ public partial class MainWindow
             {
                 foreach (var entry in loadingTimes)
                 {
-                    writer.WriteLine($"{App.Fm?.ProjectName}," +
+                    writer.WriteLine($"{entry.ProjectName}," +
                                      $"{entry.AddressCount}," +
                                      $"{entry.DeviceCount}," +
                                      $"{entry.IsDeleted}," +
