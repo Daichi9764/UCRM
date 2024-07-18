@@ -3066,6 +3066,17 @@ namespace KNXBoostDesktop
             }
 
 
+            // Sauvegarde des anciens paramètres
+            var previousEnableDeeplTranslation = EnableDeeplTranslation;
+            var previousTranslationDestinationLang = TranslationDestinationLang;
+            var previousTranslationSourceLang = TranslationSourceLang;
+            var previousEnableAutomaticSourceLangDetection = EnableAutomaticSourceLangDetection;
+            var previousRemoveUnusedGroupAddresses = RemoveUnusedGroupAddresses;
+            var previousEnableLightTheme = EnableLightTheme;
+            var previousAppLang = AppLang;
+            var previousAppScaleFactor = AppScaleFactor;
+            var previousDeepLKey = DeeplKey;
+            
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
@@ -3080,28 +3091,33 @@ namespace KNXBoostDesktop
             // Mise à jour éventuellement du contenu pour update la langue du menu
             UpdateWindowContents();
 
-            // Mise à jour de l'échelle de toutes les fenêtres
-            var scaleFactor = AppScaleFactor / 100f;
-            if (scaleFactor <= 1f)
+            // Si on a modifié l'échelle dans les paramètres
+            if (AppScaleFactor != previousAppScaleFactor)
             {
-                ApplyScaling(scaleFactor-0.1f);
+                App.ConsoleAndLogWriteLine("On check la clé");
+                // Mise à jour de l'échelle de toutes les fenêtres
+                var scaleFactor = AppScaleFactor / 100f;
+                if (scaleFactor <= 1f)
+                {
+                    ApplyScaling(scaleFactor-0.1f);
+                }
+                else
+                {
+                    ApplyScaling(scaleFactor-0.2f);
+                }
+                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
             }
-            else
-            {
-                ApplyScaling(scaleFactor-0.2f);
-            }
-            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
 
             // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
 
             // Mise à jour de la fenêtre principale
-            App.DisplayElements.MainWindow.UpdateWindowContents();
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
 
             // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation)
+            if (EnableDeeplTranslation && DeeplKey != previousDeepLKey)
             {
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
@@ -3186,10 +3202,31 @@ namespace KNXBoostDesktop
                 }
             }
 
-            // Sauvegarde des paramètres dans le fichier appSettings
-            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-            SaveSettings();
-            App.ConsoleAndLogWriteLine("Settings saved successfully");
+            App.ConsoleAndLogWriteLine($"{previousEnableDeeplTranslation == EnableDeeplTranslation && 
+                                          previousTranslationDestinationLang == TranslationDestinationLang &&
+                                          previousTranslationSourceLang == TranslationSourceLang &&
+                                          previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
+                                          previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
+                                          previousEnableLightTheme == EnableLightTheme &&
+                                          previousAppLang == AppLang &&
+                                          previousAppScaleFactor == AppScaleFactor &&
+                                          previousDeepLKey == DeeplKey}");
+            
+            if (previousEnableDeeplTranslation == EnableDeeplTranslation && 
+                previousTranslationDestinationLang == TranslationDestinationLang &&
+                previousTranslationSourceLang == TranslationSourceLang &&
+                previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
+                previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
+                previousEnableLightTheme == EnableLightTheme &&
+                previousAppLang == AppLang &&
+                previousAppScaleFactor == AppScaleFactor &&
+                previousDeepLKey == DeeplKey)
+            {
+                // Sauvegarde des paramètres dans le fichier appSettings
+                App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
+                SaveSettings();
+                App.ConsoleAndLogWriteLine("Settings saved successfully");
+            }
 
             // Masquage de la fenêtre de paramètres
             Hide();       
