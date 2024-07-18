@@ -668,6 +668,9 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
+        //Cacher le bouton de Reload
+        ButtonReload.Visibility = Visibility.Hidden;
+        
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
@@ -1287,7 +1290,7 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-
+        
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {

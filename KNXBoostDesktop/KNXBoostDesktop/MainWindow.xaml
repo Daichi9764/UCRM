@@ -506,6 +506,7 @@
 
         <!-- Style pour le bouton reload -->
         <Style x:Key="ReloadButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ActivGreen}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -637,7 +638,6 @@
                         <Button x:Name="ButtonReload" Width="25" Height="25"
                             Click="ReloadProject"
                             Margin="0,0,10,0" 
-                            Background="{StaticResource ActivGreen}"
                             BorderThickness="0"
                             Padding="0"
                             Style="{StaticResource ReloadButton}"
