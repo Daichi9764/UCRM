@@ -17,6 +17,7 @@
 
 // ReSharper disable GrammarMistakeInComment
 
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -124,6 +125,9 @@ namespace KNXBoostDesktop
             _writer = new StreamWriter(LogPath);
 
             base.OnStartup(e);
+            
+            Process currentProcess = Process.GetCurrentProcess();
+            currentProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
 
             // Activation de l'auto-vidage du buffer du stream d'ecriture
             _writer.AutoFlush = true;

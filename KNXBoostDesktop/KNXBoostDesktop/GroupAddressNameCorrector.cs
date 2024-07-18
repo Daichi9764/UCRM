@@ -510,7 +510,7 @@ public class GroupAddressNameCorrector
                         infosExtracted = "Informations extraites du fichier.";
                         extractingDeviceReferences = "Extraction des références des appareils...";
                         extractingDeviceInfo = "Extraction des informations sur les appareils...\n(Cette étape peut prendre du temps)";
-                        infoAndReferencesExtracted = "Mise à jour des fichiers de deboggage...";
+                        infoAndReferencesExtracted = "Mise à jour des fichiers de débogage...";
                         constructingNewAddresses = "Construction des nouvelles adresses de groupe...";
                         suppressedAddresses = "Suppression des adresses non utilisées...";
                         savingUpdatedXml = "Sauvegarde du fichier XML mis à jour...";
