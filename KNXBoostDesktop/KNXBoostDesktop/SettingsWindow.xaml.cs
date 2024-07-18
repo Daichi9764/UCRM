@@ -3214,7 +3214,7 @@ namespace KNXBoostDesktop
             // Mise à jour de la fenêtre principale
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
-            //Faire apparaitre le bouton Reload
+            //Faire apparaitre le bouton Reload 
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
             {
                 var mainWindow = Application.Current.MainWindow as MainWindow;
