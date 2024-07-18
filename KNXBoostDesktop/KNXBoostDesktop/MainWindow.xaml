@@ -809,10 +809,6 @@
                                     </Image.Source>
                                 </Image>
                                 <TextBlock x:Name="TextBlockAdressesGauche" FontSize="12" FontWeight="Bold" Margin="0,10" />
-
-                                <!-- Buttons de la console -->
-                                <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
-
                             </StackPanel>
 
 

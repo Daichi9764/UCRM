@@ -3205,7 +3205,6 @@ namespace KNXBoostDesktop
                     ApplyScaling(scaleFactor-0.2f);
                 }
                 App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
                 App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
             }
 

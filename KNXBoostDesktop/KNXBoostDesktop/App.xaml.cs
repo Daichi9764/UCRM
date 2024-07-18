@@ -380,13 +380,6 @@ namespace KNXBoostDesktop
         public static void ConsoleAndLogWrite(string msg)
         {
             Console.Write(msg); // Ecriture du message dans la console
-            
-            // Si la fenetre de la console est ouverte, on scrolle tout en bas
-            if (DisplayElements is { ConsoleWindow.IsVisible: true })
-            {
-                DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
-            }
-            
             _writer?.Write(msg); // Ecriture du message dans le fichier logs
         }
 
@@ -415,13 +408,6 @@ namespace KNXBoostDesktop
         public static void ConsoleAndLogWriteLine(string msg)
         {
             Console.WriteLine($@"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans la console
-            
-            // Si la console est ouverte, on scrolle apres l'envoi du message pour etre ser d'afficher les derniers evenements
-            if (DisplayElements is { ConsoleWindow.IsVisible: true })
-            {
-                DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
-            }
-            
             _writer?.WriteLine($"[{DateTime.Now:dd/MM/yyyy - HH:mm:ss}] " + msg); // Ecriture du message dans le fichier logs
         }
 

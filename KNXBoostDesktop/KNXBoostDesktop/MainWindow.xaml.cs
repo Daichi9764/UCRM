@@ -1063,28 +1063,6 @@ public partial class MainWindow
             ViewModel.IsProjectImported = true;
 
     }
-
-    
-
-    /// <summary>
-    /// Handles the click event for the Open Console button.
-    /// Opens the console window and ensures it scrolls to the bottom to display the latest messages.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
-    {
-        if (App.DisplayElements == null) return;
-
-        App.ConsoleAndLogWriteLine("Opening console window");
-        App.DisplayElements.ShowConsoleWindow();
-
-        // Pour éviter qu'à la réouverture de la console, on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
-        if (App.DisplayElements.ConsoleWindow.IsVisible)
-        {
-            App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
-        }
-    }
     
     
     /// <summary>

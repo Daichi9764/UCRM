@@ -11,11 +11,6 @@
         public MainWindow MainWindow { get; } = new();
         
         /// <summary>
-        /// Represents the console window instance used for displaying application messages.
-        /// </summary>
-        public ConsoleWindow ConsoleWindow { get; } = new();
-        
-        /// <summary>
         /// Represents the settings window instance where application settings are configured.
         /// </summary>
         public SettingsWindow? SettingsWindow { get; } = new();
@@ -40,15 +35,7 @@
         {
             MainWindow.Show();
         }
-
         
-        /// <summary>
-        /// Shows the console window of the application.
-        /// </summary>
-        public void ShowConsoleWindow()
-        {
-            ConsoleWindow.Show();
-        }
         
         /// <summary>
         /// Shows the settings window of the application if it is available.
@@ -65,7 +52,7 @@
         {
             LoadingWindow?.Show();
         }
-        
+
         /// <summary>
         /// Shows the group address rename window, allowing the user to edit and confirm changes to a group address.
         /// </summary>

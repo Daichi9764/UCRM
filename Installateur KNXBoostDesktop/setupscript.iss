@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KNX Boost Desktop"
-#define MyAppVersion "1.7"
+#define MyAppVersion "1.9"
 #define MyAppPublisher "KNXBoostTeam"
 #define MyAppExeName "KNXBoostDesktop.exe"
 
