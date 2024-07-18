@@ -2878,7 +2878,7 @@ namespace KNXBoostDesktop
             // Menu debug
             ControlOnglet.BorderBrush = borderBrush;
             DebugPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
-            InformationsPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            InformationsGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             AddInfosOsCheckBox.Style = checkboxStyle;
             AddInfosHardCheckBox.Style = checkboxStyle;
             AddImportedFilesCheckBox.Style = checkboxStyle;
