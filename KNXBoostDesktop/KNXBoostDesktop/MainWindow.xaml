@@ -64,7 +64,7 @@
         <SolidColorBrush x:Key="InactivGreen" Color="#4a9b3c"/>
 
         <!-- Import pour rétracter les boutons Charger et Exporter -->
-        <local:WidthBelowThresholdConverter x:Key="WidthConverterCharger" Threshold="627" /> 
+        <local:WidthBelowThresholdConverter x:Key="WidthConverterCharger" Threshold="637" /> 
         <local:WidthBelowThresholdConverter x:Key="WidthConverterExport" Threshold="500" />
         <!-- Couleurs Arbres -->
         <Color x:Key="TreeViewSelectedColorLight">#369026</Color>

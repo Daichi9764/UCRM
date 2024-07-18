@@ -17,6 +17,7 @@
 
 // ReSharper disable GrammarMistakeInComment
 
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -39,12 +40,12 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the version of the application.
         /// </summary>
-        public const float AppVersion = 1.8f; // Version de l'application
+        public const float AppVersion = 1.9f; // Version de l'application
 
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 341;
+        public static readonly int AppBuild = 343;
         
         
         // Gestion des logs
@@ -124,6 +125,9 @@ namespace KNXBoostDesktop
             _writer = new StreamWriter(LogPath);
 
             base.OnStartup(e);
+            
+            var currentProcess = Process.GetCurrentProcess();
+            currentProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
 
             // Activation de l'auto-vidage du buffer du stream d'ecriture
             _writer.AutoFlush = true;
@@ -138,10 +142,10 @@ namespace KNXBoostDesktop
             DisplayElements = new DisplayElements();
 
             // Mise a jour de la fenetre de renommage des adresses de groupe
-            DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+            DisplayElements.GroupAddressRenameWindow.UpdateWindowContents(true, true, true);
 
             // Mise a jour de la fenetre principale (titre, langue, thème, ...)
-            DisplayElements.MainWindow.UpdateWindowContents();
+            DisplayElements.MainWindow.UpdateWindowContents(true, true, true);
 
             // Affichage de la fenêtre principale
             DisplayElements.ShowMainWindow();
@@ -443,7 +447,7 @@ namespace KNXBoostDesktop
         /// </summary>
         private static void ArchiveLogs()
         {
-            string logDirectory = @"./logs/"; // Chemin du dossier de logs
+            var logDirectory = @"./logs/"; // Chemin du dossier de logs
             
             try
             {
@@ -477,7 +481,7 @@ namespace KNXBoostDesktop
                     var zipFileName = Path.Combine(logDirectory, $"LogsArchive-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
 
                     // Creer l'archive zip et y ajouter les fichiers log
-                    using (ZipArchive zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
+                    using (var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
                     {
                         foreach (var logFile in logFiles)
                         {
@@ -583,6 +587,8 @@ namespace KNXBoostDesktop
         }
     }
 }
+
+
 
 
 

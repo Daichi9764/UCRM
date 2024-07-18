@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -18,7 +17,7 @@ namespace KNXBoostDesktop
         
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingWindow"/> class.
-        /// Sets up the progress bar and initializes the activities collection.
+        /// Sets up the progress bar and initializes the activity's collection.
         /// </summary>
         public LoadingWindow()
         {
@@ -182,21 +181,21 @@ namespace KNXBoostDesktop
 
     public class Activity : INotifyPropertyChanged
 {
-    private string text;
-    private bool isCompleted;
-    private string background;
-    private string foreground;
-    private string duration;
-    private DateTime startTime;
-    private DispatcherTimer timer;
-    private bool isInProgress;
+    private string _text = null!;
+    private bool _isCompleted;
+    private string _background = null!;
+    private string _foreground = null!;
+    private string _duration = null!;
+    private DateTime _startTime;
+    private DispatcherTimer _timer = null!;
+    private bool _isInProgress;
     
     public bool IsInProgress
     {
-        get => isInProgress;
-        set
+        get => _isInProgress;
+        init
         {
-            isInProgress = value;
+            _isInProgress = value;
             OnPropertyChanged(nameof(IsInProgress));
             OnPropertyChanged(nameof(IsInProgressVisibility)); // Met à jour la visibilité en fonction de IsInProgress
         }
@@ -207,20 +206,20 @@ namespace KNXBoostDesktop
 
     public string Text
     {
-        get => text;
+        get => _text;
         set
         {
-            text = value;
+            _text = value;
             OnPropertyChanged(nameof(Text));
         }
     }
 
     public bool IsCompleted
     {
-        get => isCompleted;
+        get => _isCompleted;
         set
         {
-            isCompleted = value;
+            _isCompleted = value;
             OnPropertyChanged(nameof(IsCompleted));
             OnPropertyChanged(nameof(IsCompletedVisibility)); // Met à jour la visibilité en fonction de IsCompleted
         }
@@ -228,58 +227,59 @@ namespace KNXBoostDesktop
 
     public string Background
     {
-        get => background;
+        get => _background;
         set
         {
-            background = value;
+            _background = value;
             OnPropertyChanged(nameof(Background));
         }
     }
 
     public string Foreground
     {
-        get => foreground;
+        get => _foreground;
         set
         {
-            foreground = value;
+            _foreground = value;
             OnPropertyChanged(nameof(Foreground));
         }
     }
 
     public string Duration
     {
-        get => duration;
+        get => _duration;
         set
         {
-            duration = value;
+            _duration = value;
             OnPropertyChanged(nameof(Duration));
         }
     }
 
     public DateTime StartTime
     {
-        get => startTime;
-        set
+        get => _startTime;
+        init
         {
-            startTime = value;
+            _startTime = value;
             OnPropertyChanged(nameof(StartTime));
         }
     }
 
     public DispatcherTimer Timer
     {
-        get => timer;
+        get => _timer;
         set
         {
-            timer = value;
+            _timer = value;
             OnPropertyChanged(nameof(Timer));
         }
     }
 
     public Visibility IsCompletedVisibility => IsCompleted ? Visibility.Visible : Visibility.Hidden;
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName)
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
@@ -290,14 +290,7 @@ namespace KNXBoostDesktop
         var elapsed = DateTime.Now - StartTime;
         
         // Affiche "00:00" si le temps écoulé est inférieur à une seconde
-        if (elapsed < TimeSpan.FromMilliseconds(100))
-        {
-            Duration = "00:00";
-        }
-        else
-        {
-            Duration = $"{(int)elapsed.TotalMinutes:D2}:{elapsed.Seconds:D2}";
-        }
+        Duration = elapsed < TimeSpan.FromMilliseconds(100) ? "00:00" : $"{(int)elapsed.TotalMinutes:D2}:{elapsed.Seconds:D2}";
     }
 
     // Méthode publique pour démarrer le suivi de la durée
@@ -307,7 +300,7 @@ namespace KNXBoostDesktop
         {
             Interval = TimeSpan.FromSeconds(1) // Mise à jour toutes les secondes
         };
-        Timer.Tick += (sender, args) =>
+        Timer.Tick += (_, _) =>
         {
             UpdateDuration(); // Met à jour la durée en temps réel
         };
@@ -320,7 +313,7 @@ namespace KNXBoostDesktop
     public void MarkComplete()
     {
         IsCompleted = true;
-        Timer?.Stop();
+        Timer.Stop();
         UpdateDuration(); // Met à jour la durée une dernière fois
     }
 }
@@ -335,7 +328,7 @@ namespace KNXBoostDesktop
         /// <param name="parameter">Additional parameters for the conversion.</param>
         /// <param name="culture">Culture information for the conversion.</param>
         /// <returns>A <see cref="Visibility"/> value based on the boolean value.</returns>
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
             if (value is bool && (bool)value)
             {
@@ -345,7 +338,7 @@ namespace KNXBoostDesktop
         }
 
         
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

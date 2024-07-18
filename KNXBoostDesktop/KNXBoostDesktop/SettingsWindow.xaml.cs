@@ -791,7 +791,7 @@ namespace KNXBoostDesktop
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
             
-            UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
+            UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
         }
 
 
@@ -888,11 +888,11 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Updates the contents (texts, textboxes, checkboxes, ...) of the settingswindow accordingly to the application settings.
         /// </summary>
-        private void UpdateWindowContents(bool isClosing = false)
+        private void UpdateWindowContents(bool isClosing = false, bool langChanged = false, bool themeChanged = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
 
-            if ((File.Exists("./emk")) && (!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+            if (File.Exists("./emk") && !isClosing) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -947,10 +947,10 @@ namespace KNXBoostDesktop
             ScaleSlider.Value = AppScaleFactor;
 
             // Traduction du menu settings
-            TranslateWindowContents();
-
+            if (langChanged) TranslateWindowContents();
+            
             // Application du thème
-            ApplyThemeToWindow();
+            if (themeChanged) ApplyThemeToWindow();
         }
 
 
@@ -996,7 +996,7 @@ namespace KNXBoostDesktop
                                             $"\nالبناء {App.AppBuild}" +
                                             $"\n" +
                                             $"\nبرنامج تم إنشاؤه كجزء من تدريب هندسي بواسطة طلاب INSA Toulouse:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nبإشراف:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1044,7 +1044,7 @@ namespace KNXBoostDesktop
                                             $"\nИзграждане {App.AppBuild}" +
                                             $"\n" +
                                             $"\nСофтуер, създаден като част от инженерно стаж от студенти на INSA Toulouse:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nПод наблюдението на:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1092,7 +1092,7 @@ namespace KNXBoostDesktop
                                             $"\nBuild {App.AppBuild}" +
                                             $"\n" +
                                             $"\nSoftware vytvořený jako součást inženýrského stáže studenty INSA Toulouse:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nPod dohledem:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1140,7 +1140,7 @@ namespace KNXBoostDesktop
                                             $"\nBuild {App.AppBuild}" +
                                             $"\n" +
                                             $"\nSoftware skabt som en del af en ingeniørpraktik af studerende fra INSA Toulouse:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nUnder vejledning af:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1199,7 +1199,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware im Rahmen eines Ingenieurpraktikums von Studenten der INSA Toulouse entwickelt:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnter der Aufsicht von:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1248,7 +1248,7 @@ namespace KNXBoostDesktop
                                             $"\nΚατασκευή {App.AppBuild}" +
                                             $"\n" +
                                             $"\nΛογισμικό που δημιουργήθηκε ως μέρος της μηχανικής πρακτικής από φοιτητές της INSA Toulouse:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nΥπό την επίβλεψη:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1307,7 +1307,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware developed as part of an engineering internship by students of INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder the supervision of:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1367,7 +1367,7 @@ namespace KNXBoostDesktop
                         $"\nCompilación {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware desarrollado como parte de una pasantía de ingeniería por estudiantes de INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nBajo la supervisión de:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1416,7 +1416,7 @@ namespace KNXBoostDesktop
                                             $"\nKoostamine {App.AppBuild}" +
                                             $"\n" +
                                             $"\nTarkvara, mille lõid osana inseneripraktikast INSA Toulouse üliõpilased:" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nJärelevalve all:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1475,7 +1475,7 @@ namespace KNXBoostDesktop
                         $"\nKokoelma {App.AppBuild}" +
                         $"\n" +
                         $"\nOhjelmisto kehitetty osana INSAn Toulousen insinööriharjoittelua:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nValvonnassa:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1535,7 +1535,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSzoftver az INSA Toulouse mérnöki szakmai gyakorlat keretében fejlesztett:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nFelügyelete alatt:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1595,7 +1595,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nPerangkat lunak dikembangkan sebagai bagian dari magang teknik oleh siswa INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nDi bawah pengawasan:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1655,7 +1655,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware sviluppato nell'ambito di uno stage di ingegneria da studenti dell'INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSotto la supervisione di:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1715,7 +1715,7 @@ namespace KNXBoostDesktop
                         $"\nビルド {App.AppBuild}" +
                         $"\n" +
                         $"\nINSAトゥールーズの学生によるエンジニアリングインターンシップの一環として開発されたソフトウェア:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n監督の下:" +
                         $"\nDidier BESSE（UCRM）" +
@@ -1775,7 +1775,7 @@ namespace KNXBoostDesktop
                         $"\n빌드 {App.AppBuild}" +
                         $"\n" +
                         $"\nINSA 툴루즈 학생들이 엔지니어링 인턴십의 일환으로 개발한 소프트웨어:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n감독 하에:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1832,7 +1832,7 @@ namespace KNXBoostDesktop
                         $"\nBūvēt {App.AppBuild}" +
                         $"\n" +
                         $"\nProgrammatūra izstrādāta INSA Toulouse inženierijas prakses ietvaros:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPārraudzīja:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1891,7 +1891,7 @@ namespace KNXBoostDesktop
                         $"\nKūrimas {App.AppBuild}" +
                         $"\n" +
                         $"\nPrograminė įranga sukurta INSA Toulouse inžinerijos praktikos metu:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPrižiūrėtojai:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1951,7 +1951,7 @@ namespace KNXBoostDesktop
                         $"\nBygg {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramvare laget som en del av et ingeniørpraksis ved INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder veiledning av:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2014,7 +2014,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware gemaakt in het kader van een ingenieursstage door studenten van INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nOnder supervisie van:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2074,7 +2074,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nOprogramowanie stworzone w ramach praktyk inżynierskich przez studentów INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod nadzorem:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2134,7 +2134,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware realizado no âmbito de um estágio de engenharia por estudantes da INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSob a supervisão de:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2191,7 +2191,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware creat în cadrul unui stagiu de inginerie la INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSub supravegherea lui:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2250,7 +2250,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftvér vytvorený v rámci inžinierskej stáže na INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod dohľadom:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2310,7 +2310,7 @@ namespace KNXBoostDesktop
                         $"\nIzgradnja {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramska oprema, izdelana v okviru inženirskega pripravništva na INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod nadzorom:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2373,7 +2373,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramvara utvecklad inom ramen för en ingenjörspraktik av studenter från INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder överinseende av:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2433,7 +2433,7 @@ namespace KNXBoostDesktop
                         $"\nYapı {App.AppBuild}" +
                         $"\n" +
                         $"\nINSA Toulouse öğrencileri tarafından bir mühendislik stajı kapsamında yapılan yazılım:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nGözetim altında:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2493,7 +2493,7 @@ namespace KNXBoostDesktop
                         $"\nЗбірка {App.AppBuild}" +
                         $"\n" +
                         $"\nПрограмне забезпечення розроблене в рамках інженерного стажування студентами INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nПід наглядом:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2553,7 +2553,7 @@ namespace KNXBoostDesktop
                         $"\nСборка {App.AppBuild}" +
                         $"\n" +
                         $"\nПрограммное обеспечение, разработанное в рамках инженерной стажировки студентами INSA Toulouse:" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nПод руководством:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2613,7 +2613,7 @@ namespace KNXBoostDesktop
                         $"\n构建 {App.AppBuild}" +
                         $"\n" +
                         $"\n由INSA Toulouse的学生在工程实习中开发的软件：" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n在以下人员的指导下：" +
                         $"\nDidier BESSE（UCRM）" +
@@ -2673,7 +2673,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nLogiciel réalisé dans le cadre d'un stage d'ingénierie par des étudiants de l'INSA Toulouse :" +
-                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
+                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSous la supervision de :" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2885,7 +2885,7 @@ namespace KNXBoostDesktop
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;
             OngletInformations.Foreground = textColorBrush;
-            InformationsText.Foreground = EnableLightTheme ? new SolidColorBrush(Colors.Black) : textColorBrush;
+            InformationsText.Foreground = textColorBrush;
 
             IncludeAddressListCheckBox.IsEnabled = (bool)AddImportedFilesCheckBox.IsChecked!;
 
@@ -3053,7 +3053,6 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            
             // Sauvegarde des anciens paramètres
             var previousEnableDeeplTranslation = EnableDeeplTranslation;
             var previousTranslationDestinationLang = TranslationDestinationLang;
@@ -3067,7 +3066,6 @@ namespace KNXBoostDesktop
             
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
@@ -3076,37 +3074,16 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
 
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-
-            // Si on a modifié l'échelle dans les paramètres
-            if (AppScaleFactor != previousAppScaleFactor)
+            var deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
+            
+            // Si on a activé la traduction deepl et que la clé a changé
+            if (EnableDeeplTranslation && deeplKeyChanged)
             {
-                App.ConsoleAndLogWriteLine("On check la clé");
-                // Mise à jour de l'échelle de toutes les fenêtres
-                var scaleFactor = AppScaleFactor / 100f;
-                if (scaleFactor <= 1f)
-                {
-                    ApplyScaling(scaleFactor-0.1f);
-                }
-                else
-                {
-                    ApplyScaling(scaleFactor-0.2f);
-                }
-                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
-            }
-
-            // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
-
-            // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents();
-
-            // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation && DeeplKey != previousDeepLKey)
-            {
+                App.ConsoleAndLogWriteLine("Clé a changé");
+                
+                // On récupère la nouvelle clé et on l'encrypte
+                DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
+                
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
                 GroupAddressNameCorrector.ValidDeeplKey = isValid;
@@ -3189,42 +3166,64 @@ namespace KNXBoostDesktop
                     UpdateWindowContents();
                 }
             }
-
-            App.ConsoleAndLogWriteLine($"{previousEnableDeeplTranslation == EnableDeeplTranslation && 
-                                          previousTranslationDestinationLang == TranslationDestinationLang &&
-                                          previousTranslationSourceLang == TranslationSourceLang &&
-                                          previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
-                                          previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
-                                          previousEnableLightTheme == EnableLightTheme &&
-                                          previousAppLang == AppLang &&
-                                          previousAppScaleFactor == AppScaleFactor &&
-                                          previousDeepLKey == DeeplKey}");
             
-            if (previousEnableDeeplTranslation == EnableDeeplTranslation && 
-                previousTranslationDestinationLang == TranslationDestinationLang &&
-                previousTranslationSourceLang == TranslationSourceLang &&
-                previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection &&
-                previousRemoveUnusedGroupAddresses == RemoveUnusedGroupAddresses &&
-                previousEnableLightTheme == EnableLightTheme &&
-                previousAppLang == AppLang &&
-                previousAppScaleFactor == AppScaleFactor &&
-                previousDeepLKey == DeeplKey)
+            // Si on a changé un des paramètres, on les sauvegarde. Sinon, inutile de réécrire le fichier.
+            if (previousEnableDeeplTranslation != EnableDeeplTranslation || 
+                previousTranslationDestinationLang != TranslationDestinationLang ||
+                previousTranslationSourceLang != TranslationSourceLang ||
+                previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection ||
+                previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
+                previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang || 
+                previousAppScaleFactor != AppScaleFactor ||
+                deeplKeyChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
             }
+            else
+            {
+                App.ConsoleAndLogWriteLine("Rien n'a changé on a pas save les paramètres");
+            }
+            
+            // Mise à jour éventuellement du contenu pour update la langue du menu
+            UpdateWindowContents(false, previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme);
+
+            // Si on a modifié l'échelle dans les paramètres
+            if (AppScaleFactor != previousAppScaleFactor)
+            {
+                App.ConsoleAndLogWriteLine("On check la clé");
+                // Mise à jour de l'échelle de toutes les fenêtres
+                var scaleFactor = AppScaleFactor / 100f;
+                if (scaleFactor <= 1f)
+                {
+                    ApplyScaling(scaleFactor-0.1f);
+                }
+                else
+                {
+                    ApplyScaling(scaleFactor-0.2f);
+                }
+                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+            }
+
+            // Mise à jour de la fenêtre de renommage des adresses de groupe
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
+
+            // Mise à jour de la fenêtre principale
+            App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             //Faire apparaitre le bouton Reload 
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
             {
-                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+                var mainWindow = Application.Current.MainWindow as MainWindow;
                 if (mainWindow != null) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
 
             // Masquage de la fenêtre de paramètres
-            Hide();       
+            Hide();
         }
 
 
@@ -3236,7 +3235,7 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+            UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
             Hide(); // Masquage de la fenêtre de paramétrage
         }
 
@@ -4220,30 +4219,13 @@ namespace KNXBoostDesktop
             {
                 // Si on appuie sur échap, on ferme la fenêtre et on annule les modifications
                 case Key.Escape:
-                    UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+                    UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
                     Hide(); // Masquage de la fenêtre de paramétrage
                     break;
 
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
                 case Key.Enter:
-                    // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-                    EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-                    DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-                    TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-                    RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
-                    EnableLightTheme = LightThemeComboBoxItem.IsSelected;
-                    AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-
-                    // Sauvegarde des paramètres dans le fichier appSettings
-                    App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-                    SaveSettings();
-                    App.ConsoleAndLogWriteLine("Settings saved successfully");
-
-                    // Mise à jour éventuellement du contenu pour update la langue du menu
-                    UpdateWindowContents();
-
-                    // Masquage de la fenêtre de paramètres
-                    Hide();
+                    SaveButtonClick(null!, null!);
                     break;
             }
         }

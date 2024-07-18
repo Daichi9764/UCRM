@@ -60,7 +60,7 @@ public partial class MainWindow
         Uri iconUri = new ("pack://application:,,,/resources/IconApp.ico", UriKind.RelativeOrAbsolute);
         Icon = BitmapFrame.Create(iconUri);
         
-        UpdateWindowContents();
+        UpdateWindowContents(true, true, true);
         
         LocationChanged += MainWindow_LocationChanged;
     }
@@ -85,21 +85,24 @@ public partial class MainWindow
     /// <summary>
     /// Updates the contents of the window, including theme, scaling, title and language.
     /// </summary>
-    public void UpdateWindowContents()
+    public void UpdateWindowContents(bool langChanged = false, bool themeChanged = false, bool scaleChanged = false)
     {
         // Traduction de la fenêtre principale
-        TranslateWindowContents();
+        if (langChanged) TranslateWindowContents();
 
         // Modifie le titre de la fenêtre pour afficher le projet sur lequel on travaille actuellement
         SetWindowTitleToCurrentProject();
         
         // Applique le thème clair/sombre à la fenêtre
-        ApplyCurrentApplicationTheme();
+        if (themeChanged) ApplyCurrentApplicationTheme();
 
-        // Application de la mise à l'échelle de la fenêtre
-        if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+        if (scaleChanged)
         {
-            ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            // Application de la mise à l'échelle de la fenêtre
+            if (App.DisplayElements != null && App.DisplayElements.SettingsWindow != null)
+            {
+                ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
+            }
         }
         
         const string filePath = "./runData.csv";
@@ -980,11 +983,11 @@ public partial class MainWindow
             loadingTimes?.Add(new LoadingTimeEntry
             {
                 ProjectName = App.Fm.ProjectName,
-                AddressCount = GroupAddressNameCorrector.totalAddresses,
-                DeviceCount = GroupAddressNameCorrector.totalDevices,
+                AddressCount = GroupAddressNameCorrector.TotalAddresses,
+                DeviceCount = GroupAddressNameCorrector.TotalDevices,
                 IsDeleted = App.DisplayElements.SettingsWindow != null &&
                             (bool)App.DisplayElements.SettingsWindow.RemoveUnusedAddressesCheckBox.IsChecked!,
-                DeletedAddresses = GroupAddressNameCorrector.totalDeletedAddresses,
+                DeletedAddresses = GroupAddressNameCorrector.TotalDeletedAddresses,
                 IsTranslated = App.DisplayElements.SettingsWindow != null && 
                                (bool)App.DisplayElements.SettingsWindow.EnableTranslationCheckBox.IsChecked!,
                 TotalLoadingTime = finalElapsedTime
@@ -1019,7 +1022,7 @@ public partial class MainWindow
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
 
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             // Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
@@ -1027,7 +1030,7 @@ public partial class MainWindow
             {
                 while (stopwatch.IsRunning)
                 {
-                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    var elapsedTime = stopwatch.Elapsed;
                     // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
                     Application.Current.Dispatcher.Invoke(() =>
                     {
@@ -1043,7 +1046,7 @@ public partial class MainWindow
             HideOverlay();
 
             stopwatch.Stop();
-            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+            var finalElapsedTime = stopwatch.Elapsed;
 
             // Mise à jour finale de l'affichage
             Application.Current.Dispatcher.Invoke(() =>
@@ -1092,13 +1095,13 @@ public partial class MainWindow
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
         string sourceFilePath ;
-        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+        if (App.DisplayElements!.SettingsWindow!.RemoveUnusedGroupAddresses)
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
         }
         else
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml";
         }
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
@@ -1112,7 +1115,7 @@ public partial class MainWindow
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Title = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
@@ -1177,7 +1180,7 @@ public partial class MainWindow
             },
             FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
-            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Filter = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
@@ -2465,7 +2468,7 @@ public partial class MainWindow
 
         parentItems.Add(treeNode);
         // Parcourir récursivement les enfants
-        int childIndex = 0;
+        var childIndex = 0;
         foreach (XmlNode childNode in xmlNode.ChildNodes)
         {
             AddNodeRecursively(childNode, treeNode.Items, level + 1, childIndex++);

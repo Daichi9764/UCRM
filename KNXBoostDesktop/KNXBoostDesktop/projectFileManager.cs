@@ -557,7 +557,7 @@ namespace KNXBoostDesktop
             try
             {
                 // Créer une nouvelle instance de OpenFileDialog
-                OpenFileDialog openFileDialog = new OpenFileDialog
+                var openFileDialog = new OpenFileDialog
                 {
                     // Définir des propriétés optionnelles
                     Title = "Sélectionnez un projet KNX à importer",
@@ -567,7 +567,7 @@ namespace KNXBoostDesktop
                 };
 
                 // Afficher la boîte de dialogue et vérifier si l'utilisateur a sélectionné un fichier
-                bool? result = openFileDialog.ShowDialog();
+                var result = openFileDialog.ShowDialog();
 
                 if (result == true)
                 {
@@ -631,12 +631,12 @@ namespace KNXBoostDesktop
 
             while (directoriesQueue.Count > 0)
             {
-                string currentDirectory = directoriesQueue.Dequeue();
+                var currentDirectory = directoriesQueue.Dequeue();
                 try
                 {
                     // Vérifier les fichiers dans le répertoire actuel
                     string[] files = Directory.GetFiles(currentDirectory);
-                    foreach (string file in files)
+                    foreach (var file in files)
                     {
                         if (Path.GetFileName(file).Equals(fileNameToSearch, StringComparison.OrdinalIgnoreCase))
                         {
@@ -646,7 +646,7 @@ namespace KNXBoostDesktop
 
                     // Ajouter les sous-répertoires à la file d'attente
                     string[] subDirectories = Directory.GetDirectories(currentDirectory);
-                    foreach (string subDirectory in subDirectories)
+                    foreach (var subDirectory in subDirectories)
                     {
                         directoriesQueue.Enqueue(subDirectory);
                     }
@@ -1193,9 +1193,9 @@ namespace KNXBoostDesktop
                         writer.WriteLine("-- Informations sur la mémoire physique (RAM) --");
                         try
                         {
-                            ObjectQuery wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-                            ManagementObjectSearcher searcher = new ManagementObjectSearcher(wql);
-                            ManagementObjectCollection results = searcher.Get();
+                            var wql = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
+                            var searcher = new ManagementObjectSearcher(wql);
+                            var results = searcher.Get();
 
                             foreach (var o in results)
                             {
@@ -1857,7 +1857,7 @@ namespace KNXBoostDesktop
             {
                 // Convertir en DateTime
                 return DateTime.TryParseExact(datePart, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None,
-                    out DateTime date)
+                    out var date)
                     ? date.ToString("dd/MM/yyyy")
                     : "Date invalide";
             }
