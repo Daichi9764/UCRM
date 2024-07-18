@@ -46,7 +46,7 @@ public static class GroupAddressNameCorrector
 
     /// <summary>
     /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
-    /// ComObject instance reference ID, ReadFlag found, and WriteFlag found.
+    /// ComObject instance reference ID, ReadFlag found, WriteFlag found, and TransmitFalg Found.
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> ObjectTypeCache = new();
     
@@ -632,6 +632,7 @@ public static class GroupAddressNameCorrector
                             }
                             var readFlag = cir.Attribute("ReadFlag")?.Value;
                             var writeFlag = cir.Attribute("WriteFlag")?.Value;
+                            var transmitFlag = cir.Attribute("TransmitFlag")?.Value;
 
                             return links.Select((link, index) => new
                             {
@@ -640,7 +641,8 @@ public static class GroupAddressNameCorrector
                                 ComObjectInstanceRefId = comObjectInstanceRefId,
                                 IsFirstLink = index == 0,
                                 ReadFlag = readFlag,
-                                WriteFlag = writeFlag
+                                WriteFlag = writeFlag,
+                                TransmitFlag = transmitFlag 
                             });
                         });
 
@@ -680,7 +682,8 @@ public static class GroupAddressNameCorrector
                     g.ComObjectInstanceRefId,
                     g.ReadFlag,
                     g.WriteFlag,
-                    ObjectType = GetObjectType(hardwareFileName ?? string.Empty, mxxxxDirectory ?? string.Empty, g.ComObjectInstanceRefId ?? string.Empty, g.ReadFlag ?? string.Empty, g.WriteFlag ?? string.Empty)
+                    g.TransmitFlag,
+                    ObjectType = GetObjectType(hardwareFileName ?? string.Empty, mxxxxDirectory ?? string.Empty, g.ComObjectInstanceRefId ?? string.Empty, g.ReadFlag ?? string.Empty, g.WriteFlag ?? string.Empty, g.TransmitFlag ?? string.Empty)
                 });
             }).ToList();
 
@@ -968,13 +971,13 @@ public static class GroupAddressNameCorrector
     }
 
     
-    // Method that retrieves the ReadFlag and WriteFlag associated with a participant to determine its ObjectType (Cmd/Ie)
+    // Method that retrieves the ReadFlag,  WriteFlag and TransmitFlag associated with a participant to determine its ObjectType (Cmd/Ie)
     /// <summary>
-    /// Retrieves the object type based on the ReadFlag and WriteFlag values from a hardware XML file.
+    /// Retrieves the object type based on the ReadFlag,  WriteFlag and TransmitFlag values from a hardware XML file.
     /// This method constructs the path to the hardware XML file located in the specified directory and attempts
     /// to locate the ComObjectRef element with a matching ID based on the provided ComObjectInstanceRefId.
-    /// If the ReadFlag or WriteFlag attributes are not found in ComObjectRef, it checks the ComObject element.
-    /// The object type ("Cmd" or "Ie") is determined based on the combination of ReadFlag and WriteFlag values.
+    /// If the ReReadFlag,  WriteFlag or TransmitFlag attributes are not found in ComObjectRef, it checks the ComObject element.
+    /// The object type ("Cmd" or "Ie") is determined based on the combination of ReadFlag,  WriteFlag and TransmitFlag values.
     /// If errors occur during file or directory access, XML parsing, or if the expected elements or attributes
     /// are not found, the method logs an error and returns an empty string.
     /// 
@@ -983,16 +986,17 @@ public static class GroupAddressNameCorrector
     /// <param name="comObjectInstanceRefId">The reference ID of the ComObjectInstance to locate in the XML file.</param>
     /// <param name="readFlagFound">The initial value of the read flag if available.</param>
     /// <param name="writeFlagFound">The initial value of the write flag if available.</param>
+    /// <param name="transmitFlagFound">The initial value of the transmit flag if available.</param>
     /// <returns>
-    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag and WriteFlag attributes, or an empty string if
+    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag,  WriteFlag and TransmitFlag attributes, or an empty string if
     /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
     /// </returns>
     /// </summary>
     [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
-    private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId, string readFlagFound, string writeFlagFound)
+    private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId, string readFlagFound, string writeFlagFound, string transmitFlagFound)
     {
         // Construct a unique key for the cache based on the function parameters
-        var cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}";
+        var cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}_{transmitFlagFound}";
 
         // Check if the result is already in the cache
         if (ObjectTypeCache.TryGetValue(cacheKey, out var cacheResult))
@@ -1007,7 +1011,8 @@ public static class GroupAddressNameCorrector
         {
             var readFlag = readFlagFound;
             var writeFlag = writeFlagFound;
-            if (string.IsNullOrEmpty(readFlag) || string.IsNullOrEmpty(writeFlag))
+            var transmitFlag = transmitFlagFound;
+            if (string.IsNullOrEmpty(readFlag) || string.IsNullOrEmpty(writeFlag)||string.IsNullOrEmpty(transmitFlag))
             {
                 // Check if the Mxxxx directory exists
                 if (!Directory.Exists(mxxxxDirectoryPath))
@@ -1052,9 +1057,10 @@ public static class GroupAddressNameCorrector
                 App.ConsoleAndLogWriteLine($"Found ComObjectRef with Id ending in: {comObjectInstanceRefId}");
                 if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectRefElement.Attribute("ReadFlag")?.Value;
                 if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectRefElement.Attribute("WriteFlag")?.Value;
+                if (string.IsNullOrEmpty(transmitFlag)) transmitFlag = comObjectRefElement.Attribute("TransmitFlag")?.Value;
 
-                // If ReadFlag or WriteFlag are not found in ComObjectRef, check in ComObject
-                if (readFlag == null || writeFlag == null)
+                // If ReadFlag, WriteFlag or TransmitFlag are not found in ComObjectRef, check in ComObject
+                if (readFlag == null || writeFlag == null || transmitFlag == null)
                 {
                     var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
                         comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
@@ -1074,10 +1080,11 @@ public static class GroupAddressNameCorrector
                         // ??= is used to assert the expression if the variable is null
                         if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
                         if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
+                        if (string.IsNullOrEmpty(transmitFlag)) transmitFlag = comObjectElement.Attribute("TransmitFlag")?.Value;
                     }
                 }
             }        
-            App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
+            App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}, TransmitFlag : {transmitFlag}");
                
             // Determine the ObjectType based on the ReadFlag and WriteFlag values
             string result;
@@ -1092,6 +1099,10 @@ public static class GroupAddressNameCorrector
             else if (writeFlag == "Enabled" && readFlag == "Enabled")
             {
                 result = "Cmd";
+            }
+            else if (transmitFlag == "Enabled" && writeFlag == "Disabled")
+            {
+                result = "Ie";
             }
             else
             {
@@ -1820,17 +1831,52 @@ public static class GroupAddressNameCorrector
         var (match, value) = AsCircuitInPreviousName(nameAttrValue);
         if (location == null)
         {
-            // Default location details if no location information is found
+            // If no location information is found, add the original name without cmd, cde or ie 
             App.ConsoleAndLogWriteLine("No location found");
             
-            nameLocation = $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
-            
-            //Add circuit part to the name if it exists
-            if (match)
-            { 
-                nameLocation += "_" + value;
+            string[] splitNameAttr = nameAttrValue.Split(' ');
+            string result = "";
+            string[] wordsToRemove = ["cmd", "cde", "ie"];
+
+            foreach (var part in splitNameAttr)
+            {
+                bool shouldRemove = false;
+                foreach (var word in wordsToRemove)
+                {
+                    if (part.Equals(word, StringComparison.OrdinalIgnoreCase))
+                    {
+                        shouldRemove = true;
+                        break;
+                    }
+                }
+
+                if (!shouldRemove)
+                {
+                    result += part + " ";
+                }
             }
 
+            // Remove extra spaces created by removing words
+            result = result.Trim();
+            nameLocation = "_";
+            bool lastWasSpace = false;
+
+            foreach (char c in result)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    if (!lastWasSpace)
+                    {
+                        nameLocation += c;
+                        lastWasSpace = true;
+                    }
+                }
+                else
+                {
+                    nameLocation += c;
+                    lastWasSpace = false;
+                }
+            }
 
             return nameLocation;
 
