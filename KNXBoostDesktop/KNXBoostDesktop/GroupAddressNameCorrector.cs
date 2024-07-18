@@ -9,7 +9,7 @@ using DeepL;
 namespace KNXBoostDesktop;
 
 
-public class GroupAddressNameCorrector
+public static class GroupAddressNameCorrector
 {
     /* ------------------------------------------------------------------------------------------------
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
@@ -37,7 +37,7 @@ public class GroupAddressNameCorrector
     /// <summary>
     /// Formatter to use when calling CorrectName()
     /// </summary>
-    private static Formatter _formatter;
+    private static Formatter _formatter = null!;
    
     /// <summary>
     /// Collection to memorize translations of group names already done.
@@ -65,9 +65,9 @@ public class GroupAddressNameCorrector
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
-    public static int totalDevices;
-    public static int totalAddresses;
-    public static int totalDeletedAddresses;
+    public static int TotalDevices;
+    public static int TotalAddresses;
+    public static int TotalDeletedAddresses;
     
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -530,7 +530,7 @@ public class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.LogActivity(loadXml);
             
             // Load the XML file from the specified path
-            XDocument? knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
+            var knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             if (knxDoc == null) return;
             
             // Create a formatter object for normalizing names
@@ -588,12 +588,12 @@ public class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
-            totalDevices = 0;
+            TotalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
             {
-                totalDevices += loc.DeviceRefs.Count;
-                string message = string.Empty;
+                TotalDevices += loc.DeviceRefs.Count;
+                var message = string.Empty;
                 if (loc.DistributionBoardName != string.Empty)
                 {
                     message = $"Distribution Board Name : {loc.DistributionBoardName} ";
@@ -623,11 +623,11 @@ public class GroupAddressNameCorrector
                         .Where(cir => cir.Attribute("Links") != null)
                         .SelectMany(cir =>
                         {
-                            var links = cir.Attribute("Links")?.Value.Split(' ') ?? new string[0];
+                            var links = cir.Attribute("Links")?.Value.Split(' ') ?? [];
                             var comObjectInstanceRefId = cir.Attribute("RefId")?.Value;
                             if (comObjectInstanceRefId != null && !comObjectInstanceRefId.StartsWith("O-") && comObjectInstanceRefId.Contains("O-"))
                             {
-                                int index = comObjectInstanceRefId.IndexOf("O-", StringComparison.Ordinal);
+                                var index = comObjectInstanceRefId.IndexOf("O-", StringComparison.Ordinal);
                                 comObjectInstanceRefId = comObjectInstanceRefId.Substring(index);
                             }
                             var readFlag = cir.Attribute("ReadFlag")?.Value;
@@ -790,7 +790,7 @@ public class GroupAddressNameCorrector
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
-            totalAddresses = groupedDeviceRefs.Count;
+            TotalAddresses = groupedDeviceRefs.Count;
             var totalGroup = groupedDeviceRefs.Count;
             var countGroup = 1;
             
@@ -817,7 +817,7 @@ public class GroupAddressNameCorrector
                 
                 // Find the GroupAddress element that matches the device's GroupAddressRef
                 var groupAddressElement = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
-                    .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceUsed?.GroupAddressRef) == true);
+                    .FirstOrDefault(ga => ga.Attribute("Id")?.Value.EndsWith(deviceUsed?.GroupAddressRef!) == true);
 
                 if (groupAddressElement == null)
                 {
@@ -839,7 +839,7 @@ public class GroupAddressNameCorrector
                     .FirstOrDefault(loc => loc.DeviceRefs
                         .Any(deviceRef => gdr.Devices
                             .Any(dr => dr.IsDeviceRailMounted == false && dr.DeviceInstanceId == deviceRef)));
-                string deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
+                var deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
                 
                 // Parcourir toutes les localisations liées à un device pour trouver une correspondance avec nameAttr
                 foreach (var device in gdr.Devices)
@@ -858,18 +858,18 @@ public class GroupAddressNameCorrector
                     location = locationInfo
                         .FirstOrDefault(loc => loc.DeviceRefs
                             .Any(deviceRef => gdr.Devices
-                                .Any(dr => dr.IsDeviceRailMounted == true && dr.DeviceInstanceId == deviceRef)));
+                                .Any(dr => dr.IsDeviceRailMounted && dr.DeviceInstanceId == deviceRef)));
                     deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
 
                 }
                     
-                string nameLocation = GetLocationName(location, nameAttr.Value, deviceLocated);
+                var nameLocation = GetLocationName(location!, nameAttr.Value, deviceLocated);
                     
                 // Determine the nameObjectType based on the available device references
-                string nameObjectType =
-                    DetermineNameObjectType(deviceRailMounted, deviceRefObjectType, nameAttr.Value);
+                var nameObjectType =
+                    DetermineNameObjectType(deviceRailMounted!, deviceRefObjectType!, nameAttr.Value);
 
-                string nameFunction = GetGroupRangeFunctionName(groupAddressElement);
+                var nameFunction = GetGroupRangeFunctionName(groupAddressElement);
                     
                 // Construct the new name by combining the object type, function, and location
                 var newName = nameObjectType + nameFunction + nameLocation;
@@ -885,11 +885,11 @@ public class GroupAddressNameCorrector
             }
             
             // Load the original XML file without any additional modifications
-            XDocument? originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
+            var originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             
             //Duplicate the knxDoc for the unused addresses
 
-            XDocument baseKnxDoc = new XDocument(knxDoc);
+            var baseKnxDoc = new XDocument(knxDoc);
 
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
@@ -897,11 +897,11 @@ public class GroupAddressNameCorrector
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
-                await using StreamWriter writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
+                await using var writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
                 await writer.WriteLineAsync("Deleted addresses :");
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 
-                totalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
+                TotalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var countAddressesUnused = 1;
                 foreach (var groupAddress in allGroupAddresses)
@@ -913,7 +913,7 @@ public class GroupAddressNameCorrector
                         App.DisplayElements?.LoadingWindow?.UpdateLogActivity(10, suppressedAddresses + $" ({countAddressesUnused++}/{totalAddressesUnused})");
 
                         var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                        string msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
+                        var msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
                         var ancestorGroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                         if (ancestorGroupElement != null)
                         {
@@ -931,7 +931,7 @@ public class GroupAddressNameCorrector
                             .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
                         if (correspondingGroupAddressInBaseKnxDoc != null)
                         {
-                            correspondingGroupAddressInBaseKnxDoc.Attribute("Name").Value = "*" + correspondingGroupAddressInBaseKnxDoc.Attribute("Name").Value;
+                            correspondingGroupAddressInBaseKnxDoc.Attribute("Name")!.Value = "*" + correspondingGroupAddressInBaseKnxDoc.Attribute("Name")?.Value;
                         }
                         
                         // Delete it in knxDoc
@@ -958,7 +958,7 @@ public class GroupAddressNameCorrector
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
                 App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}0_original.xml");
-                App.Fm?.SaveXml(baseKnxDoc, $"{App.Fm.ProjectFolderPath}0_updatedUnusedAddresses.xml");
+                App.Fm?.SaveXml(baseKnxDoc!, $"{App.Fm.ProjectFolderPath}0_updatedUnusedAddresses.xml");
             }
         }
         catch (Exception ex)
@@ -992,16 +992,16 @@ public class GroupAddressNameCorrector
     private static string GetObjectType(string hardwareFileName, string mxxxxDirectory, string comObjectInstanceRefId, string readFlagFound, string writeFlagFound)
     {
         // Construct a unique key for the cache based on the function parameters
-        string cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}";
+        var cacheKey = $"{hardwareFileName}_{mxxxxDirectory}_{comObjectInstanceRefId}_{readFlagFound}_{writeFlagFound}";
 
         // Check if the result is already in the cache
-        if (ObjectTypeCache.TryGetValue(cacheKey, out string cacheResult))
+        if (ObjectTypeCache.TryGetValue(cacheKey, out var cacheResult))
         {
             return cacheResult;
         }
         
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
+        var mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
 
         try
         {
@@ -1017,13 +1017,13 @@ public class GroupAddressNameCorrector
                 }
 
                 // Construct the full path to the hardware file
-                string filePath = Path.Combine(mxxxxDirectoryPath, hardwareFileName);
+                var filePath = Path.Combine(mxxxxDirectoryPath, hardwareFileName);
 
                 // Check if the hardware file exists
                 if (!File.Exists(filePath))
                 {
                     App.ConsoleAndLogWriteLine($"File not found: {filePath}");
-                    string newFilePath = Path.Combine(mxxxxDirectoryPath,FormatNewFileName(comObjectInstanceRefId, hardwareFileName));
+                    var newFilePath = Path.Combine(mxxxxDirectoryPath,FormatNewFileName(comObjectInstanceRefId, hardwareFileName));
 
                     if (!File.Exists(newFilePath))
                     {
@@ -1037,7 +1037,7 @@ public class GroupAddressNameCorrector
                 App.ConsoleAndLogWriteLine($"Opening file: {filePath}");
 
                 // Load the XML file
-                XDocument? hardwareDoc = App.Fm?.LoadXmlDocument(filePath);
+                var hardwareDoc = App.Fm?.LoadXmlDocument(filePath);
                     
                 // Find the ComObject element with the matching ID
                 var comObjectRefElement = hardwareDoc?.Descendants(_globalKnxNamespace + "ComObjectRef")
@@ -1058,20 +1058,23 @@ public class GroupAddressNameCorrector
                 {
                     var comObjectInstanceRefIdCut = comObjectInstanceRefId.IndexOf('_') >= 0 ? 
                         comObjectInstanceRefId.Substring(0,comObjectInstanceRefId.IndexOf('_')) : null;
-                            
-                    var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
-                        .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
-                    if (comObjectElement == null)
-                    {
-                        App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
-                        return string.Empty;
-                    }
 
-                    App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
+                    if (hardwareDoc != null)
+                    {
+                        var comObjectElement = hardwareDoc.Descendants(_globalKnxNamespace + "ComObject")
+                            .FirstOrDefault(co => comObjectInstanceRefIdCut != null && co.Attribute("Id")?.Value.EndsWith(comObjectInstanceRefIdCut) == true);
+                        if (comObjectElement == null)
+                        {
+                            App.ConsoleAndLogWriteLine($"ComObject with Id ending in: {comObjectInstanceRefIdCut} not found in file: {filePath}");
+                            return string.Empty;
+                        }
+
+                        App.ConsoleAndLogWriteLine($"Found ComObject with Id ending in: {comObjectInstanceRefIdCut}");
                                 
-                    // ??= is used to assert the expression if the variable is null
-                    if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
-                    if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
+                        // ??= is used to assert the expression if the variable is null
+                        if (string.IsNullOrEmpty(readFlag)) readFlag = comObjectElement.Attribute("ReadFlag")?.Value;
+                        if (string.IsNullOrEmpty(writeFlag)) writeFlag = comObjectElement.Attribute("WriteFlag")?.Value;
+                    }
                 }
             }        
             App.ConsoleAndLogWriteLine($"ReadFlag: {readFlag}, WriteFlag: {writeFlag}");
@@ -1143,29 +1146,31 @@ public class GroupAddressNameCorrector
     private static string FormatNewFileName(string comObjectInstanceRefId, string hardwareFileName)
     {
         // Check if the filename has already been formatted and cached
-        if (NewFileNameCache.TryGetValue(hardwareFileName, out string cachedResult))
+        if (NewFileNameCache.TryGetValue(hardwareFileName, out var cachedResult))
         {
             return cachedResult;
         }
 
-        XDocument? knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
+        var knxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
         if (knxDoc == null) return string.Empty;
         
         // Determine the part to remove (starts with "M-" and ends with "_A")
-        string prefixToRemove = "M-"; // Fixed part before the number
-        string suffixToRemove = "_A"; // Fixed part after the number
+        var prefixToRemove = "M-"; // Fixed part before the number
+        var suffixToRemove = "_A"; // Fixed part after the number
 
         // Find the index where the number starts (after "M-")
-        int startIndex = hardwareFileName.IndexOf(prefixToRemove) + prefixToRemove.Length;
+        // ReSharper disable once StringIndexOfIsCultureSpecific.1
+        var startIndex = hardwareFileName.IndexOf(prefixToRemove) + prefixToRemove.Length;
 
         // Find the index where the number ends (just before "_A")
-        int endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex);
+        // ReSharper disable once StringIndexOfIsCultureSpecific.2
+        var endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex);
 
         // Extract the number part
-        string numberPart = hardwareFileName.Substring(startIndex, endIndex - startIndex);
+        var numberPart = hardwareFileName.Substring(startIndex, endIndex - startIndex);
 
         // Remove the prefix and suffix
-        string cleanedFileName = hardwareFileName.Replace(prefixToRemove + numberPart + suffixToRemove, "");
+        var cleanedFileName = hardwareFileName.Replace(prefixToRemove + numberPart + suffixToRemove, "");
 
         // Remove the .xml extension
         cleanedFileName = cleanedFileName.Replace(".xml", "");
@@ -1174,14 +1179,14 @@ public class GroupAddressNameCorrector
         IEnumerable<XElement> comObject = knxDoc.Descendants(_globalKnxNamespace + "ComObjectInstanceRef")
             .Where(cir => cir.Attribute("RefId")?.Value == comObjectInstanceRefId);
 
-        string parameterRefId = comObject.Ancestors(_globalKnxNamespace + "DeviceInstance").FirstOrDefault(co => co.Attribute("Hardware2ProgramRefId") != null &&
-                co.Attribute("Hardware2ProgramRefId").Value.EndsWith(cleanedFileName))
+        var parameterRefId = comObject.Ancestors(_globalKnxNamespace + "DeviceInstance").FirstOrDefault(co => co.Attribute("Hardware2ProgramRefId") != null &&
+                co.Attribute("Hardware2ProgramRefId")!.Value.EndsWith(cleanedFileName))
             ?.Descendants(_globalKnxNamespace + "ParameterInstanceRef").Attributes("RefId").FirstOrDefault()?.Value ?? string.Empty;
         
         // Split parameterRefId based on "_P" and get the first part
         string[] parts = parameterRefId.Split(new[] { "_P" }, StringSplitOptions.None);
                     
-        string formattedFileName = $"{parts[0]}.xml";
+        var formattedFileName = $"{parts[0]}.xml";
 
         // Cache the result for future use with this hardwareFileName
         NewFileNameCache[hardwareFileName] = formattedFileName;
@@ -1266,19 +1271,19 @@ public class GroupAddressNameCorrector
     private static bool GetIsDeviceRailMounted(string productRefId, string mxxxxDirectory)
     {
         // Construct a unique key for the cache based on the function parameters
-        string cacheKey = $"{productRefId}_{mxxxxDirectory}";
+        var cacheKey = $"{productRefId}_{mxxxxDirectory}";
 
         // Check if the result is already in the cache
-        if (IsDeviceRailMountedCache.TryGetValue(cacheKey, out bool cachedResult))
+        if (IsDeviceRailMountedCache.TryGetValue(cacheKey, out var cachedResult))
         {
             return cachedResult;
         }
         
         // Construct the full path to the Mxxxx directory
-        string mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
+        var mxxxxDirectoryPath = Path.Combine(_projectFilesDirectory, mxxxxDirectory);
         
         // Construct the full path to the Hardware.xml file
-        string hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
+        var hardwareFilePath = Path.Combine(mxxxxDirectoryPath, "Hardware.xml");
         
         //Check if the Directory exists
         if (!Directory.Exists(mxxxxDirectoryPath))
@@ -1296,7 +1301,7 @@ public class GroupAddressNameCorrector
         
         
         // Load the Hardware.xml file
-        XDocument? hardwareDoc = App.Fm?.LoadXmlDocument(hardwareFilePath);
+        var hardwareDoc = App.Fm?.LoadXmlDocument(hardwareFilePath);
 
         // Find the Product element with the matching ID
         var productElement = hardwareDoc?.Descendants(_globalKnxNamespace + "Product")
@@ -1317,7 +1322,7 @@ public class GroupAddressNameCorrector
         }
 
         // Convert the attribute value to boolean
-        string isRailMountedValue = isRailMountedAttr.Value.ToLower();
+        var isRailMountedValue = isRailMountedAttr.Value.ToLower();
         bool result;
         if (isRailMountedValue == "true" || isRailMountedValue == "1")
         { 
@@ -1355,17 +1360,17 @@ public class GroupAddressNameCorrector
     {
         try
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
             // Load XML file
             doc.Load(zeroXmlFilePath);
 
             // Check the existence of the namespace in the root element
-            XmlElement? root = doc.DocumentElement;
+            var root = doc.DocumentElement;
             if (root != null)
             {
                 // Get the namespace
-                string xmlns = root.GetAttribute("xmlns");
+                var xmlns = root.GetAttribute("xmlns");
                 if (!string.IsNullOrEmpty(xmlns))
                 {
                     _globalKnxNamespace = XNamespace.Get(xmlns);
@@ -1820,7 +1825,7 @@ public class GroupAddressNameCorrector
             
             nameLocation = $"_{_formatter.Format("Bâtiment")}_{_formatter.Format("Facade XX")}_{_formatter.Format("Etage")}_{_formatter.Format("Piece")}";
             
-            //Add circuit part to the name if it exist
+            //Add circuit part to the name if it exists
             if (match)
             { 
                 nameLocation += "_" + value;
@@ -1844,7 +1849,7 @@ public class GroupAddressNameCorrector
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
 
-        //Add circuit part to the name if it exist
+        // Add circuit part to the name if it exists
         if (match)
         { 
             nameLocation += "_" + value;
@@ -1868,7 +1873,7 @@ public class GroupAddressNameCorrector
     private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
     {
         // Replace underscores with spaces
-        string modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
+        var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
 
         // Separate the string into words using spaces as delimiters
         string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1878,13 +1883,13 @@ public class GroupAddressNameCorrector
         {
             return (false, string.Empty);
         }
+        
+        var lastWord = words[^1]; // words[length - 1]
 
-        string lastWord = words[words.Length - 1];
+        var containsLetter = false;
+        var containsDigit = false;
 
-        bool containsLetter = false;
-        bool containsDigit = false;
-
-        foreach (char c in lastWord)
+        foreach (var c in lastWord)
         {
             if (char.IsLetter(c))
             {
@@ -1900,7 +1905,7 @@ public class GroupAddressNameCorrector
             }
         }
 
-        bool isValid = containsLetter && containsDigit;
+        var isValid = containsLetter && containsDigit;
         return (isValid, isValid ? lastWord : string.Empty);
     }
 
@@ -1923,8 +1928,8 @@ public class GroupAddressNameCorrector
         var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
 
         // Check for the presence of "cmd" and "ie" in the list of words
-        bool containsCmd = words.Contains("cmd") || words.Contains("cde");
-        bool containsIe = words.Contains("ie");
+        var containsCmd = words.Contains("cmd") || words.Contains("cde");
+        var containsIe = words.Contains("ie");
 
         if (containsCmd && !containsIe)
         {
@@ -1970,7 +1975,7 @@ public class GroupAddressNameCorrector
         var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
         if (groupRangeElement == null) return string.Empty;
 
-        string nameFunction = string.Empty;
+        var nameFunction = string.Empty;
         
         // Check for a higher-level GroupRange ancestor
         var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
@@ -2006,7 +2011,7 @@ public class GroupAddressNameCorrector
         var nameAttr = groupRangeElement.Attribute("Name");
         if (nameAttr == null) return;
 
-        string nameValue = nameAttr.Value;
+        var nameValue = nameAttr.Value;
         if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue))
             return;
 

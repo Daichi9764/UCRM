@@ -493,7 +493,7 @@ public partial class GroupAddressRenameWindow
     {
         try
         {
-            string path = xmlRenameFilePath; // Remplacez par le chemin réel de votre fichier XML
+            var path = xmlRenameFilePath; // Remplacez par le chemin réel de votre fichier XML
 
             // Vérifier si le fichier existe
             if (!File.Exists(path))
@@ -504,24 +504,24 @@ public partial class GroupAddressRenameWindow
             }
 
             // Charger le document XML
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
 
             // Rechercher l'élément <Change> où OriginalAddress correspond à BeforeTextBox.Text
-            XmlNodeList changeNodes = xmlDoc.SelectNodes($"/Root/Change[@OriginalAddress='{BeforeTextBox.Text}']");
+            var changeNodes = xmlDoc.SelectNodes($"/Root/Change[@OriginalAddress='{BeforeTextBox.Text}']");
 
             if (changeNodes != null && changeNodes.Count > 0)
             {
                 // Initialiser la variable pour stocker le OldAddress le plus ancien
                 string oldestOldAddress = null;
-                DateTime oldestTimeStamp = DateTime.MaxValue;
+                var oldestTimeStamp = DateTime.MaxValue;
 
                 // Parcourir les nodes pour trouver le OldAddress le plus ancien
                 foreach (XmlNode changeNode in changeNodes)
                 {
                     // Récupérer OldAddress et TimeStamp de chaque node
-                    string oldAddress = changeNode.Attributes["OldAddress"]?.Value;
-                    DateTime timeStamp = DateTime.Parse(changeNode.Attributes["TimeStamp"]?.Value);
+                    var oldAddress = changeNode.Attributes["OldAddress"]?.Value;
+                    var timeStamp = DateTime.Parse(changeNode.Attributes["TimeStamp"]?.Value);
 
                     // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
                     if (timeStamp < oldestTimeStamp)

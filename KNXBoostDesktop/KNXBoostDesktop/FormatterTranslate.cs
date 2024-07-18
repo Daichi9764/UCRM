@@ -99,7 +99,7 @@ namespace KNXBoostDesktop
 
                     // Split the words, capitalize each one, and join without underscores
                     string[] words = translated.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < words.Length; i++)
+                    for (var i = 0; i < words.Length; i++)
                     {
                         words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
                     }

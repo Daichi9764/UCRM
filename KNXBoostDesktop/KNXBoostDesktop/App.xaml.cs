@@ -126,7 +126,7 @@ namespace KNXBoostDesktop
 
             base.OnStartup(e);
             
-            Process currentProcess = Process.GetCurrentProcess();
+            var currentProcess = Process.GetCurrentProcess();
             currentProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
 
             // Activation de l'auto-vidage du buffer du stream d'ecriture
@@ -447,7 +447,7 @@ namespace KNXBoostDesktop
         /// </summary>
         private static void ArchiveLogs()
         {
-            string logDirectory = @"./logs/"; // Chemin du dossier de logs
+            var logDirectory = @"./logs/"; // Chemin du dossier de logs
             
             try
             {
@@ -481,7 +481,7 @@ namespace KNXBoostDesktop
                     var zipFileName = Path.Combine(logDirectory, $"LogsArchive-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.zip");
 
                     // Creer l'archive zip et y ajouter les fichiers log
-                    using (ZipArchive zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
+                    using (var zip = ZipFile.Open(zipFileName, ZipArchiveMode.Create))
                     {
                         foreach (var logFile in logFiles)
                         {

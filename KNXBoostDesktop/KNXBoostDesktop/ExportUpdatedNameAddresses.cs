@@ -239,13 +239,13 @@ class ExportUpdatedNameAddresses
                 App.DisplayElements.LoadingWindow.LogActivity(exportingAddresses);
 
                 // Load the updated XML document
-                XDocument? knxDoc = App.Fm?.LoadXmlDocument(sourcePath);
+                var knxDoc = App.Fm?.LoadXmlDocument(sourcePath);
 
                 // Namespace for GroupAddress-Export
                 XNamespace knxExportNs = "http://knx.org/xml/ga-export/01";
 
                 // Root element for UpdatedGroupAddresses.xml
-                XElement root = new XElement(knxExportNs + "GroupAddress-Export",
+                var root = new XElement(knxExportNs + "GroupAddress-Export",
                     new XAttribute("xmlns", knxExportNs.NamespaceName));
 
                 // Extract GroupAddress information
@@ -274,14 +274,14 @@ class ExportUpdatedNameAddresses
                 // Group by ancestor GroupRange names and build the XML structure
                 foreach (var ga in groupAddresses)
                 {
-                    XElement currentParent = root;
+                    var currentParent = root;
 
                     // Add ancestor GroupRanges
                     foreach (var ancestor in ga.AncestorGroupRangeNames)
                     {
                         if (ancestor.Name == null) continue; // Skip if ancestor name is null
 
-                        XElement groupRange = currentParent.Elements(knxExportNs + "GroupRange")
+                        var groupRange = currentParent.Elements(knxExportNs + "GroupRange")
                             .FirstOrDefault(gr => gr.Attribute("Name")?.Value == ancestor.Name);
 
                         if (groupRange == null)
@@ -304,10 +304,10 @@ class ExportUpdatedNameAddresses
                     // Add GroupAddress under the last GroupRange
                     if (ga.Name != null && ga.Address != null)
                     {
-                        string knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
+                        var knxAddress = DecimalToKnx3Level(int.Parse(ga.Address));
                         if (ga.DPTs != null)
                         {
-                        XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                        var groupAddress = new XElement(knxExportNs + "GroupAddress",
                             new XAttribute("Name", ga.Name),
                             new XAttribute("Address", knxAddress),
                             new XAttribute("DPTs", ga.DPTs));
@@ -315,7 +315,7 @@ class ExportUpdatedNameAddresses
                             currentParent.Add(groupAddress);
                         }
                         else{
-                             XElement groupAddress = new XElement(knxExportNs + "GroupAddress",
+                             var groupAddress = new XElement(knxExportNs + "GroupAddress",
                             new XAttribute("Name", ga.Name),
                             new XAttribute("Address", knxAddress));
 
@@ -329,7 +329,7 @@ class ExportUpdatedNameAddresses
                 App.DisplayElements.LoadingWindow.LogActivity(savingUpdatedFile);
 
                 // Save to UpdatedGroupAddresses.xml
-                XDocument updatedExportDoc = new XDocument(
+                var updatedExportDoc = new XDocument(
                     new XDeclaration("1.0", "utf-8", "yes"),
                     root
                 );
@@ -354,9 +354,9 @@ class ExportUpdatedNameAddresses
     /// <returns>The KNX 3-level address string in the format "MainGroup/MiddleGroup/SubGroup".</returns>
     private static string DecimalToKnx3Level(int decimalAddress)
     {
-        int mainGroup = decimalAddress / 2048;
-        int middleGroup = (decimalAddress % 2048) / 256;
-        int subGroup = decimalAddress % 256;
+        var mainGroup = decimalAddress / 2048;
+        var middleGroup = (decimalAddress % 2048) / 256;
+        var subGroup = decimalAddress % 256;
 
         return $"{mainGroup}/{middleGroup}/{subGroup}";
     }
