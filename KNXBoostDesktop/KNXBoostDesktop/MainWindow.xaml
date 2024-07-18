@@ -453,6 +453,7 @@
 
         <!-- Style pour le bouton Paramètres en mode LIGHT -->
         <Style x:Key="SettingsButtonLight" TargetType="Button">
+            <Setter Property="ToolTip" Value="Paramètres"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -480,6 +481,7 @@
         
         <!-- Style pour le bouton Paramètres en mode DARK -->
         <Style x:Key="SettingsButtonDark" TargetType="Button">
+            <Setter Property="ToolTip" Value="Paramètres"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

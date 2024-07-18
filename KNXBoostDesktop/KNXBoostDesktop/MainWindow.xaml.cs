@@ -668,7 +668,10 @@ public partial class MainWindow
     {
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
-        
+
+        //Vider la recherche
+        TextBox_LostFocus();
+
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
@@ -2657,6 +2660,20 @@ public partial class MainWindow
             if (!string.IsNullOrWhiteSpace(tb.Text)) return;
             tb.Text = _searchTextTranslate;
             tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+                new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
+        }), System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+
+    private void TextBox_LostFocus()
+    {
+        var tb = TxtSearch1;
+        // Utiliser un Dispatcher pour s'assurer que le TextBox a réellement perdu le focus
+        tb?.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            if (string.IsNullOrWhiteSpace(tb.Text)) return;
+            tb.Text = _searchTextTranslate;
+            tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ?
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
