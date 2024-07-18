@@ -98,14 +98,6 @@ namespace KNXBoostDesktop
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
 
-            // Ajoutez des gestionnaires d'événements pour suivre les changements d'état des checkboxes
-            RemoveUnusedAddressesCheckBox.Checked += CheckBox_CheckedChanged;
-            RemoveUnusedAddressesCheckBox.Unchecked += CheckBox_CheckedChanged;
-            EnableTranslationCheckBox.Checked += CheckBox_CheckedChanged;
-            EnableTranslationCheckBox.Unchecked += CheckBox_CheckedChanged;
-
-
-
             const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
 
             // Si le fichier contenant la main key n'existe pas
@@ -799,7 +791,7 @@ namespace KNXBoostDesktop
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
             
-            UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
+            UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
         }
 
 
@@ -896,11 +888,11 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Updates the contents (texts, textboxes, checkboxes, ...) of the settingswindow accordingly to the application settings.
         /// </summary>
-        private void UpdateWindowContents(bool isClosing = false)
+        private void UpdateWindowContents(bool isClosing = false, bool langChanged = false, bool themeChanged = false)
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
 
-            if ((File.Exists("./emk")) && (!isClosing)) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+            if (File.Exists("./emk") && !isClosing) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -955,10 +947,10 @@ namespace KNXBoostDesktop
             ScaleSlider.Value = AppScaleFactor;
 
             // Traduction du menu settings
-            TranslateWindowContents();
-
+            if (langChanged) TranslateWindowContents();
+            
             // Application du thème
-            ApplyThemeToWindow();
+            if (themeChanged) ApplyThemeToWindow();
         }
 
 
@@ -3062,9 +3054,19 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
+            // Sauvegarde des anciens paramètres
+            var previousEnableDeeplTranslation = EnableDeeplTranslation;
+            var previousTranslationDestinationLang = TranslationDestinationLang;
+            var previousTranslationSourceLang = TranslationSourceLang;
+            var previousEnableAutomaticSourceLangDetection = EnableAutomaticSourceLangDetection;
+            var previousRemoveUnusedGroupAddresses = RemoveUnusedGroupAddresses;
+            var previousEnableLightTheme = EnableLightTheme;
+            var previousAppLang = AppLang;
+            var previousAppScaleFactor = AppScaleFactor;
+            var previousDeepLKey = DeeplKey;
+            
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
@@ -3073,32 +3075,16 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
 
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-
-            // Mise à jour de l'échelle de toutes les fenêtres
-            var scaleFactor = AppScaleFactor / 100f;
-            if (scaleFactor <= 1f)
+            var deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
+            
+            // Si on a activé la traduction deepl et que la clé a changé
+            if (EnableDeeplTranslation && deeplKeyChanged)
             {
-                ApplyScaling(scaleFactor-0.1f);
-            }
-            else
-            {
-                ApplyScaling(scaleFactor-0.2f);
-            }
-            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
-
-            // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
-
-            // Mise à jour de la fenêtre principale
-            App.DisplayElements.MainWindow.UpdateWindowContents();
-
-            // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation)
-            {
+                App.ConsoleAndLogWriteLine("Clé a changé");
+                
+                // On récupère la nouvelle clé et on l'encrypte
+                DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
+                
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
                 GroupAddressNameCorrector.ValidDeeplKey = isValid;
@@ -3181,183 +3167,64 @@ namespace KNXBoostDesktop
                     UpdateWindowContents();
                 }
             }
-
-            // Sauvegarde des paramètres dans le fichier appSettings
-            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-            SaveSettings();
-            App.ConsoleAndLogWriteLine("Settings saved successfully");
-
-            // Masquage de la fenêtre de paramètres
-            Hide();
-            CheckBox_CheckedChanged(sender,e);
-        }
-
-        private void SaveAndApplyButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-            EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-            TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
-            RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
-            EnableLightTheme = LightThemeComboBoxItem.IsSelected;
-            AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            AppScaleFactor = (int)ScaleSlider.Value;
-
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-
-            // Mise à jour de l'échelle de toutes les fenêtres
-            var scaleFactor = AppScaleFactor / 100f;
-            if (scaleFactor <= 1f)
+            
+            // Si on a changé un des paramètres, on les sauvegarde. Sinon, inutile de réécrire le fichier.
+            if (previousEnableDeeplTranslation != EnableDeeplTranslation || 
+                previousTranslationDestinationLang != TranslationDestinationLang ||
+                previousTranslationSourceLang != TranslationSourceLang ||
+                previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection ||
+                previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
+                previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang || 
+                previousAppScaleFactor != AppScaleFactor ||
+                deeplKeyChanged)
             {
-                ApplyScaling(scaleFactor-0.1f);
+                // Sauvegarde des paramètres dans le fichier appSettings
+                App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
+                SaveSettings();
+                App.ConsoleAndLogWriteLine("Settings saved successfully");
             }
             else
             {
-                ApplyScaling(scaleFactor-0.2f);
+                App.ConsoleAndLogWriteLine("Rien n'a changé on a pas save les paramètres");
             }
-            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+            
+            // Mise à jour éventuellement du contenu pour update la langue du menu
+            UpdateWindowContents(false, previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme);
+
+            // Si on a modifié l'échelle dans les paramètres
+            if (AppScaleFactor != previousAppScaleFactor)
+            {
+                App.ConsoleAndLogWriteLine("On check la clé");
+                // Mise à jour de l'échelle de toutes les fenêtres
+                var scaleFactor = AppScaleFactor / 100f;
+                if (scaleFactor <= 1f)
+                {
+                    ApplyScaling(scaleFactor-0.1f);
+                }
+                else
+                {
+                    ApplyScaling(scaleFactor-0.2f);
+                }
+                App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
+                App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
+            }
 
             // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             // Mise à jour de la fenêtre principale
-            App.DisplayElements.MainWindow.UpdateWindowContents();
+            App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
-            // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation)
+            //Faire apparaitre le bouton Reload
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
             {
-                // On vérifie la validité de la clé API
-                var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
-                GroupAddressNameCorrector.ValidDeeplKey = isValid;
-
-                // Si la clé est incorrecte
-                if (!GroupAddressNameCorrector.ValidDeeplKey)
-                {
-                    // Traduction de l'en-tête de la fenêtre d'avertissement
-                    var warningMessage = AppLang switch
-                    {
-                        // Arabe
-                        "AR" => "تحذير",
-                        // Bulgare
-                        "BG" => "Предупреждение",
-                        // Tchèque
-                        "CS" => "Varování",
-                        // Danois
-                        "DA" => "Advarsel",
-                        // Allemand
-                        "DE" => "Warnung",
-                        // Grec
-                        "EL" => "Προειδοποίηση",
-                        // Anglais
-                        "EN" => "Warning",
-                        // Espagnol
-                        "ES" => "Advertencia",
-                        // Estonien
-                        "ET" => "Hoiatus",
-                        // Finnois
-                        "FI" => "Varoitus",
-                        // Hongrois
-                        "HU" => "Figyelmeztetés",
-                        // Indonésien
-                        "ID" => "Peringatan",
-                        // Italien
-                        "IT" => "Avvertimento",
-                        // Japonais
-                        "JA" => "警告",
-                        // Coréen
-                        "KO" => "경고",
-                        // Letton
-                        "LV" => "Brīdinājums",
-                        // Lituanien
-                        "LT" => "Įspėjimas",
-                        // Norvégien
-                        "NB" => "Advarsel",
-                        // Néerlandais
-                        "NL" => "Waarschuwing",
-                        // Polonais
-                        "PL" => "Ostrzeżenie",
-                        // Portugais
-                        "PT" => "Aviso",
-                        // Roumain
-                        "RO" => "Avertizare",
-                        // Russe
-                        "RU" => "Предупреждение",
-                        // Slovaque
-                        "SK" => "Upozornenie",
-                        // Slovène
-                        "SL" => "Opozorilo",
-                        // Suédois
-                        "SV" => "Varning",
-                        // Turc
-                        "TR" => "Uyarı",
-                        // Ukrainien
-                        "UK" => "Попередження",
-                        // Chinois simplifié
-                        "ZH" => "警告",
-                        // Cas par défaut (français)
-                        _ => "Avertissement"
-                    };
-
-                    // Message d'erreur
-                    MessageBox.Show($"{errorMessage}", warningMessage, MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                    // Décochage de la traduction deepL dans la fenêtre
-                    EnableDeeplTranslation = false;
-
-                    // Mise à jour de la case cochable
-                    UpdateWindowContents();
-                }
+                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+                if (mainWindow != null) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
-
-            // Sauvegarde des paramètres dans le fichier appSettings
-            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-            SaveSettings();
-            App.ConsoleAndLogWriteLine("Settings saved successfully");
 
             // Masquage de la fenêtre de paramètres
             Hide();
-            CheckBox_CheckedChanged(sender, e);
-
-            // Obtenez l'instance de MainWindow
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-
-            if (mainWindow != null)
-            {
-                // Appelez la méthode asynchrone
-                //mainWindow.ReloadProject();
-            }
-        }
-
-
-        private void CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
-        {
-            if ((RemoveUnusedAddressesCheckBox.IsChecked != RemoveUnusedGroupAddresses  || EnableTranslationCheckBox.IsChecked != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != "" ))
-            {
-                SaveAndApplyButton.Visibility = Visibility.Visible;
-
-                CancelButton2.Visibility = Visibility.Visible;
-                SaveButton2.Visibility = Visibility.Visible;
-                CancelButton.Visibility = Visibility.Collapsed;
-                SaveButton.Visibility = Visibility.Collapsed ;
-                BordureSave.Visibility = Visibility.Visible;
-                BordureSave2.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                SaveAndApplyButton.Visibility = Visibility.Collapsed;
-                CancelButton2.Visibility = Visibility.Collapsed;
-                SaveButton2.Visibility = Visibility.Collapsed;
-                CancelButton.Visibility = Visibility.Visible;
-                SaveButton.Visibility = Visibility.Visible;
-                BordureSave.Visibility = Visibility.Hidden;
-                BordureSave2.Visibility = Visibility.Visible;
-            }
         }
 
 
@@ -3369,7 +3236,7 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
-            UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+            UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
             Hide(); // Masquage de la fenêtre de paramétrage
         }
 
@@ -3572,17 +3439,15 @@ namespace KNXBoostDesktop
             switch (selectedTab)
             {
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header:
-                    CheckBox_CheckedChanged(sender, e);
+                    CancelButton.Visibility = Visibility.Visible;
+                    SaveButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletDebug.Header:
-                    SaveAndApplyButton.Visibility = Visibility.Collapsed;
-                    CancelButton2.Visibility = Visibility.Collapsed;
-                    SaveButton2.Visibility = Visibility.Collapsed;
+
                     CancelButton.Visibility = Visibility.Collapsed;
                     SaveButton.Visibility = Visibility.Collapsed;
-                    BordureSave.Visibility = Visibility.Hidden;
-                    BordureSave2.Visibility = Visibility.Hidden;
+
                     CreateArchiveDebugButton.Visibility = Visibility.Visible;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletInformations.Header:
@@ -4356,30 +4221,13 @@ namespace KNXBoostDesktop
             {
                 // Si on appuie sur échap, on ferme la fenêtre et on annule les modifications
                 case Key.Escape:
-                    UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+                    UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
                     Hide(); // Masquage de la fenêtre de paramétrage
                     break;
 
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
                 case Key.Enter:
-                    // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-                    EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-                    DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-                    TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-                    RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
-                    EnableLightTheme = LightThemeComboBoxItem.IsSelected;
-                    AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-
-                    // Sauvegarde des paramètres dans le fichier appSettings
-                    App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-                    SaveSettings();
-                    App.ConsoleAndLogWriteLine("Settings saved successfully");
-
-                    // Mise à jour éventuellement du contenu pour update la langue du menu
-                    UpdateWindowContents();
-
-                    // Masquage de la fenêtre de paramètres
-                    Hide();
+                    SaveButtonClick(null!, null!);
                     break;
             }
         }

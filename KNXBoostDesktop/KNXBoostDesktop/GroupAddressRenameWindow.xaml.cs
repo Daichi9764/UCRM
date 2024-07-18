@@ -49,283 +49,312 @@ public partial class GroupAddressRenameWindow
     
 
     /// <summary>
-    /// Met à jour le contenu de la fenêtre en fonction de la langue de l'application.
+    /// Updates the window content based on the application's language,
+    /// theme, and optionally scales it if needed.
     /// </summary>
-    public void UpdateWindowContents()
+    /// <param name="langChanged">Specifies whether the language has changed and requires a translation update.</param>
+    /// <param name="themeChanged">Specifies whether the theme has changed and requires an update.</param>
+    /// <param name="scaleChanged">Specifies whether the scale has changed and requires a scaling update.</param>
+    public void UpdateWindowContents(bool langChanged = false, bool themeChanged = false, bool scaleChanged = false)
+    {
+        // Mise à jour éventuelle de la traduction
+        if (langChanged) UpdateTranslationInWindow();
+
+        // Mise à jour éventuelle du thème
+        if (themeChanged) UpdateThemeInWindow();
+
+        
+        // Mise à jour éventuelle de la mise à l'échelle
+        if (!scaleChanged || App.DisplayElements == null || App.DisplayElements.SettingsWindow == null) return;
+        ApplyScaling(App.DisplayElements.SettingsWindow.AppScaleFactor / 100f);
+    }
+
+
+    /// <summary>
+    /// Updates the UI elements in the window according to the application's language setting.
+    /// </summary>
+    private void UpdateTranslationInWindow()
     {
         switch (App.DisplayElements?.SettingsWindow!.AppLang)
-        {
-            // Arabe
-            case "AR":
-                GroupAddressRenameWindowTopTitle.Text = "إعادة تسمية عنوان المجموعة";
-                BeforeText.Text = "عنوان المجموعة";
-                AfterText.Text = "إعادة التسمية إلى...";
-                SaveButtonText.Text = "حفظ";
-                CancelButtonText.Text = "إلغاء";
-                break;
+            {
+                // Arabe
+                case "AR":
+                    GroupAddressRenameWindowTopTitle.Text = "إعادة تسمية عنوان المجموعة";
+                    BeforeText.Text = "عنوان المجموعة";
+                    AfterText.Text = "إعادة التسمية إلى...";
+                    SaveButtonText.Text = "حفظ";
+                    CancelButtonText.Text = "إلغاء";
+                    break;
 
-            // Bulgare
-            case "BG":
-                GroupAddressRenameWindowTopTitle.Text = "Преименуване на адрес на групата";
-                BeforeText.Text = "Адрес на групата";
-                AfterText.Text = "Преименуване на...";
-                SaveButtonText.Text = "Запазване";
-                CancelButtonText.Text = "Отказ";
-                break;
+                // Bulgare
+                case "BG":
+                    GroupAddressRenameWindowTopTitle.Text = "Преименуване на адрес на групата";
+                    BeforeText.Text = "Адрес на групата";
+                    AfterText.Text = "Преименуване на...";
+                    SaveButtonText.Text = "Запазване";
+                    CancelButtonText.Text = "Отказ";
+                    break;
 
-            // Tchèque
-            case "CS":
-                GroupAddressRenameWindowTopTitle.Text = "Přejmenovat adresu skupiny";
-                BeforeText.Text = "Adresa skupiny";
-                AfterText.Text = "Přejmenovat na...";
-                SaveButtonText.Text = "Uložit";
-                CancelButtonText.Text = "Zrušit";
-                break;
+                // Tchèque
+                case "CS":
+                    GroupAddressRenameWindowTopTitle.Text = "Přejmenovat adresu skupiny";
+                    BeforeText.Text = "Adresa skupiny";
+                    AfterText.Text = "Přejmenovat na...";
+                    SaveButtonText.Text = "Uložit";
+                    CancelButtonText.Text = "Zrušit";
+                    break;
 
-            // Danois
-            case "DA":
-                GroupAddressRenameWindowTopTitle.Text = "Omdøb gruppeadresse";
-                BeforeText.Text = "Gruppeadresse";
-                AfterText.Text = "Omdøb til...";
-                SaveButtonText.Text = "Gem";
-                CancelButtonText.Text = "Annuller";
-                break;
+                // Danois
+                case "DA":
+                    GroupAddressRenameWindowTopTitle.Text = "Omdøb gruppeadresse";
+                    BeforeText.Text = "Gruppeadresse";
+                    AfterText.Text = "Omdøb til...";
+                    SaveButtonText.Text = "Gem";
+                    CancelButtonText.Text = "Annuller";
+                    break;
 
-            // Allemand
-            case "DE":
-                GroupAddressRenameWindowTopTitle.Text = "Gruppenadresse umbenennen";
-                BeforeText.Text = "Gruppenadresse";
-                AfterText.Text = "Umbenennen in...";
-                SaveButtonText.Text = "Speichern";
-                CancelButtonText.Text = "Abbrechen";
-                break;
+                // Allemand
+                case "DE":
+                    GroupAddressRenameWindowTopTitle.Text = "Gruppenadresse umbenennen";
+                    BeforeText.Text = "Gruppenadresse";
+                    AfterText.Text = "Umbenennen in...";
+                    SaveButtonText.Text = "Speichern";
+                    CancelButtonText.Text = "Abbrechen";
+                    break;
 
-            // Grec
-            case "EL":
-                GroupAddressRenameWindowTopTitle.Text = "Μετονομασία διεύθυνσης ομάδας";
-                BeforeText.Text = "Διεύθυνση ομάδας";
-                AfterText.Text = "Μετονομασία σε...";
-                SaveButtonText.Text = "Αποθήκευση";
-                CancelButtonText.Text = "Ακύρωση";
-                break;
+                // Grec
+                case "EL":
+                    GroupAddressRenameWindowTopTitle.Text = "Μετονομασία διεύθυνσης ομάδας";
+                    BeforeText.Text = "Διεύθυνση ομάδας";
+                    AfterText.Text = "Μετονομασία σε...";
+                    SaveButtonText.Text = "Αποθήκευση";
+                    CancelButtonText.Text = "Ακύρωση";
+                    break;
 
-            // Anglais
-            case "EN":
-                GroupAddressRenameWindowTopTitle.Text = "Rename Group Address";
-                BeforeText.Text = "Original Group Address";
-                AfterText.Text = "Rename to...";
-                SaveButtonText.Text = "Save";
-                CancelButtonText.Text = "Cancel";
-                break;
+                // Anglais
+                case "EN":
+                    GroupAddressRenameWindowTopTitle.Text = "Rename Group Address";
+                    BeforeText.Text = "Original Group Address";
+                    AfterText.Text = "Rename to...";
+                    SaveButtonText.Text = "Save";
+                    CancelButtonText.Text = "Cancel";
+                    break;
 
-            // Espagnol
-            case "ES":
-                GroupAddressRenameWindowTopTitle.Text = "Renombrar dirección de grupo";
-                BeforeText.Text = "Dirección de grupo";
-                AfterText.Text = "Renombrar a...";
-                SaveButtonText.Text = "Guardar";
-                CancelButtonText.Text = "Cancelar";
-                break;
+                // Espagnol
+                case "ES":
+                    GroupAddressRenameWindowTopTitle.Text = "Renombrar dirección de grupo";
+                    BeforeText.Text = "Dirección de grupo";
+                    AfterText.Text = "Renombrar a...";
+                    SaveButtonText.Text = "Guardar";
+                    CancelButtonText.Text = "Cancelar";
+                    break;
 
-            // Estonien
-            case "ET":
-                GroupAddressRenameWindowTopTitle.Text = "Grupi aadressi ümbernimetamine";
-                BeforeText.Text = "Grupi aadress";
-                AfterText.Text = "Nimeta ümber...";
-                SaveButtonText.Text = "Salvesta";
-                CancelButtonText.Text = "Tühista";
-                break;
+                // Estonien
+                case "ET":
+                    GroupAddressRenameWindowTopTitle.Text = "Grupi aadressi ümbernimetamine";
+                    BeforeText.Text = "Grupi aadress";
+                    AfterText.Text = "Nimeta ümber...";
+                    SaveButtonText.Text = "Salvesta";
+                    CancelButtonText.Text = "Tühista";
+                    break;
 
-            // Finnois
-            case "FI":
-                GroupAddressRenameWindowTopTitle.Text = "Nimeä ryhmäosoite uudelleen";
-                BeforeText.Text = "Ryhmäosoite";
-                AfterText.Text = "Nimeä uudelleen...";
-                SaveButtonText.Text = "Tallenna";
-                CancelButtonText.Text = "Peruuta";
-                break;
+                // Finnois
+                case "FI":
+                    GroupAddressRenameWindowTopTitle.Text = "Nimeä ryhmäosoite uudelleen";
+                    BeforeText.Text = "Ryhmäosoite";
+                    AfterText.Text = "Nimeä uudelleen...";
+                    SaveButtonText.Text = "Tallenna";
+                    CancelButtonText.Text = "Peruuta";
+                    break;
 
-            // Hongrois
-            case "HU":
-                GroupAddressRenameWindowTopTitle.Text = "Csoportcím átnevezése";
-                BeforeText.Text = "Csoportcím";
-                AfterText.Text = "Átnevezés erre...";
-                SaveButtonText.Text = "Mentés";
-                CancelButtonText.Text = "Mégse";
-                break;
+                // Hongrois
+                case "HU":
+                    GroupAddressRenameWindowTopTitle.Text = "Csoportcím átnevezése";
+                    BeforeText.Text = "Csoportcím";
+                    AfterText.Text = "Átnevezés erre...";
+                    SaveButtonText.Text = "Mentés";
+                    CancelButtonText.Text = "Mégse";
+                    break;
 
-            // Indonésien
-            case "ID":
-                GroupAddressRenameWindowTopTitle.Text = "Ganti Nama Alamat Grup";
-                BeforeText.Text = "Alamat Grup";
-                AfterText.Text = "Ganti nama menjadi...";
-                SaveButtonText.Text = "Simpan";
-                CancelButtonText.Text = "Batal";
-                break;
+                // Indonésien
+                case "ID":
+                    GroupAddressRenameWindowTopTitle.Text = "Ganti Nama Alamat Grup";
+                    BeforeText.Text = "Alamat Grup";
+                    AfterText.Text = "Ganti nama menjadi...";
+                    SaveButtonText.Text = "Simpan";
+                    CancelButtonText.Text = "Batal";
+                    break;
 
-            // Italien
-            case "IT":
-                GroupAddressRenameWindowTopTitle.Text = "Rinomina indirizzo di gruppo";
-                BeforeText.Text = "Indirizzo di gruppo";
-                AfterText.Text = "Rinomina in...";
-                SaveButtonText.Text = "Salva";
-                CancelButtonText.Text = "Annulla";
-                break;
+                // Italien
+                case "IT":
+                    GroupAddressRenameWindowTopTitle.Text = "Rinomina indirizzo di gruppo";
+                    BeforeText.Text = "Indirizzo di gruppo";
+                    AfterText.Text = "Rinomina in...";
+                    SaveButtonText.Text = "Salva";
+                    CancelButtonText.Text = "Annulla";
+                    break;
 
-            // Japonais
-            case "JA":
-                GroupAddressRenameWindowTopTitle.Text = "グループアドレスの名前を変更";
-                BeforeText.Text = "グループアドレス";
-                AfterText.Text = "名前を変更...";
-                SaveButtonText.Text = "保存";
-                CancelButtonText.Text = "キャンセル";
-                break;
+                // Japonais
+                case "JA":
+                    GroupAddressRenameWindowTopTitle.Text = "グループアドレスの名前を変更";
+                    BeforeText.Text = "グループアドレス";
+                    AfterText.Text = "名前を変更...";
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "キャンセル";
+                    break;
 
-            // Coréen
-            case "KO":
-                GroupAddressRenameWindowTopTitle.Text = "그룹 주소 이름 바꾸기";
-                BeforeText.Text = "그룹 주소";
-                AfterText.Text = "다음으로 이름 변경...";
-                SaveButtonText.Text = "저장";
-                CancelButtonText.Text = "취소";
-                break;
+                // Coréen
+                case "KO":
+                    GroupAddressRenameWindowTopTitle.Text = "그룹 주소 이름 바꾸기";
+                    BeforeText.Text = "그룹 주소";
+                    AfterText.Text = "다음으로 이름 변경...";
+                    SaveButtonText.Text = "저장";
+                    CancelButtonText.Text = "취소";
+                    break;
 
-            // Letton
-            case "LV":
-                GroupAddressRenameWindowTopTitle.Text = "Pārdēvēt grupas adresi";
-                BeforeText.Text = "Grupas adrese";
-                AfterText.Text = "Pārdēvēt uz...";
-                SaveButtonText.Text = "Saglabāt";
-                CancelButtonText.Text = "Atcelt";
-                break;
+                // Letton
+                case "LV":
+                    GroupAddressRenameWindowTopTitle.Text = "Pārdēvēt grupas adresi";
+                    BeforeText.Text = "Grupas adrese";
+                    AfterText.Text = "Pārdēvēt uz...";
+                    SaveButtonText.Text = "Saglabāt";
+                    CancelButtonText.Text = "Atcelt";
+                    break;
 
-            // Lituanien
-            case "LT":
-                GroupAddressRenameWindowTopTitle.Text = "Pervardyti grupės adresą";
-                BeforeText.Text = "Grupės adresas";
-                AfterText.Text = "Pervardyti į...";
-                SaveButtonText.Text = "Išsaugoti";
-                CancelButtonText.Text = "Atšaukti";
-                break;
+                // Lituanien
+                case "LT":
+                    GroupAddressRenameWindowTopTitle.Text = "Pervardyti grupės adresą";
+                    BeforeText.Text = "Grupės adresas";
+                    AfterText.Text = "Pervardyti į...";
+                    SaveButtonText.Text = "Išsaugoti";
+                    CancelButtonText.Text = "Atšaukti";
+                    break;
 
-            // Norvégien
-            case "NB":
-                GroupAddressRenameWindowTopTitle.Text = "Gi nytt navn til gruppeadresse";
-                BeforeText.Text = "Gruppeadresse";
-                AfterText.Text = "Gi nytt navn til...";
-                SaveButtonText.Text = "Lagre";
-                CancelButtonText.Text = "Avbryt";
-                break;
+                // Norvégien
+                case "NB":
+                    GroupAddressRenameWindowTopTitle.Text = "Gi nytt navn til gruppeadresse";
+                    BeforeText.Text = "Gruppeadresse";
+                    AfterText.Text = "Gi nytt navn til...";
+                    SaveButtonText.Text = "Lagre";
+                    CancelButtonText.Text = "Avbryt";
+                    break;
 
-            // Néerlandais
-            case "NL":
-                GroupAddressRenameWindowTopTitle.Text = "Groepsadres hernoemen";
-                BeforeText.Text = "Groepsadres";
-                AfterText.Text = "Hernoemen naar...";
-                SaveButtonText.Text = "Opslaan";
-                CancelButtonText.Text = "Annuleren";
-                break;
+                // Néerlandais
+                case "NL":
+                    GroupAddressRenameWindowTopTitle.Text = "Groepsadres hernoemen";
+                    BeforeText.Text = "Groepsadres";
+                    AfterText.Text = "Hernoemen naar...";
+                    SaveButtonText.Text = "Opslaan";
+                    CancelButtonText.Text = "Annuleren";
+                    break;
 
-            // Polonais
-            case "PL":
-                GroupAddressRenameWindowTopTitle.Text = "Zmień nazwę adresu grupy";
-                BeforeText.Text = "Adres grupy";
-                AfterText.Text = "Zmień nazwę na...";
-                SaveButtonText.Text = "Zapisz";
-                CancelButtonText.Text = "Anuluj";
-                break;
+                // Polonais
+                case "PL":
+                    GroupAddressRenameWindowTopTitle.Text = "Zmień nazwę adresu grupy";
+                    BeforeText.Text = "Adres grupy";
+                    AfterText.Text = "Zmień nazwę na...";
+                    SaveButtonText.Text = "Zapisz";
+                    CancelButtonText.Text = "Anuluj";
+                    break;
 
-            // Portugais
-            case "PT":
-                GroupAddressRenameWindowTopTitle.Text = "Renomear endereço do grupo";
-                BeforeText.Text = "Endereço do grupo";
-                AfterText.Text = "Renomear para...";
-                SaveButtonText.Text = "Salvar";
-                CancelButtonText.Text = "Cancelar";
-                break;
+                // Portugais
+                case "PT":
+                    GroupAddressRenameWindowTopTitle.Text = "Renomear endereço do grupo";
+                    BeforeText.Text = "Endereço do grupo";
+                    AfterText.Text = "Renomear para...";
+                    SaveButtonText.Text = "Salvar";
+                    CancelButtonText.Text = "Cancelar";
+                    break;
 
-            // Roumain
-            case "RO":
-                GroupAddressRenameWindowTopTitle.Text = "Redenumiți adresa grupului";
-                BeforeText.Text = "Adresa grupului";
-                AfterText.Text = "Redenumiți în...";
-                SaveButtonText.Text = "Salvați";
-                CancelButtonText.Text = "Anulați";
-                break;
+                // Roumain
+                case "RO":
+                    GroupAddressRenameWindowTopTitle.Text = "Redenumiți adresa grupului";
+                    BeforeText.Text = "Adresa grupului";
+                    AfterText.Text = "Redenumiți în...";
+                    SaveButtonText.Text = "Salvați";
+                    CancelButtonText.Text = "Anulați";
+                    break;
 
-            // Russe
-            case "RU":
-                GroupAddressRenameWindowTopTitle.Text = "Переименовать адрес группы";
-                BeforeText.Text = "Адрес группы";
-                AfterText.Text = "Переименовать в...";
-                SaveButtonText.Text = "Сохранить";
-                CancelButtonText.Text = "Отмена";
-                break;
+                // Russe
+                case "RU":
+                    GroupAddressRenameWindowTopTitle.Text = "Переименовать адрес группы";
+                    BeforeText.Text = "Адрес группы";
+                    AfterText.Text = "Переименовать в...";
+                    SaveButtonText.Text = "Сохранить";
+                    CancelButtonText.Text = "Отмена";
+                    break;
 
-            // Slovaque
-            case "SK":
-                GroupAddressRenameWindowTopTitle.Text = "Premenovať adresu skupiny";
-                BeforeText.Text = "Adresa skupiny";
-                AfterText.Text = "Premenovať na...";
-                SaveButtonText.Text = "Uložiť";
-                CancelButtonText.Text = "Zrušiť";
-                break;
+                // Slovaque
+                case "SK":
+                    GroupAddressRenameWindowTopTitle.Text = "Premenovať adresu skupiny";
+                    BeforeText.Text = "Adresa skupiny";
+                    AfterText.Text = "Premenovať na...";
+                    SaveButtonText.Text = "Uložiť";
+                    CancelButtonText.Text = "Zrušiť";
+                    break;
 
-            // Slovène
-            case "SL":
-                GroupAddressRenameWindowTopTitle.Text = "Preimenuj naslov skupine";
-                BeforeText.Text = "Naslov skupine";
-                AfterText.Text = "Preimenuj v...";
-                SaveButtonText.Text = "Shrani";
-                CancelButtonText.Text = "Prekliči";
-                break;
+                // Slovène
+                case "SL":
+                    GroupAddressRenameWindowTopTitle.Text = "Preimenuj naslov skupine";
+                    BeforeText.Text = "Naslov skupine";
+                    AfterText.Text = "Preimenuj v...";
+                    SaveButtonText.Text = "Shrani";
+                    CancelButtonText.Text = "Prekliči";
+                    break;
 
-            // Suédois
-            case "SV":
-                GroupAddressRenameWindowTopTitle.Text = "Byt namn på gruppadress";
-                BeforeText.Text = "Gruppadress";
-                AfterText.Text = "Byt namn till...";
-                SaveButtonText.Text = "Spara";
-                CancelButtonText.Text = "Avbryt";
-                break;
+                // Suédois
+                case "SV":
+                    GroupAddressRenameWindowTopTitle.Text = "Byt namn på gruppadress";
+                    BeforeText.Text = "Gruppadress";
+                    AfterText.Text = "Byt namn till...";
+                    SaveButtonText.Text = "Spara";
+                    CancelButtonText.Text = "Avbryt";
+                    break;
 
-            // Turc
-            case "TR":
-                GroupAddressRenameWindowTopTitle.Text = "Grup Adresini Yeniden Adlandır";
-                BeforeText.Text = "Grup Adresi";
-                AfterText.Text = "Yeniden adlandır...";
-                SaveButtonText.Text = "Kaydet";
-                CancelButtonText.Text = "İptal";
-                break;
+                // Turc
+                case "TR":
+                    GroupAddressRenameWindowTopTitle.Text = "Grup Adresini Yeniden Adlandır";
+                    BeforeText.Text = "Grup Adresi";
+                    AfterText.Text = "Yeniden adlandır...";
+                    SaveButtonText.Text = "Kaydet";
+                    CancelButtonText.Text = "İptal";
+                    break;
 
-            // Ukrainien
-            case "UK":
-                GroupAddressRenameWindowTopTitle.Text = "Перейменувати адресу групи";
-                BeforeText.Text = "Адреса групи";
-                AfterText.Text = "Перейменувати на...";
-                SaveButtonText.Text = "Зберегти";
-                CancelButtonText.Text = "Скасувати";
-                break;
+                // Ukrainien
+                case "UK":
+                    GroupAddressRenameWindowTopTitle.Text = "Перейменувати адресу групи";
+                    BeforeText.Text = "Адреса групи";
+                    AfterText.Text = "Перейменувати на...";
+                    SaveButtonText.Text = "Зберегти";
+                    CancelButtonText.Text = "Скасувати";
+                    break;
 
-            // Chinois simplifié
-            case "ZH":
-                GroupAddressRenameWindowTopTitle.Text = "重命名组地址";
-                BeforeText.Text = "组地址";
-                AfterText.Text = "重命名为...";
-                SaveButtonText.Text = "保存";
-                CancelButtonText.Text = "取消";
-                break;
+                // Chinois simplifié
+                case "ZH":
+                    GroupAddressRenameWindowTopTitle.Text = "重命名组地址";
+                    BeforeText.Text = "组地址";
+                    AfterText.Text = "重命名为...";
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "取消";
+                    break;
 
-            // Langue par défaut (français)
-            default:
-                GroupAddressRenameWindowTopTitle.Text = "Renommer l'adresse de groupe";
-                BeforeText.Text = "Adresse de groupe orignale ";
-                AfterText.Text = "Renommer en...";
-                SaveButtonText.Text = "Enregistrer";
-                CancelButtonText.Text = "Annuler";
-                break;
-        }
+                // Langue par défaut (français)
+                default:
+                    GroupAddressRenameWindowTopTitle.Text = "Renommer l'adresse de groupe";
+                    BeforeText.Text = "Adresse de groupe orignale ";
+                    AfterText.Text = "Renommer en...";
+                    SaveButtonText.Text = "Enregistrer";
+                    CancelButtonText.Text = "Annuler";
+                    break;
+            }
+    }
 
+
+    /// <summary>
+    /// Updates the visual theme of the window based on the application's current theme settings.
+    /// </summary>
+    private void UpdateThemeInWindow()
+    {
         if (App.DisplayElements!.SettingsWindow!.EnableLightTheme)
         {
             var txtColor = MainWindow.ConvertStringColor("#000000");
@@ -392,11 +421,9 @@ public partial class GroupAddressRenameWindow
             AfterTextBoxButton.Style = (Style)FindResource("SquareButtonStyleDark");
             AfterTextBoxButton.Foreground = txtColor;
         }
-        
-        ApplyScaling(App.DisplayElements.SettingsWindow.AppScaleFactor/100f);
     }
-
-
+    
+    
     /// <summary>
     /// Définit l'adresse actuelle à renommer.
     /// </summary>
@@ -435,7 +462,7 @@ public partial class GroupAddressRenameWindow
 
         NewAddress = "";
         
-        UpdateWindowContents(); // Restauration des paramètres précédents dans la fenêtre de paramétrage
+        UpdateWindowContents(true, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
         Hide(); // Masquage de la fenêtre de renommage
     }
 

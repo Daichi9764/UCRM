@@ -504,6 +504,30 @@
             </Setter>
         </Style>
 
+        <!-- Style pour le bouton reload -->
+        <Style x:Key="ReloadButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ActivGreen}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                            CornerRadius="12.5" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource InactivGreen}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Style bouton invisible -->
         <Style x:Key="ToggleButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -610,16 +634,35 @@
                     <!-- Boutons à droite -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
 
-                        <!-- Bouton de paramètres -->
-                        <Button x:Name="ButtonnReload" Width="25" Height="25"
-                             Click="ReloadProject"
-                             Margin="0,0,10,0" 
-                             Background="White"
-                             BorderThickness="1" BorderBrush="{StaticResource BorderGray}"
-                             Padding="0"
-                             Style="{StaticResource SettingsButtonLight}">
-                            
+                        <!-- Bouton de reload -->
+                        <Button x:Name="ButtonReload" Width="25" Height="25"
+                            Click="ReloadProject"
+                            Margin="0,0,10,0" 
+                            BorderThickness="0"
+                            Padding="0"
+                            Style="{StaticResource ReloadButton}"
+                            Visibility="Hidden">
+                                                <Image Width="15" Height="15"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Margin="0" Stretch="Fill">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V102.455 H102.455 V0 H0 Z">
+                                                <DrawingGroup Opacity="1">
+                                                    <DrawingGroup Opacity="1">
+                                                        <GeometryDrawing Brush="#FFFFFF" Geometry="F1 M102.455,102.455z M0,0z M61.977,17.156L48.277,30.855C47.488,31.645,46.203,31.645,45.411,30.855L45.214,30.653 45.214,20.568C28.671,21.724 15.564,35.543 15.564,52.374 15.564,64.194 22.051,74.991 32.501,80.549 35.132,81.951 36.132,85.22 34.734,87.859 33.331,90.494 30.063,91.493 27.428,90.09 13.445,82.65 4.758,68.201 4.758,52.374 4.758,29.582 22.711,10.904 45.215,9.733L45.215,0.792 45.412,0.593C46.204,-0.197,47.489,-0.197,48.278,0.593L61.977,14.289C62.771,15.083,62.771,16.369,61.977,17.156z" />
+                                                        <GeometryDrawing Brush="#FFFFFF" Geometry="F1 M102.455,102.455z M0,0z M54.174,101.861L40.477,88.166C39.685,87.376,39.685,86.092,40.477,85.302L54.174,71.607C54.965,70.813,56.248,70.813,57.042,71.607L57.233,71.805 57.24,81.887C73.776,80.733 86.89,66.918 86.89,50.084 86.89,38.264 80.399,27.47 69.951,21.909 67.316,20.509 66.316,17.234 67.717,14.599 69.123,11.964 72.395,10.965 75.029,12.368 89.008,19.808 97.698,34.26 97.698,50.084 97.698,72.878 79.745,91.553 57.241,92.72L57.241,101.662 57.043,101.86C56.248,102.652,54.965,102.652,54.174,101.861z" />
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
                         </Button>
+                        
+                        
 
 
 
