@@ -3184,7 +3184,7 @@ namespace KNXBoostDesktop
             if (mainWindow != null)
             {
                 // Appelez la méthode asynchrone
-                mainWindow.ReloadProject();
+                //mainWindow.ReloadProject();
             }
         }
 
@@ -4267,4 +4267,3 @@ namespace KNXBoostDesktop
         }
     }
 }
-

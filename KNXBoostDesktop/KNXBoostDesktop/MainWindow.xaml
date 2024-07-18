@@ -611,6 +611,21 @@
 
                     <!-- Boutons à droite -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                        <!-- Bouton de paramètres -->
+                        <Button x:Name="ButtonnReload" Width="25" Height="25"
+                             Click="ReloadProject"
+                             Margin="0,0,10,0" 
+                             Background="White"
+                             BorderThickness="1" BorderBrush="{StaticResource BorderGray}"
+                             Padding="0"
+                             Style="{StaticResource SettingsButtonLight}">
+                            
+                        </Button>
+
+
+
+
                         <!-- Bouton de paramètres -->
                         <Button x:Name="ButtonSettings" Width="25" Height="25"
                                 Click="OpenParameters"
