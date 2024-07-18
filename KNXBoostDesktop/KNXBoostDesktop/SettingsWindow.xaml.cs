@@ -3053,7 +3053,6 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            
             // Sauvegarde des anciens paramètres
             var previousEnableDeeplTranslation = EnableDeeplTranslation;
             var previousTranslationDestinationLang = TranslationDestinationLang;
@@ -3174,8 +3173,7 @@ namespace KNXBoostDesktop
                 previousTranslationSourceLang != TranslationSourceLang ||
                 previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection ||
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
-                previousEnableLightTheme != EnableLightTheme ||
-                previousAppLang != AppLang ||
+                previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang || 
                 previousAppScaleFactor != AppScaleFactor ||
                 deeplKeyChanged)
             {
@@ -3190,7 +3188,7 @@ namespace KNXBoostDesktop
             }
             
             // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents(false, previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme);
+            UpdateWindowContents(false, previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme);
 
             // Si on a modifié l'échelle dans les paramètres
             if (AppScaleFactor != previousAppScaleFactor)
@@ -3212,10 +3210,10 @@ namespace KNXBoostDesktop
             }
 
             // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents(previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
+            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang == AppLang, previousEnableLightTheme == EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
+            App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             //Faire apparaitre le bouton Reload
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
@@ -4227,7 +4225,7 @@ namespace KNXBoostDesktop
 
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
                 case Key.Enter:
-                    SaveButtonClick(null, null);
+                    SaveButtonClick(null!, null!);
                     break;
             }
         }
