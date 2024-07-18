@@ -1086,7 +1086,15 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
+        string sourceFilePath ;
+        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+        {
+            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
+        }
+        else
+        {
+            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+        }
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
         // Vérifier si le fichier source existe
@@ -2014,18 +2022,20 @@ public partial class MainWindow
                         {
                             await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_original.xml",
                                 App.Fm.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
+                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
+                                App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
+                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updatedUnusedAddresses.xml",
+                                App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml").ConfigureAwait(false);
                         }
                         else
                         {
                             await ExportUpdatedNameAddresses
                                 .Export(App.Fm.ZeroXmlPath, App.Fm.ProjectFolderPath + "/GroupAddresses.xml")
                                 .ConfigureAwait(false);
+                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
+                                App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
                         }
-
                     }
-
-                    await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
-                        App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
                 }
 
                 await LoadXmlFiles().ConfigureAwait(false);
@@ -2143,6 +2153,10 @@ public partial class MainWindow
 
         // Renommer l'adresse dans le fichier XML
         RenameAddressInXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml", editedAddress, newAddress);
+        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+        {
+            RenameAddressInXmlFile(App.Fm?.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml", editedAddress, newAddress);
+        }
     }
 
     
@@ -2216,7 +2230,9 @@ public partial class MainWindow
         try
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml");
+            xmlDoc.Load(filePath);
+            
+
 
             // Déclaration d'un gestionnaire de noms pour l'espace de noms par défaut
             var nsManager = new XmlNamespaceManager(xmlDoc.NameTable);
@@ -2857,7 +2873,8 @@ public partial class MainWindow
     /// <returns>The path of the TreeViewItem as a string, or null if the path cannot be determined.</returns>
     private static string? GetItemPath(TreeViewItem item)
     {
-        if (item.Tag is not string path)
+        var path = item.Tag as string;
+        if (path == null)
         {
             return null;
         }

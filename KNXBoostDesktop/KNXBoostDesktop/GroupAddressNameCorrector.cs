@@ -582,12 +582,12 @@ public class GroupAddressNameCorrector
                     };
                 })
                 .ToList();
+
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
 
             // Display extracted location information
-
             totalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
             foreach (var loc in locationInfo)
@@ -887,6 +887,10 @@ public class GroupAddressNameCorrector
             // Load the original XML file without any additional modifications
             XDocument? originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             
+            //Duplicate the knxDoc for the unused addresses
+
+            XDocument baseKnxDoc = new XDocument(knxDoc);
+
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
             
@@ -910,10 +914,10 @@ public class GroupAddressNameCorrector
 
                         var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                         string msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
-                        var ancestorgroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                        if (ancestorgroupElement != null)
+                        var ancestorGroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
+                        if (ancestorGroupElement != null)
                         {
-                            msg += ancestorgroupElement.Attribute("Name")?.Value + " -> ";
+                            msg += ancestorGroupElement.Attribute("Name")?.Value + " -> ";
                         }
 
                         msg += groupElement?.Attribute("Name")?.Value + ") with Id : " + groupId;
@@ -922,6 +926,14 @@ public class GroupAddressNameCorrector
                         // Delete it in originalKnxDoc
                         groupAddress.Remove();
 
+                        // Add an "*" to addresses to identify them in ETS
+                        var correspondingGroupAddressInBaseKnxDoc = baseKnxDoc?.Descendants(_globalKnxNamespace + "GroupAddress")
+                            .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
+                        if (correspondingGroupAddressInBaseKnxDoc != null)
+                        {
+                            correspondingGroupAddressInBaseKnxDoc.Attribute("Name").Value = "*" + correspondingGroupAddressInBaseKnxDoc.Attribute("Name").Value;
+                        }
+                        
                         // Delete it in knxDoc
                         var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                             .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
@@ -929,10 +941,10 @@ public class GroupAddressNameCorrector
                         if (correspondingGroupAddressInKnxDoc != null)
                         {
                             correspondingGroupAddressInKnxDoc.Remove();
-
                             App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
                         }
-                           
+                        
+                        
                     } 
                 }
             }
@@ -946,6 +958,7 @@ public class GroupAddressNameCorrector
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
                 App.Fm?.SaveXml(originalKnxDoc, $"{App.Fm.ProjectFolderPath}0_original.xml");
+                App.Fm?.SaveXml(baseKnxDoc, $"{App.Fm.ProjectFolderPath}0_updatedUnusedAddresses.xml");
             }
         }
         catch (Exception ex)
