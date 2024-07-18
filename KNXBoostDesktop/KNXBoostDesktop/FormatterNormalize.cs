@@ -54,12 +54,12 @@ public class FormatterNormalize : Formatter
             input = input.ToLower();
 
             // Remove diacritics (accents)
-            string stFormD = input.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder(); 
+            var stFormD = input.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder(); 
             // Iterate over each character in the normalized string
-            foreach (char c in stFormD) 
+            foreach (var c in stFormD) 
             { 
-                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(c); 
+                var uc = CharUnicodeInfo.GetUnicodeCategory(c); 
                 // If the character is not a non-spacing mark, append it to the result
                 if (uc != UnicodeCategory.NonSpacingMark) 
                 { 
@@ -70,11 +70,11 @@ public class FormatterNormalize : Formatter
             }
             
             // Normalize result to FormC (canonical composition) and return
-            string noDiacritics = sb.ToString().Normalize(NormalizationForm.FormC);
+            var noDiacritics = sb.ToString().Normalize(NormalizationForm.FormC);
 
             // Build the string without punctuation
-            StringBuilder result = new StringBuilder(); 
-            foreach (char c in noDiacritics) 
+            var result = new StringBuilder(); 
+            foreach (var c in noDiacritics) 
             { 
                 if (char.IsLetterOrDigit(c) || c == ' ' || !char.IsPunctuation(c)) 
                 { 
@@ -83,15 +83,15 @@ public class FormatterNormalize : Formatter
             }
 
             // Replace spaces with underscores
-            string withUnderscores = result.ToString().Replace(" ", "_");
+            var withUnderscores = result.ToString().Replace(" ", "_");
 
             // Replace multiple underscores with a single underscore
-            string singleUnderscore = Regex.Replace(withUnderscores, @"_+", "_");
+            var singleUnderscore = Regex.Replace(withUnderscores, @"_+", "_");
 
             // Split the words, capitalize each one, and join without underscore
             string[] words = singleUnderscore.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 
-            for (int i = 0; i < words.Length; i++)
+            for (var i = 0; i < words.Length; i++)
             {
                 words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
             }

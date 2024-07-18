@@ -141,8 +141,6 @@ public partial class MainWindow
             borderPanelColor = "#D7D7D7";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyle");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyle");
 
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
@@ -161,14 +159,13 @@ public partial class MainWindow
             borderPanelColor = "#525252";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
-            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
-
+            
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
         }
         
         // Panneaux et arrière-plan
+        
         MainGrid.Background = ConvertStringColor(backgroundColor);
         ScrollViewerGauche.Background = ConvertStringColor(panelBackgroundColor);
         ScrollViewerDroite.Background = ConvertStringColor(panelBackgroundColor);
@@ -185,6 +182,7 @@ public partial class MainWindow
         LogoRecherche.Brush = ConvertStringColor(logoColor);
         
         // Panel
+        
         TextBlockAdressesGauche.Foreground = ConvertStringColor(panelTextColor);
         TextBlockAdressesDroite.Foreground = ConvertStringColor(panelTextColor);
         ChevronPanGauche.Brush = ConvertStringColor(logoColor);
@@ -985,11 +983,11 @@ public partial class MainWindow
             loadingTimes?.Add(new LoadingTimeEntry
             {
                 ProjectName = App.Fm.ProjectName,
-                AddressCount = GroupAddressNameCorrector.totalAddresses,
-                DeviceCount = GroupAddressNameCorrector.totalDevices,
+                AddressCount = GroupAddressNameCorrector.TotalAddresses,
+                DeviceCount = GroupAddressNameCorrector.TotalDevices,
                 IsDeleted = App.DisplayElements.SettingsWindow != null &&
                             (bool)App.DisplayElements.SettingsWindow.RemoveUnusedAddressesCheckBox.IsChecked!,
-                DeletedAddresses = GroupAddressNameCorrector.totalDeletedAddresses,
+                DeletedAddresses = GroupAddressNameCorrector.TotalDeletedAddresses,
                 IsTranslated = App.DisplayElements.SettingsWindow != null && 
                                (bool)App.DisplayElements.SettingsWindow.EnableTranslationCheckBox.IsChecked!,
                 TotalLoadingTime = finalElapsedTime
@@ -1024,7 +1022,7 @@ public partial class MainWindow
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
 
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             // Tâche qui met à jour l'affichage du temps écoulé toutes les 100ms
@@ -1032,7 +1030,7 @@ public partial class MainWindow
             {
                 while (stopwatch.IsRunning)
                 {
-                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    var elapsedTime = stopwatch.Elapsed;
                     // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
                     Application.Current.Dispatcher.Invoke(() =>
                     {
@@ -1048,7 +1046,7 @@ public partial class MainWindow
             HideOverlay();
 
             stopwatch.Stop();
-            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+            var finalElapsedTime = stopwatch.Elapsed;
 
             // Mise à jour finale de l'affichage
             Application.Current.Dispatcher.Invoke(() =>
@@ -1097,13 +1095,13 @@ public partial class MainWindow
     private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
         string sourceFilePath ;
-        if (App.DisplayElements.SettingsWindow!.RemoveUnusedGroupAddresses)
+        if (App.DisplayElements!.SettingsWindow!.RemoveUnusedGroupAddresses)
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml";
         }
         else
         {
-            sourceFilePath = App.Fm.ProjectFolderPath + "UpdatedGroupAddresses.xml";
+            sourceFilePath = App.Fm?.ProjectFolderPath + "UpdatedGroupAddresses.xml";
         }
         App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
         
@@ -1117,7 +1115,7 @@ public partial class MainWindow
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Title = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
@@ -1182,7 +1180,7 @@ public partial class MainWindow
             },
             FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
             DefaultExt = ".xml", // Extension par défaut
-            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            Filter = App.DisplayElements.SettingsWindow!.AppLang switch
             {
                 // Arabe
                 "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
@@ -2297,7 +2295,6 @@ public partial class MainWindow
         item.Style = FindResource(style) as Style;
 
         // Ensure the TreeViewItem is expanded to generate child containers
-        item.IsExpanded = true;
         item.UpdateLayout(); // Force update layout to generate child containers
 
         item.ItemContainerGenerator.StatusChanged += (_, _) =>
@@ -2471,7 +2468,7 @@ public partial class MainWindow
 
         parentItems.Add(treeNode);
         // Parcourir récursivement les enfants
-        int childIndex = 0;
+        var childIndex = 0;
         foreach (XmlNode childNode in xmlNode.ChildNodes)
         {
             AddNodeRecursively(childNode, treeNode.Items, level + 1, childIndex++);
@@ -2663,8 +2660,10 @@ public partial class MainWindow
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
-    
-    
+
+
+
+
     /// <summary>
     /// Handles the PreviewKeyDown event of the search TextBox to move focus away and handle specific key presses (Enter or Escape).
     /// </summary>
