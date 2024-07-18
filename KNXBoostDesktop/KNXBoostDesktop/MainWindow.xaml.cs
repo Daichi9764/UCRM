@@ -855,7 +855,7 @@ public partial class MainWindow
         }
     }
 
-    public async void ReloadProject()
+    public async void ReloadProject(object sender, RoutedEventArgs e)
     {
         App.ConsoleAndLogWriteLine("Reaload");
 
