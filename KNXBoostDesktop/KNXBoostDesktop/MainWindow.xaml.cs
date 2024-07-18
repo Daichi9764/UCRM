@@ -1076,31 +1076,263 @@ public partial class MainWindow
             App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
         }
     }
-
+    
     
     /// <summary>
-    /// Saves loading times to a CSV file.
+    /// Handles the button click event to export the updated project file to a selected destination.
+    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
+    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
     /// </summary>
-    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
-    /// <param name="loadingTimes">The list of loading time entries to save.</param>
-    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
     {
-        using var writer = new StreamWriter(filePath);
-        writer.WriteLine("ProjectName,AddressCount,DeviceCount,IsDeleted?,DeletedAddresses,IsTranslated?,TotalLoadingTime");
-        if (loadingTimes == null) return;
-            
-        foreach (var entry in loadingTimes)
+        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
+        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
+        
+        // Vérifier si le fichier source existe
+        if (!File.Exists(sourceFilePath))
         {
-            writer.WriteLine($"{App.Fm?.ProjectName}," +
-                             $"{entry.AddressCount}," +
-                             $"{entry.DeviceCount}," +
-                             $"{entry.IsDeleted}," +
-                             $"{entry.DeletedAddresses}," +
-                             $"{entry.IsTranslated}," +
-                             $"{(int)entry.TotalLoadingTime.TotalMinutes:D2}:{entry.TotalLoadingTime.Seconds:D2}");
+            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
+            return;
+        }
+
+        // Initialiser et configurer le SaveFileDialog
+        SaveFileDialog saveFileDialog = new()
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
+                // Bulgare
+                "BG" => "Запазване на актуализирания файл с адреси на групи като...",
+                // Tchèque
+                "CS" => "Uložit aktualizovaný soubor skupinových adres jako...",
+                // Danois
+                "DA" => "Gem den opdaterede gruppeadressedatafil som...",
+                // Allemand
+                "DE" => "Aktualisierte Gruppenadressdatei speichern unter...",
+                // Grec
+                "EL" => "Αποθήκευση του ενημερωμένου αρχείου διευθύνσεων ομάδας ως...",
+                // Anglais
+                "EN" => "Save updated group address file as...",
+                // Espagnol
+                "ES" => "Guardar archivo de direcciones de grupo actualizado como...",
+                // Estonien
+                "ET" => "Salvesta värskendatud rühma aadresside fail nimega...",
+                // Finnois
+                "FI" => "Tallenna päivitetty ryhmäosoitetiedosto nimellä...",
+                // Hongrois
+                "HU" => "Mentse a frissített csoportcím fájlt másként...",
+                // Indonésien
+                "ID" => "Simpan file alamat grup yang diperbarui sebagai...",
+                // Italien
+                "IT" => "Salva il file degli indirizzi del gruppo aggiornato come...",
+                // Japonais
+                "JA" => "更新されたグループアドレスファイルを名前を付けて保存...",
+                // Coréen
+                "KO" => "업데이트된 그룹 주소 파일을 다음 이름으로 저장...",
+                // Letton
+                "LV" => "Saglabāt atjaunināto grupas adrešu failu kā...",
+                // Lituanien
+                "LT" => "Išsaugoti atnaujintą grupės adresų failą kaip...",
+                // Norvégien
+                "NB" => "Lagre oppdatert gruppeadressefil som...",
+                // Néerlandais
+                "NL" => "Bijgewerkt groepsadresbestand opslaan als...",
+                // Polonais
+                "PL" => "Zapisz zaktualizowany plik adresów grupowych jako...",
+                // Portugais
+                "PT" => "Salvar arquivo de endereços de grupo atualizado como...",
+                // Roumain
+                "RO" => "Salvează fișierul actualizat de adrese de grup ca...",
+                // Russe
+                "RU" => "Сохранить обновленный файл адресов группы как...",
+                // Slovaque
+                "SK" => "Uložiť aktualizovaný súbor skupinových adries ako...",
+                // Slovène
+                "SL" => "Shrani posodobljeno datoteko skupinskih naslovov kot...",
+                // Suédois
+                "SV" => "Spara uppdaterad gruppadressfil som...",
+                // Turc
+                "TR" => "Güncellenmiş grup adres dosyasını farklı kaydet...",
+                // Ukrainien
+                "UK" => "Зберегти оновлений файл групових адрес як...",
+                // Chinois simplifié
+                "ZH" => "将更新的组地址文件另存为...",
+                // Cas par défaut (français)
+                _ => "Enregistrer le fichier d'adresses de groupe modifiées sous..."
+            },
+            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
+            DefaultExt = ".xml", // Extension par défaut
+            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
+                // Bulgare
+                "BG" => "XML файлове|*.xml|Всички файлове|*.*",
+                // Tchèque
+                "CS" => "XML soubory|*.xml|Všechny soubory|*.*",
+                // Danois
+                "DA" => "XML-filer|*.xml|Alle filer|*.*",
+                // Allemand
+                "DE" => "XML-Dateien|*.xml|Alle Dateien|*.*",
+                // Grec
+                "EL" => "Αρχεία XML|*.xml|Όλα τα αρχεία|*.*",
+                // Anglais
+                "EN" => "XML Files|*.xml|All Files|*.*",
+                // Espagnol
+                "ES" => "Archivos XML|*.xml|Todos los archivos|*.*",
+                // Estonien
+                "ET" => "XML-failid|*.xml|Kõik failid|*.*",
+                // Finnois
+                "FI" => "XML-tiedostot|*.xml|Kaikki tiedostot|*.*",
+                // Hongrois
+                "HU" => "XML fájlok|*.xml|Minden fájl|*.*",
+                // Indonésien
+                "ID" => "File XML|*.xml|Semua file|*.*",
+                // Italien
+                "IT" => "File XML|*.xml|Tutti i file|*.*",
+                // Japonais
+                "JA" => "XMLファイル|*.xml|すべてのファイル|*.*",
+                // Coréen
+                "KO" => "XML 파일|*.xml|모든 파일|*.*",
+                // Letton
+                "LV" => "XML faili|*.xml|Visi faili|*.*",
+                // Lituanien
+                "LT" => "XML failai|*.xml|Visi failai|*.*",
+                // Norvégien
+                "NB" => "XML-filer|*.xml|Alle filer|*.*",
+                // Néerlandais
+                "NL" => "XML-bestanden|*.xml|Alle bestanden|*.*",
+                // Polonais
+                "PL" => "Pliki XML|*.xml|Wszystkie pliki|*.*",
+                // Portugais
+                "PT" => "Arquivos XML|*.xml|Todos os arquivos|*.*",
+                // Roumain
+                "RO" => "Fișiere XML|*.xml|Toate fișierele|*.*",
+                // Russe
+                "RU" => "XML-файлы|*.xml|Все файлы|*.*",
+                // Slovaque
+                "SK" => "XML súbory|*.xml|Všetky súbory|*.*",
+                // Slovène
+                "SL" => "XML datoteke|*.xml|Vse datoteke|*.*",
+                // Suédois
+                "SV" => "XML-filer|*.xml|Alla filer|*.*",
+                // Turc
+                "TR" => "XML Dosyaları|*.xml|Tüm Dosyalar|*.*",
+                // Ukrainien
+                "UK" => "XML-файли|*.xml|Всі файли|*.*",
+                // Chinois simplifié
+                "ZH" => "XML 文件|*.xml|所有文件|*.*",
+                // Cas par défaut (français)
+                _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
+            }
+
+        };
+
+        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
+        var result = saveFileDialog.ShowDialog();
+
+        if (result != true) return;
+        // Chemin du fichier sélectionné par l'utilisateur
+        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
+
+        try
+        {
+            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+            File.Copy(sourceFilePath, saveFileDialog.FileName, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
+        }
+        catch (Exception ex)
+        {
+            // Gérer les exceptions et afficher un message d'erreur
+            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
         }
     }
 
+    
+    /// <summary>
+    /// Handles the closing event of the main window by shutting down the application.
+    /// </summary>
+    /// <param name="sender">The object that raised the event.</param>
+    /// <param name="e">The event data.</param>
+    private void ClosingMainWindow(object sender, CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
+    
+
+    /// <summary>
+    /// Handles the button click event to open the application settings window.
+    /// Checks if the settings window is already open and brings it to the front if so,
+    /// otherwise, displays the settings window.
+    /// Clears keyboard focus from the button after opening the settings window.
+    /// </summary>
+    /// <param name="sender">The object that raised the event (typically the button).</param>
+    /// <param name="e">The event data.</param>
+    private void OpenParameters(object sender, RoutedEventArgs e)
+    {
+
+        // Vérifie si la fenêtre de paramètres est déjà ouverte
+        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
+        {
+            // Si la fenêtre est déjà ouverte, la met au premier plan
+            App.DisplayElements.SettingsWindow.Activate();
+            App.DisplayElements.SettingsWindow.Focus();
+        }
+        else
+        {
+            // Sinon, affiche la fenêtre de paramètres
+            App.DisplayElements.ShowSettingsWindow();
+        }
+
+        Keyboard.ClearFocus(); // On désélectionne le bouton paramètres dans mainwindow
+    }
+
+    
+    //--------------------- Gestion des data de performances -----------------------------------------------------//
+    /// <summary>
+    /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
+    /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
+    /// </summary>
+    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
+    /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
+    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    {
+        // Écriture des nouvelles lignes dans le fichier CSV
+        using (var writer = new StreamWriter(filePath))
+        {
+            writer.WriteLine("ProjectName,AddressCount,DeviceCount,IsDeleted?,DeletedAddresses,IsTranslated?,TotalLoadingTime");
+            if (loadingTimes != null)
+            {
+                foreach (var entry in loadingTimes)
+                {
+                    writer.WriteLine($"{App.Fm?.ProjectName}," +
+                                     $"{entry.AddressCount}," +
+                                     $"{entry.DeviceCount}," +
+                                     $"{entry.IsDeleted}," +
+                                     $"{entry.DeletedAddresses}," +
+                                     $"{entry.IsTranslated}," +
+                                     $"{(int)entry.TotalLoadingTime.TotalMinutes:D2}:{entry.TotalLoadingTime.Seconds:D2}");
+                }
+            }
+        }
+
+        // Relire le contenu du fichier CSV
+        var lines = new List<string>(File.ReadAllLines(filePath));
+
+        // Vérifier et supprimer les lignes en trop
+        const int maxLines = 50;
+        if (lines.Count > maxLines + 1) // +1 pour inclure l'en-tête
+        {
+            // Supprimer les lignes les plus anciennes
+            lines.RemoveRange(1, lines.Count - maxLines - 1); // Laisser l'en-tête intact
+        }
+
+        // Écrire les lignes restantes dans le fichier CSV
+        File.WriteAllLines(filePath, lines);
+    }
     
     /// <summary>
     /// Loads loading time entries from a CSV file located at the specified file path.
@@ -1501,7 +1733,7 @@ public partial class MainWindow
         }
 
         try
-        {
+        {            
             var unused = reader?.ReadLine();
             while (reader?.ReadLine() is { } line)
             {
@@ -1553,220 +1785,6 @@ public partial class MainWindow
         }
         return loadingTimes;
     }
-    
-    
-    /// <summary>
-    /// Handles the button click event to export the updated project file to a selected destination.
-    /// Checks if the source file exists, prompts the user to select a destination using SaveFileDialog,
-    /// and copies the source file to the selected location. Logs relevant information and handles exceptions.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ExportModifiedProjectButtonClick(object sender, RoutedEventArgs e)
-    {
-        var sourceFilePath = $"{App.Fm?.ProjectFolderPath}UpdatedGroupAddresses.xml";
-        App.ConsoleAndLogWriteLine($"User is exporting {sourceFilePath}");
-        
-        // Vérifier si le fichier source existe
-        if (!File.Exists(sourceFilePath))
-        {
-            App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
-            return;
-        }
-
-        // Initialiser et configurer le SaveFileDialog
-        SaveFileDialog saveFileDialog = new()
-        {
-            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
-            {
-                // Arabe
-                "AR" => "حفظ ملف عناوين المجموعة المحدثة باسم...",
-                // Bulgare
-                "BG" => "Запазване на актуализирания файл с адреси на групи като...",
-                // Tchèque
-                "CS" => "Uložit aktualizovaný soubor skupinových adres jako...",
-                // Danois
-                "DA" => "Gem den opdaterede gruppeadressedatafil som...",
-                // Allemand
-                "DE" => "Aktualisierte Gruppenadressdatei speichern unter...",
-                // Grec
-                "EL" => "Αποθήκευση του ενημερωμένου αρχείου διευθύνσεων ομάδας ως...",
-                // Anglais
-                "EN" => "Save updated group address file as...",
-                // Espagnol
-                "ES" => "Guardar archivo de direcciones de grupo actualizado como...",
-                // Estonien
-                "ET" => "Salvesta värskendatud rühma aadresside fail nimega...",
-                // Finnois
-                "FI" => "Tallenna päivitetty ryhmäosoitetiedosto nimellä...",
-                // Hongrois
-                "HU" => "Mentse a frissített csoportcím fájlt másként...",
-                // Indonésien
-                "ID" => "Simpan file alamat grup yang diperbarui sebagai...",
-                // Italien
-                "IT" => "Salva il file degli indirizzi del gruppo aggiornato come...",
-                // Japonais
-                "JA" => "更新されたグループアドレスファイルを名前を付けて保存...",
-                // Coréen
-                "KO" => "업데이트된 그룹 주소 파일을 다음 이름으로 저장...",
-                // Letton
-                "LV" => "Saglabāt atjaunināto grupas adrešu failu kā...",
-                // Lituanien
-                "LT" => "Išsaugoti atnaujintą grupės adresų failą kaip...",
-                // Norvégien
-                "NB" => "Lagre oppdatert gruppeadressefil som...",
-                // Néerlandais
-                "NL" => "Bijgewerkt groepsadresbestand opslaan als...",
-                // Polonais
-                "PL" => "Zapisz zaktualizowany plik adresów grupowych jako...",
-                // Portugais
-                "PT" => "Salvar arquivo de endereços de grupo atualizado como...",
-                // Roumain
-                "RO" => "Salvează fișierul actualizat de adrese de grup ca...",
-                // Russe
-                "RU" => "Сохранить обновленный файл адресов группы как...",
-                // Slovaque
-                "SK" => "Uložiť aktualizovaný súbor skupinových adries ako...",
-                // Slovène
-                "SL" => "Shrani posodobljeno datoteko skupinskih naslovov kot...",
-                // Suédois
-                "SV" => "Spara uppdaterad gruppadressfil som...",
-                // Turc
-                "TR" => "Güncellenmiş grup adres dosyasını farklı kaydet...",
-                // Ukrainien
-                "UK" => "Зберегти оновлений файл групових адрес як...",
-                // Chinois simplifié
-                "ZH" => "将更新的组地址文件另存为...",
-                // Cas par défaut (français)
-                _ => "Enregistrer le fichier d'adresses de groupe modifiées sous..."
-            },
-            FileName = "UpdatedGroupAddresses.xml", // Nom de fichier par défaut
-            DefaultExt = ".xml", // Extension par défaut
-            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
-            {
-                // Arabe
-                "AR" => "ملفات XML|*.xml|كل الملفات|*.*",
-                // Bulgare
-                "BG" => "XML файлове|*.xml|Всички файлове|*.*",
-                // Tchèque
-                "CS" => "XML soubory|*.xml|Všechny soubory|*.*",
-                // Danois
-                "DA" => "XML-filer|*.xml|Alle filer|*.*",
-                // Allemand
-                "DE" => "XML-Dateien|*.xml|Alle Dateien|*.*",
-                // Grec
-                "EL" => "Αρχεία XML|*.xml|Όλα τα αρχεία|*.*",
-                // Anglais
-                "EN" => "XML Files|*.xml|All Files|*.*",
-                // Espagnol
-                "ES" => "Archivos XML|*.xml|Todos los archivos|*.*",
-                // Estonien
-                "ET" => "XML-failid|*.xml|Kõik failid|*.*",
-                // Finnois
-                "FI" => "XML-tiedostot|*.xml|Kaikki tiedostot|*.*",
-                // Hongrois
-                "HU" => "XML fájlok|*.xml|Minden fájl|*.*",
-                // Indonésien
-                "ID" => "File XML|*.xml|Semua file|*.*",
-                // Italien
-                "IT" => "File XML|*.xml|Tutti i file|*.*",
-                // Japonais
-                "JA" => "XMLファイル|*.xml|すべてのファイル|*.*",
-                // Coréen
-                "KO" => "XML 파일|*.xml|모든 파일|*.*",
-                // Letton
-                "LV" => "XML faili|*.xml|Visi faili|*.*",
-                // Lituanien
-                "LT" => "XML failai|*.xml|Visi failai|*.*",
-                // Norvégien
-                "NB" => "XML-filer|*.xml|Alle filer|*.*",
-                // Néerlandais
-                "NL" => "XML-bestanden|*.xml|Alle bestanden|*.*",
-                // Polonais
-                "PL" => "Pliki XML|*.xml|Wszystkie pliki|*.*",
-                // Portugais
-                "PT" => "Arquivos XML|*.xml|Todos os arquivos|*.*",
-                // Roumain
-                "RO" => "Fișiere XML|*.xml|Toate fișierele|*.*",
-                // Russe
-                "RU" => "XML-файлы|*.xml|Все файлы|*.*",
-                // Slovaque
-                "SK" => "XML súbory|*.xml|Všetky súbory|*.*",
-                // Slovène
-                "SL" => "XML datoteke|*.xml|Vse datoteke|*.*",
-                // Suédois
-                "SV" => "XML-filer|*.xml|Alla filer|*.*",
-                // Turc
-                "TR" => "XML Dosyaları|*.xml|Tüm Dosyalar|*.*",
-                // Ukrainien
-                "UK" => "XML-файли|*.xml|Всі файли|*.*",
-                // Chinois simplifié
-                "ZH" => "XML 文件|*.xml|所有文件|*.*",
-                // Cas par défaut (français)
-                _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
-            }
-
-        };
-
-        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
-        var result = saveFileDialog.ShowDialog();
-
-        if (result != true) return;
-        // Chemin du fichier sélectionné par l'utilisateur
-        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
-
-        try
-        {
-            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
-            File.Copy(sourceFilePath, saveFileDialog.FileName, true);
-            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
-        }
-        catch (Exception ex)
-        {
-            // Gérer les exceptions et afficher un message d'erreur
-            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
-        }
-    }
-
-    
-    /// <summary>
-    /// Handles the closing event of the main window by shutting down the application.
-    /// </summary>
-    /// <param name="sender">The object that raised the event.</param>
-    /// <param name="e">The event data.</param>
-    private void ClosingMainWindow(object sender, CancelEventArgs e)
-    {
-        Application.Current.Shutdown();
-    }
-    
-
-    /// <summary>
-    /// Handles the button click event to open the application settings window.
-    /// Checks if the settings window is already open and brings it to the front if so,
-    /// otherwise, displays the settings window.
-    /// Clears keyboard focus from the button after opening the settings window.
-    /// </summary>
-    /// <param name="sender">The object that raised the event (typically the button).</param>
-    /// <param name="e">The event data.</param>
-    private void OpenParameters(object sender, RoutedEventArgs e)
-    {
-
-        // Vérifie si la fenêtre de paramètres est déjà ouverte
-        if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
-        {
-            // Si la fenêtre est déjà ouverte, la met au premier plan
-            App.DisplayElements.SettingsWindow.Activate();
-            App.DisplayElements.SettingsWindow.Focus();
-        }
-        else
-        {
-            // Sinon, affiche la fenêtre de paramètres
-            App.DisplayElements.ShowSettingsWindow();
-        }
-
-        Keyboard.ClearFocus(); // On désélectionne le bouton paramètres dans mainwindow
-    }
-
     
     
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
