@@ -1007,6 +1007,9 @@ public partial class MainWindow
     /// </summary>
     public async void ReloadProject(object sender, RoutedEventArgs e)
     {
+        //Cacher le bouton de Reload
+        ButtonReload.Visibility = Visibility.Hidden;
+
         App.ConsoleAndLogWriteLine("Reaload");
 
             // Créer et configurer la LoadingWindow
@@ -1054,6 +1057,7 @@ public partial class MainWindow
             ViewModel.IsProjectImported = true;
 
     }
+
     
 
     /// <summary>

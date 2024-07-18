@@ -98,14 +98,6 @@ namespace KNXBoostDesktop
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
 
-            // Ajoutez des gestionnaires d'événements pour suivre les changements d'état des checkboxes
-            RemoveUnusedAddressesCheckBox.Checked += CheckBox_CheckedChanged;
-            RemoveUnusedAddressesCheckBox.Unchecked += CheckBox_CheckedChanged;
-            EnableTranslationCheckBox.Checked += CheckBox_CheckedChanged;
-            EnableTranslationCheckBox.Unchecked += CheckBox_CheckedChanged;
-
-
-
             const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
 
             // Si le fichier contenant la main key n'existe pas
@@ -1001,7 +993,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "حفظ";
                     CancelButtonText.Text = "إلغاء";
-                    SaveAndApplyButtonText.Text = "تطبيق";
 
 
                     MenuDebug.Text = "قائمة التصحيح";
@@ -1056,8 +1047,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Запази";
                     CancelButtonText.Text = "Отмени";
-                    SaveAndApplyButtonText.Text = "Приложи";
-
 
                     MenuDebug.Text = "Меню за отстраняване на грешки";
                     AddInfosOsCheckBox.Content = "Включване на информация за операционната система";
@@ -1111,8 +1100,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložit";
                     CancelButtonText.Text = "Zrušit";
-                    SaveAndApplyButtonText.Text = "Použít";
-
 
                     MenuDebug.Text = "Ladicí nabídka";
                     AddInfosOsCheckBox.Content = "Zahrnout informace o operačním systému";
@@ -1166,8 +1153,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Gem";
                     CancelButtonText.Text = "Annuller";
-                    SaveAndApplyButtonText.Text = "Anvend";
-
 
                     MenuDebug.Text = "Fejlfindingsmenu";
                     AddInfosOsCheckBox.Content = "Inkluder oplysninger om operativsystemet";
@@ -1221,8 +1206,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Speichern";
                     CancelButtonText.Text = "Abbrechen";
-                    SaveAndApplyButtonText.Text = "Anwenden";
-
 
                     MenuDebug.Text = "Debug-Menü";
                     AddInfosOsCheckBox.Content = "Betriebssysteminformationen einbeziehen";
@@ -1283,8 +1266,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Αποθήκευση";
                     CancelButtonText.Text = "Ακύρωση";
-                    SaveAndApplyButtonText.Text = "Εφαρμογή";
-
 
                     OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
                     OngletDebug.Header = "Αποσφαλμάτωση";
@@ -1331,8 +1312,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Save";
                     CancelButtonText.Text = "Cancel";
-                    SaveAndApplyButtonText.Text = "Apply";
-
 
                     MenuDebug.Text = "Debug Menu";
                     AddInfosOsCheckBox.Content = "Include OS information";
@@ -1386,8 +1365,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Guardar";
                     CancelButtonText.Text = "Cancelar";
-                    SaveAndApplyButtonText.Text = "Aplicar";
-
 
                     MenuDebug.Text = "Menú de depuración";
                     AddInfosOsCheckBox.Content = "Incluir información del sistema operativo";
@@ -1441,8 +1418,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvesta";
                     CancelButtonText.Text = "Tühista";
-                    SaveAndApplyButtonText.Text = "Rakenda";
-
 
                     MenuDebug.Text = "Silumisvalik";
                     AddInfosOsCheckBox.Content = "Kaasa operatsioonisüsteemi teave";
@@ -1496,8 +1471,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Tallenna";
                     CancelButtonText.Text = "Peruuta";
-                    SaveAndApplyButtonText.Text = "Käytä";
-
 
                     MenuDebug.Text = "Vianmääritysvalikko";
                     AddInfosOsCheckBox.Content = "Sisällytä käyttöjärjestelmän tiedot";
@@ -1551,8 +1524,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Mentés";
                     CancelButtonText.Text = "Mégse";
-                    SaveAndApplyButtonText.Text = "Alkalmaz";
-
 
                     MenuDebug.Text = "Hibakeresési menü";
                     AddInfosOsCheckBox.Content = "Tartalmazza az operációs rendszer adatait";
@@ -1606,8 +1577,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Simpan";
                     CancelButtonText.Text = "Batal";
-                    SaveAndApplyButtonText.Text = "Terapkan";
-
 
                     MenuDebug.Text = "Menu Debug";
                     AddInfosOsCheckBox.Content = "Sertakan informasi OS";
@@ -1661,8 +1630,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salva";
                     CancelButtonText.Text = "Annulla";
-                    SaveAndApplyButtonText.Text = "Applica";
-
 
                     MenuDebug.Text = "Menu di debug";
                     AddInfosOsCheckBox.Content = "Includi informazioni sul sistema operativo";
@@ -1716,8 +1683,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "キャンセル";
-                    SaveAndApplyButtonText.Text = "適用";
-
 
                     MenuDebug.Text = "デバッグメニュー";
                     AddInfosOsCheckBox.Content = "OS情報を含む";
@@ -1771,8 +1736,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "저장";
                     CancelButtonText.Text = "취소";
-                    SaveAndApplyButtonText.Text = "적용";
-
 
                     MenuDebug.Text = "디버그 메뉴";
                     AddInfosOsCheckBox.Content = "운영 체제 정보를 포함";
@@ -1826,8 +1789,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Saglabāt";
                     CancelButtonText.Text = "Atcelt";
-                    SaveAndApplyButtonText.Text = "Taikyti";
-
 
                     MenuDebug.Text = "Atkļūdošanas izvēlne";
                     AddInfosOsCheckBox.Content = "Iekļaut OS informāciju";
@@ -1881,8 +1842,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Išsaugoti";
                     CancelButtonText.Text = "Atšaukti";
-                    SaveAndApplyButtonText.Text = "Taikyti";
-
 
                     MenuDebug.Text = "Derinimo meniu";
                     AddInfosOsCheckBox.Content = "Įtraukti OS informaciją";
@@ -1936,8 +1895,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Lagre";
                     CancelButtonText.Text = "Avbryt";
-                    SaveAndApplyButtonText.Text = "Bruk";
-
 
                     MenuDebug.Text = "Feilsøkingsmeny";
                     AddInfosOsCheckBox.Content = "Inkluder OS-informasjon";
@@ -1991,8 +1948,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
-                    SaveAndApplyButtonText.Text = "Toepassen";
-
 
                     MenuDebug.Text = "Debug-menu";
                     AddInfosOsCheckBox.Content = "OS-informatie opnemen";
@@ -2046,8 +2001,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Zapisz";
                     CancelButtonText.Text = "Anuluj";
-                    SaveAndApplyButtonText.Text = "Zastosuj";
-
 
                     MenuDebug.Text = "Menu debugowania";
                     AddInfosOsCheckBox.Content = "Uwzględnij informacje o systemie operacyjnym";
@@ -2101,8 +2054,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvar";
                     CancelButtonText.Text = "Cancelar";
-                    SaveAndApplyButtonText.Text = "Aplicar";
-
 
                     MenuDebug.Text = "Menu de depuração";
                     AddInfosOsCheckBox.Content = "Incluir informações do sistema operacional";
@@ -2156,8 +2107,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Salvează";
                     CancelButtonText.Text = "Anulează";
-                    SaveAndApplyButtonText.Text = "Aplică";
-
 
                     MenuDebug.Text = "Meniu depanare";
                     AddInfosOsCheckBox.Content = "Includeți informații despre sistemul de operare";
@@ -2211,8 +2160,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Uložiť";
                     CancelButtonText.Text = "Zrušiť";
-                    SaveAndApplyButtonText.Text = "Použiť";
-
 
                     MenuDebug.Text = "Ladiace menu";
                     AddInfosOsCheckBox.Content = "Zahrnúť informácie o operačnom systéme";
@@ -2266,8 +2213,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Shrani";
                     CancelButtonText.Text = "Prekliči";
-                    SaveAndApplyButtonText.Text = "Uporabi";
-
 
                     MenuDebug.Text = "Meni za odpravljanje napak";
                     AddInfosOsCheckBox.Content = "Vključi informacije o operacijskem sistemu";
@@ -2321,8 +2266,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Spara";
                     CancelButtonText.Text = "Avbryt";
-                    SaveAndApplyButtonText.Text = "Tillämpa";
-
 
                     MenuDebug.Text = "Felsökningsmeny";
                     AddInfosOsCheckBox.Content = "Inkludera OS-information";
@@ -2376,8 +2319,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Kaydet";
                     CancelButtonText.Text = "İptal";
-                    SaveAndApplyButtonText.Text = "Uygula";
-
 
                     MenuDebug.Text = "Hata Ayıklama Menüsü";
                     AddInfosOsCheckBox.Content = "OS bilgilerini ekle";
@@ -2431,8 +2372,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
-                    SaveAndApplyButtonText.Text = "Застосувати";
-
 
                     MenuDebug.Text = "Меню налагодження";
                     AddInfosOsCheckBox.Content = "Включити інформацію про ОС";
@@ -2486,8 +2425,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "Сохранить";
                     CancelButtonText.Text = "Отменить";
-                    SaveAndApplyButtonText.Text = "Применить";
-
 
                     MenuDebug.Text = "Меню отладки";
                     AddInfosOsCheckBox.Content = "Включить информацию о ОС";
@@ -2541,8 +2478,6 @@ namespace KNXBoostDesktop
 
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
-                    SaveAndApplyButtonText.Text = "应用";
-
 
                     MenuDebug.Text = "调试菜单";
                     AddInfosOsCheckBox.Content = "包括操作系统信息";
@@ -2924,6 +2859,19 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
+            //Faire apparaitre le bouton Reload
+            if ((RemoveUnusedAddressesCheckBox.IsChecked != RemoveUnusedGroupAddresses || EnableTranslationCheckBox.IsChecked != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
+            {
+                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+
+                if (mainWindow != null)
+                {
+                    mainWindow.ButtonReload.Visibility = Visibility.Visible;
+                }
+
+            }
+
+
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
             DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
@@ -3050,169 +2998,7 @@ namespace KNXBoostDesktop
             App.ConsoleAndLogWriteLine("Settings saved successfully");
 
             // Masquage de la fenêtre de paramètres
-            Hide();
-            CheckBox_CheckedChanged(sender,e);
-        }
-
-        private void SaveAndApplyButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
-            EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
-            DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-            TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            TranslationSourceLang = TranslationSourceLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            EnableAutomaticSourceLangDetection = (bool)EnableAutomaticTranslationLangDetectionCheckbox.IsChecked!;
-            RemoveUnusedGroupAddresses = (bool)RemoveUnusedAddressesCheckBox.IsChecked!;
-            EnableLightTheme = LightThemeComboBoxItem.IsSelected;
-            AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
-            AppScaleFactor = (int)ScaleSlider.Value;
-
-            // Mise à jour éventuellement du contenu pour update la langue du menu
-            UpdateWindowContents();
-
-            // Mise à jour de l'échelle de toutes les fenêtres
-            var scaleFactor = AppScaleFactor / 100f;
-            ApplyScaling(scaleFactor - 0.2f);
-            App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
-            App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
-
-            // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
-
-            // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents();
-
-            // Si on a activé la traduction deepl
-            if (EnableDeeplTranslation)
-            {
-                // On vérifie la validité de la clé API
-                var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
-                GroupAddressNameCorrector.ValidDeeplKey = isValid;
-
-                // Si la clé est incorrecte
-                if (!GroupAddressNameCorrector.ValidDeeplKey)
-                {
-                    // Traduction de l'en-tête de la fenêtre d'avertissement
-                    var warningMessage = AppLang switch
-                    {
-                        // Arabe
-                        "AR" => "تحذير",
-                        // Bulgare
-                        "BG" => "Предупреждение",
-                        // Tchèque
-                        "CS" => "Varování",
-                        // Danois
-                        "DA" => "Advarsel",
-                        // Allemand
-                        "DE" => "Warnung",
-                        // Grec
-                        "EL" => "Προειδοποίηση",
-                        // Anglais
-                        "EN" => "Warning",
-                        // Espagnol
-                        "ES" => "Advertencia",
-                        // Estonien
-                        "ET" => "Hoiatus",
-                        // Finnois
-                        "FI" => "Varoitus",
-                        // Hongrois
-                        "HU" => "Figyelmeztetés",
-                        // Indonésien
-                        "ID" => "Peringatan",
-                        // Italien
-                        "IT" => "Avvertimento",
-                        // Japonais
-                        "JA" => "警告",
-                        // Coréen
-                        "KO" => "경고",
-                        // Letton
-                        "LV" => "Brīdinājums",
-                        // Lituanien
-                        "LT" => "Įspėjimas",
-                        // Norvégien
-                        "NB" => "Advarsel",
-                        // Néerlandais
-                        "NL" => "Waarschuwing",
-                        // Polonais
-                        "PL" => "Ostrzeżenie",
-                        // Portugais
-                        "PT" => "Aviso",
-                        // Roumain
-                        "RO" => "Avertizare",
-                        // Russe
-                        "RU" => "Предупреждение",
-                        // Slovaque
-                        "SK" => "Upozornenie",
-                        // Slovène
-                        "SL" => "Opozorilo",
-                        // Suédois
-                        "SV" => "Varning",
-                        // Turc
-                        "TR" => "Uyarı",
-                        // Ukrainien
-                        "UK" => "Попередження",
-                        // Chinois simplifié
-                        "ZH" => "警告",
-                        // Cas par défaut (français)
-                        _ => "Avertissement"
-                    };
-
-                    // Message d'erreur
-                    MessageBox.Show($"{errorMessage}", warningMessage, MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                    // Décochage de la traduction deepL dans la fenêtre
-                    EnableDeeplTranslation = false;
-
-                    // Mise à jour de la case cochable
-                    UpdateWindowContents();
-                }
-            }
-
-            // Sauvegarde des paramètres dans le fichier appSettings
-            App.ConsoleAndLogWriteLine($"Saving application settings at {Path.GetFullPath("./appSettings")}");
-            SaveSettings();
-            App.ConsoleAndLogWriteLine("Settings saved successfully");
-
-            // Masquage de la fenêtre de paramètres
-            Hide();
-            CheckBox_CheckedChanged(sender, e);
-
-            // Obtenez l'instance de MainWindow
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-
-            if (mainWindow != null)
-            {
-                // Appelez la méthode asynchrone
-                mainWindow.ReloadProject();
-            }
-        }
-
-
-        private void CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
-        {
-            if ((RemoveUnusedAddressesCheckBox.IsChecked != RemoveUnusedGroupAddresses  || EnableTranslationCheckBox.IsChecked != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != "" ))
-            {
-                SaveAndApplyButton.Visibility = Visibility.Visible;
-
-                CancelButton2.Visibility = Visibility.Visible;
-                SaveButton2.Visibility = Visibility.Visible;
-                CancelButton.Visibility = Visibility.Collapsed;
-                SaveButton.Visibility = Visibility.Collapsed ;
-                BordureSave.Visibility = Visibility.Visible;
-                BordureSave2.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                SaveAndApplyButton.Visibility = Visibility.Collapsed;
-                CancelButton2.Visibility = Visibility.Collapsed;
-                SaveButton2.Visibility = Visibility.Collapsed;
-                CancelButton.Visibility = Visibility.Visible;
-                SaveButton.Visibility = Visibility.Visible;
-                BordureSave.Visibility = Visibility.Hidden;
-                BordureSave2.Visibility = Visibility.Visible;
-            }
+            Hide();       
         }
 
 
@@ -3427,19 +3213,14 @@ namespace KNXBoostDesktop
             switch (selectedTab)
             {
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header:
-                    CheckBox_CheckedChanged(sender, e);
+                    CancelButton.Visibility = Visibility.Visible;
+                    SaveButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletDebug.Header:
-                    SaveAndApplyButton.Visibility = Visibility.Collapsed;
-                    CancelButton2.Visibility = Visibility.Collapsed;
-                    SaveButton2.Visibility = Visibility.Collapsed;
+
                     CancelButton.Visibility = Visibility.Collapsed;
                     SaveButton.Visibility = Visibility.Collapsed;
-                    BordureSave.Visibility = Visibility.Hidden;
-                    BordureSave2.Visibility = Visibility.Hidden;
-
-
 
                     CreateArchiveDebugButton.Visibility = Visibility.Visible;
                     break;
