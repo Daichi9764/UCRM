@@ -28,6 +28,8 @@
     <ItemGroup>
       <Resource Include="resources\ConsoleWindowIcon.ico" />
       <Resource Include="resources\IconApp.ico" />
+      <None Remove="resources\logoUCRM.png" />
+      <Resource Include="resources\logoUCRM.png" />
     </ItemGroup>
     
 
