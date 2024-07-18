@@ -790,9 +790,7 @@ namespace KNXBoostDesktop
                 reader?.Close(); // Fermeture du stream de lecture
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
-
-            AppVersionTextBlock.Text = $"{App.AppName} v{App.AppVersion.ToString(CultureInfo.InvariantCulture)} (build {App.AppBuild})";
-
+            
             UpdateWindowContents(); // Affichage des paramètres dans la fenêtre
         }
 
@@ -966,215 +964,194 @@ namespace KNXBoostDesktop
             {
                 // Arabe
                 case "AR":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ar/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "الإعدادات";
                     TranslationTitle.Text = "ترجمة";
-                    EnableTranslationCheckBox.Content = "تفعيل الترجمة";
-                    DeeplApiKeyText.Text = "مفتاح API الخاص بـ DeepL:";
-
+                    EnableTranslationCheckBox.Content = "تمكين الترجمة";
+                    DeeplApiKeyText.Text = "مفتاح API DeepL:";
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(انقر هنا للحصول على مفتاح مجانًا)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ar/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "تمكين الكشف التلقائي عن اللغة للترجمة";
+                    Hyperlink.Inlines.Add("(انقر هنا للحصول على مفتاح مجاني)");
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "تمكين الكشف التلقائي عن اللغة للترجمة";
                     TranslationSourceLanguageComboBoxText.Text = "لغة المصدر للترجمة:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "لغة الوجهة للترجمة:";
-
                     GroupAddressManagementTitle.Text = "إدارة عناوين المجموعة";
                     RemoveUnusedAddressesCheckBox.Content = "إزالة العناوين غير المستخدمة";
-
                     AppSettingsTitle.Text = "إعدادات التطبيق";
-                    ThemeTextBox.Text = "السمة:";
+                    ThemeTextBox.Text = "الموضوع:";
                     LightThemeComboBoxItem.Content = "فاتح (افتراضي)";
                     DarkThemeComboBoxItem.Content = "داكن";
-
                     AppLanguageTextBlock.Text = "لغة التطبيق:";
-
-                    SaveButtonText.Text = "حفظ";
-                    CancelButtonText.Text = "إلغاء";
-
-
                     MenuDebug.Text = "قائمة التصحيح";
                     AddInfosOsCheckBox.Content = "تضمين معلومات نظام التشغيل";
-                    AddInfosHardCheckBox.Content = "تضمين معلومات أجهزة الكمبيوتر";
-                    AddImportedFilesCheckBox.Content = "تضمين الملفات المستوردة منذ الإطلاق";
+                    AddInfosHardCheckBox.Content = "تضمين معلومات الأجهزة";
+                    AddImportedFilesCheckBox.Content = "تضمين الملفات المستوردة منذ بدء التشغيل";
                     IncludeAddressListCheckBox.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
                     CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
-
-                    OngletParametresGeneraux.Header = "الإعدادات العامة";
-                    OngletDebug.Header = "تصحيح الأخطاء";
-                    
+                    OngletParametresGeneraux.Header = "إعدادات عامة";
+                    OngletDebug.Header = "تصحيح";
                     OngletInformations.Header = "معلومات";
-                    InformationsText.Text = "{App.AppName}" +
-                   $"\nالإصدار {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                   $"\nالبناء {App.AppBuild}" +
-                   $"\n" +
-                   $"\nتم إنشاء التطبيق كجزء من تدريب هندسي بواسطة" +
-                   $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
-                   $"\n" +
-                   $"\nشراكة بين المعهد الوطني للعلوم التطبيقية (INSA) في تولوز واتحاد Cépière Robert Monnier (UCRM)." +
-                   $"\n" +
-                   $"\nالتنفيذ: 06/2024 - 07/2024";
+                    InformationsText.Text = $"{App.AppName}" +
+                                            $"\nالإصدار {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                                            $"\nالبناء {App.AppBuild}" +
+                                            $"\n" +
+                                            $"\nبرنامج تم إنشاؤه كجزء من تدريب هندسي بواسطة طلاب INSA Toulouse:" +
+                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nبإشراف:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
+                                            $"\n" +
+                                            $"\nشراكة بين المعهد الوطني للعلوم التطبيقية (INSA) في تولوز واتحاد Cepière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nإنشاء: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "حفظ";
+                    CancelButtonText.Text = "إلغاء";
                     break;
 
                 // Bulgare
                 case "BG":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Настройки";
                     TranslationTitle.Text = "Превод";
-                    EnableTranslationCheckBox.Content = "Активиране на превода";
+                    EnableTranslationCheckBox.Content = "Активиране на превод";
                     DeeplApiKeyText.Text = "DeepL API ключ:";
-
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Кликнете тук за безплатен ключ)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Активиране на автоматичното разпознаване на езика за превод";
+                    Hyperlink.Inlines.Add("(Щракнете тук, за да получите безплатен ключ)");
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "Активиране на автоматичното откриване на езика за превод";
                     TranslationSourceLanguageComboBoxText.Text = "Изходен език за превод:";
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Целеви език за превод:";
-
-                    GroupAddressManagementTitle.Text = "Управление на групови адреси";
+                    TranslationDestinationLanguageComboBoxText.Text = "Език на превода:";
+                    GroupAddressManagementTitle.Text = "Управление на груповите адреси";
                     RemoveUnusedAddressesCheckBox.Content = "Премахване на неизползваните адреси";
-
                     AppSettingsTitle.Text = "Настройки на приложението";
                     ThemeTextBox.Text = "Тема:";
-                    LightThemeComboBoxItem.Content = "Светла (по подразбиране)";
-                    DarkThemeComboBoxItem.Content = "Тъмна";
-
+                    LightThemeComboBoxItem.Content = "Светло (по подразбиране)";
+                    DarkThemeComboBoxItem.Content = "Тъмно";
                     AppLanguageTextBlock.Text = "Език на приложението:";
-
-                    SaveButtonText.Text = "Запази";
-                    CancelButtonText.Text = "Отмени";
-
                     MenuDebug.Text = "Меню за отстраняване на грешки";
                     AddInfosOsCheckBox.Content = "Включване на информация за операционната система";
-                    AddInfosHardCheckBox.Content = "Включване на информация за хардуера";
-                    AddImportedFilesCheckBox.Content = "Включване на импортираните файлове от стартиране";
-                    IncludeAddressListCheckBox.Content = "Включване на списъка с изтрити адреси";
+                    AddInfosHardCheckBox.Content = "Включване на информация за хардуера на компютъра";
+                    AddImportedFilesCheckBox.Content = "Включване на файлове, импортирани след стартиране";
+                    IncludeAddressListCheckBox.Content = "Включване на списък с адреси на групи, премахнати от проекти";
                     CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
-
                     OngletParametresGeneraux.Header = "Общи настройки";
                     OngletDebug.Header = "Отстраняване на грешки";
-                    
                     OngletInformations.Header = "Информация";
                     InformationsText.Text = $"{App.AppName}" +
                                             $"\nВерсия {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nСборка {App.AppBuild}" +
+                                            $"\nИзграждане {App.AppBuild}" +
                                             $"\n" +
-                                            $"\nПриложението е създадено като част от инженерно стаж от" +
+                                            $"\nСофтуер, създаден като част от инженерно стаж от студенти на INSA Toulouse:" +
                                             $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
                                             $"\n" +
-                                            $"\nПартньорство между Националния институт за приложни науки (INSA) в Тулуза и Съюза Cépière Robert Monnier (UCRM)." +
+                                            $"\nПод наблюдението на:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
                                             $"\n" +
-                                            $"\nИзпълнение: 06/2024 - 07/2024";
+                                            $"\nПартньорство между Националния институт по приложни науки (INSA) в Тулуза и Съюза Cepière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nСъздаване: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "Запази";
+                    CancelButtonText.Text = "Отказ";
                     break;
 
                 // Tchèque
                 case "CS":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/cs/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Nastavení";
                     TranslationTitle.Text = "Překlad";
                     EnableTranslationCheckBox.Content = "Povolit překlad";
-                    DeeplApiKeyText.Text = "API klíč DeepL:";
-
+                    DeeplApiKeyText.Text = "Klíč API DeepL:";
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikněte sem a získejte klíč zdarma)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/cs/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Povolit automatickou detekci jazyka pro překlad";
-                    TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk překladu:";
-
+                    Hyperlink.Inlines.Add("(Klikněte sem pro získání bezplatného klíče)");
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "Povolit automatické rozpoznání jazyka pro překlad";
+                    TranslationSourceLanguageComboBoxText.Text = "Výchozí jazyk překladu:";
                     TranslationDestinationLanguageComboBoxText.Text = "Cílový jazyk překladu:";
-
                     GroupAddressManagementTitle.Text = "Správa skupinových adres";
-                    RemoveUnusedAddressesCheckBox.Content = "Odebrat nepoužívané adresy";
-
+                    RemoveUnusedAddressesCheckBox.Content = "Odstranit nepoužívané adresy";
                     AppSettingsTitle.Text = "Nastavení aplikace";
-                    ThemeTextBox.Text = "Téma:";
-                    LightThemeComboBoxItem.Content = "Světlé (výchozí)";
-                    DarkThemeComboBoxItem.Content = "Tmavé";
-
+                    ThemeTextBox.Text = "Motiv:";
+                    LightThemeComboBoxItem.Content = "Světlý (výchozí)";
+                    DarkThemeComboBoxItem.Content = "Tmavý";
                     AppLanguageTextBlock.Text = "Jazyk aplikace:";
-
-                    SaveButtonText.Text = "Uložit";
-                    CancelButtonText.Text = "Zrušit";
-
-                    MenuDebug.Text = "Ladicí nabídka";
+                    MenuDebug.Text = "Nabídka ladění";
                     AddInfosOsCheckBox.Content = "Zahrnout informace o operačním systému";
-                    AddInfosHardCheckBox.Content = "Zahrnout informace o hardwaru";
-                    AddImportedFilesCheckBox.Content = "Zahrnout importované soubory od spuštění";
-                    IncludeAddressListCheckBox.Content = "Zahrnout seznam odstraněných adres skupin v projektech";
-                    CreateArchiveDebugText.Text = "Vytvořit ladicí soubor";
-
-                    OngletParametresGeneraux.Header = "Obecná nastavení";
+                    AddInfosHardCheckBox.Content = "Zahrnout informace o hardwaru počítače";
+                    AddImportedFilesCheckBox.Content = "Zahrnout soubory importované od spuštění";
+                    IncludeAddressListCheckBox.Content = "Zahrnout seznam odstraněných skupinových adres v projektech";
+                    CreateArchiveDebugText.Text = "Vytvořit soubor pro ladění";
+                    OngletParametresGeneraux.Header = "Obecné nastavení";
                     OngletDebug.Header = "Ladění";
-                    
                     OngletInformations.Header = "Informace";
                     InformationsText.Text = $"{App.AppName}" +
                                             $"\nVerze {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nSestavení {App.AppBuild}" +
+                                            $"\nBuild {App.AppBuild}" +
                                             $"\n" +
-                                            $"\nAplikace byla vytvořena jako součást inženýrské stáže" +
+                                            $"\nSoftware vytvořený jako součást inženýrského stáže studenty INSA Toulouse:" +
                                             $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
                                             $"\n" +
-                                            $"\nPartnerství mezi Národním ústavem aplikovaných věd (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
+                                            $"\nPod dohledem:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
                                             $"\n" +
-                                            $"\nRealizace: 06/2024 - 07/2024";
+                                            $"\nPartnerství mezi Národním institutem aplikovaných věd (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nVytvořeno: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "Uložit";
+                    CancelButtonText.Text = "Zrušit";
                     break;
 
                 // Danois
                 case "DA":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Indstillinger";
                     TranslationTitle.Text = "Oversættelse";
                     EnableTranslationCheckBox.Content = "Aktiver oversættelse";
-                    DeeplApiKeyText.Text = "DeepL API nøgle:";
-
+                    DeeplApiKeyText.Text = "DeepL API-nøgle:";
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klik her for at få en gratis nøgle)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Aktiver automatisk sprogdetektion til oversættelse";
-                    TranslationSourceLanguageComboBoxText.Text = "Kildesprog for oversættelse:";
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Målsprog for oversættelse:";
-
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "Aktiver automatisk sprogregistrering til oversættelse";
+                    TranslationSourceLanguageComboBoxText.Text = "Kildesprog til oversættelse:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Måloversættelsessprog:";
                     GroupAddressManagementTitle.Text = "Administration af gruppeadresser";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrugte adresser";
-
-                    AppSettingsTitle.Text = "Applikationsindstillinger";
+                    AppSettingsTitle.Text = "App-indstillinger";
                     ThemeTextBox.Text = "Tema:";
-                    LightThemeComboBoxItem.Content = "Lyst (standard)";
-                    DarkThemeComboBoxItem.Content = "Mørkt";
-
-                    AppLanguageTextBlock.Text = "Applikationssprog:";
-
-                    SaveButtonText.Text = "Gem";
-                    CancelButtonText.Text = "Annuller";
-
+                    LightThemeComboBoxItem.Content = "Lys (standard)";
+                    DarkThemeComboBoxItem.Content = "Mørk";
+                    AppLanguageTextBlock.Text = "App-sprog:";
                     MenuDebug.Text = "Fejlfindingsmenu";
                     AddInfosOsCheckBox.Content = "Inkluder oplysninger om operativsystemet";
-                    AddInfosHardCheckBox.Content = "Inkluder hardwareoplysninger";
-                    AddImportedFilesCheckBox.Content = "Inkluder importerede filer siden opstart";
-                    IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i projekter";
+                    AddInfosHardCheckBox.Content = "Inkluder oplysninger om computerhardware";
+                    AddImportedFilesCheckBox.Content = "Inkluder filer importeret siden opstart";
+                    IncludeAddressListCheckBox.Content = "Inkluder liste over gruppeadresser slettet fra projekter";
                     CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
-
                     OngletParametresGeneraux.Header = "Generelle indstillinger";
-                    OngletDebug.Header = "Fejlfinding";
-                    
+                    OngletDebug.Header = "Fejlfindings";
                     OngletInformations.Header = "Information";
                     InformationsText.Text = $"{App.AppName}" +
                                             $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
                                             $"\nBuild {App.AppBuild}" +
                                             $"\n" +
-                                            $"\nApplikationen er lavet som en del af et ingeniørpraktik af" +
+                                            $"\nSoftware skabt som en del af en ingeniørpraktik af studerende fra INSA Toulouse:" +
                                             $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
                                             $"\n" +
-                                            $"\nPartnerskab mellem Institut National des Sciences Appliquées (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
+                                            $"\nUnder vejledning af:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
                                             $"\n" +
-                                            $"\nUdførelse: 06/2024 - 07/2024";
+                                            $"\nPartnerskab mellem National Institute of Applied Sciences (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
+                                            $"\n" +
+                                            $"\nOprettelse: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "Gem";
+                    CancelButtonText.Text = "Annuller";
                     break;
 
                 // Allemand
@@ -1189,106 +1166,108 @@ namespace KNXBoostDesktop
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/de/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Automatische Spracherkennung für Übersetzungen aktivieren";
+                        "Automatische Spracherkennung für die Übersetzung aktivieren";
                     TranslationSourceLanguageComboBoxText.Text = "Quellsprache der Übersetzung:";
 
                     TranslationDestinationLanguageComboBoxText.Text = "Zielsprache der Übersetzung:";
 
-                    GroupAddressManagementTitle.Text = "Verwaltung von Gruppenadressen";
-                    RemoveUnusedAddressesCheckBox.Content = "Unbenutzte Adressen entfernen";
+                    GroupAddressManagementTitle.Text = "Gruppenadressverwaltung";
+                    RemoveUnusedAddressesCheckBox.Content = "Nicht verwendete Adressen entfernen";
 
-                    AppSettingsTitle.Text = "App-Einstellungen";
+                    AppSettingsTitle.Text = "Anwendungseinstellungen";
                     ThemeTextBox.Text = "Thema:";
                     LightThemeComboBoxItem.Content = "Hell (Standard)";
                     DarkThemeComboBoxItem.Content = "Dunkel";
 
-                    AppLanguageTextBlock.Text = "App-Sprache:";
-
-                    SaveButtonText.Text = "Speichern";
-                    CancelButtonText.Text = "Abbrechen";
+                    AppLanguageTextBlock.Text = "Anwendungssprache:";
 
                     MenuDebug.Text = "Debug-Menü";
-                    AddInfosOsCheckBox.Content = "Betriebssysteminformationen einbeziehen";
-                    AddInfosHardCheckBox.Content = "Hardwareinformationen einbeziehen";
-                    AddImportedFilesCheckBox.Content = "Seit dem Start importierte Dateien einbeziehen";
-                    IncludeAddressListCheckBox.Content = "Liste der gelöschten Gruppenadressen in Projekten einbeziehen";
+                    AddInfosOsCheckBox.Content = "Betriebssysteminformationen hinzufügen";
+                    AddInfosHardCheckBox.Content = "Hardwareinformationen hinzufügen";
+                    AddImportedFilesCheckBox.Content = "Importierte Projektdateien seit dem Start hinzufügen";
+                    IncludeAddressListCheckBox.Content = "Liste der gelöschten Gruppenadressen in Projekten hinzufügen";
+
                     CreateArchiveDebugText.Text = "Debug-Datei erstellen";
 
-                    MenuDebug.Text = "Μενού αποσφαλμάτωσης";
-                    AddInfosOsCheckBox.Content = "Συμπερίληψη πληροφοριών λειτουργικού συστήματος";
-                    AddInfosHardCheckBox.Content = "Συμπερίληψη πληροφοριών υλικού υπολογιστή";
-                    AddImportedFilesCheckBox.Content = "Συμπερίληψη εισαγόμενων αρχείων από την εκκίνηση";
-                    IncludeAddressListCheckBox.Content = "Συμπερίληψη της λίστας διαγραμμένων διευθύνσεων ομάδων στα έργα";
-                    CreateArchiveDebugText.Text = "Δημιουργία αρχείου αποσφαλμάτωσης";
-
                     OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
-                    OngletDebug.Header = "Fehlerbehebung";
+                    OngletDebug.Header = "Debuggen";
                     
                     OngletInformations.Header = "Informationen";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBuild {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nDie Anwendung wurde im Rahmen eines Ingenieurpraktikums erstellt von" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerschaft zwischen dem Institut National des Sciences Appliquées (INSA) in Toulouse und der Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nDurchführung: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware im Rahmen eines Ingenieurpraktikums von Studenten der INSA Toulouse entwickelt:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nUnter der Aufsicht von:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerschaft zwischen dem Institut National des Sciences Appliquées (INSA) de Toulouse und der Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nUmsetzung: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Speichern";
+                    CancelButtonText.Text = "Abbrechen";
                     break;
 
                 // Grec
                 case "EL":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Ρυθμίσεις";
                     TranslationTitle.Text = "Μετάφραση";
                     EnableTranslationCheckBox.Content = "Ενεργοποίηση μετάφρασης";
-                    DeeplApiKeyText.Text = "Κλειδί API του DeepL:";
-
+                    DeeplApiKeyText.Text = "Κλειδί API DeepL:";
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Κάντε κλικ εδώ για να αποκτήσετε ένα δωρεάν κλειδί)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Ενεργοποίηση αυτόματης ανίχνευσης γλώσσας για μετάφραση";
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "Ενεργοποίηση αυτόματης ανίχνευσης γλώσσας για μετάφραση";
                     TranslationSourceLanguageComboBoxText.Text = "Γλώσσα προέλευσης για μετάφραση:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "Γλώσσα προορισμού για μετάφραση:";
-
-                    GroupAddressManagementTitle.Text = "Διαχείριση διευθύνσεων ομάδας";
-                    RemoveUnusedAddressesCheckBox.Content = "Αφαίρεση αχρησιμοποίητων διευθύνσεων";
-
+                    GroupAddressManagementTitle.Text = "Διαχείριση ομαδικών διευθύνσεων";
+                    RemoveUnusedAddressesCheckBox.Content = "Κατάργηση μη χρησιμοποιούμενων διευθύνσεων";
                     AppSettingsTitle.Text = "Ρυθμίσεις εφαρμογής";
                     ThemeTextBox.Text = "Θέμα:";
                     LightThemeComboBoxItem.Content = "Φωτεινό (προεπιλογή)";
                     DarkThemeComboBoxItem.Content = "Σκοτεινό";
-
                     AppLanguageTextBlock.Text = "Γλώσσα εφαρμογής:";
-
-                    SaveButtonText.Text = "Αποθήκευση";
-                    CancelButtonText.Text = "Ακύρωση";
-
+                    MenuDebug.Text = "Μενού εντοπισμού σφαλμάτων";
+                    AddInfosOsCheckBox.Content = "Συμπερίληψη πληροφοριών λειτουργικού συστήματος";
+                    AddInfosHardCheckBox.Content = "Συμπερίληψη πληροφοριών υλικού υπολογιστή";
+                    AddImportedFilesCheckBox.Content = "Συμπερίληψη αρχείων που εισάγονται από την εκκίνηση";
+                    IncludeAddressListCheckBox.Content = "Συμπερίληψη λίστας διαγραμμένων ομαδικών διευθύνσεων στα έργα";
+                    CreateArchiveDebugText.Text = "Δημιουργία αρχείου εντοπισμού σφαλμάτων";
                     OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
-                    OngletDebug.Header = "Αποσφαλμάτωση";
-                    
+                    OngletDebug.Header = "Εντοπισμός σφαλμάτων";
                     OngletInformations.Header = "Πληροφορίες";
                     InformationsText.Text = $"{App.AppName}" +
                                             $"\nΈκδοση {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
                                             $"\nΚατασκευή {App.AppBuild}" +
                                             $"\n" +
-                                            $"\nΗ εφαρμογή δημιουργήθηκε ως μέρος μιας μηχανικής πρακτικής άσκησης από" +
+                                            $"\nΛογισμικό που δημιουργήθηκε ως μέρος της μηχανικής πρακτικής από φοιτητές της INSA Toulouse:" +
                                             $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
+                                            $"\n" +
+                                            $"\nΥπό την επίβλεψη:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
                                             $"\n" +
                                             $"\nΣυνεργασία μεταξύ του Εθνικού Ινστιτούτου Εφαρμοσμένων Επιστημών (INSA) της Τουλούζης και της Ένωσης Cépière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nΥλοποίηση: 06/2024 - 07/2024";
+                                            $"\nΔημιουργία: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "Αποθήκευση";
+                    CancelButtonText.Text = "Άκυρο";
                     break;
 
                 // Anglais
                 case "EN":
                     SettingsWindowTopTitle.Text = "Settings";
                     TranslationTitle.Text = "Translation";
-                    EnableTranslationCheckBox.Content = "Enable Translation";
-                    DeeplApiKeyText.Text = "DeepL API Key:";
+                    EnableTranslationCheckBox.Content = "Enable translation";
+                    DeeplApiKeyText.Text = "DeepL API key:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Click here to get a free key)");
@@ -1296,150 +1275,159 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Enable automatic language detection for translation";
-                    TranslationSourceLanguageComboBoxText.Text = "Source language for translation:";
+                    TranslationSourceLanguageComboBoxText.Text = "Translation source language:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Target language for translation:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Translation destination language:";
 
-                    GroupAddressManagementTitle.Text = "Group Address Management";
+                    GroupAddressManagementTitle.Text = "Group address management";
                     RemoveUnusedAddressesCheckBox.Content = "Remove unused addresses";
 
-                    AppSettingsTitle.Text = "Application Settings";
+                    AppSettingsTitle.Text = "Application settings";
                     ThemeTextBox.Text = "Theme:";
                     LightThemeComboBoxItem.Content = "Light (default)";
                     DarkThemeComboBoxItem.Content = "Dark";
 
-                    AppLanguageTextBlock.Text = "Application Language:";
+                    AppLanguageTextBlock.Text = "Application language:";
 
-                    SaveButtonText.Text = "Save";
-                    CancelButtonText.Text = "Cancel";
-
-                    MenuDebug.Text = "Debug Menu";
-                    AddInfosOsCheckBox.Content = "Include OS information";
-                    AddInfosHardCheckBox.Content = "Include hardware information";
-                    AddImportedFilesCheckBox.Content = "Include files imported since launch";
+                    MenuDebug.Text = "Debug menu";
+                    AddInfosOsCheckBox.Content = "Include operating system information";
+                    AddInfosHardCheckBox.Content = "Include computer hardware information";
+                    AddImportedFilesCheckBox.Content = "Include project files imported since launch";
                     IncludeAddressListCheckBox.Content = "Include list of deleted group addresses in projects";
+
                     CreateArchiveDebugText.Text = "Create debug file";
 
-                    OngletParametresGeneraux.Header = "General Settings";
+                    OngletParametresGeneraux.Header = "General settings";
                     OngletDebug.Header = "Debugging";
                     
                     OngletInformations.Header = "Information";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBuild {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nApplication developed as part of an engineering internship by" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnership between the National Institute of Applied Sciences (INSA) in Toulouse and the Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealization: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware developed as part of an engineering internship by students of INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nUnder the supervision of:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnership between the Institut National des Sciences Appliquées (INSA) de Toulouse and the Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nImplementation: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Save";
+                    CancelButtonText.Text = "Cancel";
                     break;
 
                 // Espagnol
                 case "ES":
-                    SettingsWindowTopTitle.Text = "Configuración";
+                    SettingsWindowTopTitle.Text = "Configuraciones";
                     TranslationTitle.Text = "Traducción";
-                    EnableTranslationCheckBox.Content = "Habilitar traducción";
+                    EnableTranslationCheckBox.Content = "Activar traducción";
                     DeeplApiKeyText.Text = "Clave API de DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratis)");
+                    Hyperlink.Inlines.Add("(Haga clic aquí para obtener una clave gratuita)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/es/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Habilitar detección automática de idioma para la traducción";
-                    TranslationSourceLanguageComboBoxText.Text = "Idioma de origen para la traducción:";
+                        "Activar detección automática de idioma para la traducción";
+                    TranslationSourceLanguageComboBoxText.Text = "Idioma fuente de la traducción:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para la traducción:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino de la traducción:";
 
                     GroupAddressManagementTitle.Text = "Gestión de direcciones de grupo";
                     RemoveUnusedAddressesCheckBox.Content = "Eliminar direcciones no utilizadas";
 
-                    AppSettingsTitle.Text = "Configuración de la aplicación";
+                    AppSettingsTitle.Text = "Configuraciones de la aplicación";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Claro (predeterminado)";
                     DarkThemeComboBoxItem.Content = "Oscuro";
 
                     AppLanguageTextBlock.Text = "Idioma de la aplicación:";
 
-                    SaveButtonText.Text = "Guardar";
-                    CancelButtonText.Text = "Cancelar";
-
                     MenuDebug.Text = "Menú de depuración";
                     AddInfosOsCheckBox.Content = "Incluir información del sistema operativo";
-                    AddInfosHardCheckBox.Content = "Incluir información de hardware";
-                    AddImportedFilesCheckBox.Content = "Incluir archivos importados desde el inicio";
+                    AddInfosHardCheckBox.Content = "Incluir información de hardware del ordenador";
+                    AddImportedFilesCheckBox.Content = "Incluir archivos de proyectos importados desde el inicio";
                     IncludeAddressListCheckBox.Content = "Incluir lista de direcciones de grupo eliminadas en los proyectos";
+
                     CreateArchiveDebugText.Text = "Crear archivo de depuración";
 
-                    OngletParametresGeneraux.Header = "Configuración general";
+                    OngletParametresGeneraux.Header = "Configuraciones generales";
                     OngletDebug.Header = "Depuración";
                     
                     OngletInformations.Header = "Información";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersión {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nCompilación {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplicación desarrollada como parte de una pasantía de ingeniería por" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nColaboración entre el Instituto Nacional de Ciencias Aplicadas (INSA) de Toulouse y la Unión Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealización: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersión {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nCompilación {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware desarrollado como parte de una pasantía de ingeniería por estudiantes de INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nBajo la supervisión de:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nAsociación entre el Instituto Nacional de Ciencias Aplicadas (INSA) de Toulouse y la Unión Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nImplementación: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Guardar";
+                    CancelButtonText.Text = "Cancelar";
                     break;
 
                 // Estonien
                 case "ET":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Seaded";
                     TranslationTitle.Text = "Tõlge";
                     EnableTranslationCheckBox.Content = "Luba tõlge";
                     DeeplApiKeyText.Text = "DeepL API võti:";
-
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikkige siia, et saada tasuta võti)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
-                    EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Luba tõlke jaoks automaatne keele tuvastamine";
-                    TranslationSourceLanguageComboBoxText.Text = "Tõlke lähtekeel:";
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Tõlke sihtkeel:";
-
-                    GroupAddressManagementTitle.Text = "Grupi aadresside haldamine";
+                    Hyperlink.Inlines.Add("(Klõpsake siin, et saada tasuta võti)");
+                    EnableAutomaticTranslationLangDetectionCheckbox.Content = "Luba automaatne keele tuvastamine tõlkimiseks";
+                    TranslationSourceLanguageComboBoxText.Text = "Tõlke allikakeel:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Sihtkeel tõlkimiseks:";
+                    GroupAddressManagementTitle.Text = "Rühma aadresside haldamine";
                     RemoveUnusedAddressesCheckBox.Content = "Eemalda kasutamata aadressid";
-
                     AppSettingsTitle.Text = "Rakenduse seaded";
                     ThemeTextBox.Text = "Teema:";
                     LightThemeComboBoxItem.Content = "Hele (vaikimisi)";
                     DarkThemeComboBoxItem.Content = "Tume";
-
                     AppLanguageTextBlock.Text = "Rakenduse keel:";
-
-                    SaveButtonText.Text = "Salvesta";
-                    CancelButtonText.Text = "Tühista";
-
-                    MenuDebug.Text = "Silumisvalik";
-                    AddInfosOsCheckBox.Content = "Kaasa operatsioonisüsteemi teave";
-                    AddInfosHardCheckBox.Content = "Kaasa riistvara teave";
-                    AddImportedFilesCheckBox.Content = "Kaasa imporditud failid käivitamisest alates";
-                    IncludeAddressListCheckBox.Content = "Kaasa projektidest kustutatud rühma aadresside nimekiri";
+                    MenuDebug.Text = "Silumise menüü";
+                    AddInfosOsCheckBox.Content = "Lisage teave operatsioonisüsteemi kohta";
+                    AddInfosHardCheckBox.Content = "Lisage teave arvuti riistvara kohta";
+                    AddImportedFilesCheckBox.Content = "Lisage käivitamisest imporditud failid";
+                    IncludeAddressListCheckBox.Content = "Lisage projektidest eemaldatud rühma aadresside loend";
                     CreateArchiveDebugText.Text = "Loo silumisfail";
-
                     OngletParametresGeneraux.Header = "Üldised seaded";
-                    OngletDebug.Header = "Silmamine";
-                    
+                    OngletDebug.Header = "Silumine";
                     OngletInformations.Header = "Teave";
                     InformationsText.Text = $"{App.AppName}" +
                                             $"\nVersioon {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nEhitama {App.AppBuild}" +
+                                            $"\nKoostamine {App.AppBuild}" +
                                             $"\n" +
-                                            $"\nRakendus loodi osana inseneripraktikast" +
+                                            $"\nTarkvara, mille lõid osana inseneripraktikast INSA Toulouse üliõpilased:" +
                                             $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
                                             $"\n" +
-                                            $"\nPartnerlus Toulouse'i Riikliku Rakendusteaduste Instituudi (INSA) ja Union Cépière Robert Monnier (UCRM) vahel." +
+                                            $"\nJärelevalve all:" +
+                                            $"\nDidier BESSE (UCRM)" +
+                                            $"\nThierry COPPOLA (UCRM)" +
+                                            $"\nJean-François KLOTZ (LECS)" +
                                             $"\n" +
-                                            $"\nTeostamine: 06/2024 - 07/2024";
+                                            $"\nPartnerlus Toulouse'i Rakendusteaduste Riikliku Instituudi (INSA) ja Union Cépière Robert Monnier (UCRM) vahel." +
+                                            $"\n" +
+                                            $"\nLoomine: 06/2024 - 07/2024";
+                    SaveButtonText.Text = "Salvesta";
+                    CancelButtonText.Text = "Tühista";
                     break;
 
                 // Finnois
@@ -1454,7 +1442,7 @@ namespace KNXBoostDesktop
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Ota kielen automaattinen tunnistus käyttöön käännöstä varten";
+                        "Ota käyttöön automaattinen kielen tunnistus käännöstä varten";
                     TranslationSourceLanguageComboBoxText.Text = "Käännöksen lähdekieli:";
 
                     TranslationDestinationLanguageComboBoxText.Text = "Käännöksen kohdekieli:";
@@ -1469,30 +1457,37 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Sovelluksen kieli:";
 
-                    SaveButtonText.Text = "Tallenna";
-                    CancelButtonText.Text = "Peruuta";
-
-                    MenuDebug.Text = "Vianmääritysvalikko";
+                    MenuDebug.Text = "Virheenkorjausvalikko";
                     AddInfosOsCheckBox.Content = "Sisällytä käyttöjärjestelmän tiedot";
-                    AddInfosHardCheckBox.Content = "Sisällytä laitteistotiedot";
-                    AddImportedFilesCheckBox.Content = "Sisällytä käynnistyksen jälkeen tuodut tiedostot";
-                    IncludeAddressListCheckBox.Content = "Sisällytä projektien poistetut ryhmäosoitteet";
-                    CreateArchiveDebugText.Text = "Luo vianmääritystiedosto";
+                    AddInfosHardCheckBox.Content = "Sisällytä tietokoneen laitteistotiedot";
+                    AddImportedFilesCheckBox.Content = "Sisällytä aloituksen jälkeen tuodut projektitiedostot";
+                    IncludeAddressListCheckBox.Content = "Sisällytä poistettujen ryhmäosoitteiden luettelo projekteihin";
+
+                    CreateArchiveDebugText.Text = "Luo virheenkorjaustiedosto";
 
                     OngletParametresGeneraux.Header = "Yleiset asetukset";
-                    OngletDebug.Header = "Vianmääritys";
+                    OngletDebug.Header = "Virheenkorjaus";
                     
                     OngletInformations.Header = "Tiedot";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersio {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nRakenne {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nSovellus kehitettiin osana insinööriharjoittelua" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nYhteistyö Toulouse'n Kansallisen Soveltavan Tieteen Instituutin (INSA) ja Union Cépière Robert Monnier (UCRM) välillä." +
-                                            $"\n" +
-                                            $"\nToteutus: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersio {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nKokoelma {App.AppBuild}" +
+                        $"\n" +
+                        $"\nOhjelmisto kehitetty osana INSAn Toulousen insinööriharjoittelua:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nValvonnassa:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nYhteistyö Instituutti National des Sciences Appliquées (INSA) de Toulousen ja Union Cépière Robert Monnier (UCRM) välillä." +
+                        $"\n" +
+                        $"\nToteutus: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Tallenna";
+                    CancelButtonText.Text = "Peruuta";
                     break;
 
                 // Hongrois
@@ -1500,19 +1495,19 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Beállítások";
                     TranslationTitle.Text = "Fordítás";
                     EnableTranslationCheckBox.Content = "Fordítás engedélyezése";
-                    DeeplApiKeyText.Text = "DeepL API kulcs:";
+                    DeeplApiKeyText.Text = "DeepL API-kulcs:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kattintson ide, hogy ingyenes kulcsot szerezzen)");
+                    Hyperlink.Inlines.Add("(Kattintson ide egy ingyenes kulcs megszerzéséhez)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Automatikus nyelvfelismerés engedélyezése a fordításhoz";
-                    TranslationSourceLanguageComboBoxText.Text = "Forrásnyelv a fordításhoz:";
+                    TranslationSourceLanguageComboBoxText.Text = "Fordítás forrásnyelve:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Cél nyelv a fordításhoz:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Fordítás célnyelve:";
 
-                    GroupAddressManagementTitle.Text = "Csoportcím kezelés";
+                    GroupAddressManagementTitle.Text = "Csoport címkezelés";
                     RemoveUnusedAddressesCheckBox.Content = "Nem használt címek eltávolítása";
 
                     AppSettingsTitle.Text = "Alkalmazás beállításai";
@@ -1522,37 +1517,44 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Alkalmazás nyelve:";
 
-                    SaveButtonText.Text = "Mentés";
-                    CancelButtonText.Text = "Mégse";
-
                     MenuDebug.Text = "Hibakeresési menü";
-                    AddInfosOsCheckBox.Content = "Tartalmazza az operációs rendszer adatait";
-                    AddInfosHardCheckBox.Content = "Tartalmazza a hardveradatokat";
-                    AddImportedFilesCheckBox.Content = "Tartalmazza az indítás óta importált fájlokat";
-                    IncludeAddressListCheckBox.Content = "Tartalmazza a projektek törölt csoportcímek listáját";
+                    AddInfosOsCheckBox.Content = "Tartalmazza az operációs rendszer információit";
+                    AddInfosHardCheckBox.Content = "Tartalmazza a számítógép hardverinformációit";
+                    AddImportedFilesCheckBox.Content = "Tartalmazza az indítás óta importált projektek fájljait";
+                    IncludeAddressListCheckBox.Content = "Tartalmazza a projektekben törölt csoport címek listáját";
+
                     CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
 
                     OngletParametresGeneraux.Header = "Általános beállítások";
                     OngletDebug.Header = "Hibakeresés";
                     
-                    OngletInformations.Header = "Információ";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVerzió {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nÉpítés {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAz alkalmazást egy mérnöki gyakorlat részeként hozták létre" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerség a Toulouse-i Nemzeti Alkalmazott Tudományok Intézete (INSA) és a Union Cépière Robert Monnier (UCRM) között." +
-                                            $"\n" +
-                                            $"\nMegvalósítás: 06/2024 - 07/2024";
+                    OngletInformations.Header = "Információk";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVerzió {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSzoftver az INSA Toulouse mérnöki szakmai gyakorlat keretében fejlesztett:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nFelügyelete alatt:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerség az Institut National des Sciences Appliquées (INSA) de Toulouse és az Union Cépière Robert Monnier (UCRM) között." +
+                        $"\n" +
+                        $"\nMegvalósítás: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Mentés";
+                    CancelButtonText.Text = "Mégse";
                     break;
 
                 // Indonésien
                 case "ID":
                     SettingsWindowTopTitle.Text = "Pengaturan";
                     TranslationTitle.Text = "Terjemahan";
-                    EnableTranslationCheckBox.Content = "Aktifkan Terjemahan";
+                    EnableTranslationCheckBox.Content = "Aktifkan terjemahan";
                     DeeplApiKeyText.Text = "Kunci API DeepL:";
 
                     Hyperlink.Inlines.Clear();
@@ -1561,97 +1563,111 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktifkan deteksi bahasa otomatis untuk terjemahan";
-                    TranslationSourceLanguageComboBoxText.Text = "Bahasa sumber untuk terjemahan:";
+                    TranslationSourceLanguageComboBoxText.Text = "Bahasa sumber terjemahan:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Bahasa tujuan untuk terjemahan:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Bahasa tujuan terjemahan:";
 
-                    GroupAddressManagementTitle.Text = "Manajemen Alamat Grup";
+                    GroupAddressManagementTitle.Text = "Manajemen alamat grup";
                     RemoveUnusedAddressesCheckBox.Content = "Hapus alamat yang tidak digunakan";
 
-                    AppSettingsTitle.Text = "Pengaturan Aplikasi";
+                    AppSettingsTitle.Text = "Pengaturan aplikasi";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Terang (default)";
                     DarkThemeComboBoxItem.Content = "Gelap";
 
-                    AppLanguageTextBlock.Text = "Bahasa Aplikasi:";
+                    AppLanguageTextBlock.Text = "Bahasa aplikasi:";
 
-                    SaveButtonText.Text = "Simpan";
-                    CancelButtonText.Text = "Batal";
+                    MenuDebug.Text = "Menu debug";
+                    AddInfosOsCheckBox.Content = "Sertakan informasi sistem operasi";
+                    AddInfosHardCheckBox.Content = "Sertakan informasi perangkat keras komputer";
+                    AddImportedFilesCheckBox.Content = "Sertakan file proyek yang diimpor sejak diluncurkan";
+                    IncludeAddressListCheckBox.Content = "Sertakan daftar alamat grup yang dihapus dalam proyek";
 
-                    MenuDebug.Text = "Menu Debug";
-                    AddInfosOsCheckBox.Content = "Sertakan informasi OS";
-                    AddInfosHardCheckBox.Content = "Sertakan informasi hardware";
-                    AddImportedFilesCheckBox.Content = "Sertakan file yang diimpor sejak peluncuran";
-                    IncludeAddressListCheckBox.Content = "Sertakan daftar alamat grup yang dihapus pada proyek";
                     CreateArchiveDebugText.Text = "Buat file debug";
 
                     OngletParametresGeneraux.Header = "Pengaturan umum";
-                    OngletDebug.Header = "Debugging";
+                    OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informasi";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersi {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBangun {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplikasi dikembangkan sebagai bagian dari magang teknik oleh" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nKemitraan antara Institut Nasional Ilmu Terapan (INSA) di Toulouse dan Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealisasi: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersi {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nPerangkat lunak dikembangkan sebagai bagian dari magang teknik oleh siswa INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nDi bawah pengawasan:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nKemitraan antara Institut National des Sciences Appliquées (INSA) de Toulouse dan Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nImplementasi: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Simpan";
+                    CancelButtonText.Text = "Batal";
                     break;
 
                 // Italien
                 case "IT":
                     SettingsWindowTopTitle.Text = "Impostazioni";
                     TranslationTitle.Text = "Traduzione";
-                    EnableTranslationCheckBox.Content = "Abilita Traduzione";
-                    DeeplApiKeyText.Text = "Chiave API di DeepL:";
+                    EnableTranslationCheckBox.Content = "Abilita traduzione";
+                    DeeplApiKeyText.Text = "Chiave API DeepL:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Fai clic qui per ottenere una chiave gratuita)");
+                    Hyperlink.Inlines.Add("(Clicca qui per ottenere una chiave gratuita)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/it/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Abilita rilevamento automatico della lingua per la traduzione";
-                    TranslationSourceLanguageComboBoxText.Text = "Lingua di origine per la traduzione:";
+                    TranslationSourceLanguageComboBoxText.Text = "Lingua di origine della traduzione:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Lingua di destinazione per la traduzione:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Lingua di destinazione della traduzione:";
 
-                    GroupAddressManagementTitle.Text = "Gestione degli indirizzi di gruppo";
-                    RemoveUnusedAddressesCheckBox.Content = "Rimuovi indirizzi non utilizzati";
+                    GroupAddressManagementTitle.Text = "Gestione indirizzi di gruppo";
+                    RemoveUnusedAddressesCheckBox.Content = "Rimuovi indirizzi inutilizzati";
 
-                    AppSettingsTitle.Text = "Impostazioni dell'applicazione";
+                    AppSettingsTitle.Text = "Impostazioni dell'app";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Chiaro (predefinito)";
                     DarkThemeComboBoxItem.Content = "Scuro";
 
                     AppLanguageTextBlock.Text = "Lingua dell'applicazione:";
 
-                    SaveButtonText.Text = "Salva";
-                    CancelButtonText.Text = "Annulla";
-
                     MenuDebug.Text = "Menu di debug";
                     AddInfosOsCheckBox.Content = "Includi informazioni sul sistema operativo";
-                    AddInfosHardCheckBox.Content = "Includi informazioni sull'hardware";
-                    AddImportedFilesCheckBox.Content = "Includi file importati dal lancio";
-                    IncludeAddressListCheckBox.Content = "Includi elenco degli indirizzi di gruppo eliminati nei progetti";
+                    AddInfosHardCheckBox.Content = "Includi informazioni sull'hardware del computer";
+                    AddImportedFilesCheckBox.Content = "Includi i file dei progetti importati dall'avvio";
+                    IncludeAddressListCheckBox.Content = "Includi l'elenco degli indirizzi di gruppo eliminati nei progetti";
+
                     CreateArchiveDebugText.Text = "Crea file di debug";
 
                     OngletParametresGeneraux.Header = "Impostazioni generali";
                     OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informazioni";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersione {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBuild {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nApplicazione sviluppata come parte di uno stage di ingegneria da" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartenariato tra l'Istituto Nazionale di Scienze Applicate (INSA) di Tolosa e l'Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealizzazione: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersione {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware sviluppato nell'ambito di uno stage di ingegneria da studenti dell'INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nSotto la supervisione di:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartenariato tra l'Istituto Nazionale delle Scienze Applicate (INSA) di Tolosa e l'Unione Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealizzazione: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Salva";
+                    CancelButtonText.Text = "Annulla";
                     break;
 
                 // Japonais
@@ -1662,7 +1678,7 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL APIキー:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(ここをクリックして無料のキーを取得)");
+                    Hyperlink.Inlines.Add("(無料のキーを取得するにはここをクリックしてください)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ja/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
@@ -1672,39 +1688,46 @@ namespace KNXBoostDesktop
                     TranslationDestinationLanguageComboBoxText.Text = "翻訳のターゲット言語:";
 
                     GroupAddressManagementTitle.Text = "グループアドレス管理";
-                    RemoveUnusedAddressesCheckBox.Content = "使用されていないアドレスを削除";
+                    RemoveUnusedAddressesCheckBox.Content = "未使用のアドレスを削除する";
 
-                    AppSettingsTitle.Text = "アプリケーション設定";
+                    AppSettingsTitle.Text = "アプリ設定";
                     ThemeTextBox.Text = "テーマ:";
                     LightThemeComboBoxItem.Content = "ライト（デフォルト）";
                     DarkThemeComboBoxItem.Content = "ダーク";
 
-                    AppLanguageTextBlock.Text = "アプリケーションの言語:";
-
-                    SaveButtonText.Text = "保存";
-                    CancelButtonText.Text = "キャンセル";
+                    AppLanguageTextBlock.Text = "アプリの言語:";
 
                     MenuDebug.Text = "デバッグメニュー";
-                    AddInfosOsCheckBox.Content = "OS情報を含む";
-                    AddInfosHardCheckBox.Content = "ハードウェア情報を含む";
-                    AddImportedFilesCheckBox.Content = "起動以降にインポートされたファイルを含む";
-                    IncludeAddressListCheckBox.Content = "プロジェクトで削除されたグループアドレスのリストを含む";
+                    AddInfosOsCheckBox.Content = "オペレーティングシステム情報を含める";
+                    AddInfosHardCheckBox.Content = "コンピュータのハードウェア情報を含める";
+                    AddImportedFilesCheckBox.Content = "起動以来インポートされたプロジェクトファイルを含める";
+                    IncludeAddressListCheckBox.Content = "プロジェクトに削除されたグループアドレスのリストを含める";
+
                     CreateArchiveDebugText.Text = "デバッグファイルを作成";
 
                     OngletParametresGeneraux.Header = "一般設定";
                     OngletDebug.Header = "デバッグ";
                     
                     OngletInformations.Header = "情報";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nバージョン {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nビルド {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nアプリケーションは、エンジニアリング インターンシップの一環として作成されました" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE、および Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nトゥールーズ国立応用科学研究所 (INSA) と Union Cépière Robert Monnier (UCRM) の間のパートナーシップ。" +
-                                            $"\n" +
-                                            $"\n実現：06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nバージョン {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nビルド {App.AppBuild}" +
+                        $"\n" +
+                        $"\nINSAトゥールーズの学生によるエンジニアリングインターンシップの一環として開発されたソフトウェア:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\n監督の下:" +
+                        $"\nDidier BESSE（UCRM）" +
+                        $"\nThierry COPPOLA（UCRM）" +
+                        $"\nJean-François KLOTZ（LECS）" +
+                        $"\n" +
+                        $"\nトゥールーズ国立応用科学研究所（INSA）とシェピエールロバートモニエ連合（UCRM）のパートナーシップ。" +
+                        $"\n" +
+                        $"\n実装: 2024年06月 - 2024年07月";
+                        
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "キャンセル";
                     break;
 
                 // Coréen
@@ -1715,7 +1738,7 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API 키:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(무료 키를 받으려면 여기를 클릭하세요)");
+                    Hyperlink.Inlines.Add("(무료 키를 얻으려면 여기를 클릭하세요)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/ko/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
@@ -1725,59 +1748,63 @@ namespace KNXBoostDesktop
                     TranslationDestinationLanguageComboBoxText.Text = "번역 대상 언어:";
 
                     GroupAddressManagementTitle.Text = "그룹 주소 관리";
-                    RemoveUnusedAddressesCheckBox.Content = "사용하지 않는 주소 제거";
+                    RemoveUnusedAddressesCheckBox.Content = "사용하지 않는 주소 삭제";
 
-                    AppSettingsTitle.Text = "애플리케이션 설정";
+                    AppSettingsTitle.Text = "앱 설정";
                     ThemeTextBox.Text = "테마:";
-                    LightThemeComboBoxItem.Content = "라이트 (기본값)";
+                    LightThemeComboBoxItem.Content = "라이트 (기본)";
                     DarkThemeComboBoxItem.Content = "다크";
 
-                    AppLanguageTextBlock.Text = "애플리케이션 언어:";
-
-                    SaveButtonText.Text = "저장";
-                    CancelButtonText.Text = "취소";
+                    AppLanguageTextBlock.Text = "앱 언어:";
 
                     MenuDebug.Text = "디버그 메뉴";
-                    AddInfosOsCheckBox.Content = "운영 체제 정보를 포함";
-                    AddInfosHardCheckBox.Content = "하드웨어 정보를 포함";
-                    AddImportedFilesCheckBox.Content = "실행 후 가져온 파일 포함";
+                    AddInfosOsCheckBox.Content = "운영 체제 정보 포함";
+                    AddInfosHardCheckBox.Content = "컴퓨터 하드웨어 정보 포함";
+                    AddImportedFilesCheckBox.Content = "시작 후 가져온 프로젝트 파일 포함";
                     IncludeAddressListCheckBox.Content = "프로젝트에서 삭제된 그룹 주소 목록 포함";
+
                     CreateArchiveDebugText.Text = "디버그 파일 생성";
 
                     OngletParametresGeneraux.Header = "일반 설정";
-                    OngletDebug.Header = "디버깅";
+                    OngletDebug.Header = "디버그";
                     
                     OngletInformations.Header = "정보";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\n버전 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\n빌드 {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\n애플리케이션은 엔지니어링 인턴십의 일환으로 제작되었습니다" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 및 Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\n툴루즈 국립응용과학원(INSA)과 Union Cépière Robert Monnier(UCRM) 간의 파트너십." +
-                                            $"\n" +
-                                            $"\n실현: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\n버전 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\n빌드 {App.AppBuild}" +
+                        $"\n" +
+                        $"\nINSA 툴루즈 학생들이 엔지니어링 인턴십의 일환으로 개발한 소프트웨어:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\n감독 하에:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\n툴루즈 국립 응용 과학 연구소 (INSA)와 Union Cépière Robert Monnier (UCRM) 간의 파트너십." +
+                        $"\n" +
+                        $"\n실행: 2024년 6월 - 2024년 7월";
+                        
+                    SaveButtonText.Text = "저장";
+                    CancelButtonText.Text = "취소";
                     break;
 
                 // Letton
                 case "LV":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Iestatījumi";
-                    TranslationTitle.Text = "Tulkot";
-                    EnableTranslationCheckBox.Content = "Iespējot tulkošanu";
+                    TranslationTitle.Text = "Tulkošana";
+                    EnableTranslationCheckBox.Content = "Aktivizēt tulkošanu";
                     DeeplApiKeyText.Text = "DeepL API atslēga:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai iegūtu bezmaksas atslēgu)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Iespējot automātisku valodas noteikšanu tulkošanai";
-                    TranslationSourceLanguageComboBoxText.Text = "Tulkojuma avota valoda:";
+                        "Aktivizēt automātisko valodas noteikšanu tulkojumam";
+                    TranslationSourceLanguageComboBoxText.Text = "Avota valoda tulkojumam:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Mērķa valoda tulkojumam:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Tulkojuma mērķa valoda:";
-
-                    GroupAddressManagementTitle.Text = "Grupas adreses pārvaldība";
+                    GroupAddressManagementTitle.Text = "Grupu adresu pārvaldība";
                     RemoveUnusedAddressesCheckBox.Content = "Noņemt neizmantotās adreses";
 
                     AppSettingsTitle.Text = "Lietotnes iestatījumi";
@@ -1787,47 +1814,53 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Lietotnes valoda:";
 
+                    MenuDebug.Text = "Problēmu novēršana";
+                    AddInfosOsCheckBox.Content = "Iekļaut operētājsistēmas informāciju";
+                    AddInfosHardCheckBox.Content = "Iekļaut datora aparatūras informāciju";
+                    AddImportedFilesCheckBox.Content = "Iekļaut projektos importēto failu informāciju";
+                    IncludeAddressListCheckBox.Content = "Iekļaut grupu adreses, kas dzēstas no projektiem";
+
+                    CreateArchiveDebugText.Text = "Izveidot problēmu novēršanas failu";
+
+                    OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
+                    OngletDebug.Header = "Problēmu novēršana";
+                                    
+                    OngletInformations.Header = "Informācija";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBūvēt {App.AppBuild}" +
+                        $"\n" +
+                        $"\nProgrammatūra izstrādāta INSA Toulouse inženierijas prakses ietvaros:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPārraudzīja:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerība starp National Institute of Applied Sciences (INSA) Toulouse un Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nIzstrāde: 06/2024 - 07/2024";
+                                        
                     SaveButtonText.Text = "Saglabāt";
                     CancelButtonText.Text = "Atcelt";
 
-                    MenuDebug.Text = "Atkļūdošanas izvēlne";
-                    AddInfosOsCheckBox.Content = "Iekļaut OS informāciju";
-                    AddInfosHardCheckBox.Content = "Iekļaut aparatūras informāciju";
-                    AddImportedFilesCheckBox.Content = "Iekļaut kopš palaišanas importētos failus";
-                    IncludeAddressListCheckBox.Content = "Iekļaut projektu dzēsto grupu adrešu sarakstu";
-                    CreateArchiveDebugText.Text = "Izveidot atkļūdošanas failu";
-
-                    OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
-                    OngletDebug.Header = "Atkļūdošana";
-                    
-                    OngletInformations.Header = "Informācija";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nIzveidot {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nLietojumprogramma izstrādāta kā inženierprakses daļa" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerība starp Tulūzas Nacionālo lietišķo zinātņu institūtu (INSA) un Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nIzpilde: 06/2024 - 07/2024";
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai bez maksas saņemtu atslēgu)");
                     break;
 
                 // Lituanien
                 case "LT":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
                     SettingsWindowTopTitle.Text = "Nustatymai";
                     TranslationTitle.Text = "Vertimas";
                     EnableTranslationCheckBox.Content = "Įjungti vertimą";
                     DeeplApiKeyText.Text = "DeepL API raktas:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Spustelėkite čia, kad gautumėte nemokamą raktą)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Įjungti automatinį kalbos aptikimą vertimui";
                     TranslationSourceLanguageComboBoxText.Text = "Vertimo šaltinio kalba:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "Vertimo tikslinė kalba:";
 
                     GroupAddressManagementTitle.Text = "Grupės adresų valdymas";
@@ -1840,83 +1873,100 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Programėlės kalba:";
 
-                    SaveButtonText.Text = "Išsaugoti";
-                    CancelButtonText.Text = "Atšaukti";
-
                     MenuDebug.Text = "Derinimo meniu";
-                    AddInfosOsCheckBox.Content = "Įtraukti OS informaciją";
-                    AddInfosHardCheckBox.Content = "Įtraukti aparatūros informaciją";
-                    AddImportedFilesCheckBox.Content = "Įtraukti nuo paleidimo importuotus failus";
+                    AddInfosOsCheckBox.Content = "Įtraukti operacinės sistemos informaciją";
+                    AddInfosHardCheckBox.Content = "Įtraukti kompiuterio aparatūros informaciją";
+                    AddImportedFilesCheckBox.Content = "Įtraukti importuotų projektų failus";
                     IncludeAddressListCheckBox.Content = "Įtraukti iš projektų ištrintų grupių adresų sąrašą";
+
                     CreateArchiveDebugText.Text = "Sukurti derinimo failą";
 
                     OngletParametresGeneraux.Header = "Bendrieji nustatymai";
                     OngletDebug.Header = "Derinimas";
-                    
+                            
                     OngletInformations.Header = "Informacija";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nSukurti {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nPrograma sukurta kaip inžinerinės praktikos dalis" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerystė tarp Nacionalinio taikomųjų mokslų instituto (INSA) Tulūzoje ir Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nĮgyvendinimas: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersija {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nKūrimas {App.AppBuild}" +
+                        $"\n" +
+                        $"\nPrograminė įranga sukurta INSA Toulouse inžinerijos praktikos metu:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPrižiūrėtojai:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerystė tarp Nacionalinio taikomųjų mokslų instituto (INSA) Tulūzoje ir Sąjungos Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealizacija: 06/2024 - 07/2024";
+                                
+                    SaveButtonText.Text = "Išsaugoti";
+                    CancelButtonText.Text = "Atšaukti";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Spustelėkite čia, kad nemokamai gautumėte raktą)");
                     break;
 
                 // Norvégien
                 case "NB":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Innstillinger";
                     TranslationTitle.Text = "Oversettelse";
                     EnableTranslationCheckBox.Content = "Aktiver oversettelse";
                     DeeplApiKeyText.Text = "DeepL API-nøkkel:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Aktiver automatisk språkgjenkjenning for oversettelse";
                     TranslationSourceLanguageComboBoxText.Text = "Kildespråk for oversettelse:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "Målspråk for oversettelse:";
 
-                    GroupAddressManagementTitle.Text = "Administrasjon av gruppeadresser";
+                    GroupAddressManagementTitle.Text = "Gruppeadressestyring";
                     RemoveUnusedAddressesCheckBox.Content = "Fjern ubrukte adresser";
 
-                    AppSettingsTitle.Text = "Programinnstillinger";
+                    AppSettingsTitle.Text = "Appinnstillinger";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Lys (standard)";
                     DarkThemeComboBoxItem.Content = "Mørk";
 
-                    AppLanguageTextBlock.Text = "Applikasjonsspråk:";
-
-                    SaveButtonText.Text = "Lagre";
-                    CancelButtonText.Text = "Avbryt";
+                    AppLanguageTextBlock.Text = "Appspråk:";
 
                     MenuDebug.Text = "Feilsøkingsmeny";
-                    AddInfosOsCheckBox.Content = "Inkluder OS-informasjon";
-                    AddInfosHardCheckBox.Content = "Inkluder maskinvareinformasjon";
-                    AddImportedFilesCheckBox.Content = "Inkluder filer importert siden oppstart";
-                    IncludeAddressListCheckBox.Content = "Inkluder listen over slettede gruppeadresser i prosjekter";
+                    AddInfosOsCheckBox.Content = "Inkluder informasjon om operativsystemet";
+                    AddInfosHardCheckBox.Content = "Inkluder informasjon om datamaskinens maskinvare";
+                    AddImportedFilesCheckBox.Content = "Inkluder filer importert til prosjekter siden oppstart";
+                    IncludeAddressListCheckBox.Content = "Inkluder listen over fjernede gruppeadresser fra prosjekter";
+
                     CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
 
                     OngletParametresGeneraux.Header = "Generelle innstillinger";
                     OngletDebug.Header = "Feilsøking";
-                    
+                            
                     OngletInformations.Header = "Informasjon";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersjon {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBygg {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nApplikasjonen er laget som en del av et ingeniørpraktikum av" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerskap mellom det nasjonale instituttet for anvendt vitenskap (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nGjennomføring: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersjon {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBygg {App.AppBuild}" +
+                        $"\n" +
+                        $"\nProgramvare laget som en del av et ingeniørpraksis ved INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nUnder veiledning av:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerskap mellom National Institute of Applied Sciences (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nUtførelse: 06/2024 - 07/2024";
+                                
+                    SaveButtonText.Text = "Lagre";
+                    CancelButtonText.Text = "Avbryt";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
                     break;
 
                 // Néerlandais
@@ -1932,44 +1982,51 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Automatische taalherkenning voor vertaling inschakelen";
-                    TranslationSourceLanguageComboBoxText.Text = "Bron taal voor vertaling:";
+                    TranslationSourceLanguageComboBoxText.Text = "Bron taal van de vertaling:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Doeltaal voor vertaling:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Doeltaal van de vertaling:";
 
                     GroupAddressManagementTitle.Text = "Groepsadresbeheer";
-                    RemoveUnusedAddressesCheckBox.Content = "Verwijder ongebruikte adressen";
+                    RemoveUnusedAddressesCheckBox.Content = "Ongebruikte adressen verwijderen";
 
-                    AppSettingsTitle.Text = "Applicatie-instellingen";
+                    AppSettingsTitle.Text = "Applicatie instellingen";
                     ThemeTextBox.Text = "Thema:";
                     LightThemeComboBoxItem.Content = "Licht (standaard)";
                     DarkThemeComboBoxItem.Content = "Donker";
 
                     AppLanguageTextBlock.Text = "Applicatietaal:";
 
-                    SaveButtonText.Text = "Opslaan";
-                    CancelButtonText.Text = "Annuleren";
-
                     MenuDebug.Text = "Debug-menu";
-                    AddInfosOsCheckBox.Content = "OS-informatie opnemen";
-                    AddInfosHardCheckBox.Content = "Hardware-informatie opnemen";
-                    AddImportedFilesCheckBox.Content = "Opgenomen geïmporteerde bestanden sinds de lancering";
-                    IncludeAddressListCheckBox.Content = "Lijst met verwijderde groepsadressen in projecten opnemen";
-                    CreateArchiveDebugText.Text = "Maak een debug-bestand";
+                    AddInfosOsCheckBox.Content = "Inclusief OS-informatie";
+                    AddInfosHardCheckBox.Content = "Inclusief hardware-informatie";
+                    AddImportedFilesCheckBox.Content = "Inclusief geïmporteerde projectbestanden sinds de start";
+                    IncludeAddressListCheckBox.Content = "Inclusief verwijderde groepsadreslijst in projecten";
+
+                    CreateArchiveDebugText.Text = "Maak debugbestand aan";
 
                     OngletParametresGeneraux.Header = "Algemene instellingen";
-                    OngletDebug.Header = "Foutopsporing";
+                    OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informatie";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersie {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBuild {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nApplicatie ontwikkeld als onderdeel van een ingenieursstage door" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerschap tussen het Nationaal Instituut voor Toegepaste Wetenschappen (INSA) in Toulouse en de Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealisatie: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersie {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware gemaakt in het kader van een ingenieursstage door studenten van INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nOnder supervisie van:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerschap tussen het Institut National des Sciences Appliquées (INSA) van Toulouse en de Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealisatie: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Opslaan";
+                    CancelButtonText.Text = "Annuleren";
                     break;
 
                 // Polonais
@@ -1985,44 +2042,51 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Włącz automatyczne wykrywanie języka do tłumaczenia";
-                    TranslationSourceLanguageComboBoxText.Text = "Język źródłowy do tłumaczenia:";
+                    TranslationSourceLanguageComboBoxText.Text = "Język źródłowy tłumaczenia:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Język docelowy do tłumaczenia:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Język docelowy tłumaczenia:";
 
                     GroupAddressManagementTitle.Text = "Zarządzanie adresami grup";
                     RemoveUnusedAddressesCheckBox.Content = "Usuń nieużywane adresy";
 
                     AppSettingsTitle.Text = "Ustawienia aplikacji";
-                    ThemeTextBox.Text = "Motyw:";
-                    LightThemeComboBoxItem.Content = "Jasny (domyślny)";
+                    ThemeTextBox.Text = "Temat:";
+                    LightThemeComboBoxItem.Content = "Jasny (domyślnie)";
                     DarkThemeComboBoxItem.Content = "Ciemny";
 
                     AppLanguageTextBlock.Text = "Język aplikacji:";
 
-                    SaveButtonText.Text = "Zapisz";
-                    CancelButtonText.Text = "Anuluj";
-
                     MenuDebug.Text = "Menu debugowania";
-                    AddInfosOsCheckBox.Content = "Uwzględnij informacje o systemie operacyjnym";
-                    AddInfosHardCheckBox.Content = "Uwzględnij informacje o sprzęcie";
-                    AddImportedFilesCheckBox.Content = "Uwzględnij pliki zaimportowane od uruchomienia";
-                    IncludeAddressListCheckBox.Content = "Uwzględnij listę usuniętych adresów grupowych w projektach";
+                    AddInfosOsCheckBox.Content = "Dołącz informacje o systemie operacyjnym";
+                    AddInfosHardCheckBox.Content = "Dołącz informacje o sprzęcie";
+                    AddImportedFilesCheckBox.Content = "Dołącz pliki projektów zaimportowane od uruchomienia";
+                    IncludeAddressListCheckBox.Content = "Dołącz listę usuniętych adresów grup w projektach";
+
                     CreateArchiveDebugText.Text = "Utwórz plik debugowania";
 
                     OngletParametresGeneraux.Header = "Ustawienia ogólne";
                     OngletDebug.Header = "Debugowanie";
                     
                     OngletInformations.Header = "Informacje";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nWersja {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nKompilacja {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplikacja stworzona w ramach praktyki inżynierskiej przez" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerstwo między Narodowym Instytutem Nauk Stosowanych (INSA) w Tuluzie a Związkiem Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealizacja: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nWersja {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nOprogramowanie stworzone w ramach praktyk inżynierskich przez studentów INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPod nadzorem:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerstwo między Institut National des Sciences Appliquées (INSA) w Tuluzie a Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealizacja: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Zapisz";
+                    CancelButtonText.Text = "Anuluj";
                     break;
 
                 // Portugais
@@ -2038,11 +2102,11 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Ativar detecção automática de idioma para tradução";
-                    TranslationSourceLanguageComboBoxText.Text = "Idioma de origem para tradução:";
+                    TranslationSourceLanguageComboBoxText.Text = "Idioma de origem da tradução:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino para tradução:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Idioma de destino da tradução:";
 
-                    GroupAddressManagementTitle.Text = "Gerenciamento de endereços de grupo";
+                    GroupAddressManagementTitle.Text = "Gestão de endereços de grupo";
                     RemoveUnusedAddressesCheckBox.Content = "Remover endereços não utilizados";
 
                     AppSettingsTitle.Text = "Configurações do aplicativo";
@@ -2052,189 +2116,216 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Idioma do aplicativo:";
 
-                    SaveButtonText.Text = "Salvar";
-                    CancelButtonText.Text = "Cancelar";
-
                     MenuDebug.Text = "Menu de depuração";
                     AddInfosOsCheckBox.Content = "Incluir informações do sistema operacional";
                     AddInfosHardCheckBox.Content = "Incluir informações de hardware";
-                    AddImportedFilesCheckBox.Content = "Incluir arquivos importados desde o lançamento";
-                    IncludeAddressListCheckBox.Content = "Incluir lista de endereços de grupo excluídos em projetos";
+                    AddImportedFilesCheckBox.Content = "Incluir arquivos de projetos importados desde o início";
+                    IncludeAddressListCheckBox.Content = "Incluir lista de endereços de grupo removidos nos projetos";
+
                     CreateArchiveDebugText.Text = "Criar arquivo de depuração";
 
                     OngletParametresGeneraux.Header = "Configurações gerais";
                     OngletDebug.Header = "Depuração";
                     
                     OngletInformations.Header = "Informações";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersão {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nCompilar {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplicação desenvolvida como parte de um estágio de engenharia por" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nParceria entre o Instituto Nacional de Ciências Aplicadas (INSA) em Toulouse e a Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealização: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersão {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware realizado no âmbito de um estágio de engenharia por estudantes da INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nSob a supervisão de:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nParceria entre o Institut National des Sciences Appliquées (INSA) de Toulouse e a Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealização: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Salvar";
+                    CancelButtonText.Text = "Cancelar";
                     break;
 
                 // Roumain
                 case "RO":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Setări";
                     TranslationTitle.Text = "Traducere";
                     EnableTranslationCheckBox.Content = "Activează traducerea";
                     DeeplApiKeyText.Text = "Cheie API DeepL:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuită)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Activează detectarea automată a limbii pentru traducere";
                     TranslationSourceLanguageComboBoxText.Text = "Limbă sursă pentru traducere:";
-
-                    TranslationDestinationLanguageComboBoxText.Text = "Limbă destinație pentru traducere:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Limbă țintă pentru traducere:";
 
                     GroupAddressManagementTitle.Text = "Gestionarea adreselor de grup";
-                    RemoveUnusedAddressesCheckBox.Content = "Eliminați adresele neutilizate";
+                    RemoveUnusedAddressesCheckBox.Content = "Elimină adresele neutilizate";
 
                     AppSettingsTitle.Text = "Setările aplicației";
-                    ThemeTextBox.Text = "Tema:";
-                    LightThemeComboBoxItem.Content = "Luminoasă (implicit)";
-                    DarkThemeComboBoxItem.Content = "Întunecată";
+                    ThemeTextBox.Text = "Temă:";
+                    LightThemeComboBoxItem.Content = "Deschis (implicit)";
+                    DarkThemeComboBoxItem.Content = "Întunecat";
 
                     AppLanguageTextBlock.Text = "Limba aplicației:";
 
-                    SaveButtonText.Text = "Salvează";
-                    CancelButtonText.Text = "Anulează";
-
                     MenuDebug.Text = "Meniu depanare";
-                    AddInfosOsCheckBox.Content = "Includeți informații despre sistemul de operare";
-                    AddInfosHardCheckBox.Content = "Includeți informații despre hardware";
-                    AddImportedFilesCheckBox.Content = "Includeți fișierele importate de la lansare";
-                    IncludeAddressListCheckBox.Content = "Includeți lista adreselor de grup șterse în proiecte";
+                    AddInfosOsCheckBox.Content = "Includeți informațiile despre sistemul de operare";
+                    AddInfosHardCheckBox.Content = "Includeți informațiile despre hardware-ul computerului";
+                    AddImportedFilesCheckBox.Content = "Includeți fișierele importate în proiecte de la pornire";
+                    IncludeAddressListCheckBox.Content = "Includeți lista adreselor de grup șterse din proiecte";
+
                     CreateArchiveDebugText.Text = "Creați fișierul de depanare";
 
                     OngletParametresGeneraux.Header = "Setări generale";
                     OngletDebug.Header = "Depanare";
-                    
+                            
                     OngletInformations.Header = "Informații";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersiune {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nConstrui {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplicația a fost creată ca parte a unui stagiu de inginerie de către" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nParteneriat între Institutul Național de Științe Aplicate (INSA) din Toulouse și Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealizare: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersiune {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftware creat în cadrul unui stagiu de inginerie la INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nSub supravegherea lui:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nParteneriat între Institutul Național de Științe Aplicate (INSA) din Toulouse și Uniunea Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealizare: 06/2024 - 07/2024";
+                                
+                    SaveButtonText.Text = "Salvați";
+                    CancelButtonText.Text = "Anulați";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuit)");
                     break;
 
                 // Slovaque
                 case "SK":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
                     SettingsWindowTopTitle.Text = "Nastavenia";
                     TranslationTitle.Text = "Preklad";
                     EnableTranslationCheckBox.Content = "Povoliť preklad";
                     DeeplApiKeyText.Text = "DeepL API kľúč:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknutím sem získate bezplatný kľúč)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Povoliť automatické rozpoznávanie jazyka pre preklad";
                     TranslationSourceLanguageComboBoxText.Text = "Zdrojový jazyk pre preklad:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "Cieľový jazyk pre preklad:";
 
                     GroupAddressManagementTitle.Text = "Správa skupinových adries";
-                    RemoveUnusedAddressesCheckBox.Content = "Odstrániť nepoužívané adresy";
+                    RemoveUnusedAddressesCheckBox.Content = "Odstrániť nepoužité adresy";
 
                     AppSettingsTitle.Text = "Nastavenia aplikácie";
                     ThemeTextBox.Text = "Téma:";
-                    LightThemeComboBoxItem.Content = "Svetlý (predvolený)";
-                    DarkThemeComboBoxItem.Content = "Tmavý";
+                    LightThemeComboBoxItem.Content = "Svetlá (predvolená)";
+                    DarkThemeComboBoxItem.Content = "Tmavá";
 
                     AppLanguageTextBlock.Text = "Jazyk aplikácie:";
 
-                    SaveButtonText.Text = "Uložiť";
-                    CancelButtonText.Text = "Zrušiť";
-
                     MenuDebug.Text = "Ladiace menu";
                     AddInfosOsCheckBox.Content = "Zahrnúť informácie o operačnom systéme";
-                    AddInfosHardCheckBox.Content = "Zahrnúť informácie o hardvéri";
-                    AddImportedFilesCheckBox.Content = "Zahrnúť súbory importované od spustenia";
-                    IncludeAddressListCheckBox.Content = "Zahrnúť zoznam odstránených skupinových adries v projektoch";
-                    CreateArchiveDebugText.Text = "Vytvoriť súbor na ladenie";
+                    AddInfosHardCheckBox.Content = "Zahrnúť informácie o hardvéri počítača";
+                    AddImportedFilesCheckBox.Content = "Zahrnúť súbory importované do projektov od spustenia";
+                    IncludeAddressListCheckBox.Content = "Zahrnúť zoznam odstránených skupinových adries z projektov";
+
+                    CreateArchiveDebugText.Text = "Vytvoriť ladiaci súbor";
 
                     OngletParametresGeneraux.Header = "Všeobecné nastavenia";
                     OngletDebug.Header = "Ladenie";
-                    
+                            
                     OngletInformations.Header = "Informácie";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVerzia {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nZostaviť {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplikácia bola vytvorená ako súčasť inžinierskej stáže" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerstvo medzi Národným inštitútom aplikovaných vied (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nRealizácia: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVerzia {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nSoftvér vytvorený v rámci inžinierskej stáže na INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPod dohľadom:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerstvo medzi Národným inštitútom aplikovaných vied (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nRealizácia: 06/2024 - 07/2024";
+                                
+                    SaveButtonText.Text = "Uložiť";
+                    CancelButtonText.Text = "Zrušiť";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Kliknite sem pre získanie kľúča zadarmo)");
                     break;
 
                 // Slovène
                 case "SL":
+                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
+                    
                     SettingsWindowTopTitle.Text = "Nastavitve";
                     TranslationTitle.Text = "Prevod";
-                    EnableTranslationCheckBox.Content = "Omogoči prevajanje";
+                    EnableTranslationCheckBox.Content = "Omogoči prevod";
                     DeeplApiKeyText.Text = "DeepL API ključ:";
 
-                    Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačen ključ)");
-                    Hyperlink.NavigateUri = new Uri("https://www.deepl.com/en/pro-api");
-
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Omogoči samodejno zaznavanje jezika za prevajanje";
+                        "Omogoči samodejno zaznavanje jezika za prevod";
                     TranslationSourceLanguageComboBoxText.Text = "Izvorni jezik za prevod:";
-
                     TranslationDestinationLanguageComboBoxText.Text = "Ciljni jezik za prevod:";
 
-                    GroupAddressManagementTitle.Text = "Upravljanje naslovov skupine";
+                    GroupAddressManagementTitle.Text = "Upravljanje skupinskih naslovov";
                     RemoveUnusedAddressesCheckBox.Content = "Odstrani neuporabljene naslove";
 
                     AppSettingsTitle.Text = "Nastavitve aplikacije";
                     ThemeTextBox.Text = "Tema:";
-                    LightThemeComboBoxItem.Content = "Svetlo (privzeto)";
-                    DarkThemeComboBoxItem.Content = "Temno";
+                    LightThemeComboBoxItem.Content = "Svetla (privzeta)";
+                    DarkThemeComboBoxItem.Content = "Temna";
 
                     AppLanguageTextBlock.Text = "Jezik aplikacije:";
 
-                    SaveButtonText.Text = "Shrani";
-                    CancelButtonText.Text = "Prekliči";
-
                     MenuDebug.Text = "Meni za odpravljanje napak";
                     AddInfosOsCheckBox.Content = "Vključi informacije o operacijskem sistemu";
-                    AddInfosHardCheckBox.Content = "Vključi informacije o strojni opremi";
-                    AddImportedFilesCheckBox.Content = "Vključi uvožene datoteke od zagona";
-                    IncludeAddressListCheckBox.Content = "Vključi seznam izbrisanih naslovov skupin v projektih";
+                    AddInfosHardCheckBox.Content = "Vključi informacije o strojni opremi računalnika";
+                    AddImportedFilesCheckBox.Content = "Vključi datoteke, uvožene v projekte od zagona";
+                    IncludeAddressListCheckBox.Content = "Vključi seznam izbrisanih skupinskih naslovov iz projektov";
+
                     CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
 
                     OngletParametresGeneraux.Header = "Splošne nastavitve";
                     OngletDebug.Header = "Odpravljanje napak";
-                    
+                            
                     OngletInformations.Header = "Informacije";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nRazličica {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nZgraditi {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nAplikacija je bila ustvarjena kot del inženirske prakse" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerstvo med Nacionalnim inštitutom za uporabne znanosti (INSA) v Toulousu in Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nIzvedba: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nRazličica {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nIzgradnja {App.AppBuild}" +
+                        $"\n" +
+                        $"\nProgramska oprema, izdelana v okviru inženirskega pripravništva na INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nPod nadzorom:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nPartnerstvo med Nacionalnim inštitutom za uporabne znanosti (INSA) v Toulouseu in Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nIzvedba: 06/2024 - 07/2024";
+                                
+                    SaveButtonText.Text = "Shrani";
+                    CancelButtonText.Text = "Prekliči";
+
+                    Hyperlink.Inlines.Clear();
+                    Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačni ključ)");
                     break;
 
                 // Suédois
@@ -2249,45 +2340,52 @@ namespace KNXBoostDesktop
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/sv/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Aktivera automatisk språkigenkänning för översättning";
+                        "Aktivera automatisk språkdetection för översättning";
                     TranslationSourceLanguageComboBoxText.Text = "Källspråk för översättning:";
 
                     TranslationDestinationLanguageComboBoxText.Text = "Målspråk för översättning:";
 
-                    GroupAddressManagementTitle.Text = "Hantera gruppadresser";
+                    GroupAddressManagementTitle.Text = "Gruppadresshantering";
                     RemoveUnusedAddressesCheckBox.Content = "Ta bort oanvända adresser";
 
-                    AppSettingsTitle.Text = "Programinställningar";
+                    AppSettingsTitle.Text = "Appinställningar";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Ljus (standard)";
                     DarkThemeComboBoxItem.Content = "Mörk";
 
-                    AppLanguageTextBlock.Text = "Applikationsspråk:";
-
-                    SaveButtonText.Text = "Spara";
-                    CancelButtonText.Text = "Avbryt";
+                    AppLanguageTextBlock.Text = "Appens språk:";
 
                     MenuDebug.Text = "Felsökningsmeny";
-                    AddInfosOsCheckBox.Content = "Inkludera OS-information";
-                    AddInfosHardCheckBox.Content = "Inkludera hårdvaruinformation";
-                    AddImportedFilesCheckBox.Content = "Inkludera importerade filer sedan start";
-                    IncludeAddressListCheckBox.Content = "Inkludera lista över raderade gruppadresser i projekt";
+                    AddInfosOsCheckBox.Content = "Inkludera information om operativsystemet";
+                    AddInfosHardCheckBox.Content = "Inkludera information om hårdvara";
+                    AddImportedFilesCheckBox.Content = "Inkludera importerade projektfiler sedan start";
+                    IncludeAddressListCheckBox.Content = "Inkludera lista över borttagna gruppadresser i projekt";
+
                     CreateArchiveDebugText.Text = "Skapa felsökningsfil";
 
                     OngletParametresGeneraux.Header = "Allmänna inställningar";
                     OngletDebug.Header = "Felsökning";
                     
                     OngletInformations.Header = "Information";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nBygg {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nApplikationen utvecklades som en del av en ingenjörspraktik av" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nPartnerskap mellan National Institute of Applied Sciences (INSA) i Toulouse och Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nGenomförande: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nBuild {App.AppBuild}" +
+                        $"\n" +
+                        $"\nProgramvara utvecklad inom ramen för en ingenjörspraktik av studenter från INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nUnder överinseende av:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nSamarbete mellan Institut National des Sciences Appliquées (INSA) i Toulouse och Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nGenomförande: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Spara";
+                    CancelButtonText.Text = "Avbryt";
                     break;
 
                 // Turc
@@ -2298,49 +2396,56 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API anahtarı:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(Ücretsiz anahtar almak için buraya tıklayın)");
+                    Hyperlink.Inlines.Add("(Ücretsiz bir anahtar almak için buraya tıklayın)");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/tr/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Çeviri için otomatik dil algılamayı etkinleştir";
-                    TranslationSourceLanguageComboBoxText.Text = "Çeviri için kaynak dil:";
+                    TranslationSourceLanguageComboBoxText.Text = "Çeviri kaynak dili:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Çeviri için hedef dil:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Çeviri hedef dili:";
 
-                    GroupAddressManagementTitle.Text = "Grup adres yönetimi";
+                    GroupAddressManagementTitle.Text = "Grup adresi yönetimi";
                     RemoveUnusedAddressesCheckBox.Content = "Kullanılmayan adresleri kaldır";
 
-                    AppSettingsTitle.Text = "Uygulama Ayarları";
+                    AppSettingsTitle.Text = "Uygulama ayarları";
                     ThemeTextBox.Text = "Tema:";
                     LightThemeComboBoxItem.Content = "Açık (varsayılan)";
                     DarkThemeComboBoxItem.Content = "Koyu";
 
-                    AppLanguageTextBlock.Text = "Uygulama Dili:";
+                    AppLanguageTextBlock.Text = "Uygulama dili:";
 
-                    SaveButtonText.Text = "Kaydet";
-                    CancelButtonText.Text = "İptal";
+                    MenuDebug.Text = "Hata ayıklama menüsü";
+                    AddInfosOsCheckBox.Content = "İşletim sistemi bilgilerini dahil et";
+                    AddInfosHardCheckBox.Content = "Donanım bilgilerini dahil et";
+                    AddImportedFilesCheckBox.Content = "Başlatmadan bu yana ithal edilen proje dosyalarını dahil et";
+                    IncludeAddressListCheckBox.Content = "Projelerde silinen grup adresi listesini dahil et";
 
-                    MenuDebug.Text = "Hata Ayıklama Menüsü";
-                    AddInfosOsCheckBox.Content = "OS bilgilerini ekle";
-                    AddInfosHardCheckBox.Content = "Donanım bilgilerini ekle";
-                    AddImportedFilesCheckBox.Content = "Başlangıçtan bu yana içe aktarılan dosyaları ekle";
-                    IncludeAddressListCheckBox.Content = "Projelerde silinen grup adresleri listesini ekle";
                     CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
 
-                    OngletParametresGeneraux.Header = "Genel Ayarlar";
-                    OngletDebug.Header = "Hata Ayıklama";
+                    OngletParametresGeneraux.Header = "Genel ayarlar";
+                    OngletDebug.Header = "Hata ayıklama";
                     
-                    OngletInformations.Header = "Bilgi";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nSürüm {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nDerleme {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nUygulama, bir mühendislik stajının parçası olarak geliştirildi" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES tarafından" +
-                                            $"\n" +
-                                            $"\nToulouse Ulusal Uygulamalı Bilimler Enstitüsü (INSA) ve Union Cépière Robert Monnier (UCRM) arasındaki ortaklık." +
-                                            $"\n" +
-                                            $"\nGerçekleşme: 06/2024 - 07/2024";
+                    OngletInformations.Header = "Bilgiler";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nSürüm {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nYapı {App.AppBuild}" +
+                        $"\n" +
+                        $"\nINSA Toulouse öğrencileri tarafından bir mühendislik stajı kapsamında yapılan yazılım:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nGözetim altında:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nInstitut National des Sciences Appliquées (INSA) Toulouse ve Union Cépière Robert Monnier (UCRM) arasındaki ortaklık." +
+                        $"\n" +
+                        $"\nGerçekleştirme: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Kaydet";
+                    CancelButtonText.Text = "İptal";
                     break;
 
                 // Ukrainien
@@ -2355,45 +2460,52 @@ namespace KNXBoostDesktop
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/uk/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
-                        "Увімкнути автоматичне визначення мови для перекладу";
-                    TranslationSourceLanguageComboBoxText.Text = "Мова джерела для перекладу:";
+                        "Увімкнути автоматичне виявлення мови для перекладу";
+                    TranslationSourceLanguageComboBoxText.Text = "Мова джерела перекладу:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Мова призначення для перекладу:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Мова призначення перекладу:";
 
-                    GroupAddressManagementTitle.Text = "Управління адресами групи";
+                    GroupAddressManagementTitle.Text = "Управління адресами груп";
                     RemoveUnusedAddressesCheckBox.Content = "Видалити невикористані адреси";
 
-                    AppSettingsTitle.Text = "Налаштування додатка";
+                    AppSettingsTitle.Text = "Налаштування додатку";
                     ThemeTextBox.Text = "Тема:";
                     LightThemeComboBoxItem.Content = "Світла (за замовчуванням)";
                     DarkThemeComboBoxItem.Content = "Темна";
 
-                    AppLanguageTextBlock.Text = "Мова додатка:";
-
-                    SaveButtonText.Text = "Зберегти";
-                    CancelButtonText.Text = "Скасувати";
+                    AppLanguageTextBlock.Text = "Мова додатку:";
 
                     MenuDebug.Text = "Меню налагодження";
-                    AddInfosOsCheckBox.Content = "Включити інформацію про ОС";
+                    AddInfosOsCheckBox.Content = "Включити інформацію про операційну систему";
                     AddInfosHardCheckBox.Content = "Включити інформацію про апаратне забезпечення";
-                    AddImportedFilesCheckBox.Content = "Включити файли, імпортовані з моменту запуску";
-                    IncludeAddressListCheckBox.Content = "Включити список видалених групових адрес у проектах";
+                    AddImportedFilesCheckBox.Content = "Включити файли проектів, імпортовані з моменту запуску";
+                    IncludeAddressListCheckBox.Content = "Включити список видалених адрес груп у проектах";
+
                     CreateArchiveDebugText.Text = "Створити файл налагодження";
 
                     OngletParametresGeneraux.Header = "Загальні налаштування";
-                    OngletDebug.Header = "Відлагодження";
+                    OngletDebug.Header = "Налагодження";
                     
                     OngletInformations.Header = "Інформація";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nВерсія {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nЗбірка {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nДодаток розроблено в рамках інженерного стажування" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nПартнерство між Національним інститутом прикладних наук (INSA) у Тулузі та Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nРеалізація: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nВерсія {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nЗбірка {App.AppBuild}" +
+                        $"\n" +
+                        $"\nПрограмне забезпечення розроблене в рамках інженерного стажування студентами INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nПід наглядом:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nПартнерство між Institut National des Sciences Appliquées (INSA) в Тулузі та Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nРеалізація: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Зберегти";
+                    CancelButtonText.Text = "Скасувати";
                     break;
 
                 // Russe
@@ -2401,7 +2513,7 @@ namespace KNXBoostDesktop
                     SettingsWindowTopTitle.Text = "Настройки";
                     TranslationTitle.Text = "Перевод";
                     EnableTranslationCheckBox.Content = "Включить перевод";
-                    DeeplApiKeyText.Text = "Ключ API DeepL:";
+                    DeeplApiKeyText.Text = "API-ключ DeepL:";
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Нажмите здесь, чтобы получить бесплатный ключ)");
@@ -2409,11 +2521,11 @@ namespace KNXBoostDesktop
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "Включить автоматическое определение языка для перевода";
-                    TranslationSourceLanguageComboBoxText.Text = "Исходный язык для перевода:";
+                    TranslationSourceLanguageComboBoxText.Text = "Язык источника перевода:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "Язык назначения для перевода:";
+                    TranslationDestinationLanguageComboBoxText.Text = "Целевой язык перевода:";
 
-                    GroupAddressManagementTitle.Text = "Управление адресами групп";
+                    GroupAddressManagementTitle.Text = "Управление адресами группы";
                     RemoveUnusedAddressesCheckBox.Content = "Удалить неиспользуемые адреса";
 
                     AppSettingsTitle.Text = "Настройки приложения";
@@ -2423,30 +2535,37 @@ namespace KNXBoostDesktop
 
                     AppLanguageTextBlock.Text = "Язык приложения:";
 
-                    SaveButtonText.Text = "Сохранить";
-                    CancelButtonText.Text = "Отменить";
-
                     MenuDebug.Text = "Меню отладки";
                     AddInfosOsCheckBox.Content = "Включить информацию о ОС";
                     AddInfosHardCheckBox.Content = "Включить информацию о оборудовании";
-                    AddImportedFilesCheckBox.Content = "Включить файлы, импортированные с момента запуска";
-                    IncludeAddressListCheckBox.Content = "Включить список удаленных групповых адресов в проектах";
+                    AddImportedFilesCheckBox.Content = "Включить файлы проектов, импортированные с момента запуска";
+                    IncludeAddressListCheckBox.Content = "Включить список удаленных адресов групп в проектах";
+
                     CreateArchiveDebugText.Text = "Создать файл отладки";
 
                     OngletParametresGeneraux.Header = "Общие настройки";
                     OngletDebug.Header = "Отладка";
                     
                     OngletInformations.Header = "Информация";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\nВерсия {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\nСборка {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\nПриложение разработано в рамках инженерной стажировки" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\nПартнерство между Национальным институтом прикладных наук (INSA) в Тулузе и Union Cépière Robert Monnier (UCRM)." +
-                                            $"\n" +
-                                            $"\nРеализация: 06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\nВерсия {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\nСборка {App.AppBuild}" +
+                        $"\n" +
+                        $"\nПрограммное обеспечение, разработанное в рамках инженерной стажировки студентами INSA Toulouse:" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nПод руководством:" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
+                        $"\n" +
+                        $"\nПартнерство между Institut National des Sciences Appliquées (INSA) в Тулузе и Union Cépière Robert Monnier (UCRM)." +
+                        $"\n" +
+                        $"\nРеализация: 06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "Сохранить";
+                    CancelButtonText.Text = "Отмена";
                     break;
 
                 // Chinois simplifié
@@ -2457,49 +2576,56 @@ namespace KNXBoostDesktop
                     DeeplApiKeyText.Text = "DeepL API 密钥:";
 
                     Hyperlink.Inlines.Clear();
-                    Hyperlink.Inlines.Add("(点击这里获取免费密钥)");
+                    Hyperlink.Inlines.Add("（点击此处获取免费密钥）");
                     Hyperlink.NavigateUri = new Uri("https://www.deepl.com/zh/pro-api");
 
                     EnableAutomaticTranslationLangDetectionCheckbox.Content =
                         "启用自动语言检测进行翻译";
-                    TranslationSourceLanguageComboBoxText.Text = "翻译源语言：";
+                    TranslationSourceLanguageComboBoxText.Text = "翻译源语言:";
 
-                    TranslationDestinationLanguageComboBoxText.Text = "翻译目标语言：";
+                    TranslationDestinationLanguageComboBoxText.Text = "翻译目标语言:";
 
                     GroupAddressManagementTitle.Text = "组地址管理";
                     RemoveUnusedAddressesCheckBox.Content = "删除未使用的地址";
 
                     AppSettingsTitle.Text = "应用设置";
-                    ThemeTextBox.Text = "主题：";
+                    ThemeTextBox.Text = "主题:";
                     LightThemeComboBoxItem.Content = "浅色（默认）";
                     DarkThemeComboBoxItem.Content = "深色";
 
-                    AppLanguageTextBlock.Text = "应用语言：";
-
-                    SaveButtonText.Text = "保存";
-                    CancelButtonText.Text = "取消";
+                    AppLanguageTextBlock.Text = "应用语言:";
 
                     MenuDebug.Text = "调试菜单";
                     AddInfosOsCheckBox.Content = "包括操作系统信息";
                     AddInfosHardCheckBox.Content = "包括硬件信息";
-                    AddImportedFilesCheckBox.Content = "包括启动以来导入的文件";
-                    IncludeAddressListCheckBox.Content = "包括项目中已删除的组地址列表";
+                    AddImportedFilesCheckBox.Content = "包括启动以来导入的项目文件";
+                    IncludeAddressListCheckBox.Content = "包括项目中删除的组地址列表";
+
                     CreateArchiveDebugText.Text = "创建调试文件";
 
                     OngletParametresGeneraux.Header = "常规设置";
                     OngletDebug.Header = "调试";
                     
                     OngletInformations.Header = "信息";
-                    InformationsText.Text = $"{App.AppName}" +
-                                            $"\n版本 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
-                                            $"\n构建 {App.AppBuild}" +
-                                            $"\n" +
-                                            $"\n该应用程序是作为工程实习的一部分开发的，由" +
-                                            $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
-                                            $"\n" +
-                                            $"\n图卢兹国家应用科学学院 (INSA) 和 Union Cépière Robert Monnier (UCRM) 之间的合作伙伴关系。" +
-                                            $"\n" +
-                                            $"\n实现：06/2024 - 07/2024";
+                    InformationsText.Text =
+                        $"{App.AppName}" +
+                        $"\n版本 {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
+                        $"\n构建 {App.AppBuild}" +
+                        $"\n" +
+                        $"\n由INSA Toulouse的学生在工程实习中开发的软件：" +
+                        $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\n在以下人员的指导下：" +
+                        $"\nDidier BESSE（UCRM）" +
+                        $"\nThierry COPPOLA（UCRM）" +
+                        $"\nJean-François KLOTZ（LECS）" +
+                        $"\n" +
+                        $"\nToulouse的Institut National des Sciences Appliquées（INSA）与Union Cépière Robert Monnier（UCRM）之间的合作。" +
+                        $"\n" +
+                        $"\n实施：06/2024 - 07/2024";
+                        
+                    SaveButtonText.Text = "保存";
+                    CancelButtonText.Text = "取消";
                     break;
 
                 // Langue par défaut (français)
@@ -2546,8 +2672,13 @@ namespace KNXBoostDesktop
                         $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
-                        $"\nApplication réalisée dans le cadre d'un stage d'ingénierie par" +
+                        $"\nLogiciel réalisé dans le cadre d'un stage d'ingénierie par des étudiants de l'INSA Toulouse :" +
                         $"\nNathan BRUGIERE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
+                        $"\n" +
+                        $"\nSous la supervision de :" +
+                        $"\nDidier BESSE (UCRM)" +
+                        $"\nThierry COPPOLA (UCRM)" +
+                        $"\nJean-François KLOTZ (LECS)" +
                         $"\n" +
                         $"\nPartenariat entre l'Institut National des Sciences Appliquées (INSA) de Toulouse et l'Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
@@ -2555,9 +2686,72 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
-
                     break;
             }
+            
+            ScalingText.Text = AppLang switch
+            {
+                // Arabe
+                "AR" => "مقياس :",
+                // Bulgare
+                "BG" => "Мащабиране :",
+                // Tchèque
+                "CS" => "Měřítko :",
+                // Danois
+                "DA" => "Skalering :",
+                // Allemand
+                "DE" => "Skalierung :",
+                // Grec
+                "EL" => "Κλιμάκωση :",
+                // Anglais
+                "EN" => "Scaling :",
+                // Espagnol
+                "ES" => "Escalado :",
+                // Estonien
+                "ET" => "Skaala :",
+                // Finnois
+                "FI" => "Skaalaus :",
+                // Hongrois
+                "HU" => "Skálázás :",
+                // Indonésien
+                "ID" => "Skala :",
+                // Italien
+                "IT" => "Ridimensionamento :",
+                // Japonais
+                "JA" => "スケーリング :",
+                // Coréen
+                "KO" => "확대 :",
+                // Letton
+                "LV" => "Mērogošana :",
+                // Lituanien
+                "LT" => "Mastelis :",
+                // Norvégien
+                "NB" => "Skalering :",
+                // Néerlandais
+                "NL" => "Schaal :",
+                // Polonais
+                "PL" => "Skalowanie :",
+                // Portugais
+                "PT" => "Dimensionamento :",
+                // Roumain
+                "RO" => "Scalare :",
+                // Russe
+                "RU" => "Масштабирование :",
+                // Slovaque
+                "SK" => "Mierka :",
+                // Slovène
+                "SL" => "Spreminjanje velikosti :",
+                // Suédois
+                "SV" => "Skalning :",
+                // Turc
+                "TR" => "Ölçekleme :",
+                // Ukrainien
+                "UK" => "Масштабування :",
+                // Chinois simplifié
+                "ZH" => "缩放 :",
+                // Cas par défaut (français)
+                _ => "Mise à l'échelle :"
+            };
         }
 
 
@@ -2676,7 +2870,7 @@ namespace KNXBoostDesktop
             // Menu debug
             ControlOnglet.BorderBrush = borderBrush;
             DebugPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
-            InformationsPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            InformationsGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             AddInfosOsCheckBox.Style = checkboxStyle;
             AddInfosHardCheckBox.Style = checkboxStyle;
             AddImportedFilesCheckBox.Style = checkboxStyle;
@@ -2691,7 +2885,7 @@ namespace KNXBoostDesktop
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;
             OngletInformations.Foreground = textColorBrush;
-            InformationsText.Foreground = EnableLightTheme ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DimGray);
+            InformationsText.Foreground = EnableLightTheme ? new SolidColorBrush(Colors.Black) : textColorBrush;
 
             IncludeAddressListCheckBox.IsEnabled = (bool)AddImportedFilesCheckBox.IsChecked!;
 
@@ -2901,10 +3095,10 @@ namespace KNXBoostDesktop
             App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
 
             // Mise à jour de la fenêtre de renommage des adresses de groupe
-            App.DisplayElements?.GroupAddressRenameWindow.UpdateWindowContents();
+            App.DisplayElements.GroupAddressRenameWindow.UpdateWindowContents();
 
             // Mise à jour de la fenêtre principale
-            App.DisplayElements?.MainWindow.UpdateWindowContents();
+            App.DisplayElements.MainWindow.UpdateWindowContents();
 
             // Si on a activé la traduction deepl
             if (EnableDeeplTranslation)
@@ -4048,4 +4242,3 @@ namespace KNXBoostDesktop
         }
     }
 }
-

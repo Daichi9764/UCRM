@@ -6,7 +6,6 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="#F5F5F5"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         Closing="ClosingSettingsWindow"
         PreviewKeyDown="SettingsWindow_PreviewKeyDown">
 
@@ -829,7 +828,7 @@
                                                              Unchecked="DisableTranslation" >
                                                    </CheckBox>
 
-                                                   <StackPanel x:Name="TextDeeplApiStackPanel" Orientation="Horizontal">
+                                                   <StackPanel Orientation="Horizontal">
                                                        <TextBlock x:Name="DeeplApiKeyText" Margin="10,0,0,2" />
                                                        <TextBlock Margin="5,0,0,0">
                                                            <Hyperlink x:Name="Hyperlink"
@@ -886,67 +885,38 @@
                                                               Margin="10,0,10,2" />
                                                    <ComboBox x:Name="TranslationLanguageDestinationComboBox"
                                                              Margin="10,0,10,10">
-                                                       <ComboBoxItem x:Name="ArDestinationTranslationComboBoxItem"
-                                                                     Content="AR - العربية" />
-                                                       <ComboBoxItem x:Name="BgDestinationTranslationComboBoxItem"
-                                                                     Content="BG - Български" />
-                                                       <ComboBoxItem x:Name="CsDestinationTranslationComboBoxItem"
-                                                                     Content="CS - Čeština" />
-                                                       <ComboBoxItem x:Name="DaDestinationTranslationComboBoxItem"
-                                                                     Content="DA - Dansk" />
-                                                       <ComboBoxItem x:Name="DeDestinationTranslationComboBoxItem"
-                                                                     Content="DE - Deutsch" />
-                                                       <ComboBoxItem x:Name="ElDestinationTranslationComboBoxItem"
-                                                                     Content="EL - Ελληνικά" />
-                                                       <ComboBoxItem x:Name="EnDestinationTranslationComboBoxItem"
-                                                                     Content="EN - English" />
-                                                       <ComboBoxItem x:Name="EsDestinationTranslationComboBoxItem"
-                                                                     Content="ES - Español" />
-                                                       <ComboBoxItem x:Name="EtDestinationTranslationComboBoxItem"
-                                                                     Content="ET - Eesti" />
-                                                       <ComboBoxItem x:Name="FiDestinationTranslationComboBoxItem"
-                                                                     Content="FI - Suomi" />
+                                                       <ComboBoxItem Content="AR - العربية" />
+                                                       <ComboBoxItem Content="BG - Български" />
+                                                       <ComboBoxItem Content="CS - Čeština" />
+                                                       <ComboBoxItem Content="DA - Dansk" />
+                                                       <ComboBoxItem Content="DE - Deutsch" />
+                                                       <ComboBoxItem Content="EL - Ελληνικά" />
+                                                       <ComboBoxItem Content="EN - English" />
+                                                       <ComboBoxItem Content="ES - Español" />
+                                                       <ComboBoxItem Content="ET - Eesti" />
+                                                       <ComboBoxItem Content="FI - Suomi" />
                                                        <ComboBoxItem x:Name="FrDestinationTranslationComboBoxItem"
                                                                      Content="FR - Français (par défaut)"
                                                                      IsSelected="True" FontWeight="Bold" />
-                                                       <ComboBoxItem x:Name="HuDestinationTranslationComboBoxItem"
-                                                                     Content="HU - Magyar" />
-                                                       <ComboBoxItem x:Name="IdDestinationTranslationComboBoxItem"
-                                                                     Content="ID - Bahasa Indonesia" />
-                                                       <ComboBoxItem x:Name="ItDestinationTranslationComboBoxItem"
-                                                                     Content="IT - Italiano" />
-                                                       <ComboBoxItem x:Name="JaDestinationTranslationComboBoxItem"
-                                                                     Content="JA - 日本語" />
-                                                       <ComboBoxItem x:Name="KoDestinationTranslationComboBoxItem"
-                                                                     Content="KO - 한국어" />
-                                                       <ComboBoxItem x:Name="LtDestinationTranslationComboBoxItem"
-                                                                     Content="LT - Lietuvių" />
-                                                       <ComboBoxItem x:Name="LvDestinationTranslationComboBoxItem"
-                                                                     Content="LV - Latviešu" />
-                                                       <ComboBoxItem x:Name="NbDestinationTranslationComboBoxItem"
-                                                                     Content="NB - Norsk Bokmål" />
-                                                       <ComboBoxItem x:Name="NlDestinationTranslationComboBoxItem"
-                                                                     Content="NL - Nederlands" />
-                                                       <ComboBoxItem x:Name="PlDestinationTranslationComboBoxItem"
-                                                                     Content="PL - Polski" />
-                                                       <ComboBoxItem x:Name="PtDestinationTranslationComboBoxItem"
-                                                                     Content="PT - Português" />
-                                                       <ComboBoxItem x:Name="RoDestinationTranslationComboBoxItem"
-                                                                     Content="RO - Română" />
-                                                       <ComboBoxItem x:Name="RuDestinationTranslationComboBoxItem"
-                                                                     Content="RU - Русский" />
-                                                       <ComboBoxItem x:Name="SkDestinationTranslationComboBoxItem"
-                                                                     Content="SK - Slovenský" />
-                                                       <ComboBoxItem x:Name="SlDestinationTranslationComboBoxItem"
-                                                                     Content="SL - Slovenščina" />
-                                                       <ComboBoxItem x:Name="SvDestinationTranslationComboBoxItem"
-                                                                     Content="SV - Svenska" />
-                                                       <ComboBoxItem x:Name="TrDestinationTranslationComboBoxItem"
-                                                                     Content="TR - Türkçe" />
-                                                       <ComboBoxItem x:Name="UkDestinationTranslationComboBoxItem"
-                                                                     Content="UK - Українська" />
-                                                       <ComboBoxItem x:Name="ZhDestinationTranslationComboBoxItem"
-                                                                     Content="ZH - 中文" />
+                                                       <ComboBoxItem Content="HU - Magyar" />
+                                                       <ComboBoxItem Content="ID - Bahasa Indonesia" />
+                                                       <ComboBoxItem Content="IT - Italiano" />
+                                                       <ComboBoxItem Content="JA - 日本語" />
+                                                       <ComboBoxItem Content="KO - 한국어" />
+                                                       <ComboBoxItem Content="LT - Lietuvių" />
+                                                       <ComboBoxItem Content="LV - Latviešu" />
+                                                       <ComboBoxItem Content="NB - Norsk Bokmål" />
+                                                       <ComboBoxItem Content="NL - Nederlands" />
+                                                       <ComboBoxItem Content="PL - Polski" />
+                                                       <ComboBoxItem Content="PT - Português" />
+                                                       <ComboBoxItem Content="RO - Română" />
+                                                       <ComboBoxItem Content="RU - Русский" />
+                                                       <ComboBoxItem Content="SK - Slovenský" />
+                                                       <ComboBoxItem Content="SL - Slovenščina" />
+                                                       <ComboBoxItem Content="SV - Svenska" />
+                                                       <ComboBoxItem Content="TR - Türkçe" />
+                                                       <ComboBoxItem Content="UK - Українська" />
+                                                       <ComboBoxItem Content="ZH - 中文" />
                                                    </ComboBox>
 
 
@@ -972,70 +942,41 @@
 
                                                    <TextBlock x:Name="AppLanguageTextBlock" Margin="10,0,10,2" />
                                                    <ComboBox x:Name="AppLanguageComboBox" Margin="10,0,10,20">
-                                                       <ComboBoxItem x:Name="ArAppLanguageComboBoxItem"
-                                                                     Content="AR - العربية" />
-                                                       <ComboBoxItem x:Name="BgAppLanguageComboBoxItem"
-                                                                     Content="BG - Български" />
-                                                       <ComboBoxItem x:Name="CsAppLanguageComboBoxItem"
-                                                                     Content="CS - Čeština" />
-                                                       <ComboBoxItem x:Name="DaAppLanguageComboBoxItem"
-                                                                     Content="DA - Dansk" />
-                                                       <ComboBoxItem x:Name="DeAppLanguageComboBoxItem"
-                                                                     Content="DE - Deutsch" />
-                                                       <ComboBoxItem x:Name="ElAppLanguageComboBoxItem"
-                                                                     Content="EL - Ελληνικά" />
-                                                       <ComboBoxItem x:Name="EnAppLanguageComboBoxItem"
-                                                                     Content="EN - English" />
-                                                       <ComboBoxItem x:Name="EsAppLanguageComboBoxItem"
-                                                                     Content="ES - Español" />
-                                                       <ComboBoxItem x:Name="EtAppLanguageComboBoxItem"
-                                                                     Content="ET - Eesti" />
-                                                       <ComboBoxItem x:Name="FiAppLanguageComboBoxItem"
-                                                                     Content="FI - Suomi" />
+                                                       <ComboBoxItem Content="AR - العربية" />
+                                                       <ComboBoxItem Content="BG - Български" />
+                                                       <ComboBoxItem Content="CS - Čeština" />
+                                                       <ComboBoxItem Content="DA - Dansk" />
+                                                       <ComboBoxItem Content="DE - Deutsch" />
+                                                       <ComboBoxItem Content="EL - Ελληνικά" />
+                                                       <ComboBoxItem Content="EN - English" />
+                                                       <ComboBoxItem Content="ES - Español" />
+                                                       <ComboBoxItem Content="ET - Eesti" />
+                                                       <ComboBoxItem Content="FI - Suomi" />
                                                        <ComboBoxItem x:Name="FrAppLanguageComboBoxItem"
                                                                      Content="FR - Français (par défaut)"
                                                                      IsSelected="True" FontWeight="Bold" />
-                                                       <ComboBoxItem x:Name="HuAppLanguageComboBoxItem"
-                                                                     Content="HU - Magyar" />
-                                                       <ComboBoxItem x:Name="IdAppLanguageComboBoxItem"
-                                                                     Content="ID - Bahasa Indonesia" />
-                                                       <ComboBoxItem x:Name="ItAppLanguageComboBoxItem"
-                                                                     Content="IT - Italiano" />
-                                                       <ComboBoxItem x:Name="JaAppLanguageComboBoxItem"
-                                                                     Content="JA - 日本語" />
-                                                       <ComboBoxItem x:Name="KoAppLanguageComboBoxItem"
-                                                                     Content="KO - 한국어" />
-                                                       <ComboBoxItem x:Name="LtAppLanguageComboBoxItem"
-                                                                     Content="LT - Lietuvių" />
-                                                       <ComboBoxItem x:Name="LvAppLanguageComboBoxItem"
-                                                                     Content="LV - Latviešu" />
-                                                       <ComboBoxItem x:Name="NbAppLanguageComboBoxItem"
-                                                                     Content="NB - Norsk Bokmål" />
-                                                       <ComboBoxItem x:Name="NlAppLanguageComboBoxItem"
-                                                                     Content="NL - Nederlands" />
-                                                       <ComboBoxItem x:Name="PlAppLanguageComboBoxItem"
-                                                                     Content="PL - Polski" />
-                                                       <ComboBoxItem x:Name="PtAppLanguageComboBoxItem"
-                                                                     Content="PT - Português" />
-                                                       <ComboBoxItem x:Name="RoAppLanguageComboBoxItem"
-                                                                     Content="RO - Română" />
-                                                       <ComboBoxItem x:Name="RuAppLanguageComboBoxItem"
-                                                                     Content="RU - Русский" />
-                                                       <ComboBoxItem x:Name="SkAppLanguageComboBoxItem"
-                                                                     Content="SK - Slovenský" />
-                                                       <ComboBoxItem x:Name="SlAppLanguageComboBoxItem"
-                                                                     Content="SL - Slovenščina" />
-                                                       <ComboBoxItem x:Name="SvAppLanguageComboBoxItem"
-                                                                     Content="SV - Svenska" />
-                                                       <ComboBoxItem x:Name="TrAppLanguageComboBoxItem"
-                                                                     Content="TR - Türkçe" />
-                                                       <ComboBoxItem x:Name="UkAppLanguageComboBoxItem"
-                                                                     Content="UK - Українська" />
-                                                       <ComboBoxItem x:Name="ZhAppLanguageComboBoxItem"
-                                                                     Content="ZH - 中文" />
+                                                       <ComboBoxItem Content="HU - Magyar" />
+                                                       <ComboBoxItem Content="ID - Bahasa Indonesia" />
+                                                       <ComboBoxItem Content="IT - Italiano" />
+                                                       <ComboBoxItem Content="JA - 日本語" />
+                                                       <ComboBoxItem Content="KO - 한국어" />
+                                                       <ComboBoxItem Content="LT - Lietuvių" />
+                                                       <ComboBoxItem Content="LV - Latviešu" />
+                                                       <ComboBoxItem Content="NB - Norsk Bokmål" />
+                                                       <ComboBoxItem Content="NL - Nederlands" />
+                                                       <ComboBoxItem Content="PL - Polski" />
+                                                       <ComboBoxItem Content="PT - Português" />
+                                                       <ComboBoxItem Content="RO - Română" />
+                                                       <ComboBoxItem Content="RU - Русский" />
+                                                       <ComboBoxItem Content="SK - Slovenský" />
+                                                       <ComboBoxItem Content="SL - Slovenščina" />
+                                                       <ComboBoxItem Content="SV - Svenska" />
+                                                       <ComboBoxItem Content="TR - Türkçe" />
+                                                       <ComboBoxItem Content="UK - Українська" />
+                                                       <ComboBoxItem Content="ZH - 中文" />
                                                    </ComboBox>
 
-                                                   <TextBlock x:Name="ScalingText" Text="Mise à l'échelle"
+                                                   <TextBlock x:Name="ScalingText"
                                                               Margin="10,0,10,20" />
                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                        <Slider Style="{StaticResource LightSlider}"
@@ -1101,15 +1042,20 @@
                                        </TabItem>
                                        
                                        <TabItem x:Name="OngletInformations" Style="{StaticResource LightOnglet}">
-                                           <StackPanel x:Name="InformationsPanel" Background="#262626">
-                                               <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                           
+                                           <Grid x:Name="InformationsGrid" Background="#262626">
+                                               <Grid.RowDefinitions>
+                                                   <RowDefinition Height="*"/>
+                                               </Grid.RowDefinitions>
+                                               
+                                               <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                                                    <TextBlock x:Name="InformationsText" Text="text" TextAlignment="Center"
                                                               Background="Transparent" TextWrapping="Wrap" Padding="10"
-                                                              Margin="0,180,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                              Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                    
                                                    </TextBlock>
                                                </ScrollViewer>
-                                           </StackPanel>
+                                           </Grid>
                                        </TabItem>
                                    </TabControl>
                                    
@@ -1206,10 +1152,6 @@
                                        </StackPanel>
                                    </Button>
                                </StackPanel>
-                               
-                               <Canvas>
-                                   <TextBlock x:Name="AppVersionTextBlock" Foreground="Gray" FontStyle="Italic" FontSize="10" Canvas.Bottom="1" Canvas.Left="3"></TextBlock>
-                               </Canvas>
                            </StackPanel>
                        </Grid>
     </Border>
