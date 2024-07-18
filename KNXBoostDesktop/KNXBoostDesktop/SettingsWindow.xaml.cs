@@ -3209,7 +3209,14 @@ namespace KNXBoostDesktop
 
             // Mise à jour de l'échelle de toutes les fenêtres
             var scaleFactor = AppScaleFactor / 100f;
-            ApplyScaling(scaleFactor - 0.2f);
+            if (scaleFactor <= 1f)
+            {
+                ApplyScaling(scaleFactor-0.1f);
+            }
+            else
+            {
+                ApplyScaling(scaleFactor-0.2f);
+            }
             App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.ConsoleWindow.ApplyScaling(scaleFactor);
             App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
