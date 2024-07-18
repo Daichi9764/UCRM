@@ -30,7 +30,7 @@ namespace KNXBoostDesktop
         {
             if (value is double width)
             {
-                return width < Threshold;
+                return App.DisplayElements?.SettingsWindow != null && width < (Threshold*App.DisplayElements.SettingsWindow.AppScaleFactor/100f);
             }
             return false;
         }

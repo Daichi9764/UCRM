@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.IO;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 
@@ -42,6 +43,7 @@ public partial class GroupAddressRenameWindow
     {
         NewAddress = "";
         SavedAddress = "";
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
         InitializeComponent();
     }
     
