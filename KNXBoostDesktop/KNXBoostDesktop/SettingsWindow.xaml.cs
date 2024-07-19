@@ -3371,8 +3371,7 @@ namespace KNXBoostDesktop
             //Faire apparaitre le bouton Reload 
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
             {
-                var mainWindow = Application.Current.MainWindow as MainWindow;
-                if (mainWindow != null) mainWindow.ButtonReload.Visibility = Visibility.Visible;
+                if (Application.Current.MainWindow is MainWindow mainWindow) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
 
             // Masquage de la fenêtre de paramètres
