@@ -73,7 +73,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Strings to preserve during the correction of group addresses. If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
         /// </summary>
-        public string[] StringsToAdd { get; private set; } // Chaines de caractères à conserver lors de la correction des adresses de groupe
+        public List<string> StringsToAdd { get; private set; } // Chaines de caractères à conserver lors de la correction des adresses de groupe
 
 
 
@@ -103,8 +103,9 @@ namespace KNXBoostDesktop
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
+            StringsToAdd = new List<string>();
 
-            const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
+        const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
 
             // Si le fichier contenant la main key n'existe pas
             if (!File.Exists("./emk"))
@@ -773,7 +774,14 @@ namespace KNXBoostDesktop
                             {
                                 App.ConsoleAndLogWriteLine("Error: Could not parse the integer value of the window scale factor. Restoring default value (100%).");
                             }
-
+                            break;
+                        
+                        case "strings to keep in corrected addresses":
+                            // Récupération de chaque string et ajout à la liste
+                            foreach (var st in value.Split(','))
+                            {
+                                StringsToAdd.Add(st.Trim());
+                            }
                             break;
                     }
                 }
@@ -858,6 +866,21 @@ namespace KNXBoostDesktop
 
                 writer.Write("window scale factor : ");
                 writer.WriteLine(AppScaleFactor);
+                
+                writer.Write("strings to keep in corrected addresses : ");
+                for (var i=0; i<StringsToAdd.Count; i++)
+                {
+                    // Si c'est le dernier élément, on ne met pas de virgule et on saute une ligne
+                    if (i == StringsToAdd.Count - 1)
+                    {
+                        writer.WriteLine($"{StringsToAdd[i]}");
+                    }
+                    // Sinon, on écrit les uns après les autres chaque élément séparé d'une virgule
+                    else
+                    {
+                        writer.Write($"{StringsToAdd[i]}, ");
+                    }
+                }
 
                 writer.WriteLine(
                     "-----------------------------------------------------------------------------------------");
@@ -951,6 +974,13 @@ namespace KNXBoostDesktop
 
             // Mise à jour du slider
             ScaleSlider.Value = AppScaleFactor;
+            
+            // Mise à jour de la liste des strings à conserver
+            AddressKeepingTextbox.Text = ""; // On commence par réinitialiser
+            for (var i=0; i<StringsToAdd.Count; i++)
+            {
+                AddressKeepingTextbox.Text += i == StringsToAdd.Count-1 ? $"{StringsToAdd[i]}" : $"{StringsToAdd[i]}, ";
+            }
 
             // Traduction du menu settings
             if (langChanged) TranslateWindowContents();
@@ -3176,13 +3206,36 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
 
+            List<string> newStringsToKeep = [];
+            
+            // On remplit la liste en récupérant les différents strings. Ils peuvent être séparés par des virgules ou des points virgules
+            foreach (var st in AddressKeepingTextbox.Text.Split(','))
+            {
+                // Note: la fonction Trim() permet de supprimer s'il y en a les espaces au début
+                // ou à la fin du string avant de l'ajouter à la liste tout en conservant ceux
+                // à l'intérieur du string
+                // Note 2 : On ne prend pas en compte les chaines vides ou les suites d'espaces
+                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
+                {
+                    newStringsToKeep.AddRange(from st2 in st.Split(';') where !st2.Trim().Equals("", StringComparison.OrdinalIgnoreCase) select st2.Trim());
+                }
+            }
+            
+            // Vérification de si la liste de strings a changé :
+            // Si la longueur des listes est différente ou qu'un élément d'une liste n'est pas dans l'autre et vice-versa, alors la liste a changé
+            var listChanged = newStringsToKeep.Count != StringsToAdd.Count ||
+                              newStringsToKeep.Except(StringsToAdd).Any() ||
+                              StringsToAdd.Except(newStringsToKeep).Any();
+            if (listChanged)
+            {
+                StringsToAdd = newStringsToKeep;
+            }
+            
             var deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
             
             // Si on a activé la traduction deepl et que la clé a changé
             if (EnableDeeplTranslation && deeplKeyChanged)
             {
-                App.ConsoleAndLogWriteLine("Clé a changé");
-                
                 // On récupère la nouvelle clé et on l'encrypte
                 DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
                 
@@ -3277,7 +3330,7 @@ namespace KNXBoostDesktop
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
                 previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang || 
                 previousAppScaleFactor != AppScaleFactor ||
-                deeplKeyChanged)
+                deeplKeyChanged || listChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
@@ -3295,7 +3348,6 @@ namespace KNXBoostDesktop
             // Si on a modifié l'échelle dans les paramètres
             if (AppScaleFactor != previousAppScaleFactor)
             {
-                App.ConsoleAndLogWriteLine("On check la clé");
                 // Mise à jour de l'échelle de toutes les fenêtres
                 var scaleFactor = AppScaleFactor / 100f;
                 if (scaleFactor <= 1f)
