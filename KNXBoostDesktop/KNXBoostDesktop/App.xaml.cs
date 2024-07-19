@@ -49,7 +49,6 @@ namespace KNXBoostDesktop
         
         
         // Gestion des logs
-        
         /// <summary>
         /// Stores the file path for the log file. This path is used to determine where the log entries will be written.
         /// </summary>
