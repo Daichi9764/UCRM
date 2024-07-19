@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Xml;
 using System.IO;
 using System.Text;
+using System.Globalization;
 using System.Xml.Linq;
 using System.Net.Http;
 using DeepL;
@@ -806,8 +807,6 @@ public static class GroupAddressNameCorrector
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
                 var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
-                // Get the first non-rail-mounted device reference, if any
-                //var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
 
                 var deviceUsed = deviceRailMounted;
                 if (deviceUsed == null && deviceRefObjectType != null)
@@ -845,15 +844,19 @@ public static class GroupAddressNameCorrector
                             .Any(dr => dr.IsDeviceRailMounted == false && dr.DeviceInstanceId == deviceRef)));
                 var deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
                 
-                // Parcourir toutes les localisations liées à un device pour trouver une correspondance avec nameAttr
+                // Browse all the locations linked to a device to find a match with nameAttr
                 foreach (var device in gdr.Devices)
                 {
-                    var templocation = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
-                    if (nameAttrWords.Any(word => templocation != null && word.Equals(templocation.RoomName, StringComparison.OrdinalIgnoreCase)))
+                    var tempLocation = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
+                    if (tempLocation?.RoomName != null)
                     {
-                        location = templocation;
-                        deviceLocated = device.DeviceInstanceId ?? string.Empty;
-                        break;
+                        var normalizedRoomName = RemoveDiacritics(tempLocation.RoomName);
+                        if (nameAttrWords.Any(word => RemoveDiacritics(word).Equals(normalizedRoomName, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            location = tempLocation;
+                            deviceLocated = device.DeviceInstanceId ?? string.Empty;
+                            break;
+                        }
                     }
                 }
 
@@ -2083,6 +2086,31 @@ public static class GroupAddressNameCorrector
         // Translated only if not already translated
         nameAttr.Value = _formatter.Translate(nameValue);
         TranslationCache.Add(nameAttr.Value);
+    }
+
+    /// <summary>
+    /// Removes diacritics (accents) from the provided text by normalizing the string to its decomposed form
+    /// and filtering out non-spacing mark characters.
+    /// This method is useful for standardizing text comparisons by ignoring accents.
+    ///
+    /// <param name="text">The input string from which diacritics should be removed.</param>
+    /// <returns>A new string with all diacritics removed.</returns>
+    /// </summary>
+    static string RemoveDiacritics(string text)
+    {
+        var normalizedString = text.Normalize(NormalizationForm.FormD);
+        var stringBuilder = new StringBuilder();
+
+        foreach (var c in normalizedString)
+        {
+            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+            {
+                stringBuilder.Append(c);
+            }
+        }
+
+        return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
     }
     
 }
