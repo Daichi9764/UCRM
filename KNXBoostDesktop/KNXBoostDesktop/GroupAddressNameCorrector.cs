@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Collections.Concurrent;
 using System.Xml;
 using System.IO;
+using System.Text;
+using System.Globalization;
 using System.Xml.Linq;
 using System.Net.Http;
 using DeepL;
@@ -805,8 +807,6 @@ public static class GroupAddressNameCorrector
                 var deviceRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted);
                 // Get the first device reference with a non-empty ObjectType, if any
                 var deviceRefObjectType = gdr.Devices.FirstOrDefault(dr => !string.IsNullOrEmpty(dr.ObjectType));
-                // Get the first non-rail-mounted device reference, if any
-                //var deviceNotRailMounted = gdr.Devices.FirstOrDefault(dr => dr.IsDeviceRailMounted == false);
 
                 var deviceUsed = deviceRailMounted;
                 if (deviceUsed == null && deviceRefObjectType != null)
@@ -844,15 +844,19 @@ public static class GroupAddressNameCorrector
                             .Any(dr => dr.IsDeviceRailMounted == false && dr.DeviceInstanceId == deviceRef)));
                 var deviceLocated = gdr.Devices.FirstOrDefault(d => location != null && location.DeviceRefs.Any(dr => dr == d.DeviceInstanceId))?.DeviceInstanceId ?? string.Empty;
                 
-                // Parcourir toutes les localisations liées à un device pour trouver une correspondance avec nameAttr
+                // Browse all the locations linked to a device to find a match with nameAttr
                 foreach (var device in gdr.Devices)
                 {
-                    var templocation = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
-                    if (nameAttrWords.Any(word => templocation != null && word.Equals(templocation.RoomName, StringComparison.OrdinalIgnoreCase)))
+                    var tempLocation = locationInfo.FirstOrDefault(loc => loc.DeviceRefs.Contains(device.DeviceInstanceId));
+                    if (tempLocation?.RoomName != null)
                     {
-                        location = templocation;
-                        deviceLocated = device.DeviceInstanceId ?? string.Empty;
-                        break;
+                        var normalizedRoomName = RemoveDiacritics(tempLocation.RoomName);
+                        if (nameAttrWords.Any(word => RemoveDiacritics(word).Equals(normalizedRoomName, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            location = tempLocation;
+                            deviceLocated = device.DeviceInstanceId ?? string.Empty;
+                            break;
+                        }
                     }
                 }
 
@@ -901,31 +905,50 @@ public static class GroupAddressNameCorrector
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
                 await using var writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
-                await writer.WriteLineAsync("Deleted addresses :");
+                
+                string title = "DELETED ADDRESSES";
+                string border = new string('-', 68);
+                string formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
+                await writer.WriteLineAsync(border);
+                await writer.WriteLineAsync(formattedTitle);
+                await writer.WriteLineAsync(border);
+                
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 
                 TotalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var countAddressesUnused = 1;
+                
                 foreach (var groupAddress in allGroupAddresses)
                 {
-
                     var groupId = groupAddress.Attribute("Id")?.Value;
                     if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
                     {
                         App.DisplayElements?.LoadingWindow?.UpdateLogActivity(10, suppressedAddresses + $" ({countAddressesUnused++}/{totalAddressesUnused})");
 
                         var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                        var msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
+                        var msg = new StringBuilder();
+                        msg.AppendLine("--------------------------------------------------------------------");
+                        msg.AppendLine($"Group Address ID: {groupId}");
+                        msg.AppendLine($"Name: {groupAddress.Attribute("Name")?.Value}");
+                        msg.AppendLine("Hierarchy:");
+
+
                         var ancestorGroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                         if (ancestorGroupElement != null)
                         {
-                            msg += ancestorGroupElement.Attribute("Name")?.Value + " -> ";
+                            msg.AppendLine($"  -> {ancestorGroupElement.Attribute("Name")?.Value}");
                         }
 
-                        msg += groupElement?.Attribute("Name")?.Value + ") with Id : " + groupId;
-                        await writer.WriteLineAsync(msg); // Write message in the log file named deleted_group_addresses
-                        
+                        if (groupElement != null)
+                        {
+                            msg.AppendLine($"    -> {groupElement.Attribute("Name")?.Value}");
+                        }
+
+                        msg.AppendLine("--------------------------------------------------------------------");
+
+                        await writer.WriteLineAsync(msg.ToString()); // Write message in the log file named deleted_group_addresses
+
                         // Delete it in originalKnxDoc
                         groupAddress.Remove();
 
@@ -936,7 +959,7 @@ public static class GroupAddressNameCorrector
                         {
                             correspondingGroupAddressInBaseKnxDoc.Attribute("Name")!.Value = "*" + correspondingGroupAddressInBaseKnxDoc.Attribute("Name")?.Value;
                         }
-                        
+
                         // Delete it in knxDoc
                         var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                             .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
@@ -946,10 +969,9 @@ public static class GroupAddressNameCorrector
                             correspondingGroupAddressInKnxDoc.Remove();
                             App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
                         }
-                        
-                        
-                    } 
+                    }
                 }
+
             }
 
             // Save the updated XML files
@@ -2064,6 +2086,31 @@ public static class GroupAddressNameCorrector
         // Translated only if not already translated
         nameAttr.Value = _formatter.Translate(nameValue);
         TranslationCache.Add(nameAttr.Value);
+    }
+
+    /// <summary>
+    /// Removes diacritics (accents) from the provided text by normalizing the string to its decomposed form
+    /// and filtering out non-spacing mark characters.
+    /// This method is useful for standardizing text comparisons by ignoring accents.
+    ///
+    /// <param name="text">The input string from which diacritics should be removed.</param>
+    /// <returns>A new string with all diacritics removed.</returns>
+    /// </summary>
+    static string RemoveDiacritics(string text)
+    {
+        var normalizedString = text.Normalize(NormalizationForm.FormD);
+        var stringBuilder = new StringBuilder();
+
+        foreach (var c in normalizedString)
+        {
+            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+            {
+                stringBuilder.Append(c);
+            }
+        }
+
+        return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
     }
     
 }
