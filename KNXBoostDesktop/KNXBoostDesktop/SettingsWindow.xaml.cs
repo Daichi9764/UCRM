@@ -2930,6 +2930,7 @@ namespace KNXBoostDesktop
             // Corps de la fenêtre
             MainContentBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
             MainContentPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            GeneralSettingsTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             TranslationTitle.Foreground = textColorBrush;
             EnableTranslationCheckBox.Foreground = textColorBrush;
             DeeplApiKeyText.Foreground = textColorBrush;
@@ -2942,7 +2943,7 @@ namespace KNXBoostDesktop
             AppSettingsTitle.Foreground = textColorBrush;
             ThemeTextBox.Foreground = textColorBrush;
             AppLanguageTextBlock.Foreground = textColorBrush;
-
+            
             EnableTranslationCheckBox.Style = checkboxStyle;
             EnableAutomaticTranslationLangDetectionCheckbox.Style = checkboxStyle;
             RemoveUnusedAddressesCheckBox.Style = checkboxStyle;
@@ -2950,6 +2951,10 @@ namespace KNXBoostDesktop
             DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
             DeeplApiKeyTextBox.BorderBrush = borderBrush;
             DeeplApiKeyTextBox.Foreground = textColorBrush;
+            
+            AddressKeepingTextbox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
+            AddressKeepingTextbox.BorderBrush = borderBrush;
+            AddressKeepingTextbox.Foreground = textColorBrush;
 
             // Pied de page avec les boutons save et cancel
             SettingsWindowFooter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
@@ -2974,6 +2979,8 @@ namespace KNXBoostDesktop
             AddImportedFilesCheckBox.Foreground = textColorBrush;
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
 
+            OngletCorrection.BorderBrush = borderBrush;
+            OngletParametresApplication.BorderBrush = borderBrush;
             OngletCorrection.Foreground = textColorBrush;
             OngletDebug.Foreground = textColorBrush;
             OngletParametresApplication.Foreground = textColorBrush;

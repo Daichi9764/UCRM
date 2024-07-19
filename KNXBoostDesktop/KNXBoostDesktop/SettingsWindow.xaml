@@ -816,7 +816,7 @@
                                                BorderThickness="2" Padding="-1,-1,-1,-1">
                                        
                                        <TabItem x:Name="OngletParametresApplication" Style="{StaticResource LightOnglet}">
-                                           <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                           <ScrollViewer x:Name="GeneralSettingsTab" VerticalScrollBarVisibility="Auto" Background="White">
                                                <StackPanel Orientation="Vertical">
                                                    <!-- Paramètres de l'application -->
                                                    <TextBlock x:Name="AppSettingsTitle" FontFamily="Aptos"
