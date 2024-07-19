@@ -45,11 +45,10 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 345;
+        public static readonly int AppBuild = 347;
         
         
         // Gestion des logs
-        
         /// <summary>
         /// Stores the file path for the log file. This path is used to determine where the log entries will be written.
         /// </summary>
@@ -440,7 +439,7 @@ namespace KNXBoostDesktop
                 // Verifier si le repertoire existe
                 if (!Directory.Exists(logDirectory))
                 {
-                    ConsoleAndLogWriteLine($"The specified directory does not exist : {logDirectory}");
+                    ConsoleAndLogWriteLine($"--> The specified directory does not exist : {logDirectory}");
                     return;
                 }
 
@@ -460,7 +459,7 @@ namespace KNXBoostDesktop
                         {
                             File.Delete(archiveFile);
                         }
-                        ConsoleAndLogWriteLine("Deleted all existing archive files as they exceeded the limit of 10.");
+                        ConsoleAndLogWriteLine("--> Deleted all existing archive files as they exceeded the limit of 10.");
                     }
 
                     // Creer le nom du fichier zip avec la date actuelle
@@ -479,16 +478,16 @@ namespace KNXBoostDesktop
                         }
                     }
 
-                    ConsoleAndLogWriteLine($"Successfully archived log files to {zipFileName}");
+                    ConsoleAndLogWriteLine($"--> Successfully archived log files to {zipFileName}");
                 }
                 else
                 {
-                    ConsoleAndLogWriteLine("Not enough log files to archive.");
+                    ConsoleAndLogWriteLine("--> Not enough log files to archive.");
                 }
             }
             catch (Exception ex)
             {
-                ConsoleAndLogWriteLine($"An error occured while creating the archive : {ex.Message}");
+                ConsoleAndLogWriteLine($"--> An error occured while creating the log archive : {ex.Message}");
             }
         }
         
@@ -512,11 +511,16 @@ namespace KNXBoostDesktop
         /// </summary>
         private static void DeleteAllExceptLogsAndResources()
         {
+            if (Directory.GetDirectories("./").Length <= 3 && Directory.GetFiles("./", "*.zip").Length == 0)
+            {
+                ConsoleAndLogWriteLine("--> No folder or zip file to delete");
+            }
+            
             // Itération sur tous les répertoires dans le répertoire de base
             foreach (var directory in Directory.GetDirectories("./"))
             {
-                // Exclure le dossier 'logs', 'resources', 'de' et 'runtimes'
-                if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("resources", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
+                // Exclure le dossier 'logs', 'de' et 'runtimes'
+                if ((Path.GetFileName(directory).Equals("logs", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("runtimes", StringComparison.OrdinalIgnoreCase))||(Path.GetFileName(directory).Equals("de", StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;
                 }
@@ -528,15 +532,15 @@ namespace KNXBoostDesktop
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    ConsoleAndLogWriteLine($@"Access denied: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"--> Access denied while attempting to delete {directory}: {ex.Message}");
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    ConsoleAndLogWriteLine($@"I/O error: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"--> I/O error while attempting to delete {directory}: {ex.Message}");
                     continue;
                 }
-                ConsoleAndLogWriteLine($"Deleted directory: {directory}");
+                ConsoleAndLogWriteLine($"--> Deleted directory: {directory}");
             }
 
             foreach (var zipFile in Directory.GetFiles("./", "*.zip"))
@@ -547,15 +551,15 @@ namespace KNXBoostDesktop
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    ConsoleAndLogWriteLine($@"Access denied: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"--> Access denied while attempting to delete {zipFile}: {ex.Message}");
                     continue;
                 }
                 catch (IOException ex)
                 {
-                    ConsoleAndLogWriteLine($@"I/O error: {ex.Message}");
+                    ConsoleAndLogWriteLine($@"--> I/O error while attempting to delete {zipFile}: {ex.Message}");
                     continue;
                 }
-                ConsoleAndLogWriteLine($"Deleted file: {zipFile}");
+                ConsoleAndLogWriteLine($"--> Deleted file: {zipFile}");
             }
             
         }
@@ -573,6 +577,8 @@ namespace KNXBoostDesktop
         }
     }
 }
+
+
 
 
 
