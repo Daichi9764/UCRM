@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Collections.Concurrent;
 using System.Xml;
 using System.IO;
+using System.Text;
 using System.Xml.Linq;
 using System.Net.Http;
 using DeepL;
@@ -901,31 +902,50 @@ public static class GroupAddressNameCorrector
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
                 await using var writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
-                await writer.WriteLineAsync("Deleted addresses :");
+                
+                string title = "DELETED ADDRESSES";
+                string border = new string('-', 68);
+                string formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
+                await writer.WriteLineAsync(border);
+                await writer.WriteLineAsync(formattedTitle);
+                await writer.WriteLineAsync(border);
+                
                 var allGroupAddresses = originalKnxDoc.Descendants(_globalKnxNamespace + "GroupAddress").ToList();
                 
                 TotalDeletedAddresses = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var totalAddressesUnused = allGroupAddresses.Count - groupedDeviceRefs.Count();
                 var countAddressesUnused = 1;
+                
                 foreach (var groupAddress in allGroupAddresses)
                 {
-
                     var groupId = groupAddress.Attribute("Id")?.Value;
                     if (groupId != null && !renamedGroupAddressIds.Contains(groupId))
                     {
                         App.DisplayElements?.LoadingWindow?.UpdateLogActivity(10, suppressedAddresses + $" ({countAddressesUnused++}/{totalAddressesUnused})");
 
                         var groupElement = groupAddress.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
-                        var msg = $"- " + groupAddress.Attribute("Name")?.Value + " (" ;
+                        var msg = new StringBuilder();
+                        msg.AppendLine("--------------------------------------------------------------------");
+                        msg.AppendLine($"Group Address ID: {groupId}");
+                        msg.AppendLine($"Name: {groupAddress.Attribute("Name")?.Value}");
+                        msg.AppendLine("Hierarchy:");
+
+
                         var ancestorGroupElement = groupElement?.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
                         if (ancestorGroupElement != null)
                         {
-                            msg += ancestorGroupElement.Attribute("Name")?.Value + " -> ";
+                            msg.AppendLine($"  -> {ancestorGroupElement.Attribute("Name")?.Value}");
                         }
 
-                        msg += groupElement?.Attribute("Name")?.Value + ") with Id : " + groupId;
-                        await writer.WriteLineAsync(msg); // Write message in the log file named deleted_group_addresses
-                        
+                        if (groupElement != null)
+                        {
+                            msg.AppendLine($"    -> {groupElement.Attribute("Name")?.Value}");
+                        }
+
+                        msg.AppendLine("--------------------------------------------------------------------");
+
+                        await writer.WriteLineAsync(msg.ToString()); // Write message in the log file named deleted_group_addresses
+
                         // Delete it in originalKnxDoc
                         groupAddress.Remove();
 
@@ -936,7 +956,7 @@ public static class GroupAddressNameCorrector
                         {
                             correspondingGroupAddressInBaseKnxDoc.Attribute("Name")!.Value = "*" + correspondingGroupAddressInBaseKnxDoc.Attribute("Name")?.Value;
                         }
-                        
+
                         // Delete it in knxDoc
                         var correspondingGroupAddressInKnxDoc = knxDoc.Descendants(_globalKnxNamespace + "GroupAddress")
                             .FirstOrDefault(ga => ga.Attribute("Id")?.Value == groupId);
@@ -946,10 +966,9 @@ public static class GroupAddressNameCorrector
                             correspondingGroupAddressInKnxDoc.Remove();
                             App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
                         }
-                        
-                        
-                    } 
+                    }
                 }
+
             }
 
             // Save the updated XML files
