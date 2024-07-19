@@ -22,7 +22,6 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Windows;
-using Polly;
 
 namespace KNXBoostDesktop
 {
