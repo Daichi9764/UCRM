@@ -1001,7 +1001,7 @@ namespace KNXBoostDesktop
                                             $"\nالبناء {App.AppBuild}" +
                                             $"\n" +
                                             $"\nبرنامج تم إنشاؤه كجزء من تدريب هندسي بواسطة طلاب INSA Toulouse:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nبإشراف:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1054,7 +1054,7 @@ namespace KNXBoostDesktop
                                             $"\nИзграждане {App.AppBuild}" +
                                             $"\n" +
                                             $"\nСофтуер, създаден като част от инженерно стаж от студенти на INSA Toulouse:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nПод наблюдението на:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1107,7 +1107,7 @@ namespace KNXBoostDesktop
                                             $"\nBuild {App.AppBuild}" +
                                             $"\n" +
                                             $"\nSoftware vytvořený jako součást inženýrského stáže studenty INSA Toulouse:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nPod dohledem:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1160,7 +1160,7 @@ namespace KNXBoostDesktop
                                             $"\nBuild {App.AppBuild}" +
                                             $"\n" +
                                             $"\nSoftware skabt som en del af en ingeniørpraktik af studerende fra INSA Toulouse:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nUnder vejledning af:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1224,7 +1224,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware im Rahmen eines Ingenieurpraktikums von Studenten der INSA Toulouse entwickelt:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnter der Aufsicht von:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1278,7 +1278,7 @@ namespace KNXBoostDesktop
                                             $"\nΚατασκευή {App.AppBuild}" +
                                             $"\n" +
                                             $"\nΛογισμικό που δημιουργήθηκε ως μέρος της μηχανικής πρακτικής από φοιτητές της INSA Toulouse:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nΥπό την επίβλεψη:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1342,7 +1342,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware developed as part of an engineering internship by students of INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder the supervision of:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1407,7 +1407,7 @@ namespace KNXBoostDesktop
                         $"\nCompilación {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware desarrollado como parte de una pasantía de ingeniería por estudiantes de INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nBajo la supervisión de:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1461,7 +1461,7 @@ namespace KNXBoostDesktop
                                             $"\nKoostamine {App.AppBuild}" +
                                             $"\n" +
                                             $"\nTarkvara, mille lõid osana inseneripraktikast INSA Toulouse üliõpilased:" +
-                                            $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                                            $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
                                             $"\n" +
                                             $"\nJärelevalve all:" +
                                             $"\nDidier BESSE (UCRM)" +
@@ -1525,7 +1525,7 @@ namespace KNXBoostDesktop
                         $"\nKokoelma {App.AppBuild}" +
                         $"\n" +
                         $"\nOhjelmisto kehitetty osana INSAn Toulousen insinööriharjoittelua:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nValvonnassa:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1590,7 +1590,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSzoftver az INSA Toulouse mérnöki szakmai gyakorlat keretében fejlesztett:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nFelügyelete alatt:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1655,7 +1655,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nPerangkat lunak dikembangkan sebagai bagian dari magang teknik oleh siswa INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nDi bawah pengawasan:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1720,7 +1720,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware sviluppato nell'ambito di uno stage di ingegneria da studenti dell'INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSotto la supervisione di:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1785,7 +1785,7 @@ namespace KNXBoostDesktop
                         $"\nビルド {App.AppBuild}" +
                         $"\n" +
                         $"\nINSAトゥールーズの学生によるエンジニアリングインターンシップの一環として開発されたソフトウェア:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n監督の下:" +
                         $"\nDidier BESSE（UCRM）" +
@@ -1850,7 +1850,7 @@ namespace KNXBoostDesktop
                         $"\n빌드 {App.AppBuild}" +
                         $"\n" +
                         $"\nINSA 툴루즈 학생들이 엔지니어링 인턴십의 일환으로 개발한 소프트웨어:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n감독 하에:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1912,7 +1912,7 @@ namespace KNXBoostDesktop
                         $"\nBūvēt {App.AppBuild}" +
                         $"\n" +
                         $"\nProgrammatūra izstrādāta INSA Toulouse inženierijas prakses ietvaros:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPārraudzīja:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -1976,7 +1976,7 @@ namespace KNXBoostDesktop
                         $"\nKūrimas {App.AppBuild}" +
                         $"\n" +
                         $"\nPrograminė įranga sukurta INSA Toulouse inžinerijos praktikos metu:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPrižiūrėtojai:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2041,7 +2041,7 @@ namespace KNXBoostDesktop
                         $"\nBygg {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramvare laget som en del av et ingeniørpraksis ved INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder veiledning av:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2109,7 +2109,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware gemaakt in het kader van een ingenieursstage door studenten van INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nOnder supervisie van:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2174,7 +2174,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nOprogramowanie stworzone w ramach praktyk inżynierskich przez studentów INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod nadzorem:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2239,7 +2239,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware realizado no âmbito de um estágio de engenharia por estudantes da INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSob a supervisão de:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2301,7 +2301,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftware creat în cadrul unui stagiu de inginerie la INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSub supravegherea lui:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2365,7 +2365,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nSoftvér vytvorený v rámci inžinierskej stáže na INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod dohľadom:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2430,7 +2430,7 @@ namespace KNXBoostDesktop
                         $"\nIzgradnja {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramska oprema, izdelana v okviru inženirskega pripravništva na INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nPod nadzorom:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2498,7 +2498,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nProgramvara utvecklad inom ramen för en ingenjörspraktik av studenter från INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nUnder överinseende av:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2563,7 +2563,7 @@ namespace KNXBoostDesktop
                         $"\nYapı {App.AppBuild}" +
                         $"\n" +
                         $"\nINSA Toulouse öğrencileri tarafından bir mühendislik stajı kapsamında yapılan yazılım:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nGözetim altında:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2628,7 +2628,7 @@ namespace KNXBoostDesktop
                         $"\nЗбірка {App.AppBuild}" +
                         $"\n" +
                         $"\nПрограмне забезпечення розроблене в рамках інженерного стажування студентами INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nПід наглядом:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2693,7 +2693,7 @@ namespace KNXBoostDesktop
                         $"\nСборка {App.AppBuild}" +
                         $"\n" +
                         $"\nПрограммное обеспечение, разработанное в рамках инженерной стажировки студентами INSA Toulouse:" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nПод руководством:" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2758,7 +2758,7 @@ namespace KNXBoostDesktop
                         $"\n构建 {App.AppBuild}" +
                         $"\n" +
                         $"\n由INSA Toulouse的学生在工程实习中开发的软件：" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\n在以下人员的指导下：" +
                         $"\nDidier BESSE（UCRM）" +
@@ -2823,7 +2823,7 @@ namespace KNXBoostDesktop
                         $"\nBuild {App.AppBuild}" +
                         $"\n" +
                         $"\nLogiciel réalisé dans le cadre d'un stage d'ingénierie par des étudiants de l'INSA Toulouse :" +
-                        $"\n\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
+                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
                         $"\n" +
                         $"\nSous la supervision de :" +
                         $"\nDidier BESSE (UCRM)" +
@@ -2883,6 +2883,7 @@ namespace KNXBoostDesktop
                 OngletCorrection.Style = (Style)FindResource("LightOnglet");
                 OngletDebug.Style = (Style)FindResource("LightOnglet");
                 OngletInformations.Style = (Style)FindResource("LightOnglet");
+                OngletParametresApplication.Style = (Style)FindResource("LightOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             }
@@ -2908,6 +2909,7 @@ namespace KNXBoostDesktop
                 OngletCorrection.Style = (Style)FindResource("DarkOnglet");
                 OngletDebug.Style = (Style)FindResource("DarkOnglet");
                 OngletInformations.Style = (Style)FindResource("DarkOnglet");
+                OngletParametresApplication.Style = (Style)FindResource("DarkOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
 
@@ -2974,6 +2976,7 @@ namespace KNXBoostDesktop
 
             OngletCorrection.Foreground = textColorBrush;
             OngletDebug.Foreground = textColorBrush;
+            OngletParametresApplication.Foreground = textColorBrush;
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;
             OngletInformations.Foreground = textColorBrush;
@@ -3276,7 +3279,7 @@ namespace KNXBoostDesktop
             }
             else
             {
-                App.ConsoleAndLogWriteLine("Rien n'a changé on a pas save les paramètres");
+                App.ConsoleAndLogWriteLine("Settings are unchanged. No need to save them.");
             }
             
             // Mise à jour éventuellement du contenu pour update la langue du menu
@@ -3543,6 +3546,11 @@ namespace KNXBoostDesktop
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletInformations.Header:
                     SaveButton.Visibility = Visibility.Collapsed;
                     CancelButton.Visibility = Visibility.Hidden;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                    break;
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresApplication.Header:
+                    SaveButton.Visibility = Visibility.Visible;
+                    CancelButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
             }
@@ -4342,7 +4350,7 @@ namespace KNXBoostDesktop
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
-            Height = 725 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 725 * scale;
+            Height = 565 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 565 * scale;
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }

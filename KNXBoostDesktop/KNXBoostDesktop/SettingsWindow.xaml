@@ -814,6 +814,95 @@
                                    <TabControl x:Name="ControlOnglet" SelectionChanged="TabControl_SelectionChanged" 
                                                BorderBrush="White" 
                                                BorderThickness="2" Padding="-1,-1,-1,-1">
+                                       
+                                       <TabItem x:Name="OngletParametresApplication" Style="{StaticResource LightOnglet}">
+                                           <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                               <StackPanel Orientation="Vertical">
+                                                   <!-- Paramètres de l'application -->
+                                                   <TextBlock x:Name="AppSettingsTitle" FontFamily="Aptos"
+                                                              FontSize="17" FontWeight="SemiBold"
+                                                              Margin="10,10,0,0" />
+
+                                                   <TextBlock x:Name="ThemeTextBox" Margin="10,0,10,2" />
+                                                   <ComboBox x:Name="ThemeComboBox" Margin="10,0,10,10">
+                                                       <ComboBoxItem x:Name="LightThemeComboBoxItem" IsSelected="True" />
+                                                       <ComboBoxItem x:Name="DarkThemeComboBoxItem" />
+                                                   </ComboBox>
+
+                                                   <TextBlock x:Name="AppLanguageTextBlock" Margin="10,0,10,2" />
+                                                   <ComboBox x:Name="AppLanguageComboBox" Margin="10,0,10,20">
+                                                       <ComboBoxItem Content="AR - العربية" />
+                                                       <ComboBoxItem Content="BG - Български" />
+                                                       <ComboBoxItem Content="CS - Čeština" />
+                                                       <ComboBoxItem Content="DA - Dansk" />
+                                                       <ComboBoxItem Content="DE - Deutsch" />
+                                                       <ComboBoxItem Content="EL - Ελληνικά" />
+                                                       <ComboBoxItem Content="EN - English" />
+                                                       <ComboBoxItem Content="ES - Español" />
+                                                       <ComboBoxItem Content="ET - Eesti" />
+                                                       <ComboBoxItem Content="FI - Suomi" />
+                                                       <ComboBoxItem x:Name="FrAppLanguageComboBoxItem"
+                                                                     Content="FR - Français (par défaut)"
+                                                                     IsSelected="True" FontWeight="Bold" />
+                                                       <ComboBoxItem Content="HU - Magyar" />
+                                                       <ComboBoxItem Content="ID - Bahasa Indonesia" />
+                                                       <ComboBoxItem Content="IT - Italiano" />
+                                                       <ComboBoxItem Content="JA - 日本語" />
+                                                       <ComboBoxItem Content="KO - 한국어" />
+                                                       <ComboBoxItem Content="LT - Lietuvių" />
+                                                       <ComboBoxItem Content="LV - Latviešu" />
+                                                       <ComboBoxItem Content="NB - Norsk Bokmål" />
+                                                       <ComboBoxItem Content="NL - Nederlands" />
+                                                       <ComboBoxItem Content="PL - Polski" />
+                                                       <ComboBoxItem Content="PT - Português" />
+                                                       <ComboBoxItem Content="RO - Română" />
+                                                       <ComboBoxItem Content="RU - Русский" />
+                                                       <ComboBoxItem Content="SK - Slovenský" />
+                                                       <ComboBoxItem Content="SL - Slovenščina" />
+                                                       <ComboBoxItem Content="SV - Svenska" />
+                                                       <ComboBoxItem Content="TR - Türkçe" />
+                                                       <ComboBoxItem Content="UK - Українська" />
+                                                       <ComboBoxItem Content="ZH - 中文" />
+                                                   </ComboBox>
+
+                                                   <TextBlock x:Name="ScalingText"
+                                                              Margin="10,0,10,20" />
+                                                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                       <Slider Style="{StaticResource LightSlider}"
+                                                               Name="ScaleSlider"
+                                                               Minimum="50"
+                                                               Maximum="300"
+                                                               Value="100"
+                                                               IsSnapToTickEnabled="True"
+                                                               TickPlacement="BottomRight"
+                                                               TickFrequency="25"
+                                                               Width="400"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,10,0,10"/>
+                                                       <Grid Width="400" HorizontalAlignment="Center">
+                                                           <Grid.ColumnDefinitions>
+                                                               <ColumnDefinition Width="Auto"/>
+                                                               <ColumnDefinition Width="*"/>
+                                                               <ColumnDefinition Width="Auto"/>
+                                                           </Grid.ColumnDefinitions>
+                                                           <TextBlock Grid.Column="0"
+                                                                      Text="{Binding ElementName=ScaleSlider, Path=Minimum, StringFormat={}{0:F0}%}" 
+                                                                      HorizontalAlignment="Left" 
+                                                                      VerticalAlignment="Center" 
+                                                                      Margin="0,0,10,10"/>
+                                                           <TextBlock Grid.Column="2"
+                                                                      Text="{Binding ElementName=ScaleSlider, Path=Maximum, StringFormat={}{0:F0}%}" 
+                                                                      HorizontalAlignment="Right" 
+                                                                      VerticalAlignment="Center" 
+                                                                      Margin="10,0,0,10"/>
+                                                       
+                                                       </Grid>
+                                                   </StackPanel>
+                                               </StackPanel>
+                                           </ScrollViewer>
+                                       </TabItem>
+                                       
                                        <TabItem x:Name="OngletCorrection" Style="{StaticResource LightOnglet}">
                                            <ScrollViewer VerticalScrollBarVisibility="Auto">
                                                <StackPanel x:Name="MainContentPanel" Background="White">
@@ -936,94 +1025,6 @@
                                                    <TextBlock x:Name="AddressKeepingText"
                                                               Margin="10,0,10,2"/>
                                                    <TextBox x:Name="AddressKeepingTextbox" Margin="10,0,10,10" />
-                                               </StackPanel>
-                                           </ScrollViewer>
-                                       </TabItem>
-                                       
-                                       <TabItem x:Name="OngletParametresApplication" Style="{StaticResource LightOnglet}">
-                                           <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
-                                               <StackPanel Orientation="Vertical">
-                                                   <!-- Paramètres de l'application -->
-                                                   <TextBlock x:Name="AppSettingsTitle" FontFamily="Aptos"
-                                                              FontSize="17" FontWeight="SemiBold"
-                                                              Margin="10,10,0,0" />
-
-                                                   <TextBlock x:Name="ThemeTextBox" Margin="10,0,10,2" />
-                                                   <ComboBox x:Name="ThemeComboBox" Margin="10,0,10,10">
-                                                       <ComboBoxItem x:Name="LightThemeComboBoxItem" IsSelected="True" />
-                                                       <ComboBoxItem x:Name="DarkThemeComboBoxItem" />
-                                                   </ComboBox>
-
-                                                   <TextBlock x:Name="AppLanguageTextBlock" Margin="10,0,10,2" />
-                                                   <ComboBox x:Name="AppLanguageComboBox" Margin="10,0,10,20">
-                                                       <ComboBoxItem Content="AR - العربية" />
-                                                       <ComboBoxItem Content="BG - Български" />
-                                                       <ComboBoxItem Content="CS - Čeština" />
-                                                       <ComboBoxItem Content="DA - Dansk" />
-                                                       <ComboBoxItem Content="DE - Deutsch" />
-                                                       <ComboBoxItem Content="EL - Ελληνικά" />
-                                                       <ComboBoxItem Content="EN - English" />
-                                                       <ComboBoxItem Content="ES - Español" />
-                                                       <ComboBoxItem Content="ET - Eesti" />
-                                                       <ComboBoxItem Content="FI - Suomi" />
-                                                       <ComboBoxItem x:Name="FrAppLanguageComboBoxItem"
-                                                                     Content="FR - Français (par défaut)"
-                                                                     IsSelected="True" FontWeight="Bold" />
-                                                       <ComboBoxItem Content="HU - Magyar" />
-                                                       <ComboBoxItem Content="ID - Bahasa Indonesia" />
-                                                       <ComboBoxItem Content="IT - Italiano" />
-                                                       <ComboBoxItem Content="JA - 日本語" />
-                                                       <ComboBoxItem Content="KO - 한국어" />
-                                                       <ComboBoxItem Content="LT - Lietuvių" />
-                                                       <ComboBoxItem Content="LV - Latviešu" />
-                                                       <ComboBoxItem Content="NB - Norsk Bokmål" />
-                                                       <ComboBoxItem Content="NL - Nederlands" />
-                                                       <ComboBoxItem Content="PL - Polski" />
-                                                       <ComboBoxItem Content="PT - Português" />
-                                                       <ComboBoxItem Content="RO - Română" />
-                                                       <ComboBoxItem Content="RU - Русский" />
-                                                       <ComboBoxItem Content="SK - Slovenský" />
-                                                       <ComboBoxItem Content="SL - Slovenščina" />
-                                                       <ComboBoxItem Content="SV - Svenska" />
-                                                       <ComboBoxItem Content="TR - Türkçe" />
-                                                       <ComboBoxItem Content="UK - Українська" />
-                                                       <ComboBoxItem Content="ZH - 中文" />
-                                                   </ComboBox>
-
-                                                   <TextBlock x:Name="ScalingText"
-                                                              Margin="10,0,10,20" />
-                                                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                       <Slider Style="{StaticResource LightSlider}"
-                                                               Name="ScaleSlider"
-                                                               Minimum="50"
-                                                               Maximum="300"
-                                                               Value="100"
-                                                               IsSnapToTickEnabled="True"
-                                                               TickPlacement="BottomRight"
-                                                               TickFrequency="25"
-                                                               Width="400"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               Margin="0,10,0,10"/>
-                                                       <Grid Width="400" HorizontalAlignment="Center">
-                                                           <Grid.ColumnDefinitions>
-                                                               <ColumnDefinition Width="Auto"/>
-                                                               <ColumnDefinition Width="*"/>
-                                                               <ColumnDefinition Width="Auto"/>
-                                                           </Grid.ColumnDefinitions>
-                                                           <TextBlock Grid.Column="0"
-                                                                      Text="{Binding ElementName=ScaleSlider, Path=Minimum, StringFormat={}{0:F0}%}" 
-                                                                      HorizontalAlignment="Left" 
-                                                                      VerticalAlignment="Center" 
-                                                                      Margin="0,0,10,10"/>
-                                                           <TextBlock Grid.Column="2"
-                                                                      Text="{Binding ElementName=ScaleSlider, Path=Maximum, StringFormat={}{0:F0}%}" 
-                                                                      HorizontalAlignment="Right" 
-                                                                      VerticalAlignment="Center" 
-                                                                      Margin="10,0,0,10"/>
-                                                       
-                                                       </Grid>
-                                                   </StackPanel>
                                                </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
