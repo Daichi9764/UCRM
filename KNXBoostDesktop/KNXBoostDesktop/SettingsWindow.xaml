@@ -814,7 +814,7 @@
                                    <TabControl x:Name="ControlOnglet" SelectionChanged="TabControl_SelectionChanged" 
                                                BorderBrush="White" 
                                                BorderThickness="2" Padding="-1,-1,-1,-1">
-                                       <TabItem x:Name="OngletParametresGeneraux" Style="{StaticResource LightOnglet}">
+                                       <TabItem x:Name="OngletCorrection" Style="{StaticResource LightOnglet}">
                                            <ScrollViewer VerticalScrollBarVisibility="Auto">
                                                <StackPanel x:Name="MainContentPanel" Background="White">
                                                    <!-- Gestion de la traduction des adresses de groupe -->
@@ -927,8 +927,22 @@
                                                    <CheckBox x:Name="RemoveUnusedAddressesCheckBox"
                                                              Style="{StaticResource CheckboxLightThemeStyle}"
                                                              Margin="10,0,10,10"/>
-
-
+                                                   
+                                                   
+                                                   <!-- Conservation de certaines adresses de groupe -->
+                                                   <TextBlock x:Name="AddressKeepingTitle" FontFamily="Aptos"
+                                                              FontSize="17"
+                                                              FontWeight="SemiBold" Margin="10,10,0,3"/>
+                                                   <TextBlock x:Name="AddressKeepingText"
+                                                              Margin="10,0,10,2"/>
+                                                   <TextBox x:Name="AddressKeepingTextbox" Margin="10,0,10,10" />
+                                               </StackPanel>
+                                           </ScrollViewer>
+                                       </TabItem>
+                                       
+                                       <TabItem x:Name="OngletParametresApplication" Style="{StaticResource LightOnglet}">
+                                           <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White">
+                                               <StackPanel Orientation="Vertical">
                                                    <!-- Paramètres de l'application -->
                                                    <TextBlock x:Name="AppSettingsTitle" FontFamily="Aptos"
                                                               FontSize="17" FontWeight="SemiBold"
@@ -1010,39 +1024,36 @@
                                                        
                                                        </Grid>
                                                    </StackPanel>
-
                                                </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
+                                       
                                        <TabItem x:Name="OngletDebug" Style="{StaticResource LightOnglet}">
-                                           <StackPanel x:Name="DebugPanel">
-                                               <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
-                                                          Margin="10,10,0,10" />
+                                           <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                               <StackPanel x:Name="DebugPanel">
+                                                   <TextBlock x:Name="MenuDebug" FontFamily="Aptos" FontSize="17" FontWeight="SemiBold"
+                                                              Margin="10,10,0,10" />
                        
-                                               <CheckBox x:Name="AddInfosOsCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
-                                                         Margin="10,5,0,10">
-                                               </CheckBox>
+                                                   <CheckBox x:Name="AddInfosOsCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
+                                                             Margin="10,5,0,10">
+                                                   </CheckBox>
                                                
-                                               <CheckBox x:Name="AddInfosHardCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
-                                                         Margin="10,5,0,10">
-                                               </CheckBox>
+                                                   <CheckBox x:Name="AddInfosHardCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
+                                                             Margin="10,5,0,10">
+                                                   </CheckBox>
                                                
-                                               <CheckBox x:Name="AddImportedFilesCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
-                                                         Margin="10,5,0,10" Checked="EnableIncludeAddress" Unchecked="DisableIncludeAddress">
-                                               </CheckBox>
+                                                   <CheckBox x:Name="AddImportedFilesCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
+                                                             Margin="10,5,0,10" Checked="EnableIncludeAddress" Unchecked="DisableIncludeAddress">
+                                                   </CheckBox>
                                                
-                                               <CheckBox x:Name="IncludeAddressListCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
-                                                         Margin="10,5,0,10">
-                                               </CheckBox>
-                                               
-                                               
-                                               
-                                           </StackPanel>
-                                           
+                                                   <CheckBox x:Name="IncludeAddressListCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
+                                                             Margin="10,5,0,10">
+                                                   </CheckBox>
+                                               </StackPanel>
+                                           </ScrollViewer>
                                        </TabItem>
                                        
                                        <TabItem x:Name="OngletInformations" Style="{StaticResource LightOnglet}">
-                                           
                                            <Grid x:Name="InformationsGrid" Background="#262626">
                                                <Grid.RowDefinitions>
                                                    <RowDefinition Height="*"/>
@@ -1217,6 +1228,7 @@
                                                </ScrollViewer>
                                            </Grid>
                                        </TabItem>
+                                       
                                    </TabControl>
                                    
                                </Border>

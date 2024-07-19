@@ -70,6 +70,12 @@ namespace KNXBoostDesktop
         public int AppScaleFactor { get; private set; } // Facteur d'échelle pour les fenêtres de l'application
 
 
+        /// <summary>
+        /// Strings to preserve during the correction of group addresses. If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
+        /// </summary>
+        public string[] StringsToAdd { get; private set; } // Chaines de caractères à conserver lors de la correction des adresses de groupe
+
+
 
 
         /* ------------------------------------------------------------------------------------------------
@@ -988,7 +994,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "تضمين الملفات المستوردة منذ بدء التشغيل";
                     IncludeAddressListCheckBox.Content = "تضمين قائمة العناوين المحذوفة من المشاريع";
                     CreateArchiveDebugText.Text = "إنشاء ملف التصحيح";
-                    OngletParametresGeneraux.Header = "إعدادات عامة";
                     OngletDebug.Header = "تصحيح";
                     OngletInformations.Header = "معلومات";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1008,6 +1013,12 @@ namespace KNXBoostDesktop
                                             $"\nإنشاء: 06/2024 - 07/2024";
                     SaveButtonText.Text = "حفظ";
                     CancelButtonText.Text = "إلغاء";
+                    
+                    ScalingText.Text = "التحجيم:";
+                    OngletParametresApplication.Header = "عام";
+                    OngletCorrection.Header = "تصحيح";
+                    AddressKeepingTitle.Text = "استثناءات";
+                    AddressKeepingText.Text = "السلاسل المراد الاحتفاظ بها في العناوين أثناء التصحيح";
                     break;
 
                 // Bulgare
@@ -1036,7 +1047,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "Включване на файлове, импортирани след стартиране";
                     IncludeAddressListCheckBox.Content = "Включване на списък с адреси на групи, премахнати от проекти";
                     CreateArchiveDebugText.Text = "Създаване на файл за отстраняване на грешки";
-                    OngletParametresGeneraux.Header = "Общи настройки";
                     OngletDebug.Header = "Отстраняване на грешки";
                     OngletInformations.Header = "Информация";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1056,6 +1066,12 @@ namespace KNXBoostDesktop
                                             $"\nСъздаване: 06/2024 - 07/2024";
                     SaveButtonText.Text = "Запази";
                     CancelButtonText.Text = "Отказ";
+                    
+                    ScalingText.Text = "Мащабиране:";
+                    OngletParametresApplication.Header = "Общ";
+                    OngletCorrection.Header = "Корекция";
+                    AddressKeepingTitle.Text = "Изключения";
+                    AddressKeepingText.Text = "Вериги за запазване в адресите по време на корекция";
                     break;
 
                 // Tchèque
@@ -1084,7 +1100,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "Zahrnout soubory importované od spuštění";
                     IncludeAddressListCheckBox.Content = "Zahrnout seznam odstraněných skupinových adres v projektech";
                     CreateArchiveDebugText.Text = "Vytvořit soubor pro ladění";
-                    OngletParametresGeneraux.Header = "Obecné nastavení";
                     OngletDebug.Header = "Ladění";
                     OngletInformations.Header = "Informace";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1104,6 +1119,12 @@ namespace KNXBoostDesktop
                                             $"\nVytvořeno: 06/2024 - 07/2024";
                     SaveButtonText.Text = "Uložit";
                     CancelButtonText.Text = "Zrušit";
+                    
+                    ScalingText.Text = "Měřítko:";
+                    OngletParametresApplication.Header = "Obecné";
+                    OngletCorrection.Header = "Korekce";
+                    AddressKeepingTitle.Text = "Výjimky";
+                    AddressKeepingText.Text = "Řetězce k uchování v adresách během korekce";
                     break;
 
                 // Danois
@@ -1132,7 +1153,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "Inkluder filer importeret siden opstart";
                     IncludeAddressListCheckBox.Content = "Inkluder liste over gruppeadresser slettet fra projekter";
                     CreateArchiveDebugText.Text = "Opret fejlfindingsfil";
-                    OngletParametresGeneraux.Header = "Generelle indstillinger";
                     OngletDebug.Header = "Fejlfindings";
                     OngletInformations.Header = "Information";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1152,6 +1172,12 @@ namespace KNXBoostDesktop
                                             $"\nOprettelse: 06/2024 - 07/2024";
                     SaveButtonText.Text = "Gem";
                     CancelButtonText.Text = "Annuller";
+                    
+                    ScalingText.Text = "Skalering:";
+                    OngletParametresApplication.Header = "Generel";
+                    OngletCorrection.Header = "Korrektion";
+                    AddressKeepingTitle.Text = "Undtagelser";
+                    AddressKeepingText.Text = "Kæder, der skal bevares i adresser under korrektion";
                     break;
 
                 // Allemand
@@ -1189,7 +1215,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Debug-Datei erstellen";
 
-                    OngletParametresGeneraux.Header = "Allgemeine Einstellungen";
                     OngletDebug.Header = "Debuggen";
                     
                     OngletInformations.Header = "Informationen";
@@ -1212,6 +1237,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Speichern";
                     CancelButtonText.Text = "Abbrechen";
+                    
+                    ScalingText.Text = "Skalierung:";
+                    OngletParametresApplication.Header = "Allgemein";
+                    OngletCorrection.Header = "Korrektur";
+                    AddressKeepingTitle.Text = "Ausnahmen";
+                    AddressKeepingText.Text = "Ketten, die in Adressen während der Korrektur beibehalten werden sollen";
                     break;
 
                 // Grec
@@ -1240,7 +1271,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "Συμπερίληψη αρχείων που εισάγονται από την εκκίνηση";
                     IncludeAddressListCheckBox.Content = "Συμπερίληψη λίστας διαγραμμένων ομαδικών διευθύνσεων στα έργα";
                     CreateArchiveDebugText.Text = "Δημιουργία αρχείου εντοπισμού σφαλμάτων";
-                    OngletParametresGeneraux.Header = "Γενικές ρυθμίσεις";
                     OngletDebug.Header = "Εντοπισμός σφαλμάτων";
                     OngletInformations.Header = "Πληροφορίες";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1260,6 +1290,12 @@ namespace KNXBoostDesktop
                                             $"\nΔημιουργία: 06/2024 - 07/2024";
                     SaveButtonText.Text = "Αποθήκευση";
                     CancelButtonText.Text = "Άκυρο";
+                    
+                    ScalingText.Text = "Κλιμάκωση:";
+                    OngletParametresApplication.Header = "Γενικός";
+                    OngletCorrection.Header = "Διόρθωση";
+                    AddressKeepingTitle.Text = "Εξαιρέσεις";
+                    AddressKeepingText.Text = "Αλυσίδες προς διατήρηση στις διευθύνσεις κατά τη διόρθωση";
                     break;
 
                 // Anglais
@@ -1297,7 +1333,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Create debug file";
 
-                    OngletParametresGeneraux.Header = "General settings";
                     OngletDebug.Header = "Debugging";
                     
                     OngletInformations.Header = "Information";
@@ -1320,6 +1355,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Save";
                     CancelButtonText.Text = "Cancel";
+                    
+                    ScalingText.Text = "Scaling:";
+                    OngletParametresApplication.Header = "General";
+                    OngletCorrection.Header = "Correction";
+                    AddressKeepingTitle.Text = "Exclusions";
+                    AddressKeepingText.Text = "Strings to keep in addresses during correction";
                     break;
 
                 // Espagnol
@@ -1357,7 +1398,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Crear archivo de depuración";
 
-                    OngletParametresGeneraux.Header = "Configuraciones generales";
                     OngletDebug.Header = "Depuración";
                     
                     OngletInformations.Header = "Información";
@@ -1380,6 +1420,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Guardar";
                     CancelButtonText.Text = "Cancelar";
+                    
+                    ScalingText.Text = "Escalado:";
+                    OngletParametresApplication.Header = "General";
+                    OngletCorrection.Header = "Corrección";
+                    AddressKeepingTitle.Text = "Exclusiones";
+                    AddressKeepingText.Text = "Cadenas para mantener en las direcciones durante la corrección";
                     break;
 
                 // Estonien
@@ -1408,7 +1454,6 @@ namespace KNXBoostDesktop
                     AddImportedFilesCheckBox.Content = "Lisage käivitamisest imporditud failid";
                     IncludeAddressListCheckBox.Content = "Lisage projektidest eemaldatud rühma aadresside loend";
                     CreateArchiveDebugText.Text = "Loo silumisfail";
-                    OngletParametresGeneraux.Header = "Üldised seaded";
                     OngletDebug.Header = "Silumine";
                     OngletInformations.Header = "Teave";
                     InformationsText.Text = $"{App.AppName}" +
@@ -1428,6 +1473,12 @@ namespace KNXBoostDesktop
                                             $"\nLoomine: 06/2024 - 07/2024";
                     SaveButtonText.Text = "Salvesta";
                     CancelButtonText.Text = "Tühista";
+                    
+                    ScalingText.Text = "Skaala:";
+                    OngletParametresApplication.Header = "Üldine";
+                    OngletCorrection.Header = "Korrektuur";
+                    AddressKeepingTitle.Text = "Erandid";
+                    AddressKeepingText.Text = "Aadresside säilitamise stringid korrektuuri ajal";
                     break;
 
                 // Finnois
@@ -1464,8 +1515,7 @@ namespace KNXBoostDesktop
                     IncludeAddressListCheckBox.Content = "Sisällytä poistettujen ryhmäosoitteiden luettelo projekteihin";
 
                     CreateArchiveDebugText.Text = "Luo virheenkorjaustiedosto";
-
-                    OngletParametresGeneraux.Header = "Yleiset asetukset";
+                    
                     OngletDebug.Header = "Virheenkorjaus";
                     
                     OngletInformations.Header = "Tiedot";
@@ -1488,6 +1538,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Tallenna";
                     CancelButtonText.Text = "Peruuta";
+                    
+                    ScalingText.Text = "Skaalaus:";
+                    OngletParametresApplication.Header = "Yleinen";
+                    OngletCorrection.Header = "Korjaus";
+                    AddressKeepingTitle.Text = "Poikkeukset";
+                    AddressKeepingText.Text = "Osoitteisiin säilytettävät merkkijonot korjauksen aikana";
                     break;
 
                 // Hongrois
@@ -1525,7 +1581,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Hibakeresési fájl létrehozása";
 
-                    OngletParametresGeneraux.Header = "Általános beállítások";
                     OngletDebug.Header = "Hibakeresés";
                     
                     OngletInformations.Header = "Információk";
@@ -1548,6 +1603,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Mentés";
                     CancelButtonText.Text = "Mégse";
+                    
+                    ScalingText.Text = "Méretezés:";
+                    OngletParametresApplication.Header = "Általános";
+                    OngletCorrection.Header = "Javítás";
+                    AddressKeepingTitle.Text = "Kivétel";
+                    AddressKeepingText.Text = "A címekben megőrzendő karakterláncok javítás közben";
                     break;
 
                 // Indonésien
@@ -1585,7 +1646,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Buat file debug";
 
-                    OngletParametresGeneraux.Header = "Pengaturan umum";
                     OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informasi";
@@ -1608,6 +1668,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Simpan";
                     CancelButtonText.Text = "Batal";
+                    
+                    ScalingText.Text = "Skalasi:";
+                    OngletParametresApplication.Header = "Umum";
+                    OngletCorrection.Header = "Koreksi";
+                    AddressKeepingTitle.Text = "Pengecualian";
+                    AddressKeepingText.Text = "String yang harus disimpan dalam alamat selama koreksi";
                     break;
 
                 // Italien
@@ -1645,7 +1711,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Crea file di debug";
 
-                    OngletParametresGeneraux.Header = "Impostazioni generali";
                     OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informazioni";
@@ -1668,6 +1733,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Salva";
                     CancelButtonText.Text = "Annulla";
+                    
+                    ScalingText.Text = "Ridimensionamento:";
+                    OngletParametresApplication.Header = "Generale";
+                    OngletCorrection.Header = "Correzione";
+                    AddressKeepingTitle.Text = "Esclusioni";
+                    AddressKeepingText.Text = "Stringhe da conservare negli indirizzi durante la correzione";
                     break;
 
                 // Japonais
@@ -1705,7 +1776,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "デバッグファイルを作成";
 
-                    OngletParametresGeneraux.Header = "一般設定";
                     OngletDebug.Header = "デバッグ";
                     
                     OngletInformations.Header = "情報";
@@ -1728,6 +1798,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "キャンセル";
+                    
+                    ScalingText.Text = "スケーリング:";
+                    OngletParametresApplication.Header = "一般";
+                    OngletCorrection.Header = "修正";
+                    AddressKeepingTitle.Text = "除外";
+                    AddressKeepingText.Text = "修正中に住所に保持する文字列";
                     break;
 
                 // Coréen
@@ -1765,7 +1841,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "디버그 파일 생성";
 
-                    OngletParametresGeneraux.Header = "일반 설정";
                     OngletDebug.Header = "디버그";
                     
                     OngletInformations.Header = "정보";
@@ -1788,6 +1863,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "저장";
                     CancelButtonText.Text = "취소";
+                    
+                    ScalingText.Text = "확대/축소:";
+                    OngletParametresApplication.Header = "일반";
+                    OngletCorrection.Header = "교정";
+                    AddressKeepingTitle.Text = "제외";
+                    AddressKeepingText.Text = "교정 중 주소에 보관할 문자열";
                     break;
 
                 // Letton
@@ -1822,7 +1903,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Izveidot problēmu novēršanas failu";
 
-                    OngletParametresGeneraux.Header = "Vispārīgie iestatījumi";
                     OngletDebug.Header = "Problēmu novēršana";
                                     
                     OngletInformations.Header = "Informācija";
@@ -1848,6 +1928,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Noklikšķiniet šeit, lai bez maksas saņemtu atslēgu)");
+                    
+                    ScalingText.Text = "Mērogošana:";
+                    OngletParametresApplication.Header = "Vispārīgs";
+                    OngletCorrection.Header = "Korekcija";
+                    AddressKeepingTitle.Text = "Izņēmumi";
+                    AddressKeepingText.Text = "Virknes, kuras saglabāt adresēs korekcijas laikā";
                     break;
 
                 // Lituanien
@@ -1881,7 +1967,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Sukurti derinimo failą";
 
-                    OngletParametresGeneraux.Header = "Bendrieji nustatymai";
                     OngletDebug.Header = "Derinimas";
                             
                     OngletInformations.Header = "Informacija";
@@ -1907,6 +1992,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Spustelėkite čia, kad nemokamai gautumėte raktą)");
+                    
+                    ScalingText.Text = "Mastelio keitimas:";
+                    OngletParametresApplication.Header = "Bendras";
+                    OngletCorrection.Header = "Korekcija";
+                    AddressKeepingTitle.Text = "Išimtys";
+                    AddressKeepingText.Text = "Eilutės, kurias reikia išsaugoti adresuose korekcijos metu";
                     break;
 
                 // Norvégien
@@ -1941,7 +2032,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Opprett feilsøkingsfil";
 
-                    OngletParametresGeneraux.Header = "Generelle innstillinger";
                     OngletDebug.Header = "Feilsøking";
                             
                     OngletInformations.Header = "Informasjon";
@@ -1967,6 +2057,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Klikk her for å få en gratis nøkkel)");
+                    
+                    ScalingText.Text = "Skalering:";
+                    OngletParametresApplication.Header = "Generell";
+                    OngletCorrection.Header = "Korrigering";
+                    AddressKeepingTitle.Text = "Unntak";
+                    AddressKeepingText.Text = "Strenger å beholde i adresser under korrigering";
                     break;
 
                 // Néerlandais
@@ -2004,7 +2100,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Maak debugbestand aan";
 
-                    OngletParametresGeneraux.Header = "Algemene instellingen";
                     OngletDebug.Header = "Debug";
                     
                     OngletInformations.Header = "Informatie";
@@ -2027,6 +2122,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
+                    
+                    ScalingText.Text = "Schaal:";
+                    OngletParametresApplication.Header = "Algemeen";
+                    OngletCorrection.Header = "Correctie";
+                    AddressKeepingTitle.Text = "Uitzonderingen";
+                    AddressKeepingText.Text = "Strings om te behouden in adressen tijdens correctie";
                     break;
 
                 // Polonais
@@ -2064,7 +2165,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Utwórz plik debugowania";
 
-                    OngletParametresGeneraux.Header = "Ustawienia ogólne";
                     OngletDebug.Header = "Debugowanie";
                     
                     OngletInformations.Header = "Informacje";
@@ -2087,6 +2187,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Zapisz";
                     CancelButtonText.Text = "Anuluj";
+                    
+                    ScalingText.Text = "Skalowanie:";
+                    OngletParametresApplication.Header = "Ogólne";
+                    OngletCorrection.Header = "Korekta";
+                    AddressKeepingTitle.Text = "Wyjątki";
+                    AddressKeepingText.Text = "Ciągi do zachowania w adresach podczas korekty";
                     break;
 
                 // Portugais
@@ -2124,7 +2230,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Criar arquivo de depuração";
 
-                    OngletParametresGeneraux.Header = "Configurações gerais";
                     OngletDebug.Header = "Depuração";
                     
                     OngletInformations.Header = "Informações";
@@ -2147,6 +2252,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Salvar";
                     CancelButtonText.Text = "Cancelar";
+                    
+                    ScalingText.Text = "Dimensionamento:";
+                    OngletParametresApplication.Header = "Geral";
+                    OngletCorrection.Header = "Correção";
+                    AddressKeepingTitle.Text = "Exclusões";
+                    AddressKeepingText.Text = "Cadeias para manter nos endereços durante a correção";
                     break;
 
                 // Roumain
@@ -2181,7 +2292,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Creați fișierul de depanare";
 
-                    OngletParametresGeneraux.Header = "Setări generale";
                     OngletDebug.Header = "Depanare";
                             
                     OngletInformations.Header = "Informații";
@@ -2207,6 +2317,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Faceți clic aici pentru a obține o cheie gratuit)");
+                    
+                    ScalingText.Text = "Scalare:";
+                    OngletParametresApplication.Header = "General";
+                    OngletCorrection.Header = "Corecție";
+                    AddressKeepingTitle.Text = "Excepții";
+                    AddressKeepingText.Text = "Șiruri de păstrat în adrese în timpul corectării";
                     break;
 
                 // Slovaque
@@ -2240,7 +2356,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Vytvoriť ladiaci súbor";
 
-                    OngletParametresGeneraux.Header = "Všeobecné nastavenia";
                     OngletDebug.Header = "Ladenie";
                             
                     OngletInformations.Header = "Informácie";
@@ -2266,6 +2381,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknite sem pre získanie kľúča zadarmo)");
+                    
+                    ScalingText.Text = "Mierka:";
+                    OngletParametresApplication.Header = "Všeobecné";
+                    OngletCorrection.Header = "Korekcia";
+                    AddressKeepingTitle.Text = "Výnimky";
+                    AddressKeepingText.Text = "Reťazce na uchovanie v adresách počas korekcie";
                     break;
 
                 // Slovène
@@ -2300,7 +2421,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Ustvari datoteko za odpravljanje napak";
 
-                    OngletParametresGeneraux.Header = "Splošne nastavitve";
                     OngletDebug.Header = "Odpravljanje napak";
                             
                     OngletInformations.Header = "Informacije";
@@ -2326,6 +2446,12 @@ namespace KNXBoostDesktop
 
                     Hyperlink.Inlines.Clear();
                     Hyperlink.Inlines.Add("(Kliknite tukaj za brezplačni ključ)");
+                    
+                    ScalingText.Text = "Spreminjanje velikosti:";
+                    OngletParametresApplication.Header = "Splošno";
+                    OngletCorrection.Header = "Popravek";
+                    AddressKeepingTitle.Text = "Izjeme";
+                    AddressKeepingText.Text = "Nizi za ohranitev v naslovih med popravljanjem";
                     break;
 
                 // Suédois
@@ -2363,7 +2489,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Skapa felsökningsfil";
 
-                    OngletParametresGeneraux.Header = "Allmänna inställningar";
                     OngletDebug.Header = "Felsökning";
                     
                     OngletInformations.Header = "Information";
@@ -2386,6 +2511,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Spara";
                     CancelButtonText.Text = "Avbryt";
+                    
+                    ScalingText.Text = "Skalning:";
+                    OngletParametresApplication.Header = "Allmänt";
+                    OngletCorrection.Header = "Korrigering";
+                    AddressKeepingTitle.Text = "Undantag";
+                    AddressKeepingText.Text = "Strängar att behålla i adresser under korrigering";
                     break;
 
                 // Turc
@@ -2423,7 +2554,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Hata ayıklama dosyası oluştur";
 
-                    OngletParametresGeneraux.Header = "Genel ayarlar";
                     OngletDebug.Header = "Hata ayıklama";
                     
                     OngletInformations.Header = "Bilgiler";
@@ -2446,6 +2576,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Kaydet";
                     CancelButtonText.Text = "İptal";
+                    
+                    ScalingText.Text = "Ölçeklendirme:";
+                    OngletParametresApplication.Header = "Genel";
+                    OngletCorrection.Header = "Düzeltme";
+                    AddressKeepingTitle.Text = "Hariç Tutulanlar";
+                    AddressKeepingText.Text = "Düzeltme sırasında adreslerde saklanacak dizeler";
                     break;
 
                 // Ukrainien
@@ -2483,7 +2619,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Створити файл налагодження";
 
-                    OngletParametresGeneraux.Header = "Загальні налаштування";
                     OngletDebug.Header = "Налагодження";
                     
                     OngletInformations.Header = "Інформація";
@@ -2506,6 +2641,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
+                    
+                    ScalingText.Text = "Масштабування:";
+                    OngletParametresApplication.Header = "Загальний";
+                    OngletCorrection.Header = "Корекція";
+                    AddressKeepingTitle.Text = "Винятки";
+                    AddressKeepingText.Text = "Рядки для збереження в адресах під час корекції";
                     break;
 
                 // Russe
@@ -2543,7 +2684,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "Создать файл отладки";
 
-                    OngletParametresGeneraux.Header = "Общие настройки";
                     OngletDebug.Header = "Отладка";
                     
                     OngletInformations.Header = "Информация";
@@ -2566,6 +2706,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Сохранить";
                     CancelButtonText.Text = "Отмена";
+                    
+                    ScalingText.Text = "Масштабирование:";
+                    OngletParametresApplication.Header = "Общий";
+                    OngletCorrection.Header = "Коррекция";
+                    AddressKeepingTitle.Text = "Исключения";
+                    AddressKeepingText.Text = "Строки для сохранения в адресах при корректировке";
                     break;
 
                 // Chinois simplifié
@@ -2603,7 +2749,6 @@ namespace KNXBoostDesktop
 
                     CreateArchiveDebugText.Text = "创建调试文件";
 
-                    OngletParametresGeneraux.Header = "常规设置";
                     OngletDebug.Header = "调试";
                     
                     OngletInformations.Header = "信息";
@@ -2626,6 +2771,12 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
+                    
+                    ScalingText.Text = "缩放：";
+                    OngletParametresApplication.Header = "常规";
+                    OngletCorrection.Header = "修正";
+                    AddressKeepingTitle.Text = "排除";
+                    AddressKeepingText.Text = "修正期间要在地址中保留的字符串";
                     break;
 
                 // Langue par défaut (français)
@@ -2662,11 +2813,10 @@ namespace KNXBoostDesktop
                     IncludeAddressListCheckBox.Content = "Inclure la liste des adresses de groupe supprimées sur les projets";
 
                     CreateArchiveDebugText.Text = "Créer le fichier de débogage";
-
-                    OngletParametresGeneraux.Header = "Paramètres généraux";
-                    OngletDebug.Header = "Débogage";
                     
+                    OngletDebug.Header = "Débogage";
                     OngletInformations.Header = "Informations";
+                    
                     InformationsText.Text =
                         $"{App.AppName}" +
                         $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
@@ -2686,72 +2836,14 @@ namespace KNXBoostDesktop
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
+                    
+                    ScalingText.Text = "Mise à l'échelle :";
+                    OngletParametresApplication.Header = "Général";
+                    OngletCorrection.Header = "Correction";
+                    AddressKeepingTitle.Text = "Exclusions";
+                    AddressKeepingText.Text = "Chaînes à conserver dans les adresses durant la correction";
                     break;
             }
-            
-            ScalingText.Text = AppLang switch
-            {
-                // Arabe
-                "AR" => "مقياس :",
-                // Bulgare
-                "BG" => "Мащабиране :",
-                // Tchèque
-                "CS" => "Měřítko :",
-                // Danois
-                "DA" => "Skalering :",
-                // Allemand
-                "DE" => "Skalierung :",
-                // Grec
-                "EL" => "Κλιμάκωση :",
-                // Anglais
-                "EN" => "Scaling :",
-                // Espagnol
-                "ES" => "Escalado :",
-                // Estonien
-                "ET" => "Skaala :",
-                // Finnois
-                "FI" => "Skaalaus :",
-                // Hongrois
-                "HU" => "Skálázás :",
-                // Indonésien
-                "ID" => "Skala :",
-                // Italien
-                "IT" => "Ridimensionamento :",
-                // Japonais
-                "JA" => "スケーリング :",
-                // Coréen
-                "KO" => "확대 :",
-                // Letton
-                "LV" => "Mērogošana :",
-                // Lituanien
-                "LT" => "Mastelis :",
-                // Norvégien
-                "NB" => "Skalering :",
-                // Néerlandais
-                "NL" => "Schaal :",
-                // Polonais
-                "PL" => "Skalowanie :",
-                // Portugais
-                "PT" => "Dimensionamento :",
-                // Roumain
-                "RO" => "Scalare :",
-                // Russe
-                "RU" => "Масштабирование :",
-                // Slovaque
-                "SK" => "Mierka :",
-                // Slovène
-                "SL" => "Spreminjanje velikosti :",
-                // Suédois
-                "SV" => "Skalning :",
-                // Turc
-                "TR" => "Ölçekleme :",
-                // Ukrainien
-                "UK" => "Масштабування :",
-                // Chinois simplifié
-                "ZH" => "缩放 :",
-                // Cas par défaut (français)
-                _ => "Mise à l'échelle :"
-            };
         }
 
 
@@ -2788,7 +2880,7 @@ namespace KNXBoostDesktop
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
 
-                OngletParametresGeneraux.Style = (Style)FindResource("LightOnglet");
+                OngletCorrection.Style = (Style)FindResource("LightOnglet");
                 OngletDebug.Style = (Style)FindResource("LightOnglet");
                 OngletInformations.Style = (Style)FindResource("LightOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
@@ -2813,7 +2905,7 @@ namespace KNXBoostDesktop
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
 
-                OngletParametresGeneraux.Style = (Style)FindResource("DarkOnglet");
+                OngletCorrection.Style = (Style)FindResource("DarkOnglet");
                 OngletDebug.Style = (Style)FindResource("DarkOnglet");
                 OngletInformations.Style = (Style)FindResource("DarkOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
@@ -2880,7 +2972,7 @@ namespace KNXBoostDesktop
             AddImportedFilesCheckBox.Foreground = textColorBrush;
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
 
-            OngletParametresGeneraux.Foreground = textColorBrush;
+            OngletCorrection.Foreground = textColorBrush;
             OngletDebug.Foreground = textColorBrush;
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;
@@ -3436,7 +3528,7 @@ namespace KNXBoostDesktop
             var selectedTab = (sender as TabControl)?.SelectedItem as TabItem;
             switch (selectedTab)
             {
-                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresGeneraux.Header:
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletCorrection.Header:
                     CancelButton.Visibility = Visibility.Visible;
                     SaveButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
