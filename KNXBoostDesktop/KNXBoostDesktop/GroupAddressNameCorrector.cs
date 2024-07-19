@@ -1836,21 +1836,22 @@ public static class GroupAddressNameCorrector
     }
 
     /// <summary>
-    /// Generates a formatted location name for a device based on its location details and name attribute value.
-    /// If the location is not provided, it returns a default formatted location name.
-    /// Checks the name attribute value to append a valid circuit identifier if present.
+    /// Generates a formatted location name based on the provided location details and name attribute value. 
     /// 
-    /// <param name="location">A dynamic object representing the location details of the device, including BuildingName, BuildingPartName, FloorName, RoomName, and DistributionBoardName.</param>
-    /// <param name="nameAttrValue">A string containing the name attribute value to be analyzed for a circuit identifier.</param>
-    /// <param name="deviceRef">A string reference to the device used to verify its presence in a distribution board.</param>
-    /// <returns>
-    /// A formatted string representing the location name of the device, incorporating default or actual location details and a circuit identifier if applicable.
-    /// </returns>
+    /// If the `location` parameter is null, the function processes `nameAttrValue` to remove specific words ("cmd", "cde", "ie") 
+    /// and returns the remaining text with extra spaces condensed. If location details are provided, it formats and combines 
+    /// the building name, part name, floor name, room name, and optionally the distribution board name if the device reference 
+    /// is included in the distribution board. Additional strings and circuit identifiers from `nameAttrValue` are also appended 
+    /// if applicable.
+    /// 
+    /// <param name="location">An object with location details (building, part, floor, room, distribution board).</param>
+    /// <param name="nameAttrValue">A string for processing additional names or identifiers.</param>
+    /// <param name="deviceRef">A reference to check inclusion in the distribution board.</param>
+    /// <returns>A formatted string representing the location name.</returns>
     /// </summary>
-    static string GetLocationName(dynamic location, string nameAttrValue, string deviceRef)
+    private static string GetLocationName(dynamic location, string nameAttrValue, string deviceRef)
     {
         string nameLocation;
-        var (match, value) = AsCircuitInPreviousName(nameAttrValue);
         if (location == null)
         {
             // If no location information is found, add the original name without cmd, cde or ie 
@@ -1917,10 +1918,18 @@ public static class GroupAddressNameCorrector
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
 
-        // Add circuit part to the name if it exists
-        if (match)
+        // Add StringsToAdd to the name if it exists
+        var (matchStrings, valueStrings) = AsStringsToAddInPreviousName(nameAttrValue);
+        if (matchStrings)
+        {
+            nameLocation = valueStrings.Aggregate(nameLocation, (current, word) => current + ("_" + word));
+        }
+
+        // Add circuit part to the name if it exists, and it was not already appended 
+        var (matchCircuit, valueCircuit) = AsCircuitInPreviousName(nameAttrValue);
+        if (matchCircuit && !valueStrings.Contains(valueCircuit))
         { 
-            nameLocation += "_" + value;
+            nameLocation += "_" + valueCircuit;
         }
 
         return nameLocation;
@@ -1976,6 +1985,70 @@ public static class GroupAddressNameCorrector
         var isValid = containsLetter && containsDigit;
         return (isValid, isValid ? lastWord : string.Empty);
     }
+    
+    /// <summary>
+    /// Analyzes a given name attribute value to identify and return words that match any of the predefined strings to add, considering case-insensitivity and special matching rules.
+    /// 
+    /// The method first replaces underscores in the input string with spaces to ensure proper word separation. It then splits the modified string into individual words. Each word is compared against a list of predefined strings to add, which are converted to lowercase for case-insensitive comparison. 
+    /// The predefined strings may include wildcards ('*') to indicate that a word should start with a specific prefix. The method checks for exact matches as well as prefix matches based on these rules.
+    /// 
+    /// The function returns a tuple containing:
+    /// - A boolean indicating whether at least one word from the input string matches the criteria.
+    /// - An array of strings containing all matching words.
+    /// 
+    /// If no matches are found, the boolean will be false and the array will be empty.
+    /// 
+    /// <param name="nameAttrValue">A string representing the name attribute value to be analyzed.</param>
+    /// <returns>
+    /// A tuple where:
+    /// - The boolean is true if there are any matching words, false otherwise.
+    /// - The string array contains the matching words, or is empty if no matches are found.
+    /// </returns>
+    /// </summary>
+    private static (bool, string[]) AsStringsToAddInPreviousName(string nameAttrValue)
+    {
+        // Replace underscores with spaces
+        var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
+
+       // Separate the string into words using spaces as delimiters
+        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Convert all stringsToAdd to lowercase for case-insensitive comparison
+        var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.ToLower()).ToArray();
+        
+        // List to hold matching words
+        var matchingWords = new List<string>();
+
+        // Check if any word matches a word in lowerCaseStringsToAdd (case-insensitive)
+        if (lowerCaseStringsToAdd != null)
+        {
+            foreach (var word in words)
+            {
+                var lowerCaseWord = word.ToLower();
+                foreach (var stringToAdd in lowerCaseStringsToAdd)
+                {
+                    if (stringToAdd.EndsWith("*"))
+                    {
+                        // If the string in stringsToAdd ends with '*', check if the word starts with the string (excluding '*')
+                        var prefix = RemoveDiacritics(stringToAdd.TrimEnd('*'));
+                        if (RemoveDiacritics(lowerCaseWord).StartsWith(prefix))
+                        {
+                            matchingWords.Add(word);
+                            break;
+                        }
+                    }
+                    else if (RemoveDiacritics(stringToAdd) == RemoveDiacritics(lowerCaseWord))
+                    {
+                        matchingWords.Add(word);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return (matchingWords.Count > 0, matchingWords.ToArray());
+
+    }
 
     /// <summary>
     /// Determines the formatted name for a device based on its type and the provided name attribute value.
@@ -1990,7 +2063,7 @@ public static class GroupAddressNameCorrector
     /// A formatted string representing the device type, determined by matching patterns in the name attribute value or by using the ObjectType of the provided device objects.
     /// </returns>
     /// </summary>
-    static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
+    private static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
     {
         // Split nameAttrValue into a list of words using spaces and other common separators, including underscores
         var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
@@ -2037,7 +2110,7 @@ public static class GroupAddressNameCorrector
     /// A formatted string representing the function name for the group range, constructed from the names of the ancestor group range elements.
     /// </returns>
     /// </summary>
-    static string GetGroupRangeFunctionName(XElement groupAddressElement)
+    private static string GetGroupRangeFunctionName(XElement groupAddressElement)
     {
         // Get the GroupRange ancestor element, if any
         var groupRangeElement = groupAddressElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
@@ -2070,7 +2143,7 @@ public static class GroupAddressNameCorrector
     ///
     /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be translated.</param>
     /// </summary>
-    static void TranslateGroupRangeName(XElement groupRangeElement)
+    private static void TranslateGroupRangeName(XElement groupRangeElement)
     {
         //Check if the translation is needed
         if (App.DisplayElements?.SettingsWindow == null || !App.DisplayElements.SettingsWindow.EnableDeeplTranslation || !ValidDeeplKey)
@@ -2096,7 +2169,7 @@ public static class GroupAddressNameCorrector
     /// <param name="text">The input string from which diacritics should be removed.</param>
     /// <returns>A new string with all diacritics removed.</returns>
     /// </summary>
-    static string RemoveDiacritics(string text)
+    private static string RemoveDiacritics(string text)
     {
         var normalizedString = text.Normalize(NormalizationForm.FormD);
         var stringBuilder = new StringBuilder();
