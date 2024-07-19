@@ -14,9 +14,13 @@ Dernière révision : 19/07/2024 (KNX Boost Desktop v1.9)
     2.1. [Fenêtre principale](#fenêtre-principale)
 
     2.2. [Menu paramètres](#menu-paramètres)
+
         2.2.1. [Paramètres de la correction](#paramètres-de-la-correction)
+
         2.2.2. [Paramètres de l’application](#paramètres-de-lapplication)
+
         2.2.3. [Débogage](#débogage)
+
         2.2.4. [Informations](#informations)
 
 3. [Utilisation de l’application](#utilisation-de-lapplication)
