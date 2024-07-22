@@ -67,10 +67,26 @@ public static class GroupAddressNameCorrector
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
+    /// <summary>
+    /// Represents the total number of devices currently in the project.
+    /// </summary>
     public static int TotalDevices;
+
+    /// <summary>
+    /// Represents the total number of addresses of the project.
+    /// </summary>
     public static int TotalAddresses;
+
+    /// <summary>
+    /// Represents the total number of addresses that have been deleted from the project.
+    /// </summary>
     public static int TotalDeletedAddresses;
-    
+
+    /// <summary>
+    /// An array of characters used as separators for parsing strings, including spaces, commas, periods, semicolons, colons, exclamation marks, question marks, and underscores.
+    /// </summary>
+    private static readonly char[] Separator = { ' ', ',', '.', ';', ':', '!', '?', '_' };
+
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XElement; size: 4051MB")]
@@ -837,7 +853,7 @@ public static class GroupAddressNameCorrector
                     continue; 
                 }
 
-                var nameAttrWords = nameAttr.Value.Split(new []{ ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
+                var nameAttrWords = nameAttr.Value.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
                 var location = locationInfo
                     .FirstOrDefault(loc => loc.DeviceRefs
                         .Any(deviceRef => gdr.Devices
@@ -851,7 +867,13 @@ public static class GroupAddressNameCorrector
                     if (tempLocation?.RoomName != null)
                     {
                         var normalizedRoomName = RemoveDiacritics(tempLocation.RoomName);
-                        if (nameAttrWords.Any(word => RemoveDiacritics(word).Equals(normalizedRoomName, StringComparison.OrdinalIgnoreCase)))
+                        var normalizedRoomWords = normalizedRoomName.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+
+                        bool allWordsMatch = normalizedRoomWords.All(roomWord => 
+                            nameAttrWords.Any(word => RemoveDiacritics(word).Equals(roomWord, StringComparison.OrdinalIgnoreCase))
+                        );
+
+                        if (allWordsMatch)
                         {
                             location = tempLocation;
                             deviceLocated = device.DeviceInstanceId ?? string.Empty;
@@ -2011,7 +2033,7 @@ public static class GroupAddressNameCorrector
         var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
 
        // Separate the string into words using spaces as delimiters
-        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] words = modifiedNameAttrValue.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
         // Convert all stringsToAdd to lowercase for case-insensitive comparison
         var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.ToLower()).ToArray();
@@ -2022,32 +2044,48 @@ public static class GroupAddressNameCorrector
         // Check if any word matches a word in lowerCaseStringsToAdd (case-insensitive)
         if (lowerCaseStringsToAdd != null)
         {
-            foreach (var word in words)
+            foreach (var stringToAdd in lowerCaseStringsToAdd)
             {
-                var lowerCaseWord = word.ToLower();
-                foreach (var stringToAdd in lowerCaseStringsToAdd)
+                var stringToAddWords = stringToAdd.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+
+                bool allWordsMatch = true;
+                foreach (var stringToAddWord in stringToAddWords)
                 {
-                    if (stringToAdd.EndsWith("*"))
+                    bool wordMatch = false;
+                    var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
+                    foreach (var word in words)
                     {
-                        // If the string in stringsToAdd ends with '*', check if the word starts with the string (excluding '*')
-                        var prefix = RemoveDiacritics(stringToAdd.TrimEnd('*'));
-                        if (RemoveDiacritics(lowerCaseWord).StartsWith(prefix))
+                        var lowerCaseWord = RemoveDiacritics(word.ToLower());
+
+                        if (stringToAdd.EndsWith("*"))
                         {
-                            matchingWords.Add(word);
+                            // If the string in stringsToAdd ends with '*', check if the word starts with the string (excluding '*')
+                            var prefix = RemoveDiacritics(lowerCaseStringToAddWord.TrimEnd('*'));
+                            if (lowerCaseWord.StartsWith(prefix))
+                            {
+                                wordMatch = true;
+                                break;
+                            }
+                        }
+                        else if (lowerCaseStringToAddWord == lowerCaseWord)
+                        {
+                            wordMatch = true;
                             break;
                         }
                     }
-                    else if (RemoveDiacritics(stringToAdd) == RemoveDiacritics(lowerCaseWord))
+                    if (!wordMatch)
                     {
-                        matchingWords.Add(word);
+                        allWordsMatch = false;
                         break;
                     }
                 }
+                if (allWordsMatch)
+                {
+                    matchingWords.Add(stringToAdd);
+                }
             }
         }
-
         return (matchingWords.Count > 0, matchingWords.ToArray());
-
     }
 
     /// <summary>
@@ -2066,7 +2104,7 @@ public static class GroupAddressNameCorrector
     private static string DetermineNameObjectType(dynamic deviceRailMounted, dynamic deviceRefObjectType, string nameAttrValue)
     {
         // Split nameAttrValue into a list of words using spaces and other common separators, including underscores
-        var words = nameAttrValue.ToLower().Split(new[] { ' ', ',', '.', ';', ':', '!', '?', '_' }, StringSplitOptions.RemoveEmptyEntries);
+        var words = nameAttrValue.ToLower().Split(Separator, StringSplitOptions.RemoveEmptyEntries);
 
         // Check for the presence of "cmd" and "ie" in the list of words
         var containsCmd = words.Contains("cmd") || words.Contains("cde");
