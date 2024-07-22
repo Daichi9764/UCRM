@@ -10,7 +10,8 @@ using System.Windows.Media;
 namespace KNXBoostDesktop;
 
 /// <summary>
-/// Fenêtre pour renommer une adresse de groupe.
+/// Window used to rename the corrected group addresses if the user considers that the correction is
+/// not perfect or if it wants to add information
 /// </summary>
 public partial class GroupAddressRenameWindow
 {
@@ -18,16 +19,23 @@ public partial class GroupAddressRenameWindow
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     /// <summary>
-    /// Obtient le résultat de la boîte de dialogue. True si l'utilisateur a cliqué sur "sauvegarder", False sinon.
+    /// Gets the result of the dialog. True if the user clicked "Save", False otherwise.
     /// </summary>
     public new bool? DialogResult { get; private set; } // True si l'utilisateur a cliqué sur sauvegarder, False sinon
     
     /// <summary>
-    /// Obtient l'adresse modifiée par l'utilisateur.
+    /// Gets the address modified by the user.
     /// </summary>
     public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
+    
+    /// <summary>
+    /// Gets the address saved by the software for reset.
+    /// </summary>
     public string SavedAddress { get; private set; } // Adresse issue du logiciel sauvegardée pour reset
 
+    /// <summary>
+    /// The file path used for renaming XML files.
+    /// </summary>
     private string _xmlRenameFilePath = "";
 
 
@@ -435,9 +443,14 @@ public partial class GroupAddressRenameWindow
         SavedAddress = addressModifiée; 
     }
 
+    
+    /// <summary>
+    /// Sets the file path used for renaming XML files.
+    /// </summary>
+    /// <param name="xmlRenameFilePath">The file path to be set for XML renaming.</param>
     public void SetPath(string xmlRenameFilePath)
     {
-        this._xmlRenameFilePath = xmlRenameFilePath;
+        _xmlRenameFilePath = xmlRenameFilePath;
     }
 
 
@@ -491,6 +504,12 @@ public partial class GroupAddressRenameWindow
     }
 
 
+    /// <summary>
+    /// Resets the address displayed in the `AfterTextBox` based on the content of the `BeforeTextBox` and an XML file.
+    /// If the XML file does not exist, it uses the `SavedAddress`. If no matching XML node is found, it also falls back to `SavedAddress`.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event data that contains information about the routed event.</param>
     private void Reset(object? sender, RoutedEventArgs e)
     {
         try
@@ -554,7 +573,10 @@ public partial class GroupAddressRenameWindow
     }
     
     
-    
+    /// <summary>
+    /// Applies scaling to the window by adjusting the layout transform and resizing the window based on the specified scale factor.
+    /// </summary>
+    /// <param name="scale">The scale factor to apply.</param>
     public void ApplyScaling(float scale)
     {
         AddressRenameWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);

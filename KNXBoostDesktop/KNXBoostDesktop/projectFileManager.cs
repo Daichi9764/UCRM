@@ -9,6 +9,9 @@ using System.Xml.Linq;
 
 namespace KNXBoostDesktop
 {
+    /// <summary>
+    /// File manager of the application. Will handle all operations related with files (KNXproj files, debug files, ...)
+    /// </summary>
     public class ProjectFileManager
     {
         /* ------------------------------------------------------------------------------------------------
@@ -677,8 +680,8 @@ namespace KNXBoostDesktop
             return ""; // Fichier non trouvé
         }
 
-
-
+        
+        
         // Fonction permettant de trouver le fichier 0.xml dans le projet exporté
         // ATTENTION : Nécessite que le projet .knxproj ait déjà été extrait avec la fonction extractProjectFiles().
         /// <summary>

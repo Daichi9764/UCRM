@@ -17,6 +17,9 @@ using Microsoft.Win32;
 
 namespace KNXBoostDesktop
 {
+    /// <summary>
+    ///  Window used to set the application settings.
+    /// </summary>
     public partial class SettingsWindow
     {
         /* ------------------------------------------------------------------------------------------------
@@ -3536,7 +3539,7 @@ namespace KNXBoostDesktop
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             //Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || listChanged) && (App.Fm?.ProjectFolderPath != ""))
             {
                 if (Application.Current.MainWindow is MainWindow mainWindow) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
@@ -4571,6 +4574,10 @@ namespace KNXBoostDesktop
         }
 
 
+        /// <summary>
+        /// Applies scaling to the window by adjusting the layout transform and resizing the window based on the specified scale factor.
+        /// </summary>
+        /// <param name="scale">The scale factor to apply.</param>
         private void ApplyScaling(double scale)
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
