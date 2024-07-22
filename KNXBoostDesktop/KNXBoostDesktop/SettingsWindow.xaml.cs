@@ -780,7 +780,7 @@ namespace KNXBoostDesktop
                             // Récupération de chaque string et ajout à la liste
                             foreach (var st in value.Split(','))
                             {
-                                StringsToAdd.Add(st.Trim());
+                                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase)) StringsToAdd.Add(st.Trim());
                             }
                             break;
                     }
@@ -3250,13 +3250,13 @@ namespace KNXBoostDesktop
 
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
             // on considèrera que la clé deepl a changé si la textbox n'est pas vide
-            var deeplKeyChanged = string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text);
+            var deeplKeyChanged = !string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text);
             
             // Si les clés de décryptage existent, on compare le contenu de la clé deepl entré dans la fenêtre avec celle que l'on peut décrypter
             if (File.Exists("./emk") && File.Exists("./ei") && File.Exists("./ek")) deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
             
-            // Si on a activé la traduction deepl et que la clé a changé
-            if (EnableDeeplTranslation && deeplKeyChanged)
+            // Si on a activé la traduction deepl et que la clé a changé ou est vide
+            if (EnableDeeplTranslation && (deeplKeyChanged || string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text)))
             {
                 // On récupère la nouvelle clé et on l'encrypte
                 DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
@@ -4430,7 +4430,7 @@ namespace KNXBoostDesktop
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
-            Height = 565 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 565 * scale;
+            Height = 605 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 605 * scale;
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
     }
