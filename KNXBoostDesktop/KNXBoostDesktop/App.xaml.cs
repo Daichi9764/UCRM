@@ -47,7 +47,7 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 354;
+        public static readonly int AppBuild = 355;
         
         
         // Gestion des logs
@@ -689,6 +689,7 @@ namespace KNXBoostDesktop
         }
     }
 }
+
 
 
 
