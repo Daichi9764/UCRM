@@ -21,9 +21,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Net.Http;
 using System.Windows;
-using Newtonsoft.Json.Linq;
 
 namespace KNXBoostDesktop
 {
@@ -42,12 +40,12 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Represents the version of the application.
         /// </summary>
-        public const float AppVersion = 2.0f; // Version de l'application
+        public const float AppVersion = 2.1f; // Version de l'application
 
         /// <summary>
         /// Represents the build of the application. Updated each time portions of code are merged on github.
         /// </summary>
-        public static readonly int AppBuild = 355;
+        public static readonly int AppBuild = 356;
         
         
         // Gestion des logs
@@ -689,6 +687,7 @@ namespace KNXBoostDesktop
         }
     }
 }
+
 
 
 
