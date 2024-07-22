@@ -16,6 +16,9 @@ using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
 namespace KNXBoostDesktop;
 
+/// <summary>
+///  Main window of the application. This window will handle most of the interactions with the user.
+/// </summary>
 public partial class MainWindow 
 
 {
@@ -24,7 +27,7 @@ public partial class MainWindow
     ------------------------------------------------------------------------------------------------ */
 
     /// <summary>
-    ///  Texte "Rechercher ..." de la barre de recherche. A SUPPRIMER DES QUE POSSIBLE /!\
+    ///  Texte "Rechercher ..." de la barre de recherche.
     /// </summary>
     private string _searchTextTranslate = "";
 
@@ -38,7 +41,14 @@ public partial class MainWindow
     /// </summary>
     private bool _isTreeViewExpanded;
 
+    /// <summary>
+    /// The token source used to signal cancellation requests for ongoing tasks.
+    /// </summary>
     private CancellationTokenSource _cancellationTokenSource;
+    
+    /// <summary>
+    /// Represents a long-running task that may be canceled and awaited.
+    /// </summary>
     private Task _longTask;
 
     /* ------------------------------------------------------------------------------------------------
@@ -664,8 +674,16 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
+
+
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
+
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
 
         //Vider la recherche
         TextBox_LostFocus();
@@ -1010,6 +1028,7 @@ public partial class MainWindow
         }
     }
     
+    
     /// <summary>
     /// Asynchronously reloads the current project, displaying a loading window with real-time elapsed time updates.
     /// </summary>
@@ -1018,12 +1037,20 @@ public partial class MainWindow
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
 
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
+
+
+
         App.ConsoleAndLogWriteLine("Reaload");
 
             // Créer et configurer la LoadingWindow
             App.DisplayElements!.LoadingWindow = new LoadingWindow
             {
-                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+                Owner = this 
             };
 
             var stopwatch = new Stopwatch();
@@ -1332,6 +1359,7 @@ public partial class MainWindow
         // Écrire les lignes restantes dans le fichier CSV
         File.WriteAllLines(filePath, lines);
     }
+    
     
     /// <summary>
     /// Loads loading time entries from a CSV file located at the specified file path.
@@ -1786,6 +1814,11 @@ public partial class MainWindow
     }
     
     
+    /// <summary>
+    /// Handles the window closing event, ensuring that an ongoing long task is properly canceled and awaited before closing the window.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event data that can cancel the window closing.</param>
     private async void Window_Closing(object sender, CancelEventArgs e)
     {
         if (_longTask != null && !_longTask.IsCompleted)
@@ -1804,6 +1837,8 @@ public partial class MainWindow
             Close(); // Ferme la fenêtre une fois la tâche terminée
         }
     }
+    
+    
     
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
     /// <summary>
@@ -2672,6 +2707,9 @@ public partial class MainWindow
     }
 
 
+    /// <summary>
+    /// Handles the LostFocus event for a TextBox, restoring the default search text and setting the text color based on the current theme.
+    /// </summary>
     private void TextBox_LostFocus()
     {
         var tb = TxtSearch1;
@@ -3070,12 +3108,16 @@ public partial class MainWindow
     
     
     //-------------------------------------------- Logique de scaling ----------------------------------------------//
+    /// <summary>
+    /// Applies a scaling transformation to the window using the specified scale factor.
+    /// </summary>
+    /// <param name="scale">The scale factor to apply.</param>
     public void ApplyScaling(double scale)
     {
-        // Créez un ScaleTransform avec la valeur de l'échelle
+        // Création d'un ScaleTransform avec la valeur de l'échelle
         var scaleTransform = new ScaleTransform(scale, scale);
 
-        // Appliquez la transformation à l'ensemble de la fenêtre
+        // Application de la transformation à l'ensemble de la fenêtre
         LayoutTransform = scaleTransform;
 
         // Pour que les boutons se déplient/replient si besoin, il faut mettre à jour la taille de la fenêtre
