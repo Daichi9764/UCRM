@@ -97,7 +97,7 @@ public static class GroupAddressNameCorrector
     /* ------------------------------------------------------------------------------------------------
     -------------------------------------------- METHODES  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    public static async Task CorrectName()
+    public static async Task CorrectName(CancellationToken cancellationToken)
     {
         try
         {
@@ -556,7 +556,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingInfos);
-
+            cancellationToken.ThrowIfCancellationRequested();
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
                 .Where(s => 
@@ -604,7 +604,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
-
+            cancellationToken.ThrowIfCancellationRequested();
             // Display extracted location information
             TotalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
@@ -628,7 +628,8 @@ public static class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceReferences);
 
-
+            // On check si l'utilisateur a fermé la fenêtre
+            cancellationToken.ThrowIfCancellationRequested();
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
                 .Select(di =>
@@ -676,7 +677,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceInfo);
-            
+            cancellationToken.ThrowIfCancellationRequested();
             var deviceRefs = deviceRefsTemp1.SelectMany(di =>
             {
                 var formattedHardware = di.Hardware2ProgramRefId != null ? 
@@ -708,7 +709,7 @@ public static class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 2/3");
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
-            
+            cancellationToken.ThrowIfCancellationRequested();
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
             foreach (var dr in deviceRefs)
@@ -807,7 +808,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(constructingNewAddresses);
-            
+            cancellationToken.ThrowIfCancellationRequested();
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
@@ -922,7 +923,7 @@ public static class GroupAddressNameCorrector
 
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
-            
+            cancellationToken.ThrowIfCancellationRequested();
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
@@ -999,7 +1000,7 @@ public static class GroupAddressNameCorrector
             // Save the updated XML files
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(savingUpdatedXml);
-            
+            cancellationToken.ThrowIfCancellationRequested();
             App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}0_updated.xml");
 
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)

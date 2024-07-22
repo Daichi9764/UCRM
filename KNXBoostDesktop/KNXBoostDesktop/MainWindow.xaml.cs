@@ -38,8 +38,8 @@ public partial class MainWindow
     /// </summary>
     private bool _isTreeViewExpanded;
 
-
-
+    private CancellationTokenSource _cancellationTokenSource;
+    private Task _longTask;
 
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
@@ -53,7 +53,7 @@ public partial class MainWindow
     {
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
         InitializeComponent();
-
+        
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
         
@@ -63,6 +63,7 @@ public partial class MainWindow
         UpdateWindowContents(true, true, true);
         
         LocationChanged += MainWindow_LocationChanged;
+        _cancellationTokenSource = new CancellationTokenSource();
     }
     
     
@@ -104,9 +105,6 @@ public partial class MainWindow
                 ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
             }
         }
-        
-        const string filePath = "./runData.csv";
-        LoadLoadingTimesFromCsv(filePath);
     }
 
 
@@ -907,7 +905,10 @@ public partial class MainWindow
             });
             
             ShowOverlay();
-            await ExecuteLongRunningTask();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _longTask = ExecuteLongRunningTask();
+            await _longTask;
+            //await ExecuteLongRunningTask();
             HideOverlay();
             
             stopwatch.Stop();
@@ -1045,7 +1046,9 @@ public partial class MainWindow
             });
 
             ShowOverlay();
-            await ExecuteLongRunningTask();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _longTask = ExecuteLongRunningTask();
+            await _longTask;
             HideOverlay();
 
             stopwatch.Stop();
@@ -1783,6 +1786,25 @@ public partial class MainWindow
     }
     
     
+    private async void Window_Closing(object sender, CancelEventArgs e)
+    {
+        if (_longTask != null && !_longTask.IsCompleted)
+        {
+            e.Cancel = true; // Annule la fermeture de la fenêtre
+            _cancellationTokenSource.Cancel(); // Demande l'annulation de la tâche
+            try
+            {
+                await _longTask; // Attend la fin de la tâche
+            }
+            catch (OperationCanceledException)
+            {
+                // Gestion de l'annulation
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            Close(); // Ferme la fenêtre une fois la tâche terminée
+        }
+    }
+    
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
     /// <summary>
     /// Executes a long-running task asynchronously, displaying progress in a loading window.
@@ -1792,6 +1814,8 @@ public partial class MainWindow
     /// <returns>A task representing the asynchronous operation.</returns>
     private async Task ExecuteLongRunningTask()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
+        var token = _cancellationTokenSource.Token;
         if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
             App.DisplayElements.LoadingWindow?.SetLightMode();
@@ -2001,8 +2025,7 @@ public partial class MainWindow
                 {
                     await App.Fm.FindZeroXml().ConfigureAwait(false);
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
-                    await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
-
+                    await GroupAddressNameCorrector.CorrectName(token).ConfigureAwait(false);
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -2013,8 +2036,10 @@ public partial class MainWindow
                                 App.Fm.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
                             await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
                                 App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
-                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updatedUnusedAddresses.xml",
-                                App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml").ConfigureAwait(false);
+                            await ExportUpdatedNameAddresses.Export(
+                                    App.Fm.ProjectFolderPath + "/0_updatedUnusedAddresses.xml",
+                                    App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml")
+                                .ConfigureAwait(false);
                         }
                         else
                         {
@@ -2036,11 +2061,15 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
                     App.DisplayElements?.LoadingWindow?.CompleteActivity();
                 });
-            });
+            }, token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Gestion de l'annulation
+            App.ConsoleAndLogWriteLine("Operation was canceled.");
         }
         finally
         {
-            // Mettre à jour l'état de la barre des tâches et masquer l'overlay
             Dispatcher.Invoke(() =>
             {
                 TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
