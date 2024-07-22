@@ -17,6 +17,9 @@ using Microsoft.Win32;
 
 namespace KNXBoostDesktop
 {
+    /// <summary>
+    ///  Window used to set the application settings.
+    /// </summary>
     public partial class SettingsWindow
     {
         /* ------------------------------------------------------------------------------------------------
@@ -4571,6 +4574,10 @@ namespace KNXBoostDesktop
         }
 
 
+        /// <summary>
+        /// Applies scaling to the window by adjusting the layout transform and resizing the window based on the specified scale factor.
+        /// </summary>
+        /// <param name="scale">The scale factor to apply.</param>
         private void ApplyScaling(double scale)
         {
             SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
