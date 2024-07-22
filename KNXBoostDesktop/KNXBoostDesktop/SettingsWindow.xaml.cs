@@ -868,17 +868,24 @@ namespace KNXBoostDesktop
                 writer.WriteLine(AppScaleFactor);
                 
                 writer.Write("strings to keep in corrected addresses : ");
-                for (var i=0; i<StringsToAdd.Count; i++)
+                if (StringsToAdd.Count == 0)
                 {
-                    // Si c'est le dernier élément, on ne met pas de virgule et on saute une ligne
-                    if (i == StringsToAdd.Count - 1)
+                    writer.WriteLine();
+                }
+                else
+                {
+                    for (var i=0; i<StringsToAdd.Count; i++)
                     {
-                        writer.WriteLine($"{StringsToAdd[i]}");
-                    }
-                    // Sinon, on écrit les uns après les autres chaque élément séparé d'une virgule
-                    else
-                    {
-                        writer.Write($"{StringsToAdd[i]}, ");
+                        // Si c'est le dernier élément, on ne met pas de virgule et on saute une ligne
+                        if (i == StringsToAdd.Count - 1)
+                        {
+                            writer.WriteLine($"{StringsToAdd[i]}");
+                        }
+                        // Sinon, on écrit les uns après les autres chaque élément séparé d'une virgule
+                        else
+                        {
+                            writer.Write($"{StringsToAdd[i]}, ");
+                        }
                     }
                 }
 
@@ -921,7 +928,7 @@ namespace KNXBoostDesktop
         {
             EnableTranslationCheckBox.IsChecked = EnableDeeplTranslation; // Cochage/décochage
 
-            if (File.Exists("./emk") && !isClosing) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
+            if (File.Exists("./emk") && File.Exists("./ei") && File.Exists("./ek") && !isClosing) DeeplApiKeyTextBox.Text = DecryptStringFromBytes(DeeplKey); // Décryptage de la clé DeepL
 
             EnableAutomaticTranslationLangDetectionCheckbox.IsChecked = EnableAutomaticSourceLangDetection; // Cochage/Décochage
 
@@ -2846,7 +2853,7 @@ namespace KNXBoostDesktop
                     
                     OngletDebug.Header = "Débogage";
                     OngletInformations.Header = "Informations";
-                    
+
                     InformationsText.Text =
                         $"{App.AppName}" +
                         $"\nVersion {App.AppVersion.ToString(CultureInfo.InvariantCulture)}" +
@@ -2862,7 +2869,14 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartenariat entre l'Institut National des Sciences Appliquées (INSA) de Toulouse et l'Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRéalisation: 06/2024 - 07/2024";
+                        $"\nRéalisation: 06/2024 - 07/2024\n";
+
+                    NoteImportante.Text = "\nNote importante:";
+                    NoteImportanteContenu.Text =
+                        " le nom, les logos et toute image liée à KNX sont la propriété inaliénable de l'association KNX. \u279e";
+                    
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Site web de l'association KNX");
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -2916,6 +2930,7 @@ namespace KNXBoostDesktop
                 OngletParametresApplication.Style = (Style)FindResource("LightOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
+                HyperlinkInfo.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
             }
             else // Sinon, on met le thème sombre
             {
@@ -2942,6 +2957,8 @@ namespace KNXBoostDesktop
                 OngletParametresApplication.Style = (Style)FindResource("DarkOnglet");
                 IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                     MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
+                HyperlinkInfo.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
+
 
             }
 
@@ -3230,8 +3247,13 @@ namespace KNXBoostDesktop
             {
                 StringsToAdd = newStringsToKeep;
             }
+
+            // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
+            // on considèrera que la clé deepl a changé si la textbox n'est pas vide
+            var deeplKeyChanged = string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text);
             
-            var deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
+            // Si les clés de décryptage existent, on compare le contenu de la clé deepl entré dans la fenêtre avec celle que l'on peut décrypter
+            if (File.Exists("./emk") && File.Exists("./ei") && File.Exists("./ek")) deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
             
             // Si on a activé la traduction deepl et que la clé a changé
             if (EnableDeeplTranslation && deeplKeyChanged)
@@ -3415,7 +3437,7 @@ namespace KNXBoostDesktop
             if (EnableLightTheme)
             {
                 Hyperlink.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
-
+                
                 DeeplApiKeyText.Foreground = new SolidColorBrush(Colors.Black);
                 DeeplApiKeyTextBox.Background = new SolidColorBrush(Colors.White);
 

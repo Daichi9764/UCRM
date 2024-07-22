@@ -1062,10 +1062,15 @@
                                                
                                                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                                                    <StackPanel VerticalAlignment="Center">
-                                                       <TextBlock x:Name="InformationsText" Text="text" TextAlignment="Center"
+                                                       <TextBlock TextAlignment="Center"
                                                                   Background="Transparent" TextWrapping="Wrap" Padding="10"
                                                                   Margin="0,0,0,0" HorizontalAlignment="Center">
-                                                   
+                                                           <Run x:Name="InformationsText"></Run>
+                                                           <Run x:Name="NoteImportante" FontWeight="Bold" TextDecorations="Underline" />
+                                                           <Run x:Name="NoteImportanteContenu" />
+                                                           <Hyperlink x:Name="HyperlinkInfo"
+                                                                      NavigateUri="https://www.knx.org/"
+                                                                      RequestNavigate="Hyperlink_RequestNavigate" />
                                                        </TextBlock>
                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                                            <Image Height="80" x:Name="LogoInsa">
@@ -1225,6 +1230,7 @@
                                                                </Image.Source>
                                                            </Image>
                                                        </StackPanel>
+                                                       
                                                    </StackPanel>
                                                </ScrollViewer>
                                            </Grid>

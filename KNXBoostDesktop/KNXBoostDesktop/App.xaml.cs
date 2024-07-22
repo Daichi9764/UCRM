@@ -21,7 +21,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Windows;
+using Newtonsoft.Json.Linq;
 
 namespace KNXBoostDesktop
 {
@@ -163,7 +165,8 @@ namespace KNXBoostDesktop
             // Nettoyage des dossiers restants de la derniere session
             ConsoleAndLogWriteLine("Starting to remove folders from projects extracted last time");
             DeleteAllExceptLogsAndResources();
-            
+
+            // CheckForUpdatesAsync();
 
             ConsoleAndLogWriteLine($"{AppName.ToUpper()} APP STARTED !");
             ConsoleAndLogWriteLine("-----------------------------------------------------------");
@@ -564,6 +567,115 @@ namespace KNXBoostDesktop
             
         }
         
+        
+        // Mise à jour automatique de l'application
+        // private const string UpdateInfoFilePath = "./update-info.txt";
+        //
+        // public async Task CheckForUpdatesAsync()
+        // {
+        //     string repoOwner = "Daichi9764";
+        //     string repoName = "UCRM";
+        //     string branch = "main"; // Ou la branche que vous utilisez
+        //     string folderPath = "KNXBoostDesktop/latest-build";
+        //     string currentCommitSha = GetCurrentCommitSha();
+        //
+        //     string latestCommitSha = await GetLatestCommitShaAsync(repoOwner, repoName);
+        //
+        //     App.ConsoleAndLogWriteLine($"{latestCommitSha} {currentCommitSha}");
+        //     
+        //     if (latestCommitSha != currentCommitSha)
+        //     {
+        //         App.ConsoleAndLogWriteLine("BONJOUR");
+        //         
+        //         string zipFilePath = Path.Combine(Path.GetTempPath(), "update.zip");
+        //
+        //         await DownloadAndZipFilesAsync(repoOwner, repoName, branch, folderPath, zipFilePath);
+        //
+        //         // Sauvegarder le nouveau SHA du commit
+        //         SaveCurrentCommitSha(latestCommitSha);
+        //
+        //         await ApplyUpdateAsync(zipFilePath);
+        //     }
+        // }
+        //
+        // private string GetCurrentCommitSha()
+        // {
+        //     if (File.Exists(UpdateInfoFilePath))
+        //     {
+        //         return File.ReadAllText(UpdateInfoFilePath).Trim();
+        //     }
+        //     return string.Empty;
+        // }
+        //
+        // private void SaveCurrentCommitSha(string sha)
+        // {
+        //     File.WriteAllText(UpdateInfoFilePath, sha);
+        // }
+        //
+        // private async Task<string> GetLatestCommitShaAsync(string repoOwner, string repoName)
+        // {
+        //     string apiUrl = $"https://api.github.com/repos/{repoOwner}/{repoName}/commits";
+        //     using (HttpClient client = new HttpClient())
+        //     {
+        //         client.DefaultRequestHeaders.UserAgent.ParseAdd("request"); // GitHub API requiert un en-tête User-Agent
+        //         HttpResponseMessage response = await client.GetAsync(apiUrl);
+        //         response.EnsureSuccessStatusCode();
+        //         string responseBody = await response.Content.ReadAsStringAsync();
+        //         JArray commits = JArray.Parse(responseBody);
+        //         return (string)commits[0]["sha"];
+        //     }
+        // }
+        //
+        // private async Task DownloadAndZipFilesAsync(string repoOwner, string repoName, string branch, string folderPath, string zipFilePath)
+        // {
+        //     ConsoleAndLogWriteLine("On commence à dl");
+        //     
+        //     string apiUrl = $"https://api.github.com/repos/{repoOwner}/{repoName}/contents/{folderPath}?ref={branch}";
+        //     using (HttpClient client = new HttpClient())
+        //     {
+        //         client.DefaultRequestHeaders.UserAgent.ParseAdd("request");
+        //         HttpResponseMessage response = await client.GetAsync(apiUrl);
+        //         response.EnsureSuccessStatusCode();
+        //         string responseBody = await response.Content.ReadAsStringAsync();
+        //         JArray files = JArray.Parse(responseBody);
+        //
+        //         using (var zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+        //         {
+        //             foreach (var file in files)
+        //             {
+        //                 string fileName = (string)file["name"];
+        //                 ConsoleAndLogWriteLine($"{fileName}");
+        //                 string downloadUrl = (string)file["download_url"];
+        //                 using (var fileStream = new MemoryStream(await client.GetByteArrayAsync(downloadUrl)))
+        //                 {
+        //                     var zipEntry = zipArchive.CreateEntry(fileName, CompressionLevel.Optimal);
+        //                     using (var entryStream = zipEntry.Open())
+        //                     {
+        //                         fileStream.CopyTo(entryStream);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // private async Task ApplyUpdateAsync(string zipFilePath)
+        // {
+        //     string updaterPath = "update.exe";
+        //     string tempFolderPath = Path.Combine(Path.GetTempPath(), "update");
+        //     if (Directory.Exists(tempFolderPath))
+        //     {
+        //         Directory.Delete(tempFolderPath, true);
+        //     }
+        //     Directory.CreateDirectory(tempFolderPath);
+        //     ZipFile.ExtractToDirectory(zipFilePath, tempFolderPath);
+        //     Process.Start(new ProcessStartInfo
+        //     {
+        //         FileName = Path.Combine(tempFolderPath, updaterPath),
+        //         UseShellExecute = true
+        //     });
+        //     Application.Current.Shutdown();
+        // }
         
         // Destructeur de App
         /// <summary>
