@@ -3255,7 +3255,7 @@ namespace KNXBoostDesktop
             // Si les clés de décryptage existent, on compare le contenu de la clé deepl entré dans la fenêtre avec celle que l'on peut décrypter
             if (File.Exists("./emk") && File.Exists("./ei") && File.Exists("./ek")) deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
             
-            // Si on a activé la traduction deepl et que la clé a changé ou est vide
+            // Si on a activé la traduction deepl et que la clé a changé où est vide
             if (EnableDeeplTranslation && (deeplKeyChanged || string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text)))
             {
                 // On récupère la nouvelle clé et on l'encrypte

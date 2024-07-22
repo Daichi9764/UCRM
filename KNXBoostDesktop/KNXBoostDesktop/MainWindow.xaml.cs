@@ -3048,6 +3048,10 @@ public partial class MainWindow
 
         // Appliquez la transformation à l'ensemble de la fenêtre
         LayoutTransform = scaleTransform;
+
+        // Pour que les boutons se déplient/replient si besoin, il faut mettre à jour la taille de la fenêtre
+        Width += 1;
+        Width -= 1;
     }
 
 }
