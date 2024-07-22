@@ -2057,44 +2057,68 @@ public static class GroupAddressNameCorrector
         // Check if any word matches a word in lowerCaseStringsToAdd (case-insensitive)
         if (lowerCaseStringsToAdd != null)
         {
-            foreach (var stringToAdd in lowerCaseStringsToAdd)
+            foreach (var word in words)
             {
-                var stringToAddWords = stringToAdd.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+                var lowerCaseWord = RemoveDiacritics(word.ToLower());
 
-                bool allWordsMatch = true;
-                foreach (var stringToAddWord in stringToAddWords)
+                bool wordMatchesAnyStringToAdd = false;
+                foreach (var stringToAdd in lowerCaseStringsToAdd)
                 {
-                    bool wordMatch = false;
-                    var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
-                    foreach (var word in words)
-                    {
-                        var lowerCaseWord = RemoveDiacritics(word.ToLower());
+                    var stringToAddWords = stringToAdd.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        if (stringToAdd.EndsWith("*"))
+                    bool allWordsMatch = true;
+                    foreach (var stringToAddWord in stringToAddWords)
+                    {
+                        var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
+
+                        if (lowerCaseStringToAddWord.Contains('*'))
                         {
-                            // If the string in stringsToAdd ends with '*', check if the word starts with the string (excluding '*')
-                            var prefix = RemoveDiacritics(lowerCaseStringToAddWord.TrimEnd('*'));
-                            if (lowerCaseWord.StartsWith(prefix))
+                            // Split the stringToAddWord by '*'
+                            var parts = lowerCaseStringToAddWord.Split('*');
+
+                            // Check if the word matches the pattern
+                            int currentIndex = 0;
+                            bool isMatch = true;
+
+                            foreach (var part in parts)
                             {
-                                wordMatch = true;
+                                if (string.IsNullOrEmpty(part)) continue;
+
+                                currentIndex = lowerCaseWord.IndexOf(part, currentIndex);
+
+                                if (currentIndex == -1)
+                                {
+                                    isMatch = false;
+                                    break;
+                                }
+
+                                currentIndex += part.Length;
+                            }
+
+                            // Ensure that the entire word is covered by the pattern
+                            if (!(isMatch && parts[0] == lowerCaseWord.Substring(0, parts[0].Length) && lowerCaseWord.EndsWith(parts[^1])))
+                            {
+                                allWordsMatch = false;
                                 break;
                             }
                         }
-                        else if (lowerCaseStringToAddWord == lowerCaseWord)
+                        else if (lowerCaseStringToAddWord != lowerCaseWord)
                         {
-                            wordMatch = true;
+                            allWordsMatch = false;
                             break;
                         }
                     }
-                    if (!wordMatch)
+
+                    if (allWordsMatch)
                     {
-                        allWordsMatch = false;
+                        wordMatchesAnyStringToAdd = true;
                         break;
                     }
                 }
-                if (allWordsMatch)
+
+                if (wordMatchesAnyStringToAdd)
                 {
-                    matchingWords.Add(stringToAdd);
+                    matchingWords.Add(word);
                 }
             }
         }
