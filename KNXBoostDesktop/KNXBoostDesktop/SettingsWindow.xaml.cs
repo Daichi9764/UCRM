@@ -3539,7 +3539,7 @@ namespace KNXBoostDesktop
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             //Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation) && (App.Fm?.ProjectFolderPath != ""))
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || listChanged) && (App.Fm?.ProjectFolderPath != ""))
             {
                 if (Application.Current.MainWindow is MainWindow mainWindow) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }
