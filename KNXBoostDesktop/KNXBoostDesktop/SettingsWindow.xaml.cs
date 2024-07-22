@@ -1047,15 +1047,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nشراكة بين المعهد الوطني للعلوم التطبيقية (INSA) في تولوز واتحاد Cepière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nإنشاء: 06/2024 - 07/2024";
+                                            $"\nإنشاء: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "حفظ";
                     CancelButtonText.Text = "إلغاء";
                     
                     ScalingText.Text = "التحجيم:";
                     OngletParametresApplication.Header = "عام";
                     OngletCorrection.Header = "تصحيح";
-                    AddressKeepingTitle.Text = "استثناءات";
                     AddressKeepingText.Text = "السلاسل المراد الاحتفاظ بها في العناوين أثناء التصحيح";
+                    
+                    NoteImportante.Text = "\nملاحظة هامة:";
+                    NoteImportanteContenu.Text = "الاسم والشعارات وأي صورة مرتبطة بـ KNX هي ملك لا يتجزأ لجمعية KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("موقع جمعية KNX");
+                    AddressKeepingTitle.Text = "الشموليات";
                     break;
 
                 // Bulgare
@@ -1100,15 +1105,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nПартньорство между Националния институт по приложни науки (INSA) в Тулуза и Съюза Cepière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nСъздаване: 06/2024 - 07/2024";
+                                            $"\nСъздаване: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "Запази";
                     CancelButtonText.Text = "Отказ";
                     
                     ScalingText.Text = "Мащабиране:";
                     OngletParametresApplication.Header = "Общ";
                     OngletCorrection.Header = "Корекция";
-                    AddressKeepingTitle.Text = "Изключения";
                     AddressKeepingText.Text = "Вериги за запазване в адресите по време на корекция";
+                    
+                    NoteImportante.Text = "\nВажна бележка:";
+                    NoteImportanteContenu.Text = "името, логото и всички изображения, свързани с KNX, са неотменима собственост на асоциацията KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Уебсайт на асоциация KNX");
+                    AddressKeepingTitle.Text = "Включвания";
                     break;
 
                 // Tchèque
@@ -1153,15 +1163,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nPartnerství mezi Národním institutem aplikovaných věd (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nVytvořeno: 06/2024 - 07/2024";
+                                            $"\nVytvořeno: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "Uložit";
                     CancelButtonText.Text = "Zrušit";
                     
                     ScalingText.Text = "Měřítko:";
                     OngletParametresApplication.Header = "Obecné";
                     OngletCorrection.Header = "Korekce";
-                    AddressKeepingTitle.Text = "Výjimky";
                     AddressKeepingText.Text = "Řetězce k uchování v adresách během korekce";
+                    
+                    NoteImportante.Text = "\nDůležitá poznámka:";
+                    NoteImportanteContenu.Text = "název, loga a jakékoli obrázky související s KNX jsou neoddělitelným vlastnictvím asociace KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Webová stránka asociace KNX");
+                    AddressKeepingTitle.Text = "Zahrnutí";
                     break;
 
                 // Danois
@@ -1206,15 +1221,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nPartnerskab mellem National Institute of Applied Sciences (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nOprettelse: 06/2024 - 07/2024";
+                                            $"\nOprettelse: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "Gem";
                     CancelButtonText.Text = "Annuller";
                     
                     ScalingText.Text = "Skalering:";
                     OngletParametresApplication.Header = "Generel";
                     OngletCorrection.Header = "Korrektion";
-                    AddressKeepingTitle.Text = "Undtagelser";
                     AddressKeepingText.Text = "Kæder, der skal bevares i adresser under korrektion";
+                    
+                    NoteImportante.Text = "\nVigtig bemærkning:";
+                    NoteImportanteContenu.Text = "navnet, logoerne og alle billeder relateret til KNX er uadskillelig ejendom tilhørende KNX-foreningen. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX-foreningens hjemmeside");
+                    AddressKeepingTitle.Text = "Inklusioner";
                     break;
 
                 // Allemand
@@ -1270,7 +1290,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerschaft zwischen dem Institut National des Sciences Appliquées (INSA) de Toulouse und der Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nUmsetzung: 06/2024 - 07/2024";
+                        $"\nUmsetzung: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Speichern";
                     CancelButtonText.Text = "Abbrechen";
@@ -1278,8 +1298,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skalierung:";
                     OngletParametresApplication.Header = "Allgemein";
                     OngletCorrection.Header = "Korrektur";
-                    AddressKeepingTitle.Text = "Ausnahmen";
                     AddressKeepingText.Text = "Ketten, die in Adressen während der Korrektur beibehalten werden sollen";
+                    
+                    NoteImportante.Text = "\nWichtiger Hinweis:";
+                    NoteImportanteContenu.Text = "der Name, die Logos und alle Bilder im Zusammenhang mit KNX sind unveräußerliches Eigentum der KNX-Vereinigung. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Website der KNX-Vereinigung");
+                    AddressKeepingTitle.Text = "Inklusionen";
                     break;
 
                 // Grec
@@ -1324,15 +1349,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nΣυνεργασία μεταξύ του Εθνικού Ινστιτούτου Εφαρμοσμένων Επιστημών (INSA) της Τουλούζης και της Ένωσης Cépière Robert Monnier (UCRM)." +
                                             $"\n" +
-                                            $"\nΔημιουργία: 06/2024 - 07/2024";
+                                            $"\nΔημιουργία: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "Αποθήκευση";
                     CancelButtonText.Text = "Άκυρο";
                     
                     ScalingText.Text = "Κλιμάκωση:";
                     OngletParametresApplication.Header = "Γενικός";
                     OngletCorrection.Header = "Διόρθωση";
-                    AddressKeepingTitle.Text = "Εξαιρέσεις";
                     AddressKeepingText.Text = "Αλυσίδες προς διατήρηση στις διευθύνσεις κατά τη διόρθωση";
+                    
+                    NoteImportante.Text = "\nΣημαντική σημείωση:";
+                    NoteImportanteContenu.Text = "το όνομα, τα λογότυπα και οποιαδήποτε εικόνα που σχετίζεται με το KNX είναι αδιαίρετη ιδιοκτησία του συλλόγου KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Ιστότοπος του συλλόγου KNX");
+                    AddressKeepingTitle.Text = "Συμπερίληψη";
                     break;
 
                 // Anglais
@@ -1388,7 +1418,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnership between the Institut National des Sciences Appliquées (INSA) de Toulouse and the Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nImplementation: 06/2024 - 07/2024";
+                        $"\nImplementation: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Save";
                     CancelButtonText.Text = "Cancel";
@@ -1396,8 +1426,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Scaling:";
                     OngletParametresApplication.Header = "General";
                     OngletCorrection.Header = "Correction";
-                    AddressKeepingTitle.Text = "Exclusions";
                     AddressKeepingText.Text = "Strings to keep in addresses during correction";
+                    
+                    NoteImportante.Text = "\nImportant note:";
+                    NoteImportanteContenu.Text = "the name, logos, and any images related to KNX are the inalienable property of the KNX association. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX association website");
+                    AddressKeepingTitle.Text = "Inclusions";
                     break;
 
                 // Espagnol
@@ -1453,7 +1488,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nAsociación entre el Instituto Nacional de Ciencias Aplicadas (INSA) de Toulouse y la Unión Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nImplementación: 06/2024 - 07/2024";
+                        $"\nImplementación: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Guardar";
                     CancelButtonText.Text = "Cancelar";
@@ -1461,8 +1496,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Escalado:";
                     OngletParametresApplication.Header = "General";
                     OngletCorrection.Header = "Corrección";
-                    AddressKeepingTitle.Text = "Exclusiones";
                     AddressKeepingText.Text = "Cadenas para mantener en las direcciones durante la corrección";
+                    
+                    NoteImportante.Text = "\nNota importante:";
+                    NoteImportanteContenu.Text = "el nombre, los logotipos y cualquier imagen relacionada con KNX son propiedad inalienable de la asociación KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Sitio web de la asociación KNX");
+                    AddressKeepingTitle.Text = "Inclusiones";
                     break;
 
                 // Estonien
@@ -1507,15 +1547,20 @@ namespace KNXBoostDesktop
                                             $"\n" +
                                             $"\nPartnerlus Toulouse'i Rakendusteaduste Riikliku Instituudi (INSA) ja Union Cépière Robert Monnier (UCRM) vahel." +
                                             $"\n" +
-                                            $"\nLoomine: 06/2024 - 07/2024";
+                                            $"\nLoomine: 06/2024 - 07/2024\n";
                     SaveButtonText.Text = "Salvesta";
                     CancelButtonText.Text = "Tühista";
                     
                     ScalingText.Text = "Skaala:";
                     OngletParametresApplication.Header = "Üldine";
                     OngletCorrection.Header = "Korrektuur";
-                    AddressKeepingTitle.Text = "Erandid";
                     AddressKeepingText.Text = "Aadresside säilitamise stringid korrektuuri ajal";
+                    
+                    NoteImportante.Text = "\nOluline märkus:";
+                    NoteImportanteContenu.Text = "KNX-i nimi, logod ja kõik pildid, mis on seotud KNX-iga, on KNX-i ühenduse võõrandamatu omand. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX ühenduse veebisait");
+                    AddressKeepingTitle.Text = "Kaasamised";
                     break;
 
                 // Finnois
@@ -1571,7 +1616,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nYhteistyö Instituutti National des Sciences Appliquées (INSA) de Toulousen ja Union Cépière Robert Monnier (UCRM) välillä." +
                         $"\n" +
-                        $"\nToteutus: 06/2024 - 07/2024";
+                        $"\nToteutus: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Tallenna";
                     CancelButtonText.Text = "Peruuta";
@@ -1579,8 +1624,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skaalaus:";
                     OngletParametresApplication.Header = "Yleinen";
                     OngletCorrection.Header = "Korjaus";
-                    AddressKeepingTitle.Text = "Poikkeukset";
                     AddressKeepingText.Text = "Osoitteisiin säilytettävät merkkijonot korjauksen aikana";
+                    
+                    NoteImportante.Text = "\nTärkeä huomautus:";
+                    NoteImportanteContenu.Text = "KNX:n nimi, logot ja kaikki kuvat, jotka liittyvät KNX:ään, ovat KNX-yhdistyksen luovuttamatonta omaisuutta. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX-yhdistyksen verkkosivusto");
+                    AddressKeepingTitle.Text = "Sisällytykset";
                     break;
 
                 // Hongrois
@@ -1636,7 +1686,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerség az Institut National des Sciences Appliquées (INSA) de Toulouse és az Union Cépière Robert Monnier (UCRM) között." +
                         $"\n" +
-                        $"\nMegvalósítás: 06/2024 - 07/2024";
+                        $"\nMegvalósítás: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Mentés";
                     CancelButtonText.Text = "Mégse";
@@ -1644,8 +1694,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Méretezés:";
                     OngletParametresApplication.Header = "Általános";
                     OngletCorrection.Header = "Javítás";
-                    AddressKeepingTitle.Text = "Kivétel";
                     AddressKeepingText.Text = "A címekben megőrzendő karakterláncok javítás közben";
+                    
+                    NoteImportante.Text = "\nFontos megjegyzés:";
+                    NoteImportanteContenu.Text = "a KNX név, logók és bármilyen kép, amely a KNX-hez kapcsolódik, a KNX egyesület elidegeníthetetlen tulajdona. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX egyesület weboldala");
+                    AddressKeepingTitle.Text = "Beillesztések";
                     break;
 
                 // Indonésien
@@ -1701,7 +1756,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nKemitraan antara Institut National des Sciences Appliquées (INSA) de Toulouse dan Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nImplementasi: 06/2024 - 07/2024";
+                        $"\nImplementasi: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Simpan";
                     CancelButtonText.Text = "Batal";
@@ -1709,8 +1764,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skalasi:";
                     OngletParametresApplication.Header = "Umum";
                     OngletCorrection.Header = "Koreksi";
-                    AddressKeepingTitle.Text = "Pengecualian";
                     AddressKeepingText.Text = "String yang harus disimpan dalam alamat selama koreksi";
+                    
+                    NoteImportante.Text = "\nCatatan penting:";
+                    NoteImportanteContenu.Text = "nama, logo, dan gambar apapun yang terkait dengan KNX adalah milik tidak terpisahkan dari asosiasi KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Situs web asosiasi KNX");
+                    AddressKeepingTitle.Text = "Penyertaan";
                     break;
 
                 // Italien
@@ -1766,7 +1826,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartenariato tra l'Istituto Nazionale delle Scienze Applicate (INSA) di Tolosa e l'Unione Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealizzazione: 06/2024 - 07/2024";
+                        $"\nRealizzazione: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Salva";
                     CancelButtonText.Text = "Annulla";
@@ -1774,8 +1834,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Ridimensionamento:";
                     OngletParametresApplication.Header = "Generale";
                     OngletCorrection.Header = "Correzione";
-                    AddressKeepingTitle.Text = "Esclusioni";
                     AddressKeepingText.Text = "Stringhe da conservare negli indirizzi durante la correzione";
+                    
+                    NoteImportante.Text = "\nNota importante:";
+                    NoteImportanteContenu.Text = "il nome, i loghi e tutte le immagini relative a KNX sono proprietà inalienabile dell'associazione KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Sito web dell'associazione KNX");
+                    AddressKeepingTitle.Text = "Inclusioni";
                     break;
 
                 // Japonais
@@ -1831,7 +1896,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nトゥールーズ国立応用科学研究所（INSA）とシェピエールロバートモニエ連合（UCRM）のパートナーシップ。" +
                         $"\n" +
-                        $"\n実装: 2024年06月 - 2024年07月";
+                        $"\n実装: 2024年06月 - 2024年07月\n";
                         
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "キャンセル";
@@ -1839,8 +1904,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "スケーリング:";
                     OngletParametresApplication.Header = "一般";
                     OngletCorrection.Header = "修正";
-                    AddressKeepingTitle.Text = "除外";
                     AddressKeepingText.Text = "修正中に住所に保持する文字列";
+                    
+                    NoteImportante.Text = "\n重要な注意:";
+                    NoteImportanteContenu.Text = "KNXの名前、ロゴ、およびKNXに関連するすべての画像は、KNX協会の不可分の財産です。 \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX協会のウェブサイト");
+                    AddressKeepingTitle.Text = "インクルージョン";
                     break;
 
                 // Coréen
@@ -1896,7 +1966,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\n툴루즈 국립 응용 과학 연구소 (INSA)와 Union Cépière Robert Monnier (UCRM) 간의 파트너십." +
                         $"\n" +
-                        $"\n실행: 2024년 6월 - 2024년 7월";
+                        $"\n실행: 2024년 6월 - 2024년 7월\n";
                         
                     SaveButtonText.Text = "저장";
                     CancelButtonText.Text = "취소";
@@ -1904,8 +1974,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "확대/축소:";
                     OngletParametresApplication.Header = "일반";
                     OngletCorrection.Header = "교정";
-                    AddressKeepingTitle.Text = "제외";
                     AddressKeepingText.Text = "교정 중 주소에 보관할 문자열";
+                    
+                    NoteImportante.Text = "\n중요한 참고 사항:";
+                    NoteImportanteContenu.Text = "KNX의 이름, 로고 및 KNX와 관련된 모든 이미지는 KNX 협회의 양도할 수 없는 자산입니다. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX 협회 웹사이트");
+                    AddressKeepingTitle.Text = "포함";
                     break;
 
                 // Letton
@@ -1958,7 +2033,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerība starp National Institute of Applied Sciences (INSA) Toulouse un Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nIzstrāde: 06/2024 - 07/2024";
+                        $"\nIzstrāde: 06/2024 - 07/2024\n";
                                         
                     SaveButtonText.Text = "Saglabāt";
                     CancelButtonText.Text = "Atcelt";
@@ -1969,8 +2044,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Mērogošana:";
                     OngletParametresApplication.Header = "Vispārīgs";
                     OngletCorrection.Header = "Korekcija";
-                    AddressKeepingTitle.Text = "Izņēmumi";
                     AddressKeepingText.Text = "Virknes, kuras saglabāt adresēs korekcijas laikā";
+                    
+                    NoteImportante.Text = "\nSvarīga piezīme:";
+                    NoteImportanteContenu.Text = "KNX nosaukums, logotipi un jebkādi attēli, kas saistīti ar KNX, ir KNX asociācijas neatņemams īpašums. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX asociācijas tīmekļa vietne");
+                    AddressKeepingTitle.Text = "Iekļaušana";
                     break;
 
                 // Lituanien
@@ -2022,7 +2102,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerystė tarp Nacionalinio taikomųjų mokslų instituto (INSA) Tulūzoje ir Sąjungos Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealizacija: 06/2024 - 07/2024";
+                        $"\nRealizacija: 06/2024 - 07/2024\n";
                                 
                     SaveButtonText.Text = "Išsaugoti";
                     CancelButtonText.Text = "Atšaukti";
@@ -2033,8 +2113,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Mastelio keitimas:";
                     OngletParametresApplication.Header = "Bendras";
                     OngletCorrection.Header = "Korekcija";
-                    AddressKeepingTitle.Text = "Išimtys";
                     AddressKeepingText.Text = "Eilutės, kurias reikia išsaugoti adresuose korekcijos metu";
+                    
+                    NoteImportante.Text = "\nSvarbi pastaba:";
+                    NoteImportanteContenu.Text = "KNX pavadinimas, logotipai ir bet kokie su KNX susiję vaizdai yra neatsiejama KNX asociacijos nuosavybė. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX asociacijos svetainė");
+                    AddressKeepingTitle.Text = "Įtraukimas";
                     break;
 
                 // Norvégien
@@ -2087,7 +2172,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerskap mellom National Institute of Applied Sciences (INSA) i Toulouse og Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nUtførelse: 06/2024 - 07/2024";
+                        $"\nUtførelse: 06/2024 - 07/2024\n";
                                 
                     SaveButtonText.Text = "Lagre";
                     CancelButtonText.Text = "Avbryt";
@@ -2098,8 +2183,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skalering:";
                     OngletParametresApplication.Header = "Generell";
                     OngletCorrection.Header = "Korrigering";
-                    AddressKeepingTitle.Text = "Unntak";
                     AddressKeepingText.Text = "Strenger å beholde i adresser under korrigering";
+                    
+                    NoteImportante.Text = "\nViktig merknad:";
+                    NoteImportanteContenu.Text = "navnet, logoene og alle bilder knyttet til KNX er udelelig eiendom tilhørende KNX-foreningen. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX-foreningens nettsted");
+                    AddressKeepingTitle.Text = "Inkluderinger";
                     break;
 
                 // Néerlandais
@@ -2155,7 +2245,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerschap tussen het Institut National des Sciences Appliquées (INSA) van Toulouse en de Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealisatie: 06/2024 - 07/2024";
+                        $"\nRealisatie: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Opslaan";
                     CancelButtonText.Text = "Annuleren";
@@ -2163,8 +2253,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Schaal:";
                     OngletParametresApplication.Header = "Algemeen";
                     OngletCorrection.Header = "Correctie";
-                    AddressKeepingTitle.Text = "Uitzonderingen";
                     AddressKeepingText.Text = "Strings om te behouden in adressen tijdens correctie";
+                    
+                    NoteImportante.Text = "\nBelangrijke opmerking:";
+                    NoteImportanteContenu.Text = "de naam, logo's en alle afbeeldingen die verband houden met KNX zijn het onvervreemdbaar eigendom van de KNX-vereniging. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Website van de KNX-vereniging");
+                    AddressKeepingTitle.Text = "Opnamen";
                     break;
 
                 // Polonais
@@ -2220,7 +2315,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerstwo między Institut National des Sciences Appliquées (INSA) w Tuluzie a Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealizacja: 06/2024 - 07/2024";
+                        $"\nRealizacja: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Zapisz";
                     CancelButtonText.Text = "Anuluj";
@@ -2228,8 +2323,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skalowanie:";
                     OngletParametresApplication.Header = "Ogólne";
                     OngletCorrection.Header = "Korekta";
-                    AddressKeepingTitle.Text = "Wyjątki";
                     AddressKeepingText.Text = "Ciągi do zachowania w adresach podczas korekty";
+                    
+                    NoteImportante.Text = "\nWażna uwaga:";
+                    NoteImportanteContenu.Text = "nazwa, logo i wszystkie obrazy związane z KNX są niezbywalną własnością stowarzyszenia KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Strona internetowa stowarzyszenia KNX");
+                    AddressKeepingTitle.Text = "Włączenia";
                     break;
 
                 // Portugais
@@ -2285,7 +2385,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nParceria entre o Institut National des Sciences Appliquées (INSA) de Toulouse e a Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealização: 06/2024 - 07/2024";
+                        $"\nRealização: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Salvar";
                     CancelButtonText.Text = "Cancelar";
@@ -2293,8 +2393,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Dimensionamento:";
                     OngletParametresApplication.Header = "Geral";
                     OngletCorrection.Header = "Correção";
-                    AddressKeepingTitle.Text = "Exclusões";
                     AddressKeepingText.Text = "Cadeias para manter nos endereços durante a correção";
+                    
+                    NoteImportante.Text = "\nNota importante:";
+                    NoteImportanteContenu.Text = "o nome, logotipos e quaisquer imagens relacionadas com KNX são propriedade inalienável da associação KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Website da associação KNX");
+                    AddressKeepingTitle.Text = "Inclusões";
                     break;
 
                 // Roumain
@@ -2347,7 +2452,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nParteneriat între Institutul Național de Științe Aplicate (INSA) din Toulouse și Uniunea Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealizare: 06/2024 - 07/2024";
+                        $"\nRealizare: 06/2024 - 07/2024\n";
                                 
                     SaveButtonText.Text = "Salvați";
                     CancelButtonText.Text = "Anulați";
@@ -2358,8 +2463,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Scalare:";
                     OngletParametresApplication.Header = "General";
                     OngletCorrection.Header = "Corecție";
-                    AddressKeepingTitle.Text = "Excepții";
                     AddressKeepingText.Text = "Șiruri de păstrat în adrese în timpul corectării";
+                    
+                    NoteImportante.Text = "\nNotă importantă:";
+                    NoteImportanteContenu.Text = "numele, siglele și orice imagine legată de KNX sunt proprietatea inalienabilă a asociației KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Site-ul asociației KNX");
+                    AddressKeepingTitle.Text = "Incluziuni";
                     break;
 
                 // Slovaque
@@ -2411,7 +2521,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerstvo medzi Národným inštitútom aplikovaných vied (INSA) v Toulouse a Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nRealizácia: 06/2024 - 07/2024";
+                        $"\nRealizácia: 06/2024 - 07/2024\n";
                                 
                     SaveButtonText.Text = "Uložiť";
                     CancelButtonText.Text = "Zrušiť";
@@ -2422,8 +2532,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Mierka:";
                     OngletParametresApplication.Header = "Všeobecné";
                     OngletCorrection.Header = "Korekcia";
-                    AddressKeepingTitle.Text = "Výnimky";
                     AddressKeepingText.Text = "Reťazce na uchovanie v adresách počas korekcie";
+                    
+                    NoteImportante.Text = "\nDôležitá poznámka:";
+                    NoteImportanteContenu.Text = "názov, logá a akékoľvek obrázky týkajúce sa KNX sú neoddeliteľným majetkom združenia KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Webová stránka združenia KNX");
+                    AddressKeepingTitle.Text = "Zahrnutia";
                     break;
 
                 // Slovène
@@ -2476,7 +2591,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nPartnerstvo med Nacionalnim inštitutom za uporabne znanosti (INSA) v Toulouseu in Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nIzvedba: 06/2024 - 07/2024";
+                        $"\nIzvedba: 06/2024 - 07/2024\n";
                                 
                     SaveButtonText.Text = "Shrani";
                     CancelButtonText.Text = "Prekliči";
@@ -2487,8 +2602,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Spreminjanje velikosti:";
                     OngletParametresApplication.Header = "Splošno";
                     OngletCorrection.Header = "Popravek";
-                    AddressKeepingTitle.Text = "Izjeme";
                     AddressKeepingText.Text = "Nizi za ohranitev v naslovih med popravljanjem";
+                    
+                    NoteImportante.Text = "\nPomembna opomba:";
+                    NoteImportanteContenu.Text = "ime, logotipi in vse slike, povezane s KNX, so neodtujljiva last združenja KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Spletna stran združenja KNX");
+                    AddressKeepingTitle.Text = "Vključki";
                     break;
 
                 // Suédois
@@ -2544,7 +2664,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nSamarbete mellan Institut National des Sciences Appliquées (INSA) i Toulouse och Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nGenomförande: 06/2024 - 07/2024";
+                        $"\nGenomförande: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Spara";
                     CancelButtonText.Text = "Avbryt";
@@ -2552,8 +2672,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Skalning:";
                     OngletParametresApplication.Header = "Allmänt";
                     OngletCorrection.Header = "Korrigering";
-                    AddressKeepingTitle.Text = "Undantag";
                     AddressKeepingText.Text = "Strängar att behålla i adresser under korrigering";
+                    
+                    NoteImportante.Text = "\nViktig anmärkning:";
+                    NoteImportanteContenu.Text = "namnet, logotyperna och alla bilder relaterade till KNX är KNX-föreningens omistliga egendom. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX-föreningens webbplats");
+                    AddressKeepingTitle.Text = "Inkluderingar";
                     break;
 
                 // Turc
@@ -2609,7 +2734,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nInstitut National des Sciences Appliquées (INSA) Toulouse ve Union Cépière Robert Monnier (UCRM) arasındaki ortaklık." +
                         $"\n" +
-                        $"\nGerçekleştirme: 06/2024 - 07/2024";
+                        $"\nGerçekleştirme: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Kaydet";
                     CancelButtonText.Text = "İptal";
@@ -2617,8 +2742,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Ölçeklendirme:";
                     OngletParametresApplication.Header = "Genel";
                     OngletCorrection.Header = "Düzeltme";
-                    AddressKeepingTitle.Text = "Hariç Tutulanlar";
                     AddressKeepingText.Text = "Düzeltme sırasında adreslerde saklanacak dizeler";
+                    
+                    NoteImportante.Text = "\nÖnemli not:";
+                    NoteImportanteContenu.Text = "KNX'in adı, logoları ve KNX ile ilgili tüm resimler, KNX derneğinin devredilemez mülküdür. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX derneği web sitesi");
+                    AddressKeepingTitle.Text = "Dâhil olanlar";
                     break;
 
                 // Ukrainien
@@ -2674,7 +2804,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nПартнерство між Institut National des Sciences Appliquées (INSA) в Тулузі та Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nРеалізація: 06/2024 - 07/2024";
+                        $"\nРеалізація: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Зберегти";
                     CancelButtonText.Text = "Скасувати";
@@ -2682,8 +2812,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Масштабування:";
                     OngletParametresApplication.Header = "Загальний";
                     OngletCorrection.Header = "Корекція";
-                    AddressKeepingTitle.Text = "Винятки";
                     AddressKeepingText.Text = "Рядки для збереження в адресах під час корекції";
+                    
+                    NoteImportante.Text = "\nВажлива примітка:";
+                    NoteImportanteContenu.Text = "назва, логотипи та будь-які зображення, пов'язані з KNX, є невід'ємною власністю асоціації KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Вебсайт асоціації KNX");
+                    AddressKeepingTitle.Text = "Включення";
                     break;
 
                 // Russe
@@ -2739,7 +2874,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nПартнерство между Institut National des Sciences Appliquées (INSA) в Тулузе и Union Cépière Robert Monnier (UCRM)." +
                         $"\n" +
-                        $"\nРеализация: 06/2024 - 07/2024";
+                        $"\nРеализация: 06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "Сохранить";
                     CancelButtonText.Text = "Отмена";
@@ -2747,8 +2882,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Масштабирование:";
                     OngletParametresApplication.Header = "Общий";
                     OngletCorrection.Header = "Коррекция";
-                    AddressKeepingTitle.Text = "Исключения";
                     AddressKeepingText.Text = "Строки для сохранения в адресах при корректировке";
+                    
+                    NoteImportante.Text = "\nВажное примечание:";
+                    NoteImportanteContenu.Text = "название, логотипы и любые изображения, связанные с KNX, являются неотъемлемой собственностью ассоциации KNX. \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("Веб-сайт ассоциации KNX");
+                    AddressKeepingTitle.Text = "Включения";
                     break;
 
                 // Chinois simplifié
@@ -2804,7 +2944,7 @@ namespace KNXBoostDesktop
                         $"\n" +
                         $"\nToulouse的Institut National des Sciences Appliquées（INSA）与Union Cépière Robert Monnier（UCRM）之间的合作。" +
                         $"\n" +
-                        $"\n实施：06/2024 - 07/2024";
+                        $"\n实施：06/2024 - 07/2024\n";
                         
                     SaveButtonText.Text = "保存";
                     CancelButtonText.Text = "取消";
@@ -2812,8 +2952,13 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "缩放：";
                     OngletParametresApplication.Header = "常规";
                     OngletCorrection.Header = "修正";
-                    AddressKeepingTitle.Text = "排除";
                     AddressKeepingText.Text = "修正期间要在地址中保留的字符串";
+                    
+                    NoteImportante.Text = "\n重要提示:";
+                    NoteImportanteContenu.Text = "KNX的名称、标识和任何与KNX相关的图片都是KNX协会不可分割的财产。 \u279e";
+                    HyperlinkInfo.Inlines.Clear();
+                    HyperlinkInfo.Inlines.Add("KNX协会网站");
+                    AddressKeepingTitle.Text = "包含";
                     break;
 
                 // Langue par défaut (français)
@@ -2877,6 +3022,7 @@ namespace KNXBoostDesktop
                     
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Site web de l'association KNX");
+                    AddressKeepingTitle.Text = "Inclusions";
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -2884,7 +3030,6 @@ namespace KNXBoostDesktop
                     ScalingText.Text = "Mise à l'échelle :";
                     OngletParametresApplication.Header = "Général";
                     OngletCorrection.Header = "Correction";
-                    AddressKeepingTitle.Text = "Exclusions";
                     AddressKeepingText.Text = "Chaînes à conserver dans les adresses durant la correction";
                     break;
             }
