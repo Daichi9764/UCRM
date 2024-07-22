@@ -67,10 +67,25 @@ public static class GroupAddressNameCorrector
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
+    /// <summary>
+    /// Represents the total number of devices currently in the project.
+    /// </summary>
     public static int TotalDevices;
+
+    /// <summary>
+    /// Represents the total number of addresses of the project.
+    /// </summary>
     public static int TotalAddresses;
+
+    /// <summary>
+    /// Represents the total number of addresses that have been deleted from the project.
+    /// </summary>
     public static int TotalDeletedAddresses;
-    private static readonly char[] Separator = [' ', ',', '.', ';', ':', '!', '?', '_'];
+
+    /// <summary>
+    /// An array of characters used as separators for parsing strings, including spaces, commas, periods, semicolons, colons, exclamation marks, question marks, and underscores.
+    /// </summary>
+    private static readonly char[] Separator = { ' ', ',', '.', ';', ':', '!', '?', '_' };
 
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
