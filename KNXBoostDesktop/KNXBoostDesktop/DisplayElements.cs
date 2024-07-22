@@ -64,6 +64,13 @@
             GroupAddressRenameWindow.SetAddress(addressOriginal, addressEdited);
             GroupAddressRenameWindow.ShowDialog();
             GroupAddressRenameWindow.SetPath(xmlRenameFilePath);
+
+            if (MainWindow != null)
+            {
+                GroupAddressRenameWindow.Owner = MainWindow;
+            }
+
+
             return GroupAddressRenameWindow.DialogResult;
         }
     } 
