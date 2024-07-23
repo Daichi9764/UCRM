@@ -149,6 +149,11 @@ public partial class MainWindow
             borderPanelColor = "#D7D7D7";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleLight");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleLight");
+
+
+
 
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
@@ -167,7 +172,10 @@ public partial class MainWindow
             borderPanelColor = "#525252";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            
+
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
         }
