@@ -132,7 +132,7 @@
                                 <TextBlock Grid.Column="0" x:Name="TextActuLoad" Text="{Binding Text}" TextWrapping="Wrap" Background="{Binding Background}" Foreground="{Binding Foreground}" Margin="5" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="{Binding Duration}" Margin="5,0,10,0" Background="{Binding Background}" Foreground="{Binding Foreground}" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="2" Text="✔" Margin="5,0,10,0" HorizontalAlignment="Center" Visibility="{Binding IsCompletedVisibility}" Foreground="Green" VerticalAlignment="Center" Opacity="1"/>
-                                <fa:ImageAwesome Grid.Column="2" Icon="CircleOutlineNotch" Spin="True" Visibility="{Binding IsNotCompletedVisibility}" Height="15" Foreground="Green" />
+                                <fa:ImageAwesome Grid.Column="2" Icon="CircleOutlineNotch" Spin="True" HorizontalAlignment="Center" Visibility="{Binding IsNotCompletedVisibility}" Height="12" Foreground="Green" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
