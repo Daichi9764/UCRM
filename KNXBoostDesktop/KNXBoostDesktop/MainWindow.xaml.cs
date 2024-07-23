@@ -3151,34 +3151,37 @@ public partial class MainWindow
     }
 
 
-    
+
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
     /// <summary>
     /// Handles the click event of the collapse/expand toggle button.
     /// </summary>
     /// <param name="sender">The object that raised the event.</param>
     /// <param name="e">The event data.</param>
-    private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
+    private async void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
     {
+        Mouse.OverrideCursor = Cursors.Wait;
+
         if (_isTreeViewExpanded)
         {
             RotateTransform.Angle = -90;
             RotateTransform2.Angle = -90;
-            CollapseAllTreeViewItems(TreeViewGauche.Items);
-            CollapseAllTreeViewItems(TreeViewDroite.Items);
+            await Task.Run(() => CollapseAllTreeViewItems(TreeViewGauche.Items));
+            await Task.Run(() => CollapseAllTreeViewItems(TreeViewDroite.Items));
         }
         else
         {
             RotateTransform.Angle = 0;
             RotateTransform2.Angle = 0;
-            ExpandAllTreeViewItems(TreeViewGauche.Items);
-            ExpandAllTreeViewItems(TreeViewDroite.Items);
+            await Task.Run(() => ExpandAllTreeViewItems(TreeViewGauche.Items));
+            await Task.Run(() => ExpandAllTreeViewItems(TreeViewDroite.Items));
         }
 
+        Mouse.OverrideCursor = null; // Rétablir le curseur normal
         _isTreeViewExpanded = !_isTreeViewExpanded; // Inverser l'état
     }
 
-    
+
     /// <summary>
     /// Recursively collapses all TreeView items starting from the specified collection.
     /// </summary>
@@ -3188,7 +3191,7 @@ public partial class MainWindow
         foreach (var obj in items)
         {
             if (obj is not TreeViewItem item) continue;
-            item.IsExpanded = false;
+            item.Dispatcher.Invoke(() => item.IsExpanded = false);
             CollapseAllTreeViewItems(item.Items);
         }
     }
@@ -3203,7 +3206,7 @@ public partial class MainWindow
         foreach (var obj in items)
         {
             if (obj is not TreeViewItem item) continue;
-            item.IsExpanded = true;
+            item.Dispatcher.Invoke(() => item.IsExpanded = true);
             ExpandAllTreeViewItems(item.Items);
         }
     }
