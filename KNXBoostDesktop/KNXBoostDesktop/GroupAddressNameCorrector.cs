@@ -885,7 +885,7 @@ public static class GroupAddressNameCorrector
                         var normalizedRoomName = RemoveDiacritics(tempLocation.RoomName);
                         var normalizedRoomWords = normalizedRoomName.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
 
-                        bool allWordsMatch = normalizedRoomWords.All(roomWord => 
+                        var allWordsMatch = normalizedRoomWords.All(roomWord => 
                             nameAttrWords.Any(word => RemoveDiacritics(word).Equals(roomWord, StringComparison.OrdinalIgnoreCase))
                         );
 
@@ -945,9 +945,9 @@ public static class GroupAddressNameCorrector
             {
                 await using var writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
                 
-                string title = "DELETED ADDRESSES";
-                string border = new string('-', 68);
-                string formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
+                var title = "DELETED ADDRESSES";
+                var border = new string('-', 68);
+                var formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
                 await writer.WriteLineAsync(border);
                 await writer.WriteLineAsync(formattedTitle);
                 await writer.WriteLineAsync(border);
@@ -1895,12 +1895,12 @@ public static class GroupAddressNameCorrector
             App.ConsoleAndLogWriteLine("No location found");
             
             string[] splitNameAttr = nameAttrValue.Split(' ');
-            string result = "";
+            var result = "";
             string[] wordsToRemove = ["cmd", "cde", "ie"];
 
             foreach (var part in splitNameAttr)
             {
-                bool shouldRemove = false;
+                var shouldRemove = false;
                 foreach (var word in wordsToRemove)
                 {
                     if (part.Equals(word, StringComparison.OrdinalIgnoreCase))
@@ -1919,9 +1919,9 @@ public static class GroupAddressNameCorrector
             // Remove extra spaces created by removing words
             result = result.Trim();
             nameLocation = "_";
-            bool lastWasSpace = false;
+            var lastWasSpace = false;
 
-            foreach (char c in result)
+            foreach (var c in result)
             {
                 if (char.IsWhiteSpace(c))
                 {
@@ -2063,12 +2063,12 @@ public static class GroupAddressNameCorrector
             {
                 var lowerCaseWord = RemoveDiacritics(word.ToLower());
 
-                bool wordMatchesAnyStringToAdd = false;
+                var wordMatchesAnyStringToAdd = false;
                 foreach (var stringToAdd in lowerCaseStringsToAdd)
                 {
                     var stringToAddWords = stringToAdd.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    bool allWordsMatch = true;
+                    var allWordsMatch = true;
                     foreach (var stringToAddWord in stringToAddWords)
                     {
                         var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
@@ -2079,8 +2079,8 @@ public static class GroupAddressNameCorrector
                             var parts = lowerCaseStringToAddWord.Split('*');
 
                             // Check if the word matches the pattern
-                            int currentIndex = 0;
-                            bool isMatch = true;
+                            var currentIndex = 0;
+                            var isMatch = true;
 
                             foreach (var part in parts)
                             {
