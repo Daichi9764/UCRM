@@ -746,6 +746,10 @@
             </Setter>
         </Style>
         
+        <Style TargetType="ListBox">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        </Style>
+        
     </Window.Resources>
 
     <Border BorderBrush="#369226" 
@@ -1027,6 +1031,47 @@
                                                    <TextBox x:Name="AddressKeepingTextbox" Margin="10,0,10,10" />
                                                </StackPanel>
                                            </ScrollViewer>
+                                       </TabItem>
+                                       
+                                       <TabItem x:Name="OngletInclusions" Header="Inclusions" Style="{StaticResource LightOnglet}">
+                                           <StackPanel Orientation="Vertical">
+                                               <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
+                                                          FontSize="17" FontWeight="SemiBold"
+                                                          Margin="10,10,0,0" 
+                                                          Text = "Inclusions"/>
+                                               <TextBlock Text = "Chaines à conserver dans les adresses lors de la correction" Margin="10,0,0,2" />
+                                               
+                                               <TextBox Name="InputTextBox" Margin="10,10,10,0" 
+                                                        KeyDown="InputTextBox_KeyDown"
+                                                        VerticalAlignment="Top" />
+
+                                               <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                                   <ListBox Name="WordsListBox" Margin="10,10,10,0"
+                                                            IsTabStop="False"
+                                                            ItemsSource="{Binding Words}"
+                                                            SelectionMode="Extended"
+                                                            KeyDown="WordsListBox_KeyDown">
+                                                       <ListBox.ItemsPanel>
+                                                           <ItemsPanelTemplate>
+                                                               <WrapPanel Orientation="Horizontal" MaxWidth="435"/>
+                                                           </ItemsPanelTemplate>
+                                                       </ListBox.ItemsPanel>
+                                                       <ListBox.ItemTemplate>
+                                                           <DataTemplate>
+                                                               <StackPanel Orientation="Horizontal">
+                                                                   <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
+                                                                             IsChecked="True"
+                                                                             Checked="CheckBox_Checked"
+                                                                             Unchecked="CheckBox_Unchecked"/>
+                                                                   <TextBlock Text="{Binding}"
+                                                                              Margin="5,0,5,0"
+                                                                              VerticalAlignment="Center"/>
+                                                               </StackPanel>
+                                                           </DataTemplate>
+                                                       </ListBox.ItemTemplate>
+                                                   </ListBox>
+                                               </ScrollViewer>
+                                           </StackPanel>
                                        </TabItem>
                                        
                                        <TabItem x:Name="OngletDebug" Style="{StaticResource LightOnglet}">
