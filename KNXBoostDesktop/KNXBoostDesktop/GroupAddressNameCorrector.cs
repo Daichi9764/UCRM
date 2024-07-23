@@ -73,6 +73,29 @@ public static class GroupAddressNameCorrector
     private static readonly ConcurrentDictionary<string, string> NewFileNameCache = new();
 
     /// <summary>
+    /// A predefined set of group names used for matching phrases in the group range elements. 
+    /// </summary>
+    private static readonly HashSet<string> GroupName =
+    [
+        "Date", "Heure", "Vent", "Luminosite Nord", "Luminosite Sud", "Luminosite Est", "Luminosite Ouest",
+        "Luminosite Globale", "Radiation Solaire Nord", "Radiation Solaire Est", "Radiation Solaire Sud", 
+        "Radiation Solaire Ouest", "Radiation Solaire Globale", "T Ambiante", "Consigne En Cours", "Sortie Chauffage",
+        "Contact De Feuille", "Taux De Fonctionnement", "Presence", "Modification Valeur Consigne En Cours", 
+        "Valeur Consigne En Cours", "On Off", "Variation", "Eau Chaude Sanitaire", "Ventilation", "Compteur", 
+        "Montee Descente", "Inclinaison Stop", "Automatismes", "Pourcentage Hauteur", "Pourcentage Lamelles",
+        "Pourcentage", "Haut Bas"
+    ];
+
+    /// <summary>
+    /// A predefined set of group names used for matching phrases in the ancestor of the group range elements. 
+    /// </summary>
+    private static readonly HashSet<string> AncestorGroupName =
+    [
+        "Systeme", "Chauffage", "Programmation", "Delestage", "Eclairage", "Alarmes Techniques",
+        "Eau Chaude Sanitaire Ventilation", "Comptage", "Supervision", "Ouvrants Motorises"
+    ];
+
+    /// <summary>
     /// Represents the total number of devices currently in the project.
     /// </summary>
     public static int TotalDevices;
@@ -90,7 +113,7 @@ public static class GroupAddressNameCorrector
     /// <summary>
     /// An array of characters used as separators for parsing strings, including spaces, commas, periods, semicolons, colons, exclamation marks, question marks, and underscores.
     /// </summary>
-    private static readonly char[] Separator = [' ', ',', '.', ';', ':', '!', '?', '_'];
+    private static readonly char[] Separator = [' ', ',', '.', ';', ':', '!', '?', '_', '/'];
 
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -885,7 +908,7 @@ public static class GroupAddressNameCorrector
                         var normalizedRoomName = RemoveDiacritics(tempLocation.RoomName);
                         var normalizedRoomWords = normalizedRoomName.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
 
-                        var allWordsMatch = normalizedRoomWords.All(roomWord => 
+                        bool allWordsMatch = normalizedRoomWords.All(roomWord => 
                             nameAttrWords.Any(word => RemoveDiacritics(word).Equals(roomWord, StringComparison.OrdinalIgnoreCase))
                         );
 
@@ -945,9 +968,9 @@ public static class GroupAddressNameCorrector
             {
                 await using var writer = new StreamWriter(App.Fm?.ProjectFolderPath + "/deleted_group_addresses.txt", append: true); 
                 
-                var title = "DELETED ADDRESSES";
-                var border = new string('-', 68);
-                var formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
+                string title = "DELETED ADDRESSES";
+                string border = new string('-', 68);
+                string formattedTitle = $"|{title.PadLeft((66 + title.Length) / 2),-66}|";
                 await writer.WriteLineAsync(border);
                 await writer.WriteLineAsync(formattedTitle);
                 await writer.WriteLineAsync(border);
@@ -1895,12 +1918,12 @@ public static class GroupAddressNameCorrector
             App.ConsoleAndLogWriteLine("No location found");
             
             string[] splitNameAttr = nameAttrValue.Split(' ');
-            var result = "";
+            string result = "";
             string[] wordsToRemove = ["cmd", "cde", "ie"];
 
             foreach (var part in splitNameAttr)
             {
-                var shouldRemove = false;
+                bool shouldRemove = false;
                 foreach (var word in wordsToRemove)
                 {
                     if (part.Equals(word, StringComparison.OrdinalIgnoreCase))
@@ -1919,9 +1942,9 @@ public static class GroupAddressNameCorrector
             // Remove extra spaces created by removing words
             result = result.Trim();
             nameLocation = "_";
-            var lastWasSpace = false;
+            bool lastWasSpace = false;
 
-            foreach (var c in result)
+            foreach (char c in result)
             {
                 if (char.IsWhiteSpace(c))
                 {
@@ -2063,12 +2086,12 @@ public static class GroupAddressNameCorrector
             {
                 var lowerCaseWord = RemoveDiacritics(word.ToLower());
 
-                var wordMatchesAnyStringToAdd = false;
+                bool wordMatchesAnyStringToAdd = false;
                 foreach (var stringToAdd in lowerCaseStringsToAdd)
                 {
                     var stringToAddWords = stringToAdd.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    var allWordsMatch = true;
+                    bool allWordsMatch = true;
                     foreach (var stringToAddWord in stringToAddWords)
                     {
                         var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
@@ -2079,8 +2102,8 @@ public static class GroupAddressNameCorrector
                             var parts = lowerCaseStringToAddWord.Split('*');
 
                             // Check if the word matches the pattern
-                            var currentIndex = 0;
-                            var isMatch = true;
+                            int currentIndex = 0;
+                            bool isMatch = true;
 
                             foreach (var part in parts)
                             {
@@ -2177,15 +2200,12 @@ public static class GroupAddressNameCorrector
 
     
     /// <summary>
-    /// Retrieves and formats the function name for a group range based on the provided group address element.
-    /// It traverses the ancestors of the element to find the relevant group range elements,
-    /// formats their names, and combines them into a single function name.
-    /// If no group range element is found, returns an empty string.
-    ///
-    /// <param name="groupAddressElement">An XElement representing the group address.</param>
-    /// <returns>
-    /// A formatted string representing the function name for the group range, constructed from the names of the ancestor group range elements.
-    /// </returns>
+    /// Constructs a function name based on the "Name" attribute of a group range element and its ancestors. 
+    /// If DeepL translation is enabled and set to French, it attempts to match predefined phrases 
+    /// in both the current and ancestor group names for more accurate formatting.
+    /// 
+    /// <param name="groupAddressElement">An XElement representing the group address whose group range name is to be processed.</param>
+    /// <returns>A formatted string representing the function name derived from the group range name and its ancestors.</returns>
     /// </summary>
     private static string GetGroupRangeFunctionName(XElement groupAddressElement)
     {
@@ -2194,31 +2214,158 @@ public static class GroupAddressNameCorrector
         if (groupRangeElement == null) return string.Empty;
 
         var nameFunction = string.Empty;
+        string matchingPhraseGroupName = string.Empty; // Variable to store the matching phrase
+        string matchingPhraseAncestorGroupName = string.Empty; // Variable to store the matching phrase
+
         
         // Check for a higher-level GroupRange ancestor
         var ancestorGroupRange = groupRangeElement.Ancestors(_globalKnxNamespace + "GroupRange").FirstOrDefault();
         if (ancestorGroupRange != null)
         {
-            // Format the name of the ancestor GroupRange
-            nameFunction = $"_{_formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
-            // Translate the group name
+            // Format the group name
             FormatGroupRangeName(ancestorGroupRange);
+            
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.TranslationSourceLang == "FR")
+            {
+                var ancestorNameWords = ancestorGroupRange.Attribute("Name")?.Value.Split(Separator).Select(word => word.ToLower()).Where(word => !string.IsNullOrEmpty(word)).ToHashSet() ;
+                // Iterate through each string in the AncestorGroupName hash set
+                if (ancestorNameWords != null)
+                {
+                    foreach (var phrase in AncestorGroupName)
+                    {
+                        var phraseWords = phrase.Split(' ').Select(word => word.ToLower())
+                            .Where(word => !string.IsNullOrEmpty(word));
+                        bool allWordsMatch = true;
+
+                        // Check if each word in the phrase exists in the ancestorName
+                        foreach (var word in phraseWords)
+                        {
+                            if (!ancestorNameWords.Contains(word))
+                            {
+                                allWordsMatch = false;
+                                break;
+                            }
+                        }
+
+                        // If all words match, store the phrase and stop checking
+                        if (allWordsMatch)
+                        {
+                            matchingPhraseAncestorGroupName = phrase;
+                            break;
+                        }
+                    }
+                }
+            }
+            // Format the name of the ancestor GroupRange
+            if (matchingPhraseAncestorGroupName != string.Empty)
+            {
+                nameFunction += $"_{_formatter.Format(matchingPhraseAncestorGroupName)}";
+            }
+            else
+            {
+                nameFunction = $"_{_formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
+            }
         }
         
-        // Format the name of the current GroupRange
-        nameFunction += $"_{_formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
-        // Translate the group name
+        // Format the group name
         FormatGroupRangeName(groupRangeElement);
+        
+        if (ancestorGroupRange == null)
+        {
+            if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.TranslationSourceLang == "FR")
+            {
+                var ancestorNameWords = groupRangeElement.Attribute("Name")?.Value.Split(Separator).Select(word => word.ToLower()).Where(word => !string.IsNullOrEmpty(word)).ToHashSet() ;
+                // Iterate through each string in the AncestorGroupName hash set
+                if (ancestorNameWords != null)
+                {
+                    foreach (var phrase in AncestorGroupName)
+                    {
+                        var phraseWords = phrase.Split(' ').Select(word => word.ToLower())
+                            .Where(word => !string.IsNullOrEmpty(word));
+                        bool allWordsMatch = true;
 
+                        // Check if each word in the phrase exists in the ancestorName
+                        foreach (var word in phraseWords)
+                        {
+                            if (!ancestorNameWords.Contains(word))
+                            {
+                                allWordsMatch = false;
+                                break;
+                            }
+                        }
+
+                        // If all words match, store the phrase and stop checking
+                        if (allWordsMatch)
+                        {
+                            matchingPhraseGroupName = phrase;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+
+            if (App.DisplayElements?.SettingsWindow != null &&
+                App.DisplayElements.SettingsWindow.TranslationSourceLang == "FR")
+            {
+                var groupRangeNameWords = groupRangeElement.Attribute("Name")?.Value.Split(Separator)
+                    .Select(word => word.ToLower()).Where(word => !string.IsNullOrEmpty(word)).ToHashSet();
+                // Iterate through each string in the GroupName hash set
+                if (groupRangeNameWords != null)
+                {
+                    foreach (var phrase in GroupName)
+                    {
+                        var phraseWords = phrase.Split(' ').Select(word => word.ToLower())
+                            .Where(word => !string.IsNullOrEmpty(word));
+                        bool allWordsMatch = true;
+
+                        // Check if each word in the phrase exists in the ancestorName
+                        foreach (var word in phraseWords)
+                        {
+                            if (word == "pourcentage" && groupRangeNameWords.Contains("%"))
+                            {
+                                continue;
+                            }
+
+                            if (!groupRangeNameWords.Contains(word))
+                            {
+                                allWordsMatch = false;
+                                break;
+                            }
+                        }
+
+                        // If all words match, store the phrase and stop checking
+                        if (allWordsMatch)
+                        {
+                            matchingPhraseGroupName = phrase;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Format the name of the current GroupRange
+        if (matchingPhraseGroupName != string.Empty)
+        {
+            nameFunction += $"_{_formatter.Format(matchingPhraseGroupName)}";
+        }
+        else
+        {   
+            nameFunction += $"_{_formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
+        }
+        
         return nameFunction;
     }
 
     /// <summary>
-    /// Translates the name attribute of the provided group range element using DeepL translation if enabled and valid.
-    /// Checks if translation is enabled, the DeepL API key is valid, and the name attribute is not already translated.
-    /// If these conditions are met, translates the name attribute and adds it to the translation cache to avoid redundant translations.
+    /// Formats the "Name" attribute of the provided group range element. If DeepL translation is enabled and a valid API key is present,
+    /// it checks if the "Name" attribute needs translation. If it meets the conditions, it translates the name and updates the cache.
+    /// Otherwise, it removes diacritics from the name if DeepL translation is disabled.
     ///
-    /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be translated.</param>
+    /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be formatted.</param>
     /// </summary>
     private static void FormatGroupRangeName(XElement groupRangeElement)
     {
