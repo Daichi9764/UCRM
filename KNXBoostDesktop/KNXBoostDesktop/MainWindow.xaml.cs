@@ -365,367 +365,367 @@ public partial class MainWindow
     {
         // Traduction de la fenêtre principale
         switch (App.DisplayElements?.SettingsWindow?.AppLang)
-            {
-                // Arabe
-                case "AR":
-                    _searchTextTranslate = "بحث...";
-                    TxtSearch1.Text = "بحث...";
-                    ButtonChargerProject.Content = "تحميل مشروع جديد";
-                    ButtonExportProject.Content = "تصدير المشروع المعدل";
-                    TextBlockAdressesGauche.Text = "عناوين المجموعة الأصلية";
-                    TextBlockAdressesDroite.Text = "عناوين المجموعة المعدلة";
-                    WaitingTextDark.Text = "يرجى الانتظار...";
-                    WaitingTextLight.Text = "يرجى الانتظار...";
-                    break;
+        {
+            // Arabe
+            case "AR":
+                _searchTextTranslate = "بحث...";
+                TxtSearch1.Text = "بحث...";
+                ButtonChargerProject.Content = "تحميل مشروع جديد";
+                ButtonExportProject.Content = "تصدير المشروع المعدل";
+                TextBlockAdressesGauche.Text = "عناوين المجموعة الأصلية";
+                TextBlockAdressesDroite.Text = "عناوين المجموعة المعدلة";
+                WaitingTextDark.Text = "إلغاء جاري...";
+                WaitingTextLight.Text = "إلغاء جاري...";
+                break;
 
-                // Bulgare
-                case "BG":
-                    _searchTextTranslate = "Търсене...";
-                    TxtSearch1.Text = "Търсене...";
-                    ButtonChargerProject.Content = "Зареждане на нов проект";
-                    ButtonExportProject.Content = "Експортиране на модифицирания проект";
-                    TextBlockAdressesGauche.Text = "Оригинални групови адреси";
-                    TextBlockAdressesDroite.Text = "Модифицирани групови адреси";
-                    WaitingTextDark.Text = "Моля изчакайте...";
-                    WaitingTextLight.Text = "Моля изчакайте...";
-                    break;
+            // Bulgare
+            case "BG":
+                _searchTextTranslate = "Търсене...";
+                TxtSearch1.Text = "Търсене...";
+                ButtonChargerProject.Content = "Зареждане на нов проект";
+                ButtonExportProject.Content = "Експортиране на модифицирания проект";
+                TextBlockAdressesGauche.Text = "Оригинални групови адреси";
+                TextBlockAdressesDroite.Text = "Модифицирани групови адреси";
+                WaitingTextDark.Text = "Отказ в процес на изпълнение...";
+                WaitingTextLight.Text = "Отказ в процес на изпълнение...";
+                break;
 
-                // Tchèque
-                case "CS":
-                    _searchTextTranslate = "Hledat...";
-                    TxtSearch1.Text = "Hledat...";
-                    ButtonChargerProject.Content = "Načíst nový projekt";
-                    ButtonExportProject.Content = "Exportovat upravený projekt";
-                    TextBlockAdressesGauche.Text = "Původní skupinové adresy";
-                    TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
-                    WaitingTextDark.Text = "Prosím, čekejte...";
-                    WaitingTextLight.Text = "Prosím, čekejte...";
-                    break;
+            // Tchèque
+            case "CS":
+                _searchTextTranslate = "Hledat...";
+                TxtSearch1.Text = "Hledat...";
+                ButtonChargerProject.Content = "Načíst nový projekt";
+                ButtonExportProject.Content = "Exportovat upravený projekt";
+                TextBlockAdressesGauche.Text = "Původní skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                WaitingTextDark.Text = "Probíhá rušení...";
+                WaitingTextLight.Text = "Probíhá rušení...";
+                break;
 
-                // Danois
-                case "DA":
-                    _searchTextTranslate = "Søg...";
-                    TxtSearch1.Text = "Søg...";
-                    ButtonChargerProject.Content = "Indlæs et nyt projekt";
-                    ButtonExportProject.Content = "Eksporter det ændrede projekt";
-                    TextBlockAdressesGauche.Text = "Originale gruppeadresser";
-                    TextBlockAdressesDroite.Text = "Ændrede gruppeadresser";
-                    WaitingTextDark.Text = "Vent venligst...";
-                    WaitingTextLight.Text = "Vent venligst...";
-                    break;
+            // Danois
+            case "DA":
+                _searchTextTranslate = "Søg...";
+                TxtSearch1.Text = "Søg...";
+                ButtonChargerProject.Content = "Indlæs et nyt projekt";
+                ButtonExportProject.Content = "Eksporter det ændrede projekt";
+                TextBlockAdressesGauche.Text = "Originale gruppeadresser";
+                TextBlockAdressesDroite.Text = "Ændrede gruppeadresser";
+                WaitingTextDark.Text = "Annullering pågår...";
+                WaitingTextLight.Text = "Annullering pågår...";
+                break;
 
-                // Allemand
-                case "DE":
-                    _searchTextTranslate = "Suchen...";
-                    TxtSearch1.Text = "Suchen...";
-                    ButtonChargerProject.Content = "Neues Projekt laden";
-                    ButtonExportProject.Content = "Geändertes Projekt exportieren";
-                    TextBlockAdressesGauche.Text = "Ursprüngliche Gruppenadressen";
-                    TextBlockAdressesDroite.Text = "Geänderte Gruppenadressen";
-                    WaitingTextDark.Text = "Bitte warten...";
-                    WaitingTextLight.Text = "Bitte warten...";
-                    break;
+            // Allemand
+            case "DE":
+                _searchTextTranslate = "Suchen...";
+                TxtSearch1.Text = "Suchen...";
+                ButtonChargerProject.Content = "Neues Projekt laden";
+                ButtonExportProject.Content = "Geändertes Projekt exportieren";
+                TextBlockAdressesGauche.Text = "Ursprüngliche Gruppenadressen";
+                TextBlockAdressesDroite.Text = "Geänderte Gruppenadressen";
+                WaitingTextDark.Text = "Abbruch läuft...";
+                WaitingTextLight.Text = "Abbruch läuft...";
+                break;
 
-                // Grec
-                case "EL":
-                    _searchTextTranslate = "Αναζήτηση...";
-                    TxtSearch1.Text = "Αναζήτηση...";
-                    ButtonChargerProject.Content = "Φόρτωση νέου έργου";
-                    ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
-                    TextBlockAdressesGauche.Text = "Πρωτότυπες ομαδικές διευθύνσεις";
-                    TextBlockAdressesDroite.Text = "Τροποποιημένες ομαδικές διευθύνσεις";
-                    WaitingTextDark.Text = "Παρακαλώ περιμένετε...";
-                    WaitingTextLight.Text = "Παρακαλώ περιμένετε...";
-                    break;
+            // Grec
+            case "EL":
+                _searchTextTranslate = "Αναζήτηση...";
+                TxtSearch1.Text = "Αναζήτηση...";
+                ButtonChargerProject.Content = "Φόρτωση νέου έργου";
+                ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
+                TextBlockAdressesGauche.Text = "Πρωτότυπες ομαδικές διευθύνσεις";
+                TextBlockAdressesDroite.Text = "Τροποποιημένες ομαδικές διευθύνσεις";
+                WaitingTextDark.Text = "Ακύρωση σε εξέλιξη...";
+                WaitingTextLight.Text = "Ακύρωση σε εξέλιξη...";
+                break;
 
-                // Anglais
-                case "EN":
-                    _searchTextTranslate = "Search...";
-                    TxtSearch1.Text = "Search...";
-                    ButtonChargerProject.Content = "Load a new project";
-                    ButtonExportProject.Content = "Export the modified project";
-                    TextBlockAdressesGauche.Text = "Original Group Addresses";
-                    TextBlockAdressesDroite.Text = "Modified Group Addresses";
-                    WaitingTextDark.Text = "Please wait...";
-                    WaitingTextLight.Text = "Please wait...";
-                    break;
+            // Anglais
+            case "EN":
+                _searchTextTranslate = "Search...";
+                TxtSearch1.Text = "Search...";
+                ButtonChargerProject.Content = "Load a new project";
+                ButtonExportProject.Content = "Export the modified project";
+                TextBlockAdressesGauche.Text = "Original Group Addresses";
+                TextBlockAdressesDroite.Text = "Modified Group Addresses";
+                WaitingTextDark.Text = "Cancellation in progress...";
+                WaitingTextLight.Text = "Cancellation in progress...";
+                break;
 
-                // Espagnol
-                case "ES":
-                    _searchTextTranslate = "Buscar...";
-                    TxtSearch1.Text = "Buscar...";
-                    ButtonChargerProject.Content = "Cargar un nuevo proyecto";
-                    ButtonExportProject.Content = "Exportar el proyecto modificado";
-                    TextBlockAdressesGauche.Text = "Direcciones de grupo originales";
-                    TextBlockAdressesDroite.Text = "Direcciones de grupo modificadas";
-                    WaitingTextDark.Text = "Por favor espera...";
-                    WaitingTextLight.Text = "Por favor espera...";
-                    break;
+            // Espagnol
+            case "ES":
+                _searchTextTranslate = "Buscar...";
+                TxtSearch1.Text = "Buscar...";
+                ButtonChargerProject.Content = "Cargar un nuevo proyecto";
+                ButtonExportProject.Content = "Exportar el proyecto modificado";
+                TextBlockAdressesGauche.Text = "Direcciones de grupo originales";
+                TextBlockAdressesDroite.Text = "Direcciones de grupo modificadas";
+                WaitingTextDark.Text = "Cancelación en progreso...";
+                WaitingTextLight.Text = "Cancelación en progreso...";
+                break;
 
-                // Estonien
-                case "ET":
-                    _searchTextTranslate = "Otsi...";
-                    TxtSearch1.Text = "Otsi...";
-                    ButtonChargerProject.Content = "Laadi uus projekt";
-                    ButtonExportProject.Content = "Ekspordi muudetud projekt";
-                    TextBlockAdressesGauche.Text = "Algupärased grupiaadressid";
-                    TextBlockAdressesDroite.Text = "Muudetud grupiaadressid";
-                    WaitingTextDark.Text = "Palun oodake...";
-                    WaitingTextLight.Text = "Palun oodake...";
-                    break;
+            // Estonien
+            case "ET":
+                _searchTextTranslate = "Otsi...";
+                TxtSearch1.Text = "Otsi...";
+                ButtonChargerProject.Content = "Laadi uus projekt";
+                ButtonExportProject.Content = "Ekspordi muudetud projekt";
+                TextBlockAdressesGauche.Text = "Algupärased grupiaadressid";
+                TextBlockAdressesDroite.Text = "Muudetud grupiaadressid";
+                WaitingTextDark.Text = "Tühistamine käib...";
+                WaitingTextLight.Text = "Tühistamine käib...";
+                break;
 
-                // Finnois
-                case "FI":
-                    _searchTextTranslate = "Hae...";
-                    TxtSearch1.Text = "Hae...";
-                    ButtonChargerProject.Content = "Lataa uusi projekti";
-                    ButtonExportProject.Content = "Vie muutettu projekti";
-                    TextBlockAdressesGauche.Text = "Alkuperäiset ryhmäosoitteet";
-                    TextBlockAdressesDroite.Text = "Muutetut ryhmäosoitteet";
-                    WaitingTextDark.Text = "Odota hetki...";
-                    WaitingTextLight.Text = "Odota hetki...";
-                    break;
+            // Finnois
+            case "FI":
+                _searchTextTranslate = "Hae...";
+                TxtSearch1.Text = "Hae...";
+                ButtonChargerProject.Content = "Lataa uusi projekti";
+                ButtonExportProject.Content = "Vie muutettu projekti";
+                TextBlockAdressesGauche.Text = "Alkuperäiset ryhmäosoitteet";
+                TextBlockAdressesDroite.Text = "Muutetut ryhmäosoitteet";
+                WaitingTextDark.Text = "Peruutus käynnissä...";
+                WaitingTextLight.Text = "Peruutus käynnissä...";
+                break;
 
-                // Hongrois
-                case "HU":
-                    _searchTextTranslate = "Keresés...";
-                    TxtSearch1.Text = "Keresés...";
-                    ButtonChargerProject.Content = "Új projekt betöltése";
-                    ButtonExportProject.Content = "A módosított projekt exportálása";
-                    TextBlockAdressesGauche.Text = "Eredeti csoportcímek";
-                    TextBlockAdressesDroite.Text = "Módosított csoportcímek";
-                    WaitingTextDark.Text = "Kérem, várjon...";
-                    WaitingTextLight.Text = "Kérem, várjon...";
-                    break;
+            // Hongrois
+            case "HU":
+                _searchTextTranslate = "Keresés...";
+                TxtSearch1.Text = "Keresés...";
+                ButtonChargerProject.Content = "Új projekt betöltése";
+                ButtonExportProject.Content = "A módosított projekt exportálása";
+                TextBlockAdressesGauche.Text = "Eredeti csoportcímek";
+                TextBlockAdressesDroite.Text = "Módosított csoportcímek";
+                WaitingTextDark.Text = "Törlés folyamatban...";
+                WaitingTextLight.Text = "Törlés folyamatban...";
+                break;
 
-                // Indonésien
-                case "ID":
-                    _searchTextTranslate = "Cari...";
-                    TxtSearch1.Text = "Cari...";
-                    ButtonChargerProject.Content = "Muat proyek baru";
-                    ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
-                    TextBlockAdressesGauche.Text = "Alamat Grup Asli";
-                    TextBlockAdressesDroite.Text = "Alamat Grup yang Dimodifikasi";
-                    WaitingTextDark.Text = "Harap tunggu...";
-                    WaitingTextLight.Text = "Harap tunggu...";
-                    break;
+            // Indonésien
+            case "ID":
+                _searchTextTranslate = "Cari...";
+                TxtSearch1.Text = "Cari...";
+                ButtonChargerProject.Content = "Muat proyek baru";
+                ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
+                TextBlockAdressesGauche.Text = "Alamat Grup Asli";
+                TextBlockAdressesDroite.Text = "Alamat Grup yang Dimodifikasi";
+                WaitingTextDark.Text = "Pembatalan sedang berlangsung...";
+                WaitingTextLight.Text = "Pembatalan sedang berlangsung...";
+                break;
 
-                // Italien
-                case "IT":
-                    _searchTextTranslate = "Cerca...";
-                    TxtSearch1.Text = "Cerca...";
-                    ButtonChargerProject.Content = "Carica un nuovo progetto";
-                    ButtonExportProject.Content = "Esporta il progetto modificato";
-                    TextBlockAdressesGauche.Text = "Indirizzi di gruppo originali";
-                    TextBlockAdressesDroite.Text = "Indirizzi di gruppo modificati";
-                    WaitingTextDark.Text = "Attendere prego...";
-                    WaitingTextLight.Text = "Attendere prego...";
-                    break;
+            // Italien
+            case "IT":
+                _searchTextTranslate = "Cerca...";
+                TxtSearch1.Text = "Cerca...";
+                ButtonChargerProject.Content = "Carica un nuovo progetto";
+                ButtonExportProject.Content = "Esporta il progetto modificato";
+                TextBlockAdressesGauche.Text = "Indirizzi di gruppo originali";
+                TextBlockAdressesDroite.Text = "Indirizzi di gruppo modificati";
+                WaitingTextDark.Text = "Annullamento in corso...";
+                WaitingTextLight.Text = "Annullamento in corso...";
+                break;
 
-                // Japonais
-                case "JA":
-                    _searchTextTranslate = "検索...";
-                    TxtSearch1.Text = "検索...";
-                    ButtonChargerProject.Content = "新しいプロジェクトをロード";
-                    ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
-                    TextBlockAdressesGauche.Text = "元のグループアドレス";
-                    TextBlockAdressesDroite.Text = "変更されたグループアドレス";
-                    WaitingTextDark.Text = "お待ちください...";
-                    WaitingTextLight.Text = "お待ちください...";
-                    break;
+            // Japonais
+            case "JA":
+                _searchTextTranslate = "検索...";
+                TxtSearch1.Text = "検索...";
+                ButtonChargerProject.Content = "新しいプロジェクトをロード";
+                ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
+                TextBlockAdressesGauche.Text = "元のグループアドレス";
+                TextBlockAdressesDroite.Text = "変更されたグループアドレス";
+                WaitingTextDark.Text = "キャンセル中...";
+                WaitingTextLight.Text = "キャンセル中...";
+                break;
 
-                // Coréen
-                case "KO":
-                    _searchTextTranslate = "검색...";
-                    TxtSearch1.Text = "검색...";
-                    ButtonChargerProject.Content = "새 프로젝트 로드";
-                    ButtonExportProject.Content = "수정된 프로젝트 내보내기";
-                    TextBlockAdressesGauche.Text = "원본 그룹 주소";
-                    TextBlockAdressesDroite.Text = "수정된 그룹 주소";
-                    WaitingTextDark.Text = "기다려 주십시오...";
-                    WaitingTextLight.Text = "기다려 주십시오...";
-                    break;
+            // Coréen
+            case "KO":
+                _searchTextTranslate = "검색...";
+                TxtSearch1.Text = "검색...";
+                ButtonChargerProject.Content = "새 프로젝트 로드";
+                ButtonExportProject.Content = "수정된 프로젝트 내보내기";
+                TextBlockAdressesGauche.Text = "원본 그룹 주소";
+                TextBlockAdressesDroite.Text = "수정된 그룹 주소";
+                WaitingTextDark.Text = "취소 진행 중...";
+                WaitingTextLight.Text = "취소 진행 중...";
+                break;
 
-                // Letton
-                case "LV":
-                    _searchTextTranslate = "Meklēt...";
-                    TxtSearch1.Text = "Meklēt...";
-                    ButtonChargerProject.Content = "Ielādēt jaunu projektu";
-                    ButtonExportProject.Content = "Eksportēt modificēto projektu";
-                    TextBlockAdressesGauche.Text = "Oriģinālās grupu adreses";
-                    TextBlockAdressesDroite.Text = "Modificētās grupu adreses";
-                    WaitingTextDark.Text = "Lūdzu, uzgaidiet...";
-                    WaitingTextLight.Text = "Lūdzu, uzgaidiet...";
-                    break;
+            // Letton
+            case "LV":
+                _searchTextTranslate = "Meklēt...";
+                TxtSearch1.Text = "Meklēt...";
+                ButtonChargerProject.Content = "Ielādēt jaunu projektu";
+                ButtonExportProject.Content = "Eksportēt modificēto projektu";
+                TextBlockAdressesGauche.Text = "Oriģinālās grupu adreses";
+                TextBlockAdressesDroite.Text = "Modificētās grupu adreses";
+                WaitingTextDark.Text = "Atcelšana notiek...";
+                WaitingTextLight.Text = "Atcelšana notiek...";
+                break;
 
-                // Lituanien
-                case "LT":
-                    _searchTextTranslate = "Ieškoti...";
-                    TxtSearch1.Text = "Ieškoti...";
-                    ButtonChargerProject.Content = "Įkelti naują projektą";
-                    ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
-                    TextBlockAdressesGauche.Text = "Originalūs grupių adresai";
-                    TextBlockAdressesDroite.Text = "Modifikuoti grupių adresai";
-                    WaitingTextDark.Text = "Prašome palaukti...";
-                    WaitingTextLight.Text = "Prašome palaukti...";
-                    break;
+            // Lituanien
+            case "LT":
+                _searchTextTranslate = "Ieškoti...";
+                TxtSearch1.Text = "Ieškoti...";
+                ButtonChargerProject.Content = "Įkelti naują projektą";
+                ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
+                TextBlockAdressesGauche.Text = "Originalūs grupių adresai";
+                TextBlockAdressesDroite.Text = "Modifikuoti grupių adresai";
+                WaitingTextDark.Text = "Atšaukimas vyksta...";
+                WaitingTextLight.Text = "Atšaukimas vyksta...";
+                break;
 
-                // Norvégien
-                case "NB":
-                    _searchTextTranslate = "Søk...";
-                    TxtSearch1.Text = "Søk...";
-                    ButtonChargerProject.Content = "Last inn et nytt prosjekt";
-                    ButtonExportProject.Content = "Eksporter det endrede prosjektet";
-                    TextBlockAdressesGauche.Text = "Opprinnelige gruppeadresser";
-                    TextBlockAdressesDroite.Text = "Endrede gruppeadresser";
-                    WaitingTextDark.Text = "Vennligst vent...";
-                    WaitingTextLight.Text = "Vennligst vent...";
-                    break;
+            // Norvégien
+            case "NB":
+                _searchTextTranslate = "Søk...";
+                TxtSearch1.Text = "Søk...";
+                ButtonChargerProject.Content = "Last inn et nytt prosjekt";
+                ButtonExportProject.Content = "Eksporter det endrede prosjektet";
+                TextBlockAdressesGauche.Text = "Opprinnelige gruppeadresser";
+                TextBlockAdressesDroite.Text = "Endrede gruppeadresser";
+                WaitingTextDark.Text = "Avbrytelse pågår...";
+                WaitingTextLight.Text = "Avbrytelse pågår...";
+                break;
 
-                // Néerlandais
-                case "NL":
-                    _searchTextTranslate = "Zoeken...";
-                    TxtSearch1.Text = "Zoeken...";
-                    ButtonChargerProject.Content = "Laad een nieuw project";
-                    ButtonExportProject.Content = "Exporteer het gewijzigde project";
-                    TextBlockAdressesGauche.Text = "Originele groepadressen";
-                    TextBlockAdressesDroite.Text = "Gewijzigde groepadressen";
-                    WaitingTextDark.Text = "Even geduld...";
-                    WaitingTextLight.Text = "Even geduld...";
-                    break;
+            // Néerlandais
+            case "NL":
+                _searchTextTranslate = "Zoeken...";
+                TxtSearch1.Text = "Zoeken...";
+                ButtonChargerProject.Content = "Laad een nieuw project";
+                ButtonExportProject.Content = "Exporteer het gewijzigde project";
+                TextBlockAdressesGauche.Text = "Originele groepadressen";
+                TextBlockAdressesDroite.Text = "Gewijzigde groepadressen";
+                WaitingTextDark.Text = "Annulering bezig...";
+                WaitingTextLight.Text = "Annulering bezig...";
+                break;
 
-                // Polonais
-                case "PL":
-                    _searchTextTranslate = "Szukaj...";
-                    TxtSearch1.Text = "Szukaj...";
-                    ButtonChargerProject.Content = "Załaduj nowy projekt";
-                    ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
-                    TextBlockAdressesGauche.Text = "Oryginalne adresy grup";
-                    TextBlockAdressesDroite.Text = "Zmodyfikowane adresy grup";
-                    WaitingTextDark.Text = "Proszę czekać...";
-                    WaitingTextLight.Text = "Proszę czekać...";
-                    break;
+            // Polonais
+            case "PL":
+                _searchTextTranslate = "Szukaj...";
+                TxtSearch1.Text = "Szukaj...";
+                ButtonChargerProject.Content = "Załaduj nowy projekt";
+                ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
+                TextBlockAdressesGauche.Text = "Oryginalne adresy grup";
+                TextBlockAdressesDroite.Text = "Zmodyfikowane adresy grup";
+                WaitingTextDark.Text = "Anulowanie w toku...";
+                WaitingTextLight.Text = "Anulowanie w toku...";
+                break;
 
-                // Portugais
-                case "PT":
-                    _searchTextTranslate = "Pesquisar...";
-                    TxtSearch1.Text = "Pesquisar...";
-                    ButtonChargerProject.Content = "Carregar um novo projeto";
-                    ButtonExportProject.Content = "Exportar o projeto modificado";
-                    TextBlockAdressesGauche.Text = "Endereços de grupo originais";
-                    TextBlockAdressesDroite.Text = "Endereços de grupo modificados";
-                    WaitingTextDark.Text = "Por favor, aguarde...";
-                    WaitingTextLight.Text = "Por favor, aguarde...";
-                    break;
+            // Portugais
+            case "PT":
+                _searchTextTranslate = "Pesquisar...";
+                TxtSearch1.Text = "Pesquisar...";
+                ButtonChargerProject.Content = "Carregar um novo projeto";
+                ButtonExportProject.Content = "Exportar o projeto modificado";
+                TextBlockAdressesGauche.Text = "Endereços de grupo originais";
+                TextBlockAdressesDroite.Text = "Endereços de grupo modificados";
+                WaitingTextDark.Text = "Cancelamento em andamento...";
+                WaitingTextLight.Text = "Cancelamento em andamento...";
+                break;
 
-                // Roumain
-                case "RO":
-                    _searchTextTranslate = "Căutare...";
-                    TxtSearch1.Text = "Căutare...";
-                    ButtonChargerProject.Content = "Încărcați un proiect nou";
-                    ButtonExportProject.Content = "Exportați proiectul modificat";
-                    TextBlockAdressesGauche.Text = "Adresele grupului original";
-                    TextBlockAdressesDroite.Text = "Adresele grupului modificate";
-                    WaitingTextDark.Text = "Vă rugăm așteptați...";
-                    WaitingTextLight.Text = "Vă rugăm așteptați...";
-                    break;
+            // Roumain
+            case "RO":
+                _searchTextTranslate = "Căutare...";
+                TxtSearch1.Text = "Căutare...";
+                ButtonChargerProject.Content = "Încărcați un proiect nou";
+                ButtonExportProject.Content = "Exportați proiectul modificat";
+                TextBlockAdressesGauche.Text = "Adresele grupului original";
+                TextBlockAdressesDroite.Text = "Adresele grupului modificate";
+                WaitingTextDark.Text = "Anulare în curs...";
+                WaitingTextLight.Text = "Anulare în curs...";
+                break;
 
-                // Russe
-                case "RU":
-                    _searchTextTranslate = "Поиск...";
-                    TxtSearch1.Text = "Поиск...";
-                    ButtonChargerProject.Content = "Загрузить новый проект";
-                    ButtonExportProject.Content = "Экспортировать измененный проект";
-                    TextBlockAdressesGauche.Text = "Оригинальные групповые адреса";
-                    TextBlockAdressesDroite.Text = "Измененные групповые адреса";
-                    WaitingTextDark.Text = "Пожалуйста, подождите...";
-                    WaitingTextLight.Text = "Пожалуйста, подождите...";
-                    break;
+            // Russe
+            case "RU":
+                _searchTextTranslate = "Поиск...";
+                TxtSearch1.Text = "Поиск...";
+                ButtonChargerProject.Content = "Загрузить новый проект";
+                ButtonExportProject.Content = "Экспортировать измененный проект";
+                TextBlockAdressesGauche.Text = "Оригинальные групповые адреса";
+                TextBlockAdressesDroite.Text = "Измененные групповые адреса";
+                WaitingTextDark.Text = "Отмена выполняется...";
+                WaitingTextLight.Text = "Отмена выполняется...";
+                break;
 
-                // Slovaque
-                case "SK":
-                    _searchTextTranslate = "Hľadať...";
-                    TxtSearch1.Text = "Hľadať...";
-                    ButtonChargerProject.Content = "Načítať nový projekt";
-                    ButtonExportProject.Content = "Exportovať upravený projekt";
-                    TextBlockAdressesGauche.Text = "Pôvodné skupinové adresy";
-                    TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
-                    WaitingTextDark.Text = "Prosím, čakajte...";
-                    WaitingTextLight.Text = "Prosím, čakajte...";
-                    break;
+            // Slovaque
+            case "SK":
+                _searchTextTranslate = "Hľadať...";
+                TxtSearch1.Text = "Hľadať...";
+                ButtonChargerProject.Content = "Načítať nový projekt";
+                ButtonExportProject.Content = "Exportovať upravený projekt";
+                TextBlockAdressesGauche.Text = "Pôvodné skupinové adresy";
+                TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                WaitingTextDark.Text = "Zrušenie prebieha...";
+                WaitingTextLight.Text = "Zrušenie prebieha...";
+                break;
 
-                // Slovène
-                case "SL":
-                    _searchTextTranslate = "Iskanje...";
-                    TxtSearch1.Text = "Iskanje...";
-                    ButtonChargerProject.Content = "Naloži nov projekt";
-                    ButtonExportProject.Content = "Izvozi spremenjeni projekt";
-                    TextBlockAdressesGauche.Text = "Izvirni naslovi skupin";
-                    TextBlockAdressesDroite.Text = "Spremenjeni naslovi skupin";
-                    WaitingTextDark.Text = "Prosimo, počakajte...";
-                    WaitingTextLight.Text = "Prosimo, počakajte...";
-                    break;
+            // Slovène
+            case "SL":
+                _searchTextTranslate = "Iskanje...";
+                TxtSearch1.Text = "Iskanje...";
+                ButtonChargerProject.Content = "Naloži nov projekt";
+                ButtonExportProject.Content = "Izvozi spremenjeni projekt";
+                TextBlockAdressesGauche.Text = "Izvirni naslovi skupin";
+                TextBlockAdressesDroite.Text = "Spremenjeni naslovi skupin";
+                WaitingTextDark.Text = "Preklic v teku...";
+                WaitingTextLight.Text = "Preklic v teku...";
+                break;
 
-                // Suédois
-                case "SV":
-                    _searchTextTranslate = "Sök...";
-                    TxtSearch1.Text = "Sök...";
-                    ButtonChargerProject.Content = "Ladda ett nytt projekt";
-                    ButtonExportProject.Content = "Exportera det modifierade projektet";
-                    TextBlockAdressesGauche.Text = "Ursprungliga gruppadresser";
-                    TextBlockAdressesDroite.Text = "Ändrade gruppadresser";
-                    WaitingTextDark.Text = "Vänligen vänta...";
-                    WaitingTextLight.Text = "Vänligen vänta...";
-                    break;
+            // Suédois
+            case "SV":
+                _searchTextTranslate = "Sök...";
+                TxtSearch1.Text = "Sök...";
+                ButtonChargerProject.Content = "Ladda ett nytt projekt";
+                ButtonExportProject.Content = "Exportera det modifierade projektet";
+                TextBlockAdressesGauche.Text = "Ursprungliga gruppadresser";
+                TextBlockAdressesDroite.Text = "Ändrade gruppadresser";
+                WaitingTextDark.Text = "Avbrytning pågår...";
+                WaitingTextLight.Text = "Avbrytning pågår...";
+                break;
 
-                // Turc
-                case "TR":
-                    _searchTextTranslate = "Ara...";
-                    TxtSearch1.Text = "Ara...";
-                    ButtonChargerProject.Content = "Yeni bir proje yükle";
-                    ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
-                    TextBlockAdressesGauche.Text = "Orijinal Grup Adresleri";
-                    TextBlockAdressesDroite.Text = "Değiştirilen Grup Adresleri";
-                    WaitingTextDark.Text = "Lütfen bekleyin...";
-                    WaitingTextLight.Text = "Lütfen bekleyin...";
-                    break;
+            // Turc
+            case "TR":
+                _searchTextTranslate = "Ara...";
+                TxtSearch1.Text = "Ara...";
+                ButtonChargerProject.Content = "Yeni bir proje yükle";
+                ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
+                TextBlockAdressesGauche.Text = "Orijinal Grup Adresleri";
+                TextBlockAdressesDroite.Text = "Değiştirilen Grup Adresleri";
+                WaitingTextDark.Text = "İptal ediliyor...";
+                WaitingTextLight.Text = "İptal ediliyor...";
+                break;
 
-                // Ukrainien
-                case "UK":
-                    _searchTextTranslate = "Пошук...";
-                    TxtSearch1.Text = "Пошук...";
-                    ButtonChargerProject.Content = "Завантажити новий проект";
-                    ButtonExportProject.Content = "Експортувати змінений проект";
-                    TextBlockAdressesGauche.Text = "Оригінальні групові адреси";
-                    TextBlockAdressesDroite.Text = "Змінені групові адреси";
-                    WaitingTextDark.Text = "Будь ласка, зачекайте...";
-                    WaitingTextLight.Text = "Будь ласка, зачекайте...";
-                    break;
+            // Ukrainien
+            case "UK":
+                _searchTextTranslate = "Пошук...";
+                TxtSearch1.Text = "Пошук...";
+                ButtonChargerProject.Content = "Завантажити новий проект";
+                ButtonExportProject.Content = "Експортувати змінений проект";
+                TextBlockAdressesGauche.Text = "Оригінальні групові адреси";
+                TextBlockAdressesDroite.Text = "Змінені групові адреси";
+                WaitingTextDark.Text = "Скасування триває...";
+                WaitingTextLight.Text = "Скасування триває...";
+                break;
 
-                // Chinois simplifié
-                case "ZH":
-                    _searchTextTranslate = "搜索...";
-                    TxtSearch1.Text = "搜索...";
-                    ButtonChargerProject.Content = "加载新项目";
-                    ButtonExportProject.Content = "导出修改后的项目";
-                    TextBlockAdressesGauche.Text = "原始组地址";
-                    TextBlockAdressesDroite.Text = "修改后的组地址";
-                    WaitingTextDark.Text = "请稍候...";
-                    WaitingTextLight.Text = "请稍候...";
-                    break;
+            // Chinois simplifié
+            case "ZH":
+                _searchTextTranslate = "搜索...";
+                TxtSearch1.Text = "搜索...";
+                ButtonChargerProject.Content = "加载新项目";
+                ButtonExportProject.Content = "导出修改后的项目";
+                TextBlockAdressesGauche.Text = "原始组地址";
+                TextBlockAdressesDroite.Text = "修改后的组地址";
+                WaitingTextDark.Text = "取消中...";
+                WaitingTextLight.Text = "取消中...";
+                break;
 
-                // Langue par défaut (français)
-                default:
-                    _searchTextTranslate = "Chercher...";
-                    TxtSearch1.Text = "Chercher...";
-                    ButtonChargerProject.Content = "Charger un nouveau projet";
-                    ButtonExportProject.Content = "Exporter le projet modifié";
-                    TextBlockAdressesGauche.Text = "Adresses de Groupe Originales";
-                    TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
-                    WaitingTextDark.Text = "Veuillez patienter...";
-                    WaitingTextLight.Text = "Veuillez patienter...";
-                    break;
-            }
+            // Langue par défaut (français)
+            default:
+                _searchTextTranslate = "Chercher...";
+                TxtSearch1.Text = "Chercher...";
+                ButtonChargerProject.Content = "Charger un nouveau projet";
+                ButtonExportProject.Content = "Exporter le projet modifié";
+                TextBlockAdressesGauche.Text = "Adresses de Groupe Originales";
+                TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
+                WaitingTextDark.Text = "Annulation en cours...";
+                WaitingTextLight.Text = "Annulation en cours...";
+                break;
+        }
     }
     
     
@@ -1008,6 +1008,7 @@ public partial class MainWindow
             finally
             {
                 HideOverlay();
+                ButtonExportProject.IsEnabled = false;
                 ViewModel.IsProjectImported = false;
                 App.DisplayElements.LoadingWindow?.Close();
                 
