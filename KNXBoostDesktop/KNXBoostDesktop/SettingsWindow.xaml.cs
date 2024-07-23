@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -94,6 +95,7 @@ namespace KNXBoostDesktop
         public SettingsWindow()
         {
             InitializeComponent(); // Initialisation de la fenêtre de paramétrage
+            OngletInclusions.DataContext = this;
 
             // Initialement, l'application dispose des paramètres par défaut, qui seront potentiellement modifiés après par
             // la lecture du fichier settings. Cela permet d'éviter un crash si le fichier 
@@ -4553,9 +4555,9 @@ namespace KNXBoostDesktop
                     break;
 
                 // Si on appuie sur entrée, on sauvegarde les modifications et on ferme
-                case Key.Enter:
-                    SaveButtonClick(null!, null!);
-                    break;
+                // case Key.Enter:
+                //     SaveButtonClick(null!, null!);
+                //     break;
             }
         }
 
@@ -4586,6 +4588,106 @@ namespace KNXBoostDesktop
             
             Height = 605 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 605 * scale;
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
+        }
+        
+        public ObservableCollection<string> Words { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> StringsToAdd2 { get; set; } = new ObservableCollection<string>();
+        
+
+        private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(InputTextBox.Text))
+            {
+                var newWord = InputTextBox.Text.Trim();
+                if (!Words.Contains(newWord))
+                {
+                    Words.Add(newWord);
+                    StringsToAdd2.Add(newWord);
+                }
+                InputTextBox.Clear();
+            }
+        }
+
+        private void WordsListBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && WordsListBox.SelectedItem != null)
+            {
+                var selectedIndex = WordsListBox.SelectedIndex;
+                var selectedWord = WordsListBox.SelectedItem.ToString();
+                
+                var itemsToRemove = new List<string>();
+
+                foreach (var item in WordsListBox.SelectedItems)
+                {
+                    if (item is string word)
+                    {
+                        itemsToRemove.Add(word);
+                    }
+                }
+
+                // Supprimez les éléments de la liste principale
+                foreach (var word in itemsToRemove)
+                {
+                    Words.Remove(word);
+                    StringsToAdd.Remove(word);
+                }
+                
+                // Sélectionner l'élément suivant
+                if (Words.Count > 0)
+                {
+                    if (selectedIndex >= Words.Count)
+                    {
+                        selectedIndex = Words.Count - 1;
+                    }
+                    WordsListBox.SelectedIndex = selectedIndex;
+                }
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox != null)
+            {
+                // Accédez au StackPanel parent
+                var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+                if (stackPanel != null)
+                {
+                    // Trouvez le TextBlock dans le StackPanel
+                    var textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+                    if (textBlock != null)
+                    {
+                        var word = textBlock.Text;
+                        if (!StringsToAdd2.Contains(word))
+                        {
+                            StringsToAdd2.Add(word);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox != null)
+            {
+                // Accédez au StackPanel parent
+                var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+                if (stackPanel != null)
+                {
+                    // Trouvez le TextBlock dans le StackPanel
+                    var textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+                    if (textBlock != null)
+                    {
+                        var word = textBlock.Text;
+                        if (StringsToAdd2.Contains(word))
+                        {
+                            StringsToAdd2.Remove(word);
+                        }
+                    }
+                }
+            }
         }
     }
 }
