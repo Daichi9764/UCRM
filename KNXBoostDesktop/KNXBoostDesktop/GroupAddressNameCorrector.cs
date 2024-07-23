@@ -45,6 +45,11 @@ public static class GroupAddressNameCorrector
     /// Collection to memorize translations of group names already done.
     /// </summary>
     private static readonly HashSet<string> TranslationCache = new();
+    
+    /// <summary>
+    /// Collection to memorize format of group names already done.
+    /// </summary>
+    private static readonly HashSet<string> FormatCache = new();
 
     /// <summary>
     /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
@@ -1227,12 +1232,10 @@ public static class GroupAddressNameCorrector
         var suffixToRemove = "_A"; // Fixed part after the number
 
         // Find the index where the number starts (after "M-")
-        // ReSharper disable once StringIndexOfIsCultureSpecific.1
-        var startIndex = hardwareFileName.IndexOf(prefixToRemove) + prefixToRemove.Length;
+        var startIndex = hardwareFileName.IndexOf(prefixToRemove, StringComparison.Ordinal) + prefixToRemove.Length;
 
         // Find the index where the number ends (just before "_A")
-        // ReSharper disable once StringIndexOfIsCultureSpecific.2
-        var endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex);
+        var endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex, StringComparison.Ordinal);
 
         // Extract the number part
         var numberPart = hardwareFileName.Substring(startIndex, endIndex - startIndex);
@@ -2084,7 +2087,7 @@ public static class GroupAddressNameCorrector
                             {
                                 if (string.IsNullOrEmpty(part)) continue;
 
-                                currentIndex = lowerCaseWord.IndexOf(part, currentIndex);
+                                currentIndex = lowerCaseWord.IndexOf(part, currentIndex, StringComparison.Ordinal);
 
                                 if (currentIndex == -1)
                                 {
@@ -2200,13 +2203,13 @@ public static class GroupAddressNameCorrector
             // Format the name of the ancestor GroupRange
             nameFunction = $"_{_formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
             // Translate the group name
-            TranslateGroupRangeName(ancestorGroupRange);
+            FormatGroupRangeName(ancestorGroupRange);
         }
         
         // Format the name of the current GroupRange
         nameFunction += $"_{_formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
         // Translate the group name
-        TranslateGroupRangeName(groupRangeElement);
+        FormatGroupRangeName(groupRangeElement);
 
         return nameFunction;
     }
@@ -2218,17 +2221,25 @@ public static class GroupAddressNameCorrector
     ///
     /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be translated.</param>
     /// </summary>
-    private static void TranslateGroupRangeName(XElement groupRangeElement)
+    private static void FormatGroupRangeName(XElement groupRangeElement)
     {
-        //Check if the translation is needed
-        if (App.DisplayElements?.SettingsWindow == null || !App.DisplayElements.SettingsWindow.EnableDeeplTranslation || !ValidDeeplKey)
-            return;
-
         var nameAttr = groupRangeElement.Attribute("Name");
         if (nameAttr == null) return;
 
         var nameValue = nameAttr.Value;
-        if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue))
+
+        if (FormatCache.Contains(nameValue))
+            return;
+        
+        if (App.DisplayElements?.SettingsWindow != null && !App.DisplayElements.SettingsWindow.EnableDeeplTranslation )
+        {
+            nameAttr.Value = RemoveDiacritics(nameValue);
+            FormatCache.Add(nameAttr.Value);
+            return;
+        }
+        
+        //Check if the translation is needed
+        if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue)|| !ValidDeeplKey)
             return;
 
         // Translated only if not already translated

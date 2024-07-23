@@ -48,7 +48,6 @@ public class FormatterNormalize : Formatter
             
             // Replace underscores with spaces
             input = input.Replace('_', ' '); 
-            //input = input.Replace('$',' ');
             
             // Convert to lowercase
             input = input.ToLower();
