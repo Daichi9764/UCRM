@@ -111,6 +111,13 @@
 
 
     <Grid>
+        <!-- Bouton de fermeture de la fenêtre -->
+        <Canvas>
+            <Button x:Name="CloseButton" Style="{StaticResource CloseButtonStyle}" Height="30" Width="50"
+                    FontFamily="Aptos" BorderThickness="0" Canvas.Top="0"
+                    Canvas.Left="500" Click="CloseLoading"/>
+        </Canvas>
+        
         <Border BorderBrush="#369226" BorderThickness="1.5" x:Name="LoadingWindowBorder">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="500">
                 <TextBlock x:Name="TaskNameText" Foreground="Black" Text="Initialisation..." FontSize="16" Margin="0,0,0,20" HorizontalAlignment="Center" />
