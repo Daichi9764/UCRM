@@ -674,8 +674,16 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
+
+
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
+
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
 
         //Vider la recherche
         TextBox_LostFocus();
@@ -1047,13 +1055,21 @@ public partial class MainWindow
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
 
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
+
+
+
         App.ConsoleAndLogWriteLine("Reaload");
         _cancellationTokenSource = new CancellationTokenSource();
 
             // Créer et configurer la LoadingWindow
             App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
-                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+                Owner = this 
             };
 
             var stopwatch = new Stopwatch();

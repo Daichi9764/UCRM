@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KNX Boost Desktop"
-#define MyAppVersion "1.9"
+#define MyAppVersion "2.1"
 #define MyAppPublisher "KNXBoostTeam"
 #define MyAppExeName "KNXBoostDesktop.exe"
 
@@ -28,7 +28,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=KNXBoostDesktop_installer_v1.7
+OutputBaseFilename=KNXBoostDesktop_installer_v2.1
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

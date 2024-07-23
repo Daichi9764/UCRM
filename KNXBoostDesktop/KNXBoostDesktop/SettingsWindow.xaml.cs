@@ -3360,7 +3360,7 @@ namespace KNXBoostDesktop
             var previousAppLang = AppLang;
             var previousAppScaleFactor = AppScaleFactor;
             var previousDeepLKey = DeeplKey;
-            
+
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
             TranslationDestinationLang = TranslationLanguageDestinationComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
@@ -3372,7 +3372,7 @@ namespace KNXBoostDesktop
             AppScaleFactor = (int)ScaleSlider.Value;
 
             List<string> newStringsToKeep = [];
-            
+
             // On remplit la liste en récupérant les différents strings. Ils peuvent être séparés par des virgules ou des points virgules
             foreach (var st in AddressKeepingTextbox.Text.Split(','))
             {
@@ -3385,7 +3385,7 @@ namespace KNXBoostDesktop
                     newStringsToKeep.AddRange(from st2 in st.Split(';') where !st2.Trim().Equals("", StringComparison.OrdinalIgnoreCase) select st2.Trim());
                 }
             }
-            
+
             // Vérification de si la liste de strings a changé :
             // Si la longueur des listes est différente ou qu'un élément d'une liste n'est pas dans l'autre et vice-versa, alors la liste a changé
             var listChanged = newStringsToKeep.Count != StringsToAdd.Count ||
@@ -3399,16 +3399,16 @@ namespace KNXBoostDesktop
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
             // on considèrera que la clé deepl a changé si la textbox n'est pas vide
             var deeplKeyChanged = !string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text);
-            
+
             // Si les clés de décryptage existent, on compare le contenu de la clé deepl entré dans la fenêtre avec celle que l'on peut décrypter
             if (File.Exists("./emk") && File.Exists("./ei") && File.Exists("./ek")) deeplKeyChanged = DecryptStringFromBytes(previousDeepLKey) != DeeplApiKeyTextBox.Text;
-            
+
             // Si on a activé la traduction deepl et que la clé a changé où est vide
             if (EnableDeeplTranslation && (deeplKeyChanged || string.IsNullOrWhiteSpace(DeeplApiKeyTextBox.Text)))
             {
                 // On récupère la nouvelle clé et on l'encrypte
                 DeeplKey = EncryptStringToBytes(DeeplApiKeyTextBox.Text);
-                
+
                 // On vérifie la validité de la clé API
                 var (isValid, errorMessage) = GroupAddressNameCorrector.CheckDeeplKey();
                 GroupAddressNameCorrector.ValidDeeplKey = isValid;
@@ -3491,14 +3491,14 @@ namespace KNXBoostDesktop
                     UpdateWindowContents();
                 }
             }
-            
+
             // Si on a changé un des paramètres, on les sauvegarde. Sinon, inutile de réécrire le fichier.
-            if (previousEnableDeeplTranslation != EnableDeeplTranslation || 
+            if (previousEnableDeeplTranslation != EnableDeeplTranslation ||
                 previousTranslationDestinationLang != TranslationDestinationLang ||
                 previousTranslationSourceLang != TranslationSourceLang ||
                 previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection ||
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
-                previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang || 
+                previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang ||
                 previousAppScaleFactor != AppScaleFactor ||
                 deeplKeyChanged || listChanged)
             {
@@ -3511,7 +3511,7 @@ namespace KNXBoostDesktop
             {
                 App.ConsoleAndLogWriteLine("Settings are unchanged. No need to save them.");
             }
-            
+
             // Mise à jour éventuellement du contenu pour update la langue du menu
             UpdateWindowContents(false, previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme);
 
@@ -3522,11 +3522,11 @@ namespace KNXBoostDesktop
                 var scaleFactor = AppScaleFactor / 100f;
                 if (scaleFactor <= 1f)
                 {
-                    ApplyScaling(scaleFactor-0.1f);
+                    ApplyScaling(scaleFactor - 0.1f);
                 }
                 else
                 {
-                    ApplyScaling(scaleFactor-0.2f);
+                    ApplyScaling(scaleFactor - 0.2f);
                 }
                 App.DisplayElements!.MainWindow.ApplyScaling(scaleFactor);
                 App.DisplayElements.GroupAddressRenameWindow.ApplyScaling(scaleFactor - 0.2f);
@@ -3539,7 +3539,9 @@ namespace KNXBoostDesktop
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             //Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || listChanged) && (App.Fm?.ProjectFolderPath != ""))
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || listChanged
+                || previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection || previousTranslationSourceLang == TranslationSourceLang || previousTranslationDestinationLang == TranslationDestinationLang) 
+                && (App.Fm?.ProjectFolderPath != ""))
             {
                 if (Application.Current.MainWindow is MainWindow mainWindow) mainWindow.ButtonReload.Visibility = Visibility.Visible;
             }

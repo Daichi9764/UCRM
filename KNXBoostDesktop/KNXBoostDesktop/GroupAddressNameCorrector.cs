@@ -45,10 +45,15 @@ public static class GroupAddressNameCorrector
     /// Collection to memorize translations of group names already done.
     /// </summary>
     private static readonly HashSet<string> TranslationCache = new();
+    
+    /// <summary>
+    /// Collection to memorize format of group names already done.
+    /// </summary>
+    private static readonly HashSet<string> FormatCache = new();
 
     /// <summary>
     /// Collection to memorize object types already computed based on hardware file, Mxxxx directory,
-    /// ComObject instance reference ID, ReadFlag found, WriteFlag found, and TransmitFalg Found.
+    /// ComObject instance reference ID, ReadFlag found, WriteFlag found, and TransmitFlag Found.
     /// </summary>
     private static readonly ConcurrentDictionary<string, string> ObjectTypeCache = new();
     
@@ -85,7 +90,7 @@ public static class GroupAddressNameCorrector
     /// <summary>
     /// An array of characters used as separators for parsing strings, including spaces, commas, periods, semicolons, colons, exclamation marks, question marks, and underscores.
     /// </summary>
-    private static readonly char[] Separator = { ' ', ',', '.', ';', ':', '!', '?', '_' };
+    private static readonly char[] Separator = [' ', ',', '.', ';', ':', '!', '?', '_'];
 
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.String; size: 9159MB")]
     [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Xml.Linq.XAttribute; size: 7650MB")]
@@ -94,9 +99,16 @@ public static class GroupAddressNameCorrector
     [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
     [SuppressMessage("ReSharper.DPA", "DPA0000: DPA issues")]
     [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
+    
     /* ------------------------------------------------------------------------------------------------
-    -------------------------------------------- METHODES  --------------------------------------------
+    -------------------------------------------- METHODS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
+    // ReSharper disable once InvalidXmlDocComment
+        /// <summary>
+        /// Main task that retrieves information about devices and locations to format the new name for the group addresses.
+        /// Translates names if necessary and removes unused addresses.
+        /// </summary>
+        /// <param name="cancellationToken"> Indicates if the task needs to be cancelled.</param>
     public static async Task CorrectName(CancellationTokenSource cancellationTokenSource)
     {
         try
@@ -112,10 +124,10 @@ public static class GroupAddressNameCorrector
                 savingUpdatedXml,
                 task;
             
-            // Traduction des textes de la fenêtre de chargement
+                // Text translation of loading window
                 switch (App.DisplayElements?.SettingsWindow?.AppLang)
                 {
-                    // Arabe
+                    // Arabic
                     case "AR":
                         loadXml = "جارٍ تحميل ملف XML...";
                         extractingInfos = "جارٍ استخراج المعلومات...";
@@ -129,7 +141,7 @@ public static class GroupAddressNameCorrector
                         task = "مهمة";
                         break;
 
-                    // Bulgare
+                    // Bulgarian
                     case "BG":
                         loadXml = "Зареждане на XML файл...";
                         extractingInfos = "Извличане на информация...";
@@ -143,7 +155,7 @@ public static class GroupAddressNameCorrector
                         task = "Задача";
                         break;
 
-                    // Tchèque
+                    // Czech
                     case "CS":
                         loadXml = "Načítání souboru XML...";
                         extractingInfos = "Extrahování informací...";
@@ -157,7 +169,7 @@ public static class GroupAddressNameCorrector
                         task = "Úkol";
                         break;
 
-                    // Danois
+                    // Danish
                     case "DA":
                         loadXml = "Indlæser XML-fil...";
                         extractingInfos = "Udpakning af oplysninger...";
@@ -171,7 +183,7 @@ public static class GroupAddressNameCorrector
                         task = "Opgave";
                         break;
 
-                    // Allemand
+                    // German
                     case "DE":
                         loadXml = "Laden der XML-Datei...";
                         extractingInfos = "Extrahieren von Informationen...";
@@ -185,7 +197,7 @@ public static class GroupAddressNameCorrector
                         task = "Aufgabe";
                         break;
 
-                    // Grec
+                    // Greek
                     case "EL":
                         loadXml = "Φόρτωση αρχείου XML...";
                         extractingInfos = "Εξαγωγή πληροφοριών...";
@@ -199,7 +211,7 @@ public static class GroupAddressNameCorrector
                         task = "Εργασία";
                         break;
 
-                    // Anglais
+                    // English
                     case "EN":
                         loadXml = "Loading XML file...";
                         extractingInfos = "Extracting information...";
@@ -213,7 +225,7 @@ public static class GroupAddressNameCorrector
                         task = "Task";
                         break;
 
-                    // Espagnol
+                    // Spanish
                     case "ES":
                         loadXml = "Cargando archivo XML...";
                         extractingInfos = "Extrayendo información...";
@@ -227,7 +239,7 @@ public static class GroupAddressNameCorrector
                         task = "Tarea";
                         break;
 
-                    // Estonien
+                    // Estonian
                     case "ET":
                         loadXml = "XML-faili laadimine...";
                         extractingInfos = "Teabe ekstraheerimine...";
@@ -241,7 +253,7 @@ public static class GroupAddressNameCorrector
                         task = "Ülesanne";
                         break;
 
-                    // Finnois
+                    // Finnish
                     case "FI":
                         loadXml = "Ladataan XML-tiedostoa...";
                         extractingInfos = "Tietojen purkaminen...";
@@ -255,7 +267,7 @@ public static class GroupAddressNameCorrector
                         task = "Tehtävä";
                         break;
 
-                    // Hongrois
+                    // Hungarian
                     case "HU":
                         loadXml = "XML fájl betöltése...";
                         extractingInfos = "Információk kinyerése...";
@@ -269,7 +281,7 @@ public static class GroupAddressNameCorrector
                         task = "Feladat";
                         break;
 
-                    // Indonésien
+                    // Indonesian
                     case "ID":
                         loadXml = "Memuat file XML...";
                         extractingInfos = "Mengekstrak informasi...";
@@ -283,7 +295,7 @@ public static class GroupAddressNameCorrector
                         task = "Tugas";
                         break;
 
-                    // Italien
+                    // Italian
                     case "IT":
                         loadXml = "Caricamento del file XML...";
                         extractingInfos = "Estrazione delle informazioni...";
@@ -297,7 +309,7 @@ public static class GroupAddressNameCorrector
                         task = "Compito";
                         break;
 
-                    // Japonais
+                    // Japanese
                     case "JA":
                         loadXml = "XMLファイルを読み込んでいます...";
                         extractingInfos = "情報を抽出しています...";
@@ -311,7 +323,7 @@ public static class GroupAddressNameCorrector
                         task = "タスク";
                         break;
 
-                    // Coréen
+                    // Korean
                     case "KO":
                         loadXml = "XML 파일 로드 중...";
                         extractingInfos = "정보 추출 중...";
@@ -325,7 +337,7 @@ public static class GroupAddressNameCorrector
                         task = "작업";
                         break;
 
-                    // Letton
+                    // Latvian
                     case "LV":
                         loadXml = "Ielādē XML failu...";
                         extractingInfos = "Izvelk informāciju...";
@@ -339,7 +351,7 @@ public static class GroupAddressNameCorrector
                         task = "Uzdevums";
                         break;
 
-                    // Lituanien
+                    // Lithuanian
                     case "LT":
                         loadXml = "Įkeliama XML byla...";
                         extractingInfos = "Išgaunama informacija...";
@@ -353,7 +365,7 @@ public static class GroupAddressNameCorrector
                         task = "Užduotis";
                         break;
 
-                    // Norvégien
+                    // Norwegian
                     case "NB":
                         loadXml = "Laster inn XML-fil...";
                         extractingInfos = "Uthenter informasjon...";
@@ -367,7 +379,7 @@ public static class GroupAddressNameCorrector
                         task = "Oppgave";
                         break;
 
-                    // Néerlandais
+                    // Dutch
                     case "NL":
                         loadXml = "XML-bestand laden...";
                         extractingInfos = "Informatie extraheren...";
@@ -381,7 +393,7 @@ public static class GroupAddressNameCorrector
                         task = "Taak";
                         break;
 
-                    // Polonais
+                    // Polish
                     case "PL":
                         loadXml = "Ładowanie pliku XML...";
                         extractingInfos = "Wydobywanie informacji...";
@@ -395,7 +407,7 @@ public static class GroupAddressNameCorrector
                         task = "Zadanie";
                         break;
 
-                    // Portugais
+                    // Portuguese
                     case "PT":
                         loadXml = "Carregando arquivo XML...";
                         extractingInfos = "Extraindo informações...";
@@ -409,7 +421,7 @@ public static class GroupAddressNameCorrector
                         task = "Tarefa";
                         break;
 
-                    // Roumain
+                    // Romanian
                     case "RO":
                         loadXml = "Se încarcă fișierul XML...";
                         extractingInfos = "Se extrag informațiile...";
@@ -423,7 +435,7 @@ public static class GroupAddressNameCorrector
                         task = "Sarcină";
                         break;
 
-                    // Russe
+                    // Russian
                     case "RU":
                         loadXml = "Загрузка XML файла...";
                         extractingInfos = "Извлечение информации...";
@@ -437,7 +449,7 @@ public static class GroupAddressNameCorrector
                         task = "Задача";
                         break;
 
-                    // Slovaque
+                    // Slovak
                     case "SK":
                         loadXml = "Načítava sa XML súbor...";
                         extractingInfos = "Extrahujú sa informácie...";
@@ -451,7 +463,7 @@ public static class GroupAddressNameCorrector
                         task = "Úloha";
                         break;
 
-                    // Slovène
+                    // Slovenian
                     case "SL":
                         loadXml = "Nalaganje XML datoteke...";
                         extractingInfos = "Izvlečenje informacij...";
@@ -465,7 +477,7 @@ public static class GroupAddressNameCorrector
                         task = "Naloga";
                         break;
 
-                    // Suédois
+                    // Swedish
                     case "SV":
                         loadXml = "Laddar XML-fil...";
                         extractingInfos = "Extraherar information...";
@@ -479,7 +491,7 @@ public static class GroupAddressNameCorrector
                         task = "Uppgift";
                         break;
 
-                    // Turc
+                    // Turkish
                     case "TR":
                         loadXml = "XML dosyası yükleniyor...";
                         extractingInfos = "Bilgiler çıkarılıyor...";
@@ -493,7 +505,7 @@ public static class GroupAddressNameCorrector
                         task = "Görev";
                         break;
 
-                    // Ukrainien
+                    // Ukrainian
                     case "UK":
                         loadXml = "Завантаження файлу XML...";
                         extractingInfos = "Витяг інформації...";
@@ -507,7 +519,7 @@ public static class GroupAddressNameCorrector
                         task = "Завдання";
                         break;
 
-                    // Chinois simplifié
+                    // Chinese (simplified)
                     case "ZH":
                         loadXml = "加载 XML 文件...";
                         extractingInfos = "提取信息...";
@@ -521,7 +533,7 @@ public static class GroupAddressNameCorrector
                         task = "任务";
                         break;
 
-                    // Langue par défaut (français)
+                    // Default language (french)
                     default:
                         loadXml = "Chargement du fichier XML...";
                         extractingInfos = "Extraction des informations...";
@@ -535,8 +547,6 @@ public static class GroupAddressNameCorrector
                         task = "Tâche";
                         break;
                 }
-
-            
             
             //Define the project path
             _projectFilesDirectory = Path.Combine(App.Fm?.ProjectFolderPath ?? string.Empty, @"knxproj_exported");
@@ -629,8 +639,9 @@ public static class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceReferences);
 
-            // On check si l'utilisateur a fermé la fenêtre
+            // Check if user as close mainWindow
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
                 .Select(di =>
@@ -674,11 +685,11 @@ public static class GroupAddressNameCorrector
                         GroupObjectInstanceRefs = groupObjectInstanceRefs
                     };
                 });
-
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceInfo);
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             var deviceRefs = deviceRefsTemp1.SelectMany(di =>
             {
                 var formattedHardware = di.Hardware2ProgramRefId != null ? 
@@ -711,6 +722,7 @@ public static class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
             foreach (var dr in deviceRefs)
@@ -723,65 +735,65 @@ public static class GroupAddressNameCorrector
             
             var groupingAdresses = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => "تجميع المعلومات حول عناوين المجموعة...",
-                // Bulgare
+                // Bulgarian
                 "BG" => "Групиране на информация за груповите адреси...",
-                // Tchèque
+                // Czech
                 "CS" => "Skupinové informace o adresách...",
-                // Danois
+                // Danish
                 "DA" => "Gruppering af oplysninger om gruppeadresser...",
-                // Allemand
+                // German
                 "DE" => "Zusammenfassung von Informationen zu Gruppenadressen...",
-                // Grec
+                // Greek
                 "EL" => "Ομαδοποίηση πληροφοριών σχετικά με τις διευθύνσεις ομάδας...",
-                // Anglais
+                // English
                 "EN" => "Grouping information about group addresses...",
-                // Espagnol
+                // Spanish
                 "ES" => "Agrupando información sobre direcciones de grupo...",
-                // Estonien
+                // Estonian
                 "ET" => "Grupiaadresside teabe koondamine...",
-                // Finnois
+                // Finnish
                 "FI" => "Ryhmäosoitteiden tietojen ryhmittely...",
-                // Hongrois
+                // Hungarian
                 "HU" => "Csoportcímekre vonatkozó információk csoportosítása...",
-                // Indonésien
+                // Indonesian
                 "ID" => "Mengelompokkan informasi tentang alamat grup...",
-                // Italien
+                // Italian
                 "IT" => "Raggruppamento delle informazioni sugli indirizzi di gruppo...",
-                // Japonais
+                // Japanese
                 "JA" => "グループアドレスに関する情報をグループ化しています...",
-                // Coréen
+                // Korean
                 "KO" => "그룹 주소에 대한 정보 그룹화 중...",
-                // Letton
+                // Latvian
                 "LV" => "Grupas adrešu informācijas grupēšana...",
-                // Lituanien
+                // Lithuanian
                 "LT" => "Grupės adresų informacijos grupavimas...",
-                // Norvégien
+                // Norwegian
                 "NB" => "Gruppering av informasjon om gruppeadresser...",
-                // Néerlandais
+                // Dutch
                 "NL" => "Groeperen van informatie over groepsadressen...",
-                // Polonais
+                // Polish
                 "PL" => "Grupowanie informacji o adresach grupowych...",
-                // Portugais
+                // Portuguese
                 "PT" => "Agrupando informações sobre endereços de grupo...",
-                // Roumain
+                // Romanian
                 "RO" => "Gruparea informațiilor despre adresele de grup...",
-                // Russe
+                // Russian
                 "RU" => "Группировка информации о групповых адресах...",
-                // Slovaque
+                // Slovak
                 "SK" => "Zoskupovanie informácií o skupinových adresách...",
-                // Slovène
+                // Slovenian
                 "SL" => "Združevanje informacij o skupinskih naslovih...",
-                // Suédois
+                // Swedish
                 "SV" => "Grupperar information om gruppadresser...",
-                // Turc
+                // Turkish
                 "TR" => "Grup adresleri hakkında bilgi gruplandırma...",
-                // Ukrainien
+                // Ukrainian
                 "UK" => "Групування інформації про групові адреси...",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => "正在整理组地址信息...",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => "Regroupement des informations sur les adresses de groupe..."
             };
             
@@ -922,12 +934,12 @@ public static class GroupAddressNameCorrector
             var originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             
             //Duplicate the knxDoc for the unused addresses
-
             var baseKnxDoc = new XDocument(knxDoc);
 
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
             {
@@ -1219,12 +1231,10 @@ public static class GroupAddressNameCorrector
         var suffixToRemove = "_A"; // Fixed part after the number
 
         // Find the index where the number starts (after "M-")
-        // ReSharper disable once StringIndexOfIsCultureSpecific.1
-        var startIndex = hardwareFileName.IndexOf(prefixToRemove) + prefixToRemove.Length;
+        var startIndex = hardwareFileName.IndexOf(prefixToRemove, StringComparison.Ordinal) + prefixToRemove.Length;
 
         // Find the index where the number ends (just before "_A")
-        // ReSharper disable once StringIndexOfIsCultureSpecific.2
-        var endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex);
+        var endIndex = hardwareFileName.IndexOf(suffixToRemove, startIndex, StringComparison.Ordinal);
 
         // Extract the number part
         var numberPart = hardwareFileName.Substring(startIndex, endIndex - startIndex);
@@ -1492,65 +1502,65 @@ public static class GroupAddressNameCorrector
             
             errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => "حقل مفتاح API لـ DeepL فارغ. لن تعمل وظيفة الترجمة.",
-                // Bulgare
+                // Bulgarian
                 "BG" => "Полето за API ключа на DeepL е празно. Функцията за превод няма да работи.",
-                // Tchèque
+                // Czech
                 "CS" => "Pole klíče API DeepL je prázdné. Překladová funkce nebude fungovat.",
-                // Danois
+                // Danish
                 "DA" => "DeepL API-nøglen er tom. Oversættelsesfunktionen vil ikke virke.",
-                // Allemand
+                // German
                 "DE" => "Das DeepL API-Schlüsselfeld ist leer. Die Übersetzungsfunktion wird nicht funktionieren.",
-                // Grec
+                // Greek
                 "EL" => "Το πεδίο κλειδιού API του DeepL είναι κενό. Η λειτουργία μετάφρασης δεν θα λειτουργήσει.",
-                // Anglais
+                // English
                 "EN" => "The DeepL API key field is empty. The translation function will not work.",
-                // Espagnol
+                // Spanish
                 "ES" => "El campo de la clave API de DeepL está vacío. La función de traducción no funcionará.",
-                // Estonien
+                // Estonian
                 "ET" => "DeepL API võtmeväli on tühi. Tõlkefunktsioon ei tööta.",
-                // Finnois
+                // Finnish
                 "FI" => "DeepL API-avainkenttä on tyhjä. Käännöstoiminto ei toimi.",
-                // Hongrois
+                // Hungarian
                 "HU" => "A DeepL API kulcsmező üres. A fordítási funkció nem fog működni.",
-                // Indonésien
+                // Indonesian
                 "ID" => "Kolom kunci API DeepL kosong. Fungsi terjemahan tidak akan berfungsi.",
-                // Italien
+                // Italian
                 "IT" => "Il campo della chiave API di DeepL è vuoto. La funzione di traduzione non funzionerà.",
-                // Japonais
+                // Japanese
                 "JA" => "DeepL APIキーのフィールドが空です。翻訳機能は動作しません。",
-                // Coréen
+                // Korean
                 "KO" => "DeepL API 키 필드가 비어 있습니다. 번역 기능이 작동하지 않습니다.",
-                // Letton
+                // Latvian
                 "LV" => "DeepL API atslēgas lauks ir tukšs. Tulkotāja funkcija nedarbosies.",
-                // Lituanien
+                // Lithuanian
                 "LT" => "DeepL API rakto laukas tuščias. Vertimo funkcija neveiks.",
-                // Norvégien
+                // Norwegian
                 "NB" => "DeepL API-nøkkelfeltet er tomt. Oversettelsesfunksjonen vil ikke fungere.",
-                // Néerlandais
+                // Dutch
                 "NL" => "Het DeepL API-sleutelveld is leeg. De vertaalfunctie zal niet werken.",
-                // Polonais
+                // Polish
                 "PL" => "Pole klucza API DeepL jest puste. Funkcja tłumaczenia nie będzie działać.",
-                // Portugais
+                // Portuguese
                 "PT" => "O campo da chave API do DeepL está vazio. A função de tradução não funcionará.",
-                // Roumain
+                // Romanian
                 "RO" => "Câmpul cheii API DeepL este gol. Funcția de traducere nu va funcționa.",
-                // Russe
+                // Russian
                 "RU" => "Поле для API-ключа DeepL пусто. Функция перевода не будет работать.",
-                // Slovaque
+                // Slovak
                 "SK" => "Pole API kľúča DeepL je prázdne. Prekladová funkcia nebude fungovať.",
-                // Slovène
+                // Slovenian
                 "SL" => "Polje za API ključ DeepL je prazno. Prevajalska funkcija ne bo delovala.",
-                // Suédois
+                // Swedish
                 "SV" => "DeepL API-nyckelfältet är tomt. Översättningsfunktionen kommer inte att fungera.",
-                // Turc
+                // Turkish
                 "TR" => "DeepL API anahtar alanı boş. Çeviri işlevi çalışmayacak.",
-                // Ukrainien
+                // Ukrainian
                 "UK" => "Поле для ключа API DeepL порожнє. Функція перекладу не працюватиме.",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => "DeepL API 密钥字段为空。翻译功能将无法工作。",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => "Le champ de la clé API DeepL est vide. La fonction de traduction des adresses de groupe a été désactivée."
             };
         }
@@ -1561,65 +1571,65 @@ public static class GroupAddressNameCorrector
             
             errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => "مفتاح API DeepL المدخل غير صحيح. تم تعطيل وظيفة ترجمة العناوين الجماعية.",
-                // Bulgare
+                // Bulgarian
                 "BG" => "Въведеният DeepL API ключ е невалиден. Функцията за превод на групови адреси е деактивирана.",
-                // Tchèque
+                // Czech
                 "CS" => "Zadaný klíč API DeepL je neplatný. Funkce překladu skupinových adres byla deaktivována.",
-                // Danois
+                // Danish
                 "DA" => "Den indtastede DeepL API-nøgle er ugyldig. Funktionen til oversættelse af gruppeadresser er deaktiveret.",
-                // Allemand
+                // German
                 "DE" => "Der eingegebene DeepL API-Schlüssel ist ungültig. Die Übersetzungsfunktion für Gruppenadressen wurde deaktiviert.",
-                // Grec
+                // Greek
                 "EL" => "Το κλειδί API του DeepL που εισάγατε δεν είναι έγκυρο. Η λειτουργία μετάφρασης διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
-                // Anglais
+                // English
                 "EN" => "The entered DeepL API key is incorrect. The group address translation function has been disabled.",
-                // Espagnol
+                // Spanish
                 "ES" => "La clave de API de DeepL ingresada es incorrecta. La función de traducción de direcciones de grupo ha sido desactivada.",
-                // Estonien
+                // Estonian
                 "ET" => "Sisestatud DeepL API võti on vale. Rühma aadresside tõlkimise funktsioon on keelatud.",
-                // Finnois
+                // Finnish
                 "FI" => "Syötetty DeepL API-avain on virheellinen. Ryhmäosoitteiden käännöstoiminto on poistettu käytöstä.",
-                // Hongrois
+                // Hungarian
                 "HU" => "A megadott DeepL API kulcs érvénytelen. A csoportcímek fordítási funkciója le van tiltva.",
-                // Indonésien
+                // Indonesian
                 "ID" => "Kunci API DeepL yang dimasukkan tidak valid. Fungsi terjemahan alamat grup telah dinonaktifkan.",
-                // Italien
+                // Italian
                 "IT" => "La chiave API DeepL inserita non è valida. La funzione di traduzione degli indirizzi di gruppo è stata disattivata.",
-                // Japonais
+                // Japanese
                 "JA" => "入力されたDeepL APIキーが無効です。グループアドレス翻訳機能が無効になっています。",
-                // Coréen
+                // Korean
                 "KO" => "입력한 DeepL API 키가 잘못되었습니다. 그룹 주소 번역 기능이 비활성화되었습니다.",
-                // Letton
+                // Latvian
                 "LV" => "Ievadītā DeepL API atslēga ir nepareiza. Grupas adreses tulkošanas funkcija ir atspējota.",
-                // Lituanien
+                // Lithuanian
                 "LT" => "Įvestas neteisingas DeepL API raktas. Grupės adresų vertimo funkcija išjungta.",
-                // Norvégien
+                // Norwegian
                 "NB" => "Den angitte DeepL API-nøkkelen er ugyldig. Funksjonen for oversettelse av gruppeadresser er deaktivert.",
-                // Néerlandais
+                // Dutch
                 "NL" => "De ingevoerde DeepL API-sleutel is ongeldig. De functie voor het vertalen van groepsadressen is uitgeschakeld.",
-                // Polonais
+                // Polish
                 "PL" => "Wprowadzony klucz API DeepL jest nieprawidłowy. Funkcja tłumaczenia adresów grupowych została wyłączona.",
-                // Portugais
+                // Portuguese
                 "PT" => "A chave API do DeepL inserida está incorreta. A função de tradução de endereços de grupo foi desativada.",
-                // Roumain
+                // Romanian
                 "RO" => "Cheia API DeepL introdusă este incorectă. Funcția de traducere a adreselor de grup a fost dezactivată.",
-                // Russe
+                // Russian
                 "RU" => "Введенный ключ API DeepL неверен. Функция перевода групповых адресов отключена.",
-                // Slovaque
+                // Slovak
                 "SK" => "Zadaný kľúč API DeepL je neplatný. Funkcia prekladu skupinových adries bola deaktivovaná.",
-                // Slovène
+                // Slovenian
                 "SL" => "Vneseni DeepL API ključ je neveljaven. Funkcija prevajanja skupinskih naslovov je onemogočena.",
-                // Suédois
+                // Swedish
                 "SV" => "Den angivna DeepL API-nyckeln är ogiltig. Funktionen för översättning av gruppadresser har inaktiverats.",
-                // Turc
+                // Turkish
                 "TR" => "Girilen DeepL API anahtarı geçersiz. Grup adresi çeviri fonksiyonu devre dışı bırakıldı.",
-                // Ukrainien
+                // Ukrainian
                 "UK" => "Введений ключ API DeepL неправильний. Функцію перекладу групових адрес вимкнено.",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => "输入的 DeepL API 密钥不正确。已禁用群组地址翻译功能。",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => "La clé API DeepL entrée est incorrecte. La fonction de traduction des adresses de groupe a été désactivée."
             };
 
@@ -1630,65 +1640,65 @@ public static class GroupAddressNameCorrector
             
             errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => $"خطأ في الاتصال بالشبكة عند التحقق من مفتاح API DeepL لتفعيل ترجمة عناوين المجموعة: {ex.Message}. يرجى التحقق من اتصال الشبكة وإعادة المحاولة.",
-                // Bulgare
+                // Bulgarian
                 "BG" => $"Грешка в мрежовата връзка при проверка на API ключа на DeepL за активиране на превода на групови адреси: {ex.Message}. Моля, проверете мрежовата си връзка и опитайте отново.",
-                // Tchèque
+                // Czech
                 "CS" => $"Chyba síťového připojení při ověřování klíče API DeepL pro aktivaci překladu skupinových adres: {ex.Message}. Zkontrolujte prosím své síťové připojení a zkuste to znovu.",
-                // Danois
+                // Danish
                 "DA" => $"Netværksforbindelsesfejl ved verificering af DeepL API-nøglen for at aktivere oversættelse af gruppeadresser: {ex.Message}. Kontroller venligst din netværksforbindelse og prøv igen.",
-                // Allemand
+                // German
                 "DE" => $"Netzwerkverbindungsfehler bei der Überprüfung des DeepL API-Schlüssels zur Aktivierung der Übersetzung von Gruppenadressen: {ex.Message}. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.",
-                // Grec
+                // Greek
                 "EL" => $"Σφάλμα σύνδεσης δικτύου κατά την επαλήθευση του κλειδιού API DeepL για την ενεργοποίηση της μετάφρασης διευθύνσεων ομάδας: {ex.Message}. Ελέγξτε τη σύνδεση δικτύου σας και δοκιμάστε ξανά.",
-                // Anglais
+                // English
                 "EN" => $"Network connection error when verifying the DeepL API key to enable group address translation: {ex.Message}. Please check your network connection and try again.",
-                // Espagnol
+                // Spanish
                 "ES" => $"Error de conexión de red al verificar la clave API de DeepL para habilitar la traducción de direcciones de grupo: {ex.Message}. Por favor, verifique su conexión de red y vuelva a intentarlo.",
-                // Estonien
+                // Estonian
                 "ET" => $"Võrguühenduse viga DeepL API võtme kontrollimisel rühma aadressi tõlke lubamiseks: {ex.Message}. Kontrollige oma võrguühendust ja proovige uuesti.",
-                // Finnois
+                // Finnish
                 "FI" => $"Verkkoyhteysvirhe tarkistettaessa DeepL API-avainta ryhmäosoitteiden kääntämisen aktivoimiseksi: {ex.Message}. Tarkista verkkoyhteytesi ja yritä uudelleen.",
-                // Hongrois
+                // Hungarian
                 "HU" => $"Hálózati kapcsolat hiba a DeepL API kulcs ellenőrzésekor a csoportcím fordításának engedélyezéséhez: {ex.Message}. Kérjük, ellenőrizze a hálózati kapcsolatát, és próbálja újra.",
-                // Indonésien
+                // Indonesian
                 "ID" => $"Kesalahan koneksi jaringan saat memverifikasi kunci API DeepL untuk mengaktifkan terjemahan alamat grup: {ex.Message}. Silakan periksa koneksi jaringan Anda dan coba lagi.",
-                // Italien
+                // Italian
                 "IT" => $"Errore di connessione di rete durante la verifica della chiave API DeepL per abilitare la traduzione degli indirizzi di gruppo: {ex.Message}. Si prega di controllare la connessione di rete e riprovare.",
-                // Japonais
+                // Japanese
                 "JA" => $"グループアドレスの翻訳を有効にするためにDeepL APIキーを検証する際のネットワーク接続エラー: {ex.Message}. ネットワーク接続を確認して、もう一度やり直してください。",
-                // Coréen
+                // Korean
                 "KO" => $"그룹 주소 번역을 활성화하기 위해 DeepL API 키를 확인하는 동안 네트워크 연결 오류: {ex.Message}. 네트워크 연결을 확인하고 다시 시도하십시오.",
-                // Letton
+                // Latvian
                 "LV" => $"Tīkla savienojuma kļūda, pārbaudot DeepL API atslēgu, lai aktivizētu grupas adrešu tulkošanu: {ex.Message}. Lūdzu, pārbaudiet savu tīkla savienojumu un mēģiniet vēlreiz.",
-                // Lituanien
+                // Lithuanian
                 "LT" => $"Tinklo ryšio klaida tikrinant DeepL API raktą grupės adresų vertimui įjungti: {ex.Message}. Patikrinkite savo tinklo ryšį ir bandykite dar kartą.",
-                // Norvégien
+                // Norwegian
                 "NB" => $"Nettverksforbindelsesfeil ved verifisering av DeepL API-nøkkelen for å aktivere oversettelse av gruppeadresser: {ex.Message}. Vennligst sjekk nettverksforbindelsen din og prøv igjen.",
-                // Néerlandais
+                // Dutch
                 "NL" => $"Netwerkverbindingsfout bij het verifiëren van de DeepL API-sleutel om groepsadresvertaling in te schakelen: {ex.Message}. Controleer uw netwerkverbinding en probeer het opnieuw.",
-                // Polonais
+                // Polish
                 "PL" => $"Błąd połączenia sieciowego podczas weryfikacji klucza API DeepL w celu włączenia tłumaczenia adresów grupowych: {ex.Message}. Sprawdź swoje połączenie sieciowe i spróbuj ponownie.",
-                // Portugais
+                // Portuguese
                 "PT" => $"Erro de conexão de rede ao verificar a chave API do DeepL para ativar a tradução de endereços de grupo: {ex.Message}. Verifique sua conexão de rede e tente novamente.",
-                // Roumain
+                // Romanian
                 "RO" => $"Eroare de conexiune la rețea la verificarea cheii API DeepL pentru a activa traducerea adreselor de grup: {ex.Message}. Vă rugăm să verificați conexiunea la rețea și să încercați din nou.",
-                // Russe
+                // Russian
                 "RU" => $"Ошибка сетевого подключения при проверке ключа API DeepL для включения перевода групповых адресов: {ex.Message}. Пожалуйста, проверьте сетевое подключение и попробуйте еще раз.",
-                // Slovaque
+                // Slovak
                 "SK" => $"Chyba sieťového pripojenia pri overovaní kľúča API DeepL na aktiváciu prekladu skupinových adries: {ex.Message}. Skontrolujte svoje sieťové pripojenie a skúste to znova.",
-                // Slovène
+                // Slovenian
                 "SL" => $"Napaka omrežne povezave pri preverjanju DeepL API ključa za omogočanje prevajanja skupinskih naslovov: {ex.Message}. Preverite svojo omrežno povezavo in poskusite znova.",
-                // Suédois
+                // Swedish
                 "SV" => $"Nätverksanslutningsfel vid verifiering av DeepL API-nyckeln för att aktivera översättning av gruppadresser: {ex.Message}. Kontrollera din nätverksanslutning och försök igen.",
-                // Turc
+                // Turkish
                 "TR" => $"Grup adresi çevirisini etkinleştirmek için DeepL API anahtarı doğrulanırken ağ bağlantısı hatası: {ex.Message}. Lütfen ağ bağlantınızı kontrol edin ve tekrar deneyin.",
-                // Ukrainien
+                // Ukrainian
                 "UK" => $"Помилка мережевого підключення під час перевірки ключа API DeepL для активації перекладу групових адрес: {ex.Message}. Будь ласка, перевірте своє мережеве підключення та спробуйте ще раз.",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => $"在验证 DeepL API 密钥以启用组地址翻译时出现网络连接错误: {ex.Message}. 请检查您的网络连接，然后重试。",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => $"Erreur de connexion réseau lors de la vérification de la clé API DeepL pour activer la traduction des adresses de groupe: {ex.Message}. Veuillez vérifier votre connexion réseau et réessayer."
             };
             
@@ -1700,65 +1710,65 @@ public static class GroupAddressNameCorrector
             
             errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => "خطأ أثناء تنشيط واجهة برمجة تطبيقات الترجمة DeepL: {ex.Message}. تم تعطيل ترجمة العناوين الجماعية.",
-                // Bulgare
+                // Bulgarian
                 "BG" => "Грешка при активиране на API за превод DeepL: {ex.Message}. Преводът на групови адреси е деактивиран.",
-                // Tchèque
+                // Czech
                 "CS" => "Chyba při aktivaci překladového API DeepL: {ex.Message}. Překlad skupinových adres byl deaktivován.",
-                // Danois
+                // Danish
                 "DA" => "Fejl ved aktivering af DeepL-oversættelses-API: {ex.Message}. Oversættelse af gruppeadresser er deaktiveret.",
-                // Allemand
+                // German
                 "DE" => "Fehler bei der Aktivierung der DeepL-Übersetzungs-API: {ex.Message}. Die Übersetzung von Gruppenadressen wurde deaktiviert.",
-                // Grec
+                // Greek
                 "EL" => "Σφάλμα κατά την ενεργοποίηση του API μετάφρασης DeepL: {ex.Message}. Η μετάφραση των διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
-                // Anglais
+                // English
                 "EN" => "Error activating the DeepL translation API: {ex.Message}. Group address translation has been disabled.",
-                // Espagnol
+                // Spanish
                 "ES" => "Error al activar la API de traducción de DeepL: {ex.Message}. La traducción de direcciones de grupo ha sido desactivada.",
-                // Estonien
+                // Estonian
                 "ET" => "Tõlke-API DeepL aktiveerimisel ilmnes viga: {ex.Message}. Grupi aadresside tõlkimine on keelatud.",
-                // Finnois
+                // Finnish
                 "FI" => "Virhe DeepL-käännös-API:n aktivoinnissa: {ex.Message}. Ryhmäosoitteiden kääntäminen on poistettu käytöstä.",
-                // Hongrois
+                // Hungarian
                 "HU" => "Hiba történt a DeepL fordító-API aktiválása során: {ex.Message}. A csoportcímek fordítása le van tiltva.",
-                // Indonésien
+                // Indonesian
                 "ID" => "Kesalahan saat mengaktifkan API terjemahan DeepL: {ex.Message}. Terjemahan alamat grup telah dinonaktifkan.",
-                // Italien
+                // Italian
                 "IT" => "Errore durante l'attivazione dell'API di traduzione DeepL: {ex.Message}. La traduzione degli indirizzi di gruppo è stata disattivata.",
-                // Japonais
+                // Japanese
                 "JA" => "DeepL翻訳APIの有効化中にエラーが発生しました: {ex.Message}。グループアドレスの翻訳が無効になっています。",
-                // Coréen
+                // Korean
                 "KO" => "DeepL 번역 API 활성화 중 오류 발생: {ex.Message}. 그룹 주소 번역이 비활성화되었습니다.",
-                // Letton
+                // Latvian
                 "LV" => "Kļūda, aktivizējot DeepL tulkošanas API: {ex.Message}. Grupas adrešu tulkošana ir atspējota.",
-                // Lituanien
+                // Lithuanian
                 "LT" => "Klaida aktyvinant DeepL vertimo API: {ex.Message}. Grupės adresų vertimas išjungtas.",
-                // Norvégien
+                // Norwegian
                 "NB" => "Feil ved aktivering av DeepL-oversettelses-API: {ex.Message}. Oversettelse av gruppeadresser er deaktivert.",
-                // Néerlandais
+                // Dutch
                 "NL" => "Fout bij het activeren van de DeepL-vertaal-API: {ex.Message}. Vertaling van groepsadressen is uitgeschakeld.",
-                // Polonais
+                // Polish
                 "PL" => "Błąd podczas aktywacji API tłumaczenia DeepL: {ex.Message}. Tłumaczenie adresów grupowych zostało wyłączone.",
-                // Portugais
+                // Portuguese
                 "PT" => "Erro ao ativar a API de tradução DeepL: {ex.Message}. A tradução de endereços de grupo foi desativada.",
-                // Roumain
+                // Romanian
                 "RO" => "Eroare la activarea API-ului de traducere DeepL: {ex.Message}. Traducerea adreselor de grup a fost dezactivată.",
-                // Russe
+                // Russian
                 "RU" => "Ошибка при активации API перевода DeepL: {ex.Message}. Перевод групповых адресов отключен.",
-                // Slovaque
+                // Slovak
                 "SK" => "Chyba pri aktivácii prekladového API DeepL: {ex.Message}. Preklad skupinových adries bol deaktivovaný.",
-                // Slovène
+                // Slovenian
                 "SL" => "Napaka pri aktivaciji prevajalskega API-ja DeepL: {ex.Message}. Prevajanje skupinskih naslovov je onemogočeno.",
-                // Suédois
+                // Swedish
                 "SV" => "Fel vid aktivering av DeepL-översättnings-API: {ex.Message}. Översättning av gruppadresser har inaktiverats.",
-                // Turc
+                // Turkish
                 "TR" => "DeepL çeviri API'si etkinleştirilirken hata oluştu: {ex.Message}. Grup adresi çevirisi devre dışı bırakıldı.",
-                // Ukrainien
+                // Ukrainian
                 "UK" => "Помилка під час активації API перекладу DeepL: {ex.Message}. Переклад групових адрес вимкнено.",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => "激活DeepL翻译API时出错: {ex.Message}。组地址翻译已禁用。",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => $"Erreur lors de l'activation de l'API de traduction DeepL: {ex.Message}. La traduction des adresses de groupe a été désactivée."
             };
 
@@ -1770,65 +1780,65 @@ public static class GroupAddressNameCorrector
             
             errMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
             {
-                // Arabe
+                // Arabic
                 "AR" => $"حدث خطأ غير متوقع أثناء تفعيل واجهة برمجة تطبيقات الترجمة DeepL: {ex.Message}. تم تعطيل ترجمة عناوين المجموعة.",
-                // Bulgare
+                // Bulgarian
                 "BG" => $"Възникна неочаквана грешка при активиране на API за превод на DeepL: {ex.Message}. Преводът на груповите адреси е деактивиран.",
-                // Tchèque
+                // Czech
                 "CS" => $"Při aktivaci překládacího API DeepL došlo k neočekávané chybě: {ex.Message}. Překlad skupinových adres byl deaktivován.",
-                // Danois
+                // Danish
                 "DA" => $"Der opstod en uventet fejl under aktivering af DeepL-oversættelses-API: {ex.Message}. Oversættelse af gruppeadresser er deaktiveret.",
-                // Allemand
+                // German
                 "DE" => $"Ein unerwarteter Fehler ist beim Aktivieren der DeepL-Übersetzungs-API aufgetreten: {ex.Message}. Die Übersetzung von Gruppenadressen wurde deaktiviert.",
-                // Grec
+                // Greek
                 "EL" => $"Παρουσιάστηκε ένα απρόσμενο σφάλμα κατά την ενεργοποίηση του API μετάφρασης DeepL: {ex.Message}. Η μετάφραση των διευθύνσεων ομάδας έχει απενεργοποιηθεί.",
-                // Anglais
+                // English
                 "EN" => $"An unexpected error occurred while activating the DeepL translation API: {ex.Message}. Group address translation has been disabled.",
-                // Espagnol
+                // Spanish
                 "ES" => $"Ocurrió un error inesperado al activar la API de traducción de DeepL: {ex.Message}. La traducción de direcciones de grupo ha sido desactivada.",
-                // Estonien
+                // Estonian
                 "ET" => $"DeepL tõlke API aktiveerimisel ilmnes ootamatu viga: {ex.Message}. Grupi aadresside tõlkimine on keelatud.",
-                // Finnois
+                // Finnish
                 "FI" => $"DeepL-käännös-API:ta aktivoitaessa tapahtui odottamaton virhe: {ex.Message}. Ryhmäosoitteiden kääntäminen on poistettu käytöstä.",
-                // Hongrois
+                // Hungarian
                 "HU" => $"A DeepL fordító-API aktiválása során váratlan hiba történt: {ex.Message}. A csoportcímek fordítása letiltásra került.",
-                // Indonésien
+                // Indonesian
                 "ID" => $"Terjadi kesalahan tak terduga saat mengaktifkan API terjemahan DeepL: {ex.Message}. Terjemahan alamat grup telah dinonaktifkan.",
-                // Italien
+                // Italian
                 "IT" => $"Si è verificato un errore imprevisto durante l'attivazione dell'API di traduzione DeepL: {ex.Message}. La traduzione degli indirizzi di gruppo è stata disabilitata.",
-                // Japonais
+                // Japanese
                 "JA" => $"DeepL翻訳APIの有効化中に予期しないエラーが発生しました: {ex.Message}。グループアドレスの翻訳が無効になりました。",
-                // Coréen
+                // Korean
                 "KO" => $"DeepL 번역 API를 활성화하는 동안 예상치 못한 오류가 발생했습니다: {ex.Message}. 그룹 주소 번역이 비활성화되었습니다.",
-                // Letton
+                // Latvian
                 "LV" => $"Aktivējot DeepL tulkošanas API, radās neparedzēta kļūda: {ex.Message}. Grupas adreses tulkošana ir atspējota.",
-                // Lituanien
+                // Lithuanian
                 "LT" => $"Įjungiant „DeepL“ vertimo API įvyko nenumatyta klaida: {ex.Message}. Grupės adresų vertimas buvo išjungtas.",
-                // Norvégien
+                // Norwegian
                 "NB" => $"En uventet feil oppsto under aktivering av DeepL oversettelses-API: {ex.Message}. Oversettelse av gruppeadresser er deaktivert.",
-                // Néerlandais
+                // Dutch
                 "NL" => $"Er is een onverwachte fout opgetreden bij het activeren van de DeepL-vertaal-API: {ex.Message}. Vertaling van groepsadressen is uitgeschakeld.",
-                // Polonais
+                // Polish
                 "PL" => $"Wystąpił nieoczekiwany błąd podczas aktywacji interfejsu API tłumaczenia DeepL: {ex.Message}. Tłumaczenie adresów grupowych zostało wyłączone.",
-                // Portugais
+                // Portuguese
                 "PT" => $"Ocorreu um erro inesperado ao ativar a API de tradução DeepL: {ex.Message}. A tradução de endereços de grupo foi desativada.",
-                // Roumain
+                // Romanian
                 "RO" => $"A apărut o eroare neașteptată în timpul activării API-ului de traducere DeepL: {ex.Message}. Traducerea adreselor de grup a fost dezactivată.",
-                // Russe
+                // Russian
                 "RU" => $"Произошла непредвиденная ошибка при активации API перевода DeepL: {ex.Message}. Перевод групповых адресов был отключен.",
-                // Slovaque
+                // Slovak
                 "SK" => $"Pri aktivácii prekladacieho API DeepL došlo k neočakávanej chybe: {ex.Message}. Preklad skupinových adries bol deaktivovaný.",
-                // Slovène
+                // Slovenian
                 "SL" => $"Pri aktivaciji prevajalskega API-ja DeepL je prišlo do nepričakovane napake: {ex.Message}. Prevajanje naslovov skupin je onemogočeno.",
-                // Suédois
+                // Swedish
                 "SV" => $"Ett oväntat fel uppstod vid aktivering av DeepL-översättnings-API: {ex.Message}. Översättning av gruppadresser har inaktiverats.",
-                // Turc
+                // Turkish
                 "TR" => $"DeepL çeviri API'si etkinleştirilirken beklenmedik bir hata oluştu: {ex.Message}. Grup adresi çevirisi devre dışı bırakıldı.",
-                // Ukrainien
+                // Ukrainian
                 "UK" => $"Виникла непередбачена помилка під час активації API перекладу DeepL: {ex.Message}. Переклад групових адрес відключено.",
-                // Chinois simplifié
+                // Chinese (simplified)
                 "ZH" => $"激活DeepL翻译API时发生意外错误: {ex.Message}。已禁用群组地址翻译。",
-                // Cas par défaut (français)
+                // Default case (french)
                 _ => $"Une erreur inattendue est survenue lors de l'activation de l'API de traduction DeepL: {ex.Message}. La traduction des adresses de groupe a été désactivée."
             };
 
@@ -2049,44 +2059,68 @@ public static class GroupAddressNameCorrector
         // Check if any word matches a word in lowerCaseStringsToAdd (case-insensitive)
         if (lowerCaseStringsToAdd != null)
         {
-            foreach (var stringToAdd in lowerCaseStringsToAdd)
+            foreach (var word in words)
             {
-                var stringToAddWords = stringToAdd.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+                var lowerCaseWord = RemoveDiacritics(word.ToLower());
 
-                bool allWordsMatch = true;
-                foreach (var stringToAddWord in stringToAddWords)
+                bool wordMatchesAnyStringToAdd = false;
+                foreach (var stringToAdd in lowerCaseStringsToAdd)
                 {
-                    bool wordMatch = false;
-                    var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
-                    foreach (var word in words)
-                    {
-                        var lowerCaseWord = RemoveDiacritics(word.ToLower());
+                    var stringToAddWords = stringToAdd.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        if (stringToAdd.EndsWith("*"))
+                    bool allWordsMatch = true;
+                    foreach (var stringToAddWord in stringToAddWords)
+                    {
+                        var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
+
+                        if (lowerCaseStringToAddWord.Contains('*'))
                         {
-                            // If the string in stringsToAdd ends with '*', check if the word starts with the string (excluding '*')
-                            var prefix = RemoveDiacritics(lowerCaseStringToAddWord.TrimEnd('*'));
-                            if (lowerCaseWord.StartsWith(prefix))
+                            // Split the stringToAddWord by '*'
+                            var parts = lowerCaseStringToAddWord.Split('*');
+
+                            // Check if the word matches the pattern
+                            int currentIndex = 0;
+                            bool isMatch = true;
+
+                            foreach (var part in parts)
                             {
-                                wordMatch = true;
+                                if (string.IsNullOrEmpty(part)) continue;
+
+                                currentIndex = lowerCaseWord.IndexOf(part, currentIndex, StringComparison.Ordinal);
+
+                                if (currentIndex == -1)
+                                {
+                                    isMatch = false;
+                                    break;
+                                }
+
+                                currentIndex += part.Length;
+                            }
+
+                            // Ensure that the entire word is covered by the pattern
+                            if (!(isMatch && parts[0] == lowerCaseWord.Substring(0, parts[0].Length) && lowerCaseWord.EndsWith(parts[^1])))
+                            {
+                                allWordsMatch = false;
                                 break;
                             }
                         }
-                        else if (lowerCaseStringToAddWord == lowerCaseWord)
+                        else if (lowerCaseStringToAddWord != lowerCaseWord)
                         {
-                            wordMatch = true;
+                            allWordsMatch = false;
                             break;
                         }
                     }
-                    if (!wordMatch)
+
+                    if (allWordsMatch)
                     {
-                        allWordsMatch = false;
+                        wordMatchesAnyStringToAdd = true;
                         break;
                     }
                 }
-                if (allWordsMatch)
+
+                if (wordMatchesAnyStringToAdd)
                 {
-                    matchingWords.Add(stringToAdd);
+                    matchingWords.Add(word);
                 }
             }
         }
@@ -2168,13 +2202,13 @@ public static class GroupAddressNameCorrector
             // Format the name of the ancestor GroupRange
             nameFunction = $"_{_formatter.Format(ancestorGroupRange.Attribute("Name")?.Value ?? string.Empty)}";
             // Translate the group name
-            TranslateGroupRangeName(ancestorGroupRange);
+            FormatGroupRangeName(ancestorGroupRange);
         }
         
         // Format the name of the current GroupRange
         nameFunction += $"_{_formatter.Format(groupRangeElement.Attribute("Name")?.Value ?? string.Empty)}";
         // Translate the group name
-        TranslateGroupRangeName(groupRangeElement);
+        FormatGroupRangeName(groupRangeElement);
 
         return nameFunction;
     }
@@ -2186,17 +2220,25 @@ public static class GroupAddressNameCorrector
     ///
     /// <param name="groupRangeElement">An XElement representing the group range with a "Name" attribute to be translated.</param>
     /// </summary>
-    private static void TranslateGroupRangeName(XElement groupRangeElement)
+    private static void FormatGroupRangeName(XElement groupRangeElement)
     {
-        //Check if the translation is needed
-        if (App.DisplayElements?.SettingsWindow == null || !App.DisplayElements.SettingsWindow.EnableDeeplTranslation || !ValidDeeplKey)
-            return;
-
         var nameAttr = groupRangeElement.Attribute("Name");
         if (nameAttr == null) return;
 
         var nameValue = nameAttr.Value;
-        if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue))
+
+        if (FormatCache.Contains(nameValue))
+            return;
+        
+        if (App.DisplayElements?.SettingsWindow != null && !App.DisplayElements.SettingsWindow.EnableDeeplTranslation )
+        {
+            nameAttr.Value = RemoveDiacritics(nameValue);
+            FormatCache.Add(nameAttr.Value);
+            return;
+        }
+        
+        //Check if the translation is needed
+        if (string.IsNullOrEmpty(nameValue) || TranslationCache.Contains(nameValue)|| !ValidDeeplKey)
             return;
 
         // Translated only if not already translated

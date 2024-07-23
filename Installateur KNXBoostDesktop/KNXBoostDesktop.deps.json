@@ -9,6 +9,7 @@
       "KNXBoostDesktop/1.0.0": {
         "dependencies": {
           "DeepL.net": "1.9.0",
+          "JsonTransformation": "1.0.1",
           "MahApps.Metro": "3.0.0-alpha0492",
           "System.Management": "8.0.0"
         },
@@ -37,6 +38,17 @@
           "lib/net5.0/DeepL.net.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.9.0.0"
+          }
+        }
+      },
+      "JsonTransformation/1.0.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/JsonTransformation.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.0"
           }
         }
       },
@@ -153,6 +165,14 @@
           }
         }
       },
+      "Newtonsoft.Json/12.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.2.23222"
+          }
+        }
+      },
       "Polly/7.1.0": {
         "runtime": {
           "lib/netstandard2.0/Polly.dll": {
@@ -219,6 +239,13 @@
       "sha512": "sha512-EGlXumiKp4Dz62vm0sr+4EnYy+4ajWqhRCrk5Zgw354ybaCMNp6vGvC1HY5zcW1OKTb8/f0WeECX9dG2y3QWqg==",
       "path": "deepl.net/1.9.0",
       "hashPath": "deepl.net.1.9.0.nupkg.sha512"
+    },
+    "JsonTransformation/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hQccwAdSbLh7vNN5Nxgq4LAAA5VeLcxTjHqZOpqcqe/MRFqn5WH7zxKqmR+wYYSR+hYUEV0Rav3iZ2n/4YVdvQ==",
+      "path": "jsontransformation/1.0.1",
+      "hashPath": "jsontransformation.1.0.1.nupkg.sha512"
     },
     "MahApps.Metro/3.0.0-alpha0492": {
       "type": "package",
@@ -289,6 +316,13 @@
       "sha512": "sha512-MCu674ZETgU18EbxfwIlRpUPJ02YbZenLsMCXTkpeA7KUBpXfFaOUDlEO+7UWu5AFnUoydg+aQENJkuaZPheMQ==",
       "path": "microsoft.xaml.behaviors.wpf/1.1.77",
       "hashPath": "microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
+      "path": "newtonsoft.json/12.0.2",
+      "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
     },
     "Polly/7.1.0": {
       "type": "package",
