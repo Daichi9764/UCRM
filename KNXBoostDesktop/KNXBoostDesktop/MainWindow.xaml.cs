@@ -149,11 +149,9 @@ public partial class MainWindow
             borderPanelColor = "#D7D7D7";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
+
             BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleLight");
             BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleLight");
-
-
-
 
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
