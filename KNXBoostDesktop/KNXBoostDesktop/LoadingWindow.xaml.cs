@@ -14,12 +14,13 @@ namespace KNXBoostDesktop
         /// </summary>
         private ObservableCollection<Activity> Activities { get; }
 
+        private CancellationTokenSource _cancellationTokenSource;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingWindow"/> class.
         /// Sets up the progress bar and initializes the activity's collection.
         /// </summary>
-        public LoadingWindow()
+        public LoadingWindow(CancellationTokenSource cancellationTokenSource)
         {
             InitializeComponent();
 
@@ -30,6 +31,18 @@ namespace KNXBoostDesktop
             ActivityLog.ItemsSource = Activities;
             
             ApplyScaling(App.DisplayElements!.SettingsWindow!.AppScaleFactor/100f);
+            _cancellationTokenSource = cancellationTokenSource;
+            this.Closing += LoadingWindow_Closing;
+        }
+        
+        private void CloseLoading(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void LoadingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _cancellationTokenSource.Cancel();
         }
 
         

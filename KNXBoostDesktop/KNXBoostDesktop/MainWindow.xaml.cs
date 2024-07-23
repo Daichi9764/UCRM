@@ -827,8 +827,10 @@ public partial class MainWindow
             // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
+            _cancellationTokenSource = new CancellationTokenSource();
+
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
                 Owner = this
             };
@@ -915,9 +917,25 @@ public partial class MainWindow
             });
             
             ShowOverlay();
-            _cancellationTokenSource = new CancellationTokenSource();
-            _longTask = ExecuteLongRunningTask();
-            await _longTask;
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                HideOverlay();
+                App.DisplayElements.LoadingWindow?.Close();
+            }
             //await ExecuteLongRunningTask();
             HideOverlay();
             
@@ -1030,9 +1048,10 @@ public partial class MainWindow
         ButtonReload.Visibility = Visibility.Hidden;
 
         App.ConsoleAndLogWriteLine("Reaload");
+        _cancellationTokenSource = new CancellationTokenSource();
 
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
                 Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
             };
@@ -1057,10 +1076,25 @@ public partial class MainWindow
             });
 
             ShowOverlay();
-            _cancellationTokenSource = new CancellationTokenSource();
-            _longTask = ExecuteLongRunningTask();
-            await _longTask;
-            HideOverlay();
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                HideOverlay();
+                App.DisplayElements.LoadingWindow?.Close();
+            }
 
             stopwatch.Stop();
             var finalElapsedTime = stopwatch.Elapsed;
@@ -1283,7 +1317,6 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-        
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {
@@ -1831,10 +1864,10 @@ public partial class MainWindow
     /// and performing multiple asynchronous operations including file extraction, data processing, and UI updates.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteLongRunningTask()
+    private async Task ExecuteLongRunningTask(CancellationTokenSource cancellationTokenSource)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
+        //_cancellationTokenSource = new CancellationTokenSource();
+        //var token = _cancellationTokenSource.Token;
         if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
             App.DisplayElements.LoadingWindow?.SetLightMode();
@@ -1847,7 +1880,6 @@ public partial class MainWindow
         App.DisplayElements?.ShowLoadingWindow();
 
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
-
         try
         {
             // Exécuter les tâches
@@ -2044,7 +2076,8 @@ public partial class MainWindow
                 {
                     await App.Fm.FindZeroXml().ConfigureAwait(false);
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
-                    await GroupAddressNameCorrector.CorrectName(token).ConfigureAwait(false);
+                    await GroupAddressNameCorrector.CorrectName(cancellationTokenSource).ConfigureAwait(false);
+                   cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -2080,7 +2113,7 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
                     App.DisplayElements?.LoadingWindow?.CompleteActivity();
                 });
-            }, token);
+            }, cancellationTokenSource.Token);
         }
         catch (OperationCanceledException)
         {
