@@ -1033,8 +1033,10 @@
                                            </ScrollViewer>
                                        </TabItem>
                                        
-                                       <TabItem x:Name="OngletInclusions" Header="Inclusions" Style="{StaticResource LightOnglet}">
-                                           <StackPanel Orientation="Vertical">
+                                       <TabItem x:Name="OngletInclusions" Style="{StaticResource LightOnglet}">
+                                           <ScrollViewer x:Name="ScrollViewerInclusion" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                           <StackPanel Orientation="Vertical" Background="White">
+                                               
                                                <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
                                                           FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,0" 
@@ -1044,16 +1046,15 @@
                                                <TextBox Name="InputTextBox" Margin="10,10,10,0" 
                                                         KeyDown="InputTextBox_KeyDown"
                                                         VerticalAlignment="Top" />
-
-                                               <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                               
                                                    <ListBox Name="WordsListBox" Margin="10,10,10,0"
                                                             IsTabStop="False"
-                                                            ItemsSource="{Binding Words}"
+                                                            ItemsSource="{Binding StringsShownInWindow}"
                                                             SelectionMode="Extended"
                                                             KeyDown="WordsListBox_KeyDown">
                                                        <ListBox.ItemsPanel>
                                                            <ItemsPanelTemplate>
-                                                               <WrapPanel Orientation="Horizontal" MaxWidth="435"/>
+                                                               <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
                                                            </ItemsPanelTemplate>
                                                        </ListBox.ItemsPanel>
                                                        <ListBox.ItemTemplate>
@@ -1070,8 +1071,8 @@
                                                            </DataTemplate>
                                                        </ListBox.ItemTemplate>
                                                    </ListBox>
-                                               </ScrollViewer>
                                            </StackPanel>
+                                           </ScrollViewer>
                                        </TabItem>
                                        
                                        <TabItem x:Name="OngletDebug" Style="{StaticResource LightOnglet}">

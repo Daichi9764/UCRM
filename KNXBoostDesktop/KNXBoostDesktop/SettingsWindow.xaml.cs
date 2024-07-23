@@ -67,7 +67,6 @@ namespace KNXBoostDesktop
         /// </summary>
         public string AppLang { get; private set; } // Langue de l'application (français par défaut)
 
-
         /// <summary>
         ///  Gets or sets the scale factor for the content of every window of the application
         /// </summary>
@@ -77,8 +76,12 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Strings to preserve during the correction of group addresses. If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
         /// </summary>
-        public List<string> StringsToAdd { get; private set; } // Chaines de caractères à conserver lors de la correction des adresses de groupe
-
+        public ObservableCollection<string> StringsToAdd { get; private set; } = new(); // Chaines de caractères à conserver lors de la correction des adresses de groupe
+        
+        /// <summary>
+        /// List of all the strings shown in the listbox in the settings window
+        /// </summary>
+        public ObservableCollection<string> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenpetre
 
 
 
@@ -108,7 +111,6 @@ namespace KNXBoostDesktop
             AppLang = "FR";
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
-            StringsToAdd = new List<string>();
 
         const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
 
@@ -3038,6 +3040,8 @@ namespace KNXBoostDesktop
                     AddressKeepingText.Text = "Chaînes à conserver dans les adresses durant la correction";
                     break;
             }
+
+            OngletInclusions.Header = AddressKeepingTitle.Text;
         }
 
 
@@ -3362,6 +3366,7 @@ namespace KNXBoostDesktop
             var previousAppLang = AppLang;
             var previousAppScaleFactor = AppScaleFactor;
             var previousDeepLKey = DeeplKey;
+            var previousStringsToAdd = StringsToAdd;
 
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
@@ -3373,7 +3378,7 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
 
-            List<string> newStringsToKeep = [];
+            ObservableCollection<string> newStringsToKeep = [];
 
             // On remplit la liste en récupérant les différents strings. Ils peuvent être séparés par des virgules ou des points virgules
             foreach (var st in AddressKeepingTextbox.Text.Split(','))
@@ -3384,7 +3389,13 @@ namespace KNXBoostDesktop
                 // Note 2 : On ne prend pas en compte les chaines vides ou les suites d'espaces
                 if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
                 {
-                    newStringsToKeep.AddRange(from st2 in st.Split(';') where !st2.Trim().Equals("", StringComparison.OrdinalIgnoreCase) select st2.Trim());
+                    foreach (var st2 in st.Split(';'))
+                    {
+                        if (!st2.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
+                        {
+                            newStringsToKeep.Add(st2.Trim());
+                        }
+                    }
                 }
             }
 
@@ -3396,6 +3407,11 @@ namespace KNXBoostDesktop
             if (listChanged)
             {
                 StringsToAdd = newStringsToKeep;
+            }
+
+            foreach (var st in StringsToAdd)
+            {
+                App.ConsoleAndLogWriteLine(st);
             }
 
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
@@ -4590,19 +4606,16 @@ namespace KNXBoostDesktop
             Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
         }
         
-        public ObservableCollection<string> Words { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> StringsToAdd2 { get; set; } = new ObservableCollection<string>();
-        
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(InputTextBox.Text))
             {
                 var newWord = InputTextBox.Text.Trim();
-                if (!Words.Contains(newWord))
+                if (!StringsShownInWindow.Contains(newWord))
                 {
-                    Words.Add(newWord);
-                    StringsToAdd2.Add(newWord);
+                    StringsShownInWindow.Add(newWord);
+                    StringsToAdd.Add(newWord);
                 }
                 InputTextBox.Clear();
             }
@@ -4613,7 +4626,6 @@ namespace KNXBoostDesktop
             if (e.Key == Key.Delete && WordsListBox.SelectedItem != null)
             {
                 var selectedIndex = WordsListBox.SelectedIndex;
-                var selectedWord = WordsListBox.SelectedItem.ToString();
                 
                 var itemsToRemove = new List<string>();
 
@@ -4628,16 +4640,16 @@ namespace KNXBoostDesktop
                 // Supprimez les éléments de la liste principale
                 foreach (var word in itemsToRemove)
                 {
-                    Words.Remove(word);
+                    StringsShownInWindow.Remove(word);
                     StringsToAdd.Remove(word);
                 }
                 
                 // Sélectionner l'élément suivant
-                if (Words.Count > 0)
+                if (StringsShownInWindow.Count > 0)
                 {
-                    if (selectedIndex >= Words.Count)
+                    if (selectedIndex >= StringsShownInWindow.Count)
                     {
-                        selectedIndex = Words.Count - 1;
+                        selectedIndex = StringsShownInWindow.Count - 1;
                     }
                     WordsListBox.SelectedIndex = selectedIndex;
                 }
@@ -4646,48 +4658,67 @@ namespace KNXBoostDesktop
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            var checkBox = sender as CheckBox;
-            if (checkBox != null)
+            if (sender is not CheckBox checkBox) return;
+            
+            // Accédez au StackPanel parent
+            var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+
+            // Trouvez le TextBlock dans le StackPanel
+            var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+            
+            if (textBlock == null) return;
+            
+            var word = textBlock.Text;
+            if (!StringsToAdd.Contains(word))
             {
-                // Accédez au StackPanel parent
-                var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
-                if (stackPanel != null)
-                {
-                    // Trouvez le TextBlock dans le StackPanel
-                    var textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
-                    if (textBlock != null)
-                    {
-                        var word = textBlock.Text;
-                        if (!StringsToAdd2.Contains(word))
-                        {
-                            StringsToAdd2.Add(word);
-                        }
-                    }
-                }
+                StringsToAdd.Add(word);
             }
+
+            foreach (var st in StringsToAdd)
+            {
+                App.ConsoleAndLogWriteLine(st);
+            }
+            App.ConsoleAndLogWriteLine("--------");
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            var checkBox = sender as CheckBox;
-            if (checkBox != null)
+            if (sender is not CheckBox checkBox) return;
+            
+            // Accédez au StackPanel parent
+            var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+
+            // Trouvez le TextBlock dans le StackPanel
+            var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
+                    
+            if (textBlock == null) return;
+                    
+            var word = textBlock.Text;
+            StringsToAdd.Remove(word);
+            
+            foreach (var st in StringsToAdd)
             {
-                // Accédez au StackPanel parent
-                var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
-                if (stackPanel != null)
-                {
-                    // Trouvez le TextBlock dans le StackPanel
-                    var textBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
-                    if (textBlock != null)
-                    {
-                        var word = textBlock.Text;
-                        if (StringsToAdd2.Contains(word))
-                        {
-                            StringsToAdd2.Remove(word);
-                        }
-                    }
-                }
+                App.ConsoleAndLogWriteLine(st);
+            }
+            App.ConsoleAndLogWriteLine("--------");
+        }
+        
+        private void WrapPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var wrapPanel = sender as WrapPanel;
+            
+            // On vérifie si la scrollbar est visible ou non
+            if (ScrollViewerInclusion.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+            {
+                // Si elle est visible, on réduit la largeur de la liste pour pas avoir de scrollbar horizontale
+                if (wrapPanel != null) wrapPanel.MaxWidth = 415;
+            }
+            else
+            {
+                // Sinon, on laisse la largeur par défaut
+                if (wrapPanel != null) wrapPanel.MaxWidth = 430;
             }
         }
+        
     }
 }

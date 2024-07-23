@@ -5,6 +5,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:local="clr-namespace:KNXBoostDesktop"
                   xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
                   mc:Ignorable="d"
                   Height="600" Width="1000"
                   MinHeight="165"
@@ -988,10 +989,16 @@
 
             <!-- Couche de désactivation -->
             <Grid x:Name="OverlayLight" Background="White" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="WaitingTextLight" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" HorizontalAlignment="Center" Height="24" Foreground="#000000" Margin="10,0,0,0"/>
+                </StackPanel>
             </Grid>
             <Grid x:Name="OverlayDark" Background="#313131" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="WaitingTextDark" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" HorizontalAlignment="Center" Height="24" Foreground="#E4E5E4" Margin="10,0,0,0"/>
+                </StackPanel>
             </Grid>
         </Grid>
 
