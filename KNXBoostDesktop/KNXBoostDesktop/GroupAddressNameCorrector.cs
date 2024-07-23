@@ -103,15 +103,13 @@ public static class GroupAddressNameCorrector
     /* ------------------------------------------------------------------------------------------------
     -------------------------------------------- METHODS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
-    
-    
     // ReSharper disable once InvalidXmlDocComment
-    /// <summary>
-    /// Main task that retrieves information about devices and locations to format the new name for the group addresses.
-    /// Translates names if necessary and removes unused addresses.
-    /// </summary>
-    /// <param name="cancellationToken"> Indicates if the task needs to be cancelled.</param>
-    public static async Task CorrectName(CancellationToken cancellationToken)
+        /// <summary>
+        /// Main task that retrieves information about devices and locations to format the new name for the group addresses.
+        /// Translates names if necessary and removes unused addresses.
+        /// </summary>
+        /// <param name="cancellationToken"> Indicates if the task needs to be cancelled.</param>
+    public static async Task CorrectName(CancellationTokenSource cancellationTokenSource)
     {
         try
         {
@@ -568,8 +566,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingInfos);
-            cancellationToken.ThrowIfCancellationRequested();
-            
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             // Extract location information from the KNX file
             var locationInfo = knxDoc.Descendants(_globalKnxNamespace + "Space")
                 .Where(s => 
@@ -617,8 +614,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infosExtracted);
-            cancellationToken.ThrowIfCancellationRequested();
-            
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             // Display extracted location information
             TotalDevices = 0;
             App.ConsoleAndLogWriteLine("Extracted Location Information:");
@@ -637,13 +633,14 @@ public static class GroupAddressNameCorrector
                 {
                     App.ConsoleAndLogWriteLine($"  DeviceRef: {deviceRef}");
                 }
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceReferences);
 
             // Check if user as close mainWindow
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             // Extract device instance references and  their group object instance references from the KNX file
             var deviceRefsTemp1 = knxDoc.Descendants(_globalKnxNamespace + "DeviceInstance")
@@ -691,7 +688,7 @@ public static class GroupAddressNameCorrector
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(extractingDeviceInfo);
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             var deviceRefs = deviceRefsTemp1.SelectMany(di =>
             {
@@ -724,13 +721,14 @@ public static class GroupAddressNameCorrector
             App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 2/3");
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(infoAndReferencesExtracted);
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             // Display extracted device instance references
             App.ConsoleAndLogWriteLine("Extracted Device Instance References:");
             foreach (var dr in deviceRefs)
             {
                 App.ConsoleAndLogWriteLine($"Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, Group Address Ref: {dr.GroupAddressRef}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
@@ -800,7 +798,7 @@ public static class GroupAddressNameCorrector
             };
             
             App.DisplayElements?.LoadingWindow?.LogActivity(groupingAdresses);
-
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             // Group deviceRefs by GroupAddressRef
             var groupedDeviceRefs = deviceRefs.GroupBy(dr => dr.GroupAddressRef)
                 .Select(g => new
@@ -809,7 +807,7 @@ public static class GroupAddressNameCorrector
                     Devices = g.ToList()
                 })
                 .ToList();
-
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             // Display grouped device instance references
             App.ConsoleAndLogWriteLine("Grouped Device Instance References:");
             foreach (var group in groupedDeviceRefs)
@@ -820,20 +818,20 @@ public static class GroupAddressNameCorrector
                     App.ConsoleAndLogWriteLine(
                         $"  Device Instance ID: {dr.DeviceInstanceId}, Product Ref ID: {dr.ProductRefId}, Is Device Rail Mounted ? : {dr.IsDeviceRailMounted}, HardwareFileName: {dr.HardwareFileName}, ComObjectInstanceRefId: {dr.ComObjectInstanceRefId}, ObjectType: {dr.ObjectType}");
                 }
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(constructingNewAddresses);
-            cancellationToken.ThrowIfCancellationRequested();
-            
             // Collection to track the IDs of renamed GroupAddresses
             HashSet<string> renamedGroupAddressIds = new HashSet<string>();
 
             TotalAddresses = groupedDeviceRefs.Count;
             var totalGroup = groupedDeviceRefs.Count;
             var countGroup = 1;
-            
+
             // Construct the new name of the group address by iterating through each group of device references
+            
             foreach (var gdr in groupedDeviceRefs)
             {
                 App.DisplayElements?.LoadingWindow?.UpdateLogActivity(9, constructingNewAddresses + $" ({countGroup++}/{totalGroup})");
@@ -929,6 +927,7 @@ public static class GroupAddressNameCorrector
                     // Mark the address as renamed
                     renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
                 }
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
             }
             
             // Load the original XML file without any additional modifications
@@ -939,7 +938,7 @@ public static class GroupAddressNameCorrector
 
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(suppressedAddresses);
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             
             // Deletes unused (not renamed) GroupAddresses if requested
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)
@@ -1010,6 +1009,7 @@ public static class GroupAddressNameCorrector
                             App.ConsoleAndLogWriteLine($"Removed unrenamed GroupAddress ID: {groupId}");
                         }
                     }
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
 
             }
@@ -1017,7 +1017,6 @@ public static class GroupAddressNameCorrector
             // Save the updated XML files
             App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
             App.DisplayElements?.LoadingWindow?.LogActivity(savingUpdatedXml);
-            cancellationToken.ThrowIfCancellationRequested();
             App.Fm?.SaveXml(knxDoc, $"{App.Fm.ProjectFolderPath}0_updated.xml");
 
             if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses && originalKnxDoc != null)

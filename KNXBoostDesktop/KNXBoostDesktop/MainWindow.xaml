@@ -531,7 +531,7 @@
         </Style>
 
         <!-- Style bouton invisible -->
-        <Style x:Key="ToggleButtonStyle" TargetType="Button">
+        <Style x:Key="ToggleButtonStyleLight" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -542,6 +542,9 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#D3D3D3"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -562,6 +565,9 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#262626"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -815,7 +821,7 @@
 
 
                             <!-- Bouton déploiement -->
-                            <Button Grid.Column="1" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyle}" >
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyleLight}" >
                                 <Image x:Name="ChevronImage" Width="10" Height="10"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Stretch="Fill">
@@ -945,7 +951,7 @@
 
                             <!-- Bouton déploiement droit/-->
 
-                            <Button Grid.Column="1" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyle}" >
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyleLight}" >
                                 <Image x:Name="ChevronImage2" Width="10" Height="10"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Stretch="Fill">

@@ -150,6 +150,9 @@ public partial class MainWindow
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
 
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleLight");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleLight");
+
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
         }
@@ -167,7 +170,10 @@ public partial class MainWindow
             borderPanelColor = "#525252";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            
+
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
         }
@@ -835,8 +841,10 @@ public partial class MainWindow
             // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
+            _cancellationTokenSource = new CancellationTokenSource();
+
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
                 Owner = this
             };
@@ -923,9 +931,88 @@ public partial class MainWindow
             });
             
             ShowOverlay();
-            _cancellationTokenSource = new CancellationTokenSource();
-            _longTask = ExecuteLongRunningTask();
-            await _longTask;
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                HideOverlay();
+                App.DisplayElements.LoadingWindow?.Close();
+                Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "في انتظار فتح مشروع...",
+                // Bulgare
+                "BG" => "Изчакване за отваряне на проект...",
+                // Tchèque
+                "CS" => "Čekání na otevření projektu...",
+                // Danois
+                "DA" => "Venter på at åbne et projekt...",
+                // Allemand
+                "DE" => "Warten auf das Öffnen eines Projekts...",
+                // Grec
+                "EL" => "Αναμονή για άνοιγμα έργου...",
+                // Anglais
+                "EN" => "Waiting for a project to open...",
+                // Espagnol
+                "ES" => "Esperando a que se abra un proyecto...",
+                // Estonien
+                "ET" => "Ootab projekti avamist...",
+                // Finnois
+                "FI" => "Odotetaan projektin avaamista...",
+                // Hongrois
+                "HU" => "Projekt megnyitására várva...",
+                // Indonésien
+                "ID" => "Menunggu proyek dibuka...",
+                // Italien
+                "IT" => "In attesa dell'apertura di un progetto...",
+                // Japonais
+                "JA" => "プロジェクトのオープンを待っています...",
+                // Coréen
+                "KO" => "프로젝트 열기를 기다리는 중...",
+                // Letton
+                "LV" => "Gaida projekta atvēršanu...",
+                // Lituanien
+                "LT" => "Laukiama projekto atidarymo...",
+                // Norvégien
+                "NB" => "Venter på å åpne et prosjekt...",
+                // Néerlandais
+                "NL" => "Wachten op het openen van een project...",
+                // Polonais
+                "PL" => "Oczekiwanie na otwarcie projektu...",
+                // Portugais
+                "PT" => "Aguardando a abertura de um projeto...",
+                // Roumain
+                "RO" => "Așteptarea deschiderii unui proiect...",
+                // Russe
+                "RU" => "Ожидание открытия проекта...",
+                // Slovaque
+                "SK" => "Čaká sa na otvorenie projektu...",
+                // Slovène
+                "SL" => "Čakam na odprtje projekta...",
+                // Suédois
+                "SV" => "Väntar på att öppna ett projekt...",
+                // Turc
+                "TR" => "Projenin açılması bekleniyor...",
+                // Ukrainien
+                "UK" => "Очікування відкриття проекту...",
+                // Chinois simplifié
+                "ZH" => "等待项目打开...",
+                // Cas par défaut (français)
+                _ => "En attente de l'ouverture d'un projet..."
+            };
+            }
             //await ExecuteLongRunningTask();
             HideOverlay();
             
@@ -1046,9 +1133,10 @@ public partial class MainWindow
 
 
         App.ConsoleAndLogWriteLine("Reaload");
+        _cancellationTokenSource = new CancellationTokenSource();
 
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
                 Owner = this 
             };
@@ -1073,10 +1161,26 @@ public partial class MainWindow
             });
 
             ShowOverlay();
-            _cancellationTokenSource = new CancellationTokenSource();
-            _longTask = ExecuteLongRunningTask();
-            await _longTask;
-            HideOverlay();
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                HideOverlay();
+                
+                App.DisplayElements.LoadingWindow?.Close();
+            }
 
             stopwatch.Stop();
             var finalElapsedTime = stopwatch.Elapsed;
@@ -1299,7 +1403,6 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-        
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {
@@ -1847,10 +1950,10 @@ public partial class MainWindow
     /// and performing multiple asynchronous operations including file extraction, data processing, and UI updates.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteLongRunningTask()
+    private async Task ExecuteLongRunningTask(CancellationTokenSource cancellationTokenSource)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
+        //_cancellationTokenSource = new CancellationTokenSource();
+        //var token = _cancellationTokenSource.Token;
         if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
             App.DisplayElements.LoadingWindow?.SetLightMode();
@@ -1863,7 +1966,6 @@ public partial class MainWindow
         App.DisplayElements?.ShowLoadingWindow();
 
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
-
         try
         {
             // Exécuter les tâches
@@ -2060,7 +2162,8 @@ public partial class MainWindow
                 {
                     await App.Fm.FindZeroXml().ConfigureAwait(false);
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
-                    await GroupAddressNameCorrector.CorrectName(token).ConfigureAwait(false);
+                    await GroupAddressNameCorrector.CorrectName(cancellationTokenSource).ConfigureAwait(false);
+                   cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -2096,7 +2199,7 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
                     App.DisplayElements?.LoadingWindow?.CompleteActivity();
                 });
-            }, token);
+            }, cancellationTokenSource.Token);
         }
         catch (OperationCanceledException)
         {
