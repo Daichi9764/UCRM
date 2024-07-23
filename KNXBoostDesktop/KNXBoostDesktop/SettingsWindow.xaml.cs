@@ -3366,6 +3366,7 @@ namespace KNXBoostDesktop
             var previousAppLang = AppLang;
             var previousAppScaleFactor = AppScaleFactor;
             var previousDeepLKey = DeeplKey;
+            var previousStringsToAdd = StringsToAdd;
 
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
@@ -3406,6 +3407,11 @@ namespace KNXBoostDesktop
             if (listChanged)
             {
                 StringsToAdd = newStringsToKeep;
+            }
+
+            foreach (var st in StringsToAdd)
+            {
+                App.ConsoleAndLogWriteLine(st);
             }
 
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
