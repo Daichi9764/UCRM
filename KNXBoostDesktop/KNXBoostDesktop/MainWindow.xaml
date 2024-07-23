@@ -982,10 +982,10 @@
 
             <!-- Couche de désactivation -->
             <Grid x:Name="OverlayLight" Background="White" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+                <TextBlock x:Name="WaitingTextLight" Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
             </Grid>
             <Grid x:Name="OverlayDark" Background="#313131" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+                <TextBlock x:Name="WaitingTextDark" Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
             </Grid>
         </Grid>
 
