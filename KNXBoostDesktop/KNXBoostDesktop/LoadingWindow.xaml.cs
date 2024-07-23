@@ -41,6 +41,9 @@ namespace KNXBoostDesktop
         {
             Close();
         }
+        
+        
+        
 
         private void LoadingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

@@ -951,6 +951,69 @@ public partial class MainWindow
             {
                 HideOverlay();
                 App.DisplayElements.LoadingWindow?.Close();
+                Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "في انتظار فتح مشروع...",
+                // Bulgare
+                "BG" => "Изчакване за отваряне на проект...",
+                // Tchèque
+                "CS" => "Čekání na otevření projektu...",
+                // Danois
+                "DA" => "Venter på at åbne et projekt...",
+                // Allemand
+                "DE" => "Warten auf das Öffnen eines Projekts...",
+                // Grec
+                "EL" => "Αναμονή για άνοιγμα έργου...",
+                // Anglais
+                "EN" => "Waiting for a project to open...",
+                // Espagnol
+                "ES" => "Esperando a que se abra un proyecto...",
+                // Estonien
+                "ET" => "Ootab projekti avamist...",
+                // Finnois
+                "FI" => "Odotetaan projektin avaamista...",
+                // Hongrois
+                "HU" => "Projekt megnyitására várva...",
+                // Indonésien
+                "ID" => "Menunggu proyek dibuka...",
+                // Italien
+                "IT" => "In attesa dell'apertura di un progetto...",
+                // Japonais
+                "JA" => "プロジェクトのオープンを待っています...",
+                // Coréen
+                "KO" => "프로젝트 열기를 기다리는 중...",
+                // Letton
+                "LV" => "Gaida projekta atvēršanu...",
+                // Lituanien
+                "LT" => "Laukiama projekto atidarymo...",
+                // Norvégien
+                "NB" => "Venter på å åpne et prosjekt...",
+                // Néerlandais
+                "NL" => "Wachten op het openen van een project...",
+                // Polonais
+                "PL" => "Oczekiwanie na otwarcie projektu...",
+                // Portugais
+                "PT" => "Aguardando a abertura de um projeto...",
+                // Roumain
+                "RO" => "Așteptarea deschiderii unui proiect...",
+                // Russe
+                "RU" => "Ожидание открытия проекта...",
+                // Slovaque
+                "SK" => "Čaká sa na otvorenie projektu...",
+                // Slovène
+                "SL" => "Čakam na odprtje projekta...",
+                // Suédois
+                "SV" => "Väntar på att öppna ett projekt...",
+                // Turc
+                "TR" => "Projenin açılması bekleniyor...",
+                // Ukrainien
+                "UK" => "Очікування відкриття проекту...",
+                // Chinois simplifié
+                "ZH" => "等待项目打开...",
+                // Cas par défaut (français)
+                _ => "En attente de l'ouverture d'un projet..."
+            };
             }
             //await ExecuteLongRunningTask();
             HideOverlay();
@@ -1117,6 +1180,7 @@ public partial class MainWindow
             finally
             {
                 HideOverlay();
+                
                 App.DisplayElements.LoadingWindow?.Close();
             }
 
