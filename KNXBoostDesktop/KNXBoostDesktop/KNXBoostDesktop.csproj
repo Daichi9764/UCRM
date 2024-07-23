@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <PackageReference Include="DeepL.net" Version="1.9.0" />
+      <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
       <PackageReference Include="JsonTransformation" Version="1.0.1" />
       <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
       <PackageReference Include="System.Management" Version="8.0.0" />
