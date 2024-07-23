@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Windows.Controls;
+
 
 namespace KNXBoostDesktop
 {
@@ -222,7 +224,10 @@ namespace KNXBoostDesktop
             _isCompleted = value;
             OnPropertyChanged(nameof(IsCompleted));
             OnPropertyChanged(nameof(IsCompletedVisibility)); // Met à jour la visibilité en fonction de IsCompleted
+            OnPropertyChanged(nameof(IsNotCompletedVisibility)); // Met à jour la visibilité en fonction de IsCompleted
+            
         }
+
     }
 
     public string Background
@@ -276,8 +281,9 @@ namespace KNXBoostDesktop
     }
 
     public Visibility IsCompletedVisibility => IsCompleted ? Visibility.Visible : Visibility.Hidden;
+    public Visibility IsNotCompletedVisibility => IsCompleted ? Visibility.Hidden : Visibility.Visible;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged(string propertyName)
     {

@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:KNXBoostDesktop" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         Title="Chargement en cours..." 
         Height="275" Width="550" 
         Background="White"
@@ -101,7 +102,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
+        
     </Window.Resources>
+    
+
+
 
     <Grid>
         <Border BorderBrush="#369226" BorderThickness="1.5" x:Name="LoadingWindowBorder">
@@ -124,7 +131,8 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" x:Name="TextActuLoad" Text="{Binding Text}" TextWrapping="Wrap" Background="{Binding Background}" Foreground="{Binding Foreground}" Margin="5" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Text="{Binding Duration}" Margin="5,0,10,0" Background="{Binding Background}" Foreground="{Binding Foreground}" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" Text="✔" Margin="5,0,10,0" HorizontalAlignment="Center" Visibility="{Binding IsCompletedVisibility}" Foreground="Green" VerticalAlignment="Center" Opacity="1"/>         
+                                <TextBlock Grid.Column="2" Text="✔" Margin="5,0,10,0" HorizontalAlignment="Center" Visibility="{Binding IsCompletedVisibility}" Foreground="Green" VerticalAlignment="Center" Opacity="1"/>
+                                <fa:ImageAwesome Grid.Column="2" Icon="Spinner" Spin="True" Visibility="{Binding IsNotCompletedVisibility}" Height="15" Foreground="Green" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
