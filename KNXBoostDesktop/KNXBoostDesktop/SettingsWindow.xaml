@@ -1118,7 +1118,7 @@
                                                           FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,0" 
                                                           Text = "Inclusions"/>
-                                    <TextBlock x:Name="AddressKeepingText" Margin="10,0,0,2" />
+                                               <TextBlock  x:Name="AddressKeepingText" Margin="10,0,0,2" />
                                                
                                                <TextBox x:Name="InputTextBox" Margin="10,10,10,0" 
                                                         Background="White"

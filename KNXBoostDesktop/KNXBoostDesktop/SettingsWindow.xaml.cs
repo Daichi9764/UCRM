@@ -85,8 +85,10 @@ namespace KNXBoostDesktop
         /// </summary>
         public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
 
-        private bool isDragging = false;
-        private bool stringListChanged = false;
+        private bool _isDragging = false;
+        private bool _stringListChanged = false;
+        private bool _isStarting = true;
+        
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -115,7 +117,7 @@ namespace KNXBoostDesktop
             DeeplKey = Convert.FromBase64String("");
             AppScaleFactor = 100;
 
-        const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
+            const string settingsPath = "./appSettings"; // Chemin du fichier paramètres
 
             // Si le fichier contenant la main key n'existe pas
             if (!File.Exists("./emk"))
@@ -790,21 +792,61 @@ namespace KNXBoostDesktop
                             // Récupération de chaque string et ajout à la liste
                             foreach (var st in value.Split(','))
                             {
+                                var stresult = st.ToLower().Trim();
+                                var itemShouldBeUnchecked = false;
+                                var itemAlreadyExists = false;
+                                
                                 if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (st.Trim().StartsWith("|&"))
                                     {
-                                        // Remplacer les occurrences successives de * par une seule *
-                                        var result = Regex.Replace(st.Trim()[2..], @"\*+", "*");
-                                        
-                                        var itemUnchecked = new StringItem { Text = result, IsChecked = false };
-                                        StringsShownInWindow.Add(itemUnchecked);
-                                        continue;
+                                        stresult = st.ToLower().Trim()[2..];
+                                        itemShouldBeUnchecked = true;
+                                    }
+                                    
+                                    // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
+                                    var result = MyRegex().Replace(stresult, "*");
+
+                                    foreach (var existingItem in StringsShownInWindow)
+                                    {
+                                        var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+
+                                        // Vérifie si un item.Text correspond exactement à result
+                                        if (existingItem.Text == result)
+                                        {
+                                            itemAlreadyExists = true;
+                                            break;
+                                        }
+                
+                                        // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
+                                        if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
+                                        {
+                                            itemShouldBeUnchecked = true;
+                                        }
                                     }
 
-                                    var item = new StringItem { Text = st.Trim(), IsChecked = true };
-                                    StringsToAdd.Add(item);
-                                    StringsShownInWindow.Add(item);
+                                    // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
+                                    if (!itemAlreadyExists)
+                                    {
+                                        // On vérifie s'il existe des éléments qui correspondent au modèle avec *
+                                        var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+                                        // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
+                                        foreach (var existingItem in StringsShownInWindow)
+                                        {
+                                            if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
+                                            {
+                                                existingItem.IsChecked = false;
+                                            }
+                                        }
+                
+                                        // Ajout du nouvel élément à la liste
+                                        var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
+                                        StringsShownInWindow.Add(newWordItem);
+                
+                                        // On signale que la liste a été modifiée et nécessite d'être sauvegardée
+                                        _stringListChanged = true;
+                                    }
                                 }
                             }
                             break;
@@ -834,6 +876,7 @@ namespace KNXBoostDesktop
             ScaleSlider.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(SliderMouseLeftButtonDown), true);
             ScaleSlider.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(SliderMouseLeftButtonUp), true);
             ScaleSlider.AddHandler(MouseMoveEvent, new MouseEventHandler(SliderMouseMove), true);
+            _isStarting = false;
         }
 
 
@@ -3414,15 +3457,12 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
             
-            App.ConsoleAndLogWriteLine($"{stringListChanged}");
-            
             // On recrée une nouvelle liste
             StringsToAdd = new();
             
             // On ajoute les éléments qui ne sont pas décochés
             foreach (var st in StringsShownInWindow)
             {
-                App.ConsoleAndLogWriteLine(st.Text);
                 if (st.IsChecked) StringsToAdd.Add(st);
             }
             
@@ -3531,13 +3571,13 @@ namespace KNXBoostDesktop
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
                 previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang ||
                 previousAppScaleFactor != AppScaleFactor ||
-                deeplKeyChanged || stringListChanged)
+                deeplKeyChanged || _stringListChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
-                stringListChanged = false;
+                _stringListChanged = false;
             }
             else
             {
@@ -3571,7 +3611,7 @@ namespace KNXBoostDesktop
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             // Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || stringListChanged
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || _stringListChanged
                 || previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection || previousTranslationSourceLang == TranslationSourceLang || previousTranslationDestinationLang == TranslationDestinationLang) 
                 && (App.Fm?.ProjectFolderPath != ""))
             {
@@ -4632,27 +4672,21 @@ namespace KNXBoostDesktop
             if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(InputTextBox.Text)) return;
 
             // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
-            var result = MyRegex().Replace(InputTextBox.Text.Trim(), "*");
-
-            // Vérifier et désactiver les éléments qui correspondent au modèle avec *
-            var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
-
-            for (int i = 0; i < StringsShownInWindow.Count; i++)
+            var result = MyRegex().Replace(InputTextBox.Text.ToLower().Trim(), "*");
+            
+            // On empêche de mettre le caractère '*'
+            if (result == "*")
             {
-                var existingItem = StringsShownInWindow[i];
-                if (Regex.IsMatch(existingItem.Text, pattern))
-                {
-                    existingItem.IsChecked = false;
-                }
+                InputTextBox.Clear();
+                return;
             }
 
             // Vérifier si l'élément avec le texte result existe déjà ou si un modèle existant couvre le nouveau texte
             var itemAlreadyExists = false;
             var itemShouldBeUnchecked = false;
 
-            for (int j = 0; j < StringsShownInWindow.Count; j++)
+            foreach (var existingItem in StringsShownInWindow)
             {
-                var existingItem = StringsShownInWindow[j];
                 var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
 
                 // Vérifie si un item.Text correspond exactement à result
@@ -4661,9 +4695,9 @@ namespace KNXBoostDesktop
                     itemAlreadyExists = true;
                     break;
                 }
-
+                
                 // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
-                if (Regex.IsMatch(result, existingPattern))
+                if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
                 {
                     itemShouldBeUnchecked = true;
                 }
@@ -4672,11 +4706,25 @@ namespace KNXBoostDesktop
             // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
             if (!itemAlreadyExists)
             {
+                // On vérifie s'il existe des éléments qui correspondent au modèle avec *
+                var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+                // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
+                foreach (var existingItem in StringsShownInWindow)
+                {
+                    if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
+                    {
+                        existingItem.IsChecked = false;
+                    }
+                }
+                
+                // Ajout du nouvel élément à la liste
                 var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
                 StringsShownInWindow.Add(newWordItem);
-                stringListChanged = true;
+                
+                // On signale que la liste a été modifiée et nécessite d'être sauvegardée
+                _stringListChanged = true;
             }
-            App.ConsoleAndLogWriteLine($"{stringListChanged}");
             InputTextBox.Clear();
         }
 
@@ -4692,11 +4740,9 @@ namespace KNXBoostDesktop
             foreach (var item in itemsToRemove)
             {
                 // Supprimez les éléments de la liste principale
-                if (item is StringItem word)
-                {
-                    StringsShownInWindow.Remove(word);
-                    stringListChanged = true;
-                }
+                if (item is not { } word) continue;
+                StringsShownInWindow.Remove(word);
+                _stringListChanged = true;
             }
 
             // Mettre à jour l'index sélectionné
@@ -4725,22 +4771,63 @@ namespace KNXBoostDesktop
                 if (wrapPanel != null) wrapPanel.MaxWidth = 430;
             }
         }
-        
-        [GeneratedRegex(@"\*+")]
-        private static partial Regex MyRegex();
 
         private void CheckboxInStringList_Checked(object sender, RoutedEventArgs e)
         {
-            stringListChanged = true;
+            _stringListChanged = true;
+            
+            // Récupérer l'élément qui a été coché
+            var checkBox = sender as CheckBox;
+            if (checkBox == null || checkBox.DataContext == null) return;
+            
+            var checkedItem = checkBox.DataContext as StringItem;
+            if (checkedItem == null) return;
+            
+            // Si le texte de l'élément coché contient un astérisque (*), désactiver les éléments correspondants
+            if (checkedItem.Text.Contains("*"))
+            {
+                var pattern = "^" + Regex.Escape(checkedItem.Text).Replace("\\*", ".*") + "$";
+            
+                for (int i = 0; i < StringsShownInWindow.Count; i++)
+                {
+                    var existingItem = StringsShownInWindow[i];
+                    if (existingItem.Text != checkedItem.Text && Regex.IsMatch(existingItem.Text, pattern))
+                    {
+                        existingItem.IsChecked = false;
+                    }
+                }
+            }
+            else
+            {
+                // Si un élément spécifique (sans *) est coché, désactiver les modèles contenant un astérisque qui le couvrent
+                var checkedPattern = "^" + Regex.Escape(checkedItem.Text) + "$";
+            
+                for (int i = 0; i < StringsShownInWindow.Count; i++)
+                {
+                    var existingItem = StringsShownInWindow[i];
+                    if (existingItem.Text.Contains("*"))
+                    {
+                        var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+                        if (Regex.IsMatch(checkedItem.Text, existingPattern))
+                        {
+                            existingItem.IsChecked = false;
+                        }
+                    }
+                }
+            }
         }
 
         private void CheckboxInStringList_Unchecked(object sender, RoutedEventArgs e)
         {
-            stringListChanged = true;
+            _stringListChanged = true;
         }
         
         
         
+        
+        
+        [GeneratedRegex(@"\*+")]
+        private static partial Regex MyRegex();
         
         
         
@@ -4794,20 +4881,20 @@ namespace KNXBoostDesktop
         // fonctions pour changer la position du slider
         private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDragging = true;
+            _isDragging = true;
             Mouse.Capture(ScaleSlider);
             UpdateSliderValue(sender, e);
         }
 
         private void SliderMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            isDragging = false;
+            _isDragging = false;
             Mouse.Capture(null);
         }
 
         private void SliderMouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragging)
+            if (_isDragging)
             {
                 UpdateSliderValue(sender, e);
             }
