@@ -4876,6 +4876,9 @@ namespace KNXBoostDesktop
                 {
                     // Get the mouse position relative to the slider
                     var position = Mouse.GetPosition(slider);
+                    
+                    if (slider == null) return;
+                    
                     var relativeX = position.X / slider.ActualWidth;
                     var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
                     slider.Value = newValue;
@@ -4884,7 +4887,7 @@ namespace KNXBoostDesktop
         }
         
         // Utility method to find the parent of a specific type
-        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        public static T? FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             var parentObject = VisualTreeHelper.GetParent(child);
             if (parentObject == null) return null;
