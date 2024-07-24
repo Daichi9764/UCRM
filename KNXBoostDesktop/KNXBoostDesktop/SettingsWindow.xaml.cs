@@ -3113,6 +3113,7 @@ namespace KNXBoostDesktop
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
 
                 OngletCorrection.Style = (Style)FindResource("LightOnglet");
+                OngletInclusions.Style = (Style)FindResource("LightOnglet");
                 OngletDebug.Style = (Style)FindResource("LightOnglet");
                 OngletInformations.Style = (Style)FindResource("LightOnglet");
                 OngletParametresApplication.Style = (Style)FindResource("LightOnglet");
@@ -3140,6 +3141,7 @@ namespace KNXBoostDesktop
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
 
                 OngletCorrection.Style = (Style)FindResource("DarkOnglet");
+                OngletInclusions.Style = (Style)FindResource("DarkOnglet");
                 OngletDebug.Style = (Style)FindResource("DarkOnglet");
                 OngletInformations.Style = (Style)FindResource("DarkOnglet");
                 OngletParametresApplication.Style = (Style)FindResource("DarkOnglet");
@@ -3165,6 +3167,7 @@ namespace KNXBoostDesktop
             // Corps de la fenêtre
             MainContentBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pathColor));
             MainContentPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
+            InclusionPanel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             GeneralSettingsTab.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
             TranslationTitle.Foreground = textColorBrush;
             EnableTranslationCheckBox.Foreground = textColorBrush;
@@ -3186,10 +3189,10 @@ namespace KNXBoostDesktop
             DeeplApiKeyTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
             DeeplApiKeyTextBox.BorderBrush = borderBrush;
             DeeplApiKeyTextBox.Foreground = textColorBrush;
-            
-            AddressKeepingTextbox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(textboxBackgroundColor));
-            AddressKeepingTextbox.BorderBrush = borderBrush;
-            AddressKeepingTextbox.Foreground = textColorBrush;
+
+            InputTextBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
+            InputTextBox.BorderBrush = borderBrush;
+            InputTextBox.Foreground = textColorBrush;
 
             // Pied de page avec les boutons save et cancel
             SettingsWindowFooter.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(deepDarkBackgroundColor));
@@ -3199,7 +3202,7 @@ namespace KNXBoostDesktop
             SaveButtonDrawing.Brush = textColorBrush;
             SaveButtonText.Foreground = textColorBrush;
             CreateArchiveDebugText.Foreground = textColorBrush;
-
+            
 
             // Menu debug
             ControlOnglet.BorderBrush = borderBrush;
@@ -3214,10 +3217,13 @@ namespace KNXBoostDesktop
             AddImportedFilesCheckBox.Foreground = textColorBrush;
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
 
+
             OngletCorrection.BorderBrush = borderBrush;
             OngletParametresApplication.BorderBrush = borderBrush;
+            OngletInclusions.BorderBrush = borderBrush;
             OngletCorrection.Foreground = textColorBrush;
             OngletDebug.Foreground = textColorBrush;
+            OngletInclusions.Foreground = textColorBrush;
             OngletParametresApplication.Foreground = textColorBrush;
             DebugBrush1.Brush = textColorBrush;
             DebugBrush2.Brush = textColorBrush;

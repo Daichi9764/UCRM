@@ -557,7 +557,7 @@
         </Style>
         
         <Style x:Key="DarkOnglet" TargetType="TabItem">
-            <Setter Property="Template">
+                <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Grid>
@@ -1071,7 +1071,7 @@
                                        
                                        <TabItem x:Name="OngletInclusions" Style="{StaticResource LightOnglet}">
                                            <ScrollViewer x:Name="ScrollViewerInclusion" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                           <StackPanel Orientation="Vertical" Background="White">
+                                <StackPanel x:Name="InclusionPanel" Orientation="Vertical" Background="White">
                                                
                                                <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
                                                           FontSize="17" FontWeight="SemiBold"
@@ -1079,7 +1079,8 @@
                                                           Text = "Inclusions"/>
                                                <TextBlock Text = "Chaines à conserver dans les adresses lors de la correction" Margin="10,0,0,2" />
                                                
-                                               <TextBox Name="InputTextBox" Margin="10,10,10,0" 
+                                               <TextBox x:Name="InputTextBox" Margin="10,10,10,0" 
+                                                        Background="White"
                                                         KeyDown="InputTextBox_KeyDown"
                                                         VerticalAlignment="Top" />
                                                
