@@ -663,14 +663,12 @@
                                            Height="2"
                                            VerticalAlignment="Center"/>
                                 
-                                <!-- Add Transparent RepeatButton for clickable track -->
                                 <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
                                               Style="{StaticResource TransparentRepeatButtonStyle}"
                                               Width="{Binding ElementName=ScaleSlider, Path=ActualWidth}"
                                               Height="10"
                                               HorizontalAlignment="Left"
-                                              Click="OnSliderClick"
-                                              />
+                                              Click="OnSliderClick"/>
                                 <Track x:Name="PART_Track">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
@@ -745,6 +743,12 @@
                                            Fill="#434343"
                                            Height="2"
                                            VerticalAlignment="Center"/>
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
+                                              Style="{StaticResource TransparentRepeatButtonStyle}"
+                                              Width="{Binding ElementName=ScaleSlider, Path=ActualWidth}"
+                                              Height="10"
+                                              HorizontalAlignment="Left"
+                                              Click="OnSliderClick"/>
                                 <Track x:Name="PART_Track">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
