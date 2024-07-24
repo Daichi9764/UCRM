@@ -86,6 +86,7 @@ namespace KNXBoostDesktop
         public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
 
         private bool isDragging = false;
+        private bool stringListChanged = false;
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -895,7 +896,7 @@ namespace KNXBoostDesktop
                 writer.WriteLine(AppScaleFactor);
                 
                 writer.Write("strings to keep in corrected addresses : ");
-                if (StringsToAdd.Count == 0)
+                if (StringsShownInWindow.Count == 0)
                 {
                     writer.WriteLine();
                 }
@@ -3402,7 +3403,6 @@ namespace KNXBoostDesktop
             var previousAppLang = AppLang;
             var previousAppScaleFactor = AppScaleFactor;
             var previousDeepLKey = DeeplKey;
-            var previousStringsToAdd = StringsToAdd;
 
             // Récupération de tous les paramètres entrés dans la fenêtre de paramétrage
             EnableDeeplTranslation = (bool)EnableTranslationCheckBox.IsChecked!;
@@ -3414,6 +3414,7 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
             
+            App.ConsoleAndLogWriteLine($"{stringListChanged}");
             
             // On recrée une nouvelle liste
             StringsToAdd = new();
@@ -3421,15 +3422,9 @@ namespace KNXBoostDesktop
             // On ajoute les éléments qui ne sont pas décochés
             foreach (var st in StringsShownInWindow)
             {
+                App.ConsoleAndLogWriteLine(st.Text);
                 if (st.IsChecked) StringsToAdd.Add(st);
             }
-            
-            
-            // Vérification de si la liste de strings a changé :
-            // Si la longueur des listes est différente ou qu'un élément d'une liste n'est pas dans l'autre et vice-versa, alors la liste a changé
-            var listChanged = StringsToAdd.Count != previousStringsToAdd.Count ||
-                              previousStringsToAdd.Except(StringsToAdd).Any() ||
-                              StringsToAdd.Except(previousStringsToAdd).Any();
             
 
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
@@ -3536,12 +3531,13 @@ namespace KNXBoostDesktop
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
                 previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang ||
                 previousAppScaleFactor != AppScaleFactor ||
-                deeplKeyChanged || listChanged)
+                deeplKeyChanged || stringListChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
+                stringListChanged = false;
             }
             else
             {
@@ -3574,8 +3570,8 @@ namespace KNXBoostDesktop
             // Mise à jour de la fenêtre principale
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
-            //Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || listChanged
+            // Faire apparaitre le bouton Reload 
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || stringListChanged
                 || previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection || previousTranslationSourceLang == TranslationSourceLang || previousTranslationDestinationLang == TranslationDestinationLang) 
                 && (App.Fm?.ProjectFolderPath != ""))
             {
@@ -4678,7 +4674,9 @@ namespace KNXBoostDesktop
             {
                 var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
                 StringsShownInWindow.Add(newWordItem);
+                stringListChanged = true;
             }
+            App.ConsoleAndLogWriteLine($"{stringListChanged}");
             InputTextBox.Clear();
         }
 
@@ -4697,6 +4695,7 @@ namespace KNXBoostDesktop
                 if (item is StringItem word)
                 {
                     StringsShownInWindow.Remove(word);
+                    stringListChanged = true;
                 }
             }
 
@@ -4726,6 +4725,25 @@ namespace KNXBoostDesktop
                 if (wrapPanel != null) wrapPanel.MaxWidth = 430;
             }
         }
+        
+        [GeneratedRegex(@"\*+")]
+        private static partial Regex MyRegex();
+
+        private void CheckboxInStringList_Checked(object sender, RoutedEventArgs e)
+        {
+            stringListChanged = true;
+        }
+
+        private void CheckboxInStringList_Unchecked(object sender, RoutedEventArgs e)
+        {
+            stringListChanged = true;
+        }
+        
+        
+        
+        
+        
+        
         
         private void Slider_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -4810,9 +4828,6 @@ namespace KNXBoostDesktop
                 slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
             }
         }
-
-        [GeneratedRegex(@"\*+")]
-        private static partial Regex MyRegex();
     }
     
     
