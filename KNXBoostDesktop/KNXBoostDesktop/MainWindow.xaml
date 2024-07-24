@@ -679,6 +679,7 @@
                         <!-- Bouton de paramètres -->
                         <Button x:Name="ButtonSettings" Width="25" Height="25"
                                 Click="OpenParameters"
+                                Focusable="False"
                                 Margin="0,0,10,0" 
                                 Background="White"
                                 BorderThickness="1" BorderBrush="{StaticResource BorderGray}"

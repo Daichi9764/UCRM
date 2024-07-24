@@ -1097,7 +1097,9 @@
                                                        <DataTemplate>
                                                            <StackPanel Orientation="Horizontal">
                                                                <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
-                                                                         IsChecked="{Binding IsChecked}"/>
+                                                                         IsChecked="{Binding IsChecked}"
+                                                                         Checked="CheckboxInStringList_Checked"
+                                                                         Unchecked="CheckboxInStringList_Unchecked"/>
                                                                <TextBlock Text="{Binding Text}"
                                                                           Margin="5,0,5,0"
                                                                           VerticalAlignment="Center"/>
