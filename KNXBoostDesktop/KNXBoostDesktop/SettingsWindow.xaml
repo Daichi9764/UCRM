@@ -624,6 +624,29 @@
             </Setter>
         </Style>
         
+        <Style x:Key="TransparentRepeatButtonStyle" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/> 
+            <Setter Property="BorderThickness" Value="0"/> 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="LightSlider" TargetType="Slider">
             <Setter Property="Template">
                 <Setter.Value>
@@ -639,6 +662,15 @@
                                            Fill="#B8B8B8"
                                            Height="2"
                                            VerticalAlignment="Center"/>
+                                
+                                <!-- Add Transparent RepeatButton for clickable track -->
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
+                                              Style="{StaticResource TransparentRepeatButtonStyle}"
+                                              Width="{Binding ElementName=ScaleSlider, Path=ActualWidth}"
+                                              Height="10"
+                                              HorizontalAlignment="Left"
+                                              Click="OnSliderClick"
+                                              />
                                 <Track x:Name="PART_Track">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
