@@ -1087,8 +1087,8 @@ public partial class MainWindow
                         };
             });
 
-            const string filePath = "./runData.csv";
-            var loadingTimes = LoadLoadingTimesFromCsv(filePath);
+           // const string filePath = "./runData.csv";
+            /*var loadingTimes = LoadLoadingTimesFromCsv(filePath);
             loadingTimes?.Add(new LoadingTimeEntry
             {
                 ProjectName = App.Fm.ProjectName,
@@ -1100,13 +1100,12 @@ public partial class MainWindow
                 IsTranslated = App.DisplayElements.SettingsWindow != null && 
                                (bool)App.DisplayElements.SettingsWindow.EnableTranslationCheckBox.IsChecked!,
                 TotalLoadingTime = finalElapsedTime
-            });
+            });*/
 
             // Attend la fin de la tâche de mise à jour (au cas où elle serait encore en cours)
             await updateTask;
             
-            SaveLoadingTimesAsCsv(filePath, loadingTimes);
-            //LoadLoadingTimesFromCsv(filePath);
+            //SaveLoadingTimesAsCsv(filePath, loadingTimes);
             ViewModel.IsProjectImported = true;
         }
         else
@@ -1427,7 +1426,7 @@ public partial class MainWindow
     /// </summary>
     /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
     /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
-    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    /*private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
     {
         // Écriture des nouvelles lignes dans le fichier CSV
         using (var writer = new StreamWriter(filePath))
@@ -1461,7 +1460,7 @@ public partial class MainWindow
 
         // Écrire les lignes restantes dans le fichier CSV
         File.WriteAllLines(filePath, lines);
-    }
+    }*/
     
     
     /// <summary>
@@ -1469,7 +1468,7 @@ public partial class MainWindow
     /// </summary>
     /// <param name="filePath">The file path of the CSV file.</param>
     /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
-    private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
+    /*private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
     {
         var loadingTimes = new List<LoadingTimeEntry>();
         
@@ -1914,7 +1913,7 @@ public partial class MainWindow
             reader?.Close(); // Fermeture du stream de lecture
         }
         return loadingTimes;
-    }
+    }*/
     
     
     /// <summary>

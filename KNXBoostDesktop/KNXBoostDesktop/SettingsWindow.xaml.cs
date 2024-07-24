@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -83,7 +84,7 @@ namespace KNXBoostDesktop
         /// </summary>
         public ObservableCollection<string> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenpetre
 
-
+        private bool isDragging = false;
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -813,6 +814,9 @@ namespace KNXBoostDesktop
             }
             
             UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
+            ScaleSlider.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(SliderMouseLeftButtonDown), true);
+            ScaleSlider.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(SliderMouseLeftButtonUp), true);
+            ScaleSlider.AddHandler(MouseMoveEvent, new MouseEventHandler(SliderMouseMove), true);
         }
 
 
@@ -4720,5 +4724,90 @@ namespace KNXBoostDesktop
             }
         }
         
+        private void Slider_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            if (slider != null)
+            {
+                Point position = e.GetPosition(slider);
+                double relativePosition = position.X / slider.ActualWidth;
+                double value = slider.Minimum + (relativePosition * (slider.Maximum - slider.Minimum));
+                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, value));
+            }
+        }
+        // FAIRE EN SORTE QUE LE SLIDER SOIT CLIQUABLE POUR CHANGER DIRECTEMENT LA VALEUR
+        private void OnSliderClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is RepeatButton repeatButton)
+            {
+                var slider = FindParent<Slider>(repeatButton);
+                if (slider != null)
+                {
+                    // Get the mouse position relative to the slider
+                    var position = Mouse.GetPosition(slider);
+                    var relativeX = position.X / slider.ActualWidth;
+                    var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+                    slider.Value = newValue;
+                }
+            }
+        }
+        
+        // Utility method to find the parent of a specific type
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+        
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
+        
+
+        // fonctions pour changer la position du slider
+        private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = true;
+            Mouse.Capture(ScaleSlider);
+            UpdateSliderValue(sender, e);
+        }
+
+        private void SliderMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = false;
+            Mouse.Capture(null);
+        }
+
+        private void SliderMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                UpdateSliderValue(sender, e);
+            }
+        }
+
+        private void UpdateSliderValue(object sender, MouseEventArgs e)
+        {
+            if (sender is Slider slider)
+            {
+                var position = e.GetPosition(slider);
+                var relativeX = position.X / slider.ActualWidth;
+                var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+            
+                // Snap to the nearest tick
+                double tickFrequency = slider.TickFrequency;
+                newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
+            
+                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
+            }
+        }
     }
+    
+    
 }
