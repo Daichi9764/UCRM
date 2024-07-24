@@ -83,12 +83,11 @@ namespace KNXBoostDesktop
         /// <summary>
         /// List of all the strings shown in the listbox in the settings window
         /// </summary>
-        public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
-
-        private bool _isDragging = false;
-        private bool _stringListChanged = false;
-        private bool _isStarting = true;
+        public ObservableCollection<StringItem> StringsShownInWindow { get; set; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
         
+        public ObservableCollection<StringItem> PreviousStringsShownInWindow { get; private set; } = new();
+
+        private bool _isDragging;
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -843,9 +842,6 @@ namespace KNXBoostDesktop
                                         // Ajout du nouvel élément à la liste
                                         var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
                                         StringsShownInWindow.Add(newWordItem);
-                
-                                        // On signale que la liste a été modifiée et nécessite d'être sauvegardée
-                                        _stringListChanged = true;
                                     }
                                 }
                             }
@@ -872,11 +868,18 @@ namespace KNXBoostDesktop
                 SaveSettings(); // Mise à jour du fichier appSettings
             }
             
+            // On met à jour la liste de comparaison en copiant l'actuelle liste affichée
+            PreviousStringsShownInWindow = new();
+            foreach (var item in StringsShownInWindow)
+            {
+                var newItem = new StringItem { Text = item.Text, IsChecked = item.IsChecked };
+                PreviousStringsShownInWindow.Add(newItem);
+            }
+            
             UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
             ScaleSlider.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(SliderMouseLeftButtonDown), true);
             ScaleSlider.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(SliderMouseLeftButtonUp), true);
             ScaleSlider.AddHandler(MouseMoveEvent, new MouseEventHandler(SliderMouseMove), true);
-            _isStarting = false;
         }
 
 
@@ -3457,6 +3460,17 @@ namespace KNXBoostDesktop
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
             
+            // On regarde si la liste a changé
+            var stringListChanged = !AreCollectionsEqual(PreviousStringsShownInWindow, StringsShownInWindow);
+            
+            // On met à jour la liste de comparaison en copiant l'actuelle liste affichée
+            PreviousStringsShownInWindow = new();
+            foreach (var item in StringsShownInWindow)
+            {
+                var newItem = new StringItem { Text = item.Text, IsChecked = item.IsChecked };
+                PreviousStringsShownInWindow.Add(newItem);
+            }
+            
             // On recrée une nouvelle liste
             StringsToAdd = new();
             
@@ -3571,13 +3585,12 @@ namespace KNXBoostDesktop
                 previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses ||
                 previousEnableLightTheme != EnableLightTheme || previousAppLang != AppLang ||
                 previousAppScaleFactor != AppScaleFactor ||
-                deeplKeyChanged || _stringListChanged)
+                deeplKeyChanged || stringListChanged)
             {
                 // Sauvegarde des paramètres dans le fichier appSettings
                 App.ConsoleAndLogWriteLine($"Settings changed. Saving application settings at {Path.GetFullPath("./appSettings")}");
                 SaveSettings();
                 App.ConsoleAndLogWriteLine("Settings saved successfully");
-                _stringListChanged = false;
             }
             else
             {
@@ -3611,7 +3624,7 @@ namespace KNXBoostDesktop
             App.DisplayElements?.MainWindow.UpdateWindowContents(previousAppLang != AppLang, previousEnableLightTheme != EnableLightTheme, previousAppScaleFactor == AppScaleFactor);
 
             // Faire apparaitre le bouton Reload 
-            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || _stringListChanged
+            if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || stringListChanged
                 || previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection || previousTranslationSourceLang == TranslationSourceLang || previousTranslationDestinationLang == TranslationDestinationLang) 
                 && (App.Fm?.ProjectFolderPath != ""))
             {
@@ -3631,6 +3644,15 @@ namespace KNXBoostDesktop
         /// <param name="e">The event data.</param>
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
+            // On remet l'ancienne liste de strings
+            StringsShownInWindow.Clear(); // Réinitialisation de la liste de strings affichée à l'écran
+
+            foreach (var item in PreviousStringsShownInWindow) // Reconstruction de la liste
+            {
+                var newItem = new StringItem { Text = item.Text, IsChecked = item.IsChecked };
+                StringsShownInWindow.Add(newItem);
+            }
+            
             UpdateWindowContents(false, true, true); // Restauration des paramètres précédents dans la fenêtre de paramétrage
             Hide(); // Masquage de la fenêtre de paramétrage
         }
@@ -4721,9 +4743,6 @@ namespace KNXBoostDesktop
                 // Ajout du nouvel élément à la liste
                 var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
                 StringsShownInWindow.Add(newWordItem);
-                
-                // On signale que la liste a été modifiée et nécessite d'être sauvegardée
-                _stringListChanged = true;
             }
             InputTextBox.Clear();
         }
@@ -4742,7 +4761,6 @@ namespace KNXBoostDesktop
                 // Supprimez les éléments de la liste principale
                 if (item is not { } word) continue;
                 StringsShownInWindow.Remove(word);
-                _stringListChanged = true;
             }
 
             // Mettre à jour l'index sélectionné
@@ -4773,24 +4791,19 @@ namespace KNXBoostDesktop
         }
 
         private void CheckboxInStringList_Checked(object sender, RoutedEventArgs e)
-        {
-            _stringListChanged = true;
-            
+        {   
             // Récupérer l'élément qui a été coché
             var checkBox = sender as CheckBox;
-            if (checkBox == null || checkBox.DataContext == null) return;
-            
-            var checkedItem = checkBox.DataContext as StringItem;
-            if (checkedItem == null) return;
+
+            if (checkBox?.DataContext is not StringItem checkedItem) return;
             
             // Si le texte de l'élément coché contient un astérisque (*), désactiver les éléments correspondants
-            if (checkedItem.Text.Contains("*"))
+            if (checkedItem.Text.Contains('*'))
             {
                 var pattern = "^" + Regex.Escape(checkedItem.Text).Replace("\\*", ".*") + "$";
-            
-                for (int i = 0; i < StringsShownInWindow.Count; i++)
+
+                foreach (var existingItem in StringsShownInWindow)
                 {
-                    var existingItem = StringsShownInWindow[i];
                     if (existingItem.Text != checkedItem.Text && Regex.IsMatch(existingItem.Text, pattern))
                     {
                         existingItem.IsChecked = false;
@@ -4800,9 +4813,7 @@ namespace KNXBoostDesktop
             else
             {
                 // Si un élément spécifique (sans *) est coché, désactiver les modèles contenant un astérisque qui le couvrent
-                var checkedPattern = "^" + Regex.Escape(checkedItem.Text) + "$";
-            
-                for (int i = 0; i < StringsShownInWindow.Count; i++)
+                for (var i = 0; i < StringsShownInWindow.Count; i++)
                 {
                     var existingItem = StringsShownInWindow[i];
                     if (existingItem.Text.Contains("*"))
@@ -4816,11 +4827,35 @@ namespace KNXBoostDesktop
                 }
             }
         }
-
-        private void CheckboxInStringList_Unchecked(object sender, RoutedEventArgs e)
+        
+        
+        
+        private static bool AreCollectionsEqual(
+            ObservableCollection<StringItem>? collection1, 
+            ObservableCollection<StringItem>? collection2)
         {
-            _stringListChanged = true;
+            // Vérifie si les deux collections sont null ou si l'une d'entre elles est null
+            if (collection1 == null && collection2 == null) return true;
+            if (collection1 == null || collection2 == null) return false;
+
+            // Vérifie si les collections ont la même taille
+            if (collection1.Count != collection2.Count) return false;
+
+            // Compare les éléments un par un
+            for (var i = 0; i < collection1.Count; i++)
+            {
+                var item1 = collection1[i];
+                var item2 = collection2[i];
+                
+                if (item1.Text != item2.Text || item1.IsChecked != item2.IsChecked)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
+
         
         
         
@@ -4832,24 +4867,12 @@ namespace KNXBoostDesktop
         
         
         
-        private void Slider_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Slider slider = sender as Slider;
-            if (slider != null)
-            {
-                Point position = e.GetPosition(slider);
-                double relativePosition = position.X / slider.ActualWidth;
-                double value = slider.Minimum + (relativePosition * (slider.Maximum - slider.Minimum));
-                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, value));
-            }
-        }
-        // FAIRE EN SORTE QUE LE SLIDER SOIT CLIQUABLE POUR CHANGER DIRECTEMENT LA VALEUR
+        
         private void OnSliderClick(object sender, RoutedEventArgs e)
         {
             if (sender is RepeatButton repeatButton)
             {
                 var slider = FindParent<Slider>(repeatButton);
-                if (slider != null)
                 {
                     // Get the mouse position relative to the slider
                     var position = Mouse.GetPosition(slider);
@@ -4863,10 +4886,10 @@ namespace KNXBoostDesktop
         // Utility method to find the parent of a specific type
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            var parentObject = VisualTreeHelper.GetParent(child);
             if (parentObject == null) return null;
         
-            T parent = parentObject as T;
+            var parent = parentObject as T;
             if (parent != null)
             {
                 return parent;
@@ -4909,7 +4932,7 @@ namespace KNXBoostDesktop
                 var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
             
                 // Snap to the nearest tick
-                double tickFrequency = slider.TickFrequency;
+                var tickFrequency = slider.TickFrequency;
                 newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
             
                 slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));

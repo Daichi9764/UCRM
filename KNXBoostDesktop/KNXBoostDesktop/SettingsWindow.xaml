@@ -794,8 +794,8 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding IsChecked}"
-                                      Style="{StaticResource CheckboxLightThemeStyle}">
-                            </CheckBox>
+                                      Style="{StaticResource CheckboxLightThemeStyle}"
+                                      Checked="CheckboxInStringList_Checked"/>
                             <TextBlock Text="{Binding Text}"
                                        Foreground="#000000"
                                        Margin="5,0,5,0"
@@ -815,8 +815,8 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" >
                             <CheckBox IsChecked="{Binding IsChecked}"
-                                      Style="{StaticResource CheckboxDarkThemeStyle}">
-                            </CheckBox>
+                                      Style="{StaticResource CheckboxDarkThemeStyle}"
+                                      Checked="CheckboxInStringList_Checked"/>
                             <TextBlock Text="{Binding Text}"
                                        Foreground="#E3DED4"
                                        Margin="5,0,5,0"
@@ -1136,7 +1136,8 @@
                                                        <ItemsPanelTemplate>
                                                            <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
                                                        </ItemsPanelTemplate>
-                                                   </ListBox.ItemsPanel>                                               </ListBox>
+                                                   </ListBox.ItemsPanel>                                               
+                                               </ListBox>
                                            </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
