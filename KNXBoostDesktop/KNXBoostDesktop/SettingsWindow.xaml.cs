@@ -6,6 +6,7 @@ using System.IO;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -85,9 +86,6 @@ namespace KNXBoostDesktop
         public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
 
         private bool isDragging = false;
-
-        public ObservableCollection<StringItem> StringsUnchecked { get; private set; } = new(); // Liste des éléments affichés dans la liste mais décochés
-
 
         /* ------------------------------------------------------------------------------------------------
         -------------------------------------------- METHODES  --------------------------------------------
@@ -793,10 +791,12 @@ namespace KNXBoostDesktop
                             {
                                 if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    if (st.Trim().StartsWith("$"))
+                                    if (st.Trim().StartsWith("|&"))
                                     {
-                                        var itemUnchecked = new StringItem { Text = st.Trim()[1..], IsChecked = false };
-                                        StringsUnchecked.Add(itemUnchecked);
+                                        // Remplacer les occurrences successives de * par une seule *
+                                        var result = Regex.Replace(st.Trim()[2..], @"\*+", "*");
+                                        
+                                        var itemUnchecked = new StringItem { Text = result, IsChecked = false };
                                         StringsShownInWindow.Add(itemUnchecked);
                                         continue;
                                     }
@@ -902,23 +902,29 @@ namespace KNXBoostDesktop
                 else
                 {
                     // Ajout des strings de la liste
-                    for (var i=0; i<StringsToAdd.Count; i++)
+                    for (var i=0; i<StringsShownInWindow.Count; i++)
                     {
-                        writer.Write($"{StringsToAdd[i].Text}, ");
-                    }
-                    
-                    // Ajout des strings non cochés de la liste avec une étoile devant
-                    for (var i=0; i<StringsUnchecked.Count; i++)
-                    {
-                        // Si c'est le dernier élément, on ne met pas de virgule et on saute une ligne
-                        if (i == StringsUnchecked.Count - 1)
+                        if (i == StringsShownInWindow.Count - 1)
                         {
-                            writer.WriteLine($"${StringsUnchecked[i].Text}");
+                            if (StringsShownInWindow[i].IsChecked)
+                            {
+                                writer.WriteLine($"{StringsShownInWindow[i].Text}");
+                            }
+                            else
+                            {
+                                writer.WriteLine($"|&{StringsShownInWindow[i].Text}");
+                            }
                         }
-                        // Sinon, on écrit les uns après les autres chaque élément séparé d'une virgule
                         else
                         {
-                            writer.Write($"${StringsUnchecked[i].Text}, ");
+                            if (StringsShownInWindow[i].IsChecked)
+                            {
+                                writer.Write($"{StringsShownInWindow[i].Text}, ");
+                            }
+                            else
+                            {
+                                writer.Write($"|&{StringsShownInWindow[i].Text}, ");
+                            }
                         }
                     }
                 }
@@ -3412,22 +3418,8 @@ namespace KNXBoostDesktop
             // On ajoute les éléments qui ne sont pas décochés
             foreach (var st in StringsShownInWindow)
             {
-                App.ConsoleAndLogWriteLine(st.Text);
                 if (st.IsChecked) StringsToAdd.Add(st);
             }
-            App.ConsoleAndLogWriteLine("-----------------");
-            
-            foreach (var st in StringsUnchecked)
-            {
-                App.ConsoleAndLogWriteLine(st.Text);
-            }
-            App.ConsoleAndLogWriteLine("-----------------");
-
-            foreach (var st in StringsToAdd)
-            {
-                App.ConsoleAndLogWriteLine(st.Text);
-            }
-            App.ConsoleAndLogWriteLine("-----------------");
             
             
             // Vérification de si la liste de strings a changé :
@@ -4637,34 +4629,66 @@ namespace KNXBoostDesktop
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(InputTextBox.Text))
-            {
-                bool itemAlreadyExists = false;
+            // Si on a pas appuyé sur entrée ou que le texte est vide, on ne fait rien
+            if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(InputTextBox.Text)) return;
 
-                var i = 0;
-                
-                while (!itemAlreadyExists && i<StringsShownInWindow.Count)
+            // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
+            var result = MyRegex().Replace(InputTextBox.Text.Trim(), "*");
+
+            // Vérifier et désactiver les éléments qui correspondent au modèle avec *
+            var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+            for (int i = 0; i < StringsShownInWindow.Count; i++)
+            {
+                var existingItem = StringsShownInWindow[i];
+                if (Regex.IsMatch(existingItem.Text, pattern))
                 {
-                    if (StringsShownInWindow[i].Text == InputTextBox.Text.Trim()) itemAlreadyExists = true;
-                    i++;
+                    existingItem.IsChecked = false;
                 }
-                
-                // Si la liste ne contient pas déjà le mot, on l'ajoute
-                if (!itemAlreadyExists)
-                {
-                    var newWordItem = new StringItem { Text = InputTextBox.Text.Trim(), IsChecked = true };
-                    StringsShownInWindow.Add(newWordItem);
-                }
-                InputTextBox.Clear();
             }
+
+            // Vérifier si l'élément avec le texte result existe déjà ou si un modèle existant couvre le nouveau texte
+            var itemAlreadyExists = false;
+            var itemShouldBeUnchecked = false;
+
+            for (int j = 0; j < StringsShownInWindow.Count; j++)
+            {
+                var existingItem = StringsShownInWindow[j];
+                var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+
+                // Vérifie si un item.Text correspond exactement à result
+                if (existingItem.Text == result)
+                {
+                    itemAlreadyExists = true;
+                    break;
+                }
+
+                // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
+                if (Regex.IsMatch(result, existingPattern))
+                {
+                    itemShouldBeUnchecked = true;
+                }
+            }
+
+            // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
+            if (!itemAlreadyExists)
+            {
+                var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
+                StringsShownInWindow.Add(newWordItem);
+            }
+            InputTextBox.Clear();
         }
 
         private void WordsListBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Delete || WordsListBox.SelectedItem == null) return;
+
             var selectedIndex = WordsListBox.SelectedIndex;
-                
-            foreach (var item in WordsListBox.SelectedItems)
+
+            // Copier les éléments sélectionnés dans une liste temporaire
+            var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
+
+            foreach (var item in itemsToRemove)
             {
                 // Supprimez les éléments de la liste principale
                 if (item is StringItem word)
@@ -4672,48 +4696,15 @@ namespace KNXBoostDesktop
                     StringsShownInWindow.Remove(word);
                 }
             }
-                
-            // Sélectionner l'élément suivant
+
+            // Mettre à jour l'index sélectionné
             if (StringsShownInWindow.Count <= 0) return;
-                
+
             if (selectedIndex >= StringsShownInWindow.Count)
             {
                 selectedIndex = StringsShownInWindow.Count - 1;
             }
             WordsListBox.SelectedIndex = selectedIndex;
-        }
-
-        
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (sender is not CheckBox checkBox) return;
-            
-            // Accédez au StackPanel parent
-            var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
-
-            // Trouvez le TextBlock dans le StackPanel
-            var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
-            
-            if (textBlock?.Text == null) return;
-            
-            var word = new StringItem {Text= textBlock.Text, IsChecked = false};
-            StringsUnchecked.Remove(word);
-        }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (sender is not CheckBox checkBox) return;
-            
-            // Accédez au StackPanel parent
-            var stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
-
-            // Trouvez le TextBlock dans le StackPanel
-            var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
-                    
-            if (textBlock?.Text == null) return;
-                    
-            var word = new StringItem {Text = textBlock.Text, IsChecked = false};
-            StringsUnchecked.Add(word);
         }
         
         private void WrapPanel_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -4816,6 +4807,9 @@ namespace KNXBoostDesktop
                 slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
             }
         }
+
+        [GeneratedRegex(@"\*+")]
+        private static partial Regex MyRegex();
     }
     
     
