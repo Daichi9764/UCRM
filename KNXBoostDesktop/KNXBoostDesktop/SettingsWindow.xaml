@@ -785,7 +785,57 @@
         <Style TargetType="ListBox">
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         </Style>
+
+        <!-- Style pour ListBox en thème clair -->
+        <Style x:Key="ListBoxLightThemeStyle" TargetType="ListBox">
+            <Setter Property="ItemContainerStyle" Value="{DynamicResource  ListBoxItemThemeStyle}"/>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}"
+                                      Style="{StaticResource CheckboxLightThemeStyle}">
+                            </CheckBox>
+                            <TextBlock Text="{Binding Text}"
+                                       Foreground="#000000"
+                                       Margin="5,0,5,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style pour ListBox en thème sombre -->
+        <Style x:Key="ListBoxDarkThemeStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemContainerStyle" Value="{DynamicResource  ListBoxItemThemeStyle}"/>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" >
+                            <CheckBox IsChecked="{Binding IsChecked}"
+                                      Style="{StaticResource CheckboxDarkThemeStyle}">
+                            </CheckBox>
+                            <TextBlock Text="{Binding Text}"
+                                       Foreground="#E3DED4"
+                                       Margin="5,0,5,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         
+        <!-- Style pour ListBoxItem -->
+        <Style x:Key="ListBoxItemThemeStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
     </Window.Resources>
 
     <Border BorderBrush="#369226" 
@@ -1055,16 +1105,7 @@
                                                               FontWeight="SemiBold" Margin="10,10,0,3" />
                                                    <CheckBox x:Name="RemoveUnusedAddressesCheckBox"
                                                              Style="{StaticResource CheckboxLightThemeStyle}"
-                                                             Margin="10,0,10,10"/>
-                                                   
-                                                   
-                                                   <!-- Conservation de certaines adresses de groupe -->
-                                                   <TextBlock x:Name="AddressKeepingTitle" FontFamily="Aptos"
-                                                              FontSize="17"
-                                                              FontWeight="SemiBold" Margin="10,10,0,3"/>
-                                                   <TextBlock x:Name="AddressKeepingText"
-                                                              Margin="10,0,10,2"/>
-                                                   <TextBox x:Name="AddressKeepingTextbox" Margin="10,0,10,10" />
+                                                             Margin="10,0,10,10"/>                                                                                                    
                                                </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
@@ -1077,36 +1118,28 @@
                                                           FontSize="17" FontWeight="SemiBold"
                                                           Margin="10,10,0,0" 
                                                           Text = "Inclusions"/>
-                                               <TextBlock Text = "Chaines à conserver dans les adresses lors de la correction" Margin="10,0,0,2" />
+                                    <TextBlock x:Name="AddressKeepingText" Margin="10,0,0,2" />
                                                
                                                <TextBox x:Name="InputTextBox" Margin="10,10,10,0" 
                                                         Background="White"
                                                         KeyDown="InputTextBox_KeyDown"
                                                         VerticalAlignment="Top" />
-                                               
-                                               <ListBox Name="WordsListBox" Margin="10,10,10,5"
-                                                        IsTabStop="False"
-                                                        ItemsSource="{Binding StringsShownInWindow}"
-                                                        SelectionMode="Extended"
-                                                        KeyDown="WordsListBox_KeyDown">
-                                                   <ListBox.ItemsPanel>
-                                                       <ItemsPanelTemplate>
-                                                           <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
-                                                       </ItemsPanelTemplate>
-                                                   </ListBox.ItemsPanel>
-                                                   <ListBox.ItemTemplate>
-                                                       <DataTemplate>
-                                                           <StackPanel Orientation="Horizontal">
-                                                               <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
-                                                                         IsChecked="{Binding IsChecked}"/>
-                                                               <TextBlock Text="{Binding Text}"
-                                                                          Margin="5,0,5,0"
-                                                                          VerticalAlignment="Center"/>
-                                                           </StackPanel>
-                                                       </DataTemplate>
-                                                   </ListBox.ItemTemplate>
-                                               </ListBox>
-                                           </StackPanel>
+
+                                        <ListBox x:Name="WordsListBox"
+                                             Margin="10,10,10,5"
+                                             IsTabStop="False"
+                                             Style="{StaticResource ListBoxLightThemeStyle}"
+                                             ItemsSource="{Binding StringsShownInWindow}"
+                                             SelectionMode="Extended"
+                                             KeyDown="WordsListBox_KeyDown"
+                                             BorderThickness="0">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                    </ListBox>
+                                </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
                                        

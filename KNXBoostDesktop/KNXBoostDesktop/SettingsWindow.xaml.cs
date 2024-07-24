@@ -1022,13 +1022,6 @@ namespace KNXBoostDesktop
             // Mise à jour du slider
             ScaleSlider.Value = AppScaleFactor;
             
-            // Mise à jour de la liste des strings à conserver
-            AddressKeepingTextbox.Text = ""; // On commence par réinitialiser
-            for (var i=0; i<StringsToAdd.Count; i++)
-            {
-                AddressKeepingTextbox.Text += i == StringsToAdd.Count-1 ? $"{StringsToAdd[i]}" : $"{StringsToAdd[i]}, ";
-            }
-
             // Traduction du menu settings
             if (langChanged) TranslateWindowContents();
             
@@ -3110,6 +3103,8 @@ namespace KNXBoostDesktop
                 SaveButton.Style = (Style)FindResource("BottomButtonLight");
                 CancelButton.Style = (Style)FindResource("BottomButtonLight");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
+                WordsListBox.Style = (Style)FindResource("ListBoxLightThemeStyle");
+
 
                 OngletCorrection.Style = (Style)FindResource("LightOnglet");
                 OngletInclusions.Style = (Style)FindResource("LightOnglet");
@@ -3138,6 +3133,7 @@ namespace KNXBoostDesktop
                 SaveButton.Style = (Style)FindResource("BottomButtonDark");
                 CancelButton.Style = (Style)FindResource("BottomButtonDark");
                 CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
+                WordsListBox.Style = (Style)FindResource("ListBoxDarkThemeStyle");
 
                 OngletCorrection.Style = (Style)FindResource("DarkOnglet");
                 OngletInclusions.Style = (Style)FindResource("DarkOnglet");
@@ -3217,6 +3213,7 @@ namespace KNXBoostDesktop
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked ? textColorBrush : new SolidColorBrush(Colors.DimGray);
 
 
+
             OngletCorrection.BorderBrush = borderBrush;
             OngletParametresApplication.BorderBrush = borderBrush;
             OngletInclusions.BorderBrush = borderBrush;
@@ -3243,6 +3240,7 @@ namespace KNXBoostDesktop
                 item.Foreground = item.IsSelected ? new SolidColorBrush(Colors.White) : textColorBrush;
                 item.Background = EnableLightTheme ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkBackgroundColor));
             }
+
 
             foreach (ComboBoxItem item in AppLanguageComboBox.Items)
             {
@@ -3292,7 +3290,6 @@ namespace KNXBoostDesktop
 
             }
         }
-
 
         // Fonction permettant de détecter le thème de windows (clair/sombre)
         /// <summary>
