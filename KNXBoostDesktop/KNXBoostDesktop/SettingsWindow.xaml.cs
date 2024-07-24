@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -76,13 +77,16 @@ namespace KNXBoostDesktop
         /// <summary>
         /// Strings to preserve during the correction of group addresses. If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
         /// </summary>
-        public ObservableCollection<string> StringsToAdd { get; private set; } = new(); // Chaines de caractères à conserver lors de la correction des adresses de groupe
+        public ObservableCollection<StringItem> StringsToAdd { get; private set; } = new(); // Chaines de caractères à conserver lors de la correction des adresses de groupe
         
         /// <summary>
         /// List of all the strings shown in the listbox in the settings window
         /// </summary>
-        public ObservableCollection<string> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenpetre
+        public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
 
+        private bool isDragging = false;
+
+        public ObservableCollection<StringItem> StringsUnchecked { get; private set; } = new(); // Liste des éléments affichés dans la liste mais décochés
 
 
         /* ------------------------------------------------------------------------------------------------
@@ -787,7 +791,20 @@ namespace KNXBoostDesktop
                             // Récupération de chaque string et ajout à la liste
                             foreach (var st in value.Split(','))
                             {
-                                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase)) StringsToAdd.Add(st.Trim());
+                                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if (st.Trim().StartsWith("$"))
+                                    {
+                                        var itemUnchecked = new StringItem { Text = st.Trim()[1..], IsChecked = false };
+                                        StringsUnchecked.Add(itemUnchecked);
+                                        StringsShownInWindow.Add(itemUnchecked);
+                                        continue;
+                                    }
+
+                                    var item = new StringItem { Text = st.Trim(), IsChecked = true };
+                                    StringsToAdd.Add(item);
+                                    StringsShownInWindow.Add(item);
+                                }
                             }
                             break;
                     }
@@ -813,6 +830,9 @@ namespace KNXBoostDesktop
             }
             
             UpdateWindowContents(false, true, true); // Affichage des paramètres dans la fenêtre
+            ScaleSlider.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(SliderMouseLeftButtonDown), true);
+            ScaleSlider.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(SliderMouseLeftButtonUp), true);
+            ScaleSlider.AddHandler(MouseMoveEvent, new MouseEventHandler(SliderMouseMove), true);
         }
 
 
@@ -881,17 +901,24 @@ namespace KNXBoostDesktop
                 }
                 else
                 {
+                    // Ajout des strings de la liste
                     for (var i=0; i<StringsToAdd.Count; i++)
                     {
+                        writer.Write($"{StringsToAdd[i].Text}, ");
+                    }
+                    
+                    // Ajout des strings non cochés de la liste avec une étoile devant
+                    for (var i=0; i<StringsUnchecked.Count; i++)
+                    {
                         // Si c'est le dernier élément, on ne met pas de virgule et on saute une ligne
-                        if (i == StringsToAdd.Count - 1)
+                        if (i == StringsUnchecked.Count - 1)
                         {
-                            writer.WriteLine($"{StringsToAdd[i]}");
+                            writer.WriteLine($"${StringsUnchecked[i].Text}");
                         }
                         // Sinon, on écrit les uns après les autres chaque élément séparé d'une virgule
                         else
                         {
-                            writer.Write($"{StringsToAdd[i]}, ");
+                            writer.Write($"${StringsUnchecked[i].Text}, ");
                         }
                     }
                 }
@@ -1067,7 +1094,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "الاسم والشعارات وأي صورة مرتبطة بـ KNX هي ملك لا يتجزأ لجمعية KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("موقع جمعية KNX");
-                    AddressKeepingTitle.Text = "الشموليات";
+                    InclusionTitle.Text = "الشموليات";
                     break;
 
                 // Bulgare
@@ -1125,7 +1152,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "името, логото и всички изображения, свързани с KNX, са неотменима собственост на асоциацията KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Уебсайт на асоциация KNX");
-                    AddressKeepingTitle.Text = "Включвания";
+                    InclusionTitle.Text = "Включвания";
                     break;
 
                 // Tchèque
@@ -1183,7 +1210,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "název, loga a jakékoli obrázky související s KNX jsou neoddělitelným vlastnictvím asociace KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Webová stránka asociace KNX");
-                    AddressKeepingTitle.Text = "Zahrnutí";
+                    InclusionTitle.Text = "Zahrnutí";
                     break;
 
                 // Danois
@@ -1241,7 +1268,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "navnet, logoerne og alle billeder relateret til KNX er uadskillelig ejendom tilhørende KNX-foreningen. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX-foreningens hjemmeside");
-                    AddressKeepingTitle.Text = "Inklusioner";
+                    InclusionTitle.Text = "Inklusioner";
                     break;
 
                 // Allemand
@@ -1311,7 +1338,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "der Name, die Logos und alle Bilder im Zusammenhang mit KNX sind unveräußerliches Eigentum der KNX-Vereinigung. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Website der KNX-Vereinigung");
-                    AddressKeepingTitle.Text = "Inklusionen";
+                    InclusionTitle.Text = "Inklusionen";
                     break;
 
                 // Grec
@@ -1369,7 +1396,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "το όνομα, τα λογότυπα και οποιαδήποτε εικόνα που σχετίζεται με το KNX είναι αδιαίρετη ιδιοκτησία του συλλόγου KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Ιστότοπος του συλλόγου KNX");
-                    AddressKeepingTitle.Text = "Συμπερίληψη";
+                    InclusionTitle.Text = "Συμπερίληψη";
                     break;
 
                 // Anglais
@@ -1439,7 +1466,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "the name, logos, and any images related to KNX are the inalienable property of the KNX association. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX association website");
-                    AddressKeepingTitle.Text = "Inclusions";
+                    InclusionTitle.Text = "Inclusions";
                     break;
 
                 // Espagnol
@@ -1509,7 +1536,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "el nombre, los logotipos y cualquier imagen relacionada con KNX son propiedad inalienable de la asociación KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Sitio web de la asociación KNX");
-                    AddressKeepingTitle.Text = "Inclusiones";
+                    InclusionTitle.Text = "Inclusiones";
                     break;
 
                 // Estonien
@@ -1567,7 +1594,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX-i nimi, logod ja kõik pildid, mis on seotud KNX-iga, on KNX-i ühenduse võõrandamatu omand. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX ühenduse veebisait");
-                    AddressKeepingTitle.Text = "Kaasamised";
+                    InclusionTitle.Text = "Kaasamised";
                     break;
 
                 // Finnois
@@ -1637,7 +1664,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX:n nimi, logot ja kaikki kuvat, jotka liittyvät KNX:ään, ovat KNX-yhdistyksen luovuttamatonta omaisuutta. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX-yhdistyksen verkkosivusto");
-                    AddressKeepingTitle.Text = "Sisällytykset";
+                    InclusionTitle.Text = "Sisällytykset";
                     break;
 
                 // Hongrois
@@ -1707,7 +1734,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "a KNX név, logók és bármilyen kép, amely a KNX-hez kapcsolódik, a KNX egyesület elidegeníthetetlen tulajdona. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX egyesület weboldala");
-                    AddressKeepingTitle.Text = "Beillesztések";
+                    InclusionTitle.Text = "Beillesztések";
                     break;
 
                 // Indonésien
@@ -1777,7 +1804,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "nama, logo, dan gambar apapun yang terkait dengan KNX adalah milik tidak terpisahkan dari asosiasi KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Situs web asosiasi KNX");
-                    AddressKeepingTitle.Text = "Penyertaan";
+                    InclusionTitle.Text = "Penyertaan";
                     break;
 
                 // Italien
@@ -1847,7 +1874,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "il nome, i loghi e tutte le immagini relative a KNX sono proprietà inalienabile dell'associazione KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Sito web dell'associazione KNX");
-                    AddressKeepingTitle.Text = "Inclusioni";
+                    InclusionTitle.Text = "Inclusioni";
                     break;
 
                 // Japonais
@@ -1917,7 +1944,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNXの名前、ロゴ、およびKNXに関連するすべての画像は、KNX協会の不可分の財産です。 \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX協会のウェブサイト");
-                    AddressKeepingTitle.Text = "インクルージョン";
+                    InclusionTitle.Text = "インクルージョン";
                     break;
 
                 // Coréen
@@ -1987,7 +2014,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX의 이름, 로고 및 KNX와 관련된 모든 이미지는 KNX 협회의 양도할 수 없는 자산입니다. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX 협회 웹사이트");
-                    AddressKeepingTitle.Text = "포함";
+                    InclusionTitle.Text = "포함";
                     break;
 
                 // Letton
@@ -2057,7 +2084,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX nosaukums, logotipi un jebkādi attēli, kas saistīti ar KNX, ir KNX asociācijas neatņemams īpašums. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX asociācijas tīmekļa vietne");
-                    AddressKeepingTitle.Text = "Iekļaušana";
+                    InclusionTitle.Text = "Iekļaušana";
                     break;
 
                 // Lituanien
@@ -2126,7 +2153,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX pavadinimas, logotipai ir bet kokie su KNX susiję vaizdai yra neatsiejama KNX asociacijos nuosavybė. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX asociacijos svetainė");
-                    AddressKeepingTitle.Text = "Įtraukimas";
+                    InclusionTitle.Text = "Įtraukimas";
                     break;
 
                 // Norvégien
@@ -2196,7 +2223,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "navnet, logoene og alle bilder knyttet til KNX er udelelig eiendom tilhørende KNX-foreningen. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX-foreningens nettsted");
-                    AddressKeepingTitle.Text = "Inkluderinger";
+                    InclusionTitle.Text = "Inkluderinger";
                     break;
 
                 // Néerlandais
@@ -2266,7 +2293,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "de naam, logo's en alle afbeeldingen die verband houden met KNX zijn het onvervreemdbaar eigendom van de KNX-vereniging. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Website van de KNX-vereniging");
-                    AddressKeepingTitle.Text = "Opnamen";
+                    InclusionTitle.Text = "Opnamen";
                     break;
 
                 // Polonais
@@ -2336,7 +2363,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "nazwa, logo i wszystkie obrazy związane z KNX są niezbywalną własnością stowarzyszenia KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Strona internetowa stowarzyszenia KNX");
-                    AddressKeepingTitle.Text = "Włączenia";
+                    InclusionTitle.Text = "Włączenia";
                     break;
 
                 // Portugais
@@ -2406,7 +2433,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "o nome, logotipos e quaisquer imagens relacionadas com KNX são propriedade inalienável da associação KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Website da associação KNX");
-                    AddressKeepingTitle.Text = "Inclusões";
+                    InclusionTitle.Text = "Inclusões";
                     break;
 
                 // Roumain
@@ -2476,7 +2503,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "numele, siglele și orice imagine legată de KNX sunt proprietatea inalienabilă a asociației KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Site-ul asociației KNX");
-                    AddressKeepingTitle.Text = "Incluziuni";
+                    InclusionTitle.Text = "Incluziuni";
                     break;
 
                 // Slovaque
@@ -2545,7 +2572,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "názov, logá a akékoľvek obrázky týkajúce sa KNX sú neoddeliteľným majetkom združenia KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Webová stránka združenia KNX");
-                    AddressKeepingTitle.Text = "Zahrnutia";
+                    InclusionTitle.Text = "Zahrnutia";
                     break;
 
                 // Slovène
@@ -2615,7 +2642,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "ime, logotipi in vse slike, povezane s KNX, so neodtujljiva last združenja KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Spletna stran združenja KNX");
-                    AddressKeepingTitle.Text = "Vključki";
+                    InclusionTitle.Text = "Vključki";
                     break;
 
                 // Suédois
@@ -2685,7 +2712,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "namnet, logotyperna och alla bilder relaterade till KNX är KNX-föreningens omistliga egendom. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX-föreningens webbplats");
-                    AddressKeepingTitle.Text = "Inkluderingar";
+                    InclusionTitle.Text = "Inkluderingar";
                     break;
 
                 // Turc
@@ -2755,7 +2782,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX'in adı, logoları ve KNX ile ilgili tüm resimler, KNX derneğinin devredilemez mülküdür. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX derneği web sitesi");
-                    AddressKeepingTitle.Text = "Dâhil olanlar";
+                    InclusionTitle.Text = "Dâhil olanlar";
                     break;
 
                 // Ukrainien
@@ -2825,7 +2852,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "назва, логотипи та будь-які зображення, пов'язані з KNX, є невід'ємною власністю асоціації KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Вебсайт асоціації KNX");
-                    AddressKeepingTitle.Text = "Включення";
+                    InclusionTitle.Text = "Включення";
                     break;
 
                 // Russe
@@ -2895,7 +2922,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "название, логотипы и любые изображения, связанные с KNX, являются неотъемлемой собственностью ассоциации KNX. \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Веб-сайт ассоциации KNX");
-                    AddressKeepingTitle.Text = "Включения";
+                    InclusionTitle.Text = "Включения";
                     break;
 
                 // Chinois simplifié
@@ -2965,7 +2992,7 @@ namespace KNXBoostDesktop
                     NoteImportanteContenu.Text = "KNX的名称、标识和任何与KNX相关的图片都是KNX协会不可分割的财产。 \u279e";
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("KNX协会网站");
-                    AddressKeepingTitle.Text = "包含";
+                    InclusionTitle.Text = "包含";
                     break;
 
                 // Langue par défaut (français)
@@ -3029,7 +3056,7 @@ namespace KNXBoostDesktop
                     
                     HyperlinkInfo.Inlines.Clear();
                     HyperlinkInfo.Inlines.Add("Site web de l'association KNX");
-                    AddressKeepingTitle.Text = "Inclusions";
+                    InclusionTitle.Text = "Inclusions";
                         
                     SaveButtonText.Text = "Enregistrer";
                     CancelButtonText.Text = "Annuler";
@@ -3041,7 +3068,7 @@ namespace KNXBoostDesktop
                     break;
             }
 
-            OngletInclusions.Header = AddressKeepingTitle.Text;
+            OngletInclusions.Header = InclusionTitle.Text;
         }
 
 
@@ -3383,42 +3410,38 @@ namespace KNXBoostDesktop
             EnableLightTheme = LightThemeComboBoxItem.IsSelected;
             AppLang = AppLanguageComboBox.Text.Split([" - "], StringSplitOptions.None)[0];
             AppScaleFactor = (int)ScaleSlider.Value;
-
-            ObservableCollection<string> newStringsToKeep = [];
-
-            // On remplit la liste en récupérant les différents strings. Ils peuvent être séparés par des virgules ou des points virgules
-            foreach (var st in AddressKeepingTextbox.Text.Split(','))
+            
+            
+            // On recrée une nouvelle liste
+            StringsToAdd = new();
+            
+            // On ajoute les éléments qui ne sont pas décochés
+            foreach (var st in StringsShownInWindow)
             {
-                // Note: la fonction Trim() permet de supprimer s'il y en a les espaces au début
-                // ou à la fin du string avant de l'ajouter à la liste tout en conservant ceux
-                // à l'intérieur du string
-                // Note 2 : On ne prend pas en compte les chaines vides ou les suites d'espaces
-                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
-                {
-                    foreach (var st2 in st.Split(';'))
-                    {
-                        if (!st2.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
-                        {
-                            newStringsToKeep.Add(st2.Trim());
-                        }
-                    }
-                }
+                App.ConsoleAndLogWriteLine(st.Text);
+                if (st.IsChecked) StringsToAdd.Add(st);
             }
-
-            // Vérification de si la liste de strings a changé :
-            // Si la longueur des listes est différente ou qu'un élément d'une liste n'est pas dans l'autre et vice-versa, alors la liste a changé
-            var listChanged = newStringsToKeep.Count != StringsToAdd.Count ||
-                              newStringsToKeep.Except(StringsToAdd).Any() ||
-                              StringsToAdd.Except(newStringsToKeep).Any();
-            if (listChanged)
+            App.ConsoleAndLogWriteLine("-----------------");
+            
+            foreach (var st in StringsUnchecked)
             {
-                StringsToAdd = newStringsToKeep;
+                App.ConsoleAndLogWriteLine(st.Text);
             }
+            App.ConsoleAndLogWriteLine("-----------------");
 
             foreach (var st in StringsToAdd)
             {
-                App.ConsoleAndLogWriteLine(st);
+                App.ConsoleAndLogWriteLine(st.Text);
             }
+            App.ConsoleAndLogWriteLine("-----------------");
+            
+            
+            // Vérification de si la liste de strings a changé :
+            // Si la longueur des listes est différente ou qu'un élément d'une liste n'est pas dans l'autre et vice-versa, alors la liste a changé
+            var listChanged = StringsToAdd.Count != previousStringsToAdd.Count ||
+                              previousStringsToAdd.Except(StringsToAdd).Any() ||
+                              StringsToAdd.Except(previousStringsToAdd).Any();
+            
 
             // Par défaut, si les fichiers de décryptage n'existent pas dans l'arborescence des fichiers,
             // on considèrera que la clé deepl a changé si la textbox n'est pas vide
@@ -3803,6 +3826,11 @@ namespace KNXBoostDesktop
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
                     break;
                 case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletParametresApplication.Header:
+                    SaveButton.Visibility = Visibility.Visible;
+                    CancelButton.Visibility = Visibility.Visible;
+                    CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
+                    break;
+                case { Header: not null } when selectedTab.Header.ToString() == (string?)OngletInclusions.Header:
                     SaveButton.Visibility = Visibility.Visible;
                     CancelButton.Visibility = Visibility.Visible;
                     CreateArchiveDebugButton.Visibility = Visibility.Collapsed;
@@ -4617,11 +4645,21 @@ namespace KNXBoostDesktop
         {
             if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(InputTextBox.Text))
             {
-                var newWord = InputTextBox.Text.Trim();
-                if (!StringsShownInWindow.Contains(newWord))
+                bool itemAlreadyExists = false;
+
+                var i = 0;
+                
+                while (!itemAlreadyExists && i<StringsShownInWindow.Count)
                 {
-                    StringsShownInWindow.Add(newWord);
-                    StringsToAdd.Add(newWord);
+                    if (StringsShownInWindow[i].Text == InputTextBox.Text.Trim()) itemAlreadyExists = true;
+                    i++;
+                }
+                
+                // Si la liste ne contient pas déjà le mot, on l'ajoute
+                if (!itemAlreadyExists)
+                {
+                    var newWordItem = new StringItem { Text = InputTextBox.Text.Trim(), IsChecked = true };
+                    StringsShownInWindow.Add(newWordItem);
                 }
                 InputTextBox.Clear();
             }
@@ -4629,39 +4667,29 @@ namespace KNXBoostDesktop
 
         private void WordsListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete && WordsListBox.SelectedItem != null)
-            {
-                var selectedIndex = WordsListBox.SelectedIndex;
+            if (e.Key != Key.Delete || WordsListBox.SelectedItem == null) return;
+            var selectedIndex = WordsListBox.SelectedIndex;
                 
-                var itemsToRemove = new List<string>();
-
-                foreach (var item in WordsListBox.SelectedItems)
-                {
-                    if (item is string word)
-                    {
-                        itemsToRemove.Add(word);
-                    }
-                }
-
+            foreach (var item in WordsListBox.SelectedItems)
+            {
                 // Supprimez les éléments de la liste principale
-                foreach (var word in itemsToRemove)
+                if (item is StringItem word)
                 {
                     StringsShownInWindow.Remove(word);
-                    StringsToAdd.Remove(word);
-                }
-                
-                // Sélectionner l'élément suivant
-                if (StringsShownInWindow.Count > 0)
-                {
-                    if (selectedIndex >= StringsShownInWindow.Count)
-                    {
-                        selectedIndex = StringsShownInWindow.Count - 1;
-                    }
-                    WordsListBox.SelectedIndex = selectedIndex;
                 }
             }
+                
+            // Sélectionner l'élément suivant
+            if (StringsShownInWindow.Count <= 0) return;
+                
+            if (selectedIndex >= StringsShownInWindow.Count)
+            {
+                selectedIndex = StringsShownInWindow.Count - 1;
+            }
+            WordsListBox.SelectedIndex = selectedIndex;
         }
 
+        
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is not CheckBox checkBox) return;
@@ -4672,19 +4700,10 @@ namespace KNXBoostDesktop
             // Trouvez le TextBlock dans le StackPanel
             var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
             
-            if (textBlock == null) return;
+            if (textBlock?.Text == null) return;
             
-            var word = textBlock.Text;
-            if (!StringsToAdd.Contains(word))
-            {
-                StringsToAdd.Add(word);
-            }
-
-            foreach (var st in StringsToAdd)
-            {
-                App.ConsoleAndLogWriteLine(st);
-            }
-            App.ConsoleAndLogWriteLine("--------");
+            var word = new StringItem {Text= textBlock.Text, IsChecked = false};
+            StringsUnchecked.Remove(word);
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -4697,16 +4716,10 @@ namespace KNXBoostDesktop
             // Trouvez le TextBlock dans le StackPanel
             var textBlock = stackPanel?.Children.OfType<TextBlock>().FirstOrDefault();
                     
-            if (textBlock == null) return;
+            if (textBlock?.Text == null) return;
                     
-            var word = textBlock.Text;
-            StringsToAdd.Remove(word);
-            
-            foreach (var st in StringsToAdd)
-            {
-                App.ConsoleAndLogWriteLine(st);
-            }
-            App.ConsoleAndLogWriteLine("--------");
+            var word = new StringItem {Text = textBlock.Text, IsChecked = false};
+            StringsUnchecked.Add(word);
         }
         
         private void WrapPanel_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -4726,5 +4739,90 @@ namespace KNXBoostDesktop
             }
         }
         
+        private void Slider_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            if (slider != null)
+            {
+                Point position = e.GetPosition(slider);
+                double relativePosition = position.X / slider.ActualWidth;
+                double value = slider.Minimum + (relativePosition * (slider.Maximum - slider.Minimum));
+                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, value));
+            }
+        }
+        // FAIRE EN SORTE QUE LE SLIDER SOIT CLIQUABLE POUR CHANGER DIRECTEMENT LA VALEUR
+        private void OnSliderClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is RepeatButton repeatButton)
+            {
+                var slider = FindParent<Slider>(repeatButton);
+                if (slider != null)
+                {
+                    // Get the mouse position relative to the slider
+                    var position = Mouse.GetPosition(slider);
+                    var relativeX = position.X / slider.ActualWidth;
+                    var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+                    slider.Value = newValue;
+                }
+            }
+        }
+        
+        // Utility method to find the parent of a specific type
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+        
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindParent<T>(parentObject);
+            }
+        }
+        
+
+        // fonctions pour changer la position du slider
+        private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = true;
+            Mouse.Capture(ScaleSlider);
+            UpdateSliderValue(sender, e);
+        }
+
+        private void SliderMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragging = false;
+            Mouse.Capture(null);
+        }
+
+        private void SliderMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                UpdateSliderValue(sender, e);
+            }
+        }
+
+        private void UpdateSliderValue(object sender, MouseEventArgs e)
+        {
+            if (sender is Slider slider)
+            {
+                var position = e.GetPosition(slider);
+                var relativeX = position.X / slider.ActualWidth;
+                var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+            
+                // Snap to the nearest tick
+                double tickFrequency = slider.TickFrequency;
+                newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
+            
+                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
+            }
+        }
     }
+    
+    
 }

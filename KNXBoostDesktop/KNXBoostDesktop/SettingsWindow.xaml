@@ -624,6 +624,29 @@
             </Setter>
         </Style>
         
+        <Style x:Key="TransparentRepeatButtonStyle" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/> 
+            <Setter Property="BorderThickness" Value="0"/> 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="LightSlider" TargetType="Slider">
             <Setter Property="Template">
                 <Setter.Value>
@@ -639,6 +662,13 @@
                                            Fill="#B8B8B8"
                                            Height="2"
                                            VerticalAlignment="Center"/>
+                                
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
+                                              Style="{StaticResource TransparentRepeatButtonStyle}"
+                                              Width="{Binding ElementName=ScaleSlider, Path=ActualWidth}"
+                                              Height="10"
+                                              HorizontalAlignment="Left"
+                                              Click="OnSliderClick"/>
                                 <Track x:Name="PART_Track">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
@@ -713,6 +743,12 @@
                                            Fill="#434343"
                                            Height="2"
                                            VerticalAlignment="Center"/>
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
+                                              Style="{StaticResource TransparentRepeatButtonStyle}"
+                                              Width="{Binding ElementName=ScaleSlider, Path=ActualWidth}"
+                                              Height="10"
+                                              HorizontalAlignment="Left"
+                                              Click="OnSliderClick"/>
                                 <Track x:Name="PART_Track">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static Slider.DecreaseLarge}" 
@@ -1048,32 +1084,30 @@
                                                         KeyDown="InputTextBox_KeyDown"
                                                         VerticalAlignment="Top" />
                                                
-                                                   <ListBox Name="WordsListBox" Margin="10,10,10,0"
-                                                            IsTabStop="False"
-                                                            ItemsSource="{Binding StringsShownInWindow}"
-                                                            SelectionMode="Extended"
-                                                            BorderThickness="0"
-                                                            Background="Transparent"
-                                                            KeyDown="WordsListBox_KeyDown">
-                                                       <ListBox.ItemsPanel>
-                                                            <ItemsPanelTemplate >
-                                                                 <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged" Background="Transparent"/>
-                                                           </ItemsPanelTemplate>
-                                                       </ListBox.ItemsPanel>
-                                                       <ListBox.ItemTemplate>
-                                                           <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" >
-                                                                    <CheckBox x:Name="InclusionCheckBox" Style="{StaticResource CheckboxLightThemeStyle}"
-                                                                             IsChecked="True"
-                                                                             Checked="CheckBox_Checked"
-                                                                             Unchecked="CheckBox_Unchecked"  />
-                                                                   <TextBlock Text="{Binding}"
-                                                                              Margin="5,0,5,0"
-                                                                              VerticalAlignment="Center"/>
-                                                               </StackPanel>
-                                                           </DataTemplate>
-                                                       </ListBox.ItemTemplate>
-                                                   </ListBox>
+                                               <ListBox Name="WordsListBox" Margin="10,10,10,0"
+                                                        IsTabStop="False"
+                                                        ItemsSource="{Binding StringsShownInWindow}"
+                                                        SelectionMode="Extended"
+                                                        KeyDown="WordsListBox_KeyDown">
+                                                   <ListBox.ItemsPanel>
+                                                       <ItemsPanelTemplate>
+                                                           <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
+                                                       </ItemsPanelTemplate>
+                                                   </ListBox.ItemsPanel>
+                                                   <ListBox.ItemTemplate>
+                                                       <DataTemplate>
+                                                           <StackPanel Orientation="Horizontal">
+                                                               <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
+                                                                         IsChecked="{Binding IsChecked}"
+                                                                         Checked="CheckBox_Checked"
+                                                                         Unchecked="CheckBox_Unchecked"/>
+                                                               <TextBlock Text="{Binding Text}"
+                                                                          Margin="5,0,5,0"
+                                                                          VerticalAlignment="Center"/>
+                                                           </StackPanel>
+                                                       </DataTemplate>
+                                                   </ListBox.ItemTemplate>
+                                               </ListBox>
                                            </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
