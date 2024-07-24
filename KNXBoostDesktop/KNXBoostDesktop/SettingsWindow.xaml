@@ -1136,21 +1136,7 @@
                                                        <ItemsPanelTemplate>
                                                            <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
                                                        </ItemsPanelTemplate>
-                                                   </ListBox.ItemsPanel>
-                                                   <ListBox.ItemTemplate>
-                                                       <DataTemplate>
-                                                           <StackPanel Orientation="Horizontal">
-                                                               <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
-                                                                         IsChecked="{Binding IsChecked}"
-                                                                         Checked="CheckboxInStringList_Checked"
-                                                                         Unchecked="CheckboxInStringList_Unchecked"/>
-                                                               <TextBlock Text="{Binding Text}"
-                                                                          Margin="5,0,5,0"
-                                                                          VerticalAlignment="Center"/>
-                                                           </StackPanel>
-                                                       </DataTemplate>
-                                                   </ListBox.ItemTemplate>
-                                               </ListBox>
+                                                   </ListBox.ItemsPanel>                                               </ListBox>
                                            </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
