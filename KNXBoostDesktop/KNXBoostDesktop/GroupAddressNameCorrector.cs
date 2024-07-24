@@ -2074,7 +2074,7 @@ public static class GroupAddressNameCorrector
         string[] words = modifiedNameAttrValue.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
         // Convert all stringsToAdd to lowercase for case-insensitive comparison
-        var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.ToLower()).ToArray();
+        var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.Text.ToLower()).ToArray();
         
         // List to hold matching words
         var matchingWords = new List<string>();

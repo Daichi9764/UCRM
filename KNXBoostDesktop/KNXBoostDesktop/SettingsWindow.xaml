@@ -1047,30 +1047,30 @@
                                                         KeyDown="InputTextBox_KeyDown"
                                                         VerticalAlignment="Top" />
                                                
-                                                   <ListBox Name="WordsListBox" Margin="10,10,10,0"
-                                                            IsTabStop="False"
-                                                            ItemsSource="{Binding StringsShownInWindow}"
-                                                            SelectionMode="Extended"
-                                                            KeyDown="WordsListBox_KeyDown">
-                                                       <ListBox.ItemsPanel>
-                                                           <ItemsPanelTemplate>
-                                                               <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
-                                                           </ItemsPanelTemplate>
-                                                       </ListBox.ItemsPanel>
-                                                       <ListBox.ItemTemplate>
-                                                           <DataTemplate>
-                                                               <StackPanel Orientation="Horizontal">
-                                                                   <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
-                                                                             IsChecked="True"
-                                                                             Checked="CheckBox_Checked"
-                                                                             Unchecked="CheckBox_Unchecked"/>
-                                                                   <TextBlock Text="{Binding}"
-                                                                              Margin="5,0,5,0"
-                                                                              VerticalAlignment="Center"/>
-                                                               </StackPanel>
-                                                           </DataTemplate>
-                                                       </ListBox.ItemTemplate>
-                                                   </ListBox>
+                                               <ListBox Name="WordsListBox" Margin="10,10,10,0"
+                                                        IsTabStop="False"
+                                                        ItemsSource="{Binding StringsShownInWindow}"
+                                                        SelectionMode="Extended"
+                                                        KeyDown="WordsListBox_KeyDown">
+                                                   <ListBox.ItemsPanel>
+                                                       <ItemsPanelTemplate>
+                                                           <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
+                                                       </ItemsPanelTemplate>
+                                                   </ListBox.ItemsPanel>
+                                                   <ListBox.ItemTemplate>
+                                                       <DataTemplate>
+                                                           <StackPanel Orientation="Horizontal">
+                                                               <CheckBox Style="{StaticResource CheckboxLightThemeStyle}"
+                                                                         IsChecked="{Binding IsChecked}"
+                                                                         Checked="CheckBox_Checked"
+                                                                         Unchecked="CheckBox_Unchecked"/>
+                                                               <TextBlock Text="{Binding Text}"
+                                                                          Margin="5,0,5,0"
+                                                                          VerticalAlignment="Center"/>
+                                                           </StackPanel>
+                                                       </DataTemplate>
+                                                   </ListBox.ItemTemplate>
+                                               </ListBox>
                                            </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
