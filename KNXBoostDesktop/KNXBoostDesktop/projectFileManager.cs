@@ -38,6 +38,12 @@ namespace KNXBoostDesktop
         /// </summary>
         public string ProjectName { get; private set; } = "";
 
+        /// <summary>
+        /// Gets the name of the project the application was working on just before starting to load another project.
+        /// This variable is used to restore the old title for main window if the loading operation is cancelled.
+        /// </summary>
+        private string _previousProjectName = "";
+
 
         
         /* ------------------------------------------------------------------------------------------------
@@ -470,8 +476,13 @@ namespace KNXBoostDesktop
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
                 ProjectFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/";
                 managedToExtractProject = true;
+
+                // On stocke le nom du précédent projet
+                _previousProjectName = ProjectName;
                 
+                // On stocke le nom du nouveau projet
                 ProjectName = Path.GetFileNameWithoutExtension(knxprojSourceFilePath);
+                
                 App.DisplayElements!.MainWindow.Title = App.DisplayElements.SettingsWindow!.AppLang switch
                 {
                     // Arabe
@@ -1868,6 +1879,12 @@ namespace KNXBoostDesktop
             {
                 return "Date invalide";
             }
+        }
+
+
+        public void RestorePreviousProjectName()
+        {
+            ProjectName = _previousProjectName;
         }
     }
 }

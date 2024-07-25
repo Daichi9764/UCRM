@@ -10,7 +10,8 @@
         Background="White"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None" 
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Closing = "LoadingWindow_Closing">
     
     <Window.Resources>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

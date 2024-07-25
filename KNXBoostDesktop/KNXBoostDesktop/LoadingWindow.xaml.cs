@@ -17,6 +17,8 @@ namespace KNXBoostDesktop
         private ObservableCollection<Activity> Activities { get; }
 
         private CancellationTokenSource _cancellationTokenSource;
+
+        private bool _cancellationRequested = false;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingWindow"/> class.
@@ -34,20 +36,26 @@ namespace KNXBoostDesktop
             
             ApplyScaling(App.DisplayElements!.SettingsWindow!.AppScaleFactor/100f);
             _cancellationTokenSource = cancellationTokenSource;
-            this.Closing += LoadingWindow_Closing;
         }
         
         private void CloseLoading(object sender, RoutedEventArgs e)
         {
+            _cancellationRequested = true;
             Close();
         }
         
         
         
 
-        private void LoadingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void LoadingWindow_Closing(object sender, CancelEventArgs e)
         {
             _cancellationTokenSource.Cancel();
+
+            if (!_cancellationRequested) return;
+            
+            // On restaure l'ancien titre et on le met à jour pour qu'il s'affiche
+            App.Fm?.RestorePreviousProjectName();
+            App.DisplayElements?.MainWindow.UpdateWindowContents();
         }
 
         

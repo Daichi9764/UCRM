@@ -73,20 +73,27 @@ namespace KNXBoostDesktop
         ///  Gets or sets the scale factor for the content of every window of the application
         /// </summary>
         public int AppScaleFactor { get; private set; } // Facteur d'échelle pour les fenêtres de l'application
-
-
+        
         /// <summary>
-        /// Strings to preserve during the correction of group addresses. If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
+        /// Strings to preserve during the correction of group addresses.
+        /// If a string follows the format 'test*', all variations such as 'test1', 'test2', etc., will be retained.
         /// </summary>
         public ObservableCollection<StringItem> StringsToAdd { get; private set; } = new(); // Chaines de caractères à conserver lors de la correction des adresses de groupe
         
         /// <summary>
         /// List of all the strings shown in the listbox in the settings window
         /// </summary>
-        public ObservableCollection<StringItem> StringsShownInWindow { get; set; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
+        public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
         
+        /// <summary>
+        /// List of all the strings shown in the listbox in the settings window before any change was made.
+        /// This list is used to restore the old list wheneve the cancel button is clicked.
+        /// </summary>
         public ObservableCollection<StringItem> PreviousStringsShownInWindow { get; private set; } = new();
-
+        
+        /// <summary>
+        /// Variable used to know if the user is dragging the scaling slider cursor.
+        /// </summary>
         private bool _isDragging;
 
         /* ------------------------------------------------------------------------------------------------
@@ -949,29 +956,21 @@ namespace KNXBoostDesktop
                 else
                 {
                     // Ajout des strings de la liste
+                    // Si le string est coché, on le note 'string' dans le fichier
+                    // S'il est décoché, on le note '|&string' dans le fichier
                     for (var i=0; i<StringsShownInWindow.Count; i++)
                     {
                         if (i == StringsShownInWindow.Count - 1)
                         {
-                            if (StringsShownInWindow[i].IsChecked)
-                            {
-                                writer.WriteLine($"{StringsShownInWindow[i].Text}");
-                            }
-                            else
-                            {
-                                writer.WriteLine($"|&{StringsShownInWindow[i].Text}");
-                            }
+                            writer.WriteLine(StringsShownInWindow[i].IsChecked
+                                ? $"{StringsShownInWindow[i].Text}"
+                                : $"|&{StringsShownInWindow[i].Text}");
                         }
                         else
                         {
-                            if (StringsShownInWindow[i].IsChecked)
-                            {
-                                writer.Write($"{StringsShownInWindow[i].Text}, ");
-                            }
-                            else
-                            {
-                                writer.Write($"|&{StringsShownInWindow[i].Text}, ");
-                            }
+                            writer.Write(StringsShownInWindow[i].IsChecked
+                                ? $"{StringsShownInWindow[i].Text}, "
+                                : $"|&{StringsShownInWindow[i].Text}, ");
                         }
                     }
                 }
@@ -3625,7 +3624,7 @@ namespace KNXBoostDesktop
 
             // Faire apparaitre le bouton Reload 
             if ((previousRemoveUnusedGroupAddresses != RemoveUnusedGroupAddresses || previousEnableDeeplTranslation != EnableDeeplTranslation || stringListChanged
-                || previousEnableAutomaticSourceLangDetection == EnableAutomaticSourceLangDetection || previousTranslationSourceLang == TranslationSourceLang || previousTranslationDestinationLang == TranslationDestinationLang) 
+                || previousEnableAutomaticSourceLangDetection != EnableAutomaticSourceLangDetection || previousTranslationSourceLang != TranslationSourceLang || previousTranslationDestinationLang != TranslationDestinationLang) 
                 && (App.Fm?.ProjectFolderPath != ""))
             {
                 if (Application.Current.MainWindow is MainWindow mainWindow) mainWindow.ButtonReload.Visibility = Visibility.Visible;
@@ -4813,9 +4812,8 @@ namespace KNXBoostDesktop
             else
             {
                 // Si un élément spécifique (sans *) est coché, désactiver les modèles contenant un astérisque qui le couvrent
-                for (var i = 0; i < StringsShownInWindow.Count; i++)
+                foreach (var existingItem in StringsShownInWindow)
                 {
-                    var existingItem = StringsShownInWindow[i];
                     if (existingItem.Text.Contains("*"))
                     {
                         var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
@@ -4870,39 +4868,40 @@ namespace KNXBoostDesktop
         
         private void OnSliderClick(object sender, RoutedEventArgs e)
         {
-            if (sender is RepeatButton repeatButton)
+            if (sender is not RepeatButton repeatButton) return;
+            
+            var slider = FindParent<Slider>(repeatButton);
             {
-                var slider = FindParent<Slider>(repeatButton);
-                {
-                    // Get the mouse position relative to the slider
-                    var position = Mouse.GetPosition(slider);
+                // Get the mouse position relative to the slider
+                var position = Mouse.GetPosition(slider);
                     
-                    if (slider == null) return;
+                if (slider == null) return;
                     
-                    var relativeX = position.X / slider.ActualWidth;
-                    var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
-                    slider.Value = newValue;
-                }
+                var relativeX = position.X / slider.ActualWidth;
+                var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+                slider.Value = newValue;
             }
         }
         
         // Utility method to find the parent of a specific type
-        public static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+        private static T? FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            var parentObject = VisualTreeHelper.GetParent(child);
-            if (parentObject == null) return null;
-        
-            var parent = parentObject as T;
-            if (parent != null)
+            while (true)
             {
-                return parent;
-            }
-            else
-            {
-                return FindParent<T>(parentObject);
+                var parentObject = VisualTreeHelper.GetParent(child);
+                switch (parentObject)
+                {
+                    case null:
+                        return null;
+                    case T parent:
+                        return parent;
+                    default:
+                        child = parentObject;
+                        break;
+                }
             }
         }
-        
+
 
         // fonctions pour changer la position du slider
         private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -4928,18 +4927,17 @@ namespace KNXBoostDesktop
 
         private void UpdateSliderValue(object sender, MouseEventArgs e)
         {
-            if (sender is Slider slider)
-            {
-                var position = e.GetPosition(slider);
-                var relativeX = position.X / slider.ActualWidth;
-                var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+            if (sender is not Slider slider) return;
             
-                // Snap to the nearest tick
-                var tickFrequency = slider.TickFrequency;
-                newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
+            var position = e.GetPosition(slider);
+            var relativeX = position.X / slider.ActualWidth;
+            var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
             
-                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
-            }
+            // Snap to the nearest tick
+            var tickFrequency = slider.TickFrequency;
+            newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
+            
+            slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
         }
     }
     
