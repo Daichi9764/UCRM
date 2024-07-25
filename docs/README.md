@@ -7,7 +7,7 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 - [English](README-EN.md)
 
 ## Table des matières
-1. 🖥 [Installation](Installation/) 
+1. 🖥 [Installation](Installation/installation.md) 
 
     1.1. 📥 [Téléchargement](Installation/telechargement.md)
 

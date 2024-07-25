@@ -8,7 +8,7 @@ The projects aim to enhance the management and analysis of KNX group addresses i
 ## Included Projects
 1. [KNXBoostDesktop](KNXBoostDesktop)
    * This project is designed to format group address name fields for ETS projects needing clarification. It optimizes the readability and consistency of group addresses.
-   * Documentation: [CLICK HERE](docs/README.md)
+   * Documentation: [English](docs/README-EN.md) [Français](docs/README.md)
    ![KNXBoostDesktop Screenshot](https://github.com/user-attachments/assets/dc2a7e8b-9aee-4197-9d00-0b5067983585)
 
 2. Project 2 _(In Development)_
