@@ -43,7 +43,7 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
     3.6. 🟩 [Importer les adresses de groupe modifiées dans ETS 6](#importer-les-adresses-de-groupe-modifiées-dans-ets-6)
     
-4. 🆘 [FAQ](#FAQ)
+4. 🆘 [FAQ](FAQ/faq.md)
 
 
 [← Retour](../)
