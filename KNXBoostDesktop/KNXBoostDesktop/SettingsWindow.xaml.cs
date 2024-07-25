@@ -3113,6 +3113,71 @@ namespace KNXBoostDesktop
                     AddressKeepingText.Text = "Chaînes à conserver dans les adresses durant la correction";
                     break;
             }
+            
+            ContextMenuDeleteText.Text = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "حذف ",
+                // Bulgare
+                "BG" => " Изтрий",
+                // Tchèque
+                "CS" => " Smazat",
+                // Danois
+                "DA" => " Slet",
+                // Allemand
+                "DE" => " Löschen",
+                // Grec
+                "EL" => " Διαγραφή",
+                // Anglais
+                "EN" => " Delete",
+                // Espagnol
+                "ES" => " Eliminar",
+                // Estonien
+                "ET" => " Kustuta",
+                // Finnois
+                "FI" => " Poista",
+                // Hongrois
+                "HU" => " Törlés",
+                // Indonésien
+                "ID" => " Hapus",
+                // Italien
+                "IT" => " Elimina",
+                // Japonais
+                "JA" => " 削除",
+                // Coréen
+                "KO" => " 삭제",
+                // Letton
+                "LV" => " Dzēst",
+                // Lituanien
+                "LT" => " Ištrinti",
+                // Norvégien
+                "NB" => " Slett",
+                // Néerlandais
+                "NL" => " Verwijderen",
+                // Polonais
+                "PL" => " Usuń",
+                // Portugais
+                "PT" => " Excluir",
+                // Roumain
+                "RO" => " Șterge",
+                // Russe
+                "RU" => " Удалить",
+                // Slovaque
+                "SK" => " Odstrániť",
+                // Slovène
+                "SL" => " Izbriši",
+                // Suédois
+                "SV" => " Ta bort",
+                // Turc
+                "TR" => " Sil",
+                // Ukrainien
+                "UK" => " Видалити",
+                // Chinois simplifié
+                "ZH" => " 删除",
+                // Cas par défaut (français)
+                _ => " Supprimer"
+            };
+
 
             OngletInclusions.Header = InclusionTitle.Text;
         }
@@ -5085,14 +5150,14 @@ namespace KNXBoostDesktop
                                 {
                                     var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
 
-                                    // Vérifie si un item.Text correspond exactement à result
+                                    // Vérifie si le texte d'un item correspond exactement à result
                                     if (existingItem.Text == result)
                                     {
                                         itemAlreadyExists = true;
                                         break;
                                     }
 
-                                    // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
+                                    // Vérifie si le texte d'un item correspond à un modèle couvrant le nouveau texte
                                     if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
                                     {
                                         itemShouldBeUnchecked = true;
@@ -5183,7 +5248,7 @@ namespace KNXBoostDesktop
                     {
                         // Ajout des chaînes de la liste
                         // Si la chaîne est cochée, on l'écrit directement
-                        // Si elle est décochée, on la précède de '|&'
+                        // Si elle est décochée, on la précède de '|&'.
                         for (var i = 0; i < StringsShownInWindow.Count; i++)
                         {
                             if (i == StringsShownInWindow.Count - 1)
