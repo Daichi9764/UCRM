@@ -433,9 +433,11 @@ public partial class GroupAddressRenameWindow
     
     
     /// <summary>
-    /// Définit l'adresse actuelle à renommer.
+    /// Sets the original and modified addresses in their respective text boxes and saves the modified address.
     /// </summary>
-    /// <param name="address">L'adresse actuelle de groupe.</param>
+    /// <param name="addressOriginale">The original address to be displayed.</param>
+    /// <param name="addressModifiée">The modified address to be displayed and saved.</param>
+
     public void SetAddress(string addressOriginale, string addressModifiée)
     {
         BeforeTextBox.Text = addressOriginale;
@@ -534,21 +536,28 @@ public partial class GroupAddressRenameWindow
             if (changeNodes != null && changeNodes.Count > 0)
             {
                 // Initialiser la variable pour stocker le OldAddress le plus ancien
-                string oldestOldAddress = null;
+                string oldestOldAddress = null!;
                 var oldestTimeStamp = DateTime.MaxValue;
 
                 // Parcourir les nodes pour trouver le OldAddress le plus ancien
                 foreach (XmlNode changeNode in changeNodes)
                 {
                     // Récupérer OldAddress et TimeStamp de chaque node
-                    var oldAddress = changeNode.Attributes["OldAddress"]?.Value;
-                    var timeStamp = DateTime.Parse(changeNode.Attributes["TimeStamp"]?.Value);
-
-                    // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
-                    if (timeStamp < oldestTimeStamp)
+                    if (changeNode.Attributes != null)
                     {
-                        oldestTimeStamp = timeStamp;
-                        oldestOldAddress = oldAddress;
+                        var oldAddress = changeNode.Attributes["OldAddress"]?.Value;
+                        var value = changeNode.Attributes["TimeStamp"]?.Value;
+                        if (value != null)
+                        {
+                            var timeStamp = DateTime.Parse(value);
+
+                            // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
+                            if (timeStamp < oldestTimeStamp)
+                            {
+                                oldestTimeStamp = timeStamp;
+                                if (oldAddress != null) oldestOldAddress = oldAddress;
+                            }
+                        }
                     }
                 }
 
