@@ -6,7 +6,7 @@ This repository contains projects developed during a 3-month internship at UCRM 
 The projects aim to enhance the management and analysis of KNX group addresses in ETS software to simplify ETS project corrections.
 
 ## Included Projects
-1. [KNXBoostDesktop](KNXBoostDesktop) _(In Development)_
+1. [KNXBoostDesktop](KNXBoostDesktop)
    * This project is designed to format group address name fields for ETS projects needing clarification. It optimizes the readability and consistency of group addresses.
    * Documentation: [CLICK HERE](docs/README.md)
    ![KNXBoostDesktop Screenshot](https://github.com/user-attachments/assets/dc2a7e8b-9aee-4197-9d00-0b5067983585)
