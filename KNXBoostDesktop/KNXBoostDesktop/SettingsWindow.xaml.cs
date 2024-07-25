@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Microsoft.Win32;
+// ReSharper disable NullableWarningSuppressionIsUsed
 
 // ReSharper disable ConvertToUsingDeclaration
 
@@ -83,12 +84,14 @@ namespace KNXBoostDesktop
         /// <summary>
         /// List of all the strings shown in the listbox in the settings window
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public ObservableCollection<StringItem> StringsShownInWindow { get; } = new(); // Liste des srings affichés dans la liste visible dans la fenêtre
         
         /// <summary>
         /// List of all the strings shown in the listbox in the settings window before any change was made.
         /// This list is used to restore the old list wheneve the cancel button is clicked.
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public ObservableCollection<StringItem> PreviousStringsShownInWindow { get; private set; } = new();
         
         /// <summary>
@@ -143,7 +146,7 @@ namespace KNXBoostDesktop
                 // Si l'un des fichiers n'est pas accessible
                 catch (UnauthorizedAccessException)
                 {
-                    var messageBoxText = App.DisplayElements?.SettingsWindow!.AppLang switch
+                    var messageBoxText = App.DisplayElements?.SettingsWindow?.AppLang switch
                     {
                         // Arabe
                         "AR" => "خطأ: لا يمكن الوصول إلى الملف 'ei', 'ek' أو 'appSettings'. يرجى التحقق من أنها ليست للقراءة فقط وإعادة المحاولة، أو تشغيل البرنامج كمسؤول.\nرمز الخطأ: 1",
@@ -207,7 +210,7 @@ namespace KNXBoostDesktop
                         _ => "Erreur : impossible d'accéder au fichier 'ei', 'ek' ou 'appSettings'. Veuillez vérifier qu'ils ne sont pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1"
                     };
 
-                    var messageBoxCaption = App.DisplayElements?.SettingsWindow!.AppLang switch
+                    var messageBoxCaption = App.DisplayElements?.SettingsWindow?.AppLang switch
                     {
                         // Arabe
                         "AR" => "خطأ",
@@ -297,7 +300,7 @@ namespace KNXBoostDesktop
             catch (UnauthorizedAccessException)
             {
                 // Définir les variables pour le texte du message et le titre du MessageBox
-                var messageBoxText = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var messageBoxText = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     // Arabe
                     "AR" => "خطأ: تعذر الوصول إلى ملف إعدادات التطبيق. يرجى التحقق من أنه ليس للقراءة فقط وحاول مرة أخرى، أو قم بتشغيل البرنامج كمسؤول.\nرمز الخطأ: 1",
@@ -361,7 +364,7 @@ namespace KNXBoostDesktop
                     _ => "Erreur: impossible d'accéder au fichier de paramétrage de l'application. Veuillez vérifier qu'il n'est pas en lecture seule et réessayer, ou démarrez le programme en tant qu'administrateur.\nCode erreur: 1"
                 };
 
-                var caption = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var caption = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     // Arabe
                     "AR" => "خطأ",
@@ -434,7 +437,7 @@ namespace KNXBoostDesktop
             catch (ArgumentException)
             {
                 // Traductions des messages d'erreur et du titre en fonction de la langue
-                var errorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var errorTitle = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => "خطأ",
                     "BG" => "Грешка",
@@ -468,7 +471,7 @@ namespace KNXBoostDesktop
                     _ => "Erreur"
                 };
 
-                var errorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var errorMessage = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => $"خطأ: هناك أحرف غير مدعومة في مسار ملف الإعدادات ({settingsPath}). تعذر الوصول إلى الملف.\nرمز الخطأ: 2",
                     "BG" => $"Грешка: Съдържа неразрешени символи в пътя на файла с настройки ({settingsPath}). Невъзможно е да се достъпи до файла.\nКод на грешката: 2",
@@ -511,7 +514,7 @@ namespace KNXBoostDesktop
             catch (IOException)
             {
                 // Traductions du titre et du message d'erreur en fonction de la langue
-                var ioErrorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var ioErrorTitle = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => "خطأ",
                     "BG" => "Грешка",
@@ -545,7 +548,7 @@ namespace KNXBoostDesktop
                     _ => "Erreur"
                 };
 
-                var ioErrorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var ioErrorMessage = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => $"خطأ: خطأ في الإدخال/الإخراج عند فتح ملف الإعدادات.\nرمز الخطأ: 3",
                     "BG" => "Грешка: Грешка при четене/запис на файла с настройки.\nКод на грешката: 3",
@@ -597,7 +600,7 @@ namespace KNXBoostDesktop
             catch (IOException)
             {
                 // Traductions du titre et du message d'erreur en fonction de la langue
-                var ioErrorTitle = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var ioErrorTitle = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => "خطأ",
                     "BG" => "Грешка",
@@ -631,7 +634,7 @@ namespace KNXBoostDesktop
                     _ => "Erreur"
                 };
 
-                var ioErrorMessage = App.DisplayElements?.SettingsWindow!.AppLang switch
+                var ioErrorMessage = App.DisplayElements?.SettingsWindow?.AppLang switch
                 {
                     "AR" => $"خطأ: خطأ في الإدخال/الإخراج عند فتح ملف الإعدادات.\nرمز الخطأ: 3",
                     "BG" => "Грешка: Грешка при четене/запис на файла с настройки.\nКод на грешката: 3",
@@ -674,7 +677,7 @@ namespace KNXBoostDesktop
             try
             {
                 // On parcourt toutes les lignes tant qu'elle n'est pas 'null'
-                while (reader!.ReadLine() is { } line)
+                while (reader?.ReadLine() is { } line)
                 {
                     // Créer un HashSet avec tous les codes de langue valides
                     var validLanguageCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -801,56 +804,54 @@ namespace KNXBoostDesktop
                                 var stresult = st.ToLower().Trim();
                                 var itemShouldBeUnchecked = false;
                                 var itemAlreadyExists = false;
+
+                                if (st.Trim().Equals("", StringComparison.OrdinalIgnoreCase)) continue;
                                 
-                                if (!st.Trim().Equals("", StringComparison.OrdinalIgnoreCase))
+                                if (st.Trim().StartsWith("|&"))
                                 {
-                                    if (st.Trim().StartsWith("|&"))
+                                    stresult = st.ToLower().Trim()[2..];
+                                    itemShouldBeUnchecked = true;
+                                }
+                                    
+                                // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
+                                var result = MyRegex().Replace(stresult, "*");
+
+                                foreach (var existingItem in StringsShownInWindow)
+                                {
+                                    var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+
+                                    // Vérifie si le texte d'un item correspond exactement à result
+                                    if (existingItem.Text == result)
                                     {
-                                        stresult = st.ToLower().Trim()[2..];
+                                        itemAlreadyExists = true;
+                                        break;
+                                    }
+                
+                                    // Vérifie si le texte d'un item correspond à un modèle couvrant le nouveau texte
+                                    if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
+                                    {
                                         itemShouldBeUnchecked = true;
                                     }
-                                    
-                                    // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
-                                    var result = MyRegex().Replace(stresult, "*");
+                                }
 
-                                    foreach (var existingItem in StringsShownInWindow)
+                                // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
+                                if (itemAlreadyExists) continue;
+                                
+                                // On vérifie s'il existe des éléments qui correspondent au modèle avec *
+                                var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+                                // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
+                                foreach (var existingItem in StringsShownInWindow)
+                                {
+                                    if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
                                     {
-                                        var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
-
-                                        // Vérifie si un item.Text correspond exactement à result
-                                        if (existingItem.Text == result)
-                                        {
-                                            itemAlreadyExists = true;
-                                            break;
-                                        }
-                
-                                        // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
-                                        if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
-                                        {
-                                            itemShouldBeUnchecked = true;
-                                        }
-                                    }
-
-                                    // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
-                                    if (!itemAlreadyExists)
-                                    {
-                                        // On vérifie s'il existe des éléments qui correspondent au modèle avec *
-                                        var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
-
-                                        // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
-                                        foreach (var existingItem in StringsShownInWindow)
-                                        {
-                                            if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
-                                            {
-                                                existingItem.IsChecked = false;
-                                            }
-                                        }
-                
-                                        // Ajout du nouvel élément à la liste
-                                        var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
-                                        StringsShownInWindow.Add(newWordItem);
+                                        existingItem.IsChecked = false;
                                     }
                                 }
+                
+                                // Ajout du nouvel élément à la liste
+                                var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
+                                StringsShownInWindow.Add(newWordItem);
                             }
                             break;
                     }
@@ -5229,7 +5230,7 @@ namespace KNXBoostDesktop
             try
             {
                 // Scrolle verticalement dans le ScrollViewer associé à la ListBox
-                // La valeur de défilement est ajustée par e.Delta divisé par 3 pour un défilement plus doux
+                // La valeur de défilement est ajustée par 'e.Delta' divisé par 3 pour un défilement plus doux
                 // ReSharper disable once PossibleLossOfFraction
                 ScrollViewerInclusion.ScrollToVerticalOffset(ScrollViewerInclusion.VerticalOffset - e.Delta / 3);
         
@@ -5274,46 +5275,79 @@ namespace KNXBoostDesktop
         }
         
         
-        // Gestionnaire d'événement pour le clic droit
+        // Gestionnaire d'événement pour le clic droit sur un élément de la ListBox
+        /// <summary>
+        /// Handles the right-click event on an item in the ListBox.
+        /// This method sets the clicked item as the selected item in the ListBox.
+        /// </summary>
         private void WordsListBox_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Vérifie si l'élément cliqué est un ListBoxItem
-            var listBoxItem = FindParent<ListBoxItem>(e.OriginalSource as DependencyObject);
-            if (listBoxItem != null)
+            try
             {
-                // Sélectionne l'élément sur lequel le clic droit a été effectué
-                WordsListBox.SelectedItem = listBoxItem.DataContext;
+                // Vérifie si l'élément cliqué est nul
+                if (e.OriginalSource == null) return;
+                
+                // Trouver l'élément ListBoxItem parent de l'élément cliqué
+                var listBoxItem = FindParent<ListBoxItem>((DependencyObject)e.OriginalSource);
+                
+                // Si un ListBoxItem a été trouvé
+                if (listBoxItem != null)
+                {
+                    // Sélectionner l'élément correspondant dans la ListBox
+                    WordsListBox.SelectedItem = listBoxItem.DataContext;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Enregistrer un message d'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"Error in WordsListBox_MouseRightButtonDown: {ex.Message}");
             }
         }
 
+        
         // Gestionnaire d'événement pour le clic sur le MenuItem de suppression
+        /// <summary>
+        /// Handles the click event on the 'delete' MenuItem.
+        /// This method removes the selected items from the ListBox and updates the selection index.
+        /// </summary>
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            // Récupérer l'index de l'élément sélectionné
-            var selectedIndex = WordsListBox.SelectedIndex;
-
-            // Copier les éléments sélectionnés dans une liste temporaire
-            var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
-
-            foreach (var item in itemsToRemove)
+            try
             {
-                // Supprimer les éléments de la liste principale
-                if (item is not { } word) continue;
-                StringsShownInWindow.Remove(word);
+                // Récupère l'index de l'élément sélectionné dans la ListBox
+                var selectedIndex = WordsListBox.SelectedIndex;
+
+                // Copier les éléments sélectionnés dans une liste temporaire
+                var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
+
+                foreach (var item in itemsToRemove)
+                {
+                    // Supprimer chaque élément de la liste principale
+                    if (item is { } word)
+                    {
+                        StringsShownInWindow.Remove(word);
+                    }
+                }
+
+                // Vérifie si la liste est vide après suppression
+                if (StringsShownInWindow.Count <= 0) return;
+                
+                // Ajuster l'index sélectionné s'il dépasse le nombre d'éléments restants
+                if (selectedIndex >= StringsShownInWindow.Count)
+                {
+                    selectedIndex = StringsShownInWindow.Count - 1;
+                }
+
+                // Réassigner l'index sélectionné dans la ListBox
+                WordsListBox.SelectedIndex = selectedIndex;
             }
-
-            // Mettre à jour l'index sélectionné
-            if (StringsShownInWindow.Count <= 0) return;
-
-            // Ajuster l'index sélectionné s'il dépasse le nombre d'éléments restants
-            if (selectedIndex >= StringsShownInWindow.Count)
+            catch (Exception ex)
             {
-                selectedIndex = StringsShownInWindow.Count - 1;
+                // Enregistrer un message d'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"Error in DeleteMenuItem_Click: {ex.Message}");
             }
-
-            // Réassigner l'index sélectionné dans la ListBox
-            WordsListBox.SelectedIndex = selectedIndex;
         }
+
 
 
         /// <summary>
