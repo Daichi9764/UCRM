@@ -80,6 +80,7 @@ Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCR
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.DependencyInjection.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.Polly.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\FontAwesome.WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Options.dll"; DestDir: "{app}"; Flags: ignoreversion
