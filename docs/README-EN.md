@@ -21,13 +21,15 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
       --> 2.2.1. [Correction Settings](#correction-settings)
 
-      --> 2.2.2. [Application Settings](#application-settings)
+      --> 2.2.2. [Inclusion Settings](#information)
 
-      --> 2.2.3. [Debugging](#debugging)
+      --> 2.2.3. [Application Settings](#application-settings)
 
-      --> 2.2.4. [Information](#information)
+      --> 2.2.4. [Debugging](#debugging)
 
-3. [Using the Application](#using-the-application)
+      --> 2.2.5. [Information](#information)
+
+4. [Using the Application](#using-the-application)
 
     3.1. [Retrieve the Project in ETS 6](#retrieve-the-project-in-ets-6)
 
