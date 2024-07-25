@@ -45,11 +45,8 @@ public partial class MainWindow
     /// The token source used to signal cancellation requests for ongoing tasks.
     /// </summary>
     private CancellationTokenSource _cancellationTokenSource;
-    
-    /// <summary>
-    /// Represents a long-running task that may be canceled and awaited.
-    /// </summary>
-    private Task _longTask;
+
+    public bool ImportOperationCancelled;
 
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
@@ -740,8 +737,6 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private async void ImportProjectButtonClick(object sender, RoutedEventArgs e)
     {
-
-
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
 
@@ -999,21 +994,19 @@ public partial class MainWindow
             {
                 // Gérer l'annulation si nécessaire
                 App.ConsoleAndLogWriteLine("Operation was canceled.");
+                ImportOperationCancelled = true;
             }
             catch (Exception ex)
             {
                 // Gérer d'autres exceptions
                 App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+                ImportOperationCancelled = true;
             }
             finally
             {
                 HideOverlay();
-                ButtonExportProject.IsEnabled = false;
-                ViewModel.IsProjectImported = false;
                 App.DisplayElements.LoadingWindow?.Close();
-                
             }
-            //await ExecuteLongRunningTask();
             HideOverlay();
             
             stopwatch.Stop();
@@ -1106,7 +1099,10 @@ public partial class MainWindow
             await updateTask;
             
             //SaveLoadingTimesAsCsv(filePath, loadingTimes);
-            ViewModel.IsProjectImported = true;
+            
+            // On active le bouton d'exportation si on n'a pas annulé l'importation
+            // ou si l'importation a été effectuée, mais qu'un projet avait déjà été ouvert avant
+            ViewModel.IsProjectImported = !ImportOperationCancelled || App.Fm.ProjectName != "";
         }
         else
         {
@@ -1420,12 +1416,12 @@ public partial class MainWindow
 
     
     //--------------------- Gestion des data de performances -----------------------------------------------------//
-    /// <summary>
-    /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
-    /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
-    /// </summary>
-    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
-    /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
+    // /// <summary>
+    // /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
+    // /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
+    // /// </summary>
+    // /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
+    // /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
     /*private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
     {
         // Écriture des nouvelles lignes dans le fichier CSV
@@ -1463,11 +1459,11 @@ public partial class MainWindow
     }*/
     
     
-    /// <summary>
-    /// Loads loading time entries from a CSV file located at the specified file path.
-    /// </summary>
-    /// <param name="filePath">The file path of the CSV file.</param>
-    /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
+    // /// <summary>
+    // /// Loads loading time entries from a CSV file located at the specified file path.
+    // /// </summary>
+    // /// <param name="filePath">The file path of the CSV file.</param>
+    // /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
     /*private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
     {
         var loadingTimes = new List<LoadingTimeEntry>();
@@ -1914,31 +1910,6 @@ public partial class MainWindow
         }
         return loadingTimes;
     }*/
-    
-    
-    /// <summary>
-    /// Handles the window closing event, ensuring that an ongoing long task is properly canceled and awaited before closing the window.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">Event data that can cancel the window closing.</param>
-    private async void Window_Closing(object sender, CancelEventArgs e)
-    {
-        if (_longTask != null && !_longTask.IsCompleted)
-        {
-            e.Cancel = true; // Annule la fermeture de la fenêtre
-            _cancellationTokenSource.Cancel(); // Demande l'annulation de la tâche
-            try
-            {
-                await _longTask; // Attend la fin de la tâche
-            }
-            catch (OperationCanceledException)
-            {
-                // Gestion de l'annulation
-                App.ConsoleAndLogWriteLine("Operation was canceled.");
-            }
-            Close(); // Ferme la fenêtre une fois la tâche terminée
-        }
-    }
     
     
     

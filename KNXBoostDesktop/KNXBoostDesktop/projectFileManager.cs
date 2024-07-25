@@ -26,6 +26,12 @@ namespace KNXBoostDesktop
         public string ProjectFolderPath { get; private set; } = ""; // Chemin d'accès au dossier exporté du projet
 
         /// <summary>
+        /// Path to the previous exported project folder.
+        /// This variable is used to restore the old path for the export project button if the loading operation is cancelled.
+        /// </summary>
+        private string _previousProjectFolderPath = "";
+
+        /// <summary>
         /// Gets the path to the 0.xml file of the project.
         /// </summary>
         /// <remarks>
@@ -474,7 +480,13 @@ namespace KNXBoostDesktop
 
                 // Suppression du fichier zip temporaire
                 App.ConsoleAndLogWriteLine($"Done! New folder created: {Path.GetFullPath(knxprojExportFolderPath)}");
+
+                // On stocke le path d'exportation du précédent projet
+                _previousProjectFolderPath = ProjectFolderPath;
+                
+                // On stocke le nouveau path d'exportation du projet
                 ProjectFolderPath = $@"./{Path.GetFileNameWithoutExtension(knxprojSourceFilePath)}/";
+                
                 managedToExtractProject = true;
 
                 // On stocke le nom du précédent projet
@@ -1885,6 +1897,11 @@ namespace KNXBoostDesktop
         public void RestorePreviousProjectName()
         {
             ProjectName = _previousProjectName;
+        }
+
+        public void RestorePreviousExportPath()
+        {
+            ProjectFolderPath = _previousProjectFolderPath;
         }
     }
 }

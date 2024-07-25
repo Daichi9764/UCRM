@@ -18,7 +18,7 @@ namespace KNXBoostDesktop
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        private bool _cancellationRequested = false;
+        private bool _cancellationRequested;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingWindow"/> class.
@@ -41,6 +41,7 @@ namespace KNXBoostDesktop
         private void CloseLoading(object sender, RoutedEventArgs e)
         {
             _cancellationRequested = true;
+            if (App.DisplayElements != null) App.DisplayElements.MainWindow.ImportOperationCancelled = true;
             Close();
         }
         
@@ -56,6 +57,9 @@ namespace KNXBoostDesktop
             // On restaure l'ancien titre et on le met à jour pour qu'il s'affiche
             App.Fm?.RestorePreviousProjectName();
             App.DisplayElements?.MainWindow.UpdateWindowContents();
+            
+            // On restaure l'ancien path d'exportation
+            App.Fm?.RestorePreviousExportPath();
         }
 
         
