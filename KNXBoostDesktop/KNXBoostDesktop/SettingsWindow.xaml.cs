@@ -4632,6 +4632,7 @@ namespace KNXBoostDesktop
         }
 
 
+        
         // ----- GESTION DES INPUTS CLAVIER/SOURIS -----
         // Fonction permettant d'effectuer des actions quand une touche spécifique du clavier est appuyée
         /// <summary>
@@ -4674,6 +4675,8 @@ namespace KNXBoostDesktop
         }
 
 
+        
+        // ----- GESTION DU SCALING -----
         /// <summary>
         /// Applies scaling to the window by adjusting the layout transform and resizing the window based on the specified scale factor.
         /// </summary>
@@ -4687,257 +4690,783 @@ namespace KNXBoostDesktop
         }
         
 
+        
+        // ----- GESTION DE LA LISTE D'INCLUSION -----
+        // Fonction permettant d'ajouter un élément dans la liste d'inclusion lors de la correction
+        /// <summary>
+        /// Adds a new item to the inclusion list when the Enter key is pressed, 
+        /// processing the text from the input box and handling special cases such as wildcards.
+        /// </summary>
+        /// <param name="sender">The TextBox that is handling the key down event.</param>
+        /// <param name="e">The event arguments containing key down information.</param>
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            // Si on a pas appuyé sur entrée ou que le texte est vide, on ne fait rien
-            if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(InputTextBox.Text)) return;
-
-            // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
-            var result = MyRegex().Replace(InputTextBox.Text.ToLower().Trim(), "*");
-            
-            // On empêche de mettre le caractère '*'
-            if (result == "*")
+            try
             {
-                InputTextBox.Clear();
-                return;
-            }
+                // Vérifie si la touche pressée est Entrée (Enter) et si le texte de la TextBox n'est pas vide
+                if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(InputTextBox.Text)) return;
 
-            // Vérifier si l'élément avec le texte result existe déjà ou si un modèle existant couvre le nouveau texte
-            var itemAlreadyExists = false;
-            var itemShouldBeUnchecked = false;
-
-            foreach (var existingItem in StringsShownInWindow)
-            {
-                var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
-
-                // Vérifie si un item.Text correspond exactement à result
-                if (existingItem.Text == result)
+                // Remplace les occurrences multiples de '*' dans le texte par une seule '*'
+                var result = MyRegex().Replace(InputTextBox.Text.ToLower().Trim(), "*");
+        
+                // Empêche d'ajouter un élément si le texte est seulement '*'
+                if (result == "*")
                 {
-                    itemAlreadyExists = true;
-                    break;
+                    InputTextBox.Clear();
+                    return;
                 }
-                
-                // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
-                if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
-                {
-                    itemShouldBeUnchecked = true;
-                }
-            }
 
-            // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
-            if (!itemAlreadyExists)
-            {
-                // On vérifie s'il existe des éléments qui correspondent au modèle avec *
-                var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+                // Initialiser les variables pour vérifier l'existence de l'élément et si l'élément doit être décoché
+                var itemAlreadyExists = false;
+                var itemShouldBeUnchecked = false;
 
-                // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
                 foreach (var existingItem in StringsShownInWindow)
                 {
-                    if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
+                    var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+
+                    // Vérifie si un élément de la liste correspond exactement au texte résultant
+                    if (existingItem.Text == result)
                     {
-                        existingItem.IsChecked = false;
+                        itemAlreadyExists = true;
+                        break;
+                    }
+            
+                    // Vérifie si un élément de la liste correspond à un modèle couvrant le texte résultant
+                    if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
+                    {
+                        itemShouldBeUnchecked = true;
                     }
                 }
-                
-                // Ajout du nouvel élément à la liste
-                var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
-                StringsShownInWindow.Add(newWordItem);
+
+                // Si l'élément n'existe pas déjà, on l'ajoute à la liste
+                if (!itemAlreadyExists)
+                {
+                    // Vérifie s'il existe des éléments qui correspondent au modèle avec '*'
+                    var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+                    // Désactive les éléments existants qui sont couverts par le nouvel élément
+                    foreach (var existingItem in StringsShownInWindow)
+                    {
+                        if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
+                        {
+                            existingItem.IsChecked = false;
+                        }
+                    }
+            
+                    // Ajoute le nouvel élément à la liste avec l'état de coche approprié
+                    var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
+                    StringsShownInWindow.Add(newWordItem);
+                }
+
+                // Efface le texte de la TextBox après ajout
+                InputTextBox.Clear();
             }
-            InputTextBox.Clear();
+            catch (Exception ex)
+            {
+                // Enregistre les erreurs dans les logs et arrête l'exécution en cas d'exception
+                App.ConsoleAndLogWriteLine($"An error occurred while adding the item to the list: {ex.Message}");
+            }
         }
 
+        
+        // Fonction gérant la suppression d'un élément de la liste quand on appuie sur Suppr ou Delete
+        /// <summary>
+        /// Handles the deletion of selected items from the ListBox when the Delete or Backspace key is pressed.
+        /// </summary>
+        /// <param name="sender">The ListBox that is handling the key down event.</param>
+        /// <param name="e">The event arguments containing key down information.</param>
         private void WordsListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Delete || WordsListBox.SelectedItem == null) return;
-
-            var selectedIndex = WordsListBox.SelectedIndex;
-
-            // Copier les éléments sélectionnés dans une liste temporaire
-            var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
-
-            foreach (var item in itemsToRemove)
+            try
             {
-                // Supprimez les éléments de la liste principale
-                if (item is not { } word) continue;
-                StringsShownInWindow.Remove(word);
+                // Vérifie si la touche pressée est Suppr (Delete) ou Retour arrière (Backspace) et si un élément est sélectionné
+                if ((e.Key != Key.Delete && e.Key != Key.Back) || WordsListBox.SelectedItem == null) return;
+
+                // Récupérer l'index de l'élément sélectionné
+                var selectedIndex = WordsListBox.SelectedIndex;
+
+                // Copier les éléments sélectionnés dans une liste temporaire
+                var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
+
+                foreach (var item in itemsToRemove)
+                {
+                    // Supprimer les éléments de la liste principale
+                    if (item is not { } word) continue;
+                    StringsShownInWindow.Remove(word);
+                }
+
+                // Mettre à jour l'index sélectionné
+                if (StringsShownInWindow.Count <= 0) return;
+
+                // Ajuster l'index sélectionné s'il dépasse le nombre d'éléments restants
+                if (selectedIndex >= StringsShownInWindow.Count)
+                {
+                    selectedIndex = StringsShownInWindow.Count - 1;
+                }
+
+                // Réassigner l'index sélectionné dans la ListBox
+                WordsListBox.SelectedIndex = selectedIndex;
             }
-
-            // Mettre à jour l'index sélectionné
-            if (StringsShownInWindow.Count <= 0) return;
-
-            if (selectedIndex >= StringsShownInWindow.Count)
+            catch (Exception ex)
             {
-                selectedIndex = StringsShownInWindow.Count - 1;
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while handling key down event for deletion: {ex.Message}");
             }
-            WordsListBox.SelectedIndex = selectedIndex;
         }
         
+        
+        // Fonction ajustant la largeur de la ListBox lors de l'apparition/disparition de la scrollbar
+        // verticale pour éviter l'apparition d'une scrollbar horizontale
+        /// <summary>
+        /// Adjusts the width of the ListBox when the vertical scrollbar appears or disappears
+        /// to prevent the horizontal scrollbar from appearing.
+        /// </summary>
+        /// <param name="sender">The WrapPanel whose size has changed.</param>
+        /// <param name="e">The event arguments containing size change information.</param>
         private void WrapPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var wrapPanel = sender as WrapPanel;
-            
-            // On vérifie si la scrollbar est visible ou non
-            if (ScrollViewerInclusion.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+            try
             {
-                // Si elle est visible, on réduit la largeur de la liste pour pas avoir de scrollbar horizontale
-                if (wrapPanel != null) wrapPanel.MaxWidth = 415;
+                // Récupérer le WrapPanel qui a changé de taille
+                var wrapPanel = sender as WrapPanel;
+
+                // Vérifie si la scrollbar verticale est visible ou non
+                if (ScrollViewerInclusion.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+                {
+                    // Si la scrollbar verticale est visible, réduire la largeur maximale du WrapPanel
+                    // pour éviter l'apparition d'une scrollbar horizontale
+                    if (wrapPanel != null) wrapPanel.MaxWidth = 415;
+                }
+                else
+                {
+                    // Si la scrollbar verticale n'est pas visible, rétablir la largeur maximale par défaut
+                    if (wrapPanel != null) wrapPanel.MaxWidth = 430;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Sinon, on laisse la largeur par défaut
-                if (wrapPanel != null) wrapPanel.MaxWidth = 430;
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while adjusting the WrapPanel width: {ex.Message}");
             }
         }
 
+
+        // Fonction gérant le fait que la checkbox d'un élément de la liste soit cochée
+        /// <summary>
+        /// Handles the event when a checkbox associated with an item in the list is checked.
+        /// It updates the checked status of other items based on the new checked item.
+        /// </summary>
+        /// <param name="sender">The CheckBox that was checked.</param>
+        /// <param name="e">The event arguments.</param>
         private void CheckboxInStringList_Checked(object sender, RoutedEventArgs e)
-        {   
-            // Récupérer l'élément qui a été coché
-            var checkBox = sender as CheckBox;
-
-            if (checkBox?.DataContext is not StringItem checkedItem) return;
-            
-            // Si le texte de l'élément coché contient un astérisque (*), désactiver les éléments correspondants
-            if (checkedItem.Text.Contains('*'))
+        {
+            try
             {
-                var pattern = "^" + Regex.Escape(checkedItem.Text).Replace("\\*", ".*") + "$";
+                // Récupérer l'élément CheckBox qui a été coché
+                var checkBox = sender as CheckBox;
 
-                foreach (var existingItem in StringsShownInWindow)
+                // Vérifie si le DataContext de la CheckBox est un StringItem
+                if (checkBox?.DataContext is not StringItem checkedItem) return;
+        
+                // Si le texte de l'élément coché contient un astérisque (*), désactiver les éléments correspondants
+                if (checkedItem.Text.Contains('*'))
                 {
-                    if (existingItem.Text != checkedItem.Text && Regex.IsMatch(existingItem.Text, pattern))
+                    // Crée un modèle de correspondance pour le texte contenant *
+                    var pattern = "^" + Regex.Escape(checkedItem.Text).Replace("\\*", ".*") + "$";
+
+                    foreach (var existingItem in StringsShownInWindow)
                     {
-                        existingItem.IsChecked = false;
-                    }
-                }
-            }
-            else
-            {
-                // Si un élément spécifique (sans *) est coché, désactiver les modèles contenant un astérisque qui le couvrent
-                foreach (var existingItem in StringsShownInWindow)
-                {
-                    if (existingItem.Text.Contains("*"))
-                    {
-                        var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
-                        if (Regex.IsMatch(checkedItem.Text, existingPattern))
+                        // Désactiver les éléments dont le texte correspond au modèle
+                        if (existingItem.Text != checkedItem.Text && Regex.IsMatch(existingItem.Text, pattern))
                         {
                             existingItem.IsChecked = false;
                         }
                     }
                 }
+                else
+                {
+                    // Si un élément spécifique (sans *) est coché, désactiver les modèles contenant un astérisque qui le couvrent
+                    foreach (var existingItem in StringsShownInWindow)
+                    {
+                        if (existingItem.Text.Contains("*"))
+                        {
+                            // Crée un modèle de correspondance pour le texte contenant *
+                            var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+                    
+                            // Désactiver les éléments qui correspondent au modèle de l'élément coché
+                            if (Regex.IsMatch(checkedItem.Text, existingPattern))
+                            {
+                                existingItem.IsChecked = false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while handling the checkbox check event: {ex.Message}");
             }
         }
+
         
-        
-        
+        // Méthode pour vérifier que deux collections de StringItem sont égales
+        /// <summary>
+        /// Checks if two collections of StringItem are equal in terms of content and order.
+        /// </summary>
+        /// <param name="collection1">The first collection to compare.</param>
+        /// <param name="collection2">The second collection to compare.</param>
+        /// <returns>True if the collections are equal; otherwise, false.</returns>
         private static bool AreCollectionsEqual(
             ObservableCollection<StringItem>? collection1, 
             ObservableCollection<StringItem>? collection2)
         {
-            // Vérifie si les deux collections sont null ou si l'une d'entre elles est null
-            if (collection1 == null && collection2 == null) return true;
-            if (collection1 == null || collection2 == null) return false;
-
-            // Vérifie si les collections ont la même taille
-            if (collection1.Count != collection2.Count) return false;
-
-            // Compare les éléments un par un
-            for (var i = 0; i < collection1.Count; i++)
+            try
             {
-                var item1 = collection1[i];
-                var item2 = collection2[i];
-                
-                if (item1.Text != item2.Text || item1.IsChecked != item2.IsChecked)
+                // Vérifie si les deux collections sont null ou si l'une d'entre elles est null
+                if (collection1 == null && collection2 == null) return true;
+                if (collection1 == null || collection2 == null) return false;
+
+                // Vérifie si les collections ont la même taille
+                if (collection1.Count != collection2.Count) return false;
+
+                // Compare les éléments un par un
+                for (var i = 0; i < collection1.Count; i++)
                 {
-                    return false;
+                    var item1 = collection1[i];
+                    var item2 = collection2[i];
+            
+                    // Compare le texte et l'état de la case à cocher de chaque élément
+                    if (item1.Text != item2.Text || item1.IsChecked != item2.IsChecked)
+                    {
+                        return false;
+                    }
+                }
+
+                // Les collections sont égales
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while comparing collections: {ex.Message}");
+        
+                // Arrêter l'exécution de la fonction en cas d'erreur
+                return false;
+            }
+        }
+        
+
+        // Fonction permettant d'importer un ou plusieurs fichiers texte
+        // contenant des listes de strings à ajouter à la liste d'inclusions
+        /// <summary>
+        /// Imports one or more text files containing lists of strings to add to the inclusion list.
+        /// </summary>
+        public void ImportStringListFromFile()
+        {
+            try
+            {
+                // Début de l'importation des listes de chaînes à conserver dans les adresses corrigées
+                App.ConsoleAndLogWriteLine("User is importing one or multiple lists of strings to keep in corrected addresses...");
+        
+                // Configuration de la boîte de dialogue de sélection de fichier
+                OpenFileDialog openFileDialog = new()
+                {
+                    Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+                    {
+                        "AR" => "حدد ملفًا واحدًا أو أكثر للاستيراد",
+                        "BG" => "Изберете един или повече файлове за импортиране",
+                        "CS" => "Vyberte jeden nebo více souborů k importu",
+                        "DA" => "Vælg en eller flere filer til import",
+                        "DE" => "Wählen Sie eine oder mehrere Dateien zum Importieren aus",
+                        "EL" => "Επιλέξτε ένα ή περισσότερα αρχεία για εισαγωγή",
+                        "EN" => "Select one or more files to import",
+                        "ES" => "Seleccione uno o más archivos para importar",
+                        "ET" => "Valige üks või mitu faili importimiseks",
+                        "FI" => "Valitse yksi tai useampi tiedosto tuontia varten",
+                        "HU" => "Válasszon egy vagy több importálandó fájlt",
+                        "ID" => "Pilih satu atau lebih file untuk diimpor",
+                        "IT" => "Seleziona uno o più file da importare",
+                        "JA" => "インポートするファイルを1つ以上選択してください",
+                        "KO" => "가져올 파일을 하나 이상 선택하세요",
+                        "LV" => "Atlasiet vienu vai vairākus importējamos failus",
+                        "LT" => "Pasirinkite vieną ar daugiau importuojamų failų",
+                        "NB" => "Velg en eller flere filer for import",
+                        "NL" => "Selecteer een of meer bestanden om te importeren",
+                        "PL" => "Wybierz jeden lub więcej plików do importu",
+                        "PT" => "Selecione um ou mais arquivos para importar",
+                        "RO" => "Selectați unul sau mai multe fișiere pentru import",
+                        "RU" => "Выберите один или несколько файлов для импорта",
+                        "SK" => "Vyberte jeden alebo viac súborov na import",
+                        "SL" => "Izberite eno ali več datotek za uvoz",
+                        "SV" => "Välj en eller flera filer att importera",
+                        "TR" => "İçe aktarmak için bir veya daha fazla dosya seçin",
+                        "UK" => "Виберіть один або кілька файлів для імпорту",
+                        "ZH" => "选择一个或多个要导入的文件",
+                        _ => "Sélectionnez un ou plusieurs fichiers à importer"
+                    },
+                    Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+                    {
+                        "AR" => "ملفات نصية|*.txt|كل الملفات|*.*",
+                        "BG" => "Текстови файлове|*.txt|Всички файлове|*.*",
+                        "CS" => "Textové soubory|*.txt|Všechny soubory|*.*",
+                        "DA" => "Tekstfiler|*.txt|Alle filer|*.*",
+                        "DE" => "Textdateien|*.txt|Alle Dateien|*.*",
+                        "EL" => "Αρχεία κειμένου|*.txt|Όλα τα αρχεία|*.*",
+                        "EN" => "Text files|*.txt|All files|*.*",
+                        "ES" => "Archivos de texto|*.txt|Todos los archivos|*.*",
+                        "ET" => "Tekstifailid|*.txt|Kõik failid|*.*",
+                        "FI" => "Tekstitiedostot|*.txt|Kaikki tiedostot|*.*",
+                        "HU" => "Szövegfájlok|*.txt|Minden fájl|*.*",
+                        "ID" => "File teks|*.txt|Semua file|*.*",
+                        "IT" => "File di testo|*.txt|Tutti i file|*.*",
+                        "JA" => "テキストファイル|*.txt|すべてのファイル|*.*",
+                        "KO" => "텍스트 파일|*.txt|모든 파일|*.*",
+                        "LV" => "Teksta faili|*.txt|Visi faili|*.*",
+                        "LT" => "Teksto failai|*.txt|Visi failai|*.*",
+                        "NB" => "Tekstfiler|*.txt|Alle filer|*.*",
+                        "NL" => "Tekstbestanden|*.txt|Alle bestanden|*.*",
+                        "PL" => "Pliki tekstowe|*.txt|Wszystkie pliki|*.*",
+                        "PT" => "Arquivos de texto|*.txt|Todos os arquivos|*.*",
+                        "RO" => "Fișiere text|*.txt|Toate fișierele|*.*",
+                        "RU" => "Текстовые файлы|*.txt|Все файлы|*.*",
+                        "SK" => "Textové súbory|*.txt|Všetky súbory|*.*",
+                        "SL" => "Besedilne datoteke|*.txt|Vse datoteke|*.*",
+                        "SV" => "Textfiler|*.txt|Alla filer|*.*",
+                        "TR" => "Metin dosyaları|*.txt|Tüm dosyalar|*.*",
+                        "UK" => "Текстові файли|*.txt|Всі файли|*.*",
+                        "ZH" => "文本文件|*.txt|所有文件|*.*",
+                        _ => "Fichiers texte|*.txt|Tous les fichiers|*.*"
+                    },
+                    FilterIndex = 1,
+                    Multiselect = true
+                };
+
+                // Afficher la boîte de dialogue et vérifier si l'utilisateur a sélectionné un fichier
+                var resultDialog = openFileDialog.ShowDialog();
+
+                if (resultDialog == true)
+                {
+                    var fileNameList = "";
+                    for (var i = 0; i < openFileDialog.FileNames.Length; i++)
+                    {
+                        if (i == openFileDialog.FileNames.Length - 1) fileNameList += $"{openFileDialog.FileNames[i]}";
+                        else fileNameList += $"{openFileDialog.FileNames[i]}, ";
+                    }
+                    App.ConsoleAndLogWriteLine($"Files selected: {fileNameList}");
+
+                    foreach (var file in openFileDialog.FileNames)
+                    {
+                        try
+                        {
+                            // Déclaration du stream pour la lecture du fichier
+                            using var reader = new StreamReader(file);
+                    
+                            // Récupération de chaque string et ajout à la liste
+                            foreach (var st in reader.ReadLine()?.Split(',')!)
+                            {
+                                var stresult = st.ToLower().Trim();
+                                var itemShouldBeUnchecked = false;
+                                var itemAlreadyExists = false;
+
+                                if (st.Trim().Equals("", StringComparison.OrdinalIgnoreCase)) continue;
+
+                                if (st.Trim().StartsWith("|&"))
+                                {
+                                    stresult = st.ToLower().Trim()[2..];
+                                    itemShouldBeUnchecked = true;
+                                }
+
+                                // S'il y a plusieurs occurrences de * dans le texte, on les remplace par une simple *
+                                var result = MyRegex().Replace(stresult, "*");
+
+                                foreach (var existingItem in StringsShownInWindow)
+                                {
+                                    var existingPattern = "^" + Regex.Escape(existingItem.Text).Replace("\\*", ".*") + "$";
+
+                                    // Vérifie si un item.Text correspond exactement à result
+                                    if (existingItem.Text == result)
+                                    {
+                                        itemAlreadyExists = true;
+                                        break;
+                                    }
+
+                                    // Vérifie si un item.Text correspond à un modèle couvrant le nouveau texte
+                                    if (Regex.IsMatch(result, existingPattern) && existingItem.IsChecked)
+                                    {
+                                        itemShouldBeUnchecked = true;
+                                    }
+                                }
+
+                                // Si la liste ne contient pas déjà le mot ou un modèle couvrant le mot, on l'ajoute
+                                if (itemAlreadyExists) continue;
+
+                                // On vérifie s'il existe des éléments qui correspondent au modèle avec *
+                                var pattern = "^" + Regex.Escape(result).Replace("\\*", ".*") + "$";
+
+                                // On désactive les éléménets déjà existants dans la liste qui sont couverts par le nouvel élément
+                                foreach (var existingItem in StringsShownInWindow)
+                                {
+                                    if (Regex.IsMatch(existingItem.Text.Trim(), pattern))
+                                    {
+                                        existingItem.IsChecked = false;
+                                    }
+                                }
+
+                                // Ajout du nouvel élément à la liste
+                                var newWordItem = new StringItem { Text = result, IsChecked = !itemShouldBeUnchecked };
+                                StringsShownInWindow.Add(newWordItem);
+                            }
+                        }
+                        catch (UnauthorizedAccessException ex)
+                        {
+                            // Gestion de l'exception d'accès non autorisé
+                            App.ConsoleAndLogWriteLine($"Access denied for file {file}: {ex.Message}");
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            // Gestion de l'exception de fichier non trouvé
+                            App.ConsoleAndLogWriteLine($"File not found: {file}: {ex.Message}");
+                        }
+                        catch (IOException ex)
+                        {
+                            // Gestion de l'exception d'entrée/sortie
+                            App.ConsoleAndLogWriteLine($"IO error with file {file}: {ex.Message}");
+                        }
+                        catch (Exception ex)
+                        {
+                            // Gestion de toute autre exception
+                            App.ConsoleAndLogWriteLine($"An unexpected error occurred with file {file}: {ex.Message}");
+                        }
+                    }
+                }
+                else
+                {
+                    App.ConsoleAndLogWriteLine("User cancelled the importation operation.");
+                }
+                App.ConsoleAndLogWriteLine("Successfully imported the addresses from the selected files.");
+            }
+            catch (Exception ex)
+            {
+                // Gestion de toute autre exception globale
+                App.ConsoleAndLogWriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+        
+
+        // Fonction permettant d'exporter la liste StringsToAdd dans un fichier texte
+        // Ce fichier peut être partagé, réimporté, ...
+        /// <summary>
+        /// Exports the list of strings to a text file.
+        /// This file can be shared, re-imported, etc.
+        /// </summary>
+        public void ExportStringListToFile()
+        {
+            try
+            {
+                App.ConsoleAndLogWriteLine("Starting to export the list of strings to keep in corrected addresses...");
+
+                // Vérifier si le répertoire 'tmp' existe, sinon le créer
+                if (!Directory.Exists("./tmp")) 
+                    Directory.CreateDirectory("./tmp");
+
+                // Création du stream d'écriture du fichier stringList.txt
+                using (var writer = new StreamWriter("./tmp/stringList.txt"))
+                {
+                    // Si la liste des chaînes à afficher dans la fenêtre est vide, écrire une ligne vide
+                    if (StringsShownInWindow.Count == 0)
+                    {
+                        writer.WriteLine();
+                    }
+                    else
+                    {
+                        // Ajout des chaînes de la liste
+                        // Si la chaîne est cochée, on l'écrit directement
+                        // Si elle est décochée, on la précède de '|&'
+                        for (var i = 0; i < StringsShownInWindow.Count; i++)
+                        {
+                            if (i == StringsShownInWindow.Count - 1)
+                            {
+                                writer.WriteLine(StringsShownInWindow[i].IsChecked
+                                    ? $"{StringsShownInWindow[i].Text}"
+                                    : $"|&{StringsShownInWindow[i].Text}");
+                            }
+                            else
+                            {
+                                writer.Write(StringsShownInWindow[i].IsChecked
+                                    ? $"{StringsShownInWindow[i].Text}, "
+                                    : $"|&{StringsShownInWindow[i].Text}, ");
+                            }
+                        }
+                    }
                 }
             }
-
-            return true;
+            catch (UnauthorizedAccessException ex)
+            {
+                App.ConsoleAndLogWriteLine("Access denied when trying to create or write to the file. Exception: " + ex.Message);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                App.ConsoleAndLogWriteLine("Directory not found. Exception: " + ex.Message);
+            }
+            catch (IOException ex)
+            {
+                App.ConsoleAndLogWriteLine("I/O error occurred while creating or writing to the file. Exception: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                App.ConsoleAndLogWriteLine("An unexpected error occurred. Exception: " + ex.Message);
+            }
+        }
+        
+        
+        // Fonction permettant de scroller dans la listbox si on survole la listbox
+        /// <summary>
+        /// Scrolls the ListBox when the mouse wheel is used while hovering over it.
+        /// </summary>
+        private void WordsListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            try
+            {
+                // Scrolle verticalement dans le ScrollViewer associé à la ListBox
+                // La valeur de défilement est ajustée par e.Delta divisé par 3 pour un défilement plus doux
+                // ReSharper disable once PossibleLossOfFraction
+                ScrollViewerInclusion.ScrollToVerticalOffset(ScrollViewerInclusion.VerticalOffset - e.Delta / 3);
+        
+                // Marque l'événement comme étant géré pour éviter que d'autres contrôles ne le traitent
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while scrolling the ListBox: {ex.Message}");
+        
+                // Arrêter l'exécution de la fonction en cas d'erreur
+            }
         }
 
         
+        // Fonction permettant de cocher/décocher un élément de la liste quand on double-clique dessus
+        /// <summary>
+        /// Toggles the IsChecked property of the selected item in the ListBox when it is double-clicked.
+        /// </summary>
+        private void WordsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                // Vérifie si l'expéditeur est une ListBox et si un élément est sélectionné
+                if (sender is not ListBox listBox || listBox.SelectedItem == null) return;
         
+                // Supposons que les éléments de votre ListBox sont de type `StringItem`
+                if (listBox.SelectedItem is StringItem selectedItem)
+                {
+                    // Inversez la valeur booléenne de la propriété IsChecked
+                    selectedItem.IsChecked = !selectedItem.IsChecked;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Gestion de toute exception et enregistrement du message d'erreur dans les logs
+                App.ConsoleAndLogWriteLine($"An error occurred while toggling the IsChecked property: {ex.Message}");
         
-        
-        
+                // Arrêter l'exécution de la fonction en cas d'erreur
+            }
+        }
+
+
+        /// <summary>
+        /// Provides a compiled regular expression to match one or more asterisk (*) characters.
+        /// This method uses the <see cref="GeneratedRegexAttribute"/> to generate the regular expression pattern.
+        /// </summary>
+        /// <returns>A <see cref="Regex"/> instance configured to match one or more consecutive asterisk characters.</returns>
         [GeneratedRegex(@"\*+")]
         private static partial Regex MyRegex();
         
         
         
-        
-        
+        // ----- GESTION DU CLIC SUR UN SLIDER -----
+        /// <summary>
+        /// Handles the click event of a slider's RepeatButton, updating the slider's value based on the click position.
+        /// </summary>
         private void OnSliderClick(object sender, RoutedEventArgs e)
         {
-            if (sender is not RepeatButton repeatButton) return;
-            
-            var slider = FindParent<Slider>(repeatButton);
+            try
             {
-                // Get the mouse position relative to the slider
+                // Vérifie si l'objet sender est un RepeatButton
+                if (sender is not RepeatButton repeatButton) return;
+        
+                // Trouve le Slider parent du RepeatButton
+                var slider = FindParent<Slider>(repeatButton);
+        
+                // Si le slider est null, quitter la méthode
+                if (slider == null) 
+                {
+                    App.ConsoleAndLogWrite("Slider not found.");
+                    return;
+                }
+        
+                // Obtient la position de la souris relative au slider
                 var position = Mouse.GetPosition(slider);
-                    
-                if (slider == null) return;
-                    
+        
+                // Calcule la nouvelle valeur du slider en fonction de la position de la souris
                 var relativeX = position.X / slider.ActualWidth;
                 var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+        
+                // Met à jour la valeur du slider
                 slider.Value = newValue;
             }
+            catch (Exception ex)
+            {
+                // Logue l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred: {ex.Message}");
+            }
         }
+
         
-        // Utility method to find the parent of a specific type
+        /// <summary>
+        /// Utility method to find the parent of a specific type in the visual tree.
+        /// </summary>
+        /// <typeparam name="T">The type of the parent to find.</typeparam>
+        /// <param name="child">The starting child object from which to search up the visual tree.</param>
+        /// <returns>The parent of type T, or null if no such parent is found.</returns>
         private static T? FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            while (true)
+            try
             {
-                var parentObject = VisualTreeHelper.GetParent(child);
-                switch (parentObject)
+                // Boucle jusqu'à ce qu'un parent de type T soit trouvé ou qu'il n'y ait plus de parents
+                while (true)
                 {
-                    case null:
-                        return null;
-                    case T parent:
-                        return parent;
-                    default:
-                        child = parentObject;
-                        break;
+                    // Obtient le parent visuel de l'objet enfant actuel
+                    var parentObject = VisualTreeHelper.GetParent(child);
+            
+                    // Gère les différents cas possibles pour le parentObject
+                    switch (parentObject)
+                    {
+                        // Si aucun parent n'est trouvé, retourne null
+                        case null:
+                            return null;
+                        // Si le parent est du type T, retourne ce parent
+                        case T parent:
+                            return parent;
+                        // Sinon, continue la recherche avec le parentObject comme nouvel enfant
+                        default:
+                            child = parentObject;
+                            break;
+                    }
                 }
             }
-        }
-
-
-        // fonctions pour changer la position du slider
-        private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _isDragging = true;
-            Mouse.Capture(ScaleSlider);
-            UpdateSliderValue(sender, e);
-        }
-
-        private void SliderMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            _isDragging = false;
-            Mouse.Capture(null);
-        }
-
-        private void SliderMouseMove(object sender, MouseEventArgs e)
-        {
-            if (_isDragging)
+            catch (Exception ex)
             {
-                UpdateSliderValue(sender, e);
+                // Log l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred while finding parent: {ex.Message}");
+                return null;
             }
         }
 
+
+        /// <summary>
+        /// Handles the event when the left mouse button is pressed down on the slider.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event data for the mouse button event.</param>
+        private void SliderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                // Indique que le glissement est en cours
+                _isDragging = true;
+        
+                // Capture le mouse pour suivre le mouvement au-dessus du slider
+                Mouse.Capture(ScaleSlider);
+        
+                // Met à jour la valeur du slider en fonction de la position de la souris
+                UpdateSliderValue(sender, e);
+            }
+            catch (Exception ex)
+            {
+                // Log l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred in SliderMouseLeftButtonDown: {ex.Message}");
+            }
+        }
+
+        
+        /// <summary>
+        /// Handles the event when the left mouse button is released on the slider.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event data for the mouse button event.</param>
+        private void SliderMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                // Indique que le glissement est terminé
+                _isDragging = false;
+        
+                // Relâche la capture de la souris
+                Mouse.Capture(null);
+            }
+            catch (Exception ex)
+            {
+                // Log l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred in SliderMouseLeftButtonUp: {ex.Message}");
+            }
+        }
+
+        
+        /// <summary>
+        /// Handles the event when the mouse is moved over the slider while dragging.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event data for the mouse movement event.</param>
+        private void SliderMouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                // Met à jour la valeur du slider uniquement si le glissement est en cours
+                if (_isDragging)
+                {
+                    UpdateSliderValue(sender, e);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred in SliderMouseMove: {ex.Message}");
+            }
+        }
+
+        
+        /// <summary>
+        /// Updates the slider's value based on the current mouse position.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event data for the mouse movement event.</param>
         private void UpdateSliderValue(object sender, MouseEventArgs e)
         {
-            if (sender is not Slider slider) return;
-            
-            var position = e.GetPosition(slider);
-            var relativeX = position.X / slider.ActualWidth;
-            var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
-            
-            // Snap to the nearest tick
-            var tickFrequency = slider.TickFrequency;
-            newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
-            
-            slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
+            try
+            {
+                // Vérifie si l'objet sender est un Slider
+                if (sender is not Slider slider) return;
+        
+                // Obtient la position de la souris relative au slider
+                var position = e.GetPosition(slider);
+        
+                // Calcule la nouvelle valeur du slider en fonction de la position de la souris
+                var relativeX = position.X / slider.ActualWidth;
+                var newValue = slider.Minimum + (relativeX * (slider.Maximum - slider.Minimum));
+        
+                // Ajuste la valeur pour correspondre au tick le plus proche
+                var tickFrequency = slider.TickFrequency;
+                newValue = Math.Round(newValue / tickFrequency) * tickFrequency;
+        
+                // Met à jour la valeur du slider en s'assurant qu'elle reste dans les limites
+                slider.Value = Math.Max(slider.Minimum, Math.Min(slider.Maximum, newValue));
+            }
+            catch (Exception ex)
+            {
+                // Log l'erreur en cas d'exception
+                App.ConsoleAndLogWrite($"An error occurred in UpdateSliderValue: {ex.Message}");
+            }
         }
     }
     

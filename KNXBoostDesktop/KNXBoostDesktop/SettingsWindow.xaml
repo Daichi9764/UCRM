@@ -1107,36 +1107,43 @@
                                                </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
-                                       
+
                                        <TabItem x:Name="OngletInclusions" Style="{StaticResource LightOnglet}">
-                                           <ScrollViewer x:Name="ScrollViewerInclusion" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <StackPanel x:Name="InclusionPanel" Orientation="Vertical" Background="White">
-                                               
-                                               <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
-                                                          FontSize="17" FontWeight="SemiBold"
-                                                          Margin="10,10,0,0" 
-                                                          Text = "Inclusions"/>
-                                               <TextBlock  x:Name="AddressKeepingText" Margin="10,0,0,2" />
-                                               
-                                               <TextBox x:Name="InputTextBox" Margin="10,10,10,0" 
-                                                        Background="White"
-                                                        KeyDown="InputTextBox_KeyDown"
-                                                        VerticalAlignment="Top" />
-                                               
-                                               <ListBox Name="WordsListBox" Margin="10,10,10,5"
-                                                        Style="{StaticResource ListBoxLightThemeStyle}"
-                                                        IsTabStop="False"
-                                                        ItemsSource="{Binding StringsShownInWindow}"
-                                                        SelectionMode="Extended"
-                                                        KeyDown="WordsListBox_KeyDown"
-                                                        BorderThickness="0">
-                                                   <ListBox.ItemsPanel>
-                                                       <ItemsPanelTemplate>
-                                                           <WrapPanel x:Name="ListboxWrapPanel" Orientation="Horizontal" MaxWidth="430" SizeChanged="WrapPanel_SizeChanged"/>
-                                                       </ItemsPanelTemplate>
-                                                   </ListBox.ItemsPanel>                                               
-                                               </ListBox>
-                                           </StackPanel>
+                                           <ScrollViewer x:Name="ScrollViewerInclusion"
+                                                         VerticalScrollBarVisibility="Auto"
+                                                         HorizontalScrollBarVisibility="Disabled">
+                                               <StackPanel x:Name="InclusionPanel" Orientation="Vertical"
+                                                           Background="White">
+
+                                                   <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
+                                                              FontSize="17" FontWeight="SemiBold"
+                                                              Margin="10,10,0,0"
+                                                              Text="Inclusions" />
+                                                   <TextBlock x:Name="AddressKeepingText" Margin="10,0,0,2" />
+
+                                                   <TextBox x:Name="InputTextBox" Margin="10,10,10,0"
+                                                            Background="White"
+                                                            KeyDown="InputTextBox_KeyDown"
+                                                            VerticalAlignment="Top" />
+
+                                                   <ListBox Name="WordsListBox" Margin="10,10,10,5"
+                                                            Style="{StaticResource ListBoxLightThemeStyle}"
+                                                            IsTabStop="False"
+                                                            ItemsSource="{Binding StringsShownInWindow}"
+                                                            SelectionMode="Extended"
+                                                            KeyDown="WordsListBox_KeyDown"
+                                                            BorderThickness="0"
+                                                            PreviewMouseWheel="WordsListBox_PreviewMouseWheel"
+                                                            MouseDoubleClick="WordsListBox_MouseDoubleClick">
+                                                       <ListBox.ItemsPanel>
+                                                           <ItemsPanelTemplate>
+                                                               <WrapPanel x:Name="ListboxWrapPanel"
+                                                                          Orientation="Horizontal" MaxWidth="430"
+                                                                          SizeChanged="WrapPanel_SizeChanged" />
+                                                           </ItemsPanelTemplate>
+                                                       </ListBox.ItemsPanel>
+                                                   </ListBox>
+                                               </StackPanel>
                                            </ScrollViewer>
                                        </TabItem>
                                        
