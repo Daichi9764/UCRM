@@ -1,19 +1,29 @@
-# Projet de Stage à l'UCRM 
+# UCRM Internship Project
 
-## Description 
-Ce repository contient les projets développés dans le cadre d'un stage de 3 mois à l'UCRM de Toulouse. 
+## Description
+This repository contains projects developed during a 3-month internship at UCRM in Toulouse.
 
-Les projets sont destinés à améliorer la gestion et l'analyse des adresses de groupe KNX dans le logiciel ETS pour simplifier la correction de projet ETS .
+The projects aim to enhance the management and analysis of KNX group addresses in ETS software to simplify ETS project corrections.
 
-## Projets inclus 
-1 . [KNXBoostDesktop](KNXBoostDesktop) _(En cours de développement)_
-* Ce projet vise à formater les champs de noms d'adresse de groupe pour des projets ETS nécessitant une clarification. Il permet d'optimiser la lisibilité et la cohérence des adresses de groupe.
-![image-removebg](https://github.com/user-attachments/assets/dc2a7e8b-9aee-4197-9d00-0b5067983585)
+## Included Projects
+1. [KNXBoostDesktop](KNXBoostDesktop) _(In Development)_
+   * This project is designed to format group address name fields for ETS projects needing clarification. It optimizes the readability and consistency of group addresses.
+   ![KNXBoostDesktop Screenshot](https://github.com/user-attachments/assets/dc2a7e8b-9aee-4197-9d00-0b5067983585)
 
-2 . Projet 2 _(En cours de développement)_
-  
-* Ce projet aura pour objectif de générer un rapport de bon fonctionnement du paramétrage en fonction des métiers à analyser. Il se basera sur les listes d'adresses correctement renommées et une connexion au bus KNX.
+2. Project 2 _(In Development)_
+   * This project aims to generate a functional configuration report based on the analyzed trades. It will rely on correctly renamed address lists and a connection to the KNX bus.
 
-## Utilisation
+## Usage
 
-Chaque projet est contenu dans son propre dossier. Les instructions spécifiques pour exécuter, développer ou tester chaque projet sont détaillées dans leurs propres README respectifs situés dans leurs répertoires correspondants.
+Each project is contained within its own folder. Specific instructions for running, developing, or testing each project are detailed in their respective README files located in their corresponding directories.
+
+---
+
+### Keywords for SEO Optimization:
+- KNX group address management
+- ETS software optimization
+- KNXBoostDesktop tool
+- KNX address analysis
+- ETS project correction
+- KNX bus connection
+- Functional configuration report for KNX
