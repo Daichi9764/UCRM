@@ -29,21 +29,21 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
       --> 2.2.5. 💡 [Informations](#informations)
 
-3. [Utilisation de l’application](#utilisation-de-lapplication)
+3. 🛠 [Utilisation de l’application](#utilisation-de-lapplication)
 
-    3.1. [Récupérer le projet dans ETS 6](#récupérer-le-projet-dans-ets-6)
+    3.1. 📁 [Récupérer le projet dans ETS 6](#récupérer-le-projet-dans-ets-6)
 
-    3.2. [Importer un projet dans KNX Boost Desktop](#importer-un-projet-dans-knx-boost-desktop)
+    3.2. 📥 [Importer un projet dans KNX Boost Desktop](#importer-un-projet-dans-knx-boost-desktop)
 
-    3.3. [Naviguer dans le projet modifié](#naviguer-dans-le-projet-modifié)
+    3.3. 🚶‍♂️‍➡️ [Naviguer dans le projet modifié](#naviguer-dans-le-projet-modifié)
 
-    3.4. [Renommer manuellement des adresses de groupe](#renommer-manuellement-des-adresses-de-groupe)
+    3.4. 📝 [Renommer manuellement des adresses de groupe](#renommer-manuellement-des-adresses-de-groupe)
 
-    3.5. [Exporter les adresses de groupe modifiées](#exporter-les-adresses-de-groupe-modifiées)
+    3.5. 📤 [Exporter les adresses de groupe modifiées](#exporter-les-adresses-de-groupe-modifiées)
 
-    3.6. [Importer les adresses de groupe modifiées dans ETS 6](#importer-les-adresses-de-groupe-modifiées-dans-ets-6)
+    3.6. 🟩 [Importer les adresses de groupe modifiées dans ETS 6](#importer-les-adresses-de-groupe-modifiées-dans-ets-6)
     
-4. [FAQ](#FAQ)
+4. 🆘 [FAQ](#FAQ)
 
 
 [← Retour](../)
