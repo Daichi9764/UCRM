@@ -2,6 +2,10 @@
 
 Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
+## Langues pour la documentation / Documentation language :
+- [Français](Installation/)
+- [English](Installation/)
+
 ## Table des matières
 1. [Installation](Installation/)
 
