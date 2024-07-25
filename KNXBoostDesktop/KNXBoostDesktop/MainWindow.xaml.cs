@@ -1114,7 +1114,7 @@ public partial class MainWindow
     /// <summary>
     /// Asynchronously reloads the current project, displaying a loading window with real-time elapsed time updates.
     /// </summary>
-    public async void ReloadProject(object sender, RoutedEventArgs e)
+    private async void ReloadProject(object sender, RoutedEventArgs e)
     {
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
@@ -1125,9 +1125,6 @@ public partial class MainWindow
         _isTreeViewExpanded = false;
 
 
-
-
-        App.ConsoleAndLogWriteLine("Reaload");
         _cancellationTokenSource = new CancellationTokenSource();
 
             // Créer et configurer la LoadingWindow
@@ -1148,8 +1145,70 @@ public partial class MainWindow
                     // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        App.DisplayElements.LoadingWindow.TotalTime.Text =
-                            $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
+                        
+                        App.DisplayElements.LoadingWindow.TotalTime.Text = App.DisplayElements.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => $"الوقت الإجمالي: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Bulgare
+                            "BG" => $"Общо време: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Tchèque
+                            "CS" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Danois
+                            "DA" => $"Samlet tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Allemand
+                            "DE" => $"Gesamtzeit: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Grec
+                            "EL" => $"Συνολικός χρόνος: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Anglais
+                            "EN" => $"Total time: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Espagnol
+                            "ES" => $"Tiempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Estonien
+                            "ET" => $"Koguaeg: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Finnois
+                            "FI" => $"Kokonaisaika: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Hongrois
+                            "HU" => $"Összes idő: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Indonésien
+                            "ID" => $"Total waktu: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Italien
+                            "IT" => $"Tempo totale: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Japonais
+                            "JA" => $"総時間: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Coréen
+                            "KO" => $"총 시간: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Letton
+                            "LV" => $"Kopējais laiks: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Lituanien
+                            "LT" => $"Bendras laikas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Norvégien
+                            "NB" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Néerlandais
+                            "NL" => $"Totale tijd: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Polonais
+                            "PL" => $"Całkowity czas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Portugais
+                            "PT" => $"Tempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Roumain
+                            "RO" => $"Timp total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Russe
+                            "RU" => $"Общее время: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovaque
+                            "SK" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovène
+                            "SL" => $"Skupni čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Suédois
+                            "SV" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Turc
+                            "TR" => $"Toplam süre: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Ukrainien
+                            "UK" => $"Загальний час: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Chinois simplifié
+                            "ZH" => $"总时间: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Cas par défaut (français)
+                            _ => $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}"
+                        };
                     });
                     await Task.Delay(100); // Met à jour toutes les 100ms
                 }
@@ -2566,7 +2625,7 @@ public partial class MainWindow
                     _ => "Erreur"
                 };
                 
-                MessageBox.Show(ex.Message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                if (!ImportOperationCancelled) MessageBox.Show(ex.Message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
             });
         }
     }
