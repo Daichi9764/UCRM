@@ -5272,6 +5272,48 @@ namespace KNXBoostDesktop
                 // Arrêter l'exécution de la fonction en cas d'erreur
             }
         }
+        
+        
+        // Gestionnaire d'événement pour le clic droit
+        private void WordsListBox_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Vérifie si l'élément cliqué est un ListBoxItem
+            var listBoxItem = FindParent<ListBoxItem>(e.OriginalSource as DependencyObject);
+            if (listBoxItem != null)
+            {
+                // Sélectionne l'élément sur lequel le clic droit a été effectué
+                WordsListBox.SelectedItem = listBoxItem.DataContext;
+            }
+        }
+
+        // Gestionnaire d'événement pour le clic sur le MenuItem de suppression
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Récupérer l'index de l'élément sélectionné
+            var selectedIndex = WordsListBox.SelectedIndex;
+
+            // Copier les éléments sélectionnés dans une liste temporaire
+            var itemsToRemove = WordsListBox.SelectedItems.Cast<StringItem>().ToList();
+
+            foreach (var item in itemsToRemove)
+            {
+                // Supprimer les éléments de la liste principale
+                if (item is not { } word) continue;
+                StringsShownInWindow.Remove(word);
+            }
+
+            // Mettre à jour l'index sélectionné
+            if (StringsShownInWindow.Count <= 0) return;
+
+            // Ajuster l'index sélectionné s'il dépasse le nombre d'éléments restants
+            if (selectedIndex >= StringsShownInWindow.Count)
+            {
+                selectedIndex = StringsShownInWindow.Count - 1;
+            }
+
+            // Réassigner l'index sélectionné dans la ListBox
+            WordsListBox.SelectedIndex = selectedIndex;
+        }
 
 
         /// <summary>
