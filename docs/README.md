@@ -1,6 +1,6 @@
 # DOCUMENTATION – KNX Boost Desktop
 
-Dernière révision : 19/07/2024 (KNX Boost Desktop v1.9)
+Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
 ## Table des matières
 1. [Installation](#installation)
