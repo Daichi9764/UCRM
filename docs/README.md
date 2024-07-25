@@ -7,27 +7,27 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 - [English](README-EN.md)
 
 ## Table des matières
-1. [Installation](Installation/)
+1. 🖥 [Installation](Installation/) 
 
-    1.1. [Téléchargement](Installation/telechargement.md)
+    1.1. 📥 [Téléchargement](Installation/telechargement.md)
 
-    1.2. [Déroulement de l’installation](Installation/installationdelapplication.md)
+    1.2. 💻 [Déroulement de l’installation](Installation/installationdelapplication.md)
 
-2. [Aperçu de l’application](#aperçu-de-lapplication)
+2. 🔍 [Aperçu de l’application](#aperçu-de-lapplication)
 
-    2.1. [Fenêtre principale](#fenêtre-principale)
+    2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
 
-    2.2. [Menu paramètres](#menu-paramètres)
+    2.2. ⚙️ [Menu paramètres](#menu-paramètres)
 
-      --> 2.2.1. [Paramètres de la correction](#paramètres-de-la-correction)
+      --> 2.2.1. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
 
-      --> 2.2.2. [Paramètres d'inclusion](#informations)
+      --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
 
-      --> 2.2.3. [Paramètres de l’application](#paramètres-de-lapplication)
+      --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
 
-      --> 2.2.4. [Débogage](#débogage)
+      --> 2.2.4. 🪲 [Débogage](#débogage)
 
-      --> 2.2.5. [Informations](#informations)
+      --> 2.2.5. 💡 [Informations](#informations)
 
 3. [Utilisation de l’application](#utilisation-de-lapplication)
 
