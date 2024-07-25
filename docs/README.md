@@ -39,9 +39,9 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
     3.4. 📝 [Renommer manuellement des adresses de groupe](#renommer-manuellement-des-adresses-de-groupe)
 
-    3.5. 📤 [Exporter les adresses de groupe modifiées](#exporter-les-adresses-de-groupe-modifiées)
+    3.5. 📤 [Exporter les adresses de groupe modifiées](UtilisationApplication/export-modified-group-addresses.md)
 
-    3.6. 🟩 [Importer les adresses de groupe modifiées dans ETS 6](#importer-les-adresses-de-groupe-modifiées-dans-ets-6)
+    3.6. 🟩 [Importer les adresses de groupe modifiées dans ETS 6](UtilisationApplication/import-modified-group-addresses-into-ets-6.md)
     
 4. 🆘 [FAQ](FAQ/faq.md)
 
