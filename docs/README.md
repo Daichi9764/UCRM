@@ -11,7 +11,7 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
     1.1. [Téléchargement](Installation/telechargement.md)
 
-    1.2. [Déroulement de l’installation](Installation/installation de l'application.md)
+    1.2. [Déroulement de l’installation](Installation/installationdelapplication.md)
 
 2. [Aperçu de l’application](#aperçu-de-lapplication)
 
