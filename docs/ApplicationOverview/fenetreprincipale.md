@@ -1,5 +1,6 @@
 La fenêtre principale est composée de 3 parties principales : 
 
+<img src="Pictures/MainWindow.png" alt="fenetre-principale" style="width:50%;"/>
 
 **1. Le bandeau supérieur :**
 
