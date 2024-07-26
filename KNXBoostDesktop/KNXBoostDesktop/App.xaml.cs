@@ -45,7 +45,7 @@ public partial class App
     /// <summary>
     /// Represents the build of the application. Updated each time portions of code are merged on github.
     /// </summary>
-    public static readonly int AppBuild = 381;
+    public static readonly int AppBuild = 382;
         
         
     // Gestion des logs
@@ -686,5 +686,6 @@ public partial class App
         _writer?.Close();
     }
 }
+
 
 
