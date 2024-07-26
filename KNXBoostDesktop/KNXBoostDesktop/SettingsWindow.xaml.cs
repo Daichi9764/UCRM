@@ -4836,7 +4836,7 @@ public partial class SettingsWindow
             // Vérifie si la touche pressée est Entrée (Enter) et si le texte de la TextBox n'est pas vide
             if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(InputTextBox.Text)) return;
 
-            // Remplace les occurrences multiples de '*' dans le texte par une seule '*'
+            // Remplace les multiples occurrences de '*' dans le texte par une seule '*'
             var result = MyRegex().Replace(InputTextBox.Text.ToLower().Trim(), "*");
         
             // Empêche d'ajouter un élément si le texte est seulement '*'
@@ -5073,7 +5073,7 @@ public partial class SettingsWindow
                 }
             }
 
-            // Les collections sont égales
+            // Les collections sont égales.
             return true;
         }
         catch (Exception ex)
@@ -5092,7 +5092,7 @@ public partial class SettingsWindow
     /// <summary>
     /// Imports one or more text files containing lists of strings to add to the inclusion list.
     /// </summary>
-    public void ImportStringListFromFile(object sender, RoutedEventArgs e)
+    private void ImportStringListFromFile(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -5290,14 +5290,14 @@ public partial class SettingsWindow
     /// Exports the list of strings to a text file.
     /// This file can be shared, re-imported, etc.
     /// </summary>
-    public void ExportStringListToFile(object sender, RoutedEventArgs e)
+    private void ExportStringListToFile(object sender, RoutedEventArgs e)
     {
         try
         {
             App.ConsoleAndLogWriteLine("Starting to export the list of strings to keep in corrected addresses...");
 
             // Vérifier si le répertoire 'tmp' existe, sinon le créer
-            if (!Directory.Exists("./tmp")) 
+            if (!Directory.Exists("./tmp"))
                 Directory.CreateDirectory("./tmp");
 
             // Création du stream d'écriture du fichier stringList.txt
@@ -5333,7 +5333,8 @@ public partial class SettingsWindow
         }
         catch (UnauthorizedAccessException ex)
         {
-            App.ConsoleAndLogWriteLine("Access denied when trying to create or write to the file. Exception: " + ex.Message);
+            App.ConsoleAndLogWriteLine("Access denied when trying to create or write to the file. Exception: " +
+                                       ex.Message);
         }
         catch (DirectoryNotFoundException ex)
         {
@@ -5341,11 +5342,226 @@ public partial class SettingsWindow
         }
         catch (IOException ex)
         {
-            App.ConsoleAndLogWriteLine("I/O error occurred while creating or writing to the file. Exception: " + ex.Message);
+            App.ConsoleAndLogWriteLine("I/O error occurred while creating or writing to the file. Exception: " +
+                                       ex.Message);
         }
         catch (Exception ex)
         {
             App.ConsoleAndLogWriteLine("An unexpected error occurred. Exception: " + ex.Message);
+        }
+
+        SaveFileDialog saveFileDialog = new()
+        {
+            Title = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "تصدير قائمة التضمينات إلى...",
+                // Bulgare
+                "BG" => "Експортиране на списъка с включвания в...",
+                // Tchèque
+                "CS" => "Exportovat seznam zahrnutí do...",
+                // Danois
+                "DA" => "Eksporter inkluderingsliste til...",
+                // Allemand
+                "DE" => "Liste der Einfügungen exportieren nach...",
+                // Grec
+                "EL" => "Εξαγωγή λίστας συμπερίληψης σε...",
+                // Anglais
+                "EN" => "Export inclusion list to...",
+                // Espagnol
+                "ES" => "Exportar lista de inclusiones a...",
+                // Estonien
+                "ET" => "Ekspordi kaasamisloend...",
+                // Finnois
+                "FI" => "Vie sisällysluettelo...",
+                // Hongrois
+                "HU" => "Beillesztési lista exportálása ide...",
+                // Indonésien
+                "ID" => "Ekspor daftar penyertaan ke...",
+                // Italien
+                "IT" => "Esporta elenco inclusioni in...",
+                // Japonais
+                "JA" => "インクルージョンリストをエクスポート...",
+                // Coréen
+                "KO" => "포함 목록 내보내기...",
+                // Letton
+                "LV" => "Eksportēt iekļaušanas sarakstu uz...",
+                // Lituanien
+                "LT" => "Eksportuoti įtraukimo sąrašą į...",
+                // Norvégien
+                "NB" => "Eksporter inkluderingsliste til...",
+                // Néerlandais
+                "NL" => "Invoeglijst exporteren naar...",
+                // Polonais
+                "PL" => "Eksportuj listę włączeń do...",
+                // Portugais
+                "PT" => "Exportar lista de inclusões para...",
+                // Roumain
+                "RO" => "Exportați lista de incluziuni în...",
+                // Russe
+                "RU" => "Экспортировать список включений в...",
+                // Slovaque
+                "SK" => "Exportovať zoznam zahrnutí do...",
+                // Slovène
+                "SL" => "Izvozi seznam vključitev v...",
+                // Suédois
+                "SV" => "Exportera inkluderingslistan till...",
+                // Turc
+                "TR" => "Dahil etme listesini dışa aktar...",
+                // Ukrainien
+                "UK" => "Експортувати список включень у...",
+                // Chinois simplifié
+                "ZH" => "导出包含列表到...",
+                // Cas par défaut (français)
+                _ => "Exporter la liste d'inclusions vers..."
+            },
+            FileName = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "قائمة_التضمينات.txt",
+                // Bulgare
+                "BG" => "Списък_включвания.txt",
+                // Tchèque
+                "CS" => "Seznam_zahrnutí.txt",
+                // Danois
+                "DA" => "Inklusionsliste.txt",
+                // Allemand
+                "DE" => "Einschlussliste.txt",
+                // Grec
+                "EL" => "Λίστα_συμπερίληψης.txt",
+                // Anglais
+                "EN" => "InclusionList.txt",
+                // Espagnol
+                "ES" => "Lista_de_inclusiones.txt",
+                // Estonien
+                "ET" => "Kaasamisloend.txt",
+                // Finnois
+                "FI" => "Sisällysluettelo.txt",
+                // Hongrois
+                "HU" => "Beillesztési_lista.txt",
+                // Indonésien
+                "ID" => "Daftar_penyertaan.txt",
+                // Italien
+                "IT" => "Elenco_inclusioni.txt",
+                // Japonais
+                "JA" => "インクルージョンリスト.txt",
+                // Coréen
+                "KO" => "포함_목록.txt",
+                // Letton
+                "LV" => "Iekļaušanas_saraksts.txt",
+                // Lituanien
+                "LT" => "Įtraukimo_sąrašas.txt",
+                // Norvégien
+                "NB" => "Inkluderingsliste.txt",
+                // Néerlandais
+                "NL" => "Invoeglijst.txt",
+                // Polonais
+                "PL" => "Lista_włączeń.txt",
+                // Portugais
+                "PT" => "Lista_de_inclusões.txt",
+                // Roumain
+                "RO" => "Lista_de_incluziuni.txt",
+                // Russe
+                "RU" => "Список_включений.txt",
+                // Slovaque
+                "SK" => "Zoznam_zahrnutí.txt",
+                // Slovène
+                "SL" => "Seznam_vključitev.txt",
+                // Suédois
+                "SV" => "Inkluderingslista.txt",
+                // Turc
+                "TR" => "Dahil_etme_listesi.txt",
+                // Ukrainien
+                "UK" => "Список_включень.txt",
+                // Chinois simplifié
+                "ZH" => "包含列表.txt",
+                // Cas par défaut (français)
+                _ => "Liste_d'inclusions.txt"
+            },
+            DefaultExt = ".txt", // Extension par défaut
+            Filter = App.DisplayElements?.SettingsWindow!.AppLang switch
+            {
+                // Arabe
+                "AR" => "ملفات نصية|*.txt|جميع الملفات|*.*",
+                // Bulgare
+                "BG" => "Текстови файлове|*.txt|Всички файлове|*.*",
+                // Tchèque
+                "CS" => "Textové soubory|*.txt|Všechny soubory|*.*",
+                // Danois
+                "DA" => "Tekstfiler|*.txt|Alle filer|*.*",
+                // Allemand
+                "DE" => "Textdateien|*.txt|Alle Dateien|*.*",
+                // Grec
+                "EL" => "Αρχεία κειμένου|*.txt|Όλα τα αρχεία|*.*",
+                // Anglais
+                "EN" => "Text Files|*.txt|All Files|*.*",
+                // Espagnol
+                "ES" => "Archivos de texto|*.txt|Todos los archivos|*.*",
+                // Estonien
+                "ET" => "Tekstifailid|*.txt|Kõik failid|*.*",
+                // Finnois
+                "FI" => "Tekstitiedostot|*.txt|Kaikki tiedostot|*.*",
+                // Hongrois
+                "HU" => "Szövegfájlok|*.txt|Minden fájl|*.*",
+                // Indonésien
+                "ID" => "File Teks|*.txt|Semua File|*.*",
+                // Italien
+                "IT" => "File di testo|*.txt|Tutti i file|*.*",
+                // Japonais
+                "JA" => "テキストファイル|*.txt|すべてのファイル|*.*",
+                // Coréen
+                "KO" => "텍스트 파일|*.txt|모든 파일|*.*",
+                // Letton
+                "LV" => "Teksta faili|*.txt|Visi faili|*.*",
+                // Lituanien
+                "LT" => "Teksto failai|*.txt|Visi failai|*.*",
+                // Norvégien
+                "NB" => "Tekstfiler|*.txt|Alle filer|*.*",
+                // Néerlandais
+                "NL" => "Tekstbestanden|*.txt|Alle bestanden|*.*",
+                // Polonais
+                "PL" => "Pliki tekstowe|*.txt|Wszystkie pliki|*.*",
+                // Portugais
+                "PT" => "Arquivos de texto|*.txt|Todos os arquivos|*.*",
+                // Roumain
+                "RO" => "Fișiere text|*.txt|Toate fișierele|*.*",
+                // Russe
+                "RU" => "Текстовые файлы|*.txt|Все файлы|*.*",
+                // Slovaque
+                "SK" => "Textové súbory|*.txt|Všetky súbory|*.*",
+                // Slovène
+                "SL" => "Besedilne datoteke|*.txt|Vse datoteke|*.*",
+                // Suédois
+                "SV" => "Textfiler|*.txt|Alla filer|*.*",
+                // Turc
+                "TR" => "Metin Dosyaları|*.txt|Tüm Dosyalar|*.*",
+                // Ukrainien
+                "UK" => "Текстові файли|*.txt|Усі файли|*.*",
+                // Chinois simplifié
+                "ZH" => "文本文件|*.txt|所有文件|*.*",
+                // Cas par défaut (français)
+                _ => "Fichiers Texte|*.txt|Tous les fichiers|*.*"
+            }
+        };
+
+        
+        // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
+        var result = saveFileDialog.ShowDialog();
+        
+        if (result != true) return;
+        // Chemin du fichier sélectionné par l'utilisateur
+        App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
+        
+        try
+        {
+            // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
+            File.Copy("./tmp/stringList.txt", saveFileDialog.FileName, true);
+            App.ConsoleAndLogWriteLine($"File saved successfully at {saveFileDialog.FileName}.");
+        }
+        catch (Exception ex)
+        {
+            // Gérer les exceptions et afficher un message d'erreur
+            App.ConsoleAndLogWriteLine($"Failed to save the file: {ex.Message}");
         }
     }
         
