@@ -5617,20 +5617,4 @@ public partial class SettingsWindow
     }
 
 
-    private void ButtonInclusionFile_Click(object sender, RoutedEventArgs e)
-    {
-        // Vérifier si la touche Ctrl est enfoncée
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-        {
-            // Appeler la fonction d'exportation du fichier
-            ExportStringListToFile(sender, e);
-        }
-        else
-        {
-            // Appeler la fonction d'importation du fichier
-            ImportStringListFromFile(sender, e);
-
-        }
-    }
-
 }
