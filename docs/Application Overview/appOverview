@@ -1,7 +1,17 @@
-1. 🖥 [Installation](Installation/) 
+2. 🔍 [Aperçu de l’application](docs/Application Overview/appOverview.md)
 
-    1.1. 📥 [Téléchargement](telechargement.md)
+    2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
 
-    1.2. 💻 [Déroulement de l’installation](installationdelapplication.md)
+    2.2. ⚙️ [Menu paramètres](#menu-paramètres)
+
+      --> 2.2.1. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
+
+      --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
+
+      --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
+
+      --> 2.2.4. 🪲 [Débogage](#débogage)
+
+      --> 2.2.5. 💡 [Informations](#informations)
 	
 [← Retour](../README.md)
