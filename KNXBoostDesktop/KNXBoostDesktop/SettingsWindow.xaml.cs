@@ -3216,6 +3216,8 @@ public partial class SettingsWindow
             CancelButton.Style = (Style)FindResource("BottomButtonLight");
             CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonLight");
             WordsListBox.Style = (Style)FindResource("ListBoxLightThemeStyle");
+            ButtonInclusion.Style = (Style)FindResource("InclusionFileButtonLight");
+            IconInculsion.Style = (Style)FindResource("FontAwesomeIconStyleLight");
 
 
             OngletCorrection.Style = (Style)FindResource("LightOnglet");
@@ -3224,7 +3226,7 @@ public partial class SettingsWindow
             OngletInformations.Style = (Style)FindResource("LightOnglet");
             OngletParametresApplication.Style = (Style)FindResource("LightOnglet");
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
-                MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
+            MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             HyperlinkInfo.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
         }
         else // Sinon, on met le thème sombre
@@ -3246,6 +3248,8 @@ public partial class SettingsWindow
             CancelButton.Style = (Style)FindResource("BottomButtonDark");
             CreateArchiveDebugButton.Style = (Style)FindResource("BottomButtonDark");
             WordsListBox.Style = (Style)FindResource("ListBoxDarkThemeStyle");
+            ButtonInclusion.Style = (Style)FindResource("InclusionFileButtonDark");
+            IconInculsion.Style = (Style)FindResource("FontAwesomeIconStyleDark");
 
             OngletCorrection.Style = (Style)FindResource("DarkOnglet");
             OngletInclusions.Style = (Style)FindResource("DarkOnglet");
@@ -3309,7 +3313,6 @@ public partial class SettingsWindow
         SaveButtonDrawing.Brush = textColorBrush;
         SaveButtonText.Foreground = textColorBrush;
         CreateArchiveDebugText.Foreground = textColorBrush;
-            
 
         // Menu debug
         ControlOnglet.BorderBrush = borderBrush;
@@ -5609,4 +5612,21 @@ public partial class SettingsWindow
             App.ConsoleAndLogWrite($"An error occurred in UpdateSliderValue: {ex.Message}");
         }
     }
+
+
+    private void ButtonInclusionFile_Click(object sender, RoutedEventArgs e)
+    {
+        // Vérifier si la touche Ctrl est enfoncée
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+        {
+            // Appeler la fonction d'exportation du fichier
+            ImportStringListFromFile();
+        }
+        else
+        {
+            // Appeler la fonction d'importation du fichier
+            ExportStringListToFile();
+        }
+    }
+
 }
