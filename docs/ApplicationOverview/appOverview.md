@@ -1,8 +1,8 @@
 2. 🔍 [Aperçu de l’application](#aperçu-de-lapplication)
 
-    2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
+    2.1. 🪟 [Fenêtre principale](ApplicationOverview/fenetreprincipale.md)
 
-    2.2. ⚙️ [Menu paramètres](#menu-paramètres)
+    2.2. ⚙️ [Menu paramètres](ApplicationOverview/menuparametres.md)
 
       --> 2.2.1. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
 
