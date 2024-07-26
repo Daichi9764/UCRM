@@ -11,4 +11,4 @@ C’est dans ce panneau que, une fois votre projet importé, les adresses de gro
 
 **3. Panneau des adresses corrigées :**
 
-De la même manière, c’est dans ce panneau que les adresses de groupe corrigées apparaîtront. Voir la partie [3.1.3 Naviguer dans le projet modifié](#naviger-projet) pour plus de détails. 
+De la même manière, c’est dans ce panneau que les adresses de groupe corrigées apparaîtront. Voir la partie [3.1.3 Naviguer dans le projet modifié](#naviger-projet) pour plus de détails sur ces vues. 
