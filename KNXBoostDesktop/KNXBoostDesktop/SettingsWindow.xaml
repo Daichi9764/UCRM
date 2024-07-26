@@ -781,8 +781,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-       
-        <!-- Style pour ListBox en thème clair -->
+
+        <!-- ************************ Style pour les ListBox d'inclusion ************************ -->
+
         <Style x:Key="ListBoxLightThemeStyle" TargetType="ListBox">
             <Setter Property="ItemContainerStyle" Value="{DynamicResource  ListBoxItemThemeStyle}"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -803,7 +804,6 @@
             </Setter>
         </Style>
 
-        <!-- Style pour ListBox en thème sombre -->
         <Style x:Key="ListBoxDarkThemeStyle" TargetType="ListBox">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="ItemContainerStyle" Value="{DynamicResource  ListBoxItemThemeStyle}"/>
@@ -825,13 +825,67 @@
             </Setter>
         </Style>
         
-        <!-- Style pour ListBoxItem -->
         <Style x:Key="ListBoxItemThemeStyle" TargetType="ListBoxItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <!-- ************************ Style pour les boutons de gestion des fichiers d'inclusion ************************ -->
+
+        <Style x:Key="InclusionFileButtonLight" TargetType="Button">
+            <Setter Property="ToolTip" Value="Paramètres"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" x:Name="BackgroundSettingsOver" Property="Background" Value="#D3D3D3"/>
+                                <Setter TargetName="border" x:Name="BorderSettingsOver" Property="BorderBrush" Value="#b8b8b8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#a8a8a8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InclusionFileButtonDark" TargetType="Button">
+            <Setter Property="ToolTip" Value="Paramètres"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#434343"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#262626"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Window.Resources>
@@ -1117,8 +1171,7 @@
 
                                                    <TextBlock x:Name="InclusionTitle" FontFamily="Aptos"
                                                               FontSize="17" FontWeight="SemiBold"
-                                                              Margin="10,10,0,0"
-                                                              Text="Inclusions" />
+                                                              Margin="10,10,0,0"/>
                                                    <TextBlock x:Name="AddressKeepingText" Margin="10,0,0,2" />
 
                                                    <TextBox x:Name="InputTextBox" Margin="10,10,10,0"
