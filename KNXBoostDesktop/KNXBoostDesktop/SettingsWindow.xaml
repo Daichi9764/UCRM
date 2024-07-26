@@ -1234,11 +1234,11 @@
                                                        
                                                        <!-- Menu contextuel lorsque l'on fait clic droit sur un élément -->
                                                        <ListBox.ContextMenu>
-                                                           <ContextMenu>
-                                                               <MenuItem Click="DeleteMenuItem_Click" >
+                                                           <ContextMenu Height="35">
+                                                               <MenuItem Click="DeleteMenuItem_Click" Height="30">
                                                                    <MenuItem.Header>
-                                                                       <StackPanel Orientation="Horizontal">
-                                                                       <Image Height="15">
+                                                                       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                                       <Image Height="14">
                                                                            <Image.Source>
                                                                                <DrawingImage>
                                                                                    <DrawingImage.Drawing>
@@ -1265,7 +1265,7 @@
                                                                                </DrawingImage>
                                                                            </Image.Source>
                                                                        </Image>
-                                                                       <TextBlock x:Name="ContextMenuDeleteText" Text=" Supprimer"/>
+                                                                       <TextBlock x:Name="ContextMenuDeleteText"/>
                                                                        <TextBlock x:Name="ContextMenuSupprText" FontStyle="Italic" Text=" (SUPPR)"/>
                                                                    </StackPanel>
                                                                    </MenuItem.Header>
