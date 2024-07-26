@@ -1262,7 +1262,7 @@
                                                                                </DrawingImage>
                                                                            </Image.Source>
                                                                        </Image>
-                                                                       <TextBlock x:Name="ContextMenuDeleteText" Text=" Supprimer"/>
+                                                                       <TextBlock x:Name="ContextMenuDeleteText"/>
                                                                        <TextBlock x:Name="ContextMenuSupprText" FontStyle="Italic" Text=" (SUPPR)"/>
                                                                    </StackPanel>
                                                                    </MenuItem.Header>

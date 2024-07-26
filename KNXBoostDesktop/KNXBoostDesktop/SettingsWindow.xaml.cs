@@ -3175,7 +3175,7 @@ public partial class SettingsWindow
                 break;
         }
             
-        ContextMenuDeleteText.Text = App.DisplayElements?.SettingsWindow!.AppLang switch
+        ContextMenuDeleteText.Text = AppLang switch
         {
             // Arabe
             "AR" => "حذف ",
