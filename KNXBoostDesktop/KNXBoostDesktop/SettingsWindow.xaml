@@ -866,6 +866,7 @@
             <Setter Property="Foreground" Value="Black"/>
         </Style>
 
+
         <Style x:Key="InclusionFileButtonDark" TargetType="Button">
             <Setter Property="Background" Value="#313131"/>
             <Setter Property="BorderBrush" Value="#434343"/>
@@ -895,6 +896,9 @@
         <Style x:Key="FontAwesomeIconStyleDark" TargetType="fa:ImageAwesome">
             <Setter Property="Foreground" Value="White"/>
         </Style>
+
+
+
 
     </Window.Resources>
 
@@ -1198,7 +1202,13 @@
                                                                 Click="ButtonInclusionFile_Click"
                                                                 Style="{StaticResource InclusionFileButtonLight}">
                                                         <fa:ImageAwesome x:Name="IconInculsion" Icon="FileTextOutline" Height="12" Style="{StaticResource FontAwesomeIconStyleLight}"/>
-                                                        </Button>
+                                                        <Button.ContextMenu>
+                                                        <ContextMenu>
+                                                                <MenuItem  x:Name="ImportFile"  Click="ImportStringListFromFile"/>
+                                                                <MenuItem x:Name="ExportFile" Click="ExportStringListToFile"/>
+                                                            </ContextMenu>
+                                                        </Button.ContextMenu>
+                                        </Button>
                                                     </Grid>
 
                                                        <ListBox Name="WordsListBox" Margin="10,10,10,5"

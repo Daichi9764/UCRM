@@ -1141,6 +1141,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("موقع جمعية KNX");
                 InclusionTitle.Text = "الشموليات";
+                ImportFile.Header = "استيراد من ملف";
+                ExportFile.Header = "تصدير إلى ملف";
                 break;
 
             // Bulgare
@@ -1199,6 +1201,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Уебсайт на асоциация KNX");
                 InclusionTitle.Text = "Включвания";
+                ImportFile.Header = "Импортиране от файл";
+                ExportFile.Header = "Експортиране в файл";
                 break;
 
             // Tchèque
@@ -1257,6 +1261,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Webová stránka asociace KNX");
                 InclusionTitle.Text = "Zahrnutí";
+                ImportFile.Header = "Importovat ze souboru";
+                ExportFile.Header = "Exportovat do souboru";
                 break;
 
             // Danois
@@ -1315,6 +1321,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-foreningens hjemmeside");
                 InclusionTitle.Text = "Inklusioner";
+                ImportFile.Header = "Importer fra en fil";
+                ExportFile.Header = "Eksportere til en fil";
                 break;
 
             // Allemand
@@ -1385,6 +1393,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website der KNX-Vereinigung");
                 InclusionTitle.Text = "Inklusionen";
+                ImportFile.Header = "Aus Datei importieren";
+                ExportFile.Header = "In Datei exportieren";
                 break;
 
             // Grec
@@ -1443,6 +1453,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Ιστότοπος του συλλόγου KNX");
                 InclusionTitle.Text = "Συμπερίληψη";
+                ImportFile.Header = "Εισαγωγή από αρχείο";
+                ExportFile.Header = "Εξαγωγή σε αρχείο";
                 break;
 
             // Anglais
@@ -1513,6 +1525,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX association website");
                 InclusionTitle.Text = "Inclusions";
+                ImportFile.Header = "Import from a file";
+                ExportFile.Header = "Export to a file";
                 break;
 
             // Espagnol
@@ -1583,6 +1597,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Sitio web de la asociación KNX");
                 InclusionTitle.Text = "Inclusiones";
+                ImportFile.Header = "Importar desde un archivo";
+                ExportFile.Header = "Exportar a un archivo";
                 break;
 
             // Estonien
@@ -1641,6 +1657,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX ühenduse veebisait");
                 InclusionTitle.Text = "Kaasamised";
+                ImportFile.Header = "Importida failist";
+                ExportFile.Header = "Eksportida faili";
                 break;
 
             // Finnois
@@ -1711,6 +1729,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-yhdistyksen verkkosivusto");
                 InclusionTitle.Text = "Sisällytykset";
+                ImportFile.Header = "Tuo tiedostosta";
+                ExportFile.Header = "Vie tiedostoon";
                 break;
 
             // Hongrois
@@ -1781,6 +1801,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX egyesület weboldala");
                 InclusionTitle.Text = "Beillesztések";
+                ImportFile.Header = "Importálás fájlból";
+                ExportFile.Header = "Exportálás fájlba";
                 break;
 
             // Indonésien
@@ -1851,6 +1873,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Situs web asosiasi KNX");
                 InclusionTitle.Text = "Penyertaan";
+                ImportFile.Header = "Impor dari file";
+                ExportFile.Header = "Ekspor ke file";
                 break;
 
             // Italien
@@ -1921,6 +1945,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Sito web dell'associazione KNX");
                 InclusionTitle.Text = "Inclusioni";
+                ImportFile.Header = "Importa da un file";
+                ExportFile.Header = "Esporta in un file";
                 break;
 
             // Japonais
@@ -1991,6 +2017,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX協会のウェブサイト");
                 InclusionTitle.Text = "インクルージョン";
+                ImportFile.Header = "ファイルからインポート";
+                ExportFile.Header = "ファイルにエクスポート";
                 break;
 
             // Coréen
@@ -2061,6 +2089,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX 협회 웹사이트");
                 InclusionTitle.Text = "포함";
+                ImportFile.Header = "파일에서 가져오기";
+                ExportFile.Header = "파일로 내보내기";
                 break;
 
             // Letton
@@ -2131,6 +2161,9 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX asociācijas tīmekļa vietne");
                 InclusionTitle.Text = "Iekļaušana";
+                ImportFile.Header = "Importēt no faila";
+                ExportFile.Header = "Eksportēt uz failu";
+
                 break;
 
             // Lituanien
@@ -2200,6 +2233,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX asociacijos svetainė");
                 InclusionTitle.Text = "Įtraukimas";
+                ImportFile.Header = "Importuoti iš failo";
+                ExportFile.Header = "Eksportuoti į failą";
                 break;
 
             // Norvégien
@@ -2270,6 +2305,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-foreningens nettsted");
                 InclusionTitle.Text = "Inkluderinger";
+                ImportFile.Header = "Importer fra fil";
+                ExportFile.Header = "Eksporter til fil";
                 break;
 
             // Néerlandais
@@ -2340,6 +2377,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website van de KNX-vereniging");
                 InclusionTitle.Text = "Opnamen";
+                ImportFile.Header = "Importeren vanuit bestand";
+                ExportFile.Header = "Exporteren naar bestand";
                 break;
 
             // Polonais
@@ -2410,6 +2449,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Strona internetowa stowarzyszenia KNX");
                 InclusionTitle.Text = "Włączenia";
+                ImportFile.Header = "Importuj z pliku";
+                ExportFile.Header = "Eksportuj do pliku";
                 break;
 
             // Portugais
@@ -2480,6 +2521,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website da associação KNX");
                 InclusionTitle.Text = "Inclusões";
+                ImportFile.Header = "Importar de um arquivo";
+                ExportFile.Header = "Exportar para um arquivo";
                 break;
 
             // Roumain
@@ -2550,6 +2593,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Site-ul asociației KNX");
                 InclusionTitle.Text = "Incluziuni";
+                ImportFile.Header = "Importați dintr-un fișier";
+                ExportFile.Header = "Exportați într-un fișier";
                 break;
 
             // Slovaque
@@ -2619,6 +2664,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Webová stránka združenia KNX");
                 InclusionTitle.Text = "Zahrnutia";
+                ImportFile.Header = "Importovať zo súboru";
+                ExportFile.Header = "Exportovať do súboru";
                 break;
 
             // Slovène
@@ -2689,6 +2736,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Spletna stran združenja KNX");
                 InclusionTitle.Text = "Vključki";
+                ImportFile.Header = "Uvozi iz datoteke";
+                ExportFile.Header = "Izvozi v datoteko";
                 break;
 
             // Suédois
@@ -2759,6 +2808,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-föreningens webbplats");
                 InclusionTitle.Text = "Inkluderingar";
+                ImportFile.Header = "Importera från fil";
+                ExportFile.Header = "Exportera till fil";
                 break;
 
             // Turc
@@ -2829,6 +2880,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX derneği web sitesi");
                 InclusionTitle.Text = "Dâhil olanlar";
+                ImportFile.Header = "Dosyadan içe aktar";
+                ExportFile.Header = "Dosyaya aktar";
                 break;
 
             // Ukrainien
@@ -2899,6 +2952,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Вебсайт асоціації KNX");
                 InclusionTitle.Text = "Включення";
+                ImportFile.Header = "Імпортувати з файлу";
+                ExportFile.Header = "Експортувати у файл";
                 break;
 
             // Russe
@@ -2969,6 +3024,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Веб-сайт ассоциации KNX");
                 InclusionTitle.Text = "Включения";
+                ImportFile.Header = "Импорт из файла";
+                ExportFile.Header = "Экспорт в файл";
                 break;
 
             // Chinois simplifié
@@ -3039,6 +3096,8 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX协会网站");
                 InclusionTitle.Text = "包含";
+                ImportFile.Header = "从文件导入";
+                ExportFile.Header = "导出到文件";
                 break;
 
             // Langue par défaut (français)
@@ -3111,6 +3170,8 @@ public partial class SettingsWindow
                 OngletParametresApplication.Header = "Général";
                 OngletCorrection.Header = "Correction";
                 AddressKeepingText.Text = "Chaînes à conserver dans les adresses durant la correction";
+                ImportFile.Header = "Importer à partir d'un fichier";
+                ExportFile.Header = "Exporter dans un fichier";
                 break;
         }
             
@@ -5031,7 +5092,7 @@ public partial class SettingsWindow
     /// <summary>
     /// Imports one or more text files containing lists of strings to add to the inclusion list.
     /// </summary>
-    public void ImportStringListFromFile()
+    public void ImportStringListFromFile(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -5229,7 +5290,7 @@ public partial class SettingsWindow
     /// Exports the list of strings to a text file.
     /// This file can be shared, re-imported, etc.
     /// </summary>
-    public void ExportStringListToFile()
+    public void ExportStringListToFile(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -5620,12 +5681,13 @@ public partial class SettingsWindow
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
         {
             // Appeler la fonction d'exportation du fichier
-            ImportStringListFromFile();
+            ExportStringListToFile(sender, e);
         }
         else
         {
             // Appeler la fonction d'importation du fichier
-            ExportStringListToFile();
+            ImportStringListFromFile(sender, e);
+
         }
     }
 
