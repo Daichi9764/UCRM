@@ -9,3 +9,4 @@ Cliquer sur le bouton enregistrer.
 ![Cliquer sur le bouton enregistrer](pictures/2.PNG)  
 Les adresses sont stockées dans UpdatedGroupAddresses.xml.
 
+[← Retour](utilisation.md)
