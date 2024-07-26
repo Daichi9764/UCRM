@@ -29,7 +29,7 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
       --> 2.2.5. 💡 [Informations](#informations)
 
-3. 🛠 [Utilisation de l’application](#utilisation-de-lapplication)
+3. 🛠 [Utilisation de l’application](UtilisationApplication/utilisation.md)
 
     3.1. 📁 [Récupérer le projet dans ETS 6](#récupérer-le-projet-dans-ets-6)
 
