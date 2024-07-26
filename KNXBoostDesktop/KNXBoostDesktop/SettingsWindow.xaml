@@ -862,7 +862,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="FontAwesomeIconStyleLight" TargetType="fa:ImageAwesome">
+        <Style x:Key="FontAwesomeIconStyleLight" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black"/>
         </Style>
 
@@ -893,10 +893,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="FontAwesomeIconStyleDark" TargetType="fa:ImageAwesome">
+        <Style x:Key="FontAwesomeIconStyleDark" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
         </Style>
-
 
 
 
@@ -1190,26 +1189,30 @@
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
                                                         <TextBox Grid.Column="0" x:Name="InputTextBox" Margin="10,10,10,0" Height="25"
                                                                     Background="White"
                                                                     KeyDown="InputTextBox_KeyDown"/>
 
-                                                        <Button Grid.Column="1" x:Name="ButtonInclusion" Width="25" Height="25"
-                                                                Focusable="False"
-                                                                Margin="0,10,10,0" 
-                                                                Click="ButtonInclusionFile_Click"
-                                                                Style="{StaticResource InclusionFileButtonLight}">
-                                                        <fa:ImageAwesome x:Name="IconInculsion" Icon="FileTextOutline" Height="12" Style="{StaticResource FontAwesomeIconStyleLight}"/>
-                                                        <Button.ContextMenu>
-                                                        <ContextMenu>
-                                                                <MenuItem  x:Name="ImportFile"  Click="ImportStringListFromFile"/>
-                                                                <MenuItem x:Name="ExportFile" Click="ExportStringListToFile"/>
-                                                            </ContextMenu>
-                                                        </Button.ContextMenu>
+                                                <Button Grid.Column="1" x:Name="ButtonImportInclusion" Width="25" Height="25"
+                                                                        Focusable="False"
+                                                                        Margin="0,10,10,0" 
+                                                                        Click="ImportStringListFromFile"
+                                                                        Style="{StaticResource InclusionFileButtonLight}">
+                                            <TextBlock x:Name="ImportInclusion" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE8E5;" Style="{StaticResource FontAwesomeIconStyleLight}"/>
+                                                        </Button>
+
+                                                        <Button Grid.Column="2" x:Name="ButtonExportInclusion" Width="25" Height="25"
+                                                                                Focusable="False"
+                                                                                Margin="0,10,10,0" 
+                                                                                Click="ExportStringListToFile"
+                                                                                Style="{StaticResource InclusionFileButtonLight}">
+                                            <TextBlock x:Name="ExportInclusion" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE72D;" Style="{StaticResource FontAwesomeIconStyleLight}"/>
+
                                         </Button>
-                                                    </Grid>
+                                    </Grid>
 
                                                        <ListBox Name="WordsListBox" Margin="10,10,10,5"
                                                             Style="{StaticResource ListBoxLightThemeStyle}"
