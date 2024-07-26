@@ -15,11 +15,11 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
 2. 🔍 [Aperçu de l’application](Application-Overview/appOverview.md)
 
-    2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
+    2.1. 🪟 [Fenêtre principale](Application-Overview/fenetreprincipale.md)
 
-    2.2. ⚙️ [Menu paramètres](#menu-paramètres)
+    2.2. ⚙️ [Menu paramètres](Application-Overview/settingswindow.md)
 
-      --> 2.2.1. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
+      --> 2.2.1. 📝 [Paramètres de la correction](Application-Overview/settingswindow.md)
 
       --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
 
