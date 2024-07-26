@@ -13,7 +13,7 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
     1.2. 💻 [Déroulement de l’installation](Installation/installationdelapplication.md)
 
-2. 🔍 [Aperçu de l’application](Application Overview/fenetreprincipale.md)
+2. 🔍 [Aperçu de l’application]("Application Overview"/appOverview.md)
 
     2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
 
