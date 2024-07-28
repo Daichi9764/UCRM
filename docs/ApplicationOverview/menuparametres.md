@@ -1,12 +1,10 @@
 ## 2.2. ⚙️ Menu Paramètres
 
-2.2. ⚙️ [Menu paramètres](ApplicationOverview/menuparametres.md)
-
- --> 2.2.1. 📤 [Paramètres généraux de l’application](#parametres-generaux)
+ --> 2.2.1. 📤 [Paramètres généraux de l’application](#paramètres-généraux-de-lapplication)
       
- --> 2.2.2. 📝 [Paramètres de la correction](#correction)
+ --> 2.2.2. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
 
- --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
+ --> 2.2.2. ✅ [Paramètres d'inclusion](#paramètres-dinclusion)
 
   --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
 
@@ -17,7 +15,7 @@
 <br>
 <br>
 <br>
-### 2.2.1 📤 Paramètres généraux de l’application
+### 2.2.1 📤 Paramètres généraux de l’application <a name="paramètres-généraux-de-lapplication"></a>
 
 ![image](https://github.com/user-attachments/assets/97e8f6af-8aee-486d-aebe-129d404fdb6d)
 
@@ -34,14 +32,14 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 <br>
 <br>
 <br>
-### 2.2.2 📝 Paramètres de la correction
+### 2.2.2 📝 Paramètres de la correction <a name="paramètres-de-la-correction"></a>
 #### 2.2.2.1	Traduction des adresses de groupe
 #### 2.2.2.2	Suppression des adresses de groupe non utilisées<br>
 <br>
 <br>
 <br>
 <br>
-### 2.2.3	✅ Paramètres d’inclusion
+### 2.2.3 ✅ Paramètres d’inclusion <a name="paramètres-dinclusion"></a>
 
 ![image](https://github.com/user-attachments/assets/5331f21c-3b1c-4039-ab77-5eec475bb286)
 
@@ -108,7 +106,7 @@ Un menu s’ouvre afin de vous permettre de sélectionner la liste d’inclusion
 <br>
 <br>
 <br>
-### 2.2.4	🪲 Débogage
+### 2.2.4 🪲 Débogage <a name="débogage"></a>
 
 ![image](https://github.com/user-attachments/assets/c625a8da-31c6-4b83-b4f0-bdac47ec5127)
 
@@ -124,7 +122,7 @@ Après avoir sélectionné les options appropriées, vous pouvez créer le fichi
 <br>
 <br>
 <br>
-### 2.2.5 💡 Informations
+### 2.2.5 💡 Informations <a name="informations"></a>
 
 ![image](https://github.com/user-attachments/assets/9ba77406-2630-483e-867f-fd3463ced050)
 
