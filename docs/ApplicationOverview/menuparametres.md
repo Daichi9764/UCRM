@@ -2,18 +2,21 @@
 
 2.2. ⚙️ [Menu paramètres](ApplicationOverview/menuparametres.md)
 
-      --> 2.2.1. 📤 [Paramètres généraux de l’application](#parametres-generaux)
+ --> 2.2.1. 📤 [Paramètres généraux de l’application](#parametres-generaux)
       
-      --> 2.2.2. 📝 [Paramètres de la correction](#correction)
+ --> 2.2.2. 📝 [Paramètres de la correction](#correction)
 
-      --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
+ --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
 
-      --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
+  --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
 
-      --> 2.2.4. 🪲 [Débogage](#débogage)
+  --> 2.2.4. 🪲 [Débogage](#débogage)
 
-      --> 2.2.5. 💡 [Informations](#informations)
-
+ --> 2.2.5. 💡 [Informations](#informations)<br>
+<br>
+<br>
+<br>
+<br>
 ### 2.2.1 📤 Paramètres généraux de l’application
 
 ![image](https://github.com/user-attachments/assets/97e8f6af-8aee-486d-aebe-129d404fdb6d)
