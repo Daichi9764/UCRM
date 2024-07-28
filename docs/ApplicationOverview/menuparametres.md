@@ -1,4 +1,4 @@
-## ⚙️ 2.2. Menu Paramètres
+## 2.2. ⚙️ Menu Paramètres
 ### 2.2.1 Paramètres généraux de l’application
 
 ![image](https://github.com/user-attachments/assets/97e8f6af-8aee-486d-aebe-129d404fdb6d)
@@ -11,13 +11,18 @@ La section "**Général**" vous permet de configurer les paramètres principaux 
 
 3. **Mise à l’échelle :** Enfin, vous pouvez ajuster la mise à l'échelle de l'interface via l'option "**Mise à l'échelle**". Cette fonctionnalité permet de modifier la taille de l'interface pour améliorer la lisibilité. Vous pouvez ajuster le pourcentage de mise à l'échelle en faisant glisser le curseur. La plage de réglage va de 50% à 300%, avec le pourcentage actuel affiché au-dessus du curseur.
 
-Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **Sauvegarder** » en bas de la fenêtre paramètres.
-
-
-### 📝 2.2.2 Paramètres de la correction
+Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **Sauvegarder** » en bas de la fenêtre paramètres.<br>
+<br>
+<br>
+<br>
+<br>
+### 2.2.2 📝 Paramètres de la correction
 #### 2.2.2.1	Traduction des adresses de groupe
-#### 2.2.2.2	Suppression des adresses de groupe non utilisées
-
+#### 2.2.2.2	Suppression des adresses de groupe non utilisées<br>
+<br>
+<br>
+<br>
+<br>
 ### 2.2.3	✅ Paramètres d’inclusion
 
 ![image](https://github.com/user-attachments/assets/5331f21c-3b1c-4039-ab77-5eec475bb286)
@@ -80,4 +85,29 @@ Il est également possible d’importer une liste d’exclusions dans l’applic
 
 ![image](https://github.com/user-attachments/assets/738800cf-7280-4bc3-b8cc-fe4484e428af)
 
-Un menu s’ouvre afin de vous permettre de sélectionner la liste d’inclusions à importer depuis votre ordinateur. En cliquant sur « **ouvrir** », tous les mots que contenaient les fichiers ont été importés automatiquement dans l’application. Il suffira de cliquer sur « **sauvegarder** » pour enregistrer les nouvelles adresses dans l’application.
+Un menu s’ouvre afin de vous permettre de sélectionner la liste d’inclusions à importer depuis votre ordinateur. En cliquant sur « **ouvrir** », tous les mots que contenaient les fichiers ont été importés automatiquement dans l’application. Il suffira de cliquer sur « **sauvegarder** » pour enregistrer les nouvelles adresses dans l’application.<br>
+<br>
+<br>
+<br>
+<br>
+### 2.2.4	🪲 Débogage
+
+![image](https://github.com/user-attachments/assets/c625a8da-31c6-4b83-b4f0-bdac47ec5127)
+
+L'onglet "**Débogage**" du menu des paramètres est conçu pour aider les utilisateurs à collecter des informations utiles pour le diagnostic et la résolution des problèmes rencontrés lors de l'utilisation de l'application. Cet onglet permet de configurer les données à inclure dans le fichier de débogage, facilitant ainsi le processus de support technique. Plusieurs options peuvent être cochées pour inclure plus ou moins d’informations issues du logiciel et de l’ordinateur.
+
+1. **Inclure les informations sur le système d'exploitation :** Lorsque cette option est cochée, le fichier de débogage inclut des informations détaillées sur le système d'exploitation que vous utilisez. Cela peut inclure la version du système, les paramètres régionaux, et d'autres détails spécifiques au système d'exploitation. Ces informations sont essentielles pour identifier si un problème est lié à une particularité ou une configuration spécifique du système d'exploitation.
+2. **Inclure les informations sur le matériel de l'ordinateur :** En activant cette option, vous permettez à l'application de collecter des données sur le matériel de votre ordinateur, telles que le processeur, la mémoire, la carte graphique, et d'autres composants matériels. Les informations matérielles aident à déterminer si les problèmes de performance ou de compatibilité sont liés au matériel de votre machine.
+3. **Inclure les fichiers des projets importés depuis le lancement :** Cette option permet d'inclure dans le fichier de débogage les fichiers des projets que vous avez importés depuis le dernier lancement de l'application. En fournissant ces fichiers, vous aidez les développeurs à reproduire et analyser les problèmes spécifiques à vos projets, facilitant ainsi la résolution des bugs.
+4. **Inclure la liste des adresses de groupe supprimées sur les projets :** Cette option, lorsqu'elle est cochée, ajoute au fichier de débogage une liste des adresses de groupe qui ont été supprimées de vos projets. Ces informations peuvent être cruciales pour comprendre les modifications apportées aux projets et pour diagnostiquer les problèmes liés aux modifications apportées par le logiciel.
+
+Après avoir sélectionné les options appropriées, vous pouvez créer le fichier de débogage en cliquant sur le bouton situé en bas de l'onglet, intitulé "**Créer le fichier de débogage**". Ce fichier compilera toutes les informations sélectionnées et pourra être envoyé au support technique pour une analyse approfondie.<br>
+<br>
+<br>
+<br>
+<br>
+### 2.2.5 💡 Informations
+
+![image](https://github.com/user-attachments/assets/9ba77406-2630-483e-867f-fd3463ced050)
+
+L'onglet "**Informations**" du menu des paramètres fournit des détails essentiels sur le logiciel, sa version, et les personnes impliquées dans son développement. En bas de l'onglet, une note souligne que le nom, les logos et toute image liée à KNX sont la propriété inaliénable de l'association KNX. Un lien vers le site web de l'association KNX est également fourni pour plus d'informations.
