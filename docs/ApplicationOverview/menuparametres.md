@@ -49,5 +49,35 @@ Après avoir rechargé le projet, il est possible de constater que lorsque l’a
 ![image](https://github.com/user-attachments/assets/edc95f68-ddac-4776-8dfd-60e1e2a10dc1)
 
 **Utilisation du caractère ‘\*’ pour inclure des mots similaires :** Vous pouvez utiliser le caractère ‘\*’ pour inclure facilement toute une série de mots qui se ressemblent. Par exemple, si vous voulez inclure tous les mots qui commencent par ‘*test*’, il suffit d'écrire ‘*test\**’. Cela inclura automatiquement des mots comme ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
+
 Le caractère ‘\*’ peut également être placé à n’importe quel endroit d’un mot pour représenter une partie variable. Par exemple, si vous écrivez ‘*XX_\*_YY*’, cela inclura des mots comme ‘*XX_123_YY*’, ‘*XX_ABCDEF_YY*’, et ainsi de suite.
+
 En utilisant le caractère ‘\*’, vous pouvez facilement spécifier des groupes de mots similaires sans avoir à les écrire tous individuellement.
+
+![image](https://github.com/user-attachments/assets/a611d67e-5c0b-411f-ba6e-10ce1be961d6)
+
+Lorsque vous ajoutez un mot contenant le caractère ‘\*’ et que celui-ci recouvre des mots déjà présents dans la liste, les mots couverts sont automatiquement désactivés. Sur l’exemple ci-dessus, ‘*test1*’ et ‘*test*’ peuvent être obtenus grâce à ‘*test\**’. Ils ont donc été désactivés automatiquement à l’ajout de ‘*test\**’.
+
+![image](https://github.com/user-attachments/assets/eb367ccd-eeb4-497c-8284-fa7afdf254f7)
+
+Si vous ne souhaitez désormais inclure uniquement ‘*test1*’, il vous suffit de le cocher. Cela désactivera cependant tout mot qui le recouvrait précédemment. Sur l’exemple ci-dessus, l’activation de ‘*test1*’ a automatiquement désactivé ‘*test\**’.
+
+
+
+![image](https://github.com/user-attachments/assets/9ef3eecb-33c7-48b0-aad2-61a21550a2f5)
+
+**Exporter une liste d’inclusions :** Il est possible d’exporter une liste d’inclusions afin de l’utiliser sur un autre ordinateur équipé de KNX Boost Desktop. Pour cela, cliquez sur le bouton entouré sur l’image ci-dessus.
+
+![image](https://github.com/user-attachments/assets/b3c6d413-d068-4c8b-b67f-4d8dafb96058)
+
+Un menu s’ouvre afin de vous permettre d’enregistrer la liste d’inclusions à l’endroit où vous le souhaitez sur votre ordinateur.
+
+
+
+![image](https://github.com/user-attachments/assets/c29848b2-615d-4aa7-8223-7b78eca9e624)
+
+Il est également possible d’importer une liste d’exclusions dans l’application. Pour cela, cliquez sur le bouton entouré sur l’image ci-dessus.
+
+![image](https://github.com/user-attachments/assets/738800cf-7280-4bc3-b8cc-fe4484e428af)
+
+Un menu s’ouvre afin de vous permettre de sélectionner la liste d’inclusions à importer depuis votre ordinateur. En cliquant sur « **ouvrir** », tous les mots que contenaient les fichiers ont été importés automatiquement dans l’application. Il suffira de cliquer sur « **sauvegarder** » pour enregistrer les nouvelles adresses dans l’application.
