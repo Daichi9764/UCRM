@@ -38,7 +38,7 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 <br>
 <br>
 <br>
-<br>
+
 ### 2.2.3 ✅ Paramètres d’inclusion <a name="paramètres-dinclusion"></a>
 
 ![image](https://github.com/user-attachments/assets/5331f21c-3b1c-4039-ab77-5eec475bb286)
