@@ -42,10 +42,10 @@ En sauvegardant les modifications apportées aux paramètres, un bouton apparaî
 
 ![image](https://github.com/user-attachments/assets/fe483a83-0c93-45d4-a6d4-e4b7d07df1b1)
 
-Après avoir rechargé le projet, il est possible de constater que lorsque l’adresse initiale contenait le mot à inclure, ce mot se retrouve automatiquement dans l’adresse corrigée. De cette manière, la correction ne fait perdre aucune information importante de l’adresse originale.
-
-
-
+Après avoir rechargé le projet, il est possible de constater que lorsque l’adresse initiale contenait le mot à inclure, ce mot se retrouve automatiquement dans l’adresse corrigée. De cette manière, la correction ne fait perdre aucune information importante de l’adresse originale.<br>
+<br>
+<br>
+<br>
 ![image](https://github.com/user-attachments/assets/edc95f68-ddac-4776-8dfd-60e1e2a10dc1)
 
 **Utilisation du caractère ‘\*’ pour inclure des mots similaires :** Vous pouvez utiliser le caractère ‘\*’ pour inclure facilement toute une série de mots qui se ressemblent. Par exemple, si vous voulez inclure tous les mots qui commencent par ‘*test*’, il suffit d'écrire ‘*test\**’. Cela inclura automatiquement des mots comme ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
@@ -60,20 +60,20 @@ Lorsque vous ajoutez un mot contenant le caractère ‘\*’ et que celui-ci rec
 
 ![image](https://github.com/user-attachments/assets/eb367ccd-eeb4-497c-8284-fa7afdf254f7)
 
-Si vous ne souhaitez désormais inclure uniquement ‘*test1*’, il vous suffit de le cocher. Cela désactivera cependant tout mot qui le recouvrait précédemment. Sur l’exemple ci-dessus, l’activation de ‘*test1*’ a automatiquement désactivé ‘*test\**’.
-
-
-
+Si vous ne souhaitez désormais inclure uniquement ‘*test1*’, il vous suffit de le cocher. Cela désactivera cependant tout mot qui le recouvrait précédemment. Sur l’exemple ci-dessus, l’activation de ‘*test1*’ a automatiquement désactivé ‘*test\**’.<br>
+<br>
+<br>
+<br>
 ![image](https://github.com/user-attachments/assets/9ef3eecb-33c7-48b0-aad2-61a21550a2f5)
 
 **Exporter une liste d’inclusions :** Il est possible d’exporter une liste d’inclusions afin de l’utiliser sur un autre ordinateur équipé de KNX Boost Desktop. Pour cela, cliquez sur le bouton entouré sur l’image ci-dessus.
 
 ![image](https://github.com/user-attachments/assets/b3c6d413-d068-4c8b-b67f-4d8dafb96058)
 
-Un menu s’ouvre afin de vous permettre d’enregistrer la liste d’inclusions à l’endroit où vous le souhaitez sur votre ordinateur.
-
-
-
+Un menu s’ouvre afin de vous permettre d’enregistrer la liste d’inclusions à l’endroit où vous le souhaitez sur votre ordinateur.<br>
+<br>
+<br>
+<br>
 ![image](https://github.com/user-attachments/assets/c29848b2-615d-4aa7-8223-7b78eca9e624)
 
 Il est également possible d’importer une liste d’exclusions dans l’application. Pour cela, cliquez sur le bouton entouré sur l’image ci-dessus.
