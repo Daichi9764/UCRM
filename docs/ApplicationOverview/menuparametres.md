@@ -15,3 +15,23 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 
 
 ### 📝 2.2.2 Paramètres de la correction
+#### 2.2.2.1	Traduction des adresses de groupe
+#### 2.2.2.2	Suppression des adresses de groupe non utilisées
+
+### 2.2.3	✅ Paramètres d’inclusion
+
+![image](https://github.com/user-attachments/assets/5331f21c-3b1c-4039-ab77-5eec475bb286)
+
+L’onglet « **inclusions** » permet à l’utilisateur d’entrer une liste de mots ou de portions de phrases qui seront automatiquement incluses dans l’adresse de groupe corrigée si le mot est trouvé dans l’adresse originale.
+
+![image](https://github.com/user-attachments/assets/75f9af12-ef77-421d-906d-eb8407400bf5)
+
+Supposons que nous souhaitions conserver l’information « *PlanDeTravail* » sur l’adresse de groupe sélectionnée sur l’exemple ci-dessus.
+
+![image](https://github.com/user-attachments/assets/552c4dba-3cb8-4f4a-adf6-46e82660f8f2)
+
+Rendez-vous dans le menu paramètres, dans l’onglet inclusions. Entrez le mot ou la phrase à conserver. Appuyez sur la touche « *Entrée* ».
+
+![image](https://github.com/user-attachments/assets/b77a5342-dd1e-4b74-bf2c-19c472f2c2a2)
+
+Le mot a été ajouté à la liste d’inclusion (qui n’est pas sensible à la casse) et est activé par défaut.
