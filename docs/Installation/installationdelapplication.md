@@ -40,4 +40,4 @@ Pour installer et lancer l’application, veuillez suivre les indications suivan
    Une fois l’installation terminée, vous verrez une fenêtre de confirmation. Cochez la case **"Exécuter KNX Boost Desktop"** si vous souhaitez démarrer l’application immédiatement, puis cliquez sur **"Terminer"**.
 
 
-[← Retour](installation.md)
+[← Retour](../README.md)
