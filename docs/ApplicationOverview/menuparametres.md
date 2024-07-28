@@ -35,3 +35,19 @@ Rendez-vous dans le menu paramètres, dans l’onglet inclusions. Entrez le mot 
 ![image](https://github.com/user-attachments/assets/b77a5342-dd1e-4b74-bf2c-19c472f2c2a2)
 
 Le mot a été ajouté à la liste d’inclusion (qui n’est pas sensible à la casse) et est activé par défaut.
+
+![image](https://github.com/user-attachments/assets/d31ec684-3a63-4d66-802c-11a97aa25199)
+
+En sauvegardant les modifications apportées aux paramètres, un bouton apparaît sur la fenêtre principale afin de, si besoin, recharger le projet en prenant en compte les nouveaux paramètres. A noter cependant que si vous avez modifié manuellement une adresse de groupe dans KNX Boost Desktop, cette modification sera perdue en rechargeant le projet.
+
+![image](https://github.com/user-attachments/assets/fe483a83-0c93-45d4-a6d4-e4b7d07df1b1)
+
+Après avoir rechargé le projet, il est possible de constater que lorsque l’adresse initiale contenait le mot à inclure, ce mot se retrouve automatiquement dans l’adresse corrigée. De cette manière, la correction ne fait perdre aucune information importante de l’adresse originale.
+
+
+
+![image](https://github.com/user-attachments/assets/edc95f68-ddac-4776-8dfd-60e1e2a10dc1)
+
+**Utilisation du caractère ‘\*’ pour inclure des mots similaires :** Vous pouvez utiliser le caractère ‘\*’ pour inclure facilement toute une série de mots qui se ressemblent. Par exemple, si vous voulez inclure tous les mots qui commencent par ‘*test*’, il suffit d'écrire ‘*test\**’. Cela inclura automatiquement des mots comme ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
+Le caractère ‘\*’ peut également être placé à n’importe quel endroit d’un mot pour représenter une partie variable. Par exemple, si vous écrivez ‘*XX_\*_YY*’, cela inclura des mots comme ‘*XX_123_YY*’, ‘*XX_ABCDEF_YY*’, et ainsi de suite.
+En utilisant le caractère ‘\*’, vous pouvez facilement spécifier des groupes de mots similaires sans avoir à les écrire tous individuellement.
