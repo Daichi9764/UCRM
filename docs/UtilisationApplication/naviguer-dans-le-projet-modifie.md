@@ -1,7 +1,7 @@
 ﻿## 3. 🛠 Utilisation de l’application
 ### 3.3. 🚶‍♂️‍➡️ Naviguer dans le projet modifié
 
-Une fois votre projet chargé, vous accédez à la  🪟 [Fenêtre principale](ApplicationOverview/fenetreprincipale.md) avec les adresses de groupes rétractées par défaut.
+Une fois votre projet chargé, vous accédez à la  🪟 [Fenêtre principale](../ApplicationOverview/fenetreprincipale.md) avec les adresses de groupes rétractées par défaut.
 
 #### 3.3.1 Afficher/Masquer des éléments
 *Note : L’affichage est synchronisé dans les deux tableaux.* 
