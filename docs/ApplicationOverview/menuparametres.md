@@ -125,3 +125,5 @@ Après avoir sélectionné les options appropriées, vous pouvez créer le fichi
 ![image](https://github.com/user-attachments/assets/9ba77406-2630-483e-867f-fd3463ced050)
 
 L'onglet "**Informations**" du menu des paramètres fournit des détails essentiels sur le logiciel, sa version, et les personnes impliquées dans son développement. En bas de l'onglet, une note souligne que le nom, les logos et toute image liée à KNX sont la propriété inaliénable de l'association KNX. Un lien vers le site web de l'association KNX est également fourni pour plus d'informations.
+
+[← Retour](../README.md)
