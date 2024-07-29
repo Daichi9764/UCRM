@@ -9,12 +9,12 @@ L’affichage est synchronisé dans les deux tableaux.
 Pour dévoiler les sous-éléments d’un groupe, cliquez sur le triangle creux (▷) à gauche de l’élément principal du groupe. 
 Pour cacher les sous-éléments, cliquez sur le triangle plein (◢) correspondant.
 
-![Affichage](pictures/Affichage.PNG)  
+![Affichage](pictures/Affichage.png)  
 
  
 Pour gérer l’affichage de tous les éléments, utilisez le toggle dans le coin supérieur droit de chaque tableau. 
 
-![Toggle](pictures/toggle.PNG) 
+![Toggle](pictures/Toggle.png) 
 
 ####  Navigation verticale et horizontale
 Déplacez-vous verticalement de façon synchronisée dans les tableaux d’adresses de groupes à l’aide de la barre de défilement verticale à droite des tableaux ou en utilisant la molette de votre souris.
@@ -24,12 +24,12 @@ Déplacez-vous horizontalement dans chaque tableau à l’aide des barres de dé
 #### Gestion de la largeur des tableaux
 Cliquez et glissez la séparation verticale entre les deux tableaux pour personnaliser la largeur de chacun selon vos besoins.
 
-![Largeur](pictures/resize.gif) 
+![Largeur](pictures/Resize.gif) 
 
 #### Recherche
 Utilisez le champ en haut à gauche de la fenêtre pour effectuer une recherche simultanée dans les deux tableaux. Toutes les lignes correspondant à la recherche resteront affichées ainsi que la ligne correspondante dans l’autre tableau.
 
-![Largeur](pictures/search.png) 
+![Largeur](pictures/Search.png) 
 
 #### Charger un nouveau projet
 Le chargement d’un nouveau projet supprimera les modifications apportées au projet en cours. Veuillez 📤 [Exporter les adresses de groupe modifiées](UtilisationApplication/exporter-adresses-de-groupe-modifiees.md) du projet en cours avant de procéder.
