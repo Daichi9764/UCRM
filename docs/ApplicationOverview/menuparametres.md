@@ -1,4 +1,5 @@
-## 2.2. ⚙️ Menu Paramètres
+## 2. 🔍 Aperçu de l’application
+### 2.2. ⚙️ Menu Paramètres
 
  --> 2.2.1. 📤 [Paramètres généraux de l’application](#paramètres-généraux-de-lapplication)
       
@@ -8,7 +9,10 @@
 
  --> 2.2.4. 🪲 [Débogage](#débogage)
 
- --> 2.2.5. 💡 [Informations](#informations)<br>
+ --> 2.2.5. 💡 [Informations](#informations)
+
+Le menu "**Paramètres**" de votre application permet de personnaliser divers aspects de l'interface et du comportement de l'application selon vos préférences. Cette section explique en détail comment utiliser chaque option disponible dans ce menu.
+<br>
 <br>
 <br>
 <br>
