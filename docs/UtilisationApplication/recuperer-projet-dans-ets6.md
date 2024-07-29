@@ -1,7 +1,8 @@
 ## 3.1. 📁️ Récupérer le projet dans ETS 6
 
-Pour que KNX Boost Desktop puisse fonctionner correctement avec un projet importé, il est essentiel que ce dernier ne soit pas protégé par un mot de passe. Si votre projet est protégé par un mot de passe, suivez ces étapes pour le retirer :
-
+Pour que KNX Boost Desktop puisse fonctionner correctement avec un projet importé, il est essentiel que ce dernier ne soit pas protégé par un mot de passe. Si votre projet est protégé par un mot de passe, suivez ces étapes pour le retirer :<br>
+<br>
+<br>
 ### Suppression du Mot de Passe
 
 1.	**Accéder aux Détails du Projet**
@@ -32,8 +33,9 @@ Pour que KNX Boost Desktop puisse fonctionner correctement avec un projet import
     
 - Si vous utilisez un ou plusieurs participants KNX Secure, une notification apparaîtra indiquant que la sécurité des participants sera désactivée. Vous pourrez réactiver la sécurité une fois le projet exporté.
 
-![img.png](pictures/img_5.png)
-
+![img.png](pictures/img_5.png)<br>
+<br>
+<br>
 ### Exportation du Projet
 
 1.	**Revenir à la Vue d’Ensemble**
