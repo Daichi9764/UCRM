@@ -19,15 +19,15 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
    2.2. ⚙️ [Settings Menu](#settings-menu)
 
-   → 2.2.1. 📝 [Correction Settings](#correction-settings)
+   → 2.2.1. 📤 [General Application Settings](ApplicationOverview/settingswindow.md#general-application-settings)
 
-   → 2.2.2. ✅ [Inclusion Settings](#information)
+   → 2.2.2. 📝 [Correction Settings](ApplicationOverview/settingswindow.md#correction-settings)
 
-   → 2.2.3. 🖥 [Application Settings](#application-settings)
+   → 2.2.3. ✅ [Inclusion Settings](ApplicationOverview/settingswindow.md#inclusion-settings)
 
-   → 2.2.4. 🪲 [Debugging](#debugging)
+   → 2.2.4. 🪲 [Debugging](ApplicationOverview/settingswindow.md#debugging)
 
-   → 2.2.5. 💡 [Information](#information)
+   → 2.2.5. 💡 [Information](ApplicationOverview/settingswindow.md#information)
 
 4. 🛠 [Using the Application](#using-the-application)
 
