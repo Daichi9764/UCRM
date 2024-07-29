@@ -17,7 +17,7 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
    2.1. 🪟 [Main Window](#main-window)
 
-   2.2. ⚙️ [Settings Menu](#settings-menu)
+   2.2. ⚙️ [Settings Menu](ApplicationOverview/settingswindow.md)
 
    → 2.2.1. 📤 [General Application Settings](ApplicationOverview/settingswindow.md#general-application-settings)
 
@@ -29,11 +29,11 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
    → 2.2.5. 💡 [Information](ApplicationOverview/settingswindow.md#information)
 
-4. 🛠 [Using the Application](#using-the-application)
+4. 🛠 [Using the Application](UtilisationApplication/utilisation-en.md)
 
-   3.1. 📁 [Retrieve the Project in ETS 6](#retrieve-the-project-in-ets-6)
+   3.1. 📁 [Retrieve the Project in ETS 6](UtilisationApplication/retrieve-project-from-ets6.md)
 
-   3.2. 📥 [Import a Project into KNX Boost Desktop](#import-a-project-into-knx-boost-desktop)
+   3.2. 📥 [Import a Project into KNX Boost Desktop](UtilisationApplication/import-a-project-in-knx-boost-desktop.md)
 
    3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](#navigate-the-modified-project)
 
