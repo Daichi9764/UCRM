@@ -15,7 +15,7 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
 2. 🔍 [Application Overview](#application-overview)
 
-   2.1. 🪟 [Main Window](#main-window)
+   2.1. 🪟 [Main Window](ApplicationOverview/mainwindow)
 
    2.2. ⚙️ [Settings Menu](ApplicationOverview/settingswindow.md)
 
@@ -35,9 +35,9 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
    3.2. 📥 [Import a Project into KNX Boost Desktop](UtilisationApplication/import-a-project-in-knx-boost-desktop.md)
 
-   3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](#navigate-the-modified-project)
+   3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](UtilisationApplication/EN-navigate-the-modified-project)
 
-   3.4. 📝 [Manually Rename Group Addresses](#manually-rename-group-addresses)
+   3.4. 📝 [Manually Rename Group Addresses](UtilisationApplication/EN-manually-rename-group-addresses)
 
    3.5. 📤 [Export Modified Group Addresses](UtilisationApplication/EN-export-modified-group-addresses.md)
 
