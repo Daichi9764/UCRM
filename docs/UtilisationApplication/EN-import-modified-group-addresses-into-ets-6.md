@@ -1,5 +1,6 @@
 ## Importer le projet modifié dans ETS 6  
-Open ETS software and click on import.
+Open the project before changes in ETS. In the Group Adresses Window, right click on Group Adress, then choose import group address.
 ![import](pictures/3.PNG)   
-Select your project ( the .xml, not the .knxproj !) and click on open.
+Select the file UpdatedGroupAddresses.xml.
 ![open](pictures/4.PNG)
+Note : ETS use a signature system. You cannot import a .knxproj that have been modified outside ETS.
