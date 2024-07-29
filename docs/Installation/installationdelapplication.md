@@ -12,10 +12,7 @@ Pour installer et lancer l’application, veuillez suivre les indications suivan
    Lorsque le message “Windows a protégé votre ordinateur” s’affiche :
    
    * Cliquez sur **"Informations complémentaires"**.
-   * Cliquez ensuite sur **"Exécuter quand même"**.
-  
-
-
+   * Cliquez ensuite sur **"Exécuter quand même"**.<br>
 
    > **Note :** **_Cela ne signifie pas que l’application est dangereuse._** Ce message est généré par **Microsoft Defender SmartScreen**, un composant de sécurité intégré à Windows. Il s’affiche lorsque vous essayez d’exécuter une application téléchargée depuis Internet qui n’est pas encore reconnue par Microsoft. Cela ne signifie pas que l’application est dangereuse, mais simplement qu’elle n’a pas encore été largement téléchargée et vérifiée par Microsoft.
 

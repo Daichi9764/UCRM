@@ -1,4 +1,4 @@
-## 🛠 Utilisation de l’application
+## 3. 🛠 Utilisation de l’application
 ### 3.2. 📥 Importer un projet dans KNX Boost Desktop
 
 ### 1. Lancer l'Application

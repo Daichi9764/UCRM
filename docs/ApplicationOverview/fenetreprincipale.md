@@ -1,6 +1,6 @@
-## 🔍 Aperçu de l’application
+## 2. 🔍 Aperçu de l’application
 
-### 🪟 Fenêtre principale
+### 2.1 🪟 Fenêtre principale
 
 La fenêtre principale est composée de 3 parties principales : 
 

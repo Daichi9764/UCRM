@@ -1,5 +1,5 @@
-## 🛠 Utilisation de l’application
-### 🟩 Importer les adresses de groupe modifiées dans ETS 6
+## 3. 🛠 Utilisation de l’application
+### 3.6 🟩 Importer les adresses de groupe modifiées dans ETS 6
 
 Ouvrir le projet dans ETS. Dans l'onglet addresses de groupes, faire un click droit sur Adresse de Groupe et importer  
 
