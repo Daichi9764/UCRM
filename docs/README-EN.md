@@ -15,7 +15,7 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
 2. 🔍 [Application Overview](#application-overview)
 
-   2.1. 🪟 [Main Window](ApplicationOverview/mainwindow)
+   2.1. 🪟 [Main Window](ApplicationOverview/mainwindow.md)
 
    2.2. ⚙️ [Settings Menu](ApplicationOverview/settingswindow.md)
 
