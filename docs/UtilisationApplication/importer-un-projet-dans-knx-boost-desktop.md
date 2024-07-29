@@ -2,14 +2,16 @@
 
 ### 1. Lancer l'Application
 
-- Ouvrez l'application KNX Boost Desktop.
-
+- Ouvrez l'application KNX Boost Desktop.<br>
+  <br>
+  <br>
 ### 2. Charger un Nouveau Projet
 
 - Cliquez sur le bouton Charger un nouveau projet situé en haut à droite de l'écran.
 
-![img_16.png](pictures/img_16.png)
-
+![img_16.png](pictures/img_16.png)<br>
+<br>
+<br>
 ### 3. Sélectionner le Projet ETS
 
 - Une fenêtre s'ouvrira, vous permettant de parcourir vos dossiers.
@@ -18,8 +20,9 @@
 
 - Sélectionnez le fichier du projet et cliquez sur Ouvrir pour lancer l'importation.
 
-![img_17.png](pictures/img_17.png)
-
+![img_17.png](pictures/img_17.png)<br>
+<br>
+<br>
 ### 4. Fenêtre de Chargement
 
 - Une fois le projet sélectionné, une fenêtre de chargement apparaîtra pour indiquer le processus d'importation en cours.

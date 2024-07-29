@@ -1,7 +1,8 @@
 ## 3.1. 📁️ Retrieve the Project in ETS 6
 
-For KNX Boost Desktop to work correctly with an imported project, it is essential that the project is not password-protected. If your project is password-protected, follow these steps to remove it:
-
+For KNX Boost Desktop to work correctly with an imported project, it is essential that the project is not password-protected. If your project is password-protected, follow these steps to remove it:<br>
+<br>
+<br>
 ### Removing the Password
 
 1. **Access Project Details**
@@ -32,8 +33,9 @@ For KNX Boost Desktop to work correctly with an imported project, it is essentia
 
 - If you are using one or more KNX Secure participants, a notification will appear indicating that the security of the participants will be disabled. You can re-enable security once the project is exported.
 
-![img_13.png](pictures/img_13.png)
-
+![img_13.png](pictures/img_13.png)<br>
+<br>
+<br>
 ### Exporting the Project
 
 1. **Return to Overview**
