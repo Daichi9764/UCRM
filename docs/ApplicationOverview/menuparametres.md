@@ -1,4 +1,5 @@
-## 2.2. ⚙️ Menu Paramètres
+## 🔍 Aperçu de l’application
+### 2.2. ⚙️ Menu Paramètres
 
  --> 2.2.1. 📤 [Paramètres généraux de l’application](#paramètres-généraux-de-lapplication)
       
