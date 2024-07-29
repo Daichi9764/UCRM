@@ -1,6 +1,6 @@
-## 🛠 Utilisation de l’application
+## 3. 🛠 Utilisation de l’application
 
-### 📤 Exporter les adresses de groupe modifiées
+### 3.5 📤 Exporter les adresses de groupe modifiées
 
 Pour exporter les adresses de groupe modifiées :  
 Cliquer sur le bouton exporter.  
