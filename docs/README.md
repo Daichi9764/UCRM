@@ -35,9 +35,9 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
    3.2. 📥 [Importer un projet dans KNX Boost Desktop](UtilisationApplication/importer-un-projet-dans-knx-boost-desktop.md)
 
-   3.3. 🚶‍♂️‍➡️ [Naviguer dans le projet modifié](#naviguer-dans-le-projet-modifié)
+   3.3. 🚶‍♂️‍➡️ [Naviguer dans le projet modifié](UtilisationApplication/naviguer-dans-le-projet-modifie.md)
 
-   3.4. 📝 [Renommer manuellement des adresses de groupe](#renommer-manuellement-des-adresses-de-groupe)
+   3.4. 📝 [Renommer manuellement des adresses de groupe](UtilisationApplication/renommer-manuellement-des-adresses-de-groupe.md)
 
    3.5. 📤 [Exporter les adresses de groupe modifiées](UtilisationApplication/exporter-adresses-de-groupe-modifiees.md)
 
