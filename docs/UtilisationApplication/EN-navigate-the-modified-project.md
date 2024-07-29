@@ -1,7 +1,7 @@
 ﻿## 3. 🛠 Using the Application
 ### 3.3. 🚶‍♂️‍➡️Navigate the Modified Project
 
-Once your project is loaded, you will access the 🪟 [Main Window](ApplicationOverview/mainwindow.md) with the group addresses collapsed by default.
+Once your project is loaded, you will access the 🪟 [Main Window](../ApplicationOverview/mainwindow.md) with the group addresses collapsed by default.
 
 #### 3.3.1 Show/Hide Elements
 *Note: The display is synchronized across both tables.*
