@@ -4,3 +4,4 @@ Open the project before changes in ETS. In the Group Adresses Window, right clic
 Select the file UpdatedGroupAddresses.xml.
 ![open](pictures/4.PNG)
 Note : ETS use a signature system. You cannot import a .knxproj that have been modified outside ETS.
+[← Retour](utilisation.md)

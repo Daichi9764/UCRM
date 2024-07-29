@@ -1,4 +1,4 @@
-1. 🖥 [Installation](Installation/) 
+1. 🖥 [Installation](installation.md) 
 
     1.1. 📥 [Téléchargement](telechargement.md)
 

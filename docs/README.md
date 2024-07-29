@@ -13,23 +13,23 @@ Dernière révision : 26/07/2024 (KNX Boost Desktop v2.2)
 
     1.2. 💻 [Déroulement de l’installation](Installation/installationdelapplication.md)
 
-2. 🔍 [Aperçu de l’application](#aperçu-de-lapplication)
+2. 🔍 [Aperçu de l’application](ApplicationOverview/appOverview.md)
 
-    2.1. 🪟 [Fenêtre principale](#fenêtre-principale)
+    2.1. 🪟 [Fenêtre principale](ApplicationOverview/fenetreprincipale.md)
 
-    2.2. ⚙️ [Menu paramètres](#menu-paramètres)
+    2.2. ⚙️ [Menu paramètres](ApplicationOverview/menuparametres.md)
 
-      --> 2.2.1. 📝 [Paramètres de la correction](#paramètres-de-la-correction)
+     --> 2.2.1. 📤 [Paramètres généraux de l’application](ApplicationOverview/menuparametres.md#paramètres-généraux-de-lapplication)
 
-      --> 2.2.2. ✅ [Paramètres d'inclusion](#informations)
+     --> 2.2.2. 📝 [Paramètres de la correction](ApplicationOverview/menuparametres.md#paramètres-de-la-correction)
 
-      --> 2.2.3. 🖥 [Paramètres de l’application](#paramètres-de-lapplication)
+     --> 2.2.3. ✅ [Paramètres d'inclusion](ApplicationOverview/menuparametres.md#paramètres-dinclusion)
 
-      --> 2.2.4. 🪲 [Débogage](#débogage)
+     --> 2.2.4. 🪲 [Débogage](ApplicationOverview/menuparametres.md#débogage)
 
-      --> 2.2.5. 💡 [Informations](#informations)
+     --> 2.2.5. 💡 [Informations](ApplicationOverview/menuparametres.md#informations)
 
-3. 🛠 [Utilisation de l’application](#utilisation-de-lapplication)
+3. 🛠 [Utilisation de l’application](UtilisationApplication/utilisation.md)
 
     3.1. 📁 [Récupérer le projet dans ETS 6](#récupérer-le-projet-dans-ets-6)
 

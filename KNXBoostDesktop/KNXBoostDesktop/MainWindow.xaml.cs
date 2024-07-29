@@ -1280,7 +1280,7 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
             return;
         }
-
+        
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
@@ -1412,16 +1412,16 @@ public partial class MainWindow
                 // Cas par défaut (français)
                 _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
             }
-
+        
         };
-
+        
         // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
         var result = saveFileDialog.ShowDialog();
-
+        
         if (result != true) return;
         // Chemin du fichier sélectionné par l'utilisateur
         App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
-
+        
         try
         {
             // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
