@@ -1,5 +1,5 @@
-## 🖥 Installation
-### 💻 Déroulement de l’installation
+## 1. 🖥 Installation
+### 1.2 💻 Déroulement de l’installation
 
 Pour installer et lancer l’application, veuillez suivre les indications suivantes :
 
