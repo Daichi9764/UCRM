@@ -37,7 +37,7 @@ Last revision: 26/07/2024 (KNX Boost Desktop v2.2)
 
    3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](UtilisationApplication/EN-navigate-the-modified-project.md)
 
-   3.4. 📝 [Manually Rename Group Addresses](UtilisationApplication/EN-manually-rename-group-addresses.md)
+   3.4. 📝 [Manually Rename Group Addresses](UtilisationApplication/EN-manually-rename-group-addresse.md)
 
    3.5. 📤 [Export Modified Group Addresses](UtilisationApplication/EN-export-modified-group-addresses.md)
 
