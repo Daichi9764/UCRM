@@ -5,10 +5,11 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:local="clr-namespace:KNXBoostDesktop"
                   xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
                   mc:Ignorable="d"
                   Height="600" Width="1000"
-                  MinWidth="400"
                   MinHeight="165"
+                  MinWidth="400"
                   Background="#F5F5F5"
                   Closing="ClosingMainWindow"
                   WindowTitleBrush="#369026"
@@ -531,7 +532,7 @@
         </Style>
 
         <!-- Style bouton invisible -->
-        <Style x:Key="ToggleButtonStyle" TargetType="Button">
+        <Style x:Key="ToggleButtonStyleLight" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -542,6 +543,9 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#D3D3D3"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -562,6 +566,9 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="#262626"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -672,6 +679,7 @@
                         <!-- Bouton de paramètres -->
                         <Button x:Name="ButtonSettings" Width="25" Height="25"
                                 Click="OpenParameters"
+                                Focusable="False"
                                 Margin="0,0,10,0" 
                                 Background="White"
                                 BorderThickness="1" BorderBrush="{StaticResource BorderGray}"
@@ -811,15 +819,11 @@
                                     </Image.Source>
                                 </Image>
                                 <TextBlock x:Name="TextBlockAdressesGauche" FontSize="12" FontWeight="Bold" Margin="0,10" />
-
-                                <!-- Buttons de la console -->
-                                <Button Name="OpenConsoleButton" Click="OpenConsoleButtonClick" Width="50"  Margin="10,0" Style="{StaticResource ToggleButtonStyle}" Height="25"/>
-
                             </StackPanel>
 
 
                             <!-- Bouton déploiement -->
-                            <Button Grid.Column="1" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyle}" >
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowGauche" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5" Style="{StaticResource ToggleButtonStyleLight}" >
                                 <Image x:Name="ChevronImage" Width="10" Height="10"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Stretch="Fill">
@@ -949,7 +953,7 @@
 
                             <!-- Bouton déploiement droit/-->
 
-                            <Button Grid.Column="1" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyle}" >
+                            <Button Grid.Column="1" x:Name="BtnToggleArrowDroite" Click="btnCollapseAndToggle_Click" Width="25" Height="25" HorizontalAlignment="Right" Margin="0,5,5,5"  Style="{StaticResource ToggleButtonStyleLight}" >
                                 <Image x:Name="ChevronImage2" Width="10" Height="10"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Stretch="Fill">
@@ -986,10 +990,16 @@
 
             <!-- Couche de désactivation -->
             <Grid x:Name="OverlayLight" Background="White" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="WaitingTextLight" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="Black"/>
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" HorizontalAlignment="Center" Height="24" Foreground="#000000" Margin="10,0,0,0"/>
+                </StackPanel>
             </Grid>
             <Grid x:Name="OverlayDark" Background="#313131" Opacity="0.5" Visibility="Collapsed">
-                <TextBlock Text="Veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="WaitingTextDark" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" HorizontalAlignment="Center" Height="24" Foreground="#E4E5E4" Margin="10,0,0,0"/>
+                </StackPanel>
             </Grid>
         </Grid>
 

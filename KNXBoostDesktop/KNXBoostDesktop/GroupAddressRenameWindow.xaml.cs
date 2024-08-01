@@ -10,7 +10,8 @@ using System.Windows.Media;
 namespace KNXBoostDesktop;
 
 /// <summary>
-/// Fenêtre pour renommer une adresse de groupe.
+/// Window used to rename the corrected group addresses if the user considers that the correction is
+/// not perfect or if it wants to add information
 /// </summary>
 public partial class GroupAddressRenameWindow
 {
@@ -18,16 +19,23 @@ public partial class GroupAddressRenameWindow
     ------------------------------------------- ATTRIBUTS  --------------------------------------------
     ------------------------------------------------------------------------------------------------ */
     /// <summary>
-    /// Obtient le résultat de la boîte de dialogue. True si l'utilisateur a cliqué sur "sauvegarder", False sinon.
+    /// Gets the result of the dialog. True if the user clicked "Save", False otherwise.
     /// </summary>
     public new bool? DialogResult { get; private set; } // True si l'utilisateur a cliqué sur sauvegarder, False sinon
     
     /// <summary>
-    /// Obtient l'adresse modifiée par l'utilisateur.
+    /// Gets the address modified by the user.
     /// </summary>
     public string NewAddress { get; private set; } // Adresse modifiée par l'utilisateur
+    
+    /// <summary>
+    /// Gets the address saved by the software for reset.
+    /// </summary>
     public string SavedAddress { get; private set; } // Adresse issue du logiciel sauvegardée pour reset
 
+    /// <summary>
+    /// The file path used for renaming XML files.
+    /// </summary>
     private string _xmlRenameFilePath = "";
 
 
@@ -425,9 +433,11 @@ public partial class GroupAddressRenameWindow
     
     
     /// <summary>
-    /// Définit l'adresse actuelle à renommer.
+    /// Sets the original and modified addresses in their respective text boxes and saves the modified address.
     /// </summary>
-    /// <param name="address">L'adresse actuelle de groupe.</param>
+    /// <param name="addressOriginale">The original address to be displayed.</param>
+    /// <param name="addressModifiée">The modified address to be displayed and saved.</param>
+
     public void SetAddress(string addressOriginale, string addressModifiée)
     {
         BeforeTextBox.Text = addressOriginale;
@@ -435,9 +445,14 @@ public partial class GroupAddressRenameWindow
         SavedAddress = addressModifiée; 
     }
 
+    
+    /// <summary>
+    /// Sets the file path used for renaming XML files.
+    /// </summary>
+    /// <param name="xmlRenameFilePath">The file path to be set for XML renaming.</param>
     public void SetPath(string xmlRenameFilePath)
     {
-        this._xmlRenameFilePath = xmlRenameFilePath;
+        _xmlRenameFilePath = xmlRenameFilePath;
     }
 
 
@@ -491,6 +506,12 @@ public partial class GroupAddressRenameWindow
     }
 
 
+    /// <summary>
+    /// Resets the address displayed in the `AfterTextBox` based on the content of the `BeforeTextBox` and an XML file.
+    /// If the XML file does not exist, it uses the `SavedAddress`. If no matching XML node is found, it also falls back to `SavedAddress`.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">Event data that contains information about the routed event.</param>
     private void Reset(object? sender, RoutedEventArgs e)
     {
         try
@@ -515,21 +536,28 @@ public partial class GroupAddressRenameWindow
             if (changeNodes != null && changeNodes.Count > 0)
             {
                 // Initialiser la variable pour stocker le OldAddress le plus ancien
-                string oldestOldAddress = null;
+                string oldestOldAddress = null!;
                 var oldestTimeStamp = DateTime.MaxValue;
 
                 // Parcourir les nodes pour trouver le OldAddress le plus ancien
                 foreach (XmlNode changeNode in changeNodes)
                 {
                     // Récupérer OldAddress et TimeStamp de chaque node
-                    var oldAddress = changeNode.Attributes["OldAddress"]?.Value;
-                    var timeStamp = DateTime.Parse(changeNode.Attributes["TimeStamp"]?.Value);
-
-                    // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
-                    if (timeStamp < oldestTimeStamp)
+                    if (changeNode.Attributes != null)
                     {
-                        oldestTimeStamp = timeStamp;
-                        oldestOldAddress = oldAddress;
+                        var oldAddress = changeNode.Attributes["OldAddress"]?.Value;
+                        var value = changeNode.Attributes["TimeStamp"]?.Value;
+                        if (value != null)
+                        {
+                            var timeStamp = DateTime.Parse(value);
+
+                            // Vérifier si le TimeStamp est plus ancien que celui actuellement enregistré
+                            if (timeStamp < oldestTimeStamp)
+                            {
+                                oldestTimeStamp = timeStamp;
+                                if (oldAddress != null) oldestOldAddress = oldAddress;
+                            }
+                        }
                     }
                 }
 
@@ -554,7 +582,10 @@ public partial class GroupAddressRenameWindow
     }
     
     
-    
+    /// <summary>
+    /// Applies scaling to the window by adjusting the layout transform and resizing the window based on the specified scale factor.
+    /// </summary>
+    /// <param name="scale">The scale factor to apply.</param>
     public void ApplyScaling(float scale)
     {
         AddressRenameWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);

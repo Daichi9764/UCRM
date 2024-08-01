@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KNX Boost Desktop"
-#define MyAppVersion "1.7"
+#define MyAppVersion "2.2"
 #define MyAppPublisher "KNXBoostTeam"
 #define MyAppExeName "KNXBoostDesktop.exe"
 
@@ -28,7 +28,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=KNXBoostDesktop_installer_v1.7
+OutputBaseFilename=KNXBoostDesktop_installer_v2.2
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -80,6 +80,7 @@ Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCR
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.DependencyInjection.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Http.Polly.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\FontAwesome.WPF.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Logging.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\maxim\OneDrive - insa-toulouse.fr\INSA\Cours\Externes\.NET UCRM\UCRM\Installateur KNXBoostDesktop\Microsoft.Extensions.Options.dll"; DestDir: "{app}"; Flags: ignoreversion

@@ -10,16 +10,16 @@
     <Position X="9.771" Y="0.5" Height="0.297" Width="1.887" />
   </Comment>
   <Class Name="KNXBoostDesktop.ProjectFileManager">
-    <Position X="9.75" Y="1" Width="2.75" />
+    <Position X="9.75" Y="1" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAQAgAAAAACAAgAAAAAAAABAAAAAAAABAAAABABAAAA=</HashCode>
+      <HashCode>AAQAgAAAEgAAAgAACAAAAABAIgAAAAABIAAABABIAAU=</HashCode>
       <FileName>projectFileManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KNXBoostDesktop.MainWindow">
     <Position X="0.5" Y="1.25" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>JQQgJBBgAxQwAQCgAwAICAAIEAgAAhVAAjAABAAABAE=</HashCode>
+      <HashCode>JQQgNJBgAxSAAQCgAxAIKAAIEAgAAhVQQjAAAQAABAE=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -27,34 +27,19 @@
   <Class Name="KNXBoostDesktop.DisplayElements">
     <Position X="12.75" Y="1" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAIAACEAEgAAAAAAAAAIAAAAAAAJAEAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAACEAEgAAAAAAAAAIAAAAAAAJAEAA=</HashCode>
       <FileName>DisplayElements.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KNXBoostDesktop.App">
     <Position X="6.25" Y="1" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>ICAAAAAAICAAgABAAAAAAAAAAAAQAAgAAAAQAAAAEIA=</HashCode>
+      <HashCode>ICAAAAAAICAAgAAIAAAAAAAAAAAQAAgBAAAQAAAAEMA=</HashCode>
       <FileName>App.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KNXBoostDesktop.ConsoleWindow">
-    <Position X="3.75" Y="11.25" Width="2" />
-    <NestedTypes>
-      <Class Name="KNXBoostDesktop.ConsoleWindow.TextBoxWriter" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>ConsoleWindow.xaml.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ConsoleWindow.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="KNXBoostDesktop.ExportUpdatedNameAddresses">
-    <Position X="9.75" Y="3.75" Width="2.5" />
+    <Position X="14.75" Y="4.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ExportUpdatedNameAddresses.cs</FileName>
@@ -82,19 +67,26 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KNXBoostDesktop.GroupAddressNameCorrector">
-    <Position X="9.75" Y="5.5" Width="2.5" />
+    <Position X="9.75" Y="5.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAQAAEAQAAAgAAAAIAAABwAAAACA=</HashCode>
+      <HashCode>CAACAAAAAACAAAAAYRABEoQAIAgAABCIQIBBwAQAEWU=</HashCode>
       <FileName>GroupAddressNameCorrector.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KNXBoostDesktop.SettingsWindow">
-    <Position X="0.5" Y="11.25" Width="3" />
+    <Position X="0.5" Y="13.25" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAMQAAASAwAAgAiAEAAkAASAAAkACAiAACAoAghA=</HashCode>
+      <HashCode>ACAABc0AAoSCxAglAyAFAAkBAXACAkACAiAAmAoAgtA=</HashCode>
       <FileName>SettingsWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="KNXBoostDesktop.LoadingTimeEntry">
+    <Position X="12.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAECAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAIwAAAAA=</HashCode>
+      <FileName>LoadingTimeEntry.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

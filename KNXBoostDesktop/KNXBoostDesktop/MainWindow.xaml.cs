@@ -16,6 +16,9 @@ using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
 namespace KNXBoostDesktop;
 
+/// <summary>
+///  Main window of the application. This window will handle most of the interactions with the user.
+/// </summary>
 public partial class MainWindow 
 
 {
@@ -24,7 +27,7 @@ public partial class MainWindow
     ------------------------------------------------------------------------------------------------ */
 
     /// <summary>
-    ///  Texte "Rechercher ..." de la barre de recherche. A SUPPRIMER DES QUE POSSIBLE /!\
+    ///  Texte "Rechercher ..." de la barre de recherche.
     /// </summary>
     private string _searchTextTranslate = "";
 
@@ -38,8 +41,12 @@ public partial class MainWindow
     /// </summary>
     private bool _isTreeViewExpanded;
 
+    /// <summary>
+    /// The token source used to signal cancellation requests for ongoing tasks.
+    /// </summary>
+    private CancellationTokenSource _cancellationTokenSource;
 
-
+    public bool ImportOperationCancelled;
 
     /* ------------------------------------------------------------------------------------------------
     --------------------------------------------- METHODES --------------------------------------------
@@ -53,7 +60,7 @@ public partial class MainWindow
     {
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
         InitializeComponent();
-
+        
         ViewModel = new MainViewModel();
         DataContext = ViewModel;
         
@@ -63,6 +70,7 @@ public partial class MainWindow
         UpdateWindowContents(true, true, true);
         
         LocationChanged += MainWindow_LocationChanged;
+        _cancellationTokenSource = new CancellationTokenSource();
     }
     
     
@@ -104,9 +112,6 @@ public partial class MainWindow
                 ApplyScaling(App.DisplayElements.SettingsWindow!.AppScaleFactor/100f);
             }
         }
-        
-        const string filePath = "./runData.csv";
-        LoadLoadingTimesFromCsv(filePath);
     }
 
 
@@ -142,6 +147,9 @@ public partial class MainWindow
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonLight");
 
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleLight");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleLight");
+
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleLight");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleLight");
         }
@@ -159,7 +167,10 @@ public partial class MainWindow
             borderPanelColor = "#525252";
             
             ButtonSettings.Style = (Style)FindResource("SettingsButtonDark");
-            
+
+            BtnToggleArrowGauche.Style = (Style)FindResource("ToggleButtonStyleDark");
+            BtnToggleArrowDroite.Style = (Style)FindResource("ToggleButtonStyleDark");
+
             ApplyStyleToTreeViewItems(TreeViewGauche, "TreeViewItemStyleDark");
             ApplyStyleToTreeViewItems(TreeViewDroite, "TreeViewItemStyleDark");
         }
@@ -360,6 +371,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "تصدير المشروع المعدل";
                 TextBlockAdressesGauche.Text = "عناوين المجموعة الأصلية";
                 TextBlockAdressesDroite.Text = "عناوين المجموعة المعدلة";
+                WaitingTextDark.Text = "إلغاء جاري...";
+                WaitingTextLight.Text = "إلغاء جاري...";
                 break;
 
             // Bulgare
@@ -370,6 +383,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Експортиране на модифицирания проект";
                 TextBlockAdressesGauche.Text = "Оригинални групови адреси";
                 TextBlockAdressesDroite.Text = "Модифицирани групови адреси";
+                WaitingTextDark.Text = "Отказ в процес на изпълнение...";
+                WaitingTextLight.Text = "Отказ в процес на изпълнение...";
                 break;
 
             // Tchèque
@@ -380,6 +395,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportovat upravený projekt";
                 TextBlockAdressesGauche.Text = "Původní skupinové adresy";
                 TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                WaitingTextDark.Text = "Probíhá rušení...";
+                WaitingTextLight.Text = "Probíhá rušení...";
                 break;
 
             // Danois
@@ -390,6 +407,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Eksporter det ændrede projekt";
                 TextBlockAdressesGauche.Text = "Originale gruppeadresser";
                 TextBlockAdressesDroite.Text = "Ændrede gruppeadresser";
+                WaitingTextDark.Text = "Annullering pågår...";
+                WaitingTextLight.Text = "Annullering pågår...";
                 break;
 
             // Allemand
@@ -400,6 +419,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Geändertes Projekt exportieren";
                 TextBlockAdressesGauche.Text = "Ursprüngliche Gruppenadressen";
                 TextBlockAdressesDroite.Text = "Geänderte Gruppenadressen";
+                WaitingTextDark.Text = "Abbruch läuft...";
+                WaitingTextLight.Text = "Abbruch läuft...";
                 break;
 
             // Grec
@@ -410,6 +431,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Εξαγωγή τροποποιημένου έργου";
                 TextBlockAdressesGauche.Text = "Πρωτότυπες ομαδικές διευθύνσεις";
                 TextBlockAdressesDroite.Text = "Τροποποιημένες ομαδικές διευθύνσεις";
+                WaitingTextDark.Text = "Ακύρωση σε εξέλιξη...";
+                WaitingTextLight.Text = "Ακύρωση σε εξέλιξη...";
                 break;
 
             // Anglais
@@ -420,6 +443,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Export the modified project";
                 TextBlockAdressesGauche.Text = "Original Group Addresses";
                 TextBlockAdressesDroite.Text = "Modified Group Addresses";
+                WaitingTextDark.Text = "Cancellation in progress...";
+                WaitingTextLight.Text = "Cancellation in progress...";
                 break;
 
             // Espagnol
@@ -430,6 +455,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportar el proyecto modificado";
                 TextBlockAdressesGauche.Text = "Direcciones de grupo originales";
                 TextBlockAdressesDroite.Text = "Direcciones de grupo modificadas";
+                WaitingTextDark.Text = "Cancelación en progreso...";
+                WaitingTextLight.Text = "Cancelación en progreso...";
                 break;
 
             // Estonien
@@ -440,6 +467,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Ekspordi muudetud projekt";
                 TextBlockAdressesGauche.Text = "Algupärased grupiaadressid";
                 TextBlockAdressesDroite.Text = "Muudetud grupiaadressid";
+                WaitingTextDark.Text = "Tühistamine käib...";
+                WaitingTextLight.Text = "Tühistamine käib...";
                 break;
 
             // Finnois
@@ -450,6 +479,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Vie muutettu projekti";
                 TextBlockAdressesGauche.Text = "Alkuperäiset ryhmäosoitteet";
                 TextBlockAdressesDroite.Text = "Muutetut ryhmäosoitteet";
+                WaitingTextDark.Text = "Peruutus käynnissä...";
+                WaitingTextLight.Text = "Peruutus käynnissä...";
                 break;
 
             // Hongrois
@@ -460,6 +491,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "A módosított projekt exportálása";
                 TextBlockAdressesGauche.Text = "Eredeti csoportcímek";
                 TextBlockAdressesDroite.Text = "Módosított csoportcímek";
+                WaitingTextDark.Text = "Törlés folyamatban...";
+                WaitingTextLight.Text = "Törlés folyamatban...";
                 break;
 
             // Indonésien
@@ -470,6 +503,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Ekspor proyek yang dimodifikasi";
                 TextBlockAdressesGauche.Text = "Alamat Grup Asli";
                 TextBlockAdressesDroite.Text = "Alamat Grup yang Dimodifikasi";
+                WaitingTextDark.Text = "Pembatalan sedang berlangsung...";
+                WaitingTextLight.Text = "Pembatalan sedang berlangsung...";
                 break;
 
             // Italien
@@ -480,6 +515,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Esporta il progetto modificato";
                 TextBlockAdressesGauche.Text = "Indirizzi di gruppo originali";
                 TextBlockAdressesDroite.Text = "Indirizzi di gruppo modificati";
+                WaitingTextDark.Text = "Annullamento in corso...";
+                WaitingTextLight.Text = "Annullamento in corso...";
                 break;
 
             // Japonais
@@ -490,6 +527,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "変更されたプロジェクトをエクスポート";
                 TextBlockAdressesGauche.Text = "元のグループアドレス";
                 TextBlockAdressesDroite.Text = "変更されたグループアドレス";
+                WaitingTextDark.Text = "キャンセル中...";
+                WaitingTextLight.Text = "キャンセル中...";
                 break;
 
             // Coréen
@@ -500,6 +539,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "수정된 프로젝트 내보내기";
                 TextBlockAdressesGauche.Text = "원본 그룹 주소";
                 TextBlockAdressesDroite.Text = "수정된 그룹 주소";
+                WaitingTextDark.Text = "취소 진행 중...";
+                WaitingTextLight.Text = "취소 진행 중...";
                 break;
 
             // Letton
@@ -510,6 +551,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Eksportēt modificēto projektu";
                 TextBlockAdressesGauche.Text = "Oriģinālās grupu adreses";
                 TextBlockAdressesDroite.Text = "Modificētās grupu adreses";
+                WaitingTextDark.Text = "Atcelšana notiek...";
+                WaitingTextLight.Text = "Atcelšana notiek...";
                 break;
 
             // Lituanien
@@ -520,6 +563,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Eksportuoti pakeistą projektą";
                 TextBlockAdressesGauche.Text = "Originalūs grupių adresai";
                 TextBlockAdressesDroite.Text = "Modifikuoti grupių adresai";
+                WaitingTextDark.Text = "Atšaukimas vyksta...";
+                WaitingTextLight.Text = "Atšaukimas vyksta...";
                 break;
 
             // Norvégien
@@ -530,6 +575,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Eksporter det endrede prosjektet";
                 TextBlockAdressesGauche.Text = "Opprinnelige gruppeadresser";
                 TextBlockAdressesDroite.Text = "Endrede gruppeadresser";
+                WaitingTextDark.Text = "Avbrytelse pågår...";
+                WaitingTextLight.Text = "Avbrytelse pågår...";
                 break;
 
             // Néerlandais
@@ -540,6 +587,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exporteer het gewijzigde project";
                 TextBlockAdressesGauche.Text = "Originele groepadressen";
                 TextBlockAdressesDroite.Text = "Gewijzigde groepadressen";
+                WaitingTextDark.Text = "Annulering bezig...";
+                WaitingTextLight.Text = "Annulering bezig...";
                 break;
 
             // Polonais
@@ -550,6 +599,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Eksportuj zmodyfikowany projekt";
                 TextBlockAdressesGauche.Text = "Oryginalne adresy grup";
                 TextBlockAdressesDroite.Text = "Zmodyfikowane adresy grup";
+                WaitingTextDark.Text = "Anulowanie w toku...";
+                WaitingTextLight.Text = "Anulowanie w toku...";
                 break;
 
             // Portugais
@@ -560,6 +611,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportar o projeto modificado";
                 TextBlockAdressesGauche.Text = "Endereços de grupo originais";
                 TextBlockAdressesDroite.Text = "Endereços de grupo modificados";
+                WaitingTextDark.Text = "Cancelamento em andamento...";
+                WaitingTextLight.Text = "Cancelamento em andamento...";
                 break;
 
             // Roumain
@@ -570,6 +623,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportați proiectul modificat";
                 TextBlockAdressesGauche.Text = "Adresele grupului original";
                 TextBlockAdressesDroite.Text = "Adresele grupului modificate";
+                WaitingTextDark.Text = "Anulare în curs...";
+                WaitingTextLight.Text = "Anulare în curs...";
                 break;
 
             // Russe
@@ -580,6 +635,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Экспортировать измененный проект";
                 TextBlockAdressesGauche.Text = "Оригинальные групповые адреса";
                 TextBlockAdressesDroite.Text = "Измененные групповые адреса";
+                WaitingTextDark.Text = "Отмена выполняется...";
+                WaitingTextLight.Text = "Отмена выполняется...";
                 break;
 
             // Slovaque
@@ -590,6 +647,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportovať upravený projekt";
                 TextBlockAdressesGauche.Text = "Pôvodné skupinové adresy";
                 TextBlockAdressesDroite.Text = "Upravené skupinové adresy";
+                WaitingTextDark.Text = "Zrušenie prebieha...";
+                WaitingTextLight.Text = "Zrušenie prebieha...";
                 break;
 
             // Slovène
@@ -600,6 +659,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Izvozi spremenjeni projekt";
                 TextBlockAdressesGauche.Text = "Izvirni naslovi skupin";
                 TextBlockAdressesDroite.Text = "Spremenjeni naslovi skupin";
+                WaitingTextDark.Text = "Preklic v teku...";
+                WaitingTextLight.Text = "Preklic v teku...";
                 break;
 
             // Suédois
@@ -610,6 +671,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exportera det modifierade projektet";
                 TextBlockAdressesGauche.Text = "Ursprungliga gruppadresser";
                 TextBlockAdressesDroite.Text = "Ändrade gruppadresser";
+                WaitingTextDark.Text = "Avbrytning pågår...";
+                WaitingTextLight.Text = "Avbrytning pågår...";
                 break;
 
             // Turc
@@ -620,6 +683,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Değiştirilen projeyi dışa aktar";
                 TextBlockAdressesGauche.Text = "Orijinal Grup Adresleri";
                 TextBlockAdressesDroite.Text = "Değiştirilen Grup Adresleri";
+                WaitingTextDark.Text = "İptal ediliyor...";
+                WaitingTextLight.Text = "İptal ediliyor...";
                 break;
 
             // Ukrainien
@@ -630,6 +695,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Експортувати змінений проект";
                 TextBlockAdressesGauche.Text = "Оригінальні групові адреси";
                 TextBlockAdressesDroite.Text = "Змінені групові адреси";
+                WaitingTextDark.Text = "Скасування триває...";
+                WaitingTextLight.Text = "Скасування триває...";
                 break;
 
             // Chinois simplifié
@@ -640,6 +707,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "导出修改后的项目";
                 TextBlockAdressesGauche.Text = "原始组地址";
                 TextBlockAdressesDroite.Text = "修改后的组地址";
+                WaitingTextDark.Text = "取消中...";
+                WaitingTextLight.Text = "取消中...";
                 break;
 
             // Langue par défaut (français)
@@ -650,6 +719,8 @@ public partial class MainWindow
                 ButtonExportProject.Content = "Exporter le projet modifié";
                 TextBlockAdressesGauche.Text = "Adresses de Groupe Originales";
                 TextBlockAdressesDroite.Text = "Adresses de Groupe Modifiées";
+                WaitingTextDark.Text = "Annulation en cours...";
+                WaitingTextLight.Text = "Annulation en cours...";
                 break;
         }
     }
@@ -668,7 +739,16 @@ public partial class MainWindow
     {
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
-        
+
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
+
+        //Vider la recherche
+        TextBox_LostFocus();
+
         App.ConsoleAndLogWriteLine("Waiting for user to select KNX project file");
         
         // Créer une nouvelle instance de OpenFileDialog
@@ -816,8 +896,10 @@ public partial class MainWindow
             // Si le file manager n'existe pas ou que l'on n'a pas réussi à extraire les fichiers du projet, on annule l'opération
             if ((App.Fm == null)||(!App.Fm.ExtractProjectFiles(openFileDialog.FileName))) return;
             
+            _cancellationTokenSource = new CancellationTokenSource();
+
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
                 Owner = this
             };
@@ -904,7 +986,27 @@ public partial class MainWindow
             });
             
             ShowOverlay();
-            await ExecuteLongRunningTask();
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+                ImportOperationCancelled = true;
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+                ImportOperationCancelled = true;
+            }
+            finally
+            {
+                HideOverlay();
+                App.DisplayElements.LoadingWindow?.Close();
+            }
             HideOverlay();
             
             stopwatch.Stop();
@@ -978,8 +1080,8 @@ public partial class MainWindow
                         };
             });
 
-            const string filePath = "./runData.csv";
-            var loadingTimes = LoadLoadingTimesFromCsv(filePath);
+           // const string filePath = "./runData.csv";
+            /*var loadingTimes = LoadLoadingTimesFromCsv(filePath);
             loadingTimes?.Add(new LoadingTimeEntry
             {
                 ProjectName = App.Fm.ProjectName,
@@ -991,14 +1093,16 @@ public partial class MainWindow
                 IsTranslated = App.DisplayElements.SettingsWindow != null && 
                                (bool)App.DisplayElements.SettingsWindow.EnableTranslationCheckBox.IsChecked!,
                 TotalLoadingTime = finalElapsedTime
-            });
+            });*/
 
             // Attend la fin de la tâche de mise à jour (au cas où elle serait encore en cours)
             await updateTask;
             
-            SaveLoadingTimesAsCsv(filePath, loadingTimes);
-            //LoadLoadingTimesFromCsv(filePath);
-            ViewModel.IsProjectImported = true;
+            //SaveLoadingTimesAsCsv(filePath, loadingTimes);
+            
+            // On active le bouton d'exportation si on n'a pas annulé l'importation
+            // ou si l'importation a été effectuée, mais qu'un projet avait déjà été ouvert avant
+            ViewModel.IsProjectImported = !ImportOperationCancelled || App.Fm.ProjectName != "";
         }
         else
         {
@@ -1006,20 +1110,27 @@ public partial class MainWindow
         }
     }
     
+    
     /// <summary>
     /// Asynchronously reloads the current project, displaying a loading window with real-time elapsed time updates.
     /// </summary>
-    public async void ReloadProject(object sender, RoutedEventArgs e)
+    private async void ReloadProject(object sender, RoutedEventArgs e)
     {
         //Cacher le bouton de Reload
         ButtonReload.Visibility = Visibility.Hidden;
 
-        App.ConsoleAndLogWriteLine("Reaload");
+        //Rétracter les boutons d'expansion
+        RotateTransform.Angle = -90;
+        RotateTransform2.Angle = -90;
+        _isTreeViewExpanded = false;
+
+
+        _cancellationTokenSource = new CancellationTokenSource();
 
             // Créer et configurer la LoadingWindow
-            App.DisplayElements!.LoadingWindow = new LoadingWindow
+            App.DisplayElements!.LoadingWindow = new LoadingWindow(_cancellationTokenSource)
             {
-                Owner = this // Définir la fenêtre principale comme propriétaire de la fenêtre de chargement
+                Owner = this 
             };
 
             var stopwatch = new Stopwatch();
@@ -1034,16 +1145,96 @@ public partial class MainWindow
                     // Utiliser le Dispatcher pour mettre à jour l'UI sur le thread approprié
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        App.DisplayElements.LoadingWindow.TotalTime.Text =
-                            $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}";
+                        
+                        App.DisplayElements.LoadingWindow.TotalTime.Text = App.DisplayElements.SettingsWindow!.AppLang switch
+                        {
+                            // Arabe
+                            "AR" => $"الوقت الإجمالي: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Bulgare
+                            "BG" => $"Общо време: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Tchèque
+                            "CS" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Danois
+                            "DA" => $"Samlet tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Allemand
+                            "DE" => $"Gesamtzeit: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Grec
+                            "EL" => $"Συνολικός χρόνος: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Anglais
+                            "EN" => $"Total time: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Espagnol
+                            "ES" => $"Tiempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Estonien
+                            "ET" => $"Koguaeg: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Finnois
+                            "FI" => $"Kokonaisaika: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Hongrois
+                            "HU" => $"Összes idő: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Indonésien
+                            "ID" => $"Total waktu: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Italien
+                            "IT" => $"Tempo totale: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Japonais
+                            "JA" => $"総時間: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Coréen
+                            "KO" => $"총 시간: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Letton
+                            "LV" => $"Kopējais laiks: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Lituanien
+                            "LT" => $"Bendras laikas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Norvégien
+                            "NB" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Néerlandais
+                            "NL" => $"Totale tijd: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Polonais
+                            "PL" => $"Całkowity czas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Portugais
+                            "PT" => $"Tempo total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Roumain
+                            "RO" => $"Timp total: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Russe
+                            "RU" => $"Общее время: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovaque
+                            "SK" => $"Celkový čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Slovène
+                            "SL" => $"Skupni čas: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Suédois
+                            "SV" => $"Total tid: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Turc
+                            "TR" => $"Toplam süre: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Ukrainien
+                            "UK" => $"Загальний час: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Chinois simplifié
+                            "ZH" => $"总时间: {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}",
+                            // Cas par défaut (français)
+                            _ => $"Temps total : {(int)elapsedTime.TotalMinutes:D2}:{elapsedTime.Seconds:D2}"
+                        };
                     });
                     await Task.Delay(100); // Met à jour toutes les 100ms
                 }
             });
 
             ShowOverlay();
-            await ExecuteLongRunningTask();
-            HideOverlay();
+            try
+            {
+                await ExecuteLongRunningTask(_cancellationTokenSource);
+            }
+            catch (OperationCanceledException)
+            {
+                // Gérer l'annulation si nécessaire
+                App.ConsoleAndLogWriteLine("Operation was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // Gérer d'autres exceptions
+                App.ConsoleAndLogWriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                HideOverlay();
+                
+                App.DisplayElements.LoadingWindow?.Close();
+            }
 
             stopwatch.Stop();
             var finalElapsedTime = stopwatch.Elapsed;
@@ -1060,28 +1251,6 @@ public partial class MainWindow
 
             ViewModel.IsProjectImported = true;
 
-    }
-
-    
-
-    /// <summary>
-    /// Handles the click event for the Open Console button.
-    /// Opens the console window and ensures it scrolls to the bottom to display the latest messages.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The event data.</param>
-    private void OpenConsoleButtonClick(object sender, RoutedEventArgs e)
-    {
-        if (App.DisplayElements == null) return;
-
-        App.ConsoleAndLogWriteLine("Opening console window");
-        App.DisplayElements.ShowConsoleWindow();
-
-        // Pour éviter qu'à la réouverture de la console, on ait quelques lignes de retard, on scrolle en bas dès l'ouverture
-        if (App.DisplayElements.ConsoleWindow.IsVisible)
-        {
-            App.DisplayElements.ConsoleWindow.ConsoleTextBox.ScrollToEnd();
-        }
     }
     
     
@@ -1111,7 +1280,7 @@ public partial class MainWindow
             App.ConsoleAndLogWriteLine($"The source file {sourceFilePath} does not exist.");
             return;
         }
-
+        
         // Initialiser et configurer le SaveFileDialog
         SaveFileDialog saveFileDialog = new()
         {
@@ -1243,16 +1412,16 @@ public partial class MainWindow
                 // Cas par défaut (français)
                 _ => "Fichiers XML|*.xml|Tous les fichiers|*.*"
             }
-
+        
         };
-
+        
         // Afficher le dialogue et vérifier si l'utilisateur a sélectionné un emplacement
         var result = saveFileDialog.ShowDialog();
-
+        
         if (result != true) return;
         // Chemin du fichier sélectionné par l'utilisateur
         App.ConsoleAndLogWriteLine($"Destination path selected: {saveFileDialog.FileName}");
-
+        
         try
         {
             // Copier le fichier source à l'emplacement sélectionné par l'utilisateur
@@ -1288,7 +1457,6 @@ public partial class MainWindow
     /// <param name="e">The event data.</param>
     private void OpenParameters(object sender, RoutedEventArgs e)
     {
-        
         // Vérifie si la fenêtre de paramètres est déjà ouverte
         if (App.DisplayElements!.SettingsWindow != null && App.DisplayElements.SettingsWindow.IsVisible)
         {
@@ -1307,13 +1475,13 @@ public partial class MainWindow
 
     
     //--------------------- Gestion des data de performances -----------------------------------------------------//
-    /// <summary>
-    /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
-    /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
-    /// </summary>
-    /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
-    /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
-    private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
+    // /// <summary>
+    // /// Saves a list of loading time entries to a CSV file. If the file exceeds 50 entries, 
+    // /// the oldest entries will be removed to maintain a maximum of 50 entries (excluding the header).
+    // /// </summary>
+    // /// <param name="filePath">The full path of the CSV file where the data will be written.</param>
+    // /// <param name="loadingTimes">The list of loading time entries to save. If null, only the header is written.</param>
+    /*private static void SaveLoadingTimesAsCsv(string filePath, List<LoadingTimeEntry>? loadingTimes)
     {
         // Écriture des nouvelles lignes dans le fichier CSV
         using (var writer = new StreamWriter(filePath))
@@ -1347,14 +1515,15 @@ public partial class MainWindow
 
         // Écrire les lignes restantes dans le fichier CSV
         File.WriteAllLines(filePath, lines);
-    }
+    }*/
     
-    /// <summary>
-    /// Loads loading time entries from a CSV file located at the specified file path.
-    /// </summary>
-    /// <param name="filePath">The file path of the CSV file.</param>
-    /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
-    private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
+    
+    // /// <summary>
+    // /// Loads loading time entries from a CSV file located at the specified file path.
+    // /// </summary>
+    // /// <param name="filePath">The file path of the CSV file.</param>
+    // /// <returns>A list of LoadingTimeEntry objects if successful; otherwise, null.</returns>
+    /*private static List<LoadingTimeEntry>? LoadLoadingTimesFromCsv(string filePath)
     {
         var loadingTimes = new List<LoadingTimeEntry>();
         
@@ -1799,7 +1968,8 @@ public partial class MainWindow
             reader?.Close(); // Fermeture du stream de lecture
         }
         return loadingTimes;
-    }
+    }*/
+    
     
     
     //--------------------- Gestion de la fenêtre de chargement -----------------------------------------------------//
@@ -1809,8 +1979,10 @@ public partial class MainWindow
     /// and performing multiple asynchronous operations including file extraction, data processing, and UI updates.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task ExecuteLongRunningTask()
+    private async Task ExecuteLongRunningTask(CancellationTokenSource cancellationTokenSource)
     {
+        //_cancellationTokenSource = new CancellationTokenSource();
+        //var token = _cancellationTokenSource.Token;
         if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme)
         {
             App.DisplayElements.LoadingWindow?.SetLightMode();
@@ -1823,7 +1995,6 @@ public partial class MainWindow
         App.DisplayElements?.ShowLoadingWindow();
 
         TaskbarInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
-
         try
         {
             // Exécuter les tâches
@@ -2020,8 +2191,8 @@ public partial class MainWindow
                 {
                     await App.Fm.FindZeroXml().ConfigureAwait(false);
                     App.DisplayElements?.LoadingWindow?.UpdateTaskName($"{task} 1/3");
-                    await GroupAddressNameCorrector.CorrectName().ConfigureAwait(false);
-
+                    await GroupAddressNameCorrector.CorrectName(cancellationTokenSource).ConfigureAwait(false);
+                   cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     //Define the project path
                     if (App.DisplayElements != null)
                     {
@@ -2032,8 +2203,10 @@ public partial class MainWindow
                                 App.Fm.ProjectFolderPath + "/GroupAddresses.xml").ConfigureAwait(false);
                             await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updated.xml",
                                 App.Fm.ProjectFolderPath + "/UpdatedGroupAddresses.xml").ConfigureAwait(false);
-                            await ExportUpdatedNameAddresses.Export(App.Fm.ProjectFolderPath + "/0_updatedUnusedAddresses.xml",
-                                App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml").ConfigureAwait(false);
+                            await ExportUpdatedNameAddresses.Export(
+                                    App.Fm.ProjectFolderPath + "/0_updatedUnusedAddresses.xml",
+                                    App.Fm.ProjectFolderPath + "UpdatedGroupAddressesUnusedAddresses.xml")
+                                .ConfigureAwait(false);
                         }
                         else
                         {
@@ -2055,11 +2228,15 @@ public partial class MainWindow
                     App.DisplayElements?.LoadingWindow?.MarkActivityComplete();
                     App.DisplayElements?.LoadingWindow?.CompleteActivity();
                 });
-            });
+            }, cancellationTokenSource.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Gestion de l'annulation
+            App.ConsoleAndLogWriteLine("Operation was canceled.");
         }
         finally
         {
-            // Mettre à jour l'état de la barre des tâches et masquer l'overlay
             Dispatcher.Invoke(() =>
             {
                 TaskbarInfo.ProgressState = TaskbarItemProgressState.None;
@@ -2448,7 +2625,7 @@ public partial class MainWindow
                     _ => "Erreur"
                 };
                 
-                MessageBox.Show(ex.Message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                if (!ImportOperationCancelled) MessageBox.Show(ex.Message, caption, MessageBoxButton.OK, MessageBoxImage.Error);
             });
         }
     }
@@ -2657,6 +2834,23 @@ public partial class MainWindow
             if (!string.IsNullOrWhiteSpace(tb.Text)) return;
             tb.Text = _searchTextTranslate;
             tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ? 
+                new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
+        }), System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+
+    /// <summary>
+    /// Handles the LostFocus event for a TextBox, restoring the default search text and setting the text color based on the current theme.
+    /// </summary>
+    private void TextBox_LostFocus()
+    {
+        var tb = TxtSearch1;
+        // Utiliser un Dispatcher pour s'assurer que le TextBox a réellement perdu le focus
+        tb?.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            if (string.IsNullOrWhiteSpace(tb.Text)) return;
+            tb.Text = _searchTextTranslate;
+            tb.Foreground = App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.EnableLightTheme ?
                 new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.DarkGray);
         }), System.Windows.Threading.DispatcherPriority.Background);
     }
@@ -2986,34 +3180,37 @@ public partial class MainWindow
     }
 
 
-    
+
     //--------------------- Gestion développement/rétractation bouton ----------------------------------------------//
     /// <summary>
     /// Handles the click event of the collapse/expand toggle button.
     /// </summary>
     /// <param name="sender">The object that raised the event.</param>
     /// <param name="e">The event data.</param>
-    private void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
+    private async void btnCollapseAndToggle_Click(object sender, RoutedEventArgs e)
     {
+        Mouse.OverrideCursor = Cursors.Wait;
+
         if (_isTreeViewExpanded)
         {
             RotateTransform.Angle = -90;
             RotateTransform2.Angle = -90;
-            CollapseAllTreeViewItems(TreeViewGauche.Items);
-            CollapseAllTreeViewItems(TreeViewDroite.Items);
+            await Task.Run(() => CollapseAllTreeViewItems(TreeViewGauche.Items));
+            await Task.Run(() => CollapseAllTreeViewItems(TreeViewDroite.Items));
         }
         else
         {
             RotateTransform.Angle = 0;
             RotateTransform2.Angle = 0;
-            ExpandAllTreeViewItems(TreeViewGauche.Items);
-            ExpandAllTreeViewItems(TreeViewDroite.Items);
+            await Task.Run(() => ExpandAllTreeViewItems(TreeViewGauche.Items));
+            await Task.Run(() => ExpandAllTreeViewItems(TreeViewDroite.Items));
         }
 
+        Mouse.OverrideCursor = null; // Rétablir le curseur normal
         _isTreeViewExpanded = !_isTreeViewExpanded; // Inverser l'état
     }
 
-    
+
     /// <summary>
     /// Recursively collapses all TreeView items starting from the specified collection.
     /// </summary>
@@ -3023,7 +3220,7 @@ public partial class MainWindow
         foreach (var obj in items)
         {
             if (obj is not TreeViewItem item) continue;
-            item.IsExpanded = false;
+            item.Dispatcher.Invoke(() => item.IsExpanded = false);
             CollapseAllTreeViewItems(item.Items);
         }
     }
@@ -3038,7 +3235,7 @@ public partial class MainWindow
         foreach (var obj in items)
         {
             if (obj is not TreeViewItem item) continue;
-            item.IsExpanded = true;
+            item.Dispatcher.Invoke(() => item.IsExpanded = true);
             ExpandAllTreeViewItems(item.Items);
         }
     }
@@ -3046,13 +3243,21 @@ public partial class MainWindow
     
     
     //-------------------------------------------- Logique de scaling ----------------------------------------------//
+    /// <summary>
+    /// Applies a scaling transformation to the window using the specified scale factor.
+    /// </summary>
+    /// <param name="scale">The scale factor to apply.</param>
     public void ApplyScaling(double scale)
     {
-        // Créez un ScaleTransform avec la valeur de l'échelle
+        // Création d'un ScaleTransform avec la valeur de l'échelle
         var scaleTransform = new ScaleTransform(scale, scale);
 
-        // Appliquez la transformation à l'ensemble de la fenêtre
+        // Application de la transformation à l'ensemble de la fenêtre
         LayoutTransform = scaleTransform;
+
+        // Pour que les boutons se déplient/replient si besoin, il faut mettre à jour la taille de la fenêtre
+        Width += 1;
+        Width -= 1;
     }
 
 }
