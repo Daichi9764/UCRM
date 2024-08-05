@@ -35,6 +35,11 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 <br>
 <br>
 ### 2.2.2 📝 Paramètres de la correction <a name="paramètres-de-la-correction"></a>
+
+![image](https://github.com/user-attachments/assets/62ae29a4-e855-4785-953a-822afa465d08)
+
+Le menu **Correction** permet de configurer les paramètres de correction en fonction de vos besoins. Il se compose de deux sections : **Traduction** et **Gestion des adresses de groupe**. Les détails sont les suivants :
+
 #### 2.2.2.1	Traduction des adresses de groupe
 #### 2.2.2.2	Suppression des adresses de groupe non utilisées<br>
 <br>
