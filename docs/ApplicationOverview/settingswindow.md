@@ -49,7 +49,7 @@ By clicking **Save**, the changes to the settings will be saved. If a project is
 
 By clicking **Cancel**, the changes to the settings will be discarded and the last saved settings will be restored.
 
-#### 2.2.2.2 Deletion of unused group addresses<br>
+#### 2.2.2.2 Deletion of unused group addresses<a name="deletion-of-unused-group-addresses"></a><br>
 
 By default, the **Delete unused addresses** checkbox is selected. This means that group addresses not linked to any participants will not be displayed in the main window, as they cannot be renamed by KNX Boost Desktop. With this option enabled, when you import the new group address file into ETS, the unlinked addresses will be prefixed with the * character for easier identification.
 
