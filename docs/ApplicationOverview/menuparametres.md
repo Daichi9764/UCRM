@@ -100,7 +100,7 @@ Après avoir rechargé le projet, il est possible de constater que lorsque l’a
 
 **Utilisation du caractère ‘\*’ pour inclure des mots similaires :** Vous pouvez utiliser le caractère ‘\*’ pour inclure facilement toute une série de mots qui se ressemblent. Par exemple, si vous voulez inclure tous les mots qui commencent par ‘*test*’, il suffit d'écrire ‘*test\**’. Cela inclura automatiquement des mots comme ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
 
-Le caractère ‘\*’ peut également être placé à n’importe quel endroit d’un mot pour représenter une partie variable. Par exemple, si vous écrivez ‘*XX_\*_YY*’, cela inclura des mots comme ‘*XX_123_YY*’, ‘*XX_ABCDEF_YY*’, et ainsi de suite.
+Le caractère ‘\*’ peut également être placé à n’importe quel endroit d’un mot pour représenter une partie variable. Par exemple, si vous écrivez ‘*XX\*YY*’, cela inclura des mots comme ‘*XX123YY*’, ‘*XXABCDEFYY*’, et ainsi de suite.
 
 En utilisant le caractère ‘\*’, vous pouvez facilement spécifier des groupes de mots similaires sans avoir à les écrire tous individuellement.
 
