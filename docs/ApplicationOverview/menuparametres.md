@@ -36,7 +36,8 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 <br>
 ### 2.2.2 📝 Paramètres de la correction <a name="paramètres-de-la-correction"></a>
 #### 2.2.2.1	Traduction des adresses de groupe
-#### 2.2.2.2	Suppression des adresses de groupe non utilisées<br>
+#### 2.2.2.2	Suppression des adresses de groupe non utilisées<a id="suppression-des-adresses-de-groupe-non-utilisees"></a>
+<br>
 <br>
 <br>
 <br>
