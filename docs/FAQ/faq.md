@@ -38,3 +38,5 @@ Le fonctionnement du logiciel s'appuie sur les informations de topologie et de b
 
 ### <a id="q5"></a>🔧 La modification des adresses de groupe a-t-elle un impact sur le fonctionnement de mon projet ? 
 L'utilisation du logiciel **n'impacte en rien le fonctionnement du projet**, car seuls les champs texte des adresses de groupe sont modifiés.
+
+[← Retour](../README.md)
