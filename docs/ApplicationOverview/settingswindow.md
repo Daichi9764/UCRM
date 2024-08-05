@@ -95,7 +95,7 @@ After reloading the project, you can see that when the initial address contained
 
 **Using the ‘\*’ Character to Include Similar Words:** You can use the ‘\*’ character to easily include a whole series of similar words. For example, if you want to include all words that start with ‘*test*’, simply write ‘*test\**’. This will automatically include words like ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
 
-The ‘\*’ character can also be placed anywhere in a word to represent a variable part. For example, if you write ‘*XX_\*_YY*’, it will include words like ‘*XX_123_YY*’, ‘*XX_ABCDEF_YY*’, and so on.
+The ‘\*’ character can also be placed anywhere in a word to represent a variable part. For example, if you write ‘*XX\*YY*’, it will include words like ‘*XX123YY*’, ‘*XXABCDEFYY*’, and so on.
 
 By using the ‘\*’ character, you can easily specify groups of similar words without having to write them all individually.
 

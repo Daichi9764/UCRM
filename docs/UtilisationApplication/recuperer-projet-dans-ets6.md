@@ -12,9 +12,9 @@ Pour que KNX Boost Desktop puisse fonctionner correctement avec un projet import
 
 - 	Si le projet est déjà ouvert, cliquez sur le bouton i en haut à droite de la fenêtre.
 
-![img.png](pictures/img.png)
+![image](https://github.com/user-attachments/assets/f3372aa6-758a-4902-a67d-1e16c4206768)
 
-![img_1.png](pictures/img_1.png)
+![image](https://github.com/user-attachments/assets/dc4d0556-883a-42a9-8db7-efeefe3095ff)
 
 2. **Modifier le mot de Passe**
 
