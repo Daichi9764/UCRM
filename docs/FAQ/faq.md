@@ -17,7 +17,7 @@ un astérisque est ajouté au début de leur nom pour faciliter leur identificat
 ### <a id="q2"></a> 📤 Comment exporter le projet .knxproj avec les adresses de groupe modifiées ? 
 Il n'est pour l'instant pas possible d'exporter le projet dans son intégralité pour une réinsertion dans ETS. 
 Pour apporter des modifications au projet, il suffit d'**exporter les fichiers d'adresses de groupe modifiées** et de les réimporter dans le projet ETS correspondant, 
-comme détaillé dans la section 3.5. 📤 [Exporter les adresses de groupe modifiées](../UtilisationApplication/exporter-adresses-de-groupe-modifiees.md).
+comme détaillé dans la section [3.5. 📤 Exporter les adresses de groupe modifiées](../UtilisationApplication/exporter-adresses-de-groupe-modifiees.md).
 
 ### <a id="q3"></a>🛠️  Le renommage des adresses de groupe présente des erreurs dans le métier, la fonctionnalité et/ou l’emplacement des objets des adresses de groupe. Que faire ? 
 Le fonctionnement du logiciel s'appuie sur les informations de topologie et de bâtiment renseignées dans le projet sur ETS. Si ces informations ne sont pas correctement renseignées, les erreurs se répercuteront dans le renommage des adresses de groupe. **Veuillez donc structurer correctement votre projet avant l'utilisation du logiciel**.
