@@ -36,12 +36,34 @@ Pour enregistrer les modifications apportées aux paramètres, cliquez sur « **
 <br>
 ### 2.2.2 📝 Paramètres de la correction <a name="paramètres-de-la-correction"></a>
 
-![image](https://github.com/user-attachments/assets/62ae29a4-e855-4785-953a-822afa465d08)
+![image](https://github.com/user-attachments/assets/d209bd0f-6b36-4f3a-b99d-1afe5af786f5)
 
 Le menu **Correction** permet de configurer les paramètres de correction en fonction de vos besoins. Il se compose de deux sections : **Traduction** et **Gestion des adresses de groupe**. Les détails sont les suivants :
 
 #### 2.2.2.1	Traduction des adresses de groupe
+
+Par défaut, la traduction est désactivée. Elle permet de traduire les noms des adresses de groupes modifiés par KNX Boost Desktop. Pour activer la traduction, cochez l'option **Activer la traduction**. Lors de la première activation, vous serez invité à entrer une clé API Deepl, que vous pouvez obtenir gratuitement sur le site de Deepl via le lien fourni. Une fois la clé API saisie et les paramètres enregistrés pour la première fois, celle-ci sera conservée.
+
+L'option **Activer la détection automatique de la langue pour la traduction** est activée par défaut. Cette option permet à Deepl de détecter automatiquement la langue des mots à traduire. Si la détection automatique n'est pas fiable, vous pouvez spécifier la langue source de la traduction via le menu déroulant sous **Langue source de la traduction**. 
+
+Le menu déroulant sous **Langue destination de la traduction** permet de choisir la langue dans laquelle les noms des adresses de groupes seront traduits.
+
+En cliquant sur ***Enregistrer**, les modifications des paramètres seront sauvegardées. Si un projet est déjà importé, un bouton **Recharger** apparaîtra. En cliquant dessus, le projet sera rechargé avec les nouvelles configurations des paramètres.
+
+![image](https://github.com/user-attachments/assets/5c176a73-e5aa-4deb-b9ba-4aff4e225ff1)
+ 
+En cliquant sur **Annuler**, les modifications des paramètres seront annulées et les derniers paramètres enregistrés seront restaurés.
+
 #### 2.2.2.2	Suppression des adresses de groupe non utilisées<br>
+
+Par défaut, la case **Supprimer les adresses inutilisées** est cochée. Cela signifie que les adresses de groupes qui ne sont liées à aucun participant ne seront pas affichées dans la fenêtre principale, car elles ne peuvent pas être renommées par KNX Boost Desktop. Avec cette option activée, lorsque vous importerez le nouveau fichier d'adresses de groupe dans ETS, les adresses non liées seront précédées du caractère * pour les repérer plus facilement.
+
+En cliquant sur **Enregistrer**, les modifications des paramètres seront sauvegardées. Si un projet est déjà importé, un bouton **Recharger** apparaîtra. En cliquant dessus, le projet sera rechargé avec les nouvelles configurations des paramètres.
+
+![image](https://github.com/user-attachments/assets/cd604f56-5751-4ab2-a03b-960e7fa0bf94)
+
+En cliquant sur **Annuler**, les modifications des paramètres seront annulées et les derniers paramètres enregistrés seront restaurés.
+
 <br>
 <br>
 <br>
