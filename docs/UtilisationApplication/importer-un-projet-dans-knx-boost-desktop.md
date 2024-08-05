@@ -10,7 +10,7 @@
 
 - Cliquez sur le bouton Charger un nouveau projet situé en haut à droite de l'écran.
 
-![img_16.png](pictures/img_16.png)<br>
+![image](https://github.com/user-attachments/assets/81f31c72-456a-417d-8148-52b13911f926)<br>
 <br>
 <br>
 ### 3. Sélectionner le Projet ETS
