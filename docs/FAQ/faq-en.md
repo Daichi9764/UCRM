@@ -18,7 +18,7 @@ These are group addresses that are **not linked to any project object**. These a
 ### <a id="q2"></a> 📤 How to export the .knxproj project with the modified group addresses? 
 Currently, it is not possible to export the entire project for reimport into ETS. 
 To make changes to the project, simply **export the modified group address files** and reimport them into the corresponding ETS project, 
-as detailed in the section [3.5. 📤 Exporting modified group addresses](../UtilisationApplication/EN-export-modified-group-addresses.md
+as detailed in the section [3.5. 📤 Exporting modified group addresses](../UtilisationApplication/EN-export-modified-group-addresses.md)
 
 🔹🔹🔹
 
