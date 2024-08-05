@@ -18,7 +18,8 @@ In this panel, after importing your project, the group addresses as they are nam
 
 **3. Corrected Addresses Panel:**
 
-Similarly, in this panel, the corrected group addresses will appear. See section    3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](UtilisationApplication/EN-navigate-the-modified-project.md)
+Similarly, in this panel, the corrected group addresses will appear.
+See section    3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](UtilisationApplication/EN-navigate-the-modified-project.md)
  for more details on these views.
 
 [← Back](../README-EN.md)

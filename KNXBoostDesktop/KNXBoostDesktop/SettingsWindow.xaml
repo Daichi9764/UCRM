@@ -1052,7 +1052,18 @@
                                                        
                                                        </Grid>
                                                    </StackPanel>
-                                               </StackPanel>
+                                                   
+                                                        <TextBlock x:Name="DocuTitle" FontFamily="Aptos"
+                                                                                  FontSize="17" FontWeight="SemiBold"
+                                                                                  Margin="10,10,0,0" />
+                                                        <TextBlock Margin="10">
+                                                        <Hyperlink x:Name="Hyperlink2"
+                                                                   RequestNavigate="Hyperlink_RequestNavigate" Foreground="#4071B4">
+                                                        </Hyperlink>
+                                                    </TextBlock>
+
+                                </StackPanel>
+                                               
                                            </ScrollViewer>
                                        </TabItem>
                                        
