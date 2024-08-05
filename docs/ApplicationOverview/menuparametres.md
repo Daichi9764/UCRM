@@ -48,7 +48,7 @@ L'option **Activer la détection automatique de la langue pour la traduction** e
 
 Le menu déroulant sous **Langue destination de la traduction** permet de choisir la langue dans laquelle les noms des adresses de groupes seront traduits.
 
-En cliquant sur ***Enregistrer**, les modifications des paramètres seront sauvegardées. Si un projet est déjà importé, un bouton **Recharger** apparaîtra. En cliquant dessus, le projet sera rechargé avec les nouvelles configurations des paramètres.
+En cliquant sur **Enregistrer**, les modifications des paramètres seront sauvegardées. Si un projet est déjà importé, un bouton **Recharger** apparaîtra. En cliquant dessus, le projet sera rechargé avec les nouvelles configurations des paramètres.
 
 ![image](https://github.com/user-attachments/assets/5c176a73-e5aa-4deb-b9ba-4aff4e225ff1)
  
