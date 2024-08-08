@@ -1140,10 +1140,12 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "الاسم والشعارات وأي صورة مرتبطة بـ KNX هي ملك لا يتجزأ لجمعية KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("موقع جمعية KNX");
-                DocuTitle.Text = "توثيق";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("انقر هنا للوصول إلى التوثيق على GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nالتوثيق :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("انقر هنا للوصول إلى التوثيق على GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+
 
                 InclusionTitle.Text = "الشموليات";
                 break;
@@ -1203,10 +1205,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "името, логото и всички изображения, свързани с KNX, са неотменима собственост на асоциацията KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Уебсайт на асоциация KNX");
-                DocuTitle.Text = "Документация";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Кликнете тук, за да получите достъп до документацията в GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nДокументация :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Кликнете тук, за да получите достъп до документацията в GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Включвания";
                 break;
@@ -1266,10 +1269,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "název, loga a jakékoli obrázky související s KNX jsou neoddělitelným vlastnictvím asociace KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Webová stránka asociace KNX");
-                DocuTitle.Text = "Dokumentace";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klikněte zde pro přístup k dokumentaci na GitHubu");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentace :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klikněte zde pro přístup k dokumentaci na GitHubu\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Zahrnutí";
                 break;
@@ -1329,10 +1333,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "navnet, logoerne og alle billeder relateret til KNX er uadskillelig ejendom tilhørende KNX-foreningen. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-foreningens hjemmeside");
-                DocuTitle.Text = "Dokumentation";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klik her for at få adgang til dokumentationen på GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentation :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klik her for at få adgang til dokumentationen på GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inklusioner";
                 break;
@@ -1404,10 +1409,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "der Name, die Logos und alle Bilder im Zusammenhang mit KNX sind unveräußerliches Eigentum der KNX-Vereinigung. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website der KNX-Vereinigung");
-                DocuTitle.Text = "Dokumentation";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klicken Sie hier, um auf die Dokumentation bei GitHub zuzugreifen");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentation :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klicken Sie hier, um auf die Dokumentation bei GitHub zuzugreifen\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inklusionen";
                 break;
@@ -1467,10 +1473,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "το όνομα, τα λογότυπα και οποιαδήποτε εικόνα που σχετίζεται με το KNX είναι αδιαίρετη ιδιοκτησία του συλλόγου KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Ιστότοπος του συλλόγου KNX");
-                DocuTitle.Text = "Τεκμηρίωση";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Κάντε κλικ εδώ για να αποκτήσετε πρόσβαση στην τεκμηρίωση στο GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nΤεκμηρίωση :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Κάντε κλικ εδώ για να αποκτήσετε πρόσβαση στην τεκμηρίωση στο GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Συμπερίληψη";
                 break;
@@ -1542,10 +1549,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "the name, logos, and any images related to KNX are the inalienable property of the KNX association. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX association website");
-                DocuTitle.Text = "Documentation";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Click here to access the documentation on GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentation :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Click here to access the documentation on GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inclusions";
                 break;
@@ -1617,10 +1625,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "el nombre, los logotipos y cualquier imagen relacionada con KNX son propiedad inalienable de la asociación KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Sitio web de la asociación KNX");
-                DocuTitle.Text = "Documentación";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Haga clic aquí para acceder a la documentación en GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentación :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Haga clic aquí para acceder a la documentación en GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inclusiones";
                 break;
@@ -1680,10 +1689,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX-i nimi, logod ja kõik pildid, mis on seotud KNX-iga, on KNX-i ühenduse võõrandamatu omand. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX ühenduse veebisait");
-                DocuTitle.Text = "Dokumentatsioon";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klõpsake siin, et pääseda GitHubi dokumentatsioonile juurde");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentatsioon :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klõpsake siin, et pääseda GitHubi dokumentatsioonile juurde\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Kaasamised";
                 break;
@@ -1755,10 +1765,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX:n nimi, logot ja kaikki kuvat, jotka liittyvät KNX:ään, ovat KNX-yhdistyksen luovuttamatonta omaisuutta. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-yhdistyksen verkkosivusto");
-                DocuTitle.Text = "Dokumentaatio";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Napsauta tästä saadaksesi pääsyn GitHubin dokumentaatioon");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentaatio :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Napsauta tästä saadaksesi pääsyn GitHubin dokumentaatioon\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Sisällytykset";
                 break;
@@ -1830,10 +1841,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "a KNX név, logók és bármilyen kép, amely a KNX-hez kapcsolódik, a KNX egyesület elidegeníthetetlen tulajdona. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX egyesület weboldala");
-                DocuTitle.Text = "Dokumentáció";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Kattintson ide a GitHub dokumentáció eléréséhez");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentáció :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Kattintson ide a GitHub dokumentáció eléréséhez\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Beillesztések";
                 break;
@@ -1905,10 +1917,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "nama, logo, dan gambar apapun yang terkait dengan KNX adalah milik tidak terpisahkan dari asosiasi KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Situs web asosiasi KNX");
-                DocuTitle.Text = "Dokumentasi";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klik di sini untuk mengakses dokumentasi di GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentasi :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klik di sini untuk mengakses dokumentasi di GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Penyertaan";
                 break;
@@ -1980,10 +1993,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "il nome, i loghi e tutte le immagini relative a KNX sono proprietà inalienabile dell'associazione KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Sito web dell'associazione KNX");
-                DocuTitle.Text = "Documentazione";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Clicca qui per accedere alla documentazione su GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentazione :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Clicca qui per accedere alla documentazione su GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inclusioni";
                 break;
@@ -2055,10 +2069,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNXの名前、ロゴ、およびKNXに関連するすべての画像は、KNX協会の不可分の財産です。 \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX協会のウェブサイト");
-                DocuTitle.Text = "ドキュメント";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("GitHubのドキュメントにアクセスするにはここをクリックしてください");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "ドキュメント:";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("GitHubのドキュメントにアクセスするにはここをクリックしてください\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "インクルージョン";
                 break;
@@ -2130,10 +2145,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX의 이름, 로고 및 KNX와 관련된 모든 이미지는 KNX 협회의 양도할 수 없는 자산입니다. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX 협회 웹사이트");
-                DocuTitle.Text = "문서";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("GitHub의 문서에 액세스하려면 여기를 클릭하세요");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "문서:";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("GitHub의 문서에 액세스하려면 여기를 클릭하세요\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "포함";
                 break;
@@ -2205,10 +2221,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX nosaukums, logotipi un jebkādi attēli, kas saistīti ar KNX, ir KNX asociācijas neatņemams īpašums. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX asociācijas tīmekļa vietne");
-                DocuTitle.Text = "Dokumentācija";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klikšķiniet šeit, lai piekļūtu dokumentācijai GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentācija :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klikšķiniet šeit, lai piekļūtu dokumentācijai GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Iekļaušana";
                 break;
@@ -2279,10 +2296,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX pavadinimas, logotipai ir bet kokie su KNX susiję vaizdai yra neatsiejama KNX asociacijos nuosavybė. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX asociacijos svetainė");
-                DocuTitle.Text = "Dokumentacija";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Spustelėkite čia, kad pasiektumėte dokumentaciją GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentacija :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Spustelėkite čia, kad pasiektumėte dokumentaciją GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Įtraukimas";
                 break;
@@ -2354,10 +2372,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "navnet, logoene og alle bilder knyttet til KNX er udelelig eiendom tilhørende KNX-foreningen. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-foreningens nettsted");
-                DocuTitle.Text = "Dokumentasjon";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klikk her for å få tilgang til dokumentasjonen på GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentasjon :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klikk her for å få tilgang til dokumentasjonen på GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
 
                 InclusionTitle.Text = "Inkluderinger";
@@ -2430,10 +2449,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "de naam, logo's en alle afbeeldingen die verband houden met KNX zijn het onvervreemdbaar eigendom van de KNX-vereniging. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website van de KNX-vereniging");
-                DocuTitle.Text = "Documentatie";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klik hier om de documentatie op GitHub te bekijken");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentatie :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klik hier om de documentatie op GitHub te bekijken\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Opnamen";
                 break;
@@ -2505,10 +2525,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "nazwa, logo i wszystkie obrazy związane z KNX są niezbywalną własnością stowarzyszenia KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Strona internetowa stowarzyszenia KNX");
-                DocuTitle.Text = "Dokumentacja";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Kliknij tutaj, aby uzyskać dostęp do dokumentacji na GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentacja :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Kliknij tutaj, aby uzyskać dostęp do dokumentacji na GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Włączenia";
                 break;
@@ -2580,10 +2601,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "o nome, logotipos e quaisquer imagens relacionadas com KNX são propriedade inalienável da associação KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Website da associação KNX");
-                DocuTitle.Text = "Documentação";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Clique aqui para acessar a documentação no GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentação :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Clique aqui para acessar a documentação no GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inclusões";
                 break;
@@ -2655,10 +2677,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "numele, siglele și orice imagine legată de KNX sunt proprietatea inalienabilă a asociației KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Site-ul asociației KNX");
-                DocuTitle.Text = "Documentație";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Faceți clic aici pentru a accesa documentația pe GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDocumentație :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Faceți clic aici pentru a accesa documentația pe GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Incluziuni";
                 break;
@@ -2729,10 +2752,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "názov, logá a akékoľvek obrázky týkajúce sa KNX sú neoddeliteľným majetkom združenia KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Webová stránka združenia KNX");
-                DocuTitle.Text = "Dokumentácia";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Kliknite sem, aby ste získali prístup k dokumentácii na GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentácia :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Kliknite sem, aby ste získali prístup k dokumentácii na GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Zahrnutia";
                 break;
@@ -2804,10 +2828,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "ime, logotipi in vse slike, povezane s KNX, so neodtujljiva last združenja KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Spletna stran združenja KNX");
-                DocuTitle.Text = "Dokumentacija";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Kliknite tukaj za dostop do dokumentacije na GitHubu");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentacija :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Kliknite tukaj za dostop do dokumentacije na GitHubu\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Vključki";
                 break;
@@ -2879,10 +2904,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "namnet, logotyperna och alla bilder relaterade till KNX är KNX-föreningens omistliga egendom. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX-föreningens webbplats");
-                DocuTitle.Text = "Dokumentation";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Klicka här för att få tillgång till dokumentationen på GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokumentation :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Klicka här för att få tillgång till dokumentationen på GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Inkluderingar";
                 break;
@@ -2954,10 +2980,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX'in adı, logoları ve KNX ile ilgili tüm resimler, KNX derneğinin devredilemez mülküdür. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX derneği web sitesi");
-                DocuTitle.Text = "Dokümantasyon";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("GitHub'daki dokümantasyona erişmek için buraya tıklayın");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nDokümantasyon :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("GitHub'daki dokümantasyona erişmek için buraya tıklayın\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Dâhil olanlar";
                 break;
@@ -3029,10 +3056,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "назва, логотипи та будь-які зображення, пов'язані з KNX, є невід'ємною власністю асоціації KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Вебсайт асоціації KNX");
-                DocuTitle.Text = "Документація";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Натисніть тут, щоб отримати доступ до документації на GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nДокументація :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Натисніть тут, щоб отримати доступ до документації на GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Включення";
                 break;
@@ -3104,10 +3132,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "название, логотипы и любые изображения, связанные с KNX, являются неотъемлемой собственностью ассоциации KNX. \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("Веб-сайт ассоциации KNX");
-                DocuTitle.Text = "Документация";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Нажмите здесь, чтобы получить доступ к документации на GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\nДокументация :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Нажмите здесь, чтобы получить доступ к документации на GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
 
                 InclusionTitle.Text = "Включения";                break;
 
@@ -3178,10 +3207,11 @@ public partial class SettingsWindow
                 NoteImportanteContenu.Text = "KNX的名称、标识和任何与KNX相关的图片都是KNX协会不可分割的财产。 \u279e";
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX协会网站");
-                DocuTitle.Text = "文档";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("点击这里访问GitHub上的文档");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
+                
+                Documentation.Text = "\n文档 :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("点击这里访问GitHub上的文档\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
                 InclusionTitle.Text = "包含";
                 break;
 
@@ -3196,10 +3226,10 @@ public partial class SettingsWindow
                 Hyperlink.Inlines.Add("(Cliquez ici pour obtenir une clé gratuitement)");
                 Hyperlink.NavigateUri = new Uri("https://www.deepl.com/fr/pro-api");
 
-                DocuTitle.Text = "Documentation";
-                Hyperlink2.Inlines.Clear();
-                Hyperlink2.Inlines.Add("Cliquez ici pour accéder à la documentation sur GitHub");
-                Hyperlink2.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README.md");
+                Documentation.Text = "\nDocumentation :";
+                HyperlinkDocumentation.Inlines.Clear();
+                HyperlinkDocumentation.Inlines.Add("Cliquez ici pour accéder à la documentation sur GitHub\n");
+                HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README.md");
 
 
                 EnableAutomaticTranslationLangDetectionCheckbox.Content =
@@ -3380,6 +3410,7 @@ public partial class SettingsWindow
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
             MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.Gray);
             HyperlinkInfo.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
+            HyperlinkDocumentation.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
         }
         else // Sinon, on met le thème sombre
         {
@@ -3413,6 +3444,7 @@ public partial class SettingsWindow
             IncludeAddressListCheckBox.Foreground = (bool)AddImportedFilesCheckBox.IsChecked! ? 
                 MainWindow.ConvertStringColor(textColor) : new SolidColorBrush(Colors.DimGray);
             HyperlinkInfo.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
+            HyperlinkDocumentation.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4071B4"));
 
 
         }
@@ -4908,7 +4940,7 @@ public partial class SettingsWindow
     {
         SettingsWindowBorder.LayoutTransform = new ScaleTransform(scale, scale);
             
-        Height = 605 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 605 * scale;
+        Height = 635 * scale > 0.9*SystemParameters.PrimaryScreenHeight ? 0.9*SystemParameters.PrimaryScreenHeight : 635 * scale;
         Width = 500 * scale > 0.9*SystemParameters.PrimaryScreenWidth ? 0.9*SystemParameters.PrimaryScreenWidth : 500 * scale;
     }
         

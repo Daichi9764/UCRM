@@ -1052,15 +1052,6 @@
                                                        
                                                        </Grid>
                                                    </StackPanel>
-                                                   
-                                                        <TextBlock x:Name="DocuTitle" FontFamily="Aptos"
-                                                                                  FontSize="17" FontWeight="SemiBold"
-                                                                                  Margin="10,10,0,0" />
-                                                        <TextBlock Margin="10">
-                                                        <Hyperlink x:Name="Hyperlink2"
-                                                                   RequestNavigate="Hyperlink_RequestNavigate" Foreground="#4071B4">
-                                                        </Hyperlink>
-                                                    </TextBlock>
 
                                 </StackPanel>
                                                
@@ -1324,8 +1315,13 @@
                                                        <TextBlock TextAlignment="Center"
                                                                   Background="Transparent" TextWrapping="Wrap" Padding="10"
                                                                   Margin="0,0,0,0" HorizontalAlignment="Center">
-                                                           <Run x:Name="InformationsText"></Run>
+                                                           <Run x:Name="InformationsText"/>
+                                                           <Run x:Name="Documentation" FontWeight="Bold" TextDecorations="Underline" />
+                                                           <Hyperlink x:Name="HyperlinkDocumentation"
+                                                                      NavigateUri="https://github.com/Daichi9764/UCRM/blob/main/docs/README.md"
+                                                                      RequestNavigate="Hyperlink_RequestNavigate"/>
                                                            <Run x:Name="NoteImportante" FontWeight="Bold" TextDecorations="Underline" />
+                                                           <Run Text=" "/>
                                                            <Run x:Name="NoteImportanteContenu" />
                                                            <Hyperlink x:Name="HyperlinkInfo"
                                                                       NavigateUri="https://www.knx.org/"
