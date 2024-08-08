@@ -2070,7 +2070,7 @@ public partial class SettingsWindow
                 HyperlinkInfo.Inlines.Clear();
                 HyperlinkInfo.Inlines.Add("KNX協会のウェブサイト");
                 
-                Documentation.Text = "ドキュメント:";
+                Documentation.Text = "\nドキュメント:";
                 HyperlinkDocumentation.Inlines.Clear();
                 HyperlinkDocumentation.Inlines.Add("GitHubのドキュメントにアクセスするにはここをクリックしてください\n");
                 HyperlinkDocumentation.NavigateUri = new Uri("https://github.com/Daichi9764/UCRM/blob/main/docs/README-EN.md");
