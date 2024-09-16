@@ -1072,7 +1072,7 @@ public static class GroupAddressNameCorrector
     /// <param name="writeFlagFound">The initial value of the write flag if available.</param>
     /// <param name="transmitFlagFound">The initial value of the transmit flag if available.</param>
     /// <returns>
-    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag,  WriteFlag and TransmitFlag attributes, or an empty string if
+    /// Returns the object type ("Cmd" or "Ie") based on the ReadFlag, WriteFlag and TransmitFlag attributes, or an empty string if
     /// the file, directory, or expected XML elements/attributes are not found or if an error occurs.
     /// </returns>
     /// </summary>
@@ -1966,13 +1966,24 @@ public static class GroupAddressNameCorrector
         }
 
         string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
-        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : "Facade XX";
+        string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : string.Empty;
         string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage";
         string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
         string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
 
         // Format the location details
-        nameLocation = $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
+        if (buildingPartName == string.Empty)
+        {
+            nameLocation =
+                $"_{_formatter.Format(buildingName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
+  
+        }
+        else
+        {
+            nameLocation =
+                $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}_{_formatter.Format(floorName)}_{_formatter.Format(roomName)}";
+        }
+
         if (!string.IsNullOrEmpty(distributionBoardName) && location.DeviceRefsInDistributionBoards.Contains(deviceRef))
         {
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";

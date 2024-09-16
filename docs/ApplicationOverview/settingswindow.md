@@ -31,8 +31,34 @@ To save the changes made to the settings, click on “**Save**” at the bottom 
 <br>
 <br>
 ### 2.2.2 📝 Correction Settings <a name="correction-settings"></a>
+![image](https://github.com/user-attachments/assets/15ce8fc1-5e56-4d8a-aa21-c9bd00dea14b)
+
+The **Correction** menu allows you to configure correction settings according to your needs. It is divided into two sections: **Translation** and **Group address management**. The details are as follows:
+
 #### 2.2.2.1 Translation of group addresses
-#### 2.2.2.2 Deletion of unused group addresses<br>
+
+By default, translation is disabled. It is used to translate the names of group addresses modified by KNX Boost Desktop. To enable translation, check the **Enable translation** option. When enabling translation for the first time, you will be prompted to enter a Deepl API key, which you can obtain for free on the Deepl website via a provided link. Once the API key is entered and the settings are saved for the first time, it will be retained.
+
+The **Enable automatic language detection for translation** option is enabled by default. This option allows Deepl to automatically detect the language of the words to be translated. If automatic language detection is not 100% reliable, you can specify the source language for translation using the dropdown menu under **Translate source language**. 
+
+The dropdown menu under **Translation destination language** allows you to select the language into which the group address names will be translated.
+
+By clicking **Save**, the changes to the settings will be saved. If a project is already imported, a **Reload** button will appear. By clicking on it, the project will be reloaded with the updated settings.
+
+![image](https://github.com/user-attachments/assets/3c5bb060-4549-49e8-a955-100225d715f5)
+
+By clicking **Cancel**, the changes to the settings will be discarded and the last saved settings will be restored.
+
+#### 2.2.2.2 Deletion of unused group addresses<a name="deletion-of-unused-group-addresses"></a><br>
+
+By default, the **Delete unused addresses** checkbox is selected. This means that group addresses not linked to any participants will not be displayed in the main window, as they cannot be renamed by KNX Boost Desktop. With this option enabled, when you import the new group address file into ETS, the unlinked addresses will be prefixed with the * character for easier identification.
+
+By clicking **Save**, the changes to the settings will be saved. If a project is already imported, a **Reload** button will appear. By clicking on it, the project will be reloaded with the updated settings.
+
+![image](https://github.com/user-attachments/assets/3c5bb060-4549-49e8-a955-100225d715f5)
+
+By clicking **Cancel**, the changes to the settings will be discarded and the last saved settings will be restored.
+
 <br>
 <br>
 <br>
@@ -69,7 +95,7 @@ After reloading the project, you can see that when the initial address contained
 
 **Using the ‘\*’ Character to Include Similar Words:** You can use the ‘\*’ character to easily include a whole series of similar words. For example, if you want to include all words that start with ‘*test*’, simply write ‘*test\**’. This will automatically include words like ‘*test1*’, ‘*test2*’, ‘*testXYZ*’, etc.
 
-The ‘\*’ character can also be placed anywhere in a word to represent a variable part. For example, if you write ‘*XX_\*_YY*’, it will include words like ‘*XX_123_YY*’, ‘*XX_ABCDEF_YY*’, and so on.
+The ‘\*’ character can also be placed anywhere in a word to represent a variable part. For example, if you write ‘*XX\*YY*’, it will include words like ‘*XX123YY*’, ‘*XXABCDEFYY*’, and so on.
 
 By using the ‘\*’ character, you can easily specify groups of similar words without having to write them all individually.
 

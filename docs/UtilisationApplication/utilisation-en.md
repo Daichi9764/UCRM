@@ -4,9 +4,9 @@
 
    3.2. 📥 [Import a Project into KNX Boost Desktop](import-a-project-in-knx-boost-desktop.md)
 
-   3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](#navigate-the-modified-project)
+   3.3. 🚶‍♂️‍➡️ [Navigate the Modified Project](EN-navigate-the-modified-project.md)
 
-   3.4. 📝 [Manually Rename Group Addresses](#manually-rename-group-addresses)
+   3.4. 📝 [Manually Rename Group Addresses](EN-manually-rename-group-addresse.md)
 
    3.5. 📤 [Export Modified Group Addresses](EN-export-modified-group-addresses.md)
 
