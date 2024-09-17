@@ -2098,6 +2098,8 @@ public static class GroupAddressNameCorrector
         // Liste pour contenir les mots correspondants
         var matchingWords = new List<string>();
 
+        var tempo = new List<string>();
+
         // Vérifie si un mot correspond à un mot dans lowerCaseStringsToAdd (insensible à la casse)
         if (lowerCaseStringsToAdd != null)
         {
@@ -2110,14 +2112,7 @@ public static class GroupAddressNameCorrector
                 // Parcourt chaque élément de `lowerCaseStringsToAdd`
                 foreach (var word in lowerCaseStringsToAdd)
                 {
-                    //if (lowerCaseStringToAddWord.Contains('*'))
-
-
-                    //ATTENTION
-
-
-
-                    //
+                    
                     int correspondance = 0;
                     bool matchFailed = false; // Flag pour indiquer l'échec d'une correspondance
 
@@ -2129,8 +2124,18 @@ public static class GroupAddressNameCorrector
                     {
                         // Applique une transformation (diacritique et case) au sous-mot actuel
                         string currentSubWord = RemoveDiacritics(decompolowerCaseStringToAddWord[i].ToLower());
-                         if (y >= decompolowerwords.Count) { break; }
-                        // Si les mots ne correspondent pas, revenir à la position initiale de `y` et arrêter la boucle interne
+                        if (y >= decompolowerwords.Count) { break; }
+
+                        if (currentSubWord == "*") 
+                        {
+                            
+                            tempo.Add(decompolowerwords[y].ToUpper());
+                            y++;
+                            correspondance++;
+                            
+                            continue; 
+                        }
+                         // Si les mots ne correspondent pas, revenir à la position initiale de `y` et arrêter la boucle interne
                         if (currentSubWord != decompolowerwords[y])
                         {
                             y = b; // Réinitialiser `y` à sa position d'origine
@@ -2139,8 +2144,10 @@ public static class GroupAddressNameCorrector
                         }
 
                         // Si les mots correspondent, incrémenter `y` et `correspondance`
+                        tempo.Add(currentSubWord.ToUpper());
                         y++;
                         correspondance++;
+                        
                     }
 
                     // Si la correspondance a échoué, passer à la prochaine itération de `lowerCaseStringsToAdd`
@@ -2152,8 +2159,10 @@ public static class GroupAddressNameCorrector
                     // Si tous les sous-mots ont trouvé une correspondance, ajouter lcsta à `matchingWords`
                     if (correspondance == decompolowerCaseStringToAddWord.Length)
                     {
-                        matchingWords.Add(word.ToUpper()); //word
-                        
+                        //matchingWords.Add(word.ToUpper()); //word
+                        matchingWords = tempo;
+
+
                     }
                 }
             }
