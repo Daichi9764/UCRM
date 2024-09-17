@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using System.Net.Http;
 using DeepL;
+using System.Windows.Controls;
 
 namespace KNXBoostDesktop;
 
@@ -943,6 +944,7 @@ public static class GroupAddressNameCorrector
                 var newName = nameObjectType + nameFunction + nameLocation;
                 App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
                 App.ConsoleAndLogWriteLine($"New Name: {newName}");
+                //ComboBox($"New Name: {newName}");
                 nameAttr.Value = newName;  // Update the GroupAddress element's name
 
                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
@@ -950,9 +952,12 @@ public static class GroupAddressNameCorrector
                     // Mark the address as renamed
                     renamedGroupAddressIds.Add(groupAddressElement.Attribute("Id")?.Value ?? string.Empty); 
                 }
+                App.ConsoleAndLogWriteLine("Checking for cancellation...");
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                App.ConsoleAndLogWriteLine("No cancellation requested, proceeding to load and duplicate XML.");
+
             }
-            
+
             // Load the original XML file without any additional modifications
             var originalKnxDoc = App.Fm?.LoadXmlDocument(App.Fm.ZeroXmlPath);
             
@@ -2056,7 +2061,7 @@ public static class GroupAddressNameCorrector
         var isValid = containsLetter && containsDigit;
         return (isValid, isValid ? lastWord : string.Empty);
     }
-    
+
     /// <summary>
     /// Analyzes a given name attribute value to identify and return words that match any of the predefined strings to add, considering case-insensitivity and special matching rules.
     /// 
@@ -2078,88 +2083,90 @@ public static class GroupAddressNameCorrector
     /// </summary>
     private static (bool, string[]) AsStringsToAddInPreviousName(string nameAttrValue)
     {
-        // Replace underscores with spaces
+        // Remplace les underscores par des espaces
         var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
 
-       // Separate the string into words using spaces as delimiters
-        string[] words = modifiedNameAttrValue.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+        // Sépare la chaîne en mots en utilisant les espaces comme délimiteurs
+        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-        // Convert all stringsToAdd to lowercase for case-insensitive comparison
+        // Applique une transformation (diacritique et case) sur chaque mot
+        var decompolowerwords = words.Select(s => RemoveDiacritics(s.ToLower())).ToList();
+
+        // Convertit les stringsToAdd en minuscules pour une comparaison insensible à la casse
         var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.Text.ToLower()).ToArray();
-        
-        // List to hold matching words
+
+        // Liste pour contenir les mots correspondants
         var matchingWords = new List<string>();
 
-        // Check if any word matches a word in lowerCaseStringsToAdd (case-insensitive)
+        // Vérifie si un mot correspond à un mot dans lowerCaseStringsToAdd (insensible à la casse)
         if (lowerCaseStringsToAdd != null)
         {
-            foreach (var word in words)
+            // Parcourt les mots de `decompolowerwords`
+            for (int y = 0; y < decompolowerwords.Count; y++)
             {
-                var lowerCaseWord = RemoveDiacritics(word.ToLower());
+                // Stocke la position initiale de `y` en cas de retour nécessaire
+                int b = y;
 
-                var wordMatchesAnyStringToAdd = false;
-                foreach (var stringToAdd in lowerCaseStringsToAdd)
+                // Parcourt chaque élément de `lowerCaseStringsToAdd`
+                foreach (var word in lowerCaseStringsToAdd)
                 {
-                    var stringToAddWords = stringToAdd.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    //if (lowerCaseStringToAddWord.Contains('*'))
 
-                    var allWordsMatch = true;
-                    foreach (var stringToAddWord in stringToAddWords)
+
+                    //ATTENTION
+
+
+
+                    //
+                    int correspondance = 0;
+                    bool matchFailed = false; // Flag pour indiquer l'échec d'une correspondance
+
+                    // Sépare lcsta par underscore
+                    var decompolowerCaseStringToAddWord = word.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // Parcourt chaque sous-mot de `decompolowerCaseStringToAddWord`
+                    for (int i = 0; i < decompolowerCaseStringToAddWord.Length; i++)
                     {
-                        var lowerCaseStringToAddWord = RemoveDiacritics(stringToAddWord.ToLower());
+                        // Applique une transformation (diacritique et case) au sous-mot actuel
+                        string currentSubWord = RemoveDiacritics(decompolowerCaseStringToAddWord[i].ToLower());
 
-                        if (lowerCaseStringToAddWord.Contains('*'))
+                        // Si les mots ne correspondent pas, revenir à la position initiale de `y` et arrêter la boucle interne
+                        if (currentSubWord != decompolowerwords[y])
                         {
-                            // Split the stringToAddWord by '*'
-                            var parts = lowerCaseStringToAddWord.Split('*');
-
-                            // Check if the word matches the pattern
-                            var currentIndex = 0;
-                            var isMatch = true;
-
-                            foreach (var part in parts)
-                            {
-                                if (string.IsNullOrEmpty(part)) continue;
-
-                                currentIndex = lowerCaseWord.IndexOf(part, currentIndex, StringComparison.Ordinal);
-
-                                if (currentIndex == -1)
-                                {
-                                    isMatch = false;
-                                    break;
-                                }
-
-                                currentIndex += part.Length;
-                            }
-
-                            // Ensure that the entire word is covered by the pattern
-                            if (!(isMatch && parts[0] == lowerCaseWord.Substring(0, parts[0].Length) && lowerCaseWord.EndsWith(parts[^1])))
-                            {
-                                allWordsMatch = false;
-                                break;
-                            }
+                            y = b; // Réinitialiser `y` à sa position d'origine
+                            matchFailed = true; // Indiquer que la correspondance a échoué
+                            break; // Sortir du `for` de comparaison des sous-mots
                         }
-                        else if (lowerCaseStringToAddWord != lowerCaseWord)
-                        {
-                            allWordsMatch = false;
-                            break;
-                        }
+
+                        // Si les mots correspondent, incrémenter `y` et `correspondance`
+                        y++;
+                        correspondance++;
                     }
 
-                    if (allWordsMatch)
+                    // Si la correspondance a échoué, passer à la prochaine itération de `lowerCaseStringsToAdd`
+                    if (matchFailed)
                     {
-                        wordMatchesAnyStringToAdd = true;
-                        break;
+                        continue;
                     }
-                }
 
-                if (wordMatchesAnyStringToAdd)
-                {
-                    matchingWords.Add(word);
+                    // Si tous les sous-mots ont trouvé une correspondance, ajouter lcsta à `matchingWords`
+                    if (correspondance == decompolowerCaseStringToAddWord.Length)
+                    {
+                        matchingWords.Add(word.ToUpper()); //word
+                        
+                    }
                 }
             }
+
         }
+        // Retourner les résultats (boolean indique s'il y a des correspondances, tableau contient les mots correspondants)
         return (matchingWords.Count > 0, matchingWords.ToArray());
+
     }
+
+
+
+
 
     /// <summary>
     /// Determines the formatted name for a device based on its type and the provided name attribute value.
