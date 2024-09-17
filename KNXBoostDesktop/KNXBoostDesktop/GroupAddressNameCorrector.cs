@@ -2129,7 +2129,7 @@ public static class GroupAddressNameCorrector
                     {
                         // Applique une transformation (diacritique et case) au sous-mot actuel
                         string currentSubWord = RemoveDiacritics(decompolowerCaseStringToAddWord[i].ToLower());
-
+                         if (y >= decompolowerwords.Count) { break; }
                         // Si les mots ne correspondent pas, revenir à la position initiale de `y` et arrêter la boucle interne
                         if (currentSubWord != decompolowerwords[y])
                         {
