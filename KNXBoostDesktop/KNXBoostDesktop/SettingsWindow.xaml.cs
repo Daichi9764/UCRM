@@ -1118,7 +1118,7 @@ public partial class SettingsWindow
                                         $"\nالبناء {App.AppBuild}" +
                                         $"\n" +
                                         $"\nبرنامج تم إنشاؤه كجزء من تدريب هندسي بواسطة طلاب INSA Toulouse:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE و Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES و Louison TETAZ" +
                                         $"\n" +
                                         $"\nبإشراف:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1183,7 +1183,7 @@ public partial class SettingsWindow
                                         $"\nИзграждане {App.AppBuild}" +
                                         $"\n" +
                                         $"\nСофтуер, създаден като част от инженерно стаж от студенти на INSA Toulouse:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES и Louison TETAZ" +
                                         $"\n" +
                                         $"\nПод наблюдението на:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1247,7 +1247,7 @@ public partial class SettingsWindow
                                         $"\nBuild {App.AppBuild}" +
                                         $"\n" +
                                         $"\nSoftware vytvořený jako součást inženýrského stáže studenty INSA Toulouse:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES a Louison TETAZ" +
                                         $"\n" +
                                         $"\nPod dohledem:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1311,7 +1311,7 @@ public partial class SettingsWindow
                                         $"\nBuild {App.AppBuild}" +
                                         $"\n" +
                                         $"\nSoftware skabt som en del af en ingeniørpraktik af studerende fra INSA Toulouse:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES og Louison TETAZ" +
                                         $"\n" +
                                         $"\nUnder vejledning af:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1386,7 +1386,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware im Rahmen eines Ingenieurpraktikums von Studenten der INSA Toulouse entwickelt:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE und Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES und Louison TETAZ" +
                     $"\n" +
                     $"\nUnter der Aufsicht von:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1451,7 +1451,7 @@ public partial class SettingsWindow
                                         $"\nΚατασκευή {App.AppBuild}" +
                                         $"\n" +
                                         $"\nΛογισμικό που δημιουργήθηκε ως μέρος της μηχανικής πρακτικής από φοιτητές της INSA Toulouse:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE και Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES και Louison TETAZ" +
                                         $"\n" +
                                         $"\nΥπό την επίβλεψη:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1526,7 +1526,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware developed as part of an engineering internship by students of INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE and Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES and Louison TETAZ" +
                     $"\n" +
                     $"\nUnder the supervision of:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1602,7 +1602,7 @@ public partial class SettingsWindow
                     $"\nCompilación {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware desarrollado como parte de una pasantía de ingeniería por estudiantes de INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE y Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES y Louison TETAZ" +
                     $"\n" +
                     $"\nBajo la supervisión de:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1667,7 +1667,7 @@ public partial class SettingsWindow
                                         $"\nKoostamine {App.AppBuild}" +
                                         $"\n" +
                                         $"\nTarkvara, mille lõid osana inseneripraktikast INSA Toulouse üliõpilased:" +
-                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                                        $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES ja Louison TETAZ" +
                                         $"\n" +
                                         $"\nJärelevalve all:" +
                                         $"\nDidier BESSE (UCRM)" +
@@ -1742,7 +1742,7 @@ public partial class SettingsWindow
                     $"\nKokoelma {App.AppBuild}" +
                     $"\n" +
                     $"\nOhjelmisto kehitetty osana INSAn Toulousen insinööriharjoittelua:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ja Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES ja Louison TETAZ" +
                     $"\n" +
                     $"\nValvonnassa:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1818,7 +1818,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSzoftver az INSA Toulouse mérnöki szakmai gyakorlat keretében fejlesztett:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE és Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES és Louison TETAZ" +
                     $"\n" +
                     $"\nFelügyelete alatt:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1894,7 +1894,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nPerangkat lunak dikembangkan sebagai bagian dari magang teknik oleh siswa INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE dan Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES dan Louison TETAZ" +
                     $"\n" +
                     $"\nDi bawah pengawasan:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -1970,7 +1970,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware sviluppato nell'ambito di uno stage di ingegneria da studenti dell'INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES e Louison TETAZ" +
                     $"\n" +
                     $"\nSotto la supervisione di:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2046,7 +2046,7 @@ public partial class SettingsWindow
                     $"\nビルド {App.AppBuild}" +
                     $"\n" +
                     $"\nINSAトゥールーズの学生によるエンジニアリングインターンシップの一環として開発されたソフトウェア:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES, Louison TETAZ" +
                     $"\n" +
                     $"\n監督の下:" +
                     $"\nDidier BESSE（UCRM）" +
@@ -2122,7 +2122,7 @@ public partial class SettingsWindow
                     $"\n빌드 {App.AppBuild}" +
                     $"\n" +
                     $"\nINSA 툴루즈 학생들이 엔지니어링 인턴십의 일환으로 개발한 소프트웨어:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES, Louison TETAZ" +
                     $"\n" +
                     $"\n감독 하에:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2195,7 +2195,7 @@ public partial class SettingsWindow
                     $"\nBūvēt {App.AppBuild}" +
                     $"\n" +
                     $"\nProgrammatūra izstrādāta INSA Toulouse inženierijas prakses ietvaros:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE un Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES un Louison TETAZ" +
                     $"\n" +
                     $"\nPārraudzīja:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2270,7 +2270,7 @@ public partial class SettingsWindow
                     $"\nKūrimas {App.AppBuild}" +
                     $"\n" +
                     $"\nPrograminė įranga sukurta INSA Toulouse inžinerijos praktikos metu:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ir Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES ir Louison TETAZ" +
                     $"\n" +
                     $"\nPrižiūrėtojai:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2346,7 +2346,7 @@ public partial class SettingsWindow
                     $"\nBygg {App.AppBuild}" +
                     $"\n" +
                     $"\nProgramvare laget som en del av et ingeniørpraksis ved INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE og Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES og Louison TETAZ" +
                     $"\n" +
                     $"\nUnder veiledning av:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2426,7 +2426,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware gemaakt in het kader van een ingenieursstage door studenten van INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE en Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES en Louison TETAZ" +
                     $"\n" +
                     $"\nOnder supervisie van:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2502,7 +2502,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nOprogramowanie stworzone w ramach praktyk inżynierskich przez studentów INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE i Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES i Louison TETAZ" +
                     $"\n" +
                     $"\nPod nadzorem:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2578,7 +2578,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware realizado no âmbito de um estágio de engenharia por estudantes da INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE e Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES e Louison TETAZ" +
                     $"\n" +
                     $"\nSob a supervisão de:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2651,7 +2651,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftware creat în cadrul unui stagiu de inginerie la INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE și Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES și Louison TETAZ" +
                     $"\n" +
                     $"\nSub supravegherea lui:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2726,7 +2726,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nSoftvér vytvorený v rámci inžinierskej stáže na INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE a Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES a Louison TETAZ" +
                     $"\n" +
                     $"\nPod dohľadom:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2802,7 +2802,7 @@ public partial class SettingsWindow
                     $"\nIzgradnja {App.AppBuild}" +
                     $"\n" +
                     $"\nProgramska oprema, izdelana v okviru inženirskega pripravništva na INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE in Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES in Louison TETAZ" +
                     $"\n" +
                     $"\nPod nadzorom:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2881,7 +2881,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nProgramvara utvecklad inom ramen för en ingenjörspraktik av studenter från INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE och Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES och Louison TETAZ" +
                     $"\n" +
                     $"\nUnder överinseende av:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -2957,7 +2957,7 @@ public partial class SettingsWindow
                     $"\nYapı {App.AppBuild}" +
                     $"\n" +
                     $"\nINSA Toulouse öğrencileri tarafından bir mühendislik stajı kapsamında yapılan yazılım:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE ve Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES ve Louison TETAZ" +
                     $"\n" +
                     $"\nGözetim altında:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -3033,7 +3033,7 @@ public partial class SettingsWindow
                     $"\nЗбірка {App.AppBuild}" +
                     $"\n" +
                     $"\nПрограмне забезпечення розроблене в рамках інженерного стажування студентами INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE та Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES та Louison TETAZ" +
                     $"\n" +
                     $"\nПід наглядом:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -3109,7 +3109,7 @@ public partial class SettingsWindow
                     $"\nСборка {App.AppBuild}" +
                     $"\n" +
                     $"\nПрограммное обеспечение, разработанное в рамках инженерной стажировки студентами INSA Toulouse:" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE и Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES и Louison TETAZ" +
                     $"\n" +
                     $"\nПод руководством:" +
                     $"\nDidier BESSE (UCRM)" +
@@ -3184,7 +3184,7 @@ public partial class SettingsWindow
                     $"\n构建 {App.AppBuild}" +
                     $"\n" +
                     $"\n由INSA Toulouse的学生在工程实习中开发的软件：" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE 和 Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES 和 Louison TETAZ" +
                     $"\n" +
                     $"\n在以下人员的指导下：" +
                     $"\nDidier BESSE（UCRM）" +
@@ -3265,7 +3265,7 @@ public partial class SettingsWindow
                     $"\nBuild {App.AppBuild}" +
                     $"\n" +
                     $"\nLogiciel réalisé dans le cadre d'un stage d'ingénierie par des étudiants de l'INSA Toulouse :" +
-                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE et Maxime OLIVEIRA LOPES" +
+                    $"\nNathan BRUGIÈRE, Emma COUSTON, Hugo MICHEL, Daichi MALBRANCHE, Maxime OLIVEIRA LOPES et Louison TETAZ" +
                     $"\n" +
                     $"\nSous la supervision de :" +
                     $"\nDidier BESSE (UCRM)" +

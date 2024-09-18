@@ -40,12 +40,12 @@ public partial class App
     /// <summary>
     /// Represents the version of the application.
     /// </summary>
-    public const float AppVersion = 2.3f; // Version de l'application
+    public const float AppVersion = 2.4f; // Version de l'application
 
     /// <summary>
     /// Represents the build of the application. Updated each time portions of code are merged on github.
     /// </summary>
-    public static readonly int AppBuild = 395;
+    public static readonly int AppBuild = 396;
         
         
     // Gestion des logs

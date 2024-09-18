@@ -2032,6 +2032,24 @@ public static class GroupAddressNameCorrector
         // Separate the string into words using spaces as delimiters
         string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
+        // Vérifier si la dernière entrée est un nombre
+        if (words.Length > 1 && int.TryParse(words[words.Length - 1], out _))
+        {
+            // Fusionner la dernière entrée avec l'entrée précédente
+            var lastIndex = words.Length - 1;
+            var secondLastIndex = words.Length - 2;
+
+            // Créer la nouvelle entrée fusionnée
+            var mergedEntry = words[secondLastIndex] + "_" + words[lastIndex];
+
+            // Remplacer les deux dernières entrées par l'entrée fusionnée
+            var result = new List<string>(words.Take(secondLastIndex)); // Inclure toutes les entrées avant les deux dernières
+            result.Add(mergedEntry); // Ajouter l'entrée fusionnée
+
+            // Convertir la liste en tableau
+            words = result.ToArray();
+        }
+
         // Check for words and get the last word
         if (words.Length == 0)
         {
@@ -2053,7 +2071,7 @@ public static class GroupAddressNameCorrector
             {
                 containsDigit = true;
             }
-            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+' && c != '-')
+            if (!char.IsLetterOrDigit(c) && c != '/' && c != '+' && c != '-' && c != '_')
             {
                 return (false, lastWord);
             }
