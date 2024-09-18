@@ -2096,7 +2096,7 @@ public static class GroupAddressNameCorrector
         // Convertit les stringsToAdd en minuscules pour une comparaison insensible à la casse
         var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd
             .Select(s => s.Text.ToLower())
-            .Select(text => Regex.Replace(text, @"\*", " * ")) // Ajoute un espace avant et après l'étoile
+            .Select(text => Regex.Replace(text, @"\*", " * ")) // Ajoute un espace avant et après l'étoile pour comparaison ensuite
             .ToArray();
 
 
