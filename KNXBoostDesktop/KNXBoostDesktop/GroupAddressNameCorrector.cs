@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using System.Net.Http;
 using DeepL;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 namespace KNXBoostDesktop;
 
@@ -2086,18 +2087,22 @@ public static class GroupAddressNameCorrector
         // Remplace les underscores par des espaces
         var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
 
-        // Sépare la chaîne en mots en utilisant les espaces comme délimiteurs
+        // Sépare la chaîne modifiée par des espaces
         string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
         // Applique une transformation (diacritique et case) sur chaque mot
         var decompolowerwords = words.Select(s => RemoveDiacritics(s.ToLower())).ToList();
 
         // Convertit les stringsToAdd en minuscules pour une comparaison insensible à la casse
-        var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd.Select(s => s.Text.ToLower()).ToArray();
+        var lowerCaseStringsToAdd = App.DisplayElements?.SettingsWindow?.StringsToAdd
+            .Select(s => s.Text.ToLower())
+            .Select(text => Regex.Replace(text, @"\*", " * ")) // Ajoute un espace avant et après l'étoile
+            .ToArray();
+
 
         // Liste pour contenir les mots correspondants
         var matchingWords = new List<string>();
-
+        // Liste temporaire pour contenir les mots correspondants
         var tempo = new List<string>();
 
         // Vérifie si un mot correspond à un mot dans lowerCaseStringsToAdd (insensible à la casse)
@@ -2117,18 +2122,19 @@ public static class GroupAddressNameCorrector
                     bool matchFailed = false; // Flag pour indiquer l'échec d'une correspondance
 
                     // Sépare lcsta par underscore
-                    var decompolowerCaseStringToAddWord = word.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                    var decompolowerCaseStringToAddWord = word.Split(new[] { '_' , ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     // Parcourt chaque sous-mot de `decompolowerCaseStringToAddWord`
                     for (int i = 0; i < decompolowerCaseStringToAddWord.Length; i++)
                     {
+                        
                         // Applique une transformation (diacritique et case) au sous-mot actuel
                         string currentSubWord = RemoveDiacritics(decompolowerCaseStringToAddWord[i].ToLower());
+                       
                         if (y >= decompolowerwords.Count) { break; }
 
                         if (currentSubWord == "*") 
                         {
-                            
                             tempo.Add(decompolowerwords[y].ToUpper());
                             y++;
                             correspondance++;
