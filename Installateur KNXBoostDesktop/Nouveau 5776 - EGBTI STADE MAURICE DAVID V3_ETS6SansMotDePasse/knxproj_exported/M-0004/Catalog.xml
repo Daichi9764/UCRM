@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <Catalog>
+        <CatalogSection Id="M-0004_CS-OU" Name="Ausgabe" Number="OU" VisibleDescription="" DefaultLanguage="de-DE" NonRegRelevantDataVersion="0">
+          <CatalogSection Id="M-0004_CS-OU-BA" Name="Binärausgang, mix" Number="BA" DefaultLanguage="de-DE">
+            <CatalogItem Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8240-O000A_CI-2308.2E16REGHE-1" Name="Schaltaktor 8fach / Jalousieaktor 4fach 16A REG" Number="1" VisibleDescription="Schalten, Jalousie 208012" ProductRefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8240-O000A" DefaultLanguage="de-DE" NonRegRelevantDataVersion="0" />
+          </CatalogSection>
+        </CatalogSection>
+        <CatalogSection Id="M-0004_CS-PB" Name="Bouton poussoir" Number="PB" VisibleDescription="" DefaultLanguage="fr-FR">
+          <CatalogSection Id="M-0004_CS-PB-P2" Name="Bouton poussoir, 2 voies" Number="P2" VisibleDescription="" DefaultLanguage="fr-FR">
+            <CatalogItem Id="M-0004_H-4.20.2F.2F.204192TSM-1_HP-10B2-13-6526-O000A_CI-4192TSM-1" Name="Platine de cde Multifonction, 2voies" Number="1" VisibleDescription="Universal TSM 10B213" ProductRefId="M-0004_H-4.20.2F.2F.204192TSM-1_P-4192TSM" Hardware2ProgramRefId="M-0004_H-4.20.2F.2F.204192TSM-1_HP-10B2-13-6526-O000A" DefaultLanguage="fr-FR" />
+          </CatalogSection>
+        </CatalogSection>
+      </Catalog>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0004_CS-OU">
+            <TranslationElement RefId="M-0004_CS-OU">
+              <Translation AttributeName="Name" Text="Sortie" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_CS-OU-BA">
+            <TranslationElement RefId="M-0004_CS-OU-BA">
+              <Translation AttributeName="Name" Text="Sortie binaire, mixte" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8240-O000A_CI-2308.2E16REGHE-1">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8240-O000A_CI-2308.2E16REGHE-1">
+              <Translation AttributeName="Name" Text="Action. TOR 8 voies/action. volet-roulant 4 voies" />
+              <Translation AttributeName="VisibleDescription" Text="Commutation, store 208012" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_CS-PB">
+            <TranslationElement RefId="M-0004_CS-PB">
+              <Translation AttributeName="Name" Text="Bouton poussoir" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_CS-PB-P2">
+            <TranslationElement RefId="M-0004_CS-PB-P2">
+              <Translation AttributeName="Name" Text="Bouton poussoir, 2 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.204192TSM-1_HP-10B2-13-6526-O000A_CI-4192TSM-1">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.204192TSM-1_HP-10B2-13-6526-O000A_CI-4192TSM-1">
+              <Translation AttributeName="Name" Text="Platine de cde Multifonction, 2voies" />
+              <Translation AttributeName="VisibleDescription" Text="Universal TSM 10B213" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

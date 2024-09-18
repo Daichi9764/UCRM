@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <Hardware>
+        <Hardware Id="M-0064_H-MTN683829-1-O000C" Name="KNX Spannungsversorung 640 REG-K" SerialNumber="MTN683829" VersionNumber="1" BusCurrent="0" HasIndividualAddress="false" HasApplicationProgram="false" IsPowerSupply="true" IsChoke="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN683829-1-O000C_P-MTN683890" Text="Power supply REG-K/640 mA with emergency input" OrderNumber="MTN683890" IsRailMounted="true" WidthInMillimeter="72" DefaultLanguage="en-US" Hash="8QBgZJyt5Hff9i/41EAmNa7ngao=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationDate="2008-02-07" RegistrationSignature="p5WxmmHVGKKYAXSUPNZtLdl30gTZgQ1e3F3eDEN40RSD+ok39P493gT22sFOj+eHlEqcWlo1ZQS0Zxzr4FQms0dQHcdoOT1D9gT6UEECdi/f/RbBx7DQP22On8DkfjJmDOTwZuBcoH+XuSc7fy446JBcbyZ7Vfqy+9a67AgNabA=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN683829-1-O000C_HP" MediumTypes="MT-0" Hash="IVHUQhdVc5XWDJnhGGVNKcIIVwc=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2008/8218" OriginalRegistrationNumber="2000/4549" RegistrationDate="2008-02-07" RegistrationSignature="fHyZgqbMXZZ6DrqffNngTIUNYv988V7Vn/wuEGL/I4Qnug7gzBofi0YK/RFpLAeTVDNfvhvJrE3FoybYNr91cT+68rFn3cqrH6Ra+2f6sGD5Bj1QJKciS6bNqircs1vlTOF4VCTQOzosmQUEg6B5RYEnNq5edOtzXCuTEL1F8Yw=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-Dummy-1-O000A" Name="Dummy-Gerät" SerialNumber="Dummy" VersionNumber="1" BusCurrent="0" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000A">
+          <Products>
+            <Product Id="M-0064_H-Dummy-1-O000A_P-Dummy" Text="Dummy" OrderNumber="Dummy" IsRailMounted="false" DefaultLanguage="en-GB" Hash="qwiESc19mMAlievWWiSQMn9ydeA=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="Q9SO9RruLjLc+vfolGDzYwGVjUQQgC/z2uK48g3Q3PCQqOVrR46MnEVZC4lWjcFOIYc9AKHw18t8FvAnGv6c0A7C59AdTJzI+CJDhFyWy2njPB/RgoLF/mE1WPjHLkGce0yO6PfbxxMpXFvl6DEOcaREEcUFkv+cvkYZsza2WAM=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-Dummy-1-O000A_HP-7104-10-674C-O000C" MediumTypes="MT-0" Hash="ygsYLj9DpdOcLlQ5qAGqD3+9roI=">
+              <ApplicationProgramRef RefId="M-0064_A-7104-10-674C-O000C" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2006/99999" OriginalRegistrationNumber="2002/99999" RegistrationSignature="H4xjzO0MXSxPKu3T6qmi79Ws523wLwx8CCojmLbqd99Z9NPEvIHMRNfiRIFwLzL65YlzAM4NomNXKA4lzzfaDev1cUZrDn872Kf8sxk+5zEI1QvkIFmqSDpyZGydaimN3tZf7h0wHn6mVZO5o7QRCwMlZIV2s7WsxqzP9NgDw/E=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN647593-1-O000C" Name="Schaltaktor REG-K/4x230/16 HB" SerialNumber="MTN647593" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN647593-1-O000C_P-MTN647593" Text="Switch actuator REG-K/4x230/16 with manual mode" OrderNumber="MTN647593" IsRailMounted="true" DefaultLanguage="en-US" Hash="IAqX+EyDLeUYfGVI6QtKrSieW8s=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="pnJtM2sKjvXjv3mFT8iBgJGpZrNkHPeAPzOD0j+cVe2rgQ7/cqXg5oazUz2frkSvBcz/soxVNt0BgkVJeJj+jOLGereQKl+hyW1NLOdc8pB3llyDorQ5bts8xFDw9dWQVghs8MRPNguB8ckYbjeqzH6lNYOLyGycmnF28k85e3s=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN647593-1-O000C_HP-4810-11-72DE-O000C" MediumTypes="MT-0" Hash="4PVKyjBzKy0YLi2DfzHoGA8AiHA=">
+              <ApplicationProgramRef RefId="M-0064_A-4810-11-72DE-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7801" OriginalRegistrationNumber="2006/7428" RegistrationSignature="uN2uJrlPbmYn3oABhTVmKG8NX7v0cN4gOpMGQbw+VTU5QT0McAzj/alW0npBZ/mzVg4Ps19Aiy698NmnLx9ldwPBpBF7xM+eES6UQbjAtR6eEhyMmwDtCrWmavKrCoUvOqXb08OPq/+7dAcAuTQUZXyyTDb3KMTQFbeoVx3JGdM=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN647393-1-O000C" Name="Schaltaktor REG-K/2x230/16 HB" SerialNumber="MTN647393" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN647393-1-O000C_P-MTN647393" Text="Switch actuator REG-K/2x230/16 with manual mode" OrderNumber="MTN647393" IsRailMounted="true" DefaultLanguage="en-US" Hash="GGs7WtnY41JC9n5tk9BR/tFw6FU=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="wiupWP5zQJ2F42i8PzTimy4uN8D1/usKVZxvz27V9DBXJjsp/sVd9xxiwpNIy+XCSuSJ6BjDSFPY2ToaI1K6z1XGGqbUPoFq2J6DECetNmjrPvUFjqhuYQQ61DNff/9sbWwZLMegVnCSSxmEdNagzMu172h2Fk5UJqhuEl8dAXQ=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN647393-1-O000C_HP-4810-11-72DE-O000C" MediumTypes="MT-0" Hash="gJGr56w6vMSRV3sf9P+StV73Ig4=">
+              <ApplicationProgramRef RefId="M-0064_A-4810-11-72DE-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7800" OriginalRegistrationNumber="2006/7429" RegistrationSignature="j8oFrH43bpBNOWaVhYYn3nLzHx6p0Ac9XHJlcxD7uh6hSuCW55NV6D1Prr6QSx9bXe1j470Ac9Uv5CHjhD+OZfsbPZnRE3dcFSLTnSKitDHkGipMOAYnebdUTWMvKIqq2vjeKOFGce2tOO0v4r0NedEvq+T2mx016Iv2TQwZIxU=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN647893-1-O000C" Name="Schaltaktor REG-K/8x230/16" SerialNumber="MTN647893" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN647893-1-O000C_P-MTN647893" Text="Switch actuator REG-K/8x230/16" OrderNumber="MTN647893" IsRailMounted="true" WidthInMillimeter="144" DefaultLanguage="en-US" Hash="7woMfqZHTTMSmXxlIea8HPDLlaw=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="vSvpC4z2HPpi2UQUiTA4g7jZ/L8ad1qr4HwbbPCEtUepYvQ8lCm7HzJ0Oxr+mPuX+y4E6V5YkjIjL1b9syQfs3awIexriK0alldlRrkEA9Jo0gnd7m37wVS/cHqDuZxYHXy/lfyvCZzbhepC3JULh3s1xmJY7VvVFMmQQteUBRc=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN647893-1-O000C_HP-480B-21-CBDC-O000C" MediumTypes="MT-0" Hash="4e8S+YITNO+wXZFkiSNZ6XYetOQ=">
+              <ApplicationProgramRef RefId="M-0064_A-480B-21-CBDC-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2008/8346" OriginalRegistrationNumber="2008/8334" RegistrationSignature="gqO35spG381T8RkVzws0erwVORa/qY43pCPOWIDSNwCpZ4T1uMTRtr8RlM+2esx7aKcAoBWYSfqgv8kCsyNj8Kf9U1/2nffPeZWBWPEktER3/UtgTlir+XMdEPFcNr2KLQKR+GH3V/Bj7d0+1kpVL9MmDm7xXfPqncvN5cprDrA=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN644692-1-O000C" Name="Binäreingang REG-K/8x230" SerialNumber="MTN644692" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C">
+          <Products>
+            <Product Id="M-0064_H-MTN644692-1-O000C_P-MTN644692" Text="Binary input REG-K/ 8x230" OrderNumber="MTN644692" IsRailMounted="true" DefaultLanguage="en-US" Hash="oQlcWUzJ4soNsqRJ5hUBVg5CGlU=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="G4tymvdyaD6wpuvrODLp5rpB6jYBy4n2UruS0rzQMKs7HtvnLcuFBX4ge2aAufL1i48GvB2XnGxWgXf9KtWyC8glA6HnjBmxj55ZwybU0tIck8NfIxdIxPBen5TH9k1C8KX9q7IJNK5XrxT1bKm05kVA2rkSw961Xe6x6+LYZ+0=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN644692-1-O000C_HP-12BA-11-70CE-O000C" MediumTypes="MT-0" Hash="GzACCAAmAIRO1Metpbdccwk/94g=">
+              <ApplicationProgramRef RefId="M-0064_A-12BA-11-70CE-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7794" OriginalRegistrationNumber="2006/7837" RegistrationSignature="AfO4rdIgynWrWJsIOhJrK9dtNtGtOEpZGTNN2A9Chy9I2Wsg6ax2zGUkD3PhPp/l62CkFRARaFpUGOpToJHIl/TKgB+VWRwv7j9a02FVfA7MFtZFJaCnnVStZr7W3EyvVGkLQecTPr3H4QuaFjby0dxPArz/KStWnflJ0J9HbRI=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN6725.2D0003-1-O00EF" Name="KNX DALI-Gateway Basic REG-K/1/16/64" SerialNumber="MTN6725-0003" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-00EF">
+          <Products>
+            <Product Id="M-0064_H-MTN6725.2D0003-1-O00EF_P-MTN6725.2D0003" Text="KNX DALI-Gateway Basic REG-K/1/16/64" OrderNumber="MTN6725-0003" IsRailMounted="true" WidthInMillimeter="72" VisibleDescription="KNX DALI-Gateway Basic REG-K/1/16/64" DefaultLanguage="en-US" Hash="6E6HKtKtDOD18lK5466podGbyjQ=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2017-11-17" RegistrationSignature="L44MI0MKleoXNrDx/0nAp2iXMuyk9VNG2EGv6NrYNwDidD/qkaFG9EJoyQZFVNI1uMI9CfB2u+KDNUwbzmNwyWIj5nqLjxvk+ypj0Hg5zzipLIb7n5uEbmro2HBNUd/jVHaZinQO9Er9iM2XHI5MBRGxo5aj7X/kxK/dA3rih9U=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN6725.2D0003-1-O00EF_HP-7308-10-D7FE-O00EF" MediumTypes="MT-0" Hash="L2bLv04l1s0df6cwi8QR+Z0iBAg=">
+              <ApplicationProgramRef RefId="M-0064_A-7308-10-D7FE-O00EF" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2017/14416" RegistrationDate="2017-11-17" RegistrationSignature="UsgggqY8D+4rwZZZV48UNRSoBIwgeC7jTlgTC4nFTITcspLzGCZAgZgkwW2TPjp8JECSh+GDDOJlpWSeAzUx7eVMzoQ8EozxCbt3HaFNkM4PhF8agmDNG5GUAyu985JbMLdaGDoTfX5qbkk3qk4MP69UngtVQydJn1Kr15vq7Rs=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-MTN649204-1-O000C" Name="Schaltaktor REG-K/12x230/10 m. HB" SerialNumber="MTN649204" VersionNumber="1" HasIndividualAddress="true" HasApplicationProgram="true" OriginalManufacturer="M-000C" NoDownloadWithoutPlugin="true">
+          <Products>
+            <Product Id="M-0064_H-MTN649204-1-O000C_P-MTN649204" Text="Switch actuator REG-K/4x230/10 with manual mode" OrderNumber="MTN649204" IsRailMounted="true" DefaultLanguage="en-US" Hash="y7TuYgDmgiTyLroMZaXfb6Axy9w=">
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationSignature="ycXwHMWptYPP9A8HRiWVEq2krDs2yn+sleQ7jqCvhdwnCtraSAUwnbx7FAbsC9ETVepkY32J77nVmzX3GdxW0q6czoWxevYF33CbhLbvJZRVgVruoujT265BVR8izK5o86w1BH7OzgQA9/jN7Cv6uq1bTso6UJw/dcbSRmuK6oY=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-MTN649204-1-O000C_HP-4820-11-13BC-O000C" MediumTypes="MT-0" Hash="XJSmxQrcFLo5LEu4QB/ab2IVnDg=">
+              <ApplicationProgramRef RefId="M-0064_A-4820-11-13BC-O000C" />
+              <RegistrationInfo RegistrationStatus="Certified" RegistrationNumber="2006/7819" OriginalRegistrationNumber="2006/7661" RegistrationSignature="pFpuPACBikaPSZAxhmxzYBHITkYqT7KJLQsGRWJfBvgbu9j6ztWWhgRTwKGNTaHpuGn+64PCW9X146Pw8g9FKVxYrTmuhif1JDUoV/NHgn1Fuxaj305uMD+Lp+VQWkxgLH/9TQRDjjffI7/7iIYSncNve8uaaza7xCRAw6EtD8s=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5" Name="SpaceLogic KNX Coupler DIN Rail" SerialNumber="SpaceLogic KNX Coupler DIN Rail" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true" IsCoupler="true" OriginalManufacturer="M-00C5">
+          <Products>
+            <Product Id="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101" Text="SpaceLogic KNX Coupler DIN Rail" OrderNumber="MTN6500-0101" IsRailMounted="true" WidthInMillimeter="18" DefaultLanguage="en-US" Hash="WvR+rQ+YtXJl1383OsVMIz09t9w=">
+              <Attributes>
+                <Attribute Id="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101_AT-CatalogName" Name="CatalogName" Value="SpaceLogic KNX Coupler DIN Rail" />
+                <Attribute Id="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101_AT-Colour" Name="Colour" Value="gray" />
+              </Attributes>
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2019-10-16" RegistrationSignature="HIQie75apcWJKstr2qVO8ZciOJIUEvcFJUezxvZiVpyQZhR/VMMNnvpkcsXlz2xqBvjavTSKIn/NsK6l/BMGhf1AY0nsmNXyuRNHAEH8dDn6rNZKqt3DC/Tt/eX+Cz6QZVALsO04aOHnZ7pBj0X/Rtpc21kJdtOF0wyme/wYwjY=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_HP-7117-11-44C6-O00C5" MediumTypes="MT-0" Hash="O+ix6t7rI8wPyzBrbnk8IDzXhXg=">
+              <ApplicationProgramRef RefId="M-0064_A-7117-11-44C6-O00C5" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2019/16084" RegistrationDate="2019-10-16" RegistrationSignature="PBFLoGSo5ywmTC60jC9qvl/GLvPVwHz21et2iyx+nWB3eGBrZdET2NV5UrpRs94H1mFqeby9deQGakyfKhYDyjoi2bnT/aML5bq8LK8RVXg4rOisUUMkgMa+zWPfyCG3Uj77bcNEGhOn68Hfz8xZdq1jJhA17IiN0i4xoWy736M=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0064_H-MTN683829-1-O000C_P-MTN683890">
+            <TranslationElement RefId="M-0064_H-MTN683829-1-O000C_P-MTN683890">
+              <Translation AttributeName="Text" Text="Alimentation KNX REG-K/640 mA avec entrée secours " />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-Dummy-1-O000A_P-Dummy">
+            <TranslationElement RefId="M-0064_H-Dummy-1-O000A_P-Dummy">
+              <Translation AttributeName="Text" Text="Appareil Factice" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647593-1-O000C_P-MTN647593">
+            <TranslationElement RefId="M-0064_H-MTN647593-1-O000C_P-MTN647593">
+              <Translation AttributeName="Text" Text="Act de commutation REG-K/4x230/16 à CM" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+            <TranslationElement RefId="M-0064_H-MTN647393-1-O000C_P-MTN647393">
+              <Translation AttributeName="Text" Text="Act de commutation REG-K/2x230/16 à CM" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN647893-1-O000C_P-MTN647893">
+            <TranslationElement RefId="M-0064_H-MTN647893-1-O000C_P-MTN647893">
+              <Translation AttributeName="Text" Text="Act. de commutation REG-K/8x230/16 à CM" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN644692-1-O000C_P-MTN644692">
+            <TranslationElement RefId="M-0064_H-MTN644692-1-O000C_P-MTN644692">
+              <Translation AttributeName="Text" Text="Entrée binaire REG-K/ 8x230" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN6725.2D0003-1-O00EF_P-MTN6725.2D0003">
+            <TranslationElement RefId="M-0064_H-MTN6725.2D0003-1-O00EF_P-MTN6725.2D0003">
+              <Translation AttributeName="Text" Text="KNX DALI-Gateway Basic REG-K/1/16/64" />
+              <Translation AttributeName="VisibleDescription" Text="KNX DALI-Gateway Basic REG-K/1/16/64" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-MTN649204-1-O000C_P-MTN649204">
+            <TranslationElement RefId="M-0064_H-MTN649204-1-O000C_P-MTN649204">
+              <Translation AttributeName="Text" Text="Actionneur REG-K/4x230/10 à cde manuelle" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101">
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Coupleur de rail DIN" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101_AT-CatalogName">
+              <Translation AttributeName="Value" Text="SpaceLogic KNX Coupleur de rail DIN" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_H-SpaceLogic.20KNX.20Coupler.20DIN.20Rail-1-O00C5_P-MTN6500.2D0101_AT-Colour">
+              <Translation AttributeName="Value" Text="gris" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

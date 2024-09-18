@@ -1,0 +1,18 @@
+-----------------------------------------------------------------------------------------
+|                                KNXBOOSTDESKTOP SETTINGS                               |
+-----------------------------------------------------------------------------------------
+enable deepL translation : False
+deepL Key [ENCRYPTED] : 
+source translation lang : FR
+enable automatic source lang detection for translation : True
+destination translation lang : FR
+remove unused group addresses : True
+theme : light
+application language : FR
+window scale factor : 100
+strings to keep in corrected addresses : mat_1
+-----------------------------------------------------------------------------------------
+Available languages: AR, BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH
+
+/!\ WARNING:
+Any value that you modify in this file and that is not correct will be replaced by a default value.

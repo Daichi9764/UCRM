@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <ApplicationPrograms>
+        <ApplicationProgram Id="M-0064_A-7117-11-44C6-O00C5" ApplicationNumber="28951" ApplicationVersion="17" ProgramType="ApplicationProgram" MaskVersion="MV-0912" VisibleDescription="Coupler secure 7117/1.1" Name="Coupler secure 7117/1.1" LoadProcedureStyle="MergedProcedure" PeiType="0" DefaultLanguage="en-US" DynamicTableManagement="false" Linkable="false" IsSecureEnabled="true" MinEtsVersion="5.0" OriginalManufacturer="M-00C5" Hash="RFFQ/ZH4VcmVkM81PpYxxg==">
+          <Static>
+            <ParameterTypes>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Name="Bool">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="Disabled" Value="0" Id="M-0064_A-7117-11-44C6-O00C5_PT-Bool_EN-0" />
+                  <Enumeration Text="Enabled" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-Bool_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Name="RoutingWithFilter">
+                <TypeRestriction Base="Value" SizeInBit="2">
+                  <Enumeration Text="Block" Value="2" Id="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-2" />
+                  <Enumeration Text="Route" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-1" />
+                  <Enumeration Text="Filter" Value="3" Id="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-3" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge" Name="GrpAcknowledge">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="Always" Value="0" Id="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge_EN-0" />
+                  <Enumeration Text="Only if routed" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge_EN-1" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock" Name="BroadcastLock">
+                <TypeRestriction Base="Value" SizeInBit="1">
+                  <Enumeration Text="Block" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock_EN-1" />
+                  <Enumeration Text="Route" Value="0" Id="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock_EN-0" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge" Name="PhysAcknowledge">
+                <TypeRestriction Base="Value" SizeInBit="2">
+                  <Enumeration Text="Only if routed" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-1" />
+                  <Enumeration Text="Always" Value="2" Id="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-2" />
+                  <Enumeration Text="Answer with NACK" Value="3" Id="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-3" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation" Name="ManualOperation">
+                <TypeRestriction Base="Value" SizeInBit="8">
+                  <Enumeration Text="Disabled" Value="0" Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-0" />
+                  <Enumeration Text="Enabled with time limit 1 min" Value="1" Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-1" />
+                  <Enumeration Text="Enabled with time limit 10 min" Value="2" Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-2" />
+                  <Enumeration Text="Enabled with time limit 30 min" Value="3" Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-3" />
+                  <Enumeration Text="Enabled without time limit" Value="4" Id="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-4" />
+                </TypeRestriction>
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-String30" Name="String30">
+                <TypeText SizeInBit="240" />
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-Logo" Name="Logo">
+                <TypePicture RefId="M-0064_BG--logo.2Epng" HorizontalAlignment="Right" />
+              </ParameterType>
+              <ParameterType Id="M-0064_A-7117-11-44C6-O00C5_PT-Wiring" Name="Wiring">
+                <TypePicture RefId="M-0064_BG--0650.5FWiringPlan.5F2017.2D01.2D25.2D002.2Epng" />
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-42" Name="AckOfPhysTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge" Text="Acknowledge (ACK) of individual addressed telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-27" Name="AckOfGrpTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge" Text="Acknowledge (ACK) of group telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="2" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-26" Name="BroadcastTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock" Text="Broadcast telegrams" Value="0">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="4" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-25" Name="PhysTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Individual addressed telegrams" Value="3">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="6" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-24" Name="GrpTelSubMain_14_31" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Group telegrams (main groups 14 to 31)" Value="3">
+                <Property ObjectType="6" PropertyId="55" Offset="0" BitOffset="4" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-23" Name="GrpTelSubMain_0_13" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Group telegrams (main groups 0 to 13)" Value="3">
+                <Property ObjectType="6" PropertyId="55" Offset="0" BitOffset="6" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-34" Name="RepetitionBroadcastTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of broadcast telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="3" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-31" Name="BroadcastTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock" Text="Broadcast telegrams" Value="0">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="4" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-33" Name="RepetitionPhysTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of individual addressed telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="53" Offset="0" BitOffset="5" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-30" Name="PhysTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Individual addressed telegrams" Value="3">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="6" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-32" Name="RepetitionGrpTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of group telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="55" Offset="0" BitOffset="3" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-29" Name="GrpTelMainSub_14_31" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Group telegrams (main groups 14 to 31)" Value="3">
+                <Property ObjectType="6" PropertyId="54" Offset="0" BitOffset="4" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-28" Name="GrpTelMainSub_0_13" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter" Text="Group telegrams (main groups 0 to 13)" Value="3">
+                <Property ObjectType="6" PropertyId="54" Offset="0" BitOffset="6" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-1" Name="RepetitionGrpTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of group telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="54" Offset="0" BitOffset="3" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-2" Name="RepetitionPhysTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of individual addressed telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="5" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-3" Name="RepetitionBroadcastTelSubMain" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Repetition of broadcast telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="3" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-4" Name="AckOfGrpTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge" Text="Acknowledge (ACK) of group telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="2" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-5" Name="AckOfPhysTelMainSub" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge" Text="Acknowledge (ACK) of individual addressed telegrams" Value="1">
+                <Property ObjectType="6" PropertyId="52" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-6" Name="ProgMode" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Bool" Text="Prog. mode on device front" Access="None" Value="1">
+                <Property ObjectType="50442" PropertyId="201" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-7" Name="ManualOperation" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation" Text="Manual operation on device" Value="1">
+                <Property ObjectType="50442" PropertyId="202" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-8" Name="UserFriendlyName" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-String30" Text="Device name" Value="">
+                <Property ObjectType="50442" PropertyId="203" Offset="0" BitOffset="0" />
+              </Parameter>
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-9" Name="LogoParameter" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Logo" Text="SpaceLogic KNX Coupler DIN Rail&#xD;&#xA;MTN6500-0101" Value="" />
+              <Parameter Id="M-0064_A-7117-11-44C6-O00C5_P-10" Name="Wiring" ParameterType="M-0064_A-7117-11-44C6-O00C5_PT-Wiring" Text="Wiring scheme:" Value="" />
+            </Parameters>
+            <ParameterRefs>
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-23_R-23" RefId="M-0064_A-7117-11-44C6-O00C5_P-23" Tag="23" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-24_R-24" RefId="M-0064_A-7117-11-44C6-O00C5_P-24" Tag="24" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-25_R-25" RefId="M-0064_A-7117-11-44C6-O00C5_P-25" Tag="25" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-26_R-26" RefId="M-0064_A-7117-11-44C6-O00C5_P-26" Tag="26" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-27_R-27" RefId="M-0064_A-7117-11-44C6-O00C5_P-27" Tag="27" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-42_R-42" RefId="M-0064_A-7117-11-44C6-O00C5_P-42" Tag="42" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-28_R-28" RefId="M-0064_A-7117-11-44C6-O00C5_P-28" Tag="28" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-29_R-29" RefId="M-0064_A-7117-11-44C6-O00C5_P-29" Tag="29" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-30_R-30" RefId="M-0064_A-7117-11-44C6-O00C5_P-30" Tag="30" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-31_R-31" RefId="M-0064_A-7117-11-44C6-O00C5_P-31" Tag="31" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-32_R-32" RefId="M-0064_A-7117-11-44C6-O00C5_P-32" Tag="32" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-33_R-33" RefId="M-0064_A-7117-11-44C6-O00C5_P-33" Tag="33" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-34_R-34" RefId="M-0064_A-7117-11-44C6-O00C5_P-34" Tag="34" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-1_R-1" RefId="M-0064_A-7117-11-44C6-O00C5_P-1" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-2_R-2" RefId="M-0064_A-7117-11-44C6-O00C5_P-2" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-3_R-3" RefId="M-0064_A-7117-11-44C6-O00C5_P-3" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-4_R-4" RefId="M-0064_A-7117-11-44C6-O00C5_P-4" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-5_R-5" RefId="M-0064_A-7117-11-44C6-O00C5_P-5" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-6_R-6" RefId="M-0064_A-7117-11-44C6-O00C5_P-6" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-7_R-7" RefId="M-0064_A-7117-11-44C6-O00C5_P-7" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-8_R-8" RefId="M-0064_A-7117-11-44C6-O00C5_P-8" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-9_R-9" RefId="M-0064_A-7117-11-44C6-O00C5_P-9" />
+              <ParameterRef Id="M-0064_A-7117-11-44C6-O00C5_P-10_R-10" RefId="M-0064_A-7117-11-44C6-O00C5_P-10" />
+            </ParameterRefs>
+            <LoadProcedures>
+              <LoadProcedure MergeId="1">
+                <LdCtrlCompareProp InlineData="0064" ObjIdx="0" PropId="12" />
+                <LdCtrlCompareProp InlineData="0000C5060103" ObjIdx="0" PropId="78" />
+              </LoadProcedure>
+              <LoadProcedure MergeId="3">
+                <LdCtrlWriteProp ObjType="50442" PropId="201" Verify="false" />
+                <LdCtrlWriteProp ObjType="50442" PropId="202" Verify="false" />
+                <LdCtrlWriteProp ObjType="50442" PropId="203" Count="30" Verify="false" />
+              </LoadProcedure>
+            </LoadProcedures>
+            <Extension>
+              <Baggage RefId="M-0064_BG--0650.5FWiringPlan.5F2017.2D01.2D25.2D002.2Epng" />
+              <Baggage RefId="M-0064_BG--logo.2Epng" />
+            </Extension>
+            <Options LineCoupler0912NewProgrammingStyle="true" Comparable="true" Reconstructable="true" SupportsExtendedMemoryServices="true" SupportsExtendedPropertyServices="true" />
+          </Static>
+          <Dynamic>
+            <ChannelIndependentBlock>
+              <ParameterBlock Id="M-0064_A-7117-11-44C6-O00C5_PB-1" Name="DeviceDescription" Text="Description">
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-9_R-9" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-1" Text="" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-4" Text="The SpaceLogic KNX Coupler contains 2 TP-256 bus coupling units and consumes 5mA from the mainline and 3mA from the subline." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-5" Text="The Coupler saves space (only 18mm width) and does not need an additional external power supply." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-20" Text="The device can be used as a coupler between 2 twisted pair lines, a subline and a mainline." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-6" Text="The device enables KNX Data Secure by supporting long frame telegrams, for this no special setting is needed." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-21" Text="The Coupler can be programmed via both TP ports and does not need a plugin or DCA." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-11" Text="The KNX connector on the top connects the mainline and the connector at the buttom the subline." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-12" Text="The KNX coupler has a filter table  (8K Bytes) and ensures a galvanic isolation between the lines." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-13" Text="Upper push button: Pass all Group Address telegrams.&#xD;&#xA;Lower push button: Pass all Physical Adress telegrams." />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-14" Text="The physical address must be set correctly to avoid a malfunction!" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-15" Text="The LEDs have the following meanings:" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-16" Text="Main LED&#xD;&#xA;- Permanent green: KNX busvoltage mainline OK&#xD;&#xA;- Flickering green:  Telegrams on the mainline&#xD;&#xA;- Sometime red:  Communication errors mainline" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-17" Text="Mode LED&#xD;&#xA;- Permanent green: Normal working modus,&#xD;&#xA;- Permanent red:  Program modus is active" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-19" Text="- Flashing orange 1 times: Manual mode pass GAs or PAs&#xD;&#xA;- Flashing orange 2 times: Manual mode pass GAs and PAs&#xD;&#xA;- Blinking red:  Device does not work correctly" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-18" Text="Sub LED&#xD;&#xA;- Permanent green: KNX busvoltage subline OK&#xD;&#xA;- Flickering green:  Telegrams on the subline&#xD;&#xA;- Sometime red:  Communication errors subline" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-7" Text="" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-10_R-10" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-8" Text="Please consult the product information. For further information: &#xD;&#xA;https://go2se.com/ref=MTN6500-0101" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-9" Text="" />
+                <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-10" Text="Contact:&#xD;&#xA;Schneider Electric&#xD;&#xA;If you have technical questions, please contact the Customer Care Centre in your country.&#xD;&#xA;schneider-electric.com/contact" />
+              </ParameterBlock>
+              <ParameterBlock Id="M-0064_A-7117-11-44C6-O00C5_PB-2" Name="General" Text="General settings">
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-8_R-8" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-6_R-6" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-7_R-7" />
+              </ParameterBlock>
+              <ParameterBlock Id="M-0064_A-7117-11-44C6-O00C5_PB-3" Name="RoutingSubMain" Text="Routing (Sub -&gt; Main)">
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-23_R-23" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-24_R-24" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-25_R-25" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-26_R-26" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-1_R-1" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-2_R-2" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-3_R-3" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-27_R-27" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-42_R-42" />
+                <choose ParamRefId="M-0064_A-7117-11-44C6-O00C5_P-42_R-42">
+                  <when test="3">
+                    <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-2" Text="Attention: If &quot;Answer with NACK&quot;, device cannot be accessed via the subline!" />
+                  </when>
+                </choose>
+              </ParameterBlock>
+              <ParameterBlock Id="M-0064_A-7117-11-44C6-O00C5_PB-4" Name="RoutingMainSub" Text="Routing (Main -&gt; Sub)">
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-28_R-28" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-29_R-29" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-30_R-30" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-31_R-31" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-32_R-32" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-33_R-33" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-34_R-34" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-4_R-4" />
+                <ParameterRefRef RefId="M-0064_A-7117-11-44C6-O00C5_P-5_R-5" />
+                <choose ParamRefId="M-0064_A-7117-11-44C6-O00C5_P-5_R-5">
+                  <when test="3">
+                    <ParameterSeparator Id="M-0064_A-7117-11-44C6-O00C5_PS-3" Text="Attention: If &quot;Answer with NACK&quot;, device cannot be accessed via the mainline!" />
+                  </when>
+                </choose>
+              </ParameterBlock>
+            </ChannelIndependentBlock>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0064_A-7117-11-44C6-O00C5">
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5">
+              <Translation AttributeName="VisibleDescription" Text="Coupleur Secure 7117/1.1" />
+              <Translation AttributeName="Name" Text="Coupleur Secure 7117/1.1" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-Bool_EN-0">
+              <Translation AttributeName="Text" Text="verrouillé(e)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-Bool_EN-1">
+              <Translation AttributeName="Text" Text="libéré(e)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-2">
+              <Translation AttributeName="Text" Text="Verrouillé" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-1">
+              <Translation AttributeName="Text" Text="Transmettre" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-RoutingWithFilter_EN-3">
+              <Translation AttributeName="Text" Text="Filtrer" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge_EN-0">
+              <Translation AttributeName="Text" Text="toujours" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-GrpAcknowledge_EN-1">
+              <Translation AttributeName="Text" Text="uniq. en cas de transm." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock_EN-1">
+              <Translation AttributeName="Text" Text="Verrouillé" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-BroadcastLock_EN-0">
+              <Translation AttributeName="Text" Text="Transmettre" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-1">
+              <Translation AttributeName="Text" Text="uniq. en cas de transm." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-2">
+              <Translation AttributeName="Text" Text="toujours" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-PhysAcknowledge_EN-3">
+              <Translation AttributeName="Text" Text="Réponse NACK" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-0">
+              <Translation AttributeName="Text" Text="verrouillé(e)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-1">
+              <Translation AttributeName="Text" Text="Activé avec délai limite 1 min" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-2">
+              <Translation AttributeName="Text" Text="Activé avec délai limite 10 min" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-3">
+              <Translation AttributeName="Text" Text="Activé avec délai limite 30 min" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PT-ManualOperation_EN-4">
+              <Translation AttributeName="Text" Text="Activé sans délai limite" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-42">
+              <Translation AttributeName="Text" Text="Validation (ACK) de télégrammes adressés individuellement" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-27">
+              <Translation AttributeName="Text" Text="Confirmation (ACK) de&#xD;&#xA;télégrammes de groupe" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-26">
+              <Translation AttributeName="Text" Text="Télégrammes de diffusion général &#xD;&#xA;(Broadcast)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-25">
+              <Translation AttributeName="Text" Text="Télégrammes&#xD;&#xA;à l'adresse physique" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-24">
+              <Translation AttributeName="Text" Text="Télégrammes de groupe (groupes principaux 14 à 31)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-23">
+              <Translation AttributeName="Text" Text="Télégrammes de groupe&#xD;&#xA;(groupe principal 0 à 13)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-34">
+              <Translation AttributeName="Text" Text="Envoi répété de télégrammes&#xD;&#xA;à diffusion générale (Broadcast)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-31">
+              <Translation AttributeName="Text" Text="Télégrammes de diffusion général &#xD;&#xA;(Broadcast)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-33">
+              <Translation AttributeName="Text" Text="Répétition de télégrammes adressés individuellement" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-30">
+              <Translation AttributeName="Text" Text="Télégrammes&#xD;&#xA;à l'adresse physique" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-32">
+              <Translation AttributeName="Text" Text="Envoi répété de&#xD;&#xA;télégrammes de groupe" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-29">
+              <Translation AttributeName="Text" Text="Télégrammes de groupe (groupes principaux 14 à 31)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-28">
+              <Translation AttributeName="Text" Text="Télégrammes de groupe&#xD;&#xA;(groupe principal 0 à 13)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-1">
+              <Translation AttributeName="Text" Text="Envoi répété de&#xD;&#xA;télégrammes de groupe" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-2">
+              <Translation AttributeName="Text" Text="Répétition de télégrammes adressés individuellement" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-3">
+              <Translation AttributeName="Text" Text="Envoi répété de télégrammes&#xD;&#xA;à diffusion générale (Broadcast)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-4">
+              <Translation AttributeName="Text" Text="Confirmation (ACK) de&#xD;&#xA;télégrammes de groupe" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-5">
+              <Translation AttributeName="Text" Text="Validation (ACK) de télégrammes adressés individuellement" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-7">
+              <Translation AttributeName="Text" Text="Fonctionnement manuel sur l’appareil" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-8">
+              <Translation AttributeName="Text" Text="Nom de l'appareil" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-9">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Coupleur de rail DIN&#xD;&#xA;MTN6500-0101" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_P-10">
+              <Translation AttributeName="Text" Text="Schéma de câblage :" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PB-1">
+              <Translation AttributeName="Text" Text="Description" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-4">
+              <Translation AttributeName="Text" Text="SpaceLogic KNX Coupleur contient 2 unités de couplage au bus TP-256 et consomme 5 mA à partir de la ligne principale et 3 mA à partir de la ligne secondaire." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-5">
+              <Translation AttributeName="Text" Text="Le coupleur permet de gagner de la place (seulement 18 mm de large) et ne nécessite aucune alimentation électrique externe supplémentaire." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-20">
+              <Translation AttributeName="Text" Text="L’appareil peut être utilisé comme coupleur entre 2 lignes à paires torsadées, une ligne secondaire et une ligne principale." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-6">
+              <Translation AttributeName="Text" Text="L’appareil active KNX Data Secure en prenant en charge les télégrammes à cadre long, ce qui ne requiert aucun réglage spécial." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-21">
+              <Translation AttributeName="Text" Text="Le coupleur peut être programmé par les deux ports TP et n’a pas besoin de plug-in ni de DCA." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-11">
+              <Translation AttributeName="Text" Text="Le connecteur KNX en haut connecte la ligne principale et le connecteur du bas connecte la ligne secondaire." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-12">
+              <Translation AttributeName="Text" Text="Le coupleur KNX a une table de filtrage (8 kilo-octets) et assure l’isolation galvanique entre les lignes." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-13">
+              <Translation AttributeName="Text" Text="Bouton-poussoir supérieur : transmettre tous les télégrammes adressés à un groupe.&#xD;&#xA;Bouton-poussoir inférieur : transmettre tous les télégrammes adressés physiquement." />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-14">
+              <Translation AttributeName="Text" Text="L’adresse physique doit être réglée correctement pour éviter tout dysfonctionnement !" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-15">
+              <Translation AttributeName="Text" Text="Les LED ont les significations suivantes :" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-16">
+              <Translation AttributeName="Text" Text="LED principale&#xD;&#xA;- Vert permanent :  Tension du bus KNX sur ligne principale OK&#xD;&#xA;- Vert clignotant :  Télégrammes sur la ligne principale&#xD;&#xA;- Parfois rouge :  Erreurs de communication sur ligne principale" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-17">
+              <Translation AttributeName="Text" Text="LED mode&#xD;&#xA;- Vert permanent :  Mode de fonctionnement normal,&#xD;&#xA;- Rouge permanent :  Le mode programme est actif" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-19">
+              <Translation AttributeName="Text" Text="- Orange clignotant 1 fois :  Mode manuel transmission GAs ou PAs&#xD;&#xA;- Orange clignotant 2 fois :  Mode manuel transmission GAs et PAs&#xD;&#xA;- Rouge clignotant :  L’appareil ne fonctionne pas correctement" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-18">
+              <Translation AttributeName="Text" Text="LED secondaire&#xD;&#xA;- Vert permanent :  Tension du bus KNX sur ligne secondaire OK&#xD;&#xA;- Vert clignotant :  Télégrammes sur la ligne secondaire&#xD;&#xA;- Parfois rouge :  Erreurs de communication sur ligne secondaire" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-8">
+              <Translation AttributeName="Text" Text="Veuillez consulter les informations sur le produit. Pour de plus amples informations : &#xD;&#xA;https://go2se.com/ref=MTN6500-0101" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-10">
+              <Translation AttributeName="Text" Text="Contact:&#xD;&#xA;Schneider Electric&#xD;&#xA;Si vous avez des questions d’ordre technique, veuillez contacter le service client de votre pays.&#xD;&#xA;schneider-electric.com/contact" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PB-2">
+              <Translation AttributeName="Text" Text="Réglages généraux" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PB-3">
+              <Translation AttributeName="Text" Text="Routage (secondaire-&gt; principal)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-2">
+              <Translation AttributeName="Text" Text="Attention : En cas de &quot;Réponse avec NACK&quot;, il est impossible d’accéder à l’appareil par la ligne secondaire !" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PB-4">
+              <Translation AttributeName="Text" Text="Routage (principal -&gt; secondaire)" />
+            </TranslationElement>
+            <TranslationElement RefId="M-0064_A-7117-11-44C6-O00C5_PS-3">
+              <Translation AttributeName="Text" Text="Attention : En cas de &quot;Réponse avec NACK&quot;, il est impossible d’accéder à l’appareil par la ligne principale !" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

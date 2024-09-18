@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <Project Id="P-0B9C">
+    <ProjectInformation Name="Nouveau 5776 - EGBTI STADE MAURICE DAVID V3" GroupAddressStyle="ThreeLevel" LastModified="2024-09-16T06:52:49.3535224Z" ProjectStart="2018-10-29T00:00:00Z" ProjectEnd="2018-12-07T00:00:00Z" Comment="" CompletionStatus="Tested" LastUsedPuid="904" Guid="ff1a2552-b962-4ac1-9934-12de52dc6fd2">
+      <ProjectTraces>
+        <ProjectTrace Date="2024-09-16T06:52:49.3485224Z" UserName="lextrem" Comment="ä ( ) ö(ᖛ): kEarHHS52CA+07jgA24SyNT0+kLjQAYx7G5f6UmnvKD90WT4Fckh1WobPXUHCW9Bc63vpk3//Gvn0EZJFMivTBOanblX/wYndZA9VcL3qMmomRD81BlvQoAMsKeHN3HA" />
+      </ProjectTraces>
+    </ProjectInformation>
+    <AddinData>
+      <AddinData Name="AutoBackupConfiguration" AddinId="M00B9-A0042" />
+    </AddinData>
+  </Project>
+</KNX>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <Baggages>
+        <Baggage Id="M-0004_BG--ApplUpdate.2Etxt" Name="ApplUpdate.txt" TargetPath="" FileIntegrity="00000000">
+          <FileInfo ReadOnly="1" TimeInfo="2006-06-20T09:06:04" />
+        </Baggage>
+        <Baggage Id="M-0004_BG--ApplUpdate.5F2080.5Fx2.2Etxt" Name="ApplUpdate_2080_x2.txt" TargetPath="" FileIntegrity="00000000">
+          <FileInfo ReadOnly="1" TimeInfo="2008-11-06T12:15:12" />
+        </Baggage>
+      </Baggages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

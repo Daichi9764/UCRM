@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<GroupAddress-Export xmlns="http://knx.org/xml/ga-export/01">
+  <GroupRange Name="GENERAUX" RangeStart="1" RangeEnd="2047">
+    <GroupRange Name="CDE GENERAL" RangeStart="1" RangeEnd="255">
+      <GroupAddress Name="CDE_EXT_GENERAL" Address="0/0/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="CDE_EXT_GENERAL_DALI 1" Address="0/0/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="CDE_GENE_MAT" Address="0/0/6" DPTs="DPST-1-1" />
+      <GroupAddress Name="CDE_GENE_VIRAGES" Address="0/0/4" />
+      <GroupAddress Name="CDE_EXT_GENERAL_DALI 2" Address="0/0/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="CDE_EXT_TD ACCUEIL" Address="0/0/5" />
+    </GroupRange>
+    <GroupRange Name="SYSTEMES" RangeStart="256" RangeEnd="511">
+      <GroupAddress Name="HEURE" Address="0/1/0" DPTs="DPST-10-1" />
+      <GroupAddress Name="DATE" Address="0/1/1" DPTs="DPST-11-1" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="ECLAIRAGES" RangeStart="12288" RangeEnd="14335">
+    <GroupRange Name="ECL" RangeStart="12288" RangeEnd="12543">
+      <GroupAddress Name="ECL_MAT_1" Address="6/0/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_MAT_2" Address="6/0/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_MAT_3" Address="6/0/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_MAT_4" Address="6/0/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TGBT_LIBRE" Address="6/0/4" />
+      <GroupAddress Name="ECL_TGBT_LIBRE" Address="6/0/5" />
+      <GroupAddress Name="ECL_TGBT_LIBRE" Address="6/0/6" />
+      <GroupAddress Name="ECL_TGBT_LIBRE" Address="6/0/7" />
+      <GroupAddress Name="ECL_RECEPTIF 1 N01" Address="6/0/8" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_RECEPTIF 2 N01" Address="6/0/9" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_RECEPTIF 3 N01" Address="6/0/10" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_CIRCULATION 1 N00" Address="6/0/11" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_CIRCULATION 2 N00" Address="6/0/12" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_COURSIVE N00" Address="6/0/13" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_GRADIN N00" Address="6/0/14" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/100" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/101" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/102" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/103" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/104" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/105" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/106" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/107" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/108" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/110" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/111" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/112" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/113" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/114" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/15" />
+      <GroupAddress Name="ECL_ESCALIER N00" Address="6/0/16" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_PREP FROIDE N01" Address="6/0/17" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_VIRAGE NORD" Address="6/0/18" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/19" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/20" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/21" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/115" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/116" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/117" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/118" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/119" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/120" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/121" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/22" />
+      <GroupAddress Name="ECL_TD NORD N01_LIBRE" Address="6/0/23" />
+      <GroupAddress Name="ECL_CIRCU SALLE POLY" Address="6/0/24" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_PASSAGE COUVERT" Address="6/0/25" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_SALLE POLYVALENTE 1" Address="6/0/26" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_SALLE POLYVALENTE 2" Address="6/0/27" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TD ACC LIBRE" Address="6/0/28" />
+      <GroupAddress Name="ECL_TD ACC LIBRE" Address="6/0/29" />
+      <GroupAddress Name="ECL_TD ACC LIBRE" Address="6/0/30" />
+      <GroupAddress Name="ECL_TD ACC LIBRE" Address="6/0/31" />
+      <GroupAddress Name="ECL_CIRCU N00" Address="6/0/32" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_VIRAGE TRIBUNE EST" Address="6/0/33" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/34" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/35" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/122" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/123" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/124" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/125" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/126" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/127" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/128" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/129" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/130" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/131" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/132" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/133" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/134" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/135" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/36" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/37" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/38" />
+      <GroupAddress Name="ECL_TD EST LIBRE" Address="6/0/39" />
+      <GroupAddress Name="ECL_VIRAGE OUEST" Address="6/0/40" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_TD OUEST LIBRE" Address="6/0/41" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/136" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/137" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/138" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/139" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/140" DPTs="DPST-1-1" />
+      <GroupAddress Name="ECL_ACQ" Address="6/0/141" />
+    </GroupRange>
+    <GroupRange Name="DALI 1" RangeStart="12544" RangeEnd="12799">
+      <GroupAddress Name="D1_OF_POLY2" Address="6/1/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_POLY2" Address="6/1/1" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_POLY2" Address="6/1/2" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_POLY2" Address="6/1/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_POLY2" Address="6/1/4" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_POLY3" Address="6/1/5" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_POLY3" Address="6/1/6" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_POLY3" Address="6/1/7" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_POLY3" Address="6/1/8" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_POLY3" Address="6/1/9" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_POLY1" Address="6/1/10" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_POLY1" Address="6/1/11" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_POLY1" Address="6/1/12" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_POLY1" Address="6/1/13" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_POLY1" Address="6/1/14" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_POLY4" Address="6/1/15" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_POLY4" Address="6/1/16" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_POLY4" Address="6/1/17" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_POLY4" Address="6/1/18" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_POLY4" Address="6/1/19" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/1/20" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/1/21" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/1/22" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/1/23" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/1/24" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/1/25" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/1/26" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/1/27" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/1/28" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/1/29" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/1/30" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/1/31" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/1/32" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/1/33" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/1/34" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/1/35" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/1/36" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/1/37" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/1/38" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/1/39" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/1/40" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/1/41" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/1/42" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/1/43" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/1/44" DPTs="DPST-5-1" />
+    </GroupRange>
+    <GroupRange Name="DALI 2" RangeStart="12800" RangeEnd="13055">
+      <GroupAddress Name="D1_OF_RECEPTIF BAR" Address="6/2/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_RECEPTIF BAR" Address="6/2/1" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_RECEPTIF BAR" Address="6/2/2" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_RECEPTIF BAR" Address="6/2/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_RECEPTIF BAR" Address="6/2/4" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_RECEPTIF" Address="6/2/5" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_RECEPTIF" Address="6/2/6" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_RECEPTIF" Address="6/2/7" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_RECEPTIF" Address="6/2/8" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_RECEPTIF" Address="6/2/9" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_RECEPTIF BANDEAU" Address="6/2/10" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_RECEPTIF BANDEAU" Address="6/2/11" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_RECEPTIF BANDEAU" Address="6/2/12" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_RECEPTIF BANDEAU" Address="6/2/13" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_RECEPTIF BANDEAU" Address="6/2/14" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/15" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/16" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/17" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/18" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/19" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/20" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/21" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/22" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/23" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/24" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/25" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/26" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/27" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/28" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/29" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/30" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/31" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/32" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/33" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/34" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/35" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/36" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/37" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/38" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/39" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_OF_" Address="6/2/40" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_+/-_" Address="6/2/41" DPTs="DPST-3-7" />
+      <GroupAddress Name="D1_VALEUR_" Address="6/2/42" DPTs="DPST-5-1" />
+      <GroupAddress Name="D1_ACQ_" Address="6/2/43" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_STATUS_" Address="6/2/44" DPTs="DPST-5-1" />
+    </GroupRange>
+    <GroupRange Name="Retour_Info_Tribune_Sud_on/off" RangeStart="13056" RangeEnd="13311">
+      <GroupAddress Name="Retour_InfoCirculation_On/Off_Tribune_Sud_CT2.2 " Address="6/3/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoCirculation_On/Off_Tribune_Sud_CT2.3" Address="6/3/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoCirculationOUEST_On/Off_Tribune_Sud_CT2.4" Address="6/3/4" />
+      <GroupAddress Name="Retour_InfoCirculationEst_On/Off_Tribune_Sud_CT2.5" Address="6/3/5" />
+      <GroupAddress Name="Retour_InfoZonzArriere_On/Off_Tribune_Sud_CT2.6" Address="6/3/6" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoGradin_On/Off_Tribune_Sud_CT2.7" Address="6/3/7" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoGradin_On/Off_Tribune_Sud_CT2.8" Address="6/3/8" />
+      <GroupAddress Name="Retour_InfoLigneMorte_On/Off_Tribune_Sud_CT2.9" Address="6/3/9" />
+      <GroupAddress Name="Retour_InfoLigneMorte_On/Off_Tribune_Sud_CT2.10" Address="6/3/10" />
+      <GroupAddress Name="Retour_InfoLigneMorte_On/Off_Tribune_Sud_CT2.11" Address="6/3/11" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoZonzArriere_On/Off_Tribune_Sud_CT3.5" Address="6/3/21" />
+      <GroupAddress Name="Retour_InfoCirculation_On/Off_Tribune_Sud_CT3.2" Address="6/3/18" />
+      <GroupAddress Name="Retour_InfoCirculation_On/Off_Tribune_Sud_CT3.3" Address="6/3/19" />
+      <GroupAddress Name="Retour_InfoZonzArriere_On/Off_Tribune_Sud_CT3.4" Address="6/3/20" DPTs="DPST-1-1" />
+      <GroupAddress Name="Retour_InfoGradin_On/Off_Tribune_Sud_CT3.6" Address="6/3/22" />
+      <GroupAddress Name="Retour_InfoGradin_On/Off_Tribune_Sud_CT3.7" Address="6/3/23" />
+      <GroupAddress Name="Retour_InfoLigneMorte_On/Off_Tribune_Sud_CT3.8" Address="6/3/24" />
+      <GroupAddress Name="Retour_InfoLigneMorte_On/Off_Tribune_Sud_CT3.9" Address="6/3/25" />
+    </GroupRange>
+    <GroupRange Name="Ecl_ON/OFF_Tribune_Sud" RangeStart="13312" RangeEnd="13567">
+      <GroupAddress Name="EclCirculation_On/Off_Tribune_Sud_CT2.2 " Address="6/4/2" />
+      <GroupAddress Name="EclCirculation_On/Off_Tribune_Sud_CT2.3" Address="6/4/3" />
+      <GroupAddress Name="EclCirculationOUEST_On/Off_Tribune_Sud_CT2.4" Address="6/4/4" />
+      <GroupAddress Name="EclCirculationEst_On/Off_Tribune_Sud_CT2.5" Address="6/4/5" />
+      <GroupAddress Name="EclZonzArriere_On/Off_Tribune_Sud_CT2.6" Address="6/4/6" />
+      <GroupAddress Name="EclGradin_On/Off_Tribune_Sud_CT2.7" Address="6/4/7" />
+      <GroupAddress Name="EclGradin_On/Off_Tribune_Sud_CT2.8" Address="6/4/8" />
+      <GroupAddress Name="EclLigneMorte_On/Off_Tribune_Sud_CT2.9" Address="6/4/9" />
+      <GroupAddress Name="EclLigneMorte_On/Off_Tribune_Sud_CT2.10" Address="6/4/10" />
+      <GroupAddress Name="EclLigneMorte_On/Off_Tribune_Sud_CT2.11" Address="6/4/11" />
+      <GroupAddress Name="EclZonzArriere_On/Off_Tribune_Sud_CT3.5" Address="6/4/21" />
+      <GroupAddress Name="EclCirculation_On/Off_Tribune_Sud_CT3.2" Address="6/4/18" />
+      <GroupAddress Name="EclCirculation_On/Off_Tribune_Sud_CT3.3" Address="6/4/19" />
+      <GroupAddress Name="EclZonzArriere_On/Off_Tribune_Sud_CT3.4" Address="6/4/20" />
+      <GroupAddress Name="EclGradin_On/Off_Tribune_Sud_CT3.6" Address="6/4/22" />
+      <GroupAddress Name="EclGradin_On/Off_Tribune_Sud_CT3.7" Address="6/4/23" />
+      <GroupAddress Name="EclLigneMorte_On/Off_Tribune_Sud_CT3.8" Address="6/4/24" />
+      <GroupAddress Name="EclLigneMorte_On/Off_Tribune_Sud_CT3.9" Address="6/4/25" />
+    </GroupRange>
+    <GroupRange Name="Ecl_Groupe" RangeStart="13568" RangeEnd="13823">
+      <GroupAddress Name="Ecl_Groupe_Off_Sud" Address="6/5/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_Groupe_Zone_Arriere_Sud" Address="6/5/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_Groupe_Ligne_Morte_Sud" Address="6/5/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_Groupe_Gradin_Sud" Address="6/5/4" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_Groupe_Circulation vomitoire CT2.2 CT3.2_Sud" Address="6/5/5" DPTs="DPST-1-1" />
+      <GroupAddress Name="Ecl_Groupe_Circulation_Buv_CT2.3_CT2.4_CT2.5_CT2.6_CT3.3_CT3.4_CT3.5_Sud" Address="6/5/6" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="CVC commande clim on/off " RangeStart="13824" RangeEnd="14079">
+      <GroupAddress Name="CVC_on/off" Address="6/6/1" />
+      <GroupAddress Name="CVC_RetourEtat_on/off" Address="6/6/2" />
+    </GroupRange>
+  </GroupRange>
+  <GroupRange Name="DEFAUTS" RangeStart="2048" RangeEnd="4095">
+    <GroupRange Name="DALI GROUPES" RangeStart="2048" RangeEnd="2303">
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/1" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/2" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/3" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/4" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/5" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/6" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/7" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/8" DPTs="DPST-1-1" />
+      <GroupAddress Name="D1_DEFAUT_" Address="1/0/9" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/0" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/10" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/11" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/12" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/13" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/14" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/15" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/16" DPTs="DPST-1-1" />
+      <GroupAddress Name="D2_DEFAUT_" Address="1/0/17" DPTs="DPST-1-1" />
+    </GroupRange>
+    <GroupRange Name="DALI 1 BALLASTS" RangeStart="2304" RangeEnd="2559">
+      <GroupAddress Name="D1_DEF_1" Address="1/1/10" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_2" Address="1/1/11" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_3" Address="1/1/12" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_4" Address="1/1/13" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_5" Address="1/1/14" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_6" Address="1/1/15" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_7" Address="1/1/16" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_8" Address="1/1/17" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_9" Address="1/1/18" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_10" Address="1/1/19" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_11" Address="1/1/20" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_12" Address="1/1/21" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_13" Address="1/1/22" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_14" Address="1/1/23" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_15" Address="1/1/24" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_16" Address="1/1/25" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_17" Address="1/1/26" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_18" Address="1/1/27" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_19" Address="1/1/28" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_20" Address="1/1/29" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_21" Address="1/1/30" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_22" Address="1/1/31" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_23" Address="1/1/32" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_24" Address="1/1/33" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_25" Address="1/1/34" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_26" Address="1/1/35" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_27" Address="1/1/36" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_28" Address="1/1/37" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_29" Address="1/1/38" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_30" Address="1/1/39" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_31" Address="1/1/40" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_32" Address="1/1/41" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_33" Address="1/1/42" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_34" Address="1/1/43" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_35" Address="1/1/44" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_36" Address="1/1/45" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_37" Address="1/1/46" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_38" Address="1/1/47" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_39" Address="1/1/48" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_40" Address="1/1/49" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_41" Address="1/1/50" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_42" Address="1/1/51" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_43" Address="1/1/52" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_44" Address="1/1/53" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_45" Address="1/1/54" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_46" Address="1/1/55" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_47" Address="1/1/56" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_48" Address="1/1/57" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_49" Address="1/1/58" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_50" Address="1/1/59" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_51" Address="1/1/60" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_52" Address="1/1/61" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_53" Address="1/1/62" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_54" Address="1/1/63" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_55" Address="1/1/64" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_56" Address="1/1/65" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_57" Address="1/1/66" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_58" Address="1/1/67" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_59" Address="1/1/68" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_60" Address="1/1/69" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_61" Address="1/1/70" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_62" Address="1/1/71" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_63" Address="1/1/72" DPTs="DPST-1-5" />
+      <GroupAddress Name="D1_DEF_64" Address="1/1/73" DPTs="DPST-1-5" />
+    </GroupRange>
+    <GroupRange Name="DALI 2 BALLASTS" RangeStart="2560" RangeEnd="2815">
+      <GroupAddress Name="D2_DEF_1" Address="1/2/10" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_2" Address="1/2/11" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_3" Address="1/2/12" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_4" Address="1/2/13" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_5" Address="1/2/14" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_6" Address="1/2/15" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_7" Address="1/2/16" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_8" Address="1/2/17" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_9" Address="1/2/18" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_10" Address="1/2/19" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_11" Address="1/2/20" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_12" Address="1/2/21" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_13" Address="1/2/22" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_14" Address="1/2/23" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_15" Address="1/2/24" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_16" Address="1/2/25" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_17" Address="1/2/26" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_18" Address="1/2/27" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_19" Address="1/2/28" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_20" Address="1/2/29" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_21" Address="1/2/30" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_22" Address="1/2/31" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_23" Address="1/2/32" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_24" Address="1/2/33" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_25" Address="1/2/34" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_26" Address="1/2/35" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_27" Address="1/2/36" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_28" Address="1/2/37" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_29" Address="1/2/38" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_30" Address="1/2/39" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_31" Address="1/2/40" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_32" Address="1/2/41" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_33" Address="1/2/42" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_34" Address="1/2/43" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_35" Address="1/2/44" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_36" Address="1/2/45" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_37" Address="1/2/46" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_38" Address="1/2/47" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_39" Address="1/2/48" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_40" Address="1/2/49" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_41" Address="1/2/50" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_42" Address="1/2/51" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_43" Address="1/2/52" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_44" Address="1/2/53" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_45" Address="1/2/54" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_46" Address="1/2/55" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_47" Address="1/2/56" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_48" Address="1/2/57" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_49" Address="1/2/58" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_50" Address="1/2/59" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_51" Address="1/2/60" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_52" Address="1/2/61" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_53" Address="1/2/62" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_54" Address="1/2/63" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_55" Address="1/2/64" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_56" Address="1/2/65" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_57" Address="1/2/66" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_58" Address="1/2/67" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_59" Address="1/2/68" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_60" Address="1/2/69" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_61" Address="1/2/70" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_62" Address="1/2/71" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_63" Address="1/2/72" DPTs="DPST-1-5" />
+      <GroupAddress Name="D2_DEF_64" Address="1/2/73" DPTs="DPST-1-5" />
+    </GroupRange>
+  </GroupRange>
+</GroupAddress-Export>

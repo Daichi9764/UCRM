@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0004">
+      <Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A" Name="REG 2006 Schalt- / Jalousieaktor 8/4fach" SerialNumber="4 // 2308.16REGHE" VersionNumber="1" BusCurrent="6.0000000e+000" IsAccessory="0" HasIndividualAddress="1" HasApplicationProgram="1" HasApplicationProgram2="0" IsPowerSupply="0" IsChoke="0" IsCoupler="0" IsPowerLineRepeater="0" IsPowerLineSignalFilter="0" IsCable="0" OriginalManufacturer="M-000A" NonRegRelevantDataVersion="0" IsIPEnabled="0">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE" Text="Schaltaktor 8fach / Jalousieaktor 4fach 16A REG" OrderNumber="2308.16REGHE" IsRailMounted="1" WidthInMillimeter="7.2000000e+001" DefaultLanguage="de-DE" Hash="l32nYoq21dm22ohtUsMPS0T/KMc=" NonRegRelevantDataVersion="0">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationSignature="y1kALc6vEaYeCOu16ttkbqhS23G2yfmOawMRAFxDNCtiEj2hHwFdsoyk5ek3rptt17kB5U+Ltex3f3lb6lELoJinHKvKmW1D0+c4gPNbmgNUtXray06z49gR9HqQCyeypGQmA2utFjOD2SmPkmreiv9nGppcPP7EW6iuqg43vG0=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_HP-2080-12-8240-O000A" MediumTypes="MT-0" Hash="kLaMp+tcF+PPhogU2jJUlTmOAx8=">
+              <ApplicationProgramRef RefId="M-0004_A-2080-12-8240-O000A" />
+              <RegistrationInfo RegistrationSignature="AsSgOAp8ZTv+Kyqhquaut027ioztbdXZHcvo8AqApE6x+RD6AOsKWFBy+7d4o5HSkpgM37grW6PVqs8Cl61ZmGwF3q1ZstES6VE7XsYkKAcLis+VDsUb60Z/xxDupOtWyZcfLw8xtDZ6EukI9ECy7fzz+0w7gBDeDYs10oLFSBg=" OriginalRegistrationNumber="2008/8487" RegistrationNumber="2008/8496" RegistrationStatus="Certified" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+        <Hardware Id="M-0004_H-4.20.2F.2F.204192TSM-1" Name="Tastsensor 2fach Universal TSM V3" SerialNumber="4 // 4192TSM" VersionNumber="1" BusCurrent="6" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0004_H-4.20.2F.2F.204192TSM-1_P-4192TSM" Text="Platine de cde Multifonction, 2voies" OrderNumber="4192TSM" IsRailMounted="false" DefaultLanguage="fr-FR" Hash="9jLHvtvob2ToQetiQHKPu7GfbAM=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2016-05-09" RegistrationSignature="PfFypp8d2aAfrL9/c6DBPf86VEPrc44g2Ds0ZX+6SocPJ1/GkjdxFcFTwn3S7zA/8/PB9I5KmDSbJIkljUYNIDO/bEk3QSIs3k4lQNDMVd29kDKmCtJJGPh/kA4odO8nf1B3UnmtNdc8S7wY/r2KxE2wmuQSSwr9EVWdIRb+AzM=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0004_H-4.20.2F.2F.204192TSM-1_HP-10B2-13-6526-O000A" MediumTypes="MT-0" Hash="sPCm7unD4f2jQ6KIwzDP9dru7/k=">
+              <ApplicationProgramRef RefId="M-0004_A-10B2-13-6526-O000A" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2016/13042" RegistrationDate="2016-05-09" RegistrationSignature="U9PJKbGZxEn5cIm2PB1usk3VQbnq+KU9TSNKt4wYJorsvhbeFVVfQCdIaPrytZQlAIG4/4Ucq6R2fZGgnVHICv880qQho5bT2q5xTTxL94a+v8/rNAowJouaz0kOMDrB1QH/QeKFzxt4F0ae41B78550/fpL7ZmgUZ4c0aib30A=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+      <Languages>
+        <Language Identifier="fr-FR">
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.202308.2E16REGHE-1-O000A_P-2308.2E16REGHE">
+              <Translation AttributeName="Text" Text="Action. TOR 8 voies/action. volet-roulant 4 voies" />
+            </TranslationElement>
+          </TranslationUnit>
+          <TranslationUnit RefId="M-0004_H-4.20.2F.2F.204192TSM-1_P-4192TSM">
+            <TranslationElement RefId="M-0004_H-4.20.2F.2F.204192TSM-1_P-4192TSM">
+              <Translation AttributeName="Text" Text="Platine de cde Multifonction, 2voies" />
+            </TranslationElement>
+          </TranslationUnit>
+        </Language>
+      </Languages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

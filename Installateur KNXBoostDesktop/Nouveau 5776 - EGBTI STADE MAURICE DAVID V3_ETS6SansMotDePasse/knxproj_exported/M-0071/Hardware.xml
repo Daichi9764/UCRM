@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0071">
+      <Hardware>
+        <Hardware Id="M-0071_H-ZVI.2DZ41LIT-1" Name="Z41 Lite" SerialNumber="ZVI-Z41LIT" VersionNumber="1" BusCurrent="10" HasIndividualAddress="true" HasApplicationProgram="true">
+          <Products>
+            <Product Id="M-0071_H-ZVI.2DZ41LIT-1_P-ZVI.2DZ41LIT" Text="Z41 Lite" OrderNumber="ZVI-Z41LIT" IsRailMounted="false" DefaultLanguage="en-US" Hash="5F7xsSMV2411Tjue+x3ktnpxEt4=">
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationDate="2015-06-01" RegistrationSignature="C6T9iXqTD4yO2+YmwZJFg23QQuvGX0ND0rVZAzvgfedEPvVWO0oVG9BwZaKFA6S1MMnfQElvY5upF+sYZxMGy7U5NNzGNe0JK4fmnBwrZ+Twsn3qxvOW7mo6vTHnryNIqtR+I+B5OnEGn+cbGq889iaOcY/iJUtFmrqrXsJQgig=" />
+            </Product>
+          </Products>
+          <Hardware2Programs>
+            <Hardware2Program Id="M-0071_H-ZVI.2DZ41LIT-1_HP-5171-31-2D67" MediumTypes="MT-0" Hash="vmw1vVpOgLGB1C2zgupWQwmQadU=">
+              <ApplicationProgramRef RefId="M-0071_A-5171-31-2D67" />
+              <RegistrationInfo RegistrationStatus="Registered" RegistrationNumber="2017/13837" RegistrationDate="2017-03-28" RegistrationSignature="Z5QCzzHA5VxGM/R/HgZQDp2mPsQkGsa81yL0SIBR6byJ4vihMhLucIXg4pux3FdnseF9y5hLjU1R9RgQYqGZpRgok3kp4jtyEIdO08nYbS+JhJY3KWoRGLeE6JPcp0KX3lzsjURNRoSvJ80bsWhF+/AZAEAyf0timsjSDgyWGS0=" />
+            </Hardware2Program>
+          </Hardware2Programs>
+        </Hardware>
+      </Hardware>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>

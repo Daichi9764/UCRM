@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNX xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreatedBy="ETS6" ToolVersion="6.2.7302.0" xmlns="http://knx.org/xml/project/23">
+  <ManufacturerData>
+    <Manufacturer RefId="M-0064">
+      <Baggages>
+        <Baggage TargetPath="" Name="FastDownload.dll" FileIntegrity="F8C76C66" Id="M-0064_BG--FastDownload.2Edll">
+          <FileInfo Version="1.0.8.0" TimeInfo="2005-02-25T07:08:26Z" />
+        </Baggage>
+        <Baggage TargetPath="" Name="0650_WiringPlan_2017-01-25-002.png" Id="M-0064_BG--0650.5FWiringPlan.5F2017.2D01.2D25.2D002.2Epng">
+          <FileInfo TimeInfo="2019-12-16T07:52:31.6924741Z" />
+        </Baggage>
+        <Baggage TargetPath="" Name="logo.png" Id="M-0064_BG--logo.2Epng">
+          <FileInfo TimeInfo="2019-10-04T08:13:50Z" />
+        </Baggage>
+      </Baggages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
