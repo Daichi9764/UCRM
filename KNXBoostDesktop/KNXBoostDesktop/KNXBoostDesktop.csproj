@@ -9,13 +9,13 @@
         <ApplicationIcon>resources\IconApp.ico</ApplicationIcon>
 
         <!-- Paramètres à décommenter pour la création d'une version portable -->
-        <PublishSingleFile>true</PublishSingleFile>
-        <SelfContained>true</SelfContained>
-        <PublishTrimmed>false</PublishTrimmed>
-        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+<!--        <PublishSingleFile>true</PublishSingleFile>-->
+<!--        <SelfContained>true</SelfContained>-->
+<!--        <PublishTrimmed>false</PublishTrimmed>-->
+<!--        <RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
+<!--        <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>-->
+<!--        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
+<!--        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>-->
     </PropertyGroup>
     
 
