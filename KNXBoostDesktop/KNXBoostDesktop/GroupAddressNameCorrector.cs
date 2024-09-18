@@ -2027,10 +2027,10 @@ public static class GroupAddressNameCorrector
     private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
     {
         // Replace underscores with spaces
-        var modifiedNameAttrValue = nameAttrValue.Replace('_', ' ');
+        var modifiedNameAttrValue = nameAttrValue.Replace(' ', '-');
 
         // Separate the string into words using spaces as delimiters
-        string[] words = modifiedNameAttrValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] words = modifiedNameAttrValue.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 
         // Vérifier si la dernière entrée est un nombre
         if (words.Length > 1 && int.TryParse(words[words.Length - 1], out _))
@@ -2040,7 +2040,7 @@ public static class GroupAddressNameCorrector
             var secondLastIndex = words.Length - 2;
 
             // Créer la nouvelle entrée fusionnée
-            var mergedEntry = words[secondLastIndex] + "_" + words[lastIndex];
+            var mergedEntry = words[secondLastIndex] + "-" + words[lastIndex];
 
             // Remplacer les deux dernières entrées par l'entrée fusionnée
             var result = new List<string>(words.Take(secondLastIndex)); // Inclure toutes les entrées avant les deux dernières
@@ -2060,20 +2060,35 @@ public static class GroupAddressNameCorrector
 
         var containsLetter = false;
         var containsDigit = false;
+        int nblettre = 0;
+        int nbchiffre = 0;
 
         foreach (var c in lastWord)
         {
             if (char.IsLetter(c))
             {
                 containsLetter = true;
+                nblettre++;
             }
             if (char.IsDigit(c))
             {
                 containsDigit = true;
+                nbchiffre++;
             }
             if (!char.IsLetterOrDigit(c) && c != '/' && c != '+' && c != '-' && c != '_')
             {
                 return (false, lastWord);
+            }
+        }
+
+        //si le nombre de lettre ou chiffre est insuffisant = prendre cellule d'avant aussi
+        if (nbchiffre>0 && nblettre>0 && nblettre <= 3)
+        {
+            
+            if (words.Length > 1)
+            {
+                var previousWord = words[^2]; // Le mot avant le dernier
+                return (true, previousWord + "-" + lastWord); // Retourner les deux mots combinés
             }
         }
 
