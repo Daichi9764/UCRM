@@ -9,6 +9,7 @@ using System.Net.Http;
 using DeepL;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
+using System.Numerics;
 
 namespace KNXBoostDesktop;
 
@@ -2032,6 +2033,42 @@ public static class GroupAddressNameCorrector
         // Separate the string into words using spaces as delimiters
         string[] words = modifiedNameAttrValue.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 
+        string envoicaspart = "";
+
+        //Si le premier mot est combinaison de chiffre et lettre alors je prends tout
+        var firstword = words[0];
+        bool contientc = false;
+        bool contientl = false;
+        foreach (var c in firstword)
+        {
+            if (char.IsLetter(c)) { contientl = true; }
+            if (char.IsDigit(c)) { contientc = true; }
+        }
+        if (contientc && contientl)
+        {
+            //Remplacer +Plus -Moins =Egal et _ par-
+            foreach (var w in words)
+            {
+                if (w.Contains("+/-"))
+                {
+                    if (envoicaspart == "") { envoicaspart = "Plus/Moins"; }
+                    else { envoicaspart = envoicaspart + "-" + "Plus/Moins"; }
+                }
+                if (w.Contains("="))
+                {
+                    if (envoicaspart == "") { envoicaspart = "Egal"; }
+                    else { envoicaspart = envoicaspart + "-" + "Egal"; }
+                }
+                if (!w.Contains("+/-") && !w.Contains("="))
+                {
+                    if (envoicaspart == "") { envoicaspart = w; }
+                    else { envoicaspart = envoicaspart + "-" + w; }
+                }
+                
+            }
+            return (true, envoicaspart);
+        }
+
         // Vérifier si la dernière entrée est un nombre
         if (words.Length > 1 && int.TryParse(words[words.Length - 1], out _))
         {
@@ -2082,15 +2119,17 @@ public static class GroupAddressNameCorrector
         }
 
         //si le nombre de lettre ou chiffre est insuffisant = prendre cellule d'avant aussi
-        if (nbchiffre>0 && nblettre>0 && nblettre <= 3)
+        if (nbchiffre > 0 && nblettre > 0 && nblettre <= 3)
         {
-            
+
             if (words.Length > 1)
             {
                 var previousWord = words[^2]; // Le mot avant le dernier
                 return (true, previousWord + "-" + lastWord); // Retourner les deux mots combinés
             }
         }
+
+        
 
         var isValid = containsLetter && containsDigit;
         return (isValid, isValid ? lastWord : string.Empty);
