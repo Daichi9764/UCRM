@@ -4,7 +4,7 @@
  * Auteurs       : MICHEL Hugo, COUSTON Emma, MALBRANCHE Daichi,
  *                 BRUGIERE Nathan, OLIVEIRA LOPES Maxime
  * Date          : 12/06/2024
- * Version       : 2.3
+ * Version       : 2.5
  *
  * Description :
  * Fichier principal contenant la structure de l'application et toutes les
@@ -40,12 +40,12 @@ public partial class App
     /// <summary>
     /// Represents the version of the application.
     /// </summary>
-    public const float AppVersion = 2.4f; // Version de l'application
+    public const float AppVersion = 2.5f; // Version de l'application
 
     /// <summary>
     /// Represents the build of the application. Updated each time portions of code are merged on github.
     /// </summary>
-    public static readonly int AppBuild = 397;
+    public static readonly int AppBuild = 398;
         
         
     // Gestion des logs
