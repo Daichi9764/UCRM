@@ -935,7 +935,7 @@ public static class GroupAddressNameCorrector
                 }
                     
                 var nameLocation = GetLocationName(location!, nameAttr.Value, deviceLocated);
-                    
+
                 // Determine the nameObjectType based on the available device references
                 var nameObjectType =
                     DetermineNameObjectType(deviceRailMounted!, deviceRefObjectType!, nameAttr.Value);
@@ -944,10 +944,164 @@ public static class GroupAddressNameCorrector
                     
                 // Construct the new name by combining the object type, function, and location
                 var newName = nameObjectType + nameFunction + nameLocation;
+
+
+
+
+
+
+                //__________________________MODIFICATIONS LOUISON_________________________________________//
+
+                // Créer le tableau newNameWords en séparant uniquement sur les underscores '_'
+                var newNameWords = newName.Split('_', StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .ToArray();
+
+                // Créer le tableau nameAttrWordssplit en séparant d'abord sur les underscores '_' et les espaces ' '
+                var nameAttrWordssplit = nameAttr.Value.Split(new[] { '_', ' '}, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .Select(s => s.Replace("/", "")) // Supprimer les caractères '/' dans les mots
+                    .ToList();
+
+                // Vérifier si tous les mots de nameAttrWordssplit sont en majuscules en ignorant les chiffres
+                bool allWordsAreUpper = nameAttrWordssplit.All(word =>
+                    word.Where(char.IsLetter).All(char.IsUpper) // Ne prendre en compte que les lettres, ignorer les chiffres
+                );
+
+                // Remplacer les mots spécifiques
+                nameAttrWordssplit = nameAttrWordssplit
+                    .Select(word => word switch
+                    {
+                       "=" => "Egal",        // Remplacer "=" par "Egal"
+                       "ch" => "Chambre",
+                       "Ch" => "Chambre",
+                       "CH" => "Chambre",
+                       "PAR" => "Parentale",
+                       "par" => "Parentale",
+                       "Par" => "Parentale",
+                       "RdC" => "RDC",
+                       
+                        _ => word             // Garder le mot tel quel s'il n'est pas dans les cas spéciaux
+                    })
+                    .ToList();
+
+                if (!allWordsAreUpper)
+                {
+                    // Si ce n'est pas le cas, séparer sur les majuscules entourées de minuscules
+                    nameAttrWordssplit = nameAttrWordssplit
+                        .SelectMany(word =>
+                            word.Equals("OnOff", StringComparison.OrdinalIgnoreCase)
+                                ? new[] { word } // Garder "OnOff" tel quel
+                                : Regex.Split(word, @"(?<=[a-z])(?=[A-Z])") // Séparer sur majuscule entourée de minuscules
+                        )
+                        .Select(s => s.Replace("/", "")) // Supprimer les caractères '/' dans les mots
+                        .Where(s => !string.IsNullOrEmpty(s))
+                        .ToList();
+                }
+
+                // Remplacer les mots spécifiques
+                nameAttrWordssplit = nameAttrWordssplit
+                    .Select(word => word switch
+                    {
+                        "+-" => "Plus/Moins", // Remplacer "+-" par "Plus/Moins"
+                        _ => word             // Garder le mot tel quel s'il n'est pas dans les cas spéciaux
+                    })
+                    .ToList();
+
+                // Liste des mots à supprimer
+                var wordsToRemove = new List<string> { "ECL", "CDE" , "PC" , "VAR", "%", "MO", "DE", "Stop" };
+
+                // Initialiser finalName en combinant newNameWords et nameAttrWordssplit
+                var finalName = new List<string>(newNameWords);
+                finalName.AddRange(nameAttrWordssplit);
+
+                // Supprimer les mots de finalName qui correspondent à la liste, en ignorant la casse
+                finalName = finalName.Where(word => !wordsToRemove.Contains(word.ToUpper())).ToList();
+
+                // Supprimer les répétitions de mots dans finalName (en ignorant la casse)
+                var seenWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var distinctFinalName = new List<string>();
+
+                foreach (var word in finalName)
+                {
+                    if (seenWords.Add(word)) // Ajoute le mot au HashSet et vérifie s'il n'était pas déjà présent
+                    {
+                        distinctFinalName.Add(word); // Ajoute le mot à la liste distincte
+                    }
+                }
+
+                // Met à jour finalName avec les mots distincts
+                finalName = distinctFinalName;
+
+                // Initialiser une variable pour stocker l'index de la correspondance
+                int matchIndex = -1;
+
+                // Comparer chaque mot de finalName avec tous les mots de nameAttrWordssplit
+                for (int i = 0; i < finalName.Count; i++)
+                {
+                    var currentWord = finalName[i];
+
+                    // Vérifier si le mot courant de finalName est dans nameAttrWordssplit
+                    if (nameAttrWordssplit.Contains(currentWord))
+                    {
+                        matchIndex = i; // Retenir l'index de la correspondance
+                        break; // Sortir de la boucle dès qu'une correspondance est trouvée
+                    }
+                }
+
+                // Construire finalNamestring
+                string finalNamestring;
+
+                if (matchIndex != -1)
+                {
+                    // Joindre les mots jusqu'à matchIndex avec '_', puis ajouter '-' et le reste des mots
+                    var beforeMatch = string.Join("_", finalName.Take(matchIndex + 1));
+                    var afterMatch = string.Join("-", finalName.Skip(matchIndex + 1));
+
+                    // Ne pas modifier beforeMatch
+                    // Capitaliser chaque mot de afterMatch
+                    var capitalizedAfterMatch = string.Join("-", afterMatch
+                        .Split(new[] { '_', '-' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+
+                    // Assembler finalNamestring
+                    finalNamestring = $"{beforeMatch}-{capitalizedAfterMatch}";
+                }
+                else
+                {
+                    // Si aucune correspondance n'est trouvée, juste joindre avec '_'
+                    finalNamestring = string.Join("_", finalName);
+                }
+
+
+                // S'il n'y a pas de mots après la correspondance, ne pas ajouter de tiret
+                if (matchIndex == finalName.Count - 1)
+                {
+                    finalNamestring = string.Join("_", finalName.Take(matchIndex + 1));
+                }
+
+
+               
+
+                //___________________________________________________________________________________________//
+
+
+
                 App.ConsoleAndLogWriteLine($"Original Name: {nameAttr.Value}");
-                App.ConsoleAndLogWriteLine($"New Name: {newName}");
+                /*App.ConsoleAndLogWriteLine($"New Name: {newName}");
                 //ComboBox($"New Name: {newName}");
                 nameAttr.Value = newName;  // Update the GroupAddress element's name
+                */
+
+                App.ConsoleAndLogWriteLine($"New Name: {finalNamestring}");
+                //ComboBox($"New Name: {newName}");
+                nameAttr.Value = finalNamestring;  // Update the GroupAddress element's name
+
+
+                //___________________________________________________________________________________________//
+
+
+
 
                 if (App.DisplayElements?.SettingsWindow != null && App.DisplayElements.SettingsWindow.RemoveUnusedGroupAddresses)
                 {
@@ -1973,12 +2127,19 @@ public static class GroupAddressNameCorrector
         }
 
         string buildingName = !string.IsNullOrEmpty(location.BuildingName) ? location.BuildingName : "Bâtiment";
+        
+
+        //________________________________MODIFICATIONS LOUISON______________________________________________//
+
+
+
         string buildingPartName = !string.IsNullOrEmpty(location.BuildingPartName) ? location.BuildingPartName : string.Empty;
-        string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage";
+        /*string floorName = !string.IsNullOrEmpty(location.FloorName) ? location.FloorName : "Etage";
         string roomName = !string.IsNullOrEmpty(location.RoomName) ? location.RoomName : "Piece";
-        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;
+        string distributionBoardName = !string.IsNullOrEmpty(location.DistributionBoardName) ? location.DistributionBoardName : string.Empty;*/
 
         // Format the location details
+        /*
         if (buildingPartName == string.Empty)
         {
             nameLocation =
@@ -1995,20 +2156,50 @@ public static class GroupAddressNameCorrector
         {
             nameLocation += $"_{_formatter.Format(distributionBoardName)}";
         }
+        */
 
-        // Add StringsToAdd to the name if it exists
+        if (buildingPartName == string.Empty)
+        {
+            nameLocation =
+                $"_{_formatter.Format(buildingName)}";
+
+        }
+        else
+        {
+            nameLocation =
+                $"_{_formatter.Format(buildingName)}_{_formatter.Format(buildingPartName)}";
+        }
+
+
+
+        //______________________________________________________________________________________________________//
+
+
+
+        // Add StringsToAdd to the name if it exists       _ GESTION DES INCLUSIONS
         var (matchStrings, valueStrings) = AsStringsToAddInPreviousName(nameAttrValue);
         if (matchStrings)
         {
             nameLocation = valueStrings.Aggregate(nameLocation, (current, word) => current + ("_" + word));
         }
 
+
+        //________________________________MODIFICATIONS LOUISON______________________________________________//
+
+        
+
+
+
+
+        //______________________________________________________________________________________________________//
+
+
         // Add circuit part to the name if it exists, and it was not already appended 
-        var (matchCircuit, valueCircuit) = AsCircuitInPreviousName(nameAttrValue);
+        /*var (matchCircuit, valueCircuit) = AsCircuitInPreviousName(nameAttrValue);
         if (matchCircuit && !valueStrings.Contains(valueCircuit))
         { 
             nameLocation += "_" + valueCircuit;
-        }
+        }*/
 
         return nameLocation;
     }
@@ -2025,6 +2216,10 @@ public static class GroupAddressNameCorrector
     /// - The string returns the last word if it is valid, otherwise an empty string.
     /// </returns>
     /// </summary>
+
+
+
+    //AU FINAL ON S'EN SERT PAS
     private static (bool, string) AsCircuitInPreviousName(string nameAttrValue)
     {
         // Replace underscores with spaces
