@@ -953,7 +953,7 @@ public static class GroupAddressNameCorrector
                 //__________________________MODIFICATIONS LOUISON_________________________________________//
 
                 // Créer le tableau newNameWords en séparant uniquement sur les underscores '_'
-                var newNameWords = newName.Split('_', StringSplitOptions.RemoveEmptyEntries)
+                var newNameWords = newName.Split('_', ' ', StringSplitOptions.RemoveEmptyEntries)
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToArray();
 
@@ -979,9 +979,19 @@ public static class GroupAddressNameCorrector
                        "PAR" => "Parentale",
                        "par" => "Parentale",
                        "Par" => "Parentale",
-                       "RdC" => "RDC",
-                       
-                        _ => word             // Garder le mot tel quel s'il n'est pas dans les cas spéciaux
+                       "RdC" => "Rdc",
+                       "SdB" => "Sdb",
+                       "SaM" => "Salleamanger",
+
+                        // Remplacer "R+chiffre" par "Etage+chiffre"
+                        _ => Regex.IsMatch(word, @"^R\+\d+$")
+                            ? Regex.Replace(word, @"R\+(\d+)", "Etage-$1")
+
+                            // Remplacer "Ch+chiffre" ou "CH+chiffre" par "Chambre+chiffre"
+                            : Regex.IsMatch(word, @"^(Ch|CH|ch|cH)\d+$")
+                            ? Regex.Replace(word, @"(Ch|CH|ch|cH)(\d+)", "Chambre-$2")
+
+                            : word  // Garder le mot tel quel si aucune correspondance
                     })
                     .ToList();
 
@@ -1004,19 +1014,21 @@ public static class GroupAddressNameCorrector
                     .Select(word => word switch
                     {
                         "+-" => "Plus/Moins", // Remplacer "+-" par "Plus/Moins"
+                        "+/-" => "Plus/moins",
                         _ => word             // Garder le mot tel quel s'il n'est pas dans les cas spéciaux
                     })
                     .ToList();
 
-                // Liste des mots à supprimer
-                var wordsToRemove = new List<string> { "ECL", "CDE" , "PC" , "VAR", "%", "MO", "DE", "Stop" };
+                // Liste des mots à supprimer (écrits en majuscules)
+                var wordsToRemove = new List<string> { "Ecl", "CDE", "PC", "VAR", "%", "MO", "DE", "STOP", "CDéE", "GEN", "GENE", "%VAR", "INCL", "HAUTEUR", "OUVERT", "FERMé", "FERME" };
 
                 // Initialiser finalName en combinant newNameWords et nameAttrWordssplit
                 var finalName = new List<string>(newNameWords);
                 finalName.AddRange(nameAttrWordssplit);
 
                 // Supprimer les mots de finalName qui correspondent à la liste, en ignorant la casse
-                finalName = finalName.Where(word => !wordsToRemove.Contains(word.ToUpper())).ToList();
+                finalName = finalName.Where(word => !wordsToRemove.Any(removeWord =>
+                    string.Equals(word, removeWord, StringComparison.OrdinalIgnoreCase))).ToList();
 
                 // Supprimer les répétitions de mots dans finalName (en ignorant la casse)
                 var seenWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -1054,15 +1066,24 @@ public static class GroupAddressNameCorrector
 
                 if (matchIndex != -1)
                 {
-                    // Joindre les mots jusqu'à matchIndex avec '_', puis ajouter '-' et le reste des mots
-                    var beforeMatch = string.Join("_", finalName.Take(matchIndex + 1));
+                    // Joindre les mots jusqu'à matchIndex avec '_'
+                    var beforeMatchWords = finalName.Take(matchIndex + 1).ToList();
+
+                    // Capitaliser le dernier mot avant la correspondance
+                    if (beforeMatchWords.Count > 0)
+                    {
+                        var lastWord = beforeMatchWords.Last();
+                        lastWord = char.ToUpper(lastWord[0]) + lastWord.Substring(1).ToLower(); // Capitaliser le premier caractère
+                        beforeMatchWords[beforeMatchWords.Count - 1] = lastWord; // Remplacer le dernier mot
+                    }
+
+                    var beforeMatch = string.Join("_", beforeMatchWords); // Rejoindre les mots jusqu'à matchIndex avec '_'
                     var afterMatch = string.Join("-", finalName.Skip(matchIndex + 1));
 
-                    // Ne pas modifier beforeMatch
-                    // Capitaliser chaque mot de afterMatch
+                    // Capitaliser chaque mot dans afterMatch
                     var capitalizedAfterMatch = string.Join("-", afterMatch
                         .Split(new[] { '_', '-' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+                        .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower())); // Capitaliser la première lettre et mettre le reste en minuscule
 
                     // Assembler finalNamestring
                     finalNamestring = $"{beforeMatch}-{capitalizedAfterMatch}";
@@ -2096,7 +2117,7 @@ public static class GroupAddressNameCorrector
 
                 if (!shouldRemove)
                 {
-                    result += part + " ";
+                    result += part + "_";
                 }
             }
 
@@ -2121,7 +2142,13 @@ public static class GroupAddressNameCorrector
                     lastWasSpace = false;
                 }
             }
+            // Avant de retourner NameLocation, formater tous les mots séparés par un '_'
+            // en mettant la première lettre en majuscule et le reste en minuscule
+            nameLocation = string.Join("_", nameLocation
+                .Split('_', StringSplitOptions.RemoveEmptyEntries) // Séparer les mots avec '_'
+                .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower())); // Capitaliser la première lettre et mettre le reste en minuscule
 
+            // Retourner le résultat formaté de NameLocation
             return nameLocation;
 
         }
