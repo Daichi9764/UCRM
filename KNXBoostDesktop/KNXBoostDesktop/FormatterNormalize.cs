@@ -87,16 +87,15 @@ public class FormatterNormalize : Formatter
             // Replace multiple underscores with a single underscore
             var singleUnderscore = Regex.Replace(withUnderscores, @"_+", "_");
 
-            // Split the words by underscore, capitalize the first letter of each word, and join them back without underscore
+            // Split the words, capitalize each one, and join without underscore
             string[] words = singleUnderscore.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 
             for (var i = 0; i < words.Length; i++)
             {
-                words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1).ToLower();
+                words[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(words[i]);
             }
 
             return string.Join("", words);
-
         }
         catch (Exception ex)
         { 

@@ -982,6 +982,8 @@ public static class GroupAddressNameCorrector
                        "RdC" => "Rdc",
                        "SdB" => "Sdb",
                        "SaM" => "Salleamanger",
+                       "Dgt" => "Degagement",
+                       "CIRCU" => "Circulation",
 
                         // Remplacer "R+chiffre" par "Etage+chiffre"
                         _ => Regex.IsMatch(word, @"^R\+\d+$")
@@ -1014,14 +1016,21 @@ public static class GroupAddressNameCorrector
                     .Select(word => word switch
                     {
                         "+-" => "Plus/Moins", // Remplacer "+-" par "Plus/Moins"
-                        "+/-" => "Plus/moins",
+                        "+/-" => "Plus/Moins",
                         _ => word             // Garder le mot tel quel s'il n'est pas dans les cas spéciaux
                     })
                     .ToList();
 
-                // Liste des mots à supprimer (écrits en majuscules)
-                var wordsToRemove = new List<string> { "Ecl", "CDE", "PC", "VAR", "%", "MO", "DE", "STOP", "CDéE", "GEN", "GENE", "%VAR", "INCL", "HAUTEUR", "OUVERT", "FERMé", "FERME" };
 
+
+                
+
+
+
+                // Liste des mots à supprimer (écrits en majuscules)
+                var wordsToRemove = new List<string> { "CDéE" , "%"};
+                
+                 
                 // Initialiser finalName en combinant newNameWords et nameAttrWordssplit
                 var finalName = new List<string>(newNameWords);
                 finalName.AddRange(nameAttrWordssplit);
@@ -1029,6 +1038,83 @@ public static class GroupAddressNameCorrector
                 // Supprimer les mots de finalName qui correspondent à la liste, en ignorant la casse
                 finalName = finalName.Where(word => !wordsToRemove.Any(removeWord =>
                     string.Equals(word, removeWord, StringComparison.OrdinalIgnoreCase))).ToList();
+
+
+
+                // Liste pour les mots extraits
+                var extractedWords = new List<string>();
+
+                foreach (var word in finalName)
+                {
+                    // Vérifier si le mot est "OnOff"
+                    if (word.Equals("OnOff", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Ajouter le mot tel quel à la liste extraite
+                        extractedWords.Add(word);
+                    }
+                    else if (word.Any(char.IsUpper) && word.Count(char.IsUpper) > 1)
+                    {
+                        // Séparer le mot sur les majuscules entourées de minuscules, ou sur + ou %
+                        var parts = Regex.Split(word, @"(?<=[a-z])(?=[A-Z])|[+%]").Where(part => !string.IsNullOrEmpty(part)).ToList();
+
+                        // Ajouter à extractedWords l'original et les parties séparées
+                        extractedWords.Add(word); // Ajouter le mot original
+                        extractedWords.AddRange(parts); // Ajouter les parties séparées
+                    }
+                    else
+                    {
+                        // Si pas de séparation nécessaire, ajouter le mot tel quel
+                        extractedWords.Add(word);
+                    }
+                }
+
+                // Dictionnaire des mots déclencheurs et des mots à supprimer
+                var wordRemovalMap = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "ECLAIRAGE", new List<string> { "ECL" } },
+                    { "ECLAIRAGES", new List<string> { "ECL" } },
+                    { "GENERAUX", new List<string> { "GEN", "GENE", "GENERAL", "GENERALE" } },
+                    { "MONTEE", new List<string> { "MO" , "OUVERT"} },
+                    { "DESCENTE", new List<string> { "DE", "FERME" } },
+                    { "CMD", new List<string> { "CDE" } },
+                    { "IE", new List<string> { "RETOUR", "ETAT", "ETATS" } },
+                    { "PRISES", new List<string> { "PC" } },
+                    { "ONOFF", new List<string> { "ON" , "OFF"} },
+                    { "VARIATION", new List<string> { "VAR", "%" , "VAR%", "%VAR"} },
+                    { "INCLINAISON", new List<string> { "INCL" } }
+                };
+
+                // Comparaison des mots et suppression des mots spécifiques
+                foreach (var triggerWord in wordRemovalMap.Keys)
+                {
+                    // Rechercher un mot correspondant au mot déclencheur en ignorant la casse et les accents
+                    if (extractedWords.Any(word => string.Compare(
+                            word.Normalize(NormalizationForm.FormD),
+                            triggerWord.Normalize(NormalizationForm.FormD),
+                            CultureInfo.CurrentCulture,
+                            CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0))
+                    {
+                        // Supprimer les mots spécifiés dans la map correspondante
+                        extractedWords = extractedWords
+                            .Where(word => !wordRemovalMap[triggerWord].Any(toRemove =>
+                                string.Compare(
+                                    word.Normalize(NormalizationForm.FormD),
+                                    toRemove.Normalize(NormalizationForm.FormD),
+                                    CultureInfo.CurrentCulture,
+                                    CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0))
+                            .ToList();
+                    }
+                }
+
+                // Replacer les mots nettoyés dans finalName après suppression, en gardant uniquement les mots originaux
+                finalName = extractedWords
+                    .Where(word => finalName.Contains(word)) // Ne garder que les mots originaux
+                    .Distinct() // Éviter les doublons
+                    .ToList();
+
+
+
+
 
                 // Supprimer les répétitions de mots dans finalName (en ignorant la casse)
                 var seenWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -1045,6 +1131,62 @@ public static class GroupAddressNameCorrector
                 // Met à jour finalName avec les mots distincts
                 finalName = distinctFinalName;
 
+                
+
+
+
+                // LE CAS ON:OFF A METTRE AVANT LOCATION
+
+                // Liste de mots à repérer, incluant "On" et "Off"
+                var wordsToDetect = new List<string> { "On", "Off", "Hauteur" };
+
+                // Rechercher "On" et "Off" sans tenir compte de la casse
+                bool containsOn = finalName.Any(word => string.Equals(word, "On", StringComparison.OrdinalIgnoreCase));
+                bool containsOff = finalName.Any(word => string.Equals(word, "Off", StringComparison.OrdinalIgnoreCase));
+
+                // Si "On" ET "Off" sont présents, remplacer les deux par "OnOff"
+                if (containsOn && containsOff)
+                {
+                    // Supprimer les occurrences de "On" et "Off"
+                    finalName = finalName.Where(word => !string.Equals(word, "On", StringComparison.OrdinalIgnoreCase)
+                                                        && !string.Equals(word, "Off", StringComparison.OrdinalIgnoreCase)).ToList();
+                    // Ajouter "OnOff" à la 3ème position (index 2) si possible, sinon à la fin
+                    if (finalName.Count >= 3)
+                    {
+                        finalName.Insert(2, "OnOff"); // Insérer "OnOff" à l'index 2
+                    }
+                    else
+                    {
+                        finalName.Add("OnOff");
+                    }
+                }
+                // Gérer le cas où un mot de la liste est présent
+                else
+                {
+                    // Rechercher s'il y a un mot à repérer dans la liste, sans tenir compte de la casse
+                    string detectedWord = finalName.FirstOrDefault(word => wordsToDetect.Any(w => string.Equals(word, w, StringComparison.OrdinalIgnoreCase)));
+
+                    if (!string.IsNullOrEmpty(detectedWord))
+                    {
+                        // Supprimer le mot détecté
+                        finalName = finalName.Where(word => !string.Equals(word, detectedWord, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                        // Ajouter le mot avec majuscule au début et le reste en minuscule à la 3ème entrée (index 2) si possible, sinon à la fin
+                        string capitalizedWord = char.ToUpper(detectedWord[0]) + detectedWord.Substring(1).ToLower();
+
+                        if (finalName.Count >= 3)
+                        {
+                            finalName.Insert(2, capitalizedWord); // Insérer le mot capitalisé à l'index 2
+                        }
+                        else
+                        {
+                            finalName.Add(capitalizedWord);
+                        }
+                    }
+                }
+
+
+
                 // Initialiser une variable pour stocker l'index de la correspondance
                 int matchIndex = -1;
 
@@ -1054,12 +1196,17 @@ public static class GroupAddressNameCorrector
                     var currentWord = finalName[i];
 
                     // Vérifier si le mot courant de finalName est dans nameAttrWordssplit
-                    if (nameAttrWordssplit.Contains(currentWord))
+                    // et qu'il n'est pas un mot de la liste wordsToDetect
+                    if (nameAttrWordssplit.Contains(currentWord) 
+                        && !wordsToDetect.Any(w => string.Equals(currentWord, w, StringComparison.OrdinalIgnoreCase))
+                        && !string.Equals(currentWord, "OnOff", StringComparison.OrdinalIgnoreCase))
+
                     {
                         matchIndex = i; // Retenir l'index de la correspondance
                         break; // Sortir de la boucle dès qu'une correspondance est trouvée
                     }
                 }
+
 
                 // Construire finalNamestring
                 string finalNamestring;
@@ -1067,18 +1214,18 @@ public static class GroupAddressNameCorrector
                 if (matchIndex != -1)
                 {
                     // Joindre les mots jusqu'à matchIndex avec '_'
-                    var beforeMatchWords = finalName.Take(matchIndex + 1).ToList();
+                    var beforeMatchWords = finalName.Take(matchIndex).ToList();
 
                     // Capitaliser le dernier mot avant la correspondance
-                    if (beforeMatchWords.Count > 0)
+                    /*if (beforeMatchWords.Count > 0)
                     {
                         var lastWord = beforeMatchWords.Last();
                         lastWord = char.ToUpper(lastWord[0]) + lastWord.Substring(1).ToLower(); // Capitaliser le premier caractère
                         beforeMatchWords[beforeMatchWords.Count - 1] = lastWord; // Remplacer le dernier mot
-                    }
+                    }*/
 
                     var beforeMatch = string.Join("_", beforeMatchWords); // Rejoindre les mots jusqu'à matchIndex avec '_'
-                    var afterMatch = string.Join("-", finalName.Skip(matchIndex + 1));
+                    var afterMatch = string.Join("-", finalName.Skip(matchIndex));
 
                     // Capitaliser chaque mot dans afterMatch
                     var capitalizedAfterMatch = string.Join("-", afterMatch
@@ -1086,7 +1233,7 @@ public static class GroupAddressNameCorrector
                         .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower())); // Capitaliser la première lettre et mettre le reste en minuscule
 
                     // Assembler finalNamestring
-                    finalNamestring = $"{beforeMatch}-{capitalizedAfterMatch}";
+                    finalNamestring = $"{beforeMatch}_{capitalizedAfterMatch}";
                 }
                 else
                 {
@@ -1095,11 +1242,7 @@ public static class GroupAddressNameCorrector
                 }
 
 
-                // S'il n'y a pas de mots après la correspondance, ne pas ajouter de tiret
-                if (matchIndex == finalName.Count - 1)
-                {
-                    finalNamestring = string.Join("_", finalName.Take(matchIndex + 1));
-                }
+                
 
 
                
