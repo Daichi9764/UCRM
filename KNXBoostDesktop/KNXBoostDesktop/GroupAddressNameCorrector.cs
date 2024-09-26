@@ -952,10 +952,19 @@ public static class GroupAddressNameCorrector
 
                 //__________________________MODIFICATIONS LOUISON_________________________________________//
 
+                // --------------------créer le tableau de mot issus d'avant----------------------------- //
                 // Créer le tableau newNameWords en séparant uniquement sur les underscores '_'
                 var newNameWords = newName.Split('_', ' ', StringSplitOptions.RemoveEmptyEntries)
                     .Where(s => !string.IsNullOrEmpty(s))
                     .ToArray();
+                //-----------------------------------------------------------------------------------------//
+
+
+
+
+
+
+                //-----------------------créer tableau mot @ origine----------------------------------------//
 
                 // Créer le tableau nameAttrWordssplit en séparant d'abord sur les underscores '_' et les espaces ' '
                 var nameAttrWordssplit = nameAttr.Value.Split(new[] { '_', ' '}, StringSplitOptions.RemoveEmptyEntries)
@@ -1021,25 +1030,35 @@ public static class GroupAddressNameCorrector
                     })
                     .ToList();
 
+                //-----------------------------------------------------------------------------------------//
 
 
-                
 
 
 
-                // Liste des mots à supprimer (écrits en majuscules)
-                var wordsToRemove = new List<string> { "CDéE" , "%"};
-                
-                 
+
+                //-------------------------------------créer l'@ finale-----------------------------------//
+
                 // Initialiser finalName en combinant newNameWords et nameAttrWordssplit
                 var finalName = new List<string>(newNameWords);
                 finalName.AddRange(nameAttrWordssplit);
 
+                //-----------------------------------------------------------------------------------------//
+
+
+
+                //---------------------------------modifs sur l'adresse finale------------------------------//
+                //--------------------------------suppression de mots-------------------------------------//
+                // Liste des mots à supprimer (écrits en majuscules)
+                var wordsToRemove = new List<string> { "CDéE", "%" };
                 // Supprimer les mots de finalName qui correspondent à la liste, en ignorant la casse
                 finalName = finalName.Where(word => !wordsToRemove.Any(removeWord =>
                     string.Equals(word, removeWord, StringComparison.OrdinalIgnoreCase))).ToList();
 
 
+
+
+                //--------------------------------création liste de mots séparés par MAJ-----------------------//
 
                 // Liste pour les mots extraits
                 var extractedWords = new List<string>();
@@ -1067,6 +1086,14 @@ public static class GroupAddressNameCorrector
                         extractedWords.Add(word);
                     }
                 }
+
+
+
+
+
+
+
+                //--------------------------------remplacement de mots-----------------------//
 
                 // Dictionnaire des mots déclencheurs et des mots à supprimer
                 var wordRemovalMap = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
@@ -1116,40 +1143,79 @@ public static class GroupAddressNameCorrector
 
 
 
-                // Supprimer les répétitions de mots dans finalName (en ignorant la casse)
+
+
+
+
+
+                //--------------------------------suppression des répétitions de mots-----------------------//
+
+                // Supprimer les répétitions de mots dans finalName, en vérifiant chaque partie des mots découpés par des majuscules
                 var seenWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 var distinctFinalName = new List<string>();
+                var originalToSplitMap = new Dictionary<string, List<string>>();
 
                 foreach (var word in finalName)
                 {
-                    if (seenWords.Add(word)) // Ajoute le mot au HashSet et vérifie s'il n'était pas déjà présent
+                    // Découper le mot par les majuscules entourées de minuscules
+                    var splitParts = Regex.Split(word, @"(?<=[a-z])(?=[A-Z])").Where(part => !string.IsNullOrEmpty(part)).ToList();
+
+                    bool isRepeated = false;  // Flag pour vérifier si une partie est répétée
+
+                    // Traiter chaque partie du mot séparément
+                    foreach (var part in splitParts)
                     {
-                        distinctFinalName.Add(word); // Ajoute le mot à la liste distincte
+                        if (!seenWords.Add(part))
+                        {
+                            isRepeated = true;  // Si une partie a déjà été vue, on marque la répétition
+                        }
+                    }
+
+                    // Si au moins une partie n'a pas été vue, ajouter uniquement les parties non répétées
+                    if (!isRepeated)
+                    {
+                        // Ajout des parties non répétées à la liste distincte
+                        distinctFinalName.Add(word);
+                        originalToSplitMap[word] = splitParts;  // Enregistrer le découpage pour une recombinaison ultérieure si nécessaire
+                    }
+                    else
+                    {
+                        // Si toutes les parties du mot sont répétées, on ne l'ajoute pas
+                        // Si certaines parties sont uniques, on ajoute seulement celles-ci (parties non répétées)
+                        var nonRepeatedParts = splitParts.Where(part => seenWords.Add(part)).ToList();
+
+                        if (nonRepeatedParts.Any())
+                        {
+                            distinctFinalName.Add(string.Join("", nonRepeatedParts));  // Recombinons uniquement les parties uniques restantes
+                        }
                     }
                 }
 
-                // Met à jour finalName avec les mots distincts
+                // À la fin, finalName contient les mots distincts avec gestion des parties découpées
                 finalName = distinctFinalName;
 
+
+
+
+
+
+
+
+                //--------------------------------LE CAS ON:OFF A METTRE AVANT LOCATION-----------------------//
                 
-
-
-
-                // LE CAS ON:OFF A METTRE AVANT LOCATION
-
-                // Liste de mots à repérer, incluant "On" et "Off"
-                var wordsToDetect = new List<string> { "On", "Off", "Hauteur" };
+                // Liste de mots à repérer
+                var wordsToDetect = new List<string> { "On", "Off", "Hauteur", "Luminosite" };
 
                 // Rechercher "On" et "Off" sans tenir compte de la casse
                 bool containsOn = finalName.Any(word => string.Equals(word, "On", StringComparison.OrdinalIgnoreCase));
                 bool containsOff = finalName.Any(word => string.Equals(word, "Off", StringComparison.OrdinalIgnoreCase));
+                bool containsOnOff = finalName.Any(word => string.Equals(word, "OnOff", StringComparison.OrdinalIgnoreCase));
 
-                // Si "On" ET "Off" sont présents, remplacer les deux par "OnOff"
-                if (containsOn && containsOff)
+                // Si "OnOff" est déjà présent dans finalName, le supprimer de son emplacement actuel
+                if (containsOnOff)
                 {
-                    // Supprimer les occurrences de "On" et "Off"
-                    finalName = finalName.Where(word => !string.Equals(word, "On", StringComparison.OrdinalIgnoreCase)
-                                                        && !string.Equals(word, "Off", StringComparison.OrdinalIgnoreCase)).ToList();
+                    finalName = finalName.Where(word => !string.Equals(word, "OnOff", StringComparison.OrdinalIgnoreCase)).ToList();
+
                     // Ajouter "OnOff" à la 3ème position (index 2) si possible, sinon à la fin
                     if (finalName.Count >= 3)
                     {
@@ -1160,7 +1226,27 @@ public static class GroupAddressNameCorrector
                         finalName.Add("OnOff");
                     }
                 }
-                // Gérer le cas où un mot de la liste est présent
+
+                // Si "On" ET "Off" sont présents, remplacer les deux par "OnOff"
+                else if (containsOn && containsOff)
+                {
+                    // Supprimer les occurrences de "On" et "Off"
+                    finalName = finalName.Where(word => !string.Equals(word, "On", StringComparison.OrdinalIgnoreCase)
+                                                        && !string.Equals(word, "Off", StringComparison.OrdinalIgnoreCase)).ToList();
+
+                    // Ajouter "OnOff" à la 3ème position (index 2) si possible, sinon à la fin
+                    if (finalName.Count >= 3)
+                    {
+                        finalName.Insert(2, "OnOff"); // Insérer "OnOff" à l'index 2
+                    }
+                    else
+                    {
+                        finalName.Add("OnOff");
+                    }
+                }
+
+
+                // Gérer le cas où un mot de la liste est présent    = si y a que ON ou que Off
                 else
                 {
                     // Rechercher s'il y a un mot à repérer dans la liste, sans tenir compte de la casse
@@ -1187,6 +1273,44 @@ public static class GroupAddressNameCorrector
 
 
 
+
+
+
+                //_________________________remplacer variation par pourcentage_____________________________//
+                // Remplacer "variation" par "pourcentage" s'il est présent dans finalName
+                finalName = finalName.Select(word => string.Equals(word, "Variation", 
+                    StringComparison.OrdinalIgnoreCase) ? "Pourcentage" : word).ToList();
+
+
+                //_________________________si je vois Ouvrants mototise je mets MO DE_________________________//
+                // Vérifier si "Montee", "Descente" et "OuvrantsMotorises" sont présents dans finalName
+                bool containsMontee = finalName.Any(word => string.Equals(word, "Montee", StringComparison.OrdinalIgnoreCase));
+                bool containsDescente = finalName.Any(word => string.Equals(word, "Descente", StringComparison.OrdinalIgnoreCase));
+                bool containsOuvrantsMotorises = finalName.Any(word => string.Equals(word, "OuvrantsMotorises", StringComparison.OrdinalIgnoreCase));
+
+                if (containsMontee && containsDescente && containsOuvrantsMotorises || containsOuvrantsMotorises)
+                {
+                    // Supprimer "Montee" et "Descente" de finalName
+                    finalName = finalName.Where(word => !string.Equals(word, "Montee", StringComparison.OrdinalIgnoreCase)
+                                                        && !string.Equals(word, "Descente", StringComparison.OrdinalIgnoreCase)).ToList();
+
+                    // Remplacer "OuvrantsMotorises" par "Montee Descente"
+                    finalName = finalName.Select(word => string.Equals(word, "OuvrantsMotorises", StringComparison.OrdinalIgnoreCase)
+                                                          ? "MonteeDescente" : word).ToList();
+                }
+
+
+
+
+                //-------------------------------------------------------------------------------------//
+
+
+
+
+
+
+                //--------------------------------lier les mots sur l'@ finale-----------------------//
+
                 // Initialiser une variable pour stocker l'index de la correspondance
                 int matchIndex = -1;
 
@@ -1199,7 +1323,9 @@ public static class GroupAddressNameCorrector
                     // et qu'il n'est pas un mot de la liste wordsToDetect
                     if (nameAttrWordssplit.Contains(currentWord) 
                         && !wordsToDetect.Any(w => string.Equals(currentWord, w, StringComparison.OrdinalIgnoreCase))
-                        && !string.Equals(currentWord, "OnOff", StringComparison.OrdinalIgnoreCase))
+                        && !string.Equals(currentWord, "OnOff", StringComparison.OrdinalIgnoreCase)
+                        && !string.Equals(currentWord, "Cmd", StringComparison.OrdinalIgnoreCase)
+                        && !string.Equals(currentWord, "Ie", StringComparison.OrdinalIgnoreCase))
 
                     {
                         matchIndex = i; // Retenir l'index de la correspondance
@@ -1242,10 +1368,9 @@ public static class GroupAddressNameCorrector
                 }
 
 
-                
 
 
-               
+
 
                 //___________________________________________________________________________________________//
 
